@@ -1,0 +1,24 @@
+== Name
+[Title of the Design Document]
+
+=== Status
+[Draft, In Progress, Completed]
+
+=== Objectives
+[What is the purpose of this design document? What problem does it solve?]
+
+=== Acceptance Criteria
+[What are the criteria that must be met for this design to be considered complete? Functional requirements and non-functional requirements should be included.]
+
+=== Dependencies
+[What other designs or components does this design depend on?]
+
+=== References
+[What other documents or resources are relevant to this design?]
+
+=== Timeline
+* **Start Date:** [YYYY-MM-DD]
+* **End Date:** [YYYY-MM-DD]
+
+=== Diagrams
+[Insert relevant diagrams here]
