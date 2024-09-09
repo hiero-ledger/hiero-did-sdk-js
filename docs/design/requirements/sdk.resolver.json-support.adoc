@@ -1,0 +1,14 @@
+=== Name
+Resolve DID Document in JSON format
+  
+=== Description
+The SDK should provide a way to resolve a DID Document in JSON format.
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should provide an option to resolve a DID Document in JSON format.
+
+=== References
+* https://datatracker.ietf.org/doc/html/rfc8259
