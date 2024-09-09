@@ -2,13 +2,15 @@
 Resolve DID Document in JSON format
   
 === Description
-The SDK should provide a way to resolve a DID Document in JSON format.
+The SDK should provide a way to resolve a DID Document in JSON format. JSON representation of a DID Document is a standard way to represent a DID Document in a machine-readable format. The SDK should be compatible with the JSON format of the DID Document.
 
 === Status
 Draft
 
 === Acceptance Criteria
 * The SDK should provide an option to resolve a DID Document in JSON format.
+* The SDK should be compatible with the JSON format of the DID Document.
 
 === References
 * https://datatracker.ietf.org/doc/html/rfc8259
+* https://www.w3.org/TR/did-core/#json
