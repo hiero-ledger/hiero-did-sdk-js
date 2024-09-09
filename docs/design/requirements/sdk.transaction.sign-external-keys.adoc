@@ -8,7 +8,7 @@ Any operation or transaction performed using the SDK should be able to be signed
 Draft
 
 === Acceptance Criteria
-* The SDK should provide give ability to sign a transaction or operation with external keys.
+* The SDK should give ability to sign a transaction or operation with external keys.
 * The SDK should provide a asynchronous method to sign a transaction or operation.
 
 === References
