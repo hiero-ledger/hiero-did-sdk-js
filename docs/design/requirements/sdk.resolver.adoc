@@ -1,0 +1,21 @@
+=== Name
+Resolve DID Document
+  
+=== Description
+The SDK should provide a method to resolve a DID Document from Hedera Hashgraph Decentralized Identifier (DID) method. Resolver should be fully compatible with the DID specification.
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should provide a method to resolve a DID Document from Hedera Hashgraph Decentralized Identifier (DID) method.
+* The resolver should be fully compatible with the DID specification.
+* The resolver should be fully compatible with the DID Hedera method specification.
+* The resolver should be able to resolve a DID Document from a DID.
+* The resolver should be able to resolve a DID Document from a DID URL.
+* The resolver interface should be compatible with `did-resolver` npm package.
+
+=== References
+* https://github.com/hashgraph/did-method/tree/master
+* https://www.w3.org/TR/did-core/
+* https://www.npmjs.com/package/did-resolver
