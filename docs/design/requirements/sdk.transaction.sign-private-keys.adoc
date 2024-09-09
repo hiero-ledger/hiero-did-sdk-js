@@ -1,0 +1,29 @@
+=== Name
+Transaction and Operation should be able to sign with private keys
+  
+=== Description
+Any operation or transaction performed using the SDK should be able to be signed with private keys. Signing a transaction or operation with provided private keys. This will help be more compatible with previous SDK version and provide more flexibility to the users.
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should provide a method to sign a transaction or operation with private keys.
+* User should be able to provide a private key in various formats like hex, base64, etc. preferably in multibase format.
+* The SDK should handle the signing process and return the signed transaction or operation.
+
+=== References
+* https://w3c-ccg.github.io/multibase/
+
+=== Diagrams
+[mermaid]
+....
+sequenceDiagram
+    participant SDK
+    participant CLT as Client
+    
+    CLT->>SDK: Create Transaction
+    CLT->>SDK: Add Private Key
+    SDK->>SDK: Sign Transaction
+    SDK-->>CLT: Transaction Signed
+....
