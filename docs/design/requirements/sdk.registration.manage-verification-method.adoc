@@ -1,0 +1,22 @@
+=== Name
+Manage Verification Method
+  
+=== Description
+The SDK should provide an option to manage the verification method of a DID Document. Clients should be able to add and revoke verification methods from the DID Document. The SDK should be compatible with the Hedera DID method specification.
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should provide an option to add a verification method to a DID Document.
+* The SDK should provide an option to revoke a verification method from a DID Document.
+* The SDK should support following Key Management modes: 
+** Internal Secret Mode
+** External Secret Mode
+** Client-managed Secret Mode
+
+=== References
+* https://identity.foundation/did-registration/#key-management
+* https://www.w3.org/TR/did-core/
+* https://identity.foundation/did-registration/#create
+* https://github.com/hashgraph/did-method/
