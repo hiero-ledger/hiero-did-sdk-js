@@ -1,0 +1,18 @@
+=== Name
+Support Multibase key formats
+  
+=== Description
+The SDK should be able to support keys presented in multibase format. Supporting means able to resolve and mange keys in multibase format.
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should be able to resolve a DID Document with a key in multibase format.
+* The SDK should be able to add a key in multibase format to a DID Document.
+* The SDK should be able to use a key in multibase format to sign a DID Document.
+* The SDK should be able to use a key in multibase format to verify a DID Document signature.
+* The SDK should be able to use a key in multibase format to sign a transaction.
+
+=== References
+* https://w3c-ccg.github.io/multibase/
