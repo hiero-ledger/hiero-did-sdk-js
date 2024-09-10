@@ -1,0 +1,25 @@
+=== Name
+Dereference DID Document fragment
+  
+=== Description
+The SDK should provide an option to dereference a DID Document fragment. Dereferencing a fragment means resolving the fragment of a DID Document and not just the whole document. Fragment can be a service, verification method or any verification relationship. The resolved fragment should be fully compatible with the DID specification. Dereferencing should be supported by DID URL. Resolved fragment should be a valid service type of verification method type. 
+
+Example of a DID URL with fragment:
+```
+did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790#service-1
+```
+or
+```
+did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790#key-1
+```
+
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should provide an option to dereference a DID Document fragment.
+* The SDK should be compatible with the DID specification.
+
+=== References
+* https://www.w3.org/TR/did-core/#did-url-dereferencing
