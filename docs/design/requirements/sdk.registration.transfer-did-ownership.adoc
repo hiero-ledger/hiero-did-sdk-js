@@ -1,0 +1,19 @@
+=== Name
+Transfer DID Ownership
+  
+=== Description
+Transfer the ownership of a DID from one entity to another. Transfer of ownership should be done in a secure and verifiable manner. Changing the ownership of a DID should be done in a way that is compatible with the Hedera DID method specification.
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should provide an option to transfer the ownership of a DID.
+* The SDK should support following Key Management modes: 
+** Internal Secret Mode
+** External Secret Mode
+** Client-managed Secret Mode
+
+=== References
+* https://identity.foundation/did-registration/#key-management
+* https://github.com/hashgraph/did-method/
