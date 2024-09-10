@@ -20,5 +20,5 @@ Draft
 === References
 * https://identity.foundation/did-registration/#key-management
 * https://www.w3.org/TR/did-core/
-* https://identity.foundation/did-registration/#create
+* https://identity.foundation/did-registration/#update
 * https://github.com/hashgraph/did-method/
