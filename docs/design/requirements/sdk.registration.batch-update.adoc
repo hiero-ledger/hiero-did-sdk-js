@@ -1,0 +1,23 @@
+=== Name
+Batch Update to DID Document
+  
+=== Description
+Update the DID Document with multiple operations in a single transaction. Clients should be able to make multiple updates to the DID Document in a single transaction and be able to rollback the transaction if any of the operations fail. The SDK should provide an option to batch update the DID Document in a secure and verifiable manner. Updating the DID Document should be done in a way that is compatible with the Hedera DID method specification.
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should provide an option to batch update the DID Document.
+* The SDK should provide an option to rollback the transaction if any of the operations fail.
+* Updating includes adding and revoking any of the DID Document properties.
+* The SDK should support following Key Management modes: 
+** Internal Secret Mode
+** External Secret Mode
+** Client-managed Secret Mode
+
+=== References
+* https://identity.foundation/did-registration/#key-management
+* https://www.w3.org/TR/did-core/
+* https://identity.foundation/did-registration/#update
+* https://github.com/hashgraph/did-method/
