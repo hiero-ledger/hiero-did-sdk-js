@@ -2,7 +2,7 @@
 Manage Verification Relationships
   
 === Description
-The SDK should provide an option to manage the verification relationships of a DID Document. Clients should be able to add and revoke verification relationships from the DID Document. Verification relationships are used to establish a trust relationship between a DID and a verification method. Supported verification relationships include `authentication`, `assertionMethod`, `keyAgreement`, `capabilityInvocation`, and `capabilityDelegation`. The SDK should be compatible with the Hedera DID method specification.
+The SDK should provide an option to manage the verification relationships of a DID Document. Clients should be able to add and revoke verification relationships from the DID Document. Verification relationships are used to establish a trust relationship between a DID and a verification method. Supported verification relationships include `authentication`, `assertionMethod`, `keyAgreement`, `capabilityInvocation`, and `capabilityDelegation`. Accepting aliases for these relationships should be presented. The SDK should be compatible with the Hedera DID method specification.
 
 === Status
 Draft
