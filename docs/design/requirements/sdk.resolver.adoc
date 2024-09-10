@@ -14,6 +14,7 @@ Draft
 * The resolver should be able to resolve a DID Document from a DID.
 * The resolver should be able to resolve a DID Document from a DID URL.
 * The resolver interface should be compatible with `did-resolver` npm package.
+* The resolver should resolve a DID Document in full profile representation, with metadata and options.
 
 === References
 * https://github.com/hashgraph/did-method/tree/master
