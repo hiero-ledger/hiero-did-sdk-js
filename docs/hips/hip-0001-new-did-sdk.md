@@ -34,6 +34,7 @@ HIP-0001 specifies the commencement of a new Decentralised Identifier (DID) Soft
   - Not checking whether a message on a Topic is associated with requested DID
 - Missing DID URL Dereferencing
 - Possibility to add only specific names of verification methods or services
+- No possibility of externalizing the signing process, allows only to pass PrivateKey as a signing method, which is a security issue
 
 ## Specification
 
