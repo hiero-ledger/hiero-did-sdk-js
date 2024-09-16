@@ -1,6 +1,6 @@
 site:
   title: Hashgraph DID-SDK
-  url: http://127.0.0.1:8080/docs/1.0.0/overview.html
+  url: https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/docs/1.0.0/overview.html
 content:
   sources:
     - url: .
