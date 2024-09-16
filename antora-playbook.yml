@@ -5,7 +5,7 @@ content:
   sources:
     - url: .
       branches: [ main ] 
-      start_paths: [ docs ]
+      start_paths: [ ascii-docs ]
 asciidoc:
   attributes:
     experimental: ''
