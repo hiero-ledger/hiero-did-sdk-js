@@ -2,7 +2,7 @@
   "name": "hashgraph-did-sdk-js",
   "version": "1.0.0",
   "scripts": {
-    "build:docs": "rm -rf build && antora antora-playbook.yml",
+    "build:docs": "npx antora antora-playbook.yml",
     "serve:docs": "npx http-server ./build/site"
   },
   "devDependencies": {
