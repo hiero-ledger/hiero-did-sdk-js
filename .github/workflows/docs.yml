@@ -33,7 +33,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/upload-pages-artifact@v2
         with:
-          path: './build/site/docs/1.0.0'
+          path: './build/site'
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3
