@@ -1,0 +1,6 @@
+name: docs
+title: Documentation
+version: 1.0.0
+start_page: overview.adoc
+nav:
+  - modules/ROOT/nav.adoc

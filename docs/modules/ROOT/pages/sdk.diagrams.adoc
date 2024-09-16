@@ -1,0 +1,3 @@
+= Diagrams
+
+To-Do: Add Mermaid diagrams for all key modes.
