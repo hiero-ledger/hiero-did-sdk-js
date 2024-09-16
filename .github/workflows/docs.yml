@@ -7,7 +7,6 @@ on:
 
 permissions:
   id-token: write
-  contents: write
   pages: write
 
 jobs:
@@ -27,15 +26,15 @@ jobs:
       - name: Build Pages
         run: npm run build:docs
 
-      - name: Deploy to GitHub Pages
-        uses: actions/configure-pages@v3
+      # - name: Deploy to GitHub Pages
+      #   uses: actions/configure-pages@v3
 
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: './build/site/'
+      # - name: Upload Pages Artifact
+      #   uses: actions/upload-pages-artifact@v2
+      #   with:
+      #     path: './build/site/'
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Deploy to GitHub Pages
+      #   uses: actions/deploy-pages@v2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
