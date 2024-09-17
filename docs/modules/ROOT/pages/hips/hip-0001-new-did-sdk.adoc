@@ -6,7 +6,7 @@
 |*Author:*     | Jakub Stasiak <@js-hg>, Jakub Sydor <@Harasz>, Pablo Buitrago <@ChangoBuitrago>
 |*Working-group:* |Micha Roon <@drgorb>, Pablo Buitrago <@ChangoBuitrago>, Jakub Stasiak <@js-hg>, Jakub Sydor <@Harasz>, Waldemar Trawnicki
 @wtrawnicki, Gabriele Morelli <@gabomorelli> 
-|*Requested By:* |pablo.buitrago@hashgraph-group.com
+|*Requested By:* |micha.roon@hashgraph-group.com
 |*Discussions-to:* | https://github.com/hashgraph/did-method/pull/4 
 |*Status:*     |Draft
 |*Needs-council-approval:* |No
