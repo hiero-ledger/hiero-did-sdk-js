@@ -1,15 +1,21 @@
-= New hedera DID SDK
+= HIP-001: Improvements to Hashgraph DID-SDK
 
-hip: 0001
-author: Pablo Buitrago <@ChangoBuitrago>, Jakub Stasiak <@js-hg>, Jakub Sydor <@Harasz>
-working-group: Micha Roon <@drgorb>
-type: Informational
-category: Application
-needs-council-approval: No
-status: Draft
-created: 2024-09-12
-discussions-to:
-updated: 2024-09-12
+[cols="1,1"]
+|===
+
+|*Author:*     | Jakub Stasiak <@js-hg>, Jakub Sydor <@Harasz>, Pablo Buitrago <@ChangoBuitrago>
+|*Working-group:* |Micha Roon <@drgorb>, Pablo Buitrago <@ChangoBuitrago>, Jakub Stasiak <@js-hg>, Jakub Sydor <@Harasz>, Waldemar Trawnicki
+@wtrawnicki, Gabriele Morelli <@gabomorelli> 
+|*Requested By:* |pablo.buitrago@hashgraph-group.com
+|*Discussions-to:* | https://github.com/hashgraph/did-method/pull/4 
+|*Status:*     |Draft
+|*Needs-council-approval:* |No
+|*Type:*       |Informational
+|*Category:*   |Application
+|*Created:*    |2024-09-12
+|*Updated:*    |2024-09-17
+|*Requires:*   |link:https://hips.hedera.com/hip/hip-27[27]
+|===
 
 == Abstract
 
