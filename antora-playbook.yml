@@ -4,16 +4,21 @@ site:
 content:
   sources:
     - url: .
-      branches: [ main ] 
-      start_paths: [ docs ]
+      branches: [main]
+      start_paths: [docs]
 asciidoc:
   attributes:
-    experimental: ''
-    idprefix: ''
-    idseparator: '-'
-    page-pagination: ''
+    experimental: ""
+    idprefix: ""
+    idseparator: "-"
+    page-pagination: ""
 ui:
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     snapshot: true
-
+  supplemental_files:
+    - path: ui.yml
+      contents: |
+        static_files:
+        - .nojekyll
+    - path: .nojekyll
