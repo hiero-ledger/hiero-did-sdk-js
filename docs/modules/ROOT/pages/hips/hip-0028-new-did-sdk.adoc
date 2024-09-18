@@ -93,7 +93,7 @@ Several alternatives were considered:
 
 Developing a new SDK from scratch was chosen as it provides a more effective solution for the identified problems and better long-term support.
 
-=== Open Issues
+== Open Issues
 
 - **Community Feedback**: Ongoing discussions and feedback may result in additional refinements or adjustments.
 
