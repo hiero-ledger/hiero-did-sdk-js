@@ -2,8 +2,8 @@
 ** xref:overview.adoc[Overview]
 
 * HIPs
-** xref:hips/hip-0028-new-did-sdk.adoc[HIP-028 New Hashgraph DID-SDK]
-** xref:hips/hip-0029-multi-did-shared-hcs-topic.adoc[HIP-029 Multi-DID Shared HCS-Topic for Hashgraph DID-SDK]
+** xref:hips/hip-0001-new-did-sdk.adoc[HIP-001 New Hashgraph DID-SDK]
+** xref:hips/hip-0002-multi-did-shared-hcs-topic.adoc[HIP-002 Multi-DID Shared HCS-Topic for Hashgraph DID-SDK]
 
 * Requirements
 ** Must-Have

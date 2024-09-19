@@ -1,4 +1,4 @@
-= HIP-029: Multi-DID Shared HCS-Topic for Hashgraph DID-SDK
+= HIP-0002: Multi-DID Shared HCS-Topic for Hashgraph DID-SDK
 
 [cols="1,1"]
 |===
@@ -13,7 +13,7 @@
 |*Category:*   |Application
 |*Created:*    |2024-09-18
 |*Updated:*    |2024-09-19
-|*Requires:*   |link:https://hips.hedera.com/hip/hip-28[28]
+|*Requires:*   |link:https://hips.hedera.com/hip/hip-1[1]
 |===
 
 == Abstract
@@ -70,4 +70,4 @@ This HIP proposes the introduction of a Multi-DID Shared Topic feature for the H
 
 == Copyright/license
 
-This document is licensed under the Apache License, Version 2.0 -- see link:[LICENSE](../LICENSE) or https://www.apache.org/licenses/LICENSE-2.0
+This document is licensed under the Apache License, Version 2.0 -- see link:https://www.apache.org/licenses/LICENSE-2.0[Apache License, Version 2.0]
