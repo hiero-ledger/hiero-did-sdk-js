@@ -1,3 +1,12 @@
 = Diagrams
 
 To-Do: Add Mermaid diagrams for all key modes.
+
+[mermaid]
+....
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>Bob: Hello Bob, how are you?
+    Bob-->>Alice: Great!
+....
