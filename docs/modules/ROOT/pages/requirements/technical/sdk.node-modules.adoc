@@ -1,0 +1,15 @@
+=== Name
+Node.js Building Modules
+  
+=== Description
+The SDK should support both CommonJS and ES Modules. Therefor correct building of the SDK is required to support both module types. Correct `package.json` configuration is required to support both module types. The SDK should be tested with both module types to ensure compatibility. 
+
+=== Status
+Draft
+
+=== Acceptance Criteria
+* The SDK should support both CommonJS and ES Modules.
+
+=== References
+* https://nodejs.org/api/esm.html
+* https://nodejs.org/api/modules.html
