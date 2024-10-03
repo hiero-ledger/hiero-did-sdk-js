@@ -5,7 +5,9 @@ import {
   LocalSigner,
   DIDOwnerMessage,
   KMSSigner,
+  BlankSigner,
   DIDOwnerMessageHederaDefaultLifeCycle,
+  ClientModeLifeCycleManagerInstance,
 } from "./core";
 
 async function mainInternalMode() {
@@ -55,13 +57,7 @@ async function mainExternalMode() {
     publicKey: PrivateKey.fromStringDer(privateKey).publicKey,
     controller:
       "did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790",
-  });
-
-  await DIDOwnerMessageHederaDefaultLifeCycle.start(
-    didOwnerMessage,
-    signer,
-    publisher
-  );
+  }).execute(signer, publisher);
 
   client.close();
 }
@@ -76,13 +72,8 @@ async function mainClientMode() {
   // Initialize Hedera testnet client
   const client = Client.forTestnet().setOperator(accountId, privateKey);
 
-  const signer = new KMSSigner({
-    url: "http://localhost:8080",
-    credentials: {
-      accessKeyId: "access",
-      secretAccessKey: "secret",
-    },
-  });
+  const signer = new BlankSigner();
+  const clientSigner = new LocalSigner(privateKey);
   const publisher = new LocalPublisher(client);
 
   // Create a DID create operation with the specified topicId, payload, signer, and publisher
@@ -92,14 +83,27 @@ async function mainClientMode() {
       "did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790",
   });
 
-  // Why need new LifeCycleManager for CSM?
-  await DIDOwnerMessageHederaDefaultLifeCycle.start(
+  const bytesToSign = await ClientModeLifeCycleManagerInstance.process(
     didOwnerMessage,
     signer,
     publisher
   );
 
+  // Send bytes to sign to the client
+  // Serialize didOwnerMessage and save it to the database
+  // Client signs the bytes and sends the signature back
+  const signature = clientSigner.sign(bytesToSign as Uint8Array);
+
+  // Deserialize didOwnerMessage from the database
+
+  await ClientModeLifeCycleManagerInstance.process(
+    didOwnerMessage,
+    signer,
+    publisher,
+    signature
+  );
+
   client.close();
 }
 
-mainInternalMode();
+mainClientMode();

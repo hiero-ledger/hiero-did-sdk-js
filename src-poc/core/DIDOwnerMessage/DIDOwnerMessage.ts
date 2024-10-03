@@ -33,6 +33,7 @@ export class DIDOwnerMessage extends DIDMessage {
   public readonly timestamp: Date;
   public signature?: Uint8Array;
   public topicId?: string;
+  public stage: "initialize" | "pre-signing" | "post-signing" | "publishing";
 
   constructor(payload: DIDOwnerMessageConstructor) {
     super();
@@ -42,6 +43,7 @@ export class DIDOwnerMessage extends DIDMessage {
     this.timestamp = payload.timestamp || new Date();
     this.signature = payload.signature;
     this.topicId = payload.topicId;
+    this.stage = "initialize";
   }
 
   get operation(): "create" {
@@ -152,14 +154,17 @@ export class DIDOwnerMessage extends DIDMessage {
   }
 
   async initialize(data: DIDOwnerMessagePreCreationResult): Promise<void> {
+    this.stage = "pre-signing";
     this.topicId = data.topicId;
   }
 
   async preSigning(data: DIDOwnerMessagePreSigningResult): Promise<void> {
+    this.stage = "post-signing";
     this.setSignature(data.signature);
   }
 
   async postSigning(data: DIDOwnerMessagePostSigningResult): Promise<void> {
+    this.stage = "publishing";
     // TODO: Validate signature
   }
 

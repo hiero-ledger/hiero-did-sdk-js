@@ -19,6 +19,11 @@ export abstract class DIDMessage<
   PostCreationData extends {} = {},
   PostCreationResult extends any = any
 > {
+  abstract get stage():
+    | "initialize"
+    | "pre-signing"
+    | "post-signing"
+    | "publishing";
   /**
    * The operation that the DID message is performing.
    */
