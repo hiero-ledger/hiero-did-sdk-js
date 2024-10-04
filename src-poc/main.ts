@@ -6,7 +6,7 @@ import {
   DIDOwnerMessage,
   KMSSigner,
   BlankSigner,
-  ClientModeLifeCycleManagerInstance,
+  DIDOwnerMessageHederaCSMLifeCycle,
 } from "./core";
 
 async function mainInternalMode() {
@@ -76,30 +76,35 @@ async function mainClientMode() {
   const publisher = new LocalPublisher(client);
 
   // Create a DID create operation with the specified topicId, payload, signer, and publisher
+
   const didOwnerMessage = new DIDOwnerMessage({
     publicKey: PrivateKey.fromStringDer(privateKey).publicKey,
     controller:
       "did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790",
   });
-
-  const bytesToSign = await ClientModeLifeCycleManagerInstance.process(
-    didOwnerMessage,
+  await didOwnerMessage.execute(
     signer,
-    publisher
+    publisher,
+    DIDOwnerMessageHederaCSMLifeCycle
   );
+
+  const bytesToSign = didOwnerMessage.eventBytes;
+  // Take needed staff from DIDOwnerMessage instance like, bytes to sign
 
   // Send bytes to sign to the client
   // Serialize didOwnerMessage and save it to the database
   // Client signs the bytes and sends the signature back
-  const signature = clientSigner.sign(bytesToSign as Uint8Array);
+  const signature = clientSigner.sign(bytesToSign);
 
   // Deserialize didOwnerMessage from the database
 
-  await ClientModeLifeCycleManagerInstance.process(
-    didOwnerMessage,
+  await didOwnerMessage.execute(
     signer,
     publisher,
-    signature
+    DIDOwnerMessageHederaCSMLifeCycle,
+    {
+      signature,
+    }
   );
 
   client.close();

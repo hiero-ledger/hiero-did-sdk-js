@@ -30,7 +30,7 @@ export class DIDOwnerMessage extends DIDMessage {
   public readonly timestamp: Date;
   public signature?: Uint8Array;
   public topicId?: string;
-  public stage: "initialize" | "signing" | "publishing";
+  public stage: "initialize" | "signing" | "publishing" | "complete";
 
   constructor(payload: DIDOwnerMessageConstructor) {
     super();
@@ -138,7 +138,7 @@ export class DIDOwnerMessage extends DIDMessage {
   }
 
   async publishing(data: DIDOwnerMessagePublishingResult): Promise<void> {
-    // We don't need to do anything here
+    this.stage = "complete";
   }
 
   public setSignature(signature: Uint8Array): void {
@@ -162,9 +162,13 @@ export class DIDOwnerMessage extends DIDMessage {
   async execute(
     signer: Signer,
     publisher: Publisher,
-    lifecycle = DIDOwnerMessageHederaDefaultLifeCycle
+    lifecycle = DIDOwnerMessageHederaDefaultLifeCycle,
+    stageData?:
+      | DIDOwnerMessageInitializationResult
+      | DIDOwnerMessageSigningResult
+      | DIDOwnerMessagePublishingResult
   ): Promise<void> {
-    await lifecycle.start(this, signer, publisher);
+    await lifecycle.start(this, signer, publisher, stageData);
   }
 
   static fromBytes(bytes: string): DIDOwnerMessage {

@@ -57,6 +57,7 @@ export const DIDOwnerMessageHederaDefaultLifeCycle: any =
 
       return {
         topicId: topicId,
+        continue: false,
       };
     },
     signing: async (data) => {
@@ -64,6 +65,7 @@ export const DIDOwnerMessageHederaDefaultLifeCycle: any =
 
       return {
         signature,
+        continue: true,
       };
     },
     publication: async (data) => {
@@ -75,5 +77,9 @@ export const DIDOwnerMessageHederaDefaultLifeCycle: any =
           .setMessage(data.message)
           .freezeWith(data.publisher.client)
       );
+
+      return {
+        continue: true,
+      };
     },
   });

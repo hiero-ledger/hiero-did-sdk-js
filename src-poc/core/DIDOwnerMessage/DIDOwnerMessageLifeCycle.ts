@@ -30,7 +30,7 @@ export interface DIDOwnerMessagePublishingData {
   signature: Uint8Array;
   message: string;
 }
-export type DIDOwnerMessagePublishingResult = void;
+export type DIDOwnerMessagePublishingResult = {};
 
 export type DIDOwnerMessageLifeCycle = DIDMessageLifeCycle<
   DIDOwnerMessageInitializationData,

@@ -2,9 +2,20 @@ import {
   TopicCreateTransaction,
   TopicMessageSubmitTransaction,
 } from "@hashgraph/sdk";
-import { Publisher } from "../Publisher";
 import { DIDOwnerMessage } from "./DIDOwnerMessage";
-import { Signer } from "../Signer";
+import {
+  DIDMessageLifeCycleManager,
+  HookFunction,
+  Hooks,
+} from "../DIDMessage/DIDMessageLifeCycleManager";
+import {
+  DIDOwnerMessageInitializationData,
+  DIDOwnerMessageInitializationResult,
+  DIDOwnerMessageSigningData,
+  DIDOwnerMessageSigningResult,
+  DIDOwnerMessagePublishingData,
+  DIDOwnerMessagePublishingResult,
+} from "./DIDOwnerMessageLifeCycle";
 
 const clearData = (data: any) => {
   return JSON.stringify({
@@ -17,80 +28,58 @@ const clearData = (data: any) => {
   });
 };
 
-class ClientModeLifeCycleManager {
-  async process(
-    message: DIDOwnerMessage,
-    signer: Signer,
-    publisher: Publisher,
-    signature?: Uint8Array
-  ) {
-    if (message.stage === "initialize") {
-      await this.initialization(message, signer, publisher);
-      return message.eventBytes;
-    }
+type DIDOwnerHooks = Hooks<
+  HookFunction<
+    DIDOwnerMessageInitializationData,
+    DIDOwnerMessageInitializationResult
+  >,
+  HookFunction<DIDOwnerMessageSigningData, DIDOwnerMessageSigningResult>,
+  HookFunction<DIDOwnerMessagePublishingData, DIDOwnerMessagePublishingResult>
+>;
 
-    if (!signature) {
-      throw new Error("Signature is required for signing stage");
-    }
+export const DIDOwnerMessageHederaCSMLifeCycle: any =
+  new DIDMessageLifeCycleManager<DIDOwnerMessage, DIDOwnerHooks>({
+    initialization: async (data) => {
+      console.log(`[DIDOwnerMessage] Pre creation data: ${clearData(data)}`);
 
-    await this.signing(message, signer, publisher, signature);
-    await this.publishing(message, signer, publisher);
-  }
+      const response = await data.publisher.publish(
+        new TopicCreateTransaction()
+          .setAdminKey(data.publicKey)
+          .setSubmitKey(data.publicKey)
+          .freezeWith(data.publisher.client)
+      );
 
-  private async initialization(
-    message: DIDOwnerMessage,
-    signer: Signer,
-    publisher: Publisher
-  ) {
-    const data = message.initializeData;
-    console.log(`[DIDOwnerMessage] Pre creation data: ${clearData(data)}`);
+      const topicId = response.topicId?.toString();
 
-    const response = await publisher.publish(
-      new TopicCreateTransaction()
-        .setAdminKey(data.publicKey)
-        .setSubmitKey(data.publicKey)
-        .freezeWith(publisher.client)
-    );
+      if (!topicId) {
+        throw new Error("Failed to create a topic");
+      }
 
-    const topicId = response.topicId?.toString();
+      return {
+        topicId: topicId,
+        continue: false,
+      };
+    },
+    signing: async (data) => {
+      const signature = await data.signer.sign(data.eventBytes);
 
-    if (!topicId) {
-      throw new Error("Failed to create a topic");
-    }
+      return {
+        signature,
+        continue: true,
+      };
+    },
+    publication: async (data) => {
+      console.log(`[DIDOwnerMessage] Post creation data: ${clearData(data)}`);
 
-    await message.initialize({
-      topicId,
-    });
-  }
-  private async signing(
-    message: DIDOwnerMessage,
-    signer: Signer,
-    publisher: Publisher,
-    signature: Uint8Array
-  ) {
-    await message.signing({
-      signature,
-    });
-  }
+      await data.publisher.publish(
+        new TopicMessageSubmitTransaction()
+          .setTopicId(data.topicId)
+          .setMessage(data.message)
+          .freezeWith(data.publisher.client)
+      );
 
-  private async publishing(
-    message: DIDOwnerMessage,
-    signer: Signer,
-    publisher: Publisher
-  ) {
-    const data = message.publishingData;
-    console.log(`[DIDOwnerMessage] Post creation data: ${clearData(data)}`);
-
-    await publisher.publish(
-      new TopicMessageSubmitTransaction()
-        .setTopicId(data.topicId)
-        .setMessage(data.message)
-        .freezeWith(publisher.client)
-    );
-
-    await message.publishing();
-  }
-}
-
-export const ClientModeLifeCycleManagerInstance =
-  new ClientModeLifeCycleManager();
+      return {
+        continue: true,
+      };
+    },
+  });

@@ -17,7 +17,7 @@ export abstract class DIDMessage<
   PublishingData extends {} = {},
   PublishingResult extends any = any
 > {
-  abstract get stage(): "initialize" | "signing" | "publishing";
+  abstract get stage(): "initialize" | "signing" | "publishing" | "complete";
   /**
    * The operation that the DID message is performing.
    */
