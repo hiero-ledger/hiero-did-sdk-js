@@ -30,11 +30,10 @@ class ClientModeLifeCycleManager {
     }
 
     if (!signature) {
-      throw new Error("Signature is required for pre-signing stage");
+      throw new Error("Signature is required for signing stage");
     }
 
-    await this.preSigning(message, signer, publisher, signature);
-    await this.postSigning(message, signer, publisher);
+    await this.signing(message, signer, publisher, signature);
     await this.publishing(message, signer, publisher);
   }
 
@@ -63,26 +62,15 @@ class ClientModeLifeCycleManager {
       topicId,
     });
   }
-  private async preSigning(
+  private async signing(
     message: DIDOwnerMessage,
     signer: Signer,
     publisher: Publisher,
     signature: Uint8Array
   ) {
-    await message.preSigning({
+    await message.signing({
       signature,
     });
-  }
-
-  private async postSigning(
-    message: DIDOwnerMessage,
-    signer: Signer,
-    publisher: Publisher
-  ) {
-    const data = message.postSigningData;
-    console.log(`[DIDOwnerMessage] Post signing data: ${clearData(data)}`);
-
-    await message.postSigning();
   }
 
   private async publishing(

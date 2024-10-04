@@ -9,14 +9,12 @@ import {
 } from "../DIDMessage/DIDMessageLifeCycleManager";
 import { DIDOwnerMessage } from "./DIDOwnerMessage";
 import {
-  DIDOwnerMessagePostCreationData,
-  DIDOwnerMessagePostCreationResult,
-  DIDOwnerMessagePostSigningData,
-  DIDOwnerMessagePostSigningResult,
-  DIDOwnerMessagePreCreationData,
-  DIDOwnerMessagePreCreationResult,
-  DIDOwnerMessagePreSigningData,
-  DIDOwnerMessagePreSigningResult,
+  DIDOwnerMessageInitializationData,
+  DIDOwnerMessageInitializationResult,
+  DIDOwnerMessageSigningData,
+  DIDOwnerMessageSigningResult,
+  DIDOwnerMessagePublishingData,
+  DIDOwnerMessagePublishingResult,
 } from "./DIDOwnerMessageLifeCycle";
 
 const clearData = (data: any) => {
@@ -32,18 +30,11 @@ const clearData = (data: any) => {
 
 type DIDOwnerHooks = Hooks<
   HookFunction<
-    DIDOwnerMessagePreCreationData,
-    DIDOwnerMessagePreCreationResult
+    DIDOwnerMessageInitializationData,
+    DIDOwnerMessageInitializationResult
   >,
-  HookFunction<DIDOwnerMessagePreSigningData, DIDOwnerMessagePreSigningResult>,
-  HookFunction<
-    DIDOwnerMessagePostSigningData,
-    DIDOwnerMessagePostSigningResult
-  >,
-  HookFunction<
-    DIDOwnerMessagePostCreationData,
-    DIDOwnerMessagePostCreationResult
-  >
+  HookFunction<DIDOwnerMessageSigningData, DIDOwnerMessageSigningResult>,
+  HookFunction<DIDOwnerMessagePublishingData, DIDOwnerMessagePublishingResult>
 >;
 
 export const DIDOwnerMessageHederaDefaultLifeCycle: any =
@@ -68,15 +59,12 @@ export const DIDOwnerMessageHederaDefaultLifeCycle: any =
         topicId: topicId,
       };
     },
-    preSigning: async (data) => {
+    signing: async (data) => {
       const signature = await data.signer.sign(data.eventBytes);
 
       return {
         signature,
       };
-    },
-    postSigning: async (data) => {
-      console.log(`[DIDOwnerMessage] Post signing data: ${clearData(data)}`);
     },
     publication: async (data) => {
       console.log(`[DIDOwnerMessage] Post creation data: ${clearData(data)}`);

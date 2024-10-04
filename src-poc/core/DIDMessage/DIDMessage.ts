@@ -10,20 +10,14 @@ interface LifeCycleManager {
 }
 
 export abstract class DIDMessage<
-  PreCreationData extends {} = {},
-  PreCreationResult extends any = any,
-  PreSigningData extends {} = {},
-  PreSigningResult extends any = any,
-  PostSigningData extends {} = {},
-  PostSigningResult extends any = any,
-  PostCreationData extends {} = {},
-  PostCreationResult extends any = any
+  InitializationData extends {} = {},
+  InitializationResult extends any = any,
+  SigningData extends {} = {},
+  SigningResult extends any = any,
+  PublishingData extends {} = {},
+  PublishingResult extends any = any
 > {
-  abstract get stage():
-    | "initialize"
-    | "pre-signing"
-    | "post-signing"
-    | "publishing";
+  abstract get stage(): "initialize" | "signing" | "publishing";
   /**
    * The operation that the DID message is performing.
    */
@@ -38,11 +32,6 @@ export abstract class DIDMessage<
    * The event bytes that the DID message is associated with. Represents the event in bytes that can be signed.
    */
   abstract get eventBytes(): Uint8Array;
-
-  /**
-   * Indicates if the DID message requires a signature or has a signature.
-   */
-  abstract get requiredSignature(): boolean;
 
   /**
    * The event that the DID message is associated with. e.g. DIDOwner, DIDDocument, etc.
@@ -63,11 +52,6 @@ export abstract class DIDMessage<
   /**
    * Sets the signature of the DID event.
    */
-  abstract signWith(signer: Signer): Promise<void> | void;
-
-  /**
-   * Sets the signature of the DID event.
-   */
   abstract execute(
     signer: Signer,
     publisher: Publisher,
@@ -79,15 +63,19 @@ export abstract class DIDMessage<
    */
   abstract toBytes(): string;
 
-  abstract get initializeData(): PreCreationData;
-  abstract get preSigningData(): PreSigningData;
-  abstract get postSigningData(): PostSigningData;
-  abstract get publishingData(): PostCreationData;
+  /**
+   * Data that is required to specific stage of the DID message lifecycle.
+   */
+  abstract get initializeData(): InitializationData;
+  abstract get signingData(): SigningData;
+  abstract get publishingData(): PublishingData;
 
-  abstract initialize(data: PreCreationResult): void | Promise<void>;
-  abstract preSigning(data: PreSigningResult): void | Promise<void>;
-  abstract postSigning(data: PostSigningResult): void | Promise<void>;
-  abstract publishing(data: PostCreationResult): void | Promise<void>;
+  /**
+   * Methods that are called during the lifecycle of the DID message to perform specific operations.
+   */
+  abstract initialize(data: InitializationResult): void | Promise<void>;
+  abstract signing(data: SigningResult): void | Promise<void>;
+  abstract publishing(data: PublishingResult): void | Promise<void>;
 }
 
 export type DIDMessageConstructor<Message extends DIDMessage> = {

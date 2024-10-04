@@ -6,7 +6,6 @@ import {
   DIDOwnerMessage,
   KMSSigner,
   BlankSigner,
-  DIDOwnerMessageHederaDefaultLifeCycle,
   ClientModeLifeCycleManagerInstance,
 } from "./core";
 

@@ -1,20 +1,17 @@
 import { PublicKey } from "@hashgraph/sdk";
 import bs58 from "bs58";
 import {
-  DIDOwnerMessagePostCreationData,
-  DIDOwnerMessagePostCreationResult,
-  DIDOwnerMessagePostSigningData,
-  DIDOwnerMessagePostSigningResult,
-  DIDOwnerMessagePreCreationData,
-  DIDOwnerMessagePreCreationResult,
-  DIDOwnerMessagePreSigningData,
-  DIDOwnerMessagePreSigningResult,
+  DIDOwnerMessageInitializationData,
+  DIDOwnerMessageInitializationResult,
+  DIDOwnerMessagePublishingData,
+  DIDOwnerMessagePublishingResult,
+  DIDOwnerMessageSigningData,
+  DIDOwnerMessageSigningResult,
 } from "./DIDOwnerMessageLifeCycle";
 import { DIDMessage } from "../DIDMessage";
 import { Signer } from "../Signer";
 import { DIDOwnerMessageHederaDefaultLifeCycle } from "./DIDOwnerMessageHederaDefaultLifeCycle";
 import { Publisher } from "../Publisher";
-import { DIDMessageLifeCycleManager } from "../DIDMessage/DIDMessageLifeCycleManager";
 
 // TODO: Add to payload?
 const hederaNetwork = "testnet";
@@ -33,7 +30,7 @@ export class DIDOwnerMessage extends DIDMessage {
   public readonly timestamp: Date;
   public signature?: Uint8Array;
   public topicId?: string;
-  public stage: "initialize" | "pre-signing" | "post-signing" | "publishing";
+  public stage: "initialize" | "signing" | "publishing";
 
   constructor(payload: DIDOwnerMessageConstructor) {
     super();
@@ -56,73 +53,8 @@ export class DIDOwnerMessage extends DIDMessage {
     return `did:hedera:${hederaNetwork}:${publicKeyBase58}_${this.topicId}`;
   }
 
-  get requiredSignature(): boolean {
-    return !this.signature;
-  }
-
   get eventBytes(): Uint8Array {
     return new TextEncoder().encode(this.event);
-  }
-
-  get initializeData(): DIDOwnerMessagePreCreationData {
-    return {
-      controller: this.controller,
-      publicKey: this.publicKey,
-      timestamp: this.timestamp.toISOString(),
-    };
-  }
-
-  get preSigningData(): DIDOwnerMessagePreSigningData {
-    if (!this.topicId) {
-      throw new Error("Topic ID is missing");
-    }
-
-    return {
-      event: this.event,
-      eventBytes: this.eventBytes,
-      controller: this.controller,
-      publicKey: this.publicKey,
-      topicId: this.topicId,
-      timestamp: this.timestamp.toISOString(),
-    };
-  }
-
-  get postSigningData(): DIDOwnerMessagePostSigningData {
-    if (!this.topicId) {
-      throw new Error("Topic ID is missing");
-    }
-
-    if (!this.signature) {
-      throw new Error("Signature is missing");
-    }
-
-    return {
-      signature: this.signature,
-      controller: this.controller,
-      publicKey: this.publicKey,
-      topicId: this.topicId,
-      timestamp: this.timestamp.toISOString(),
-      message: this.messagePayload,
-    };
-  }
-
-  get publishingData(): DIDOwnerMessagePostCreationData {
-    if (!this.topicId) {
-      throw new Error("Topic ID is missing");
-    }
-
-    if (!this.signature) {
-      throw new Error("Signature is missing");
-    }
-
-    return {
-      controller: this.controller,
-      publicKey: this.publicKey,
-      topicId: this.topicId,
-      timestamp: this.timestamp.toISOString(),
-      signature: this.signature,
-      message: this.messagePayload,
-    };
   }
 
   protected get event(): string {
@@ -153,36 +85,64 @@ export class DIDOwnerMessage extends DIDMessage {
     });
   }
 
-  async initialize(data: DIDOwnerMessagePreCreationResult): Promise<void> {
-    this.stage = "pre-signing";
+  get initializeData(): DIDOwnerMessageInitializationData {
+    return {
+      controller: this.controller,
+      publicKey: this.publicKey,
+      timestamp: this.timestamp.toISOString(),
+    };
+  }
+
+  get signingData(): DIDOwnerMessageSigningData {
+    if (!this.topicId) {
+      throw new Error("Topic ID is missing");
+    }
+
+    return {
+      event: this.event,
+      eventBytes: this.eventBytes,
+      controller: this.controller,
+      publicKey: this.publicKey,
+      topicId: this.topicId,
+      timestamp: this.timestamp.toISOString(),
+    };
+  }
+
+  get publishingData(): DIDOwnerMessagePublishingData {
+    if (!this.topicId) {
+      throw new Error("Topic ID is missing");
+    }
+
+    if (!this.signature) {
+      throw new Error("Signature is missing");
+    }
+
+    return {
+      controller: this.controller,
+      publicKey: this.publicKey,
+      topicId: this.topicId,
+      timestamp: this.timestamp.toISOString(),
+      signature: this.signature,
+      message: this.messagePayload,
+    };
+  }
+
+  async initialize(data: DIDOwnerMessageInitializationResult): Promise<void> {
+    this.stage = "signing";
     this.topicId = data.topicId;
   }
 
-  async preSigning(data: DIDOwnerMessagePreSigningResult): Promise<void> {
-    this.stage = "post-signing";
+  async signing(data: DIDOwnerMessageSigningResult): Promise<void> {
+    this.stage = "publishing";
     this.setSignature(data.signature);
   }
 
-  async postSigning(data: DIDOwnerMessagePostSigningResult): Promise<void> {
-    this.stage = "publishing";
-    // TODO: Validate signature
-  }
-
-  async publishing(data: DIDOwnerMessagePostCreationResult): Promise<void> {
+  async publishing(data: DIDOwnerMessagePublishingResult): Promise<void> {
     // We don't need to do anything here
   }
 
   public setSignature(signature: Uint8Array): void {
     this.signature = signature;
-  }
-
-  public async signWith(signer: Signer): Promise<void> {
-    if (!this.requiredSignature) {
-      throw new Error("Signature is already set");
-    }
-
-    const signature = await signer.sign(this.eventBytes);
-    this.setSignature(signature);
   }
 
   toBytes(): string {

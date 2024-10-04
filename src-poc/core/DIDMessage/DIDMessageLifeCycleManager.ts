@@ -12,13 +12,11 @@ export type HookFunction<Data extends {}, Result> = (
 
 export interface Hooks<
   InitializationHookFn extends HookFunction<any, any> = HookFunction<any, any>,
-  PreSigningHookFn extends HookFunction<any, any> = HookFunction<any, any>,
-  PostSigningHookFn extends HookFunction<any, any> = HookFunction<any, any>,
+  SigningHookFn extends HookFunction<any, any> = HookFunction<any, any>,
   PublicationHookFn extends HookFunction<any, any> = HookFunction<any, any>
 > {
   initialization: InitializationHookFn;
-  preSigning: PreSigningHookFn;
-  postSigning: PostSigningHookFn;
+  signing: SigningHookFn;
   publication: PublicationHookFn;
 }
 
@@ -47,26 +45,12 @@ export class DIDMessageLifeCycleManager<
     message.initialize(preCreationData);
 
     // Pre-signing
-    const preSigningData = message.preSigningData;
-    const preSigningResult = await this.hooks.preSigning({
+    const signingData = message.signingData;
+    const signingResult = await this.hooks.signing({
       ...providers,
-      ...preSigningData,
+      ...signingData,
     });
-    message.preSigning(preSigningResult);
-
-    // Sign the DID message
-    if (!message.requiredSignature) {
-      const signature = await signer.sign(message.eventBytes);
-      message.setSignature(signature);
-    }
-
-    // Post-signing
-    const postSigningData = message.postSigningData;
-    const postSigningResult = await this.hooks.postSigning({
-      ...providers,
-      ...postSigningData,
-    });
-    message.postSigning(postSigningResult);
+    message.signing(signingResult);
 
     // Publish the DID message
     const publishingData = message.publishingData;

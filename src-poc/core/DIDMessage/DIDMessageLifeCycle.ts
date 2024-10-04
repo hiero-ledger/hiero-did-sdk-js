@@ -1,38 +1,25 @@
 export interface DIDMessageLifeCycle<
-  PreCreationData extends {} = {},
-  PreCreationResult extends any = any,
-  PreSigningData extends {} = {},
-  PreSigningResult extends any = any,
-  PostSigningData extends {} = {},
-  PostSigningResult extends any = any,
-  PostCreationData extends {} = {},
-  PostCreationResult extends any = any
+  InitializationData extends {} = {},
+  InitializationResult extends any = any,
+  SigningData extends {} = {},
+  SigningResult extends any = any,
+  CreationData extends {} = {},
+  CreationResult extends any = any
 > {
   /**
    * This method is called before the creation of the DID message.
    */
-  preCreation(
-    data: PreCreationData
-  ): Promise<PreCreationResult> | PreCreationResult;
+  initialize(
+    data: InitializationData
+  ): Promise<InitializationResult> | InitializationResult;
 
   /**
    * This method is called before the signing of the DID message.
    */
-  preSigning(
-    data: PreSigningData
-  ): Promise<PreSigningResult> | PreSigningResult;
-
-  /**
-   * This method is called after the signing of the DID message.
-   */
-  postSigning(
-    data: PostSigningData
-  ): Promise<PostSigningResult> | PostSigningResult;
+  signing(data: SigningData): Promise<SigningResult> | SigningResult;
 
   /**
    * This method is called after the creation of the DID message.
    */
-  postCreation(
-    data: PostCreationData
-  ): Promise<PostCreationResult> | PostCreationResult;
+  publishing(data: CreationData): Promise<CreationResult> | CreationResult;
 }
