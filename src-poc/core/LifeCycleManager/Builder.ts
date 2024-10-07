@@ -24,7 +24,7 @@ interface CatchStep {
 }
 
 export class LifecycleBuilder<Message extends DIDMessage> {
-  public readonly steps: (
+  public readonly pipeline: (
     | CallbackStep<Message>
     | SignStep
     | SignatureStep
@@ -33,22 +33,22 @@ export class LifecycleBuilder<Message extends DIDMessage> {
   public catchStep?: CatchStep;
 
   callback(callback: CallbackStep<Message>["callback"]) {
-    this.steps.push({ type: "callback", callback });
+    this.pipeline.push({ type: "callback", callback });
     return this;
   }
 
   signature() {
-    this.steps.push({ type: "signature" });
+    this.pipeline.push({ type: "signature" });
     return this;
   }
 
   signWithSigner() {
-    this.steps.push({ type: "sign" });
+    this.pipeline.push({ type: "sign" });
     return this;
   }
 
   pause() {
-    this.steps.push({ type: "pause" });
+    this.pipeline.push({ type: "pause" });
     return this;
   }
 

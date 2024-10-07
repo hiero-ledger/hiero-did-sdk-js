@@ -31,10 +31,10 @@ export class LifecycleRunner<Message extends DIDMessage> {
       const initialStep = options.step ? options.step + 1 : 0;
       for (
         let stepIndex = initialStep;
-        stepIndex < this.builder.steps.length;
+        stepIndex < this.builder.pipeline.length;
         stepIndex++
       ) {
-        const step = this.builder.steps[stepIndex];
+        const step = this.builder.pipeline[stepIndex];
         console.log("Processing step", step);
 
         if (step.type === "callback") {
