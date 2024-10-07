@@ -1,36 +1,25 @@
 import { PublicKey } from "@hashgraph/sdk";
 import bs58 from "bs58";
-import {
-  DIDOwnerMessageInitializationData,
-  DIDOwnerMessageInitializationResult,
-  DIDOwnerMessagePublishingData,
-  DIDOwnerMessagePublishingResult,
-  DIDOwnerMessageSigningData,
-  DIDOwnerMessageSigningResult,
-} from "./DIDOwnerMessageLifeCycle";
 import { DIDMessage } from "../DIDMessage";
 import { Signer } from "../Signer";
-import { DIDOwnerMessageHederaDefaultLifeCycle } from "./DIDOwnerMessageHederaDefaultLifeCycle";
-import { Publisher } from "../Publisher";
 
 // TODO: Add to payload?
 const hederaNetwork = "testnet";
 
-interface DIDOwnerMessageConstructor {
-  controller: string;
+export interface DIDOwnerMessageConstructor {
   publicKey: PublicKey;
+  controller?: string;
   timestamp?: Date;
   signature?: Uint8Array;
   topicId?: string;
 }
 
 export class DIDOwnerMessage extends DIDMessage {
-  public readonly controller: string;
   public readonly publicKey: PublicKey;
   public readonly timestamp: Date;
+  public controller?: string;
   public signature?: Uint8Array;
   public topicId?: string;
-  public stage: "initialize" | "signing" | "publishing" | "complete";
 
   constructor(payload: DIDOwnerMessageConstructor) {
     super();
@@ -40,7 +29,6 @@ export class DIDOwnerMessage extends DIDMessage {
     this.timestamp = payload.timestamp || new Date();
     this.signature = payload.signature;
     this.topicId = payload.topicId;
-    this.stage = "initialize";
   }
 
   get operation(): "create" {
@@ -53,23 +41,27 @@ export class DIDOwnerMessage extends DIDMessage {
     return `did:hedera:${hederaNetwork}:${publicKeyBase58}_${this.topicId}`;
   }
 
+  get controllerDid(): string {
+    return this.controller ?? this.did;
+  }
+
   get eventBytes(): Uint8Array {
     return new TextEncoder().encode(this.event);
   }
 
-  protected get event(): string {
+  get event(): string {
     return JSON.stringify({
       DIDOwner: {
         id: `${this.did}#did-root-key`,
         type: "Ed25519VerificationKey2020",
-        controller: this.controller,
+        controller: this.controllerDid,
         // TODO: change to publicKeyMultibase
         publicKeyMultibase: this.publicKey.toStringDer(),
       },
     });
   }
 
-  protected get messagePayload(): string {
+  get messagePayload(): string {
     if (!this.signature) {
       throw new Error("Signature is missing");
     }
@@ -85,60 +77,17 @@ export class DIDOwnerMessage extends DIDMessage {
     });
   }
 
-  get initializeData(): DIDOwnerMessageInitializationData {
-    return {
-      controller: this.controller,
-      publicKey: this.publicKey,
-      timestamp: this.timestamp.toISOString(),
-    };
+  setTopicId(topicId: string): void {
+    this.topicId = topicId;
   }
 
-  get signingData(): DIDOwnerMessageSigningData {
-    if (!this.topicId) {
-      throw new Error("Topic ID is missing");
-    }
-
-    return {
-      event: this.event,
-      eventBytes: this.eventBytes,
-      controller: this.controller,
-      publicKey: this.publicKey,
-      topicId: this.topicId,
-      timestamp: this.timestamp.toISOString(),
-    };
+  setController(controller: string): void {
+    this.controller = controller;
   }
 
-  get publishingData(): DIDOwnerMessagePublishingData {
-    if (!this.topicId) {
-      throw new Error("Topic ID is missing");
-    }
-
-    if (!this.signature) {
-      throw new Error("Signature is missing");
-    }
-
-    return {
-      controller: this.controller,
-      publicKey: this.publicKey,
-      topicId: this.topicId,
-      timestamp: this.timestamp.toISOString(),
-      signature: this.signature,
-      message: this.messagePayload,
-    };
-  }
-
-  async initialize(data: DIDOwnerMessageInitializationResult): Promise<void> {
-    this.stage = "signing";
-    this.topicId = data.topicId;
-  }
-
-  async signing(data: DIDOwnerMessageSigningResult): Promise<void> {
-    this.stage = "publishing";
-    this.setSignature(data.signature);
-  }
-
-  async publishing(data: DIDOwnerMessagePublishingResult): Promise<void> {
-    this.stage = "complete";
+  public async signWith(signer: Signer): Promise<void> {
+    const signature = await signer.sign(this.eventBytes);
+    this.signature = signature;
   }
 
   public setSignature(signature: Uint8Array): void {
@@ -150,25 +99,13 @@ export class DIDOwnerMessage extends DIDMessage {
 
     return Buffer.from(
       JSON.stringify({
-        controller: this.controller,
+        controller: this.controllerDid,
         publicKey: this.publicKey.toStringRaw(),
         timestamp: this.timestamp.toISOString(),
         topicId: this.topicId,
         signature: this.signature ? btoa(decoder.decode(this.signature)) : "",
       })
     ).toString("base64");
-  }
-
-  async execute(
-    signer: Signer,
-    publisher: Publisher,
-    lifecycle = DIDOwnerMessageHederaDefaultLifeCycle,
-    stageData?:
-      | DIDOwnerMessageInitializationResult
-      | DIDOwnerMessageSigningResult
-      | DIDOwnerMessagePublishingResult
-  ): Promise<void> {
-    await lifecycle.start(this, signer, publisher, stageData);
   }
 
   static fromBytes(bytes: string): DIDOwnerMessage {

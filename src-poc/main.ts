@@ -7,7 +7,10 @@ import {
   KMSSigner,
   BlankSigner,
   DIDOwnerMessageHederaCSMLifeCycle,
+  DIDOwnerMessageHederaDefaultLifeCycle,
 } from "./core";
+import { LifecycleRunner } from "./core/LifeCycleManager/Runner";
+import { createDID } from "./core/SimpleUseCase/CreateDID";
 
 async function mainInternalMode() {
   envConfig({ path: ".env.test" });
@@ -22,12 +25,13 @@ async function mainInternalMode() {
   const signer = new LocalSigner(privateKey);
   const publisher = new LocalPublisher(client);
 
-  // Create a DID create operation with the specified topicId, payload, signer, and publisher
-  const didOwnerMessage = await new DIDOwnerMessage({
-    publicKey: PrivateKey.fromStringDer(privateKey).publicKey,
-    controller:
-      "did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790",
-  }).execute(signer, publisher);
+  await createDID(
+    { publicKey: PrivateKey.fromStringDer(privateKey).publicKey },
+    {
+      signer,
+      publisher,
+    }
+  );
 
   client.close();
 }
@@ -54,9 +58,12 @@ async function mainExternalMode() {
   // Create a DID create operation with the specified topicId, payload, signer, and publisher
   const didOwnerMessage = new DIDOwnerMessage({
     publicKey: PrivateKey.fromStringDer(privateKey).publicKey,
-    controller:
-      "did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790",
-  }).execute(signer, publisher);
+  });
+
+  await new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle).process(
+    didOwnerMessage,
+    { signer, publisher }
+  );
 
   client.close();
 }
@@ -79,33 +86,27 @@ async function mainClientMode() {
 
   const didOwnerMessage = new DIDOwnerMessage({
     publicKey: PrivateKey.fromStringDer(privateKey).publicKey,
-    controller:
-      "did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790",
   });
-  await didOwnerMessage.execute(
-    signer,
-    publisher,
-    DIDOwnerMessageHederaCSMLifeCycle
-  );
 
-  const bytesToSign = didOwnerMessage.eventBytes;
+  const state = await new LifecycleRunner(
+    DIDOwnerMessageHederaCSMLifeCycle
+  ).process(didOwnerMessage, { signer, publisher });
+
   // Take needed staff from DIDOwnerMessage instance like, bytes to sign
+  const bytesToSign = state.message.eventBytes;
 
   // Send bytes to sign to the client
-  // Serialize didOwnerMessage and save it to the database
+  // Serialize state object and save it to the database
   // Client signs the bytes and sends the signature back
   const signature = clientSigner.sign(bytesToSign);
 
-  // Deserialize didOwnerMessage from the database
+  // Deserialize state object from the database
 
-  await didOwnerMessage.execute(
-    signer,
+  console.log(state);
+  await new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle).resume(state, {
+    signature,
     publisher,
-    DIDOwnerMessageHederaCSMLifeCycle,
-    {
-      signature,
-    }
-  );
+  });
 
   client.close();
 }

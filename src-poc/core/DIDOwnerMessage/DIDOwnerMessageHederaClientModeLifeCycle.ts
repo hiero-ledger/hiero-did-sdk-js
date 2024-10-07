@@ -3,83 +3,37 @@ import {
   TopicMessageSubmitTransaction,
 } from "@hashgraph/sdk";
 import { DIDOwnerMessage } from "./DIDOwnerMessage";
-import {
-  DIDMessageLifeCycleManager,
-  HookFunction,
-  Hooks,
-} from "../DIDMessage/DIDMessageLifeCycleManager";
-import {
-  DIDOwnerMessageInitializationData,
-  DIDOwnerMessageInitializationResult,
-  DIDOwnerMessageSigningData,
-  DIDOwnerMessageSigningResult,
-  DIDOwnerMessagePublishingData,
-  DIDOwnerMessagePublishingResult,
-} from "./DIDOwnerMessageLifeCycle";
+import { LifecycleBuilder } from "../LifeCycleManager/Builder";
+import { Publisher } from "../Publisher";
 
-const clearData = (data: any) => {
-  return JSON.stringify({
-    ...data,
-    signer: undefined,
-    publisher: undefined,
-    publicKey: data.publicKey.toStringDer(),
-    eventBytes: data.eventBytes ? "<bytes>" : undefined,
-    signature: data.signature ? "<bytes>" : undefined,
-  });
-};
-
-type DIDOwnerHooks = Hooks<
-  HookFunction<
-    DIDOwnerMessageInitializationData,
-    DIDOwnerMessageInitializationResult
-  >,
-  HookFunction<DIDOwnerMessageSigningData, DIDOwnerMessageSigningResult>,
-  HookFunction<DIDOwnerMessagePublishingData, DIDOwnerMessagePublishingResult>
->;
-
-export const DIDOwnerMessageHederaCSMLifeCycle: any =
-  new DIDMessageLifeCycleManager<DIDOwnerMessage, DIDOwnerHooks>({
-    initialization: async (data) => {
-      console.log(`[DIDOwnerMessage] Pre creation data: ${clearData(data)}`);
-
-      const response = await data.publisher.publish(
+export const DIDOwnerMessageHederaCSMLifeCycle =
+  new LifecycleBuilder<DIDOwnerMessage>()
+    .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
+      const response = await publisher.publish(
         new TopicCreateTransaction()
-          .setAdminKey(data.publicKey)
-          .setSubmitKey(data.publicKey)
-          .freezeWith(data.publisher.client)
+          .setAdminKey(message.publicKey)
+          .setSubmitKey(message.publicKey)
+          .freezeWith(publisher.client)
       );
 
-      const topicId = response.topicId?.toString();
+      const topicId = response.topicId?.toString() ?? "";
 
-      if (!topicId) {
-        throw new Error("Failed to create a topic");
-      }
-
-      return {
-        topicId: topicId,
-        continue: false,
-      };
-    },
-    signing: async (data) => {
-      const signature = await data.signer.sign(data.eventBytes);
-
-      return {
-        signature,
-        continue: true,
-      };
-    },
-    publication: async (data) => {
-      console.log(`[DIDOwnerMessage] Post creation data: ${clearData(data)}`);
-
-      await data.publisher.publish(
+      message.setTopicId(topicId);
+    })
+    .pause()
+    .signature()
+    .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
+      await publisher.publish(
         new TopicMessageSubmitTransaction()
-          .setTopicId(data.topicId)
-          .setMessage(data.message)
-          .freezeWith(data.publisher.client)
+          .setTopicId(message.topicId ?? "")
+          .setMessage(message.messagePayload)
+          .freezeWith(publisher.client)
       );
-
-      return {
-        continue: true,
-      };
-    },
-  });
+    })
+    .callback(async (message: DIDOwnerMessage) => {
+      console.log("Message sent to Hedera Consensus Service");
+      console.log("TopicID: ", message.topicId);
+    })
+    .catch((error: unknown) => {
+      console.error("Error: ", error);
+    });
