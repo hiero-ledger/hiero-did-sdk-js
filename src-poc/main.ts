@@ -19,6 +19,14 @@ async function mainInternalMode() {
   const accountId = process.env.OPERATOR_ID as string;
   const privateKey = process.env.OPERATOR_PRIVATE_KEY as string;
 
+  const signer = new KMSSigner({
+    url: "http://localhost:8080",
+    credentials: {
+      accessKeyId: "access",
+      secretAccessKey: "secret",
+    },
+  });
+
   await createDID(
     { publicKey: PrivateKey.fromStringDer(privateKey).publicKey },
     {

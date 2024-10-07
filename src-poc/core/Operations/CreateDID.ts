@@ -45,10 +45,12 @@ export async function createDID(
     publicKey: options.publicKey,
   });
 
-  await new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle).process(
-    didOwnerMessage,
-    { signer, publisher }
-  );
+  const manager = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
+
+  manager.onComplete("signing", async (message: DIDOwnerMessage) => {});
+  manager.onComplete("callback1", async (message: DIDOwnerMessage) => {});
+
+  await manager.process(didOwnerMessage, { signer, publisher });
 
   publisher.client.close();
 }

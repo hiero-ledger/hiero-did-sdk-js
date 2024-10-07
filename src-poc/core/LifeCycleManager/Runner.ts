@@ -87,4 +87,6 @@ export class LifecycleRunner<Message extends DIDMessage> {
       };
     }
   }
+
+  onComplete(label: string, call: Function) {}
 }
