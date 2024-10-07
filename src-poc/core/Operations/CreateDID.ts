@@ -3,23 +3,43 @@ import {
   DIDOwnerMessageConstructor,
   DIDOwnerMessageHederaDefaultLifeCycle,
 } from "../DIDOwnerMessage";
-import { Publisher } from "../Publisher";
+import { LocalPublisher, Publisher } from "../Publisher";
 import { LifecycleRunner } from "../LifeCycleManager/Runner";
-import { Signer } from "../Signer";
+import { LocalSigner, Signer } from "../Signer";
+import { Client } from "@hashgraph/sdk";
 
 interface CreateDIDOptions
   extends Omit<DIDOwnerMessageConstructor, "timestamp" | "signature"> {}
+
+interface Create {
+  client: {
+    privateKey: string;
+    accountId: string;
+  };
+  privateKey: string;
+}
 
 interface Providers {
   signer: Signer;
   publisher: Publisher;
 }
 
+const getProviders = (create: Create): Providers => {
+  const signer = new LocalSigner(create.privateKey);
+  const client = Client.forTestnet().setOperator(
+    create.client.accountId,
+    create.client.privateKey
+  );
+  const publisher = new LocalPublisher(client);
+
+  return { signer, publisher };
+};
+
 export async function createDID(
   options: CreateDIDOptions,
-  providers: Providers
+  providers: Providers | Create
 ) {
-  const { signer, publisher } = providers;
+  const { signer, publisher } = providers ?? getProviders(providers as Create);
   // Create a DID create operation with the specified topicId, payload, signer, and publisher
   const didOwnerMessage = new DIDOwnerMessage({
     publicKey: options.publicKey,
@@ -29,4 +49,6 @@ export async function createDID(
     didOwnerMessage,
     { signer, publisher }
   );
+
+  publisher.client.close();
 }
