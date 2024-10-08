@@ -1,4 +1,4 @@
-import { CreateDID, VaultSigner } from '@hashgraph-did-sdk/core';
+import { createDID, VaultSigner } from '@hashgraph-did-sdk/core';
 
 // Initialize custom client and signer
 const client = { /* Client logic */ };
