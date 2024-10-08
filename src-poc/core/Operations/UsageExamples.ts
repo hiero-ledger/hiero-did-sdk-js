@@ -24,6 +24,15 @@ const did1 = await createDID(options1);
 console.log('DID (internal secret):', did1);
 
 
+// Example 2: Create DID with internal secret management (Hedera client) and optional topic ID
+const options2 = {
+  privateKey: "0x...", // Replace with your private key
+  topicId: "0x...", // Replace with your desired topic ID (optional)
+};
+const did2 = await createDID(options2);
+console.log('DID (internal secret with topic ID):', did2);
+
+
 // Example 3: Create DID using external secret management (VaultSigner)
 const options3 = {
   keyName: "0x...", // Replace with your key name
@@ -58,21 +67,3 @@ console.log('DID (client-managed secret):', did);
 const provider = { client, signer };
 const did5 = await createDID(provider);
 console.log('DID (custom client and signer):', did5);
-
-
-// ========================================= Out of scope =========================================
-
-
-// Example 2: Create DID with internal secret management (Hedera client) and optional topic ID
-const options2 = {
-  privateKey: "0x...", // Replace with your private key
-  topicId: "0x...", // Replace with your desired topic ID (optional)
-};
-const did2 = await createDID(options2);
-console.log('DID (internal secret with topic ID):', did2);
-
-/* Note: We don’t need this right now, as Micha didn’t request it. While it might seem as simple as checking whether
-  a TopicID was provided as an argument, I think that would just be a workaround and not the right approach. I believe 
-  the shared topic use case will require its own lifecycle, with logic around adminKey and subjectKey setup in the 
-  initialization step, among other things.
-*/
