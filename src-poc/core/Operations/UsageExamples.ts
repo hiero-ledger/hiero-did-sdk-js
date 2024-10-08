@@ -42,25 +42,27 @@ console.log('DID (external secret with VaultSigner):', did3);
 
 
 // Example 4: Create DID with client-managed secret management
+// Server initiates lifecycle flow and pauses
 const pauseStep = await createDID({
   lifecycle: CMSMLifecycle,
   to: { label: 'pause' }
 });
 
-// Send the event bytes to the client for signing
+// Server sends event bytes to client for signing
 const eventBytes = pauseStep.message.eventBytes;
 console.log('Event bytes:', eventBytes);
 
-// Sign the event bytes with the client wallet
+// Client signs event bytes with wallet and returns signature
 const clientSignature = await wallet.sign(eventBytes);
 
-// Resume the pipeline and create the final DID
+// Server resumes lifecycle and creates final DID
 const did = await createDID({
   lifecycle: CMSMLifecycle,
   from: pauseStep,
   to: { label: 'signing', args: { signature: clientSignature } }
 });
 console.log('DID (client-managed secret):', did);
+
 
 
 // Example 5: Create DID with custom client and signer
