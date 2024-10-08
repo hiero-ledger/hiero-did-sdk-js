@@ -63,7 +63,19 @@ const did = await createDID({
 });
 console.log('DID (client-managed secret):', did);
 
+/*
+sequenceDiagram
+    participant Server
+    participant Wallet
 
+    Server->>Server: Initiate lifecycle flow (createDID with CMSMLifecycle)
+    Server->>Server: Pause lifecycle at 'pause' step
+    Server->>Wallet: Send event bytes for signing (eventBytes from pauseStep)
+    Wallet->>Wallet: Sign event bytes with private key
+    Wallet-->>Server: Return client signature (clientSignature)
+    Server->>Server: Resume lifecycle from 'pause' step
+    Server->>Server: Create final DID (createDID with clientSignature)
+*/
 
 // Example 5: Create DID with custom client and signer
 const provider = { client, signer };
