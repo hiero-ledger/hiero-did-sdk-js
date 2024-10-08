@@ -1,4 +1,4 @@
-import { createDID, VaultSigner } from '@hashgraph-did-sdk/core';
+import { createDID, VaultSigner, CMSMLifecycle } from '@hashgraph-did-sdk/core';
 
 // Initialize custom client and signer
 const client = { /* Client logic */ };
@@ -40,17 +40,25 @@ console.log('DID (external secret with VaultSigner):', did3);
 
 
 // Example 4: Create DID with client-managed secret management
-// Proceed to signing stage
-const stepOptions = { to: 'signing' };
-const signingStepState = await createDID(stepOptions);
+const pauseStep = await createDID({
+  lifecycle: CMSMLifecycle,
+  to: { label: 'pause' }
+});
 
-// Sign bytes with client wallet and return signature
-const clientSignature = await wallet.sign(signingStepState.message.eventBytes);
+// Send the event bytes to the client for signing
+const eventBytes = pauseStep.message.eventBytes;
+console.log('Event bytes:', eventBytes);
 
-// Continue to publishing stage on server
-const stepOptions2 = { to: 'publishing', args: [clientSignature] };
-const did4 = await createDID(stepOptions2);
-console.log('DID (client-managed secret):', did4);
+// Sign the event bytes with the client wallet
+const clientSignature = await wallet.sign(eventBytes);
+
+// Resume the pipeline and create the final DID
+const did = await createDID({
+  lifecycle: CMSMLifecycle,
+  from: pauseStep,
+  to: { label: 'signing', args: { signature: clientSignature } }
+});
+console.log('DID (client-managed secret):', did);
 
 
 // Example 5: Create DID with custom client and signer
