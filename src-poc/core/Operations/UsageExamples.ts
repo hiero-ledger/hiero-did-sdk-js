@@ -16,6 +16,11 @@ const wallet = { /* Custom wallet */ }
 // ========================================= All secret mode interfaces =========================================
 
 
+// Example 0: Create DID with internal secret management (Hedera client, Hedera PrivateKey)
+const { did0, privateKey0 } = await createDID();
+console.log('DID (internal secret, PrivateKey):', did0, privateKey0);
+
+
 // Example 1: Create DID with internal secret management (Hedera client)
 const options1 = {
   privateKey: "0x...", // Replace with your private key
