@@ -1,15 +1,17 @@
-import { PrivateKey, PublicKey } from "@hashgraph/sdk";
+import { PrivateKey } from "@hashgraph/sdk";
 import { Signer } from "./Signer.type";
 
 class LocalSigner implements Signer {
   private _privateKey: PrivateKey;
 
-  constructor(privateKeyDer: string) {
-    this._privateKey = PrivateKey.fromStringDer(privateKeyDer);
+  constructor(privateKeyDer?: string) {
+    this._privateKey = privateKeyDer
+      ? PrivateKey.fromStringDer(privateKeyDer)
+      : PrivateKey.generate();
   }
 
-  get publicKey(): PublicKey {
-    return this._privateKey.publicKey;
+  publicKey(): Promise<string> {
+    return Promise.resolve(this._privateKey.publicKey.toString());
   }
 
   sign(message: Uint8Array): Uint8Array {

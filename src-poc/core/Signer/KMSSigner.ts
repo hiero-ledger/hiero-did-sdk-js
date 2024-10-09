@@ -9,7 +9,7 @@ interface KMSSignerConstructor {
   };
 }
 
-class KMSSigner implements Signer {
+class KMSSigner {
   private _privateKey: PrivateKey;
 
   constructor(options: KMSSignerConstructor) {
@@ -17,12 +17,13 @@ class KMSSigner implements Signer {
     this._privateKey = PrivateKey.generate();
   }
 
-  get publicKey(): PublicKey {
-    return this._privateKey.publicKey;
-  }
-
-  async sign(message: Uint8Array): Promise<Uint8Array> {
-    return this._privateKey.sign(message);
+  for(keyId: string): Signer {
+    return {
+      sign: async (message: Uint8Array): Promise<Uint8Array> =>
+        this._privateKey.sign(message),
+      publicKey: async (): Promise<string> =>
+        this._privateKey.publicKey.toString(),
+    };
   }
 }
 

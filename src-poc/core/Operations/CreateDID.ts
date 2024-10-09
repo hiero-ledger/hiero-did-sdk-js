@@ -1,56 +1,141 @@
 import {
   DIDOwnerMessage,
-  DIDOwnerMessageConstructor,
   DIDOwnerMessageHederaDefaultLifeCycle,
 } from "../DIDOwnerMessage";
-import { LocalPublisher, Publisher } from "../Publisher";
+import { LocalPublisher } from "../Publisher";
 import { LifecycleRunner } from "../LifeCycleManager/Runner";
 import { LocalSigner, Signer } from "../Signer";
-import { Client } from "@hashgraph/sdk";
+import { Client, PrivateKey, PublicKey } from "@hashgraph/sdk";
 
-interface CreateDIDOptions
-  extends Omit<DIDOwnerMessageConstructor, "timestamp" | "signature"> {}
-
-interface Create {
-  client: {
-    privateKey: string;
-    accountId: string;
-  };
-  privateKey: string;
+interface ClientOptions {
+  privateKey: string | PrivateKey;
+  accountId: string;
+  network: "testnet" | "mainnet";
 }
+
+type ClientOrOptions = ClientOptions | Client;
 
 interface Providers {
-  signer: Signer;
-  publisher: Publisher;
+  client: ClientOrOptions;
+  signer?: Signer;
 }
 
-const getProviders = (create: Create): Providers => {
-  const signer = new LocalSigner(create.privateKey);
-  const client = Client.forTestnet().setOperator(
-    create.client.accountId,
-    create.client.privateKey
+interface DIDDocument {
+  id: string;
+  controller: string;
+  verificationMethod: any[];
+}
+
+interface CreateUsingPrivateKey {
+  privateKey: string | PrivateKey;
+}
+
+interface CreateWithTopicId {
+  topicId: string;
+}
+
+interface BasicCreateOptions {
+  controller?: string;
+}
+
+type Options =
+  | BasicCreateOptions
+  | (CreateWithTopicId & BasicCreateOptions)
+  | (CreateUsingPrivateKey & BasicCreateOptions)
+  | (CreateUsingPrivateKey & CreateWithTopicId & BasicCreateOptions);
+
+interface Example1Result {
+  did: string;
+  didDocument: DIDDocument;
+  privateKey?: PrivateKey;
+}
+
+function getClient(clientOrOptions: ClientOrOptions): Client {
+  if (clientOrOptions instanceof Client) {
+    return clientOrOptions;
+  }
+
+  let client: Client;
+  switch (clientOrOptions.network) {
+    case "mainnet":
+      client = Client.forMainnet();
+      break;
+    default:
+    case "testnet":
+      client = Client.forTestnet();
+      break;
+  }
+
+  client.setOperator(clientOrOptions.accountId, clientOrOptions.privateKey);
+  return client;
+}
+
+function getSigner(signer?: Signer, privateKey?: string | PrivateKey): Signer {
+  if (!signer && !privateKey) {
+    throw new Error("Either signer or privateKey must be provided");
+  }
+
+  // @ts-ignore
+  return (
+    signer ??
+    new LocalSigner(
+      privateKey instanceof PrivateKey
+        ? privateKey.toStringDer()
+        : privateKey ?? undefined
+    )
   );
+}
+
+export function createDID(providers: Providers): Promise<Example1Result>;
+export function createDID(
+  options: Options,
+  providers: Providers
+): Promise<Example1Result>;
+export async function createDID(
+  providersOrOptions: Providers | Options,
+  providers?: Providers
+): Promise<Example1Result> {
+  const client = getClient(
+    providers
+      ? providers.client
+      : // @ts-ignore
+        (providersOrOptions.client as ClientOrOptions)
+  );
+
+  const signer = getSigner(
+    providers?.signer,
+    "privateKey" in providersOrOptions
+      ? providersOrOptions.privateKey
+      : undefined
+  );
+
   const publisher = new LocalPublisher(client);
 
-  return { signer, publisher };
-};
+  const publicKey = await signer.publicKey();
 
-export async function createDID(
-  options: CreateDIDOptions,
-  providers: Providers | Create
-) {
-  const { signer, publisher } = providers ?? getProviders(providers as Create);
-  // Create a DID create operation with the specified topicId, payload, signer, and publisher
   const didOwnerMessage = new DIDOwnerMessage({
-    publicKey: options.publicKey,
+    publicKey: PublicKey.fromString(publicKey),
+    controller:
+      "controller" in providersOrOptions ? providersOrOptions.controller : "",
   });
 
   const manager = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
 
-  manager.onComplete("signing", async (message: DIDOwnerMessage) => {});
-  manager.onComplete("callback1", async (message: DIDOwnerMessage) => {});
-
   await manager.process(didOwnerMessage, { signer, publisher });
 
-  publisher.client.close();
+  return {
+    did: didOwnerMessage.did,
+    didDocument: {
+      id: didOwnerMessage.did,
+      controller: didOwnerMessage.controllerDid,
+      verificationMethod: [
+        {
+          id: `${didOwnerMessage.did}#root-key`,
+          type: "Ed25519VerificationKey2020",
+          controller: didOwnerMessage.did,
+          publicKeyBase58: publicKey,
+        },
+      ],
+    },
+  };
 }

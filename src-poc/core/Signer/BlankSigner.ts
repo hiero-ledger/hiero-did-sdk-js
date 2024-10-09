@@ -1,9 +1,8 @@
-import { PublicKey } from "@hashgraph/sdk";
 import { Signer } from "./Signer.type";
 
 class BlankSigner implements Signer {
-  get publicKey(): PublicKey {
-    throw new Error("Used a blank signer");
+  publicKey(): Promise<string> {
+    throw new Error("Method not implemented.");
   }
 
   async sign(message: Uint8Array): Promise<Uint8Array> {

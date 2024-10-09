@@ -1,61 +1,102 @@
-import { createDID, VaultSigner, CMSMLifecycle } from '@hashgraph-did-sdk/core';
+import { VaultSigner, CMSMLifecycle } from "@hashgraph-did-sdk/core";
+import { createDID } from "./CreateDID";
 
 // ========================================= Demo Setup =========================================
 
 // Initialize custom client and signer
-const client = { /* Client logic */ };
-const signer = { /* Signer logic */ };
+const client = {
+  /* Client logic */
+} as any;
+const signer = {
+  /* Signer logic */
+} as any;
 
 // Set up VaultSigner for external key management
-const vaultSigner = new VaultSigner({ /* Vault configuration */ });
+const vaultSigner = new VaultSigner({
+  /* Vault configuration */
+}) as any;
 
 // Initialize custom wallet
-const wallet = { /* Custom wallet */ }
-
+const wallet = {
+  /* Custom wallet */
+};
 
 // ========================================= All secret mode interfaces =========================================
 
+/**
+ * Example 0.0
+ * Create a new DID in internal secret mode. The client is provided with a private key and account ID.
+ * Private key is generated internally for purposes of DID root key. Controller is set to the DID itself.
+ * Private key is returned as a string.
+ */
+const { did, didDocument, privateKey } = await createDID({
+  client: {
+    privateKey: "0x...", // Replace with your private key
+    accountId: "0.0.0....", // Replace with your account ID
+    network: "testnet",
+  },
+});
+console.log("DID (internal secret, PrivateKey):", didDocument, privateKey);
 
-// Example 0: Create DID with internal secret management (Hedera client, Hedera PrivateKey)
-const { did0, privateKey0 } = await createDID();
-console.log('DID (internal secret, PrivateKey):', did0, privateKey0);
+/**
+ * Example 0.1
+ * Create a new DID in internal secret mode. The client is provided as an instance of Client.
+ * Private key is generated internally for purposes of DID root key. Controller is set to the DID itself.  New Topic is created.
+ * Private key is returned as a string.
+ */
+const { did, didDocument, privateKey } = await createDID({
+  client,
+});
+console.log("DID (internal secret, PrivateKey):", didDocument, privateKey);
 
-
-// Example 1: Create DID with internal secret management (Hedera client)
+/**
+ * Example 1.0
+ * Create a new DID in internal secret mode. The client is provided as an instance of Client or as an object with client options.
+ * Private key is also provided as a string and controller is set to the DID itself. New Topic is created.
+ */
 const options1 = {
   privateKey: "0x...", // Replace with your private key
 };
-const did1 = await createDID(options1);
-console.log('DID (internal secret):', did1);
+const { did, didDocument } = await createDID(options1, { client });
+console.log("DID (internal secret):", didDocument);
 
-
-// Example 2: Create DID with internal secret management (Hedera client) and optional topic ID
+/**
+ * Example 2.0
+ * Create a new DID in internal secret mode. The client is provided as an instance of Client or as an object with client options.
+ * Private key is also provided as a string and controller is set to the DID itself. Topic ID is also provided. User needs to provide a client that has access to the topic.
+ */
 const options2 = {
   privateKey: "0x...", // Replace with your private key
-  topicId: "0x...", // Replace with your desired topic ID (optional)
+  topicId: "0.0.0...", // Replace with your desired topic ID (optional)
 };
-const did2 = await createDID(options2);
-console.log('DID (internal secret with topic ID):', did2);
+const { did, didDocument } = await createDID(options2, { client });
+console.log("DID (internal secret with topic ID):", did2);
 
-
-// Example 3: Create DID using external secret management (VaultSigner)
+/**
+ * Example 3.0
+ * Create a new DID in external secret mode. The client is provided as an instance of Client or as an object with client options.
+ * User also provide a signer that has access to the external key that is specified in the options (keyId).
+ * Controller is set to the DID itself. New Topic is created.
+ */
 const options3 = {
-  keyName: "0x...", // Replace with your key name
+  keyId: "0x...", // Replace with your key name,
 };
-const did3 = await createDID(options3, { signer: vaultSigner });
-console.log('DID (external secret with VaultSigner):', did3);
-
+const { did, didDocument } = await createDID({
+  signer: vaultSigner.for(options3.keyId),
+  client,
+});
+console.log("DID (external secret with VaultSigner):", did, didDocument);
 
 // Example 4: Create DID with client-managed secret management
 // Server initiates lifecycle flow and pauses
 const pauseStep = await createDID({
   lifecycle: CMSMLifecycle,
-  to: { label: 'pause' }
+  to: { label: "pause" },
 });
 
 // Server sends event bytes to client for signing
 const eventBytes = pauseStep.message.eventBytes;
-console.log('Event bytes:', eventBytes);
+console.log("Event bytes:", eventBytes);
 
 // Client signs event bytes with wallet and returns signature
 const clientSignature = await wallet.sign(eventBytes);
@@ -64,9 +105,9 @@ const clientSignature = await wallet.sign(eventBytes);
 const did = await createDID({
   lifecycle: CMSMLifecycle,
   from: pauseStep,
-  to: { label: 'signing', args: { signature: clientSignature } }
+  to: { label: "signing", args: { signature: clientSignature } },
 });
-console.log('DID (client-managed secret):', did);
+console.log("DID (client-managed secret):", did);
 
 /*
 sequenceDiagram
@@ -82,7 +123,11 @@ sequenceDiagram
     Server->>Server: Create final DID (createDID with clientSignature)
 */
 
-// Example 5: Create DID with custom client and signer
+/**
+ * Example 5.0
+ * Create a new DID in external secret mode. The client is provided as an instance of Client or as an object with client options.
+ * New private key is generated internally using a provided signer. Controller is set to the DID itself. New Topic is created.
+ */
 const provider = { client, signer };
-const did5 = await createDID(provider);
-console.log('DID (custom client and signer):', did5);
+const { did, didDocument } = await createDID(provider);
+console.log("DID (custom client and signer):", did5);

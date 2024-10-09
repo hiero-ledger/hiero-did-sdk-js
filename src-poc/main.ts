@@ -10,7 +10,7 @@ import {
   DIDOwnerMessageHederaDefaultLifeCycle,
 } from "./core";
 import { LifecycleRunner } from "./core/LifeCycleManager/Runner";
-import { createDID } from "./core/SimpleUseCase/CreateDID";
+import { createDID } from "./core/Operations/CreateDID";
 
 async function mainInternalMode() {
   envConfig({ path: ".env.test" });
@@ -19,24 +19,15 @@ async function mainInternalMode() {
   const accountId = process.env.OPERATOR_ID as string;
   const privateKey = process.env.OPERATOR_PRIVATE_KEY as string;
 
-  const signer = new KMSSigner({
-    url: "http://localhost:8080",
-    credentials: {
-      accessKeyId: "access",
-      secretAccessKey: "secret",
+  const did = await createDID({
+    client: {
+      privateKey,
+      accountId,
+      network: "testnet",
     },
   });
 
-  await createDID(
-    { publicKey: PrivateKey.fromStringDer(privateKey).publicKey },
-    {
-      client: {
-        privateKey,
-        accountId,
-      },
-      privateKey: PrivateKey.generate().toString(),
-    }
-  );
+  console.log(did);
 }
 
 async function mainExternalMode() {
@@ -65,7 +56,7 @@ async function mainExternalMode() {
 
   await new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle).process(
     didOwnerMessage,
-    { signer, publisher }
+    { signer: signer.for("keyId"), publisher }
   );
 
   client.close();
@@ -116,4 +107,4 @@ async function mainClientMode() {
   client.close();
 }
 
-mainClientMode();
+mainInternalMode();
