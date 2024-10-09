@@ -11,12 +11,16 @@ export const DIDOwnerMessageHederaDefaultLifeCycle =
     .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
       const response = await publisher.publish(
         new TopicCreateTransaction()
-          .setAdminKey(message.publicKey)
-          .setSubmitKey(message.publicKey)
+          .setAdminKey(publisher.client.operatorPublicKey!)
+          .setSubmitKey(publisher.client.operatorPublicKey!)
           .freezeWith(publisher.client)
       );
 
-      const topicId = response.topicId?.toString() ?? "";
+      const topicId = response.topicId?.toString();
+
+      if (!topicId) {
+        throw new Error("Topic ID is missing");
+      }
 
       message.setTopicId(topicId);
     })

@@ -19,12 +19,10 @@ async function mainInternalMode() {
   const accountId = process.env.OPERATOR_ID as string;
   const privateKey = process.env.OPERATOR_PRIVATE_KEY as string;
 
+  const client = Client.forTestnet().setOperator(accountId, privateKey);
+
   const did = await createDID({
-    client: {
-      privateKey,
-      accountId,
-      network: "testnet",
-    },
+    client: client,
   });
 
   console.log(did);

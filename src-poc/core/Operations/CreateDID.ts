@@ -66,15 +66,13 @@ function getClient(clientOrOptions: ClientOrOptions): Client {
       break;
   }
 
-  client.setOperator(clientOrOptions.accountId, clientOrOptions.privateKey);
-  return client;
+  return client.setOperator(
+    clientOrOptions.accountId,
+    clientOrOptions.privateKey
+  );
 }
 
 function getSigner(signer?: Signer, privateKey?: string | PrivateKey): Signer {
-  if (!signer && !privateKey) {
-    throw new Error("Either signer or privateKey must be provided");
-  }
-
   // @ts-ignore
   return (
     signer ??
@@ -109,6 +107,8 @@ export async function createDID(
       : undefined
   );
 
+  const operatorPublicKey = client.operatorPublicKey;
+
   const publisher = new LocalPublisher(client);
 
   const publicKey = await signer.publicKey();
@@ -116,12 +116,18 @@ export async function createDID(
   const didOwnerMessage = new DIDOwnerMessage({
     publicKey: PublicKey.fromString(publicKey),
     controller:
-      "controller" in providersOrOptions ? providersOrOptions.controller : "",
+      "controller" in providersOrOptions
+        ? providersOrOptions.controller
+        : undefined,
   });
 
   const manager = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
 
-  await manager.process(didOwnerMessage, { signer, publisher });
+  const state = await manager.process(didOwnerMessage, { signer, publisher });
+
+  if (state.status !== "success") {
+    throw new Error("DID creation failed");
+  }
 
   return {
     did: didOwnerMessage.did,
