@@ -1,0 +1,145 @@
+= `deactivateDID` function
+
+The following documents serve as a reference for the `deactivateDID` function, offering insight into the function's associated APIs.
+
+
+== Usage examples
+
+* xref:components/deactivate-did/guide.adoc[Deactivate a DID Document]
+
+
+== Installation
+
+`deactivateDID` function is part of the `@hashgraph-did-sdk/basic` package. Install the package using your preferred package manager:
+
+* Using npm:
+[source,bash]
+----
+npm install @hashgraph-did-sdk/basic
+----
+
+* Using yarn:
+[source,bash]
+----
+yarn add @hashgraph-did-sdk/basic
+----
+
+* Using pnpm:
+[source,bash]
+----
+pnpm add @hashgraph-did-sdk/basic
+----
+
+
+== Import
+
+Import a package using the CommonJS or ES module syntax.
+
+[source,js]
+----
+// import ESM
+import { deactivateDID } from '@hashgraph-did-sdk/basic';
+
+// import CJS
+const { deactivateDID } = require('@hashgraph-did-sdk/basic');
+----
+
+
+== Type
+
+[source,js]
+----
+function deactivateDID(
+  options: DeactivateDIDOptions,
+  providers: Providers
+): Promise<DeactivateDIDResult>;
+----
+
+
+== Arguments
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|options
+|`DeactivateDIDOptions`
+|An object containing options to deactivate a DID.
+
+|providers
+|`Providers`
+|An object containing xref:architecture/client.adoc[SDK Client], xref:architecture/signer.adoc[Signer] and xref:architecture/publisher.adoc[Publisher].
+|=== 
+
+// Include Providers argument type
+include::../shared/providers.adoc[]
+
+
+=== `DeactivateDIDOptions` argument type
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|did
+|`string`
+|A DID to deactivate.
+
+|privateKey?
+|`string \| PrivateKey`
+|A private key in DER string format or a xref:architecture/private-key.adoc[Private Key] class instance. This private key is used to create a xref:components/signers/local-signer/guide.adoc[Local Signer] instance. If not specified and Signer is not specified, will create a new key pair.
+|=== 
+
+
+== Returns
+Function returns a Promise that resolves to a `DeactivateDIDResult` object.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|did
+|`string`
+|A deactivated DID.
+
+
+|didDocument
+|`DIDDocument`
+|An empty DID Document that represents a deactivated DID.
+|=== 
+
+
+== Throws
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception class
+|Description 
+
+|`DIDNotFoundError`
+|Thrown when the DID is not found.
+
+|`InvalidPrivateKeyError`
+|Thrown when the private key is not a valid DER string.
+
+|`InvalidSignerError`
+|Thrown when the signer is not a valid Signer instance.
+
+|`InvalidPublisherError`
+|Thrown when the publisher is not a valid Publisher instance.
+|=== 
+// TODO: Add more throws
+
+
+== Source code
+The implementation of the function can be found https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js[*here*]. In this source, the exact details of the function are provided, as well as an explanation of its operation in cases where further clarification is required.
+
+== Dependencies
+
+image::https://www.planttext.com/api/plantuml/svg/bLJ1Jjmm4BtdAqRY4bHMuaOLeIrL8rI4gYAsz89wCCuGh6Rjo9viXO1_h-quYKsoBPnsC-_blV6RSSuCCKtTje4A6IUnOuIhIbIh2bkK5Kekq6JbHNcDjJ2acRuXqHXOhTQm4RL4lGUywkuQOHvYd6cFpFXPELfxp7GD3SnIyMwBacOgLrhjH8NQp93lBGabJJOoVFLB8wpCWCrwcdUG9My4Jq-vnCUzBKUKFM-EmNZWXsRIE2abzoFNo56qj7YYBCjumuo1-4XF6G1yY4QQgxwPOaZd2Df1h9YoF8HYCOgNcSauQszr03NIs7xkPARv3tY_BXuCcsDbXIJKzupZacyllY4jP0rsATrJj1EkDEv7eZK5rIjuEp3-vvEhJ56tmpzVxpE5vtHTWFTH9nuf8-xqEHgtZNcS_CHWdAjEqaKLrIJI7wL_foPByY68_vXPcOpTkK5nWdvu8GQlzJHWBtPFWfIFWeTE4u9BBj-YCQp60cviVny_QyqUtIod9-VvodBAUUuQiWxPlaR3N7AQha4HtmbdlN15qfMATYLEC0cGAqbQDKs_gJzHYtl1cTFyXlIWgjjVi9iLfniHfNzw2ldcwE3y_EJa-FWGlgBTG0QRyXBMwy2EEdudFHpmBM-5OF_9FBCVT_lL_mi0[diagram,svg]

@@ -1,6 +1,6 @@
 name: docs
 title: Documentation
 version: 1.0.0
-start_page: overview.adoc
+start_page: getting-started/introduction.adoc
 nav:
   - modules/ROOT/nav.adoc

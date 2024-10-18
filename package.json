@@ -2,15 +2,15 @@
   "name": "hashgraph-did-sdk-js",
   "version": "1.0.0",
   "scripts": {
-    "build:docs": "npx antora antora-playbook.yml",
+    "build:docs": "antora antora-playbook.yml",
     "serve:docs": "npx http-server ./build/site",
     "poc:start": "ts-node src-poc/main.ts"
   },
   "devDependencies": {
     "@antora/cli": "^3.1.9",
     "@antora/site-generator-default": "^3.1.9",
-    "@sntke/antora-mermaid-extension": "^0.0.6",
     "@hashgraph/sdk": "^2.51.0",
+    "@sntke/antora-mermaid-extension": "^0.0.6",
     "@types/node": "^22.7.4",
     "dotenv": "^16.4.5",
     "ts-node": "^10.9.2",

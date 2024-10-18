@@ -1,0 +1,89 @@
+= Creating a new DID Document
+
+The `createDID` function is the primary mechanism responsible for the generation of a fresh DID for the Hedera method.
+
+This function creates a new topic within the Hedera Consensus Service when necessary. A `DIDOwner` message is transmitted to the designated topic, which initiates the DID document.
+
+
+== Basic creation of DID
+The following example illustrates the process of creating a DID with a minimum amount of information. In this example, a Client instance will be created using provided options and a new key pair will be generated to create a DID. Generated private key will be return in result object.
+
+[source,js]
+----
+const { did, didDocument, privateKey } = await createDID({
+  client: {
+    privateKey: "0x...", // Replace with your Hedera account private key
+    accountId: "0.0.0....", // Replace with your Hedera account ID
+    network: "testnet",
+  },
+});
+----
+
+
+== Create a DID using a Private Key
+A cryptographic signature is generated for each DID message using a private key. For those wishing to utilize their own key to create the DID, one potential solution is to pass it as an argument. 
+
+It should be noted that the provided key may differ from that utilized for the Hedera account.
+
+Pass private key in DER format:
+
+[source,js]
+----
+const { did, didDocument } = await createDID({
+  privateKey: "0x...", // Replace with your private key in DER foramt
+}, { client });
+----
+
+Or using a PrivateKey class:
+
+[source,js]
+----
+const { did, didDocument } = await createDID({
+  privateKey: new PrivateKey(), // Private key class can be also used
+}, { client });
+----
+
+
+== Create a DID on specified Topic
+In certain cases, it may be desirable to create a DID on a specific Topic. This can be achieved by supplying the relevant ID of this Topic.
+
+NOTE: It is important to ensure that the client or publisher being passed has the necessary permissions to submit on that topic.
+
+[source,js]
+----
+const { did, didDocument } = await createDID({
+  topicId: "0.0.0...", // Replace with your desired topic ID 
+}, { client });
+----
+
+
+== Create a DID with controller
+In order to modify the controller of a newly created DID, it is possible to specify this as an argument. It is, however, essential that the provided DID is valid according to the Hedera method, and it's active.
+
+[source,js]
+----
+const { did, didDocument } = await createDID({
+  controller: "did:hedera:mainnet:...", // Replace with your desired DID controller 
+}, { client });
+----
+
+
+== Create a DID using an external key
+It is possible to sign a DID Message using an external key, for example, by utilizing the services of AWS KMS or Vault by HashiCorp. This can be achieved by employing the appropriate Signer. The SDK has implementations for the more common solutions. Additionally, it is possible to create a Signer using the available interfaces.
+
+[source,js]
+----
+const signer = KMSSigner({ url, credentials });
+const { did, didDocument } = await createDID({ 
+	signer: signer.forKey(keyId),
+	client,
+});
+----
+
+== References
+
+* xref:components/create-did/api.adoc[`createDID` API Reference]
+* xref:requirements/functional/sdk.multibase.adoc[Signer Reference]
+* xref:requirements/functional/sdk.multibase.adoc[Publisher Reference]
+* xref:requirements/functional/sdk.multibase.adoc[Client Reference]
+* xref:requirements/functional/sdk.multibase.adoc[PrivateKey Reference]

@@ -1,0 +1,92 @@
+@startuml update-did-dependencies
+DIDRegistrarUtils --> Signer
+DIDRegistrarUtils --> Publisher
+DIDRegistar --> DIDRegistrarUtils
+UpdateDIDResult --> DIDDocument
+DIDRegistar --> Providers
+DIDRegistar --> Options
+Providers --> ClientOptions
+DIDRegistar --> UpdateDIDResult
+ClientOptions --> PrivateKey
+UpdateDIDResult --> PrivateKey
+Options --> PrivateKey
+Publisher --> Transaction
+Publisher --> TransactionReceipt
+Providers --> Client
+Options --> DIDUpdateBuilder
+
+
+class DIDRegistar {
+   + update(options: Options, providers: Providers) : UpdateDIDResult
+}
+
+class DIDRegistrarUtils {
+   # getPublisher() : Publisher
+   # getSigner() : Signer
+}
+
+interface UpdateDIDResult {
+   String did
+   DIDDocument didDocument
+}
+
+interface Providers {
+   Signer signer?
+   Publisher publisher?
+   Client | ClientOptions client
+}
+
+interface ClientOptions {
+   String | PrivateKey privateKey
+   String accountId
+   String network
+}
+
+interface Options {
+   String did
+   DIDUpdateBuilder updates
+   String | PrivateKey privateKey
+}
+
+class DIDUpdateBuilder {
+   + static empty() : DIDUpdateBuilder
+   + addVerificationMethod(verificationMethod: VerificationMethod) : DIDUpdateBuilder
+   + removeVerificationMethod(id: String) : DIDUpdateBuilder
+   + addService(service: Service) : DIDUpdateBuilder
+   + removeService(id: String) : DIDUpdateBuilder
+   + addAuthenticationMethod(authenticationMethod: VerificationMethod | String) : DIDUpdateBuilder
+   + removeAuthenticationMethod(id: String) : DIDUpdateBuilder
+   + addKeyAgreement(keyAgreement: VerificationMethod | String) : DIDUpdateBuilder
+   + removeKeyAgreement(id: String) : DIDUpdateBuilder
+   + addAssertionMethod(assertionMethod: VerificationMethod | String) : DIDUpdateBuilder
+   + removeAssertionMethod(id: String) : DIDUpdateBuilder
+   + addCapabilityDelegation(capabilityDelegation: VerificationMethod | String) : DIDUpdateBuilder
+   + removeCapabilityDelegation(id: String) : DIDUpdateBuilder
+   + addCapabilityInvocation(capabilityInvocation: VerificationMethod | String) : DIDUpdateBuilder
+   + removeCapabilityInvocation(id: String) : DIDUpdateBuilder
+   + toJSON() : Object
+   + fromJSON(json: Object) : DIDUpdateBuilder
+}
+
+
+abstract class Signer {
+   {abstract} + String publicKey
+   {abstract} + sign(message: Uint8Array) : Uint8Array
+}
+
+abstract class Publisher {
+   {abstract} + Client client
+   {abstract} + publish(transaction: Transaction) : TransactionReceipt
+}
+
+interface DIDDocument {
+   String id
+   String controller
+   VerificationMethod[] verificationMethod
+}
+
+class PrivateKey << (S,#FF7700) Hedera SDK >>
+class Transaction << (S,#FF7700) Hedera SDK >>
+class TransactionReceipt << (S,#FF7700) Hedera SDK >>
+class Client << (S,#FF7700) Hedera SDK >>
+@enduml

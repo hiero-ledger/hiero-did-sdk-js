@@ -1,0 +1,149 @@
+= `updateDID` function
+
+The following documents serve as a reference for the `updateDID` function, offering insight into the function's associated APIs.
+
+
+== Usage examples
+
+* xref:components/update-did/guide.adoc[Update a DID Document]
+
+
+== Installation
+
+`updateDID` function is part of the `@hashgraph-did-sdk/basic` package. Install the package using your preferred package manager:
+
+* Using npm:
+[source,bash]
+----
+npm install @hashgraph-did-sdk/basic
+----
+
+* Using yarn:
+[source,bash]
+----
+yarn add @hashgraph-did-sdk/basic
+----
+
+* Using pnpm:
+[source,bash]
+----
+pnpm add @hashgraph-did-sdk/basic
+----
+
+
+== Import
+
+Import a package using the CommonJS or ES module syntax.
+
+[source,js]
+----
+// import ESM
+import { updateDID } from '@hashgraph-did-sdk/basic';
+
+// import CJS
+const { updateDID } = require('@hashgraph-did-sdk/basic');
+----
+
+
+== Type
+
+[source,js]
+----
+function updateDID(
+  options: UpdateDIDOptions,
+  providers: Providers
+): Promise<UpdateDIDResult>;
+----
+
+
+== Arguments
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|options
+|`UpdateDIDOptions`
+|An object containing a DID and options to update a DID Document.
+
+|providers
+|`Providers`
+|An object containing xref:architecture/client.adoc[SDK Client], xref:architecture/signer.adoc[Signer] and xref:architecture/publisher.adoc[Publisher].
+|=== 
+
+// Include Providers argument type
+include::../shared/providers.adoc[]
+
+
+=== `UpdateDIDOptions` argument type
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|did
+|`string`
+|A DID to update.
+
+|updates
+|`DIDUpdateBuilder`
+|A xref:components/did-update-builder/api.adoc[DID Update Builder] instance to build updates for the DID Document.
+
+|privateKey?
+|`string \| PrivateKey`
+|A private key in DER string format or a xref:architecture/private-key.adoc[Private Key] class instance. This private key is used to create a xref:components/signers/local-signer/guide.adoc[Local Signer] instance. If not specified and Signer is not specified, will create a new key pair.
+|=== 
+
+
+== Returns
+Function returns a Promise that resolves to a `UpdateDIDResult` object.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|did
+|`string`
+|A updated DID.
+
+
+|didDocument
+|`DIDDocument`
+|A updated DID Document.
+|=== 
+
+
+== Throws
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception class
+|Description 
+
+|`DIDNotFoundError`
+|Thrown when the DID is not found.
+
+|`InvalidPrivateKeyError`
+|Thrown when the private key is not a valid DER string.
+
+|`InvalidSignerError`
+|Thrown when the signer is not a valid Signer instance.
+
+|`InvalidPublisherError`
+|Thrown when the publisher is not a valid Publisher instance.
+|=== 
+// TODO: Add more throws
+
+
+== Source code
+The implementation of the function can be found https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js[*here*]. In this source, the exact details of the function are provided, as well as an explanation of its operation in cases where further clarification is required.
+
+== Dependencies
+
+image::https://www.planttext.com/api/plantuml/svg/hLPHJzim47xFhx34Iz2en1jJXJeO5Lg7jY8AUvdsu3hNr93QaUrqge3_FiTs4Zj98QXxIdDt_hxFTvUxNaY5XIes6Ke04qMtMC4eeSaeWHnO0enGaD5qDhs3b4ebi7XGD9DeD9gW1KqPY3tEssAPKRds_LWOJoS-UiWJJMliiiXK5JNbfDW0Kns4My6tD04XEvvvhYXdCgeZZFKgengcyhNFjDYZ8DhncRpSmAvNgkVUSwfEXd7S2ynacMpEzdlkW03DLUzD0XgjnOhwMj1C1qPHH38i9VBl-HmXX3wXmWJ6t1uVL-awGNd5CcwIUup6dToyTi3heXkA8vI2gkyKbn1D8rH-spV6wLf8mrAcGAmmWJQd1LueGLcAT6UMRrvpbAQwKGAS9dCMmL0XQHvVIakJ-xpwPUmsoUWbx1j4REu3ZZ32L_hYrL-djsw59W8JmWkcPebdOw3-Sl4KalJ1Dua8YkygB0S8yKiPOhXcqOsZA46moTNE5AlJQIOC9yal47H52Ivb_W2rvacyxPZ6g1ks7rN0Xc-X1vXg87kpDoKjG6mfWLZQfpvZVxp7M9qRI7DPgBLkW50YxZ7stLwNvZqAAwgNPQ12NUhBL02KtqVyvBqSf2X07PehgOlXfobyFon3BUo1agvmZfSqesetXGnImnoJ7kD1udfPFgnmnhQSj1Ksnl-aq6CPeb3nxulvJpCTvij78CgQLu9lZEDHbigignT5Jw48ByirGXIoyyWDQZE5dYlVgqPr0yqCQ-9cQH1GplPu0rBYL7_n3tg2VhuK0k_C9glVIiuMPRC9kgnk6xZft_QwpH6hPdEF_JLUKlTizM2--zlCd_7Ktmo4CoLubjdCTslz-m_gpjnco7ixuFmSnOkJe-lhixFJqsFq3NGTC5fCRz1aug8znHyCTnSSSiebzit82_qVLFyv_GS0[diagram,svg]

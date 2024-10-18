@@ -1,5 +1,33 @@
-* Introduction
-** xref:overview.adoc[Overview]
+* Getting Started
+** xref:getting-started/introduction.adoc[Introduction]
+** xref:getting-started/installation.adoc[Installation]
+** xref:getting-started/environment-setup.adoc[Environment Setup]
+
+* Guides
+** xref:getting-started/introduction.adoc[The Basics]
+
+* xref:components/index.adoc[Components]
+** xref:components/create-did/guide.adoc[Create DID]
+** xref:components/update-did/guide.adoc[Update DID]
+** xref:components/did-update-builder/guide.adoc[Build a DID Update operation]
+** xref:components/deactivate-did/guide.adoc[Deactivate DID]
+** Signers
+*** xref:components/signers/local-signer/guide.adoc[Local Signer]
+*** xref:components/signers/vault-signer/guide.adoc[Vault Signer]
+** Publishers
+*** xref:components/publishers/local-publisher/guide.adoc[Local Publisher]
+
+* Components API
+** xref:components/create-did/api.adoc[Create DID API]
+** xref:components/update-did/api.adoc[Update DID API]
+** xref:components/did-update-builder/api.adoc[DID Update Builder API]
+** xref:components/deactivate-did/api.adoc[Deactivate DID API]
+
+* Architecture
+** xref:architecture/signer.adoc[Signer]
+** xref:architecture/publisher.adoc[Publisher]
+** xref:architecture/publisher.adoc[Client]
+** xref:architecture/publisher.adoc[Private Key]
 
 * HIPs
 ** xref:hips/hip-0001-new-did-sdk.adoc[HIP-001 New Hashgraph DID-SDK]
@@ -33,8 +61,3 @@
 *** xref:requirements/technical/sdk.node-modules.adoc[Node.js Building Modules]
 *** xref:requirements/technical/sdk.node-support.adoc[Node.js Support]
 *** xref:requirements/technical/sdk.testing.adoc[Testing]
-
-* Components
-** xref:sdk.diagrams.adoc[Diagrams]
-** xref:sdk.interfaces.adoc[Interfaces]
-** xref:sdk.packages.adoc[Packages]
