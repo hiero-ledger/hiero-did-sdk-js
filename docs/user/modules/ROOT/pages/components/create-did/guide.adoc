@@ -108,7 +108,23 @@ In this mode, the client application is responsible for managing the private key
 
 [source,js]
 ----
-// Placeholder for client managed secret mode implementation
+// Server initiates lifecycle flow and pauses
+const pauseStep = await createDID({
+  lifecycle: CMSMLifecycle,
+});
+
+// Server sends event bytes to client for signing
+const eventBytes = pauseStep.message.eventBytes;
+
+// Client signs event bytes with wallet and returns signature
+const clientSignature = await wallet.sign(eventBytes);
+
+// Server resumes lifecycle and creates final DID
+const did = await createDID({
+  lifecycle: CMSMLifecycle,
+  from: pauseStep,
+  to: { label: "signing", args: { signature: clientSignature } },
+});
 ----
 
 == References
