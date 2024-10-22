@@ -1,0 +1,3 @@
+= Architecture Decisions
+
+Out of scope for the current Sprint.

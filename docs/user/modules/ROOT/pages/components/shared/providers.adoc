@@ -1,0 +1,23 @@
+=== `Providers` argument type [[providers_type]]
+
+One of the arguments `client` or `publisher` must be specified. If both are specified, the `publisher` argument will be used.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|client?
+|`ClientOrOptions`
+|An xref:components/clients/local-client/client.adoc[SDK Client] instance or options to create one.
+
+
+|signer?
+|`Signer`
+|A xref:components/signers/local-signer/signer.adoc[Signer] instance type. xref:components/signers/local-signer/signer.adoc[Signer] is used to sign a DID message. If not provided, a xref:components/signers/local-signer/signer.adoc[Private Key] from options argument will be used to sign the message.
+
+|publisher?
+|`Publisher`
+|A xref:components/publishers/local-publisher/publisher.adoc[Publisher] instance type. xref:components/publishers/local-publisher/publisher.adoc[Publisher] is used to publish a Hedera transaction to a network.
+|=== 

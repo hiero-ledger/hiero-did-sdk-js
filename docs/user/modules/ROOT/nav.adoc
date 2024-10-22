@@ -1,0 +1,26 @@
+* Getting Started
+** xref:getting-started/introduction.adoc[Introduction]
+** xref:getting-started/installation.adoc[Installation]
+** xref:getting-started/environment-setup.adoc[Environment Setup]
+
+* Guides
+** xref:guides/the-basics.adoc[The Basics]
+
+* Components
+** Operations
+*** xref:components/create-did/guide.adoc[Create DID]
+*** xref:components/update-did/guide.adoc[Update DID]
+*** xref:components/deactivate-did/guide.adoc[Deactivate DID]
+** Clients
+*** xref:components/clients/local-client/client.adoc[Local Client]
+** Signers
+*** xref:components/signers/local-signer/signer.adoc[Local Signer]
+*** xref:components/signers/vault-signer/signer.adoc[Vault Signer]
+** Publishers
+*** xref:components/publishers/local-publisher/publisher.adoc[Local Publisher]
+
+* Components API
+** xref:components/create-did/api.adoc[Create DID API]
+** xref:components/update-did/api.adoc[Update DID API]
+** xref:components/did-update-builder/api.adoc[DID Update Builder API]
+** xref:components/deactivate-did/api.adoc[Deactivate DID API]

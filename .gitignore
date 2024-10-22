@@ -1,5 +1,8 @@
 # Ignore build files
 build/
 
+# IDE files
+.vscode/
+
 # Ignore node_modules
 node_modules/

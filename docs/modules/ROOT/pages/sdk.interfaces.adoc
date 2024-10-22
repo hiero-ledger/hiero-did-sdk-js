@@ -1,8 +1,0 @@
-= Interfaces
-
-[IMPORTANT]
-====
-The final interfaces are still in development, with adjustments underway. You can view the latest updates through the following Notion link:https://www.notion.so/hashgraph-association/Interfaces-DOCS-1044e8af45768003a265e13f88384381?pvs=4[link]. Once finalized and reviewed, the interfaces will be incorporated into AsciiDoc and will become the definitive source of truth for this scope.
-====
-
-To-Do: Add code examples interfaces for all key modes.

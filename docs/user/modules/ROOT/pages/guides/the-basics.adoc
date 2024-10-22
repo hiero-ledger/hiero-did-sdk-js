@@ -1,0 +1,7 @@
+= Introduction
+
+The DID-SDK offers a comprehensive suite of essential and advanced building blocks, ready for integration into your application. Most apps will leverage these fundamental components to implement core functionalities effectively. Below, we highlight the essential components that provide the foundation for your development efforts, followed by advanced components that enhance capabilities.
+
+== Core Components
+
+Out of scope for the current Sprint.

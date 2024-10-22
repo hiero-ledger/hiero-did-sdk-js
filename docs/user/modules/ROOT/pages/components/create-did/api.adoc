@@ -1,0 +1,160 @@
+= `createDID` function
+
+The following documents serve as a reference for the `createDID` function, offering insight into the function's associated APIs.
+
+
+== Usage examples
+
+* xref:components/create-did/guide.adoc[Creating DIDs with the `createDID` Function]
+
+
+== Installation
+
+`createDID` function is part of the `@hashgraph-did-sdk/basic` package. Install the package using your preferred package manager:
+
+* Using npm:
+[source,bash]
+----
+npm install @hashgraph-did-sdk/basic
+----
+
+* Using yarn:
+[source,bash]
+----
+yarn add @hashgraph-did-sdk/basic
+----
+
+* Using pnpm:
+[source,bash]
+----
+pnpm add @hashgraph-did-sdk/basic
+----
+
+
+== Import
+
+Import a package using the CommonJS or ES module syntax.
+
+[source,js]
+----
+// import ESM
+import { createDID } from '@hashgraph-did-sdk/basic';
+
+// import CJS
+const { createDID } = require('@hashgraph-did-sdk/basic');
+----
+
+
+== Type
+
+[source,js]
+----
+function createDID(providers: Providers): Promise<CreateDIDResult>;
+function createDID(
+  options: CreateDIDOptions,
+  providers: Providers
+): Promise<CreateDIDResult>;
+----
+
+
+== Arguments
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|providers
+|`Providers`
+|An object containing xref:components/clients/local-client/client.adoc[SDK Client], xref:components/signers/local-signer/signer.adoc[Signer] and xref:components/publishers/local-publisher/publisher.adoc[Publisher].
+
+
+|options?
+|`CreateDIDOptions`
+|An object containing options for creating a DID.
+|=== 
+
+// Include Providers argument type
+include::../shared/providers.adoc[]
+
+
+=== `CreateDIDOptions` argument type
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|controller?
+|`string`
+|A DID that controls a new DID. If not specified, will be self-managed DID.
+
+
+|topicId?
+|`string`
+|An ID of Topic to which associate a DID. If not specified, will create a new Topic.
+
+|privateKey?
+|`string \| PrivateKey`
+|A private key in DER string format or a xref:components/signers/local-signer/signer.adoc[Private Key] class instance. This private key is used to create a xref:components/signers/local-signer/signer.adoc[Local Signer] instance. If not specified and Signer is not specified, will create a new key pair.
+|=== 
+
+
+== Returns
+Function returns a Promise that resolves to a `CreateDIDResult` object.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type 
+|Description
+
+|did
+|`string`
+|A newly created DID.
+
+
+|didDocument
+|`DIDDocument`
+|A newly created DID Document.
+
+|privateKey?
+|`PrivateKey`
+|A xref:components/signers/local-signer/signer.adoc[Private Key] that was used to sign a DID message. Only available if `signer` or `privateKey` was not specified.
+|=== 
+
+
+== Throws
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception class
+|Description 
+
+|`InvalidControllerError`
+|Thrown when the controller is not a valid DID.
+
+
+|`InvalidTopicIdError`
+|Thrown when the topic ID is not a valid Hedera Consensus Topic ID.
+
+|`InvalidPrivateKeyError`
+|Thrown when the private key is not a valid DER string.
+
+|`InvalidSignerError`
+|Thrown when the signer is not a valid Signer instance.
+
+|`InvalidPublisherError`
+|Thrown when the publisher is not a valid Publisher instance.
+|=== 
+// TODO: Add more throws
+
+
+== Source code
+The implementation of the function can be found https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js[*here*]. In this source, the exact details of the function are provided, as well as an explanation of its operation in cases where further clarification is required.
+
+== Dependencies
+
+image::https://www.planttext.com/api/plantuml/svg/bLLDJ-Cm4BtxLup49GWgSMDLePOL5TeA8H1TzhBQWt66O94waJqfGi1_ntQSnFde2av9vZtFctapLiuDSKtLDWUXaHFEKfdEKYnHfQY4HCDMwzKTPjAGvlgUP6vWDbl0HcOAzHxmjdh8fNcASQuzCkAp2o_huwRAgM6j2b5jKT4emwqkTZ95RKR8JKcoK8Qr31-zoALDqs33CmDrrcC7FRcpb2jydImrWlUSQitmm6_DbU72CVSZToXGbZJP2MDCvDmOY5jvOm1m54QObCsn6nrgcdUsmNjZr36qn6L4E8Jvo9QFaMWxRozz01bIsqxYKdGxqE3rodWmR8zDAnMXVkG2XvfruWrfgJAmI-c-ehrmeNP7BDGPRhjgNfTzXSw3EhSl0en_B7sITY1by-RZjVFMkVvwY7eW_IvwZBY7z-aQ8mONegWKhTCeff1U2ltS5vbABmf5kiZpK7A8Kb5AiKwNNwZ3AZ3-u2Oh2Eff1uUyp5k3VTX52wcyIo8qqICuKvCj6iCpdCEzBVt7Jwtvgnj-z-Kq1vBT2CQgOGp1zY4QHfPGTu_cyQLoqXDth6Til62nkJATTDe5_w2MZr9mb_CQwQb8__w3tIZONQ78_RCpI3R71vUNfwSd9uVm2-roSjYihc2n2Eoeuc_IGuDVEHMC_I_ptFuHx6_Y4m00[diagram,svg]

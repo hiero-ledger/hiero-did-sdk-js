@@ -1,0 +1,38 @@
+* HIPs
+** xref:hips/hip-0001-new-did-sdk.adoc[HIP-001 New Hashgraph DID-SDK]
+// *** xref:hips/hip-0002-multi-did-shared-hcs-topic.adoc[HIP-002 Multi-DID Shared HCS-Topic for Hashgraph DID-SDK]
+
+* Requirements
+** Functional
+*** xref:requirements/functional/sdk.multibase.adoc[Multibase]
+*** xref:requirements/functional/sdk.manually-node-selection.adoc[Manually Node Selection]
+*** xref:requirements/functional/sdk.transaction.serialize.adoc[Transaction Serialize]
+*** xref:requirements/functional/sdk.transaction.freeze.adoc[Transaction Freeze]
+*** xref:requirements/functional/sdk.transaction.sign-external-keys.adoc[Transaction Sign External Keys]
+*** xref:requirements/functional/sdk.transaction.sign-private-keys.adoc[Transaction Sign Private Keys]
+*** xref:requirements/functional/sdk.verification-key-2018.adoc[Verification Key 2018]
+*** xref:requirements/functional/sdk.verification-key-2020.adoc[Verification Key 2020]
+*** xref:requirements/functional/sdk.resolver.adoc[Resolver]
+*** xref:requirements/functional/sdk.resolver.json-ld-support.adoc[Resolver JSON-LD Support]
+*** xref:requirements/functional/sdk.resolver.dereference-service.adoc[Resolver Dereference Service]
+*** xref:requirements/functional/sdk.resolver.json-support.adoc[Resolver JSON Support]
+*** xref:requirements/functional/sdk.resolver.cbor-support.adoc[Resolver CBOR Support]
+*** xref:requirements/functional/sdk.resolver.dereference-fragment.adoc[Resolver Dereference Fragment]
+*** xref:requirements/functional/sdk.registration.manage-service.adoc[Registration Manage Service]
+*** xref:requirements/functional/sdk.registration.create-did.adoc[Registration Create DID]
+*** xref:requirements/functional/sdk.registration.batch-update.adoc[Registration Batch Update]
+*** xref:requirements/functional/sdk.registration.transfer-did-ownership.adoc[Registration Transfer DID Ownership]
+*** xref:requirements/functional/sdk.registration.deactivate-did.adoc[Registration Deactivate DID]
+*** xref:requirements/functional/sdk.registration.manage-verification-relationships.adoc[Registration Manage Verification Relationships]
+*** xref:requirements/functional/sdk.registration.manage-verification-method.adoc[Registration Manage Verification Method]
+** Non-Functional
+*** xref:requirements/non-functional/sdk.environments.adoc[Supported Environments]
+*** xref:requirements/non-functional/sdk.node-modules.adoc[Node.js Building Modules]
+*** xref:requirements/non-functional/sdk.node-support.adoc[Node.js Support]
+*** xref:requirements/non-functional/sdk.testing.adoc[Testing]
+
+* Architecture
+** xref:architecture/01_introduction_and_goals.adoc[Introduction and Goals]
+** xref:architecture/02_architecture_design.adoc[Architecture Design]
+** xref:architecture/03_architecture_decisions.adoc[Architecture Decisions]
+** xref:architecture/04_risks_and_technical_debt.adoc[Risks and Technical Debt]

@@ -1,0 +1,6 @@
+name: internal
+title: Internal Documentation
+version: 1.0.0
+start_page: hips/hip-0001-new-did-sdk.adoc
+nav:
+  - modules/ROOT/nav.adoc
