@@ -8,10 +8,13 @@ One of the arguments `client` or `publisher` must be specified. If both are spec
 |Type 
 |Description
 
-|client?
-|`ClientOrOptions`
-|An xref:components/clients/local-client/client.adoc[SDK Client] instance or options to create one.
+|clientOptions?
+|`ClientOptions`
+|Options to create a xref:components/clients/local-client/client.adoc[SDK Client] instance.
 
+|client?
+|`Client`
+|A xref:components/clients/local-client/client.adoc[SDK Client] instance.
 
 |signer?
 |`Signer`
