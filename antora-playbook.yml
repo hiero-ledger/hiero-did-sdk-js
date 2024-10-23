@@ -1,13 +1,13 @@
 site:
   title: Hashgraph DID-SDK
   url: https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js
-  start_page: user::getting-started/introduction.adoc
+  start_page: developer::getting-started/introduction.adoc
 content:
   sources:
     - url: .
-      start_paths: [docs/user]
+      start_paths: [docs/developer]
     - url: .
-      start_paths: [docs/internal]
+      start_paths: [docs/design]
 asciidoc:
   attributes:
     experimental: ""

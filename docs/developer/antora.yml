@@ -1,5 +1,5 @@
-name: user
-title: User Documentation
+name: developer
+title: Developer Documentation
 version: 1.0.0
 start_page: getting-started/introduction.adoc
 nav:

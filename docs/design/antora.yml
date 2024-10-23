@@ -1,5 +1,5 @@
-name: internal
-title: Internal Documentation
+name: design
+title: Design Documentation
 version: 1.0.0
 start_page: hips/hip-0001-new-did-sdk.adoc
 nav:
