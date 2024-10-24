@@ -12,20 +12,27 @@ export abstract class DIDMessage {
   abstract get did(): string;
 
   /**
-   * The event bytes that the DID message is associated with. Represents the event in bytes that can be signed.
+   * The event that the DID message is associated with. e.g. DIDOwner, DIDDocument, etc. and message structure.
+   * This is a base64 encoded JSON string that represents the event in bytes.
+   * This is used to sign the message.
    */
-  abstract get eventBytes(): Uint8Array;
+  abstract get messageBytes(): Uint8Array;
 
   /**
-   * The event that the DID message is associated with. e.g. DIDOwner, DIDDocument, etc.
+   * The event that the DID message is associated with. e.g. DIDOwner, DIDDocument, etc. and message structure.
    * This is a base64 encoded JSON string that represents the event.
    */
-  abstract get event(): string;
+  abstract get message(): string;
 
   /**
-   * The message payload that is ready to be committed to the ledger. This is a base64 encoded JSON string.
+   * The envelope of the wrapped message and signature.
    */
-  abstract get messagePayload(): string;
+  abstract get payload(): string;
+
+  /**
+   * The topic ID that the DID message is associated with.
+   */
+  abstract get topicId(): string;
 
   /**
    * Sign the DID message with the provided signer.

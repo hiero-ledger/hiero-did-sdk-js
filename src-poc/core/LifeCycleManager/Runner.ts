@@ -35,7 +35,6 @@ export class LifecycleRunner<Message extends DIDMessage> {
         stepIndex++
       ) {
         const step = this.builder.pipeline[stepIndex];
-        console.log("Processing step", step);
 
         if (step.type === "callback") {
           await step.callback(message, options.publisher);

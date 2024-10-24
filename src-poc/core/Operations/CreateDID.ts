@@ -2,128 +2,64 @@ import {
   DIDOwnerMessage,
   DIDOwnerMessageHederaDefaultLifeCycle,
 } from "../DIDOwnerMessage";
-import { LocalPublisher } from "../Publisher";
 import { LifecycleRunner } from "../LifeCycleManager/Runner";
-import { LocalSigner, Signer } from "../Signer";
-import { Client, PrivateKey, PublicKey } from "@hashgraph/sdk";
+import { LocalSigner } from "../Signer";
+import { PrivateKey, PublicKey } from "@hashgraph/sdk";
+import {
+  DIDDocument,
+  extractOptions,
+  extractProviders,
+  getPublisher,
+  getSigner,
+  Providers,
+} from "./Shared";
 
-interface ClientOptions {
-  privateKey: string | PrivateKey;
-  accountId: string;
-  network: "testnet" | "mainnet";
-}
-
-type ClientOrOptions = ClientOptions | Client;
-
-interface Providers {
-  client: ClientOrOptions;
-  signer?: Signer;
-}
-
-interface DIDDocument {
-  id: string;
-  controller: string;
-  verificationMethod: any[];
-}
-
-interface CreateUsingPrivateKey {
-  privateKey: string | PrivateKey;
-}
-
-interface CreateWithTopicId {
-  topicId: string;
-}
-
-interface BasicCreateOptions {
+interface CreateDIDOptions {
   controller?: string;
+  topicId?: string;
+  privateKey?: string | PrivateKey;
 }
 
-type Options =
-  | BasicCreateOptions
-  | (CreateWithTopicId & BasicCreateOptions)
-  | (CreateUsingPrivateKey & BasicCreateOptions)
-  | (CreateUsingPrivateKey & CreateWithTopicId & BasicCreateOptions);
-
-interface Example1Result {
+interface CreateDIDResult {
   did: string;
   didDocument: DIDDocument;
   privateKey?: PrivateKey;
 }
 
-function getClient(clientOrOptions: ClientOrOptions): Client {
-  if (clientOrOptions instanceof Client) {
-    return clientOrOptions;
-  }
-
-  let client: Client;
-  switch (clientOrOptions.network) {
-    case "mainnet":
-      client = Client.forMainnet();
-      break;
-    default:
-    case "testnet":
-      client = Client.forTestnet();
-      break;
-  }
-
-  return client.setOperator(
-    clientOrOptions.accountId,
-    clientOrOptions.privateKey
-  );
-}
-
-function getSigner(signer?: Signer, privateKey?: string | PrivateKey): Signer {
-  // @ts-ignore
-  return (
-    signer ??
-    new LocalSigner(
-      privateKey instanceof PrivateKey
-        ? privateKey.toStringDer()
-        : privateKey ?? undefined
-    )
-  );
-}
-
-export function createDID(providers: Providers): Promise<Example1Result>;
+export function createDID(providers: Providers): Promise<CreateDIDResult>;
 export function createDID(
-  options: Options,
+  options: CreateDIDOptions,
   providers: Providers
-): Promise<Example1Result>;
+): Promise<CreateDIDResult>;
 export async function createDID(
-  providersOrOptions: Providers | Options,
+  providersOrOptions: Providers | CreateDIDOptions,
   providers?: Providers
-): Promise<Example1Result> {
-  const client = getClient(
-    providers
-      ? providers.client
-      : // @ts-ignore
-        (providersOrOptions.client as ClientOrOptions)
-  );
+): Promise<CreateDIDResult> {
+  const operationProviders = extractProviders(providersOrOptions, providers);
+  const operationOptions = extractOptions(providersOrOptions);
 
+  const publisher = getPublisher(operationProviders);
   const signer = getSigner(
     providers?.signer,
-    "privateKey" in providersOrOptions
-      ? providersOrOptions.privateKey
-      : undefined
+    operationOptions.privateKey,
+    true
   );
-
-  const operatorPublicKey = client.operatorPublicKey;
-
-  const publisher = new LocalPublisher(client);
 
   const publicKey = await signer.publicKey();
 
   const didOwnerMessage = new DIDOwnerMessage({
     publicKey: PublicKey.fromString(publicKey),
-    controller:
-      "controller" in providersOrOptions
-        ? providersOrOptions.controller
-        : undefined,
+    controller: operationOptions.controller,
+    topicId: operationOptions.topicId,
   });
 
   const manager = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
 
   const state = await manager.process(didOwnerMessage, { signer, publisher });
+
+  if (providers?.client instanceof Object) {
+    publisher.client.close();
+  }
 
   if (state.status !== "success") {
     throw new Error("DID creation failed");
@@ -131,6 +67,7 @@ export async function createDID(
 
   return {
     did: didOwnerMessage.did,
+    privateKey: signer instanceof LocalSigner ? signer.privateKey : undefined,
     didDocument: {
       id: didOwnerMessage.did,
       controller: didOwnerMessage.controllerDid,

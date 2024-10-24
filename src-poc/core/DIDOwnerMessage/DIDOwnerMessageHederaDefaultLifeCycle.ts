@@ -9,6 +9,10 @@ import { Publisher } from "../Publisher";
 export const DIDOwnerMessageHederaDefaultLifeCycle =
   new LifecycleBuilder<DIDOwnerMessage>()
     .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
+      if (message.hasTopicId) {
+        return;
+      }
+
       const response = await publisher.publish(
         new TopicCreateTransaction()
           .setAdminKey(publisher.client.operatorPublicKey!)
@@ -28,8 +32,8 @@ export const DIDOwnerMessageHederaDefaultLifeCycle =
     .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
       await publisher.publish(
         new TopicMessageSubmitTransaction()
-          .setTopicId(message.topicId ?? "")
-          .setMessage(message.messagePayload)
+          .setTopicId(message.topicId)
+          .setMessage(message.payload)
           .freezeWith(publisher.client)
       );
     })

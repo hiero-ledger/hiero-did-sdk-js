@@ -1,56 +1,44 @@
-import { PublicKey } from "@hashgraph/sdk";
-import bs58 from "bs58";
 import { DIDMessage } from "../DIDMessage";
+import { VerificationMethodProperties } from "../Shared/Interfaces";
 import { Signer } from "../Signer";
 
-// TODO: Add to payload?
-const hederaNetwork = "testnet";
-
-export interface DIDOwnerMessageConstructor {
-  publicKey: PublicKey;
-  controller?: string;
+export interface DIDAddVerificationMethodMessageConstructor {
+  publicKeyMultibase: string;
+  controller: string;
+  property: VerificationMethodProperties;
+  id: string;
+  did: string;
   timestamp?: Date;
   signature?: Uint8Array;
-  topicId?: string;
 }
 
-export class DIDOwnerMessage extends DIDMessage {
-  public readonly publicKey: PublicKey;
+export class DIDAddVerificationMethodMessage extends DIDMessage {
+  public readonly did: string;
+  public readonly publicKeyMultibase: string;
   public readonly timestamp: Date;
-  public controller?: string;
+  public readonly controller: string;
+  public readonly property: VerificationMethodProperties;
+  public readonly id: string;
   public signature?: Uint8Array;
-  public _topicId?: string;
 
-  constructor(payload: DIDOwnerMessageConstructor) {
+  constructor(payload: DIDAddVerificationMethodMessageConstructor) {
     super();
-    // Validate controller
     this.controller = payload.controller;
-    this.publicKey = payload.publicKey;
+    this.publicKeyMultibase = payload.publicKeyMultibase;
     this.timestamp = payload.timestamp || new Date();
     this.signature = payload.signature;
-    this._topicId = payload.topicId;
+    this.property = payload.property;
+    this.id = payload.id;
+    this.did = payload.did;
   }
 
-  get operation(): "create" {
-    return "create";
-  }
-
-  get hasTopicId(): boolean {
-    return !!this._topicId;
+  get operation(): "update" {
+    return "update";
   }
 
   get topicId(): string {
-    if (!this._topicId) {
-      throw new Error("Topic ID is missing");
-    }
-
-    return this._topicId;
-  }
-
-  get did(): string {
-    // Probably not the best way to encode the public key and not working
-    const publicKeyBase58 = bs58.encode(this.publicKey.toBytes());
-    return `did:hedera:${hederaNetwork}:${publicKeyBase58}_${this.topicId}`;
+    const parts = this.did.split("_");
+    return parts[1];
   }
 
   get controllerDid(): string {
@@ -62,15 +50,29 @@ export class DIDOwnerMessage extends DIDMessage {
   }
 
   get message(): string {
-    const event = {
-      DIDOwner: {
-        id: `${this.did}#did-root-key`,
-        type: "Ed25519VerificationKey2020",
-        controller: this.controllerDid,
-        // TODO: change to publicKeyMultibase
-        publicKeyMultibase: this.publicKey.toStringDer(),
-      },
+    const commonEventData = {
+      id: `${this.did}${this.id}`,
+      type: "Ed25519VerificationKey2020",
+      controller: this.controller,
+      publicKeyMultibase: this.publicKeyMultibase,
     };
+
+    let event: Record<string, any> = {};
+
+    if (this.property === "verificationMethod") {
+      event = {
+        VerificationMethod: {
+          ...commonEventData,
+        },
+      };
+    } else {
+      event = {
+        VerificationRelationship: {
+          ...commonEventData,
+          relationshipType: this.property,
+        },
+      };
+    }
 
     const data = {
       timestamp: this.timestamp.toISOString(),
@@ -93,14 +95,6 @@ export class DIDOwnerMessage extends DIDMessage {
     });
   }
 
-  setTopicId(topicId: string): void {
-    this._topicId = topicId;
-  }
-
-  setController(controller: string): void {
-    this.controller = controller;
-  }
-
   public async signWith(signer: Signer): Promise<void> {
     const signature = await signer.sign(this.messageBytes);
     this.signature = signature;
@@ -115,24 +109,28 @@ export class DIDOwnerMessage extends DIDMessage {
 
     return Buffer.from(
       JSON.stringify({
-        controller: this.controllerDid,
-        publicKey: this.publicKey.toStringRaw(),
+        publicKeyMultibase: this.publicKeyMultibase,
+        controller: this.controller,
+        property: this.property,
+        id: this.id,
+        did: this.did,
         timestamp: this.timestamp.toISOString(),
-        topicId: this.topicId,
         signature: this.signature ? btoa(decoder.decode(this.signature)) : "",
       })
     ).toString("base64");
   }
 
-  static fromBytes(bytes: string): DIDOwnerMessage {
+  static fromBytes(bytes: string): DIDAddVerificationMethodMessage {
     const encoder = new TextEncoder();
     const data = JSON.parse(Buffer.from(bytes, "base64").toString("utf8"));
 
-    return new DIDOwnerMessage({
+    return new DIDAddVerificationMethodMessage({
+      publicKeyMultibase: data.publicKeyMultibase,
       controller: data.controller,
-      publicKey: PublicKey.fromString(data.publicKey),
+      property: data.property,
+      id: data.id,
+      did: data.did,
       timestamp: new Date(data.timestamp),
-      topicId: data.topicId,
       signature: data.signature
         ? encoder.encode(atob(data.signature))
         : undefined,

@@ -25,8 +25,8 @@ export const DIDOwnerMessageHederaCSMLifeCycle =
     .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
       await publisher.publish(
         new TopicMessageSubmitTransaction()
-          .setTopicId(message.topicId ?? "")
-          .setMessage(message.messagePayload)
+          .setTopicId(message.topicId)
+          .setMessage(message.payload)
           .freezeWith(publisher.client)
       );
     })
