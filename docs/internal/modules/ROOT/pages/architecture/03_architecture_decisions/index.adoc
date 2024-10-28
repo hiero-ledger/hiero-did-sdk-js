@@ -1,0 +1,6 @@
+== Architecture Decisions
+
+include::adr-001-project-structure.adoc[]
+
+include::adr-002-repository-tooling.adoc[]
+

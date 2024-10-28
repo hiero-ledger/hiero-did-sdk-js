@@ -1,0 +1,69 @@
+=== Architecture Decision Record: SDK Project Structure
+
+==== Status
+
+Accepted
+
+==== Date
+
+2024-10-24
+
+==== Context
+
+The Hedera Hashgraph DID SDK is designed to support decentralized identity (DID) features within the Hedera ecosystem. It consists of multiple components, such as Signer, Publisher or Resolver. The SDK is intended to be used by developers to build applications that leverage decentralized identity features on the Hedera network. Given this modular nature, we need to decide between organizing our project as a single monolithic package or as a collection of smaller, more focused packages.
+
+==== Decision Drivers
+
+1. *Scalability*: How well the repository structure will scale as the number of modules, contributors, and SDK languages grows.
+2. *Modularity*: The ability to isolate specific components to reduce complexity and ensure independent release cycles.
+3. *Developer Experience*: The ease of contribution, debugging, and reviewing code for both current and future developers.
+4. *CI/CD and Automation*: The ability to manage continuous integration, testing, and deployment pipelines efficiently.
+5. *Dependency Management*: How the structure impacts managing shared dependencies and versioning.
+
+==== Considered Options
+
+===== Option 1: Single library Approach
+
+*Description*: A single library containing all components and SDKs for the Hedera DID system.
+
+*Pros*:
+
+* *Cross-Module Integration Testing*: Having all components in one place allows for seamless integration tests across different modules, ensuring compatibility between underlying components.
+
+*Cons*:
+
+* *Lack of Flexible Release*: If one component needs to be released independently, it might be challenging to decouple its release process from the rest of the repository.
+* *Merge Conflicts*: With multiple teams working on the same library, the likelihood of merge conflicts increases, especially if there are many simultaneous feature branches.
+* *Increased Build and Test Times*: Even if a small part of the codebase changes, the entire repository might need to be built and tested. This can slow down development cycles, especially as more modules are added.
+* *Repository Size and Complexity*: As the number components grows, the repository may become large and complex, making it harder to navigate and manage. Cloning, searching, and building may become slower over time.
+
+===== Option 2: Multiple libraries Approach
+
+*Description*: Multiple libraries, where each component has its own library.
+
+*Pros*:
+
+* *Independent Release Cycles*: Each library can follow its own release schedule, which is beneficial when some libraries evolve faster than others.
+* *Easier Repository Navigation*: With smaller libraries, developers and contributors can easily navigate the codebase relevant to their task, making the development process more manageable for newcomers.
+* *Reduced Risk of Merge Conflicts*: Since each library is managed separately, developers working in different repositories will not face merge conflicts due to changes in unrelated codebases.
+* *Use What You Need*: Developers can choose to use only the libraries they need, reducing the cognitive load and dependencies for projects that do not require the full suite of components.
+
+*Cons*:
+
+* *Potential Duplication*: Similar functionality may be duplicated across libraries, especially when different teams manage different components, leading to inconsistencies and redundant work.
+
+==== Decision
+
+After careful consideration, the decision is to adopt the multiple libraries approach. This decision is based on the following rationale:
+
+1. *Modularity*: The multiple libraries approach aligns with the modular design of the SDK, allowing for independent development and release cycles for each component.
+2. *Scalability*: As the number of components grows, the multiple libraries approach will help maintain a manageable codebase and facilitate easier navigation for developers.
+3. *Developer Experience*: By isolating components into separate libraries, we can improve the developer experience by reducing the cognitive load and making it easier to contribute to specific areas of the SDK.
+4. *CI/CD and Automation*: The multiple libraries approach will enable more efficient CI/CD pipelines, as changes in one library will not trigger unnecessary builds and tests for unrelated components.
+
+==== Follow-Ups
+
+1. *Review and Adjust*: Review this ADR one month post-implementation to compare expectations with actual outcomes.
+2. *Document Further ADRs*: Document any additional ADRs arising from this decision, especially for further adjustments or enhancements.
+
+==== References

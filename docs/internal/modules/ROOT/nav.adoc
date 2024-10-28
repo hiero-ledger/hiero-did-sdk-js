@@ -34,5 +34,5 @@
 * Architecture
 ** xref:architecture/01_introduction_and_goals.adoc[Introduction and Goals]
 ** xref:architecture/02_architecture_design.adoc[Architecture Design]
-** xref:architecture/03_architecture_decisions.adoc[Architecture Decisions]
+** xref:architecture/03_architecture_decisions/index.adoc[Architecture Decisions]
 ** xref:architecture/04_risks_and_technical_debt.adoc[Risks and Technical Debt]

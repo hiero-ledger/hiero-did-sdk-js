@@ -1,3 +1,52 @@
 = Architecture Design
 
-Out of scope for the current Sprint.
+== Project Structure
+
+The Hedera Hashgraph DID SDK is a TypeScript monorepo that follows a modular architecture to separate concerns and promote code reusability. The project structure is organized into the following directories:
+
+* `packages/`: Contains individual packages for different parts of the SDK, such as the core DID library, signers, and utilities.
+* `examples/`: Includes sample applications and code snippets to demonstrate the SDK's usage and features.
+* `docs/`: Contains documentation files, guides, and API references for developers and users.
+* `scripts/`: Includes scripts for common tasks like building, testing, linting, and releasing the SDK.
+* `test_suites/`: Contains test files and configurations for BDD tests across the SDK packages.
+
+The monorepo structure allows developers to work on different parts of the SDK independently while sharing common dependencies and configurations. This modular approach simplifies maintenance, testing, and deployment processes, making it easier to manage the project as it grows.
+
+=== Packages Structure
+
+Each package within the monorepo follows a similar structure to maintain consistency and facilitate collaboration among developers. A typical package structure includes the following directories:
+
+* `src/`: Contains the TypeScript source code for the package, including modules, classes, functions, and interfaces.
+* `tests/`: Includes test files for unit, integration, and end-to-end testing of the package's functionality.
+
+The separation of source code and tests helps maintain code quality, improve test coverage, and ensure that changes do not introduce regressions. By following this structure, developers can easily navigate the codebase, understand the purpose of each package, and contribute effectively to the project.
+
+Each package should contain following files:
+
+* `package.json`: Defines the package metadata, dependencies, scripts, and other configurations.
+* `tsconfig.json`: Specifies the TypeScript compiler options for the package.
+* `jest.config.ts`: Configures Jest for running tests and generating code coverage reports.
+* `README.md`: Provides information about the package and links to relevant documentation.
+
+By adhering to these conventions, developers can create, test, and publish packages with minimal effort, ensuring consistency and quality across the SDK.
+
+== Packages Overview
+
+The Hedera Hashgraph DID SDK consists of the following core packages:
+
+* `core`: The core package provides the interfaces and utilities for other SDK packages. It's a required dependency for all other packages.
+* `registrar`: The registrar package implements the DID registration process and other operations like updating, deactivating DIDs on the Hedera network. It provides a high-level API for managing DIDs.
+* `resolver`: The resolver package allows resolving DID documents from the Hedera network and verifying their integrity. It provides a high-level API for resolving DIDs.
+* `signer-internal`: The package implements a internal signer that uses a local key pair (Hedera Private Key Class) to sign messages. It provides a high-level API for signing operations.
+* `publisher-internal`: The package implements a internal publisher (using Hedera Client) that publishes Hedera transactions to the network. It provides a high-level API for publishing transactions.
+* `messages`: The messages package defines the message formats for Hedera DID messages and lifecycle events for them and lifecycle manager. It provides a high-level API for managing DID messages.
+
+Each package focuses on a specific aspect of the DID lifecycle, such as registration, resolution, signing, or publishing. By breaking down the functionality into separate packages, developers can reuse components, extend features, and maintain a clear separation of concerns.
+
+=== External Dependencies
+
+The SDK relies on several external dependencies to provide essential functionality and features. Some of the key dependencies include:
+
+* `@hashgraph/sdk`: The official Hedera SDK for interacting with the Hedera network, sending transactions, and querying state.
+
+
