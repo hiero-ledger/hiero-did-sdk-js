@@ -1,0 +1,38 @@
+{
+  "name": "@hashgraph-did-sdk/publisher-internal",
+  "version": "0.0.1-alpha.0",
+  "description": "TODO",
+  "author": {
+    "name": "The Hashgraph Association",
+    "url": "https://www.hashgraph.swiss/"
+  },
+  "license": "ISC",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.esm.js"
+    },
+    "require": {
+      "types": "./dist/index.d.cts",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsup"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@hashgraph-did-sdk/core": "^0.0.1-alpha.0"
+  }
+}

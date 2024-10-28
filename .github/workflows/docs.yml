@@ -2,7 +2,7 @@ name: Docs Workflow
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
 
   workflow_dispatch:
 
@@ -22,13 +22,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build Pages
-        run: npx antora antora-playbook.yml
+        run: npm run docs:build
 
       - name: Deploy to GitHub Pages
         uses: actions/configure-pages@v5

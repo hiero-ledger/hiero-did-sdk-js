@@ -1,29 +1,46 @@
 {
-  "name": "hashgraph-did-sdk-js",
-  "version": "1.0.0",
+  "name": "hashgraph-did-sdk",
+  "type": "module",
   "scripts": {
-    "build:docs": "antora antora-playbook.yml",
-    "serve:docs": "npx http-server ./build/site",
-    "poc:start": "ts-node src-poc/main.ts",
+    "docs:build": "antora antora-playbook.yml",
+    "docs:serve": "npx http-server ./build/site",
     "test:cucumber": "cucumber-js -p default",
-    "poc:test": "node --import tsx --test src-poc/core/**/*.spec.ts"
+    "packages:build": "lerna run build",
+    "packages:test": "lerna run --parallel test",
+    "packages:test:coverage": "jest --coverage",
+    "packages:lint": "eslint 'packages/**/**.ts'",
+    "packages:release": "lerna publish"
   },
   "devDependencies": {
     "@antora/cli": "^3.1.9",
     "@antora/site-generator-default": "^3.1.9",
+    "@cucumber/cucumber": "^7.0.0",
+    "@eslint/js": "^9.13.0",
     "@hashgraph/sdk": "^2.51.0",
     "@sntke/antora-mermaid-extension": "^0.0.6",
-    "@types/node": "^22.7.4",
-    "@cucumber/cucumber": "^7.0.0",
-    "@types/cucumber": "^7.0.0",
+    "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.13",
-    "testcontainers": "^10.13.2",
+    "@types/node": "^22.7.4",
     "dotenv": "^16.4.5",
-    "ts-node": "^10.9.2",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jest": "^29.7.0",
+    "lerna": "^8.1.8",
+    "prettier": "^3.3.3",
+    "semantic-release": "^24.1.1",
+    "semantic-release-monorepo": "^8.0.2",
+    "testcontainers": "^10.13.2",
+    "ts-jest": "^29.2.5",
+    "tslib": "^2.7.0",
+    "tsup": "^8.3.4",
     "tsx": "^4.19.1",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0"
   },
   "dependencies": {
     "bs58": "^6.0.0"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
