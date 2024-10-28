@@ -1,0 +1,133 @@
+= The `createDID` Function
+
+== Introduction
+
+The `createDID` function is a fundamental component of the Hashgraph DID-SDK, responsible for generating fresh DIDs for the Hedera DID method. It provides a flexible and user-friendly interface, allowing users to choose from different configurations and key management strategies.
+
+include::../../../shared/existing-did-updates-notes.adoc[]
+
+== Creating a DID Document
+
+The following example demonstrates how to create a DID with minimal input using the `createDID` function:
+
+[source,js]
+----
+const clientOptions = {
+  privateKey: "0x...", // Replace with your Hedera account private key
+  accountId: "0.0.0....", // Replace with your Hedera account ID
+  network: "testnet",
+};
+
+const { did, didDocument, privateKey } = await createDID({
+  clientOptions,
+});
+----
+
+In this example, the `createDID` function automatically initializes a new key pair for the DID owner. A Hedera `Client` instance is configured with essential parameters, including the Hedera account private key, account ID, and network. The function then returns the generated private key, the newly created DID, and its corresponding DID document.
+
+=== With a Custom Controller
+
+To modify the `controller` of a newly created DID, you can specify the desired controller as an argument to the `createDID` function. However, the provided controller must be a valid DID according to the Hedera method and must be active.
+
+[source,js]
+----
+const clientOptions = {
+  privateKey: "0x...", // Replace with your Hedera account private key
+  accountId: "0.0.0....", // Replace with your Hedera account ID
+  network: "testnet",
+};
+
+const { did, didDocument } = await createDID({
+  controller: "did:hedera:mainnet:...", // Replace with your desired DID controller
+}, { clientOptions });
+----
+In this example, the `controller` property is used to specify the desired controller for the newly created DID. The `clientOptions` object is still used to configure the Hedera `Client` instance.
+
+=== With a Topic-Specific DID
+
+In certain cases, it may be desirable to create a DID associated with a specific topic. This can be achieved by providing the relevant Topic ID to the `createDID` function. It is important to ensure that the `Client` or `Publisher` being passed has the necessary permissions to submit content to that topic.
+
+[source,js]
+----
+const { did, didDocument } = await createDID({
+  topicId: "0.0.0...", // Replace with your desired topic ID
+  client,
+});
+----
+
+== Key Management
+
+=== Internal Secret Mode
+
+In this mode, the DID-SDK generates and stores the private key within the application. This is suitable for applications where security is not a major concern or where the application has complete control over the key.
+
+==== Creating a DID Using a Private Key
+
+To create a DID using a private key stored within the application, you can pass the key directly to the `createDID` function:
+
+[source,js]
+----
+const { did, didDocument } = await createDID({
+  privateKey: "0x...", // Replace with your private key in DER format
+  client,
+});
+----
+
+Alternatively, you can dynamically generate a new private key using the `PrivateKey` class from the Hashgraph SDK:
+
+[source,js]
+----
+const { did, didDocument } = await createDID({
+  privateKey: new PrivateKey(), // Private key class can be also used
+  client,
+});
+----
+
+=== External Secret Mode
+
+In this mode, the private key is stored externally, such as in a hardware security module (HSM) or a cloud-based secret management service. This is suitable for applications requiring high levels of security.
+
+==== Creating a DID Using an External Key
+
+To create a DID using an external key, use a `Signer` object and provide the `keyId` to the `createDID` function. The Signer object represents the external key, and the keyId specifies which key to use.
+
+[source,js]
+----
+const signer = VaultSigner({ url, credentials });
+const { did, didDocument } = await createDID({
+  signer: signer.forKey(keyId),
+  client,
+});
+----
+
+=== Client Managed Secret Mode
+
+In this mode, the client application is responsible for managing the private key. This gives the client full control over the key but also places the responsibility for its security on the client.
+
+[source,js]
+----
+// Server initiates lifecycle flow and pauses
+const pauseStep = await createDID({
+  lifecycle: CMSMLifecycle,
+});
+
+// Server sends event bytes to client for signing
+const eventBytes = pauseStep.message.eventBytes;
+
+// Client signs event bytes with wallet and returns signature
+const clientSignature = await wallet.sign(eventBytes);
+
+// Server resumes lifecycle and creates final DID
+const did = await createDID({
+  lifecycle: CMSMLifecycle,
+  from: pauseStep,
+  to: { label: "signing", args: { signature: clientSignature } },
+});
+----
+
+== References
+
+* xref:components-api/createDID/api.adoc[`createDID` API Reference]
+* xref:components/signers/signer-internal/intro.adoc[Signer Reference]
+* xref:components/signers/signer-external/intro.adoc[PrivateKey Reference]
+* xref:components/publishers/intro.adoc[Publisher Reference]

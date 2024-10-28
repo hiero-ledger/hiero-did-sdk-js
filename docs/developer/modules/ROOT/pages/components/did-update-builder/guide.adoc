@@ -1,10 +1,10 @@
 == Build a DID Update operation [[build-did-update-operation]]
 
-The `DIDUpdateBuilder` class is used to build a DID Update operation. This class provides a set of methods to add verification methods, services, and other properties to a DID Document. To publish the update, the `DIDUpdateBuilder` must build operations to be passed to the xref:components/operations/update-did/guide.adoc[`updateDID`] function.
+The `DIDUpdateBuilder` class is used to build a DID Update operation. This class provides a set of methods to add verification methods, services, and other properties to a DID Document. To publish the update, the `DIDUpdateBuilder` must build operations to be passed to the xref:components/registrar/updateDID/guide.adoc[`updateDID`] function.
 
 
 === Managing verification methods
-Verification methods are used to prove the authenticity of a DID Document. The xref:components/did-update-builder/api.adoc#method-addVerificationMethod[`addVerificationMethod`] method is used to add a verification method to the DID Document. The method accepts a xref:components/did-update-builder/api.adoc#VerificationMethod[`VerificationMethod`] object as an argument.
+Verification methods are used to prove the authenticity of a DID Document. The xref:components-api/DIDUpdateBuilder/api.adoc#method-addVerificationMethod[`addVerificationMethod`] method is used to add a verification method to the DID Document. The method accepts a xref:components-api/DIDUpdateBuilder/api.adoc#VerificationMethod[`VerificationMethod`] object as an argument.
 
 [source,js]
 ----
@@ -38,7 +38,7 @@ const builder = new DIDUpdateBuilder()
   .build();
 ----
 
-To remove a verification method from a DID Document, use the xref:components/did-update-builder/api.adoc#method-removeVerificationMethod[`removeVerificationMethod`] method. The method accepts the ID of the verification method to remove as an argument.
+To remove a verification method from a DID Document, use the xref:components-api/DIDUpdateBuilder/api.adoc#method-removeVerificationMethod[`removeVerificationMethod`] method. The method accepts the ID of the verification method to remove as an argument.
 
 [source,js]
 ----
@@ -48,7 +48,7 @@ const builder = new DIDUpdateBuilder()
 ----
 
 === Managing services
-Services are used to provide additional information about a DID Document. The xref:components/did-update-builder/api.adoc#method-addService[`addService`] method is used to add a service to the DID Document. The method accepts a xref:components/did-update-builder/api.adoc#Service[`Service`] object as an argument.
+Services are used to provide additional information about a DID Document. The xref:components-api/DIDUpdateBuilder/api.adoc#method-addService[`addService`] method is used to add a service to the DID Document. The method accepts a xref:components-api/DIDUpdateBuilder/api.adoc#Service[`Service`] object as an argument.
 
 [source,js]
 ----
@@ -79,7 +79,7 @@ const builder = new DIDUpdateBuilder()
   .build();
 ----
 
-To remove a service from a DID Document, use the xref:components/did-update-builder/api.adoc#method-removeService[`removeService`] method. The method accepts the ID of the service to remove as an argument.
+To remove a service from a DID Document, use the xref:components-api/DIDUpdateBuilder/api.adoc#method-removeService[`removeService`] method. The method accepts the ID of the service to remove as an argument.
 
 [source,js]
 ----
@@ -91,7 +91,7 @@ const builder = new DIDUpdateBuilder()
 === Managing verification relationships
 A verification relationship is used to express the relationship between a verification method and a DID subject. There are many types of verification relationships, such as authentication, assertion, key agreement, capability delegation, and capability invocation. Each verification relationship has a specific purpose and usage.
 
-To add or remove a verification relationship, you can use methods for each type of relationship. List of methods is available in the xref:components/did-update-builder/api.adoc#methods[`DIDUpdateBuilder` API Reference].
+To add or remove a verification relationship, you can use methods for each type of relationship. List of methods is available in the xref:components-api/DIDUpdateBuilder/api.adoc#methods[`DIDUpdateBuilder` API Reference].
 
 Example of adding a verification relationship:
 

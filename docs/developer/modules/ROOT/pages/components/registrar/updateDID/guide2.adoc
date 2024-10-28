@@ -1,0 +1,104 @@
+= Update a DID Document
+
+A DID update is defined as an operation in which one may add or remove verification methods, verification relationships, or services. It should be noted that each modification requires the sending of a separate message to the designated Topic. Consequently, this operation often necessitates the involvement of multiple signatures.
+
+The `updateDID` function submit a message with operation set to `update` and the payload containing specified event related to changes to the DID Document. The event payload can be a `VerificationMethod`, `VerificationRelationship`, or `Service` object.
+
+
+// Add a note about the need for the Publisher to have the necessary permissions to publish messages to the Topic.
+include::../../../shared/existing-did-updates-notes.adoc[]
+
+
+== Update DID using Private Key
+The following example illustrates the process of updating a DID using a private key. The DID is specified as an argument, along with the private key in DER format. The client is also provided as an object, containing the necessary information for the Hedera account.
+
+[source,js]
+----
+const { did, didDocument, privateKey } = await updateDID({
+  did: "did:hedera:mainnet:...", // Replace with your desired DID
+  updates: {
+    operation: "add-verification-method";
+    id: '#key-1',
+    property: 'verificationMethod',
+    publicKeyMultibase: 'z6Mkq...',
+  }, // Replace with your desired updates
+  privateKey: "0x...", // Replace with your private key in DER format
+}, {
+  client: {
+    privateKey: "0x...", // Replace with your Hedera account private key
+    accountId: "0.0.0....", // Replace with your Hedera account ID
+    network: "testnet",
+  },
+});
+----
+
+
+== Update a DID using a Client instance
+Instead of passing options for the client, it is possible to create a Client instance and pass it as an argument. This can be achieved by creating a new instance of the Client class and passing it as an argument.
+
+[source,js]
+----
+const { did, didDocument } = await updateDID({
+  did: "did:hedera:mainnet:...", // Replace with your desired DID
+  updates: {
+    operation: "add-verification-method";
+    id: '#key-1',
+    property: 'verificationMethod',
+    publicKeyMultibase: 'z6Mkq...',
+  }, // Replace with your desired updates
+  privateKey: "0x...", // Replace with your private key in DER format
+}, { client });
+----
+
+== Update many properties of a DID
+It is possible to modify multiple properties of a DID document. In order to do so, it is necessary to pass an array of the xref:components-api/updateDID/api.adoc#type-did-update-operation[operations], which will contain the changes that are to be made. In this case, a new message will be created for each update, which will require a separate signature. The cost of performing such an operation will change in accordance with the number of changes and thus with the number of DID messages that need to be sent to Topic.
+
+[source,js]
+----
+const { did, didDocument } = await updateDID({
+  did: "did:hedera:mainnet:...", // Replace with your desired DID
+  updates: [
+    {
+      operation: "add-verification-method";
+      id: '#key-1',
+      property: 'verificationMethod',
+      publicKeyMultibase: 'z6Mkq...',
+    },
+    {
+      operation: "add-verification-method";
+      id: '#key-2',
+      property: 'authentication',
+      publicKeyMultibase: 'z9Kpq...',
+    },
+    {
+      operation: "remove-service";
+      id: '#service-1',
+    }
+  ], // Replace with your desired updates
+}, { client, signer });
+----
+
+== Update a DID using an external key
+It is possible to sign a DID Message using an external key, for example, by utilizing the services of AWS KMS or Vault by HashiCorp. This can be achieved by employing the appropriate Signer. The SDK has implementations for the more common solutions. Additionally, it is possible to create a Signer using the available interfaces. In the following example, the `KMSSigner` is used to sign the message. There is no need to provide the private key in this case.
+
+[source,js]
+----
+const signer = KMSSigner({ url, credentials });
+const { did, didDocument } = await updateDID({
+  did: "did:hedera:mainnet:...", // Replace with your desired
+  updates: DIDUpdateBuilder.empty().addVerificationMethod({...}), // Replace with your desired updates
+}, { 
+	signer: signer.forKey(keyId),
+	client,
+});
+----
+
+include::../../did-update-builder/guide.adoc[]
+
+== References
+
+* xref:components-api/updateDID/api.adoc[`updateDID` API Reference]
+* xref:components-api/DIDUpdateBuilder/api.adoc[`DIDUpdateBuilder` API Reference]
+* xref:components/signers/signer-internal/intro.adoc[Signer Reference]
+* xref:components/signers/signer-external/intro.adoc[PrivateKey Reference]
+* xref:components/publishers/intro.adoc[Publisher Reference]

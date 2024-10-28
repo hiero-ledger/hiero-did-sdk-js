@@ -1,0 +1,323 @@
+= The updateDID Function
+
+== Introduction
+
+The `updateDID` function, a core component of the Hashgraph DID-SDK's xref:components-api/updateDID/api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
+
+include::../../../shared/existing-did-updates-notes.adoc[]
+
+== Updating a DID Document
+
+The following example demonstrates how to update a DID document using the `updateDID` function:
+
+[source,javascript]
+----
+const clientOptions = {
+  privateKey: "0x...", // Replace with your Hedera account private key
+  accountId: "0.0.0....", // Replace with your Hedera account ID
+  network: "testnet",
+};
+
+// Assuming 'did' is the DID you want to update and 'didDocument' is its current DID document
+const updatedDidDocument = await updateDID(did, {
+  document: {
+    ...didDocument,
+    verificationMethod: [
+      // Update or add verification methods
+    ],
+    service: [
+      // Update or add services
+    ],
+  },
+}, { clientOptions });
+----
+
+In this example, the `updateDID` function takes the DID to be updated and an object containing the desired changes within its `document` property. You can modify various properties of the DID document, such as `verificationMethod` (for adding or updating keys) and `service` (for managing associated services).
+
+=== With a Private Key
+
+This example illustrates how to update a DID using a private key. The process involves specifying the DID to be updated, the corresponding private key in DER format, and a client object configured with the necessary Hedera account information.
+
+[source,javascript]
+----
+const { did, didDocument, privateKey } = await updateDID({
+  did: "did:hedera:mainnet:...", // Replace with your desired DID
+  updates: {
+    operation: "add-verification-method", 
+    id: '#key-1',
+    property: 'verificationMethod',
+    publicKeyMultibase: 'z6Mkq...', 
+  }, // Replace with your desired updates
+  privateKey: "0x...", // Replace with your private key in DER format
+}, {
+  client: {
+    privateKey: "0x...", // Replace with your Hedera account private key
+    accountId: "0.0.0....", // Replace with your Hedera account ID
+    network: "testnet", 
+  },
+});
+----
+
+In this example, `updateDID` accepts an `updates` object to specify modifications to the DID document. This object defines an operation, such as `add-verification-method`, which adds a new public key to the  `verificationMethod` array in the DID document.
+
+=== With a Client Instance
+
+Instead of passing individual options for the client, you can create a `Client` instance and pass it directly as an argument. This approach offers greater flexibility and control over client configuration.
+
+[source,javascript]
+----
+const client = new Client({
+  privateKey: "0x...", // Replace with your Hedera account private key
+  accountId: "0.0.0....", // Replace with your Hedera account ID
+  network: "testnet", 
+});
+
+const { did, didDocument } = await updateDID({
+  did: "did:hedera:mainnet:...", // Replace with your desired DID
+  updates: {
+    operation: "add-verification-method", 
+    id: '#key-1',
+    property: 'verificationMethod',
+    publicKeyMultibase: 'z6Mkq...', 
+  }, // Replace with your desired updates
+  privateKey: "0x...", // Replace with your private key in DER format
+}, { client });
+----
+
+This example first initializes a `Client` object with the necessary Hedera network and account details. Then, this `client` object is passed directly to the `updateDID` function. This approach streamlines the process and allows for more advanced client configurations.
+
+=== With Specific Properties
+
+You can change the controller of a DID using the `updateDID` function. The new controller must be a valid, active DID according to the Hedera method.
+
+[source,javascript]
+----
+const updatedDidDocument = await updateDID(did, {
+  document: {
+    ...didDocument,
+    controller: 'did:hedera:testnet:...', // New controller DID
+  },
+}, { clientOptions });
+----
+
+To add or remove keys associated with your DID, modify the `verificationMethod` property within the DID document.
+
+[source,javascript]
+----
+const updatedDidDocument = await updateDID(did, {
+  document: {
+    ...didDocument,
+    verificationMethod: [
+      // Add new verification methods or remove existing ones
+    ],
+  },
+}, { clientOptions });
+----
+
+Services linked to your DID can be updated or removed by modifying the `service` property.
+
+[source,javascript]
+----
+const updatedDidDocument = await updateDID(did, {
+  document: {
+    ...didDocument,
+    service: [
+      // Add new services or remove existing ones
+    ],
+  },
+}, { clientOptions });
+----
+
+=== With Multiple DID Document Properties
+
+You can update multiple properties of a DID document simultaneously. To do this, provide an array of operations detailing the desired changes. Each update within the array will generate a separate message requiring an individual signature. Consequently, the transaction fee for this operation will increase with the number of updates, as each new DID message sent to the topic incurs a fee.
+
+[source,javascript]
+----
+const { did, didDocument } = await updateDID({
+  did: "did:hedera:mainnet:...", // Replace with your DID
+  updates: [
+    {
+      operation: "add-verification-method",
+      id: '#key-1',
+      property: 'verificationMethod',
+      publicKeyMultibase: 'z6Mkq...', // Replace with your public key
+    },
+    {
+      operation: "add-verification-method",
+      id: '#key-2',
+      property: 'authentication',
+      publicKeyMultibase: 'z9Kpq...', // Replace with your public key
+    },
+    {
+      operation: "remove-service",
+      id: '#service-1',
+    }
+  ], 
+}, { client, signer }); 
+----
+
+In this example, `updateDID` uses an `updates` array to modify the DID document. Each array element defines an operation, such as adding a key to the `verificationMethod` array, adding a key to the `authentication` array, or removing a service.
+
+=== With the DIDUpdateBuilder
+
+The `DIDUpdateBuilder` class provides a convenient way to construct and execute DID update operations. It offers methods for adding, removing, or modifying various components of a DID document, such as verification methods, services, and other properties. This builder simplifies the creation of complex DID updates while ensuring compliance with the Hedera DID method specification.
+
+To use the `DIDUpdateBuilder`:
+
+1.  **Create an instance:**  `new DIDUpdateBuilder(did)` where `did` is the DID to update.
+2.  **Specify modifications:** Use the builder's methods (e.g., `addVerificationMethod`, `removeService`).
+3.  **Build operations:** Call `build()` to generate the update operations.
+4.  **Execute the update:** Pass the generated operations to the `updateDID` function.
+
+==== Managing Verification Methods
+
+Verification methods prove the authenticity of a DID Document.
+
+*   **Adding:** Use `addVerificationMethod(verificationMethod)` to add a `VerificationMethod` object. You can call this method multiple times to add multiple verification methods.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder(did)
+      .addVerificationMethod({
+        id: "did:hedera:mainnet:...#key-1",
+        controller: "did:hedera:mainnet:...",
+        publicKeyMultibase: "z6Mk...",
+        type: "Ed25519VerificationKey2020",
+      })
+      .addVerificationMethod({ 
+        // ... another verification method
+      })
+      .build();
+----
+
+*   **Removing:** Use `removeVerificationMethod(verificationMethodId)` to remove a verification method by its ID.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder(did)
+      .removeVerificationMethod("did:hedera:mainnet:...#key-1")
+      .build();
+----
+
+==== Managing Services
+
+Services provide additional information about a DID Document.
+
+*   **Adding:** Use `addService(service)` to add a `Service` object. You can call this method multiple times.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder(did)
+      .addService({
+        id: "did:hedera:mainnet:...#service-1",
+        controller: "did:hedera:mainnet:...",
+        serviceEndpoint: "https://example.com",
+      })
+      .addService({ 
+        // ... another service
+      })
+      .build();
+----
+
+*   **Removing:** Use `removeService(serviceId)` to remove a service by its ID.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder(did)
+      .removeService("did:hedera:mainnet:...#service-1")
+      .build();
+----
+
+==== Managing Verification Relationships
+
+Verification relationships express the relationship between a verification method and a DID subject (e.g., authentication, assertion).
+
+*   **Adding:** Use specific methods for each relationship type (see the `DIDUpdateBuilder` API Reference). You can add a relationship by providing a `VerificationMethod` object or using the ID of an existing verification method.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder(did)
+      .addCapabilityInvocationMethod({
+        id: "did:hedera:mainnet:...#key-1",
+        controller: "did:hedera:mainnet:...",
+        publicKeyMultibase: "z6Mk...",
+        type: "Ed25519VerificationKey2020",
+      })
+      .addAuthenticationMethod("did:hedera:mainnet:...#key-2") // Using an existing method's ID
+      .build();
+----
+
+*   **Removing:** Use the corresponding removal method for the relationship type (e.g., `removeCapabilityInvocationMethod(verificationMethodId)`).
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder(did)
+      .removeCapabilityInvocationMethod("did:hedera:mainnet:...#key-1")
+      .build();
+----
+
+== Key Management
+
+The `updateDID` function supports different key management strategies to accommodate various security needs and application architectures. These strategies determine how the private keys associated with your DID are handled during the update process.
+
+=== Internal Secret Mode
+
+If your application manages the private key internally, you can provide it directly to the `updateDID` function. This is suitable for environments where the application has complete control over the key and security requirements are less stringent.
+
+[source,javascript]
+----
+const updatedDidDocument = await updateDID(did, {
+  document: { ... },
+  privateKey: "0x...", // Your private key
+}, { clientOptions });
+----
+
+=== External Secret Mode
+
+For enhanced security, especially in scenarios where keys need to be protected with specialized hardware or managed by a separate service, you can use a `Signer` object. This object acts as an interface to your external key management system.
+
+[source,javascript]
+----
+const signer = VaultSigner({ url, credentials }); // Configure your Signer
+const updatedDidDocument = await updateDID(did, {
+  document: { ... },
+  signer: signer.forKey(keyId), // Specify the key to use
+}, { clientOptions });
+----
+
+=== Client Managed Secret Mode
+
+In situations where the client application is responsible for managing the private key, a specific lifecycle flow is used. This involves pausing the update process on the server, sending the data to be signed to the client, and then resuming the update with the client's signature.
+
+[source,javascript]
+----
+// Server initiates the update and pauses
+const pauseStep = await updateDID(did, {
+  document: { ... },
+  lifecycle: CMSMLifecycle, // Use the Client Managed Secret Mode lifecycle
+});
+
+// Server sends the data to be signed to the client
+const eventBytes = pauseStep.message.eventBytes;
+
+// Client signs the data and returns the signature
+const clientSignature = await wallet.sign(eventBytes);
+
+// Server resumes the update with the client's signature
+const updatedDidDocument = await updateDID(did, {
+  lifecycle: CMSMLifecycle,
+  from: pauseStep,
+  to: { label: "signing", args: { signature: clientSignature } },
+}, { clientOptions });
+----
+
+This approach provides a secure way to update DIDs while keeping the private key within the client's control, such as in a secure wallet environment.
+
+== References
+
+* xref:components-api/updateDID/api.adoc[`updateDID` API Reference]
+* xref:components-api/DIDUpdateBuilder/api.adoc[`DIDUpdateBuilder` API Reference]
+* xref:components/signers/signer-internal/intro.adoc[Signer Reference]
+* xref:components/signers/signer-external/intro.adoc[PrivateKey Reference]
+* xref:components/publishers/intro.adoc[Publisher Reference]
