@@ -5,7 +5,7 @@ The following documents serve as a reference for the `deactivateDID` function, o
 
 == Usage examples
 
-* xref:components/deactivate-did/guide.adoc[Deactivate a DID Document]
+* xref:components/operations/deactivate-did/guide.adoc[Deactivate a DID Document]
 
 
 == Installation
@@ -74,7 +74,7 @@ function deactivateDID(
 |=== 
 
 // Include Providers argument type
-include::../shared/providers.adoc[]
+include::../../shared/providers.adoc[]
 
 
 === `DeactivateDIDOptions` argument type

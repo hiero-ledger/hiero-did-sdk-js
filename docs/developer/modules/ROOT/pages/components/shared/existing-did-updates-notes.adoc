@@ -1,3 +1,5 @@
-NOTE: This function performs the submission of a message to an existing topic. It is essential to ensure that the xref:components/publishers/local-publisher/publisher.adoc[Publisher] in use has been granted the requisite permission to submit messages to that topic.
-
-NOTE: This function performs an operation on an existing digital identifier (DID). It is essential to ensure that the DID is active and that the xref:components/signers/local-signer/signer.adoc[Signer] or xref:components/signers/local-signer/signer.adoc[Private Key] has the authority to sign messages for this DID.
+[WARNING]
+====
+* **Topic Permissions:** Ensure the xref:components/publishers/local-publisher/publisher.adoc[Publisher] has permission to submit messages to the DID's Hedera Topic.
+* **Active DID and Signing Authority:**  Ensure the DID is active and the xref:components/signers/local-signer/signer.adoc[Signer] or xref:components/signers/local-signer/signer.adoc[Private Key] has the authority to sign DID operation messages.
+====

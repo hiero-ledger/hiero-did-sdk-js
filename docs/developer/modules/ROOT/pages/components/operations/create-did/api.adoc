@@ -5,7 +5,7 @@ The following documents serve as a reference for the `createDID` function, offer
 
 == Usage examples
 
-* xref:components/create-did/guide.adoc[Creating DIDs with the `createDID` Function]
+* xref:components/operations/create-did/guide.adoc[Creating DIDs with the `createDID` Function]
 
 
 == Installation
@@ -76,7 +76,7 @@ function createDID(
 |=== 
 
 // Include Providers argument type
-include::../shared/providers.adoc[]
+include::../../shared/providers.adoc[]
 
 
 === `CreateDIDOptions` argument type

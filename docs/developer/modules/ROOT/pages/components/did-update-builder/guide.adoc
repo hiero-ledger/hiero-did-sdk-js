@@ -1,6 +1,6 @@
 == Build a DID Update operation [[build-did-update-operation]]
 
-The `DIDUpdateBuilder` class is used to build a DID Update operation. This class provides a set of methods to add verification methods, services, and other properties to a DID Document. To publish the update, the `DIDUpdateBuilder` must build operations to be passed to the xref:components/update-did/guide.adoc[`updateDID`] function.
+The `DIDUpdateBuilder` class is used to build a DID Update operation. This class provides a set of methods to add verification methods, services, and other properties to a DID Document. To publish the update, the `DIDUpdateBuilder` must build operations to be passed to the xref:components/operations/update-did/guide.adoc[`updateDID`] function.
 
 
 === Managing verification methods

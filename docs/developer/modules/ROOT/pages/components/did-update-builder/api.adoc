@@ -6,7 +6,7 @@ The `DIDUpdateBuilder` class provides a fluent interface to build a DID update o
 
 == Usage examples
 
-* xref:components/update-did/guide.adoc#build-did-update-operation[Build a DID Update operation]
+* xref:components/operations/update-did/guide.adoc#build-did-update-operation[Build a DID Update operation]
 
 
 == Installation
@@ -267,7 +267,7 @@ public build(): Array<DIDUpdateOperation> {}
 Builds the DID update operation based on the added verification methods, services, and other changes.
 
 Returns::
-A list of xref:components/update-did/api.adoc#type-did-update-operation[DIDUpdateOperation] objects representing the changes to the DID document.
+A list of xref:components/operations/update-did/api.adoc#type-did-update-operation[DIDUpdateOperation] objects representing the changes to the DID document.
 
 === `public toJSON` [[method-toJSON]]
 [source,js]

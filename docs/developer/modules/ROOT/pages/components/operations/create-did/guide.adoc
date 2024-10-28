@@ -1,12 +1,12 @@
-= Creating DIDs with the `createDID` Function
+= The `createDID` Function
 
 == Introduction
 
 The `createDID` function is a fundamental component of the Hashgraph DID-SDK, responsible for generating fresh DIDs for the Hedera DID method. It provides a flexible and user-friendly interface, allowing users to choose from different configurations and key management strategies.
 
-== Basic Usage
+include::../../shared/existing-did-updates-notes.adoc[]
 
-=== Creating a DID with Minimal Input
+== Creating a DID Document
 
 The following example demonstrates how to create a DID with minimal input using the `createDID` function:
 
@@ -25,7 +25,7 @@ const { did, didDocument, privateKey } = await createDID({
 
 In this example, the `createDID` function automatically initializes a new key pair for the DID owner. A Hedera `Client` instance is configured with essential parameters, including the Hedera account private key, account ID, and network. The function then returns the generated private key, the newly created DID, and its corresponding DID document.
 
-=== Creating a DID with a Custom Controller
+=== With a Custom Controller
 
 To modify the `controller` of a newly created DID, you can specify the desired controller as an argument to the `createDID` function. However, the provided controller must be a valid DID according to the Hedera method and must be active.
 
@@ -43,7 +43,7 @@ const { did, didDocument } = await createDID({
 ----
 In this example, the `controller` property is used to specify the desired controller for the newly created DID. The `clientOptions` object is still used to configure the Hedera `Client` instance.
 
-=== Creating a Topic-Specific DID
+=== With a Topic-Specific DID
 
 In certain cases, it may be desirable to create a DID associated with a specific topic. This can be achieved by providing the relevant Topic ID to the `createDID` function. It is important to ensure that the `Client` or `Publisher` being passed has the necessary permissions to submit content to that topic.
 
@@ -56,8 +56,6 @@ const { did, didDocument } = await createDID({
 ----
 
 == Key Management
-
-The `createDID` function supports various key management strategies:
 
 === Internal Secret Mode
 
@@ -129,7 +127,7 @@ const did = await createDID({
 
 == References
 
-* xref:components/create-did/api.adoc[`createDID` API Reference]
+* xref:components/operations/create-did/api.adoc[`createDID` API Reference]
 * xref:components/clients/local-client/client.adoc[Client Reference]
 * xref:components/signers/local-signer/signer.adoc[Signer Reference]
 * xref:components/publishers/local-publisher/publisher.adoc[Publisher Reference]

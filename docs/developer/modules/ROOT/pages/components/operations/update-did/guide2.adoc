@@ -6,7 +6,7 @@ The `updateDID` function submit a message with operation set to `update` and the
 
 
 // Add a note about the need for the Publisher to have the necessary permissions to publish messages to the Topic.
-include::../shared//existing-did-updates-notes.adoc[]
+include::../../shared/existing-did-updates-notes.adoc[]
 
 
 == Update DID using Private Key
@@ -51,7 +51,7 @@ const { did, didDocument } = await updateDID({
 ----
 
 == Update many properties of a DID
-It is possible to modify multiple properties of a DID document. In order to do so, it is necessary to pass an array of the xref:components/update-did/api.adoc#type-did-update-operation[operations], which will contain the changes that are to be made. In this case, a new message will be created for each update, which will require a separate signature. The cost of performing such an operation will change in accordance with the number of changes and thus with the number of DID messages that need to be sent to Topic.
+It is possible to modify multiple properties of a DID document. In order to do so, it is necessary to pass an array of the xref:components/operations/update-did/api.adoc#type-did-update-operation[operations], which will contain the changes that are to be made. In this case, a new message will be created for each update, which will require a separate signature. The cost of performing such an operation will change in accordance with the number of changes and thus with the number of DID messages that need to be sent to Topic.
 
 [source,js]
 ----
@@ -93,11 +93,11 @@ const { did, didDocument } = await updateDID({
 });
 ----
 
-include::../did-update-builder/guide.adoc[]
+include::../../did-update-builder/guide.adoc[]
 
 == References
 
-* xref:components/update-did/api.adoc[`updateDID` API Reference]
+* xref:components/operations/update-did/api.adoc[`updateDID` API Reference]
 * xref:components/did-update-builder/api.adoc[`DIDUpdateBuilder` API Reference]
 * xref:components/signers/local-signer/signer.adoc[Signer Reference]
 * xref:components/publishers/local-publisher/publisher.adoc[Publisher Reference]

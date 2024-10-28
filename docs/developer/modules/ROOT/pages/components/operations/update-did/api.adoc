@@ -5,7 +5,7 @@ The following documents serve as a reference for the `updateDID` function, offer
 
 == Usage examples
 
-* xref:components/update-did/guide.adoc[Update a DID Document]
+* xref:components/operations/update-did/guide.adoc[Update a DID Document]
 
 
 == Installation
@@ -74,7 +74,7 @@ function updateDID(
 |=== 
 
 // Include Providers argument type
-include::../shared/providers.adoc[]
+include::../../shared/providers.adoc[]
 
 
 === `UpdateDIDOptions` argument type
@@ -91,7 +91,7 @@ include::../shared/providers.adoc[]
 
 |updates
 |`DIDUpdateOperation \| DIDUpdateOperation[]`
-|A xref:components/update-did/api.adoc#type-did-update-operation[DIDUpdateOperation] interface or an array of xref:components/update-did/api.adoc#type-did-update-operation[DIDUpdateOperation]'s. If an array is provided, the operations will be executed in the order they are provided.
+|A xref:components/operations/update-did/api.adoc#type-did-update-operation[DIDUpdateOperation] interface or an array of xref:components/operations/update-did/api.adoc#type-did-update-operation[DIDUpdateOperation]'s. If an array is provided, the operations will be executed in the order they are provided.
 
 |privateKey?
 |`string \| PrivateKey`
@@ -129,7 +129,7 @@ An interface representing an operation to add a verification method or a verific
 
 |property
 |`VerificationMethodProperties`
-|xref:components/update-did/api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to add.
+|xref:components/operations/update-did/api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to add.
 
 |controller?
 |`string`
@@ -185,7 +185,7 @@ An interface representing an operation to remove a verification method or a veri
 
 |property
 |`VerificationMethodProperties`
-|xref:components/update-did/api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to remove.
+|xref:components/operations/update-did/api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to remove.
 |=== 
 
 ==== `RemoveServiceOperation` interface

@@ -6,21 +6,43 @@
 * Guides
 ** xref:guides/the-basics.adoc[The Basics]
 
+// * Components
+// ** DID Operations
+// *** xref:components/operations/create-did/guide.adoc[Create a DID]
+// *** xref:components/operations/update-did/guide.adoc[Update a DID]
+// *** xref:components/operations/update-did/guide2.adoc[Update a DID 2]
+// *** xref:components/operations/deactivate-did/guide.adoc[Deactivate a DID]
+// *** xref:components/operations/deactivate-did/guide2.adoc[Deactivate a DID2]
+// ** Clients
+// *** xref:components/clients/local-client/client.adoc[Local Client]
+// ** Signers
+// *** xref:components/signers/local-signer/signer.adoc[Local Signer]
+// *** xref:components/signers/vault-signer/signer.adoc[Vault Signer]
+// ** Publishers
+// *** xref:components/publishers/local-publisher/publisher.adoc[Local Publisher]
+
 * Components
-** Operations
-*** xref:components/create-did/guide.adoc[Create DID]
-*** xref:components/update-did/guide.adoc[Update DID]
-*** xref:components/deactivate-did/guide.adoc[Deactivate DID]
-** Clients
-*** xref:components/clients/local-client/client.adoc[Local Client]
-** Signers
-*** xref:components/signers/local-signer/signer.adoc[Local Signer]
-*** xref:components/signers/vault-signer/signer.adoc[Vault Signer]
-** Publishers
+** Registrar
+*** xref:components/operations/create-did/guide.adoc[Create a DID]
+*** xref:components/operations/update-did/guide.adoc[Update a DID]
+*** xref:components/operations/update-did/guide2.adoc[Update a DID 2]
+*** xref:components/operations/deactivate-did/guide.adoc[Deactivate a DID]
+*** xref:components/operations/deactivate-did/guide2.adoc[Deactivate a DID2]
+** Resolver
+** Messaging 
+*** Messages
+**** xref:components/signers/local-signer/signer.adoc[DID Owner]
+*** Signers
+**** xref:components/signers/local-signer/signer.adoc[Local Signer]
+**** xref:components/signers/vault-signer/signer.adoc[Vault Signer]
+*** Lifecycle
+**** xref:components/publishers/local-publisher/publisher.adoc[Local Lifecycle]
+** Publisher
 *** xref:components/publishers/local-publisher/publisher.adoc[Local Publisher]
+** Core 
 
 * Components API
-** xref:components/create-did/api.adoc[Create DID API]
-** xref:components/update-did/api.adoc[Update DID API]
+** xref:components/operations/create-did/api.adoc[Create DID API]
+** xref:components/operations/update-did/api.adoc[Update DID API]
 ** xref:components/did-update-builder/api.adoc[DID Update Builder API]
-** xref:components/deactivate-did/api.adoc[Deactivate DID API]
+** xref:components/operations/deactivate-did/api.adoc[Deactivate DID API]

@@ -5,7 +5,7 @@ DID deactivation is defined as the process of terminating and deleting a DID. Co
 The `deactivateDID` function is to deactivate a DID. This function submit a message with operation set to `revoke` and empty payload to DID Topic.
 
 // Add a note about the need for the Publisher to have the necessary permissions to publish messages to the Topic.
-include::../shared//existing-did-updates-notes.adoc[]
+include::../../shared//existing-did-updates-notes.adoc[]
 
 == Deactivate DID using Private Key
 The following example illustrates the process of deactivating a DID using a private key. The DID is specified as an argument, along with the private key in DER format. The client is also provided as an object, containing the necessary information for the Hedera account.
@@ -52,7 +52,7 @@ const { did, didDocument } = await deactivateDID({
 
 == References
 
-* xref:components/deactivate-did/api.adoc[`deactivateDID` API Reference]
+* xref:components/operations/deactivate-did/api.adoc[`deactivateDID` API Reference]
 * xref:components/signers/local-signer/signer.adoc[Signer Reference]
 * xref:components/publishers/local-publisher/publisher.adoc[Publisher Reference]
 * xref:components/clients/local-client/client.adoc[Client Reference]
