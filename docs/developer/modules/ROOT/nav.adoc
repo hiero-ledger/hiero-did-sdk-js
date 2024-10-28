@@ -21,7 +21,8 @@
     *** xref:components/signers/signer-internal/intro.adoc[Internal Signer]
     *** xref:components/signers/signer-external/intro.adoc[External Signer]
   ** Publisher
-    *** xref:components/publishers/intro.adoc[Introduction]
+    *** xref:components/publishers/publisher-internal/intro.adoc[Internal Publisher]
+    *** xref:components/publishers/publisher-external/intro.adoc[External Publisher]
   ** Advanced
     *** Messages
       **** xref::components/advanced/messages/intro.adoc[Introduction]

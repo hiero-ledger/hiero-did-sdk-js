@@ -22,5 +22,5 @@ One of the arguments `client` or `publisher` must be specified. If both are spec
 
 |publisher?
 |`Publisher`
-|A xref:components/publishers/intro.adoc[Publisher] instance type. xref:components/publishers/intro.adoc[Publisher] is used to publish a Hedera transaction to a network.
+|A xref:components/publishers/publisher-internal/intro.adoc[Publisher] instance type. xref:components/publishers/publisher-internal/intro.adoc[Publisher] is used to publish a Hedera transaction to a network.
 |=== 

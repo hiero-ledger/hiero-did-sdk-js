@@ -1,3 +1,0 @@
-= Introduction
-
-include::../../shared/out-of-the-sprint-scope.adoc[]

@@ -70,7 +70,7 @@ function deactivateDID(
 
 |providers
 |`Providers`
-|An object containing Hedera Client, xref:components/signers/signer-internal/intro.adoc[Signer] and xref:components/publishers/intro.adoc[Publisher].
+|An object containing Hedera Client, xref:components/signers/signer-internal/intro.adoc[Signer] and xref:components/publishers/publisher-internal/intro.adoc[Publisher].
 |=== 
 
 // Include Providers argument type

@@ -130,4 +130,4 @@ const did = await createDID({
 * xref:components-api/createDID/api.adoc[`createDID` API Reference]
 * xref:components/signers/signer-internal/intro.adoc[Signer Reference]
 * xref:components/signers/signer-private-key/intro.adoc[Private Key Reference]
-* xref:components/publishers/intro.adoc[Publisher Reference]
+* xref:components/publishers/publisher-internal/intro.adoc[Publisher Reference]
