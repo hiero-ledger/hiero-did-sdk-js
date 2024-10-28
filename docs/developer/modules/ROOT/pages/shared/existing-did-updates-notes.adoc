@@ -1,5 +1,5 @@
 [WARNING]
 ====
 * **Topic Permissions:** Ensure the xref:components/publishers/intro.adoc[Publisher] has permission to submit messages to the DID's Hedera Topic.
-* **Active DID and Signing Authority:**  Ensure the DID is active and the xref:components/signers/signer-internal/intro.adoc[Signer] or xref:components/signers/signer-internal/intro.adoc[Private Key] has the authority to sign DID operation messages.
+* **Active DID and Signing Authority:**  Ensure the DID is active and the xref:components/signers/signer-internal/intro.adoc[Signer] or xref:components/signers/signer-private-key/intro.adoc[Private Key] has the authority to sign DID operation messages.
 ====
