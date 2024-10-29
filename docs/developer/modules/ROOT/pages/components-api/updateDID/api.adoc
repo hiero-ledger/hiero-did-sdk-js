@@ -70,7 +70,7 @@ function updateDID(
 
 |providers
 |`Providers`
-|An object containing Hedera Client, xref:components/signers/signer-internal/intro.adoc[Signer] and xref:components/publishers/publisher-internal/intro.adoc[Publisher].
+|An object containing Hedera Client, xref:components/signer/guide.adoc[Signer] and xref:components/publishers/publisher-internal/guide.adoc[Publisher].
 |=== 
 
 // Include Providers argument type
@@ -95,7 +95,7 @@ include::../../shared/providers.adoc[]
 
 |privateKey?
 |`string \| PrivateKey`
-|A private key in DER string format or a xref:components/signers/signer-internal/intro.adoc[Private Key] class instance. This private key is used to create a xref:components/signers/signer-internal/intro.adoc[Local Signer] instance. If not specified and Signer is not specified, will create a new key pair.
+|A private key in DER string format or a xref:components/signer/guide.adoc[Private Key] class instance. This private key is used to create a xref:components/signer/guide.adoc[Local Signer] instance. If not specified and Signer is not specified, will create a new key pair.
 |=== 
 
 ==== `DIDUpdateOperation` type [[type-did-update-operation]]

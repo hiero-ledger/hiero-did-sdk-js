@@ -18,9 +18,9 @@ One of the arguments `client` or `publisher` must be specified. If both are spec
 
 |signer?
 |`Signer`
-|A xref:components/signers/signer-internal/intro.adoc[Signer] instance type. xref:components/signers/signer-internal/intro.adoc[Signer] is used to sign a DID message. If not provided, a xref:components/signers/signer-internal/intro.adoc[Private Key] from options argument will be used to sign the message.
+|A xref:components/signer/guide.adoc[Signer] instance type. xref:components/signer/guide.adoc[Signer] is used to sign a DID message. If not provided, a xref:components/signer/guide.adoc[Private Key] from options argument will be used to sign the message.
 
 |publisher?
 |`Publisher`
-|A xref:components/publishers/publisher-internal/intro.adoc[Publisher] instance type. xref:components/publishers/publisher-internal/intro.adoc[Publisher] is used to publish a Hedera transaction to a network.
+|A xref:components/publishers/publisher-internal/guide.adoc[Publisher] instance type. xref:components/publishers/publisher-internal/guide.adoc[Publisher] is used to publish a Hedera transaction to a network.
 |=== 

@@ -1,4 +1,4 @@
-= The updateDID Function
+= updateDID Function
 
 == Introduction
 
@@ -318,6 +318,6 @@ This approach provides a secure way to update DIDs while keeping the private key
 
 * xref:components-api/updateDID/api.adoc[`updateDID` API Reference]
 * xref:components-api/DIDUpdateBuilder/api.adoc[`DIDUpdateBuilder` API Reference]
-* xref:components/signers/signer-internal/intro.adoc[Signer Reference]
-* xref:components/signers/signer-private-key/intro.adoc[Private Key Reference]
-* xref:components/publishers/publisher-internal/intro.adoc[Publisher Reference]
+* xref:components/signer/guide.adoc[Signer Reference]
+* xref:components/signer/guide.adoc[Private Key Reference]
+* xref:components/publishers/publisher-internal/guide.adoc[Publisher Reference]

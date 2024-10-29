@@ -9,25 +9,23 @@
 
 * Components
   ** Resolver
-    *** xref:components/resolver/intro.adoc[Introduction]
+    *** xref:components/resolver/guide.adoc[Introduction]
   ** Registrar
     *** xref:components/registrar/createDID/guide.adoc[Create a DID]
     *** xref:components/registrar/updateDID/guide.adoc[Update a DID]
 // *** xref:components/registrar/updateDID/guide2.adoc[Update a DID 2]
     *** xref:components/registrar/deactivateDID/guide.adoc[Deactivate a DID]
 // *** xref:components/registrar/deactivateDID/guide2.adoc[Deactivate a DID2]
-  ** Signers
-    *** xref:components/signers/signer-private-key/intro.adoc[Private Key Signer]
-    *** xref:components/signers/signer-internal/intro.adoc[Internal Signer]
-    *** xref:components/signers/signer-external/intro.adoc[External Signer]
+  ** Signer
+    *** xref:components/signer/guide.adoc[Overview]
   ** Publishers
-    *** xref:components/publishers/publisher-internal/intro.adoc[Internal Publisher]
-    *** xref:components/publishers/publisher-external/intro.adoc[External Publisher]
+    *** xref:components/publishers/publisher-internal/guide.adoc[Internal Publisher]
+    *** xref:components/publishers/publisher-external/guide.adoc[External Publisher]
   ** Advanced
     *** Messages
-      **** xref::components/advanced/messages/intro.adoc[Introduction]
+      **** xref::components/advanced/messages/guide.adoc[Messages]
     *** Lifecycles
-      **** xref::components/advanced/lifecycles/intro.adoc[Introduction]
+      **** xref::components/advanced/lifecycles/guide.adoc[Lifecycles]
 
 * Components API
   ** xref:components-api/createDID/api.adoc[createDID API]
