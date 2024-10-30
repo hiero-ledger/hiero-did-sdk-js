@@ -81,9 +81,12 @@ await deactivateDID(did, {
 
 This approach allows for secure deactivation while maintaining client-side control over the private key.
 
+== Implementations
+
+The Hashgraph DID SDK provides a `deactivateDID` function within its core package. For further details, refer to the xref:packages/core/guide.adoc[`@hashgraph-did-sdk-js/core`] package documentation.
+
 == References
 
 * xref:components-api/deactivateDID/api.adoc[`deactivateDID` API Reference]
 * xref:components/signer/guide.adoc[Signer Reference]
-* xref:components/signer/guide.adoc[Private Key Reference]
 * xref:components/publisher/guide.adoc[Publisher Reference]

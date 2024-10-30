@@ -1,0 +1,78 @@
+= @hashgraph-did-js-sdk/core
+
+Core functionality for the Hashgraph DID SDK. Create, manage, and resolve DIDs on Hedera.
+
+== Installation
+
+[source,bash]
+----
+npm install @hashgraph-did-js-sdk/core
+----
+
+== Usage
+
+[source,typescript]
+----
+import { createDID, resolveDID } from '@hashgraph-did-js-sdk/core';
+
+const { did, didDocument } = await createDID({ network: 'testnet' }); 
+console.log(did.toString()); 
+const resolvedDidDocument = await resolveDID(did.toString()); 
+----
+
+== API Reference
+
+=== Functions
+
+==== `createDID(options, signer?, keys?)`
+
+Creates a DID and its DID Document.
+
+*  `options`: `{ network: 'mainnet' | 'testnet' }`
+*  `signer`: (optional) `Signer` for signing.
+*  `keys`: (optional) `Key[]` to include.
+*  **Returns:** `{ did: HashgraphDID, didDocument: DIDDocument }`
+
+==== `resolveDID(did)`
+
+Resolves a DID Document.
+
+*  `did`: DID string.
+*  **Returns:** `DIDDocument`
+
+==== `updateDID(did, signer, newDidDocument)`
+
+Updates a DID Document.
+
+*  `did`: `HashgraphDID` instance.
+*  `signer`: `Signer` for signing.
+*  `newDidDocument`: New `DIDDocument`.
+
+==== `deactivateDID(did, signer)`
+
+Deactivates a DID.
+
+*  `did`: `HashgraphDID` instance.
+*  `signer`: `Signer` for signing.
+
+
+=== Classes
+
+==== `DIDDocument`
+
+Represents a DID Document.
+
+==== `DIDURL`
+
+Represents a DID URL.
+
+==== `Key`
+
+Represents a cryptographic key.
+
+
+== Further Reading
+
+* [Hashgraph DID SDK Documentation](link-to-sdk-docs)
+* [Hashgraph Website](https://hedera.com/)
+* [DIDs Specification](https://www.w3.org/TR/did-core/)

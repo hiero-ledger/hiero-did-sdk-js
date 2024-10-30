@@ -28,5 +28,6 @@
   ** xref:components-api/deactivateDID/api.adoc[deactivateDID API]
 
 * Packages
+  ** xref:packages/core/guide.adoc[@hashgraph-did-sdk-js/core]
   ** xref:packages/signer-internal/guide.adoc[@hashgraph-did-sdk-js/signer-internal]
   ** xref:packages/publisher-internal/guide.adoc[@hashgraph-did-sdk-js/publisher-internal]

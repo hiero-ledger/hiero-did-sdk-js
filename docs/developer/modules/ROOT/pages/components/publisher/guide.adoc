@@ -17,7 +17,7 @@ The `Publisher` interface enables developers to seamlessly integrate transaction
 This interface defines the core methods for interacting with the network and publishing transactions:
 
 *  `network(): string`:  Returns the name or identifier of the network that the publisher is connected to.
-*  `publicKey(): MultibasePublicKey`: Returns the public key of the publisher, used for functionalities like controlling access to the DID Document and authenticating update operations.
+*  `publicKey(): Promise<MultibasePublicKey>`: Asynchronously retrieves the public key associated with the publisher.
 *  `publish(transaction): Promise<any>`: Asynchronously submits the provided transaction to the network, executes it, and returns a `Promise` that resolves to a result object containing the outcome of the transaction (e.g., success/failure status, transaction ID, etc.).
 
 Developers are encouraged to create and contribute their own publisher implementations, adhering to the `Publisher` interface, to extend the SDK's capabilities and support a broader range of distributed ledger technologies and custom transaction handling logic.
