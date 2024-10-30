@@ -55,4 +55,4 @@ const { did, didDocument } = await deactivateDID({
 * xref:components-api/deactivateDID/api.adoc[`deactivateDID` API Reference]
 * xref:components/signer/guide.adoc[Signer Reference]
 * xref:components/signer/guide.adoc[Private Key Reference]
-* xref:components/publishers/publisher-internal/guide.adoc[Publisher Reference]
+* xref:components/publisher/guide.adoc[Publisher Reference]

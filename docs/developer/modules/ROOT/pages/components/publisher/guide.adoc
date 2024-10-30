@@ -1,0 +1,21 @@
+= Publisher
+
+== Introduction
+
+The `Publisher` is a core component within the Hashgraph DID SDK. It streamlines interactions with the distributed ledger by providing a standardized way to submit, execute, and pay for transactions. This ensures that DID-related operations are reliably processed and recorded on the network. The `Publisher` interface promotes interoperability and simplifies the development of DID applications, abstracting away the complexities of direct ledger interactions.
+
+== Implementations
+
+The Hashgraph DID SDK offers various publisher implementations to cater to diverse needs and preferences. These implementations are packaged separately to allow for modularity and flexibility in DID applications.
+
+For instance, the `@hashgraph-did-js-sdk/publisher-internal` package provides an internal publisher that directly interacts with the Hedera network. This is suitable for applications seeking a simplified way to execute transactions. Refer to the xref:contribution/packages/publisher-internal/guide.adoc[`@hashgraph-did-js-sdk/publisher-internal`] package documentation for more details.
+
+== Interface
+
+The `Publisher` interface enables developers to seamlessly integrate transaction handling logic within their DID applications, regardless of the underlying distributed ledger technology.
+
+The core method defined by the `Publisher` interface is:
+
+*  `publish(transaction): Promise`: Asynchronously executes the provided transaction on the network and returns a `Promise` that resolves to the transaction receipt (or a similar result object).
+
+Developers are encouraged to create and contribute their own publisher implementations, adhering to the `Publisher` interface, to extend the SDK's capabilities and support a broader range of distributed ledger technologies and custom transaction handling logic.

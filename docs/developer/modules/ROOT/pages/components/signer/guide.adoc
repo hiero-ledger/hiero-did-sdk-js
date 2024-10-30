@@ -1,73 +1,25 @@
 = Signer
 
-== Introduction
+== Overview
 
-In the realm of decentralized identifiers (DIDs), a signer is a crucial component responsible for the secure handling of cryptographic keys and the generation of digital signatures. These signatures are essential for ensuring the authenticity and integrity of DID operations, such as creating, updating, or deactivating a DID.
+The `Signer` is a fundamental component of the Hashgraph DID SDK, responsible for securely managing cryptographic keys and generating digital signatures for DID operations.  These signatures are essential for ensuring the authenticity and integrity of actions like creating, updating, or deactivating a DID. The `Signer` supports the Hedera DID method, adhering to the DID specification and integrating seamlessly with the Hedera ecosystem.
 
-The Hashgraph DID SDK provides a `Signer` interface that defines the methods for signing data, retrieving the public key, and verifying signatures. This interface allows developers to create different types of signers that can be seamlessly integrated with the SDK's DID management functionality.
+This component provides a standardized interface for signing and verifying data, enabling interoperability between different DID methods and key management solutions. It offers a streamlined approach to handle cryptographic operations, enhancing security and simplifying DID management within the SDK.
 
-== The `Signer` Interface
+== Implementations
 
-This interface defines methods for signing data, retrieving the public key, and verifying signatures.
+The Hashgraph DID SDK offers various out-of-the-box signer implementations to cater to diverse key management needs. These are provided as separate packages for modularity and flexibility.
 
-[source,typescript]
-----
-type KeyId = string;
-type PublicKeyBase58 = string;
+For example, the `signer-internal` package provides an internal signer that manages keys within the application's memory. This is suitable for development, testing, or applications with less stringent security needs. See the xref:contribution/packages/signer-internal/guide.adoc[`@hashgraph-did-sdk-js/signer-internal`] package documentation.
 
-export abstract class Signer {
-  abstract sign(message: Uint8Array): Promise<Uint8Array> | Uint8Array;
-  abstract getPublicKey(): Promise<PublicKeyBase58>;
-  abstract verify(message: Uint8Array, signature: Uint8Array): Promise<boolean>;
-}
-----
+== Interface
 
-=== Internal Signer Example
+Beyond the provided implementations, developers can create and contribute their own signers by adhering to the `Signer` interface. This extensibility allows for integration with various key management systems and custom signing logic, catering to a wide range of use cases and security requirements.
 
-In this example, the `Signer` interface is implemented by the `InternalSigner` class, which utilizes Hedera keys.
+The `Signer` interface defines these core methods:
 
-[source,javascript]
-----
-import { PrivateKey } from "@hashgraph/sdk";
-import { Signer } from "./Signer.type";
+*  `sign(message: Uint8Array): Promise<Uint8Array> | Uint8Array`:  Asynchronously signs the provided message using the signer's private key and returns a `Promise` that resolves to the signature.
+*  `getPublicKey(): Promise<PublicKeyBase58>`: Asynchronously retrieves the public key associated with the signer, encoded in Base58 format.
+*  `verify(message: Uint8Array, signature: Uint8Array): Promise<boolean>`:  Asynchronously verifies the given signature against the provided message using the signer's public key, returning a `Promise` that resolves to `true` if the signature is valid, `false` otherwise.
 
-class InternalSigner implements Signer {
-  private readonly privateKey: PrivateKey;
-
-  constructor(privateKeyHex?: string) {
-    this.privateKey = privateKeyHex
-      ? PrivateKey.fromString(privateKeyHex)
-      : PrivateKey.generateED25519();
-  }
-
-  getPublicKey(): Promise<string> {
-    return Promise.resolve(this.privateKey.publicKey.toBytesBase58());
-  }
-
-  sign(message: Uint8Array): Uint8Array {
-    return this.privateKey.sign(message);
-  }
-
-  async verify(message: Uint8Array, signature: Uint8Array): Promise<boolean> {
-    return this.privateKey.publicKey.verify(message, signature);
-  }
-}
-
-export { InternalSigner };
-----
-
-== Signer Implementations
-
-The Hashgraph DID SDK offers various out-of-the-box signer implementations to cater to diverse key management needs:
-
-=== Internal Signer (`@hashgraph-did-js-sdk/signer-internal`)
-
-Suitable for environments where the application has complete control and key sensitivity is low. This implementation manages keys within the application's memory.  See the xref:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/[`@hashgraph-did-js-sdk/signer-internal`] package documentation for details and usage instructions.
-
-=== External Signer (`@hashgraph-did-js-sdk/signer-external`)
-
-Ideal for production environments or when dealing with highly sensitive keys. This implementation delegates key management to an external Key Management System (KMS), enhancing security by offloading key storage and cryptographic operations to a specialized system. See the xref:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/[`@hashgraph-did-js-sdk/signer-external`] package documentation for details and usage instructions.
-
-=== Client-Managed Signer (`@hashgraph-did-js-sdk/signer-client`)
-
-Offers flexibility for using preferred libraries or integrating with existing key management infrastructure. This implementation allows the client application to directly manage the keys. See the xref:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/[`@hashgraph-did-js-sdk/signer-client`] package documentation for details and usage instructions.
+Developers are encouraged to create and contribute their own signer implementations, adhering to the `Signer` interface, to extend the SDK's capabilities and support a broader range of distributed ledger technologies and custom transaction handling logic.

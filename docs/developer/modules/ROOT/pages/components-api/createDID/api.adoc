@@ -67,7 +67,7 @@ function createDID(
 
 |providers
 |`Providers`
-|An object containing Hedera Client, xref:components/signer/guide.adoc[Signer] and xref:components/publishers/publisher-internal/guide.adoc[Publisher].
+|An object containing Hedera Client, xref:components/signer/guide.adoc[Signer] and xref:components/publisher/guide.adoc[Publisher].
 
 
 |options?

@@ -1,6 +1,6 @@
 name: developer
 title: Developer Documentation
-version: 1.0.0
-start_page: getting-started/intro.adoc
+version: 0.0.1
+start_page: getting-started/guide.adoc
 nav:
   - modules/ROOT/nav.adoc
