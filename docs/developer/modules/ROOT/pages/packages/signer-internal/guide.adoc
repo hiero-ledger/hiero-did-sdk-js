@@ -1,0 +1,62 @@
+= @hashgraph-did-js-sdk/signer-internal
+
+This package provides an internal signer implementation for the Hashgraph DID SDK. This signer manages keys within the application's memory, making it suitable for:
+
+*   Development and testing environments
+*   Applications where security requirements are less stringent
+
+== Installation
+
+[source,bash]
+----
+npm install @hashgraph-did-js-sdk/signer-internal
+----
+
+== Usage
+
+This example demonstrates how to generate a new key pair, or import an existing key:
+
+[source,typescript]
+----
+import { InternalSigner } from '@hashgraph-did-js-sdk/signer-internal';
+
+const signer = new InternalSigner(); // Generates a new key pair
+
+// Or, import an existing key:
+const signerWithKey = new InternalSigner("0x..."); // Provide your private key in hexadecimal format
+
+const publicKey = await signer.getPublicKey(); 
+const signature = await signer.sign(message);
+const isValid = await signer.verify(message, signature);
+----
+
+== API Reference
+
+=== `InternalSigner` Class
+
+==== `constructor(privateKeyHex?: string)`
+
+Creates a new `InternalSigner` instance.
+
+*   `privateKeyHex` _(optional)_ -  A hexadecimal string representation of a private key to import. If not provided, a new key pair will be generated.
+
+==== `getPublicKey(): Promise<string>`
+
+Asynchronously retrieves the public key associated with the signer, encoded in Base58 format.
+
+*   **Returns:**  `Promise<string>` - A promise that resolves to the public key.
+
+==== `sign(message: Uint8Array): Promise<Uint8Array>`
+
+Asynchronously signs the provided message using the signer's private key.
+
+*   `message`: The message to sign as a `Uint8Array`.
+*   **Returns:**  `Promise<Uint8Array>` - A promise that resolves to the signature.
+
+==== `verify(message: Uint8Array, signature: Uint8Array): Promise<boolean>`
+
+Asynchronously verifies the given signature against the provided message using the signer's public key.
+
+*   `message`: The message to verify as a `Uint8Array`.
+*   `signature`: The signature to verify as a `Uint8Array`.
+*   **Returns:**  `Promise<boolean>` - A promise that resolves to `true` if the signature is valid, `false` otherwise.

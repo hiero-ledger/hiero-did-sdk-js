@@ -27,6 +27,6 @@
   ** xref:components-api/DIDUpdateBuilder/api.adoc[DIDUpdateBuilder API]
   ** xref:components-api/deactivateDID/api.adoc[deactivateDID API]
 
-* Contribution
-  ** xref:contribution/packages/signer-internal/guide.adoc[@hashgraph-did-sdk-js/signer-internal]
-  ** xref:contribution/packages/publisher-internal/guide.adoc[@hashgraph-did-sdk-js/publisher-internal]
+* Packages
+  ** xref:packages/signer-internal/guide.adoc[@hashgraph-did-sdk-js/signer-internal]
+  ** xref:packages/publisher-internal/guide.adoc[@hashgraph-did-sdk-js/publisher-internal]

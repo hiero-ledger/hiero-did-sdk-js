@@ -10,7 +10,7 @@ This component provides a standardized interface for signing and verifying data,
 
 The Hashgraph DID SDK offers various out-of-the-box signer implementations to cater to diverse key management needs. These are provided as separate packages for modularity and flexibility.
 
-For example, the `signer-internal` package provides an internal signer that manages keys within the application's memory. This is suitable for development, testing, or applications with less stringent security needs. See the xref:contribution/packages/signer-internal/guide.adoc[`@hashgraph-did-sdk-js/signer-internal`] package documentation.
+For example, the `signer-internal` package provides an internal signer that manages keys within the application's memory. This is suitable for development, testing, or applications with less stringent security needs. See the xref:packages/signer-internal/guide.adoc[`@hashgraph-did-sdk-js/signer-internal`] package documentation.
 
 == Interface
 

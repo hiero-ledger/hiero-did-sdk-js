@@ -8,7 +8,7 @@ The `Publisher` is a core component within the Hashgraph DID SDK. It streamlines
 
 The Hashgraph DID SDK offers various publisher implementations to cater to diverse needs and preferences. These implementations are packaged separately to allow for modularity and flexibility in DID applications.
 
-For instance, the `@hashgraph-did-js-sdk/publisher-internal` package provides an internal publisher that directly interacts with the Hedera network. This is suitable for applications seeking a simplified way to execute transactions. Refer to the xref:contribution/packages/publisher-internal/guide.adoc[`@hashgraph-did-js-sdk/publisher-internal`] package documentation for more details.
+For instance, the `@hashgraph-did-js-sdk/publisher-internal` package provides an internal publisher that directly interacts with the Hedera network. This is suitable for applications seeking a simplified way to execute transactions. Refer to the xref:packages/publisher-internal/guide.adoc[`@hashgraph-did-js-sdk/publisher-internal`] package documentation for more details.
 
 == Interface
 
