@@ -2,49 +2,6 @@
 
 The following documents serve as a reference for the `updateDID` function, offering insight into the function's associated APIs.
 
-
-== Usage examples
-
-* xref:components/registrar/updateDID/guide.adoc[Update a DID Document]
-
-
-== Installation
-
-`updateDID` function is part of the `@hashgraph-did-sdk/basic` package. Install the package using your preferred package manager:
-
-* Using npm:
-[source,bash]
-----
-npm install @hashgraph-did-sdk/basic
-----
-
-* Using yarn:
-[source,bash]
-----
-yarn add @hashgraph-did-sdk/basic
-----
-
-* Using pnpm:
-[source,bash]
-----
-pnpm add @hashgraph-did-sdk/basic
-----
-
-
-== Import
-
-Import a package using the CommonJS or ES module syntax.
-
-[source,js]
-----
-// import ESM
-import { updateDID } from '@hashgraph-did-sdk/basic';
-
-// import CJS
-const { updateDID } = require('@hashgraph-did-sdk/basic');
-----
-
-
 == Type
 
 [source,js]
@@ -74,7 +31,7 @@ function updateDID(
 |=== 
 
 // Include Providers argument type
-include::../../shared/providers.adoc[]
+include::../shared/providers.adoc[]
 
 
 === `UpdateDIDOptions` argument type
@@ -91,7 +48,7 @@ include::../../shared/providers.adoc[]
 
 |updates
 |`DIDUpdateOperation \| DIDUpdateOperation[]`
-|A xref:components-api/updateDID/api.adoc#type-did-update-operation[DIDUpdateOperation] interface or an array of xref:components-api/updateDID/api.adoc#type-did-update-operation[DIDUpdateOperation]'s. If an array is provided, the operations will be executed in the order they are provided.
+|A xref:components-api/updateDID-api.adoc#type-did-update-operation[DIDUpdateOperation] interface or an array of xref:components-api/updateDID-api.adoc#type-did-update-operation[DIDUpdateOperation]'s. If an array is provided, the operations will be executed in the order they are provided.
 
 |privateKey?
 |`string \| PrivateKey`
@@ -129,7 +86,7 @@ An interface representing an operation to add a verification method or a verific
 
 |property
 |`VerificationMethodProperties`
-|xref:components-api/updateDID/api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to add.
+|xref:components-api/updateDID-api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to add.
 
 |controller?
 |`string`
@@ -185,7 +142,7 @@ An interface representing an operation to remove a verification method or a veri
 
 |property
 |`VerificationMethodProperties`
-|xref:components-api/updateDID/api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to remove.
+|xref:components-api/updateDID-api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to remove.
 |=== 
 
 ==== `RemoveServiceOperation` interface
@@ -268,3 +225,7 @@ The implementation of the function can be found https://github.com/Swiss-Digital
 == Dependencies
 
 image::https://www.planttext.com/api/plantuml/svg/hLPHJzim47xFhx34Iz2en1jJXJeO5Lg7jY8AUvdsu3hNr93QaUrqge3_FiTs4Zj98QXxIdDt_hxFTvUxNaY5XIes6Ke04qMtMC4eeSaeWHnO0enGaD5qDhs3b4ebi7XGD9DeD9gW1KqPY3tEssAPKRds_LWOJoS-UiWJJMliiiXK5JNbfDW0Kns4My6tD04XEvvvhYXdCgeZZFKgengcyhNFjDYZ8DhncRpSmAvNgkVUSwfEXd7S2ynacMpEzdlkW03DLUzD0XgjnOhwMj1C1qPHH38i9VBl-HmXX3wXmWJ6t1uVL-awGNd5CcwIUup6dToyTi3heXkA8vI2gkyKbn1D8rH-spV6wLf8mrAcGAmmWJQd1LueGLcAT6UMRrvpbAQwKGAS9dCMmL0XQHvVIakJ-xpwPUmsoUWbx1j4REu3ZZ32L_hYrL-djsw59W8JmWkcPebdOw3-Sl4KalJ1Dua8YkygB0S8yKiPOhXcqOsZA46moTNE5AlJQIOC9yal47H52Ivb_W2rvacyxPZ6g1ks7rN0Xc-X1vXg87kpDoKjG6mfWLZQfpvZVxp7M9qRI7DPgBLkW50YxZ7stLwNvZqAAwgNPQ12NUhBL02KtqVyvBqSf2X07PehgOlXfobyFon3BUo1agvmZfSqesetXGnImnoJ7kD1udfPFgnmnhQSj1Ksnl-aq6CPeb3nxulvJpCTvij78CgQLu9lZEDHbigignT5Jw48ByirGXIoyyWDQZE5dYlVgqPr0yqCQ-9cQH1GplPu0rBYL7_n3tg2VhuK0k_C9glVIiuMPRC9kgnk6xZft_QwpH6hPdEF_JLUKlTizM2--zlCd_7Ktmo4CoLubjdCTslz-m_gpjnco7ixuFmSnOkJe-lhixFJqsFq3NGTC5fCRz1aug8znHyCTnSSSiebzit82_qVLFyv_GS0[diagram,svg]
+
+== Implementations
+
+The Hashgraph DID SDK provides a `updateDID` function within its core package. For further details, refer to the xref:packages/registrar/guide.adoc[`@hashgraph-did-sdk-js/registrar`] package documentation.

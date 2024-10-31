@@ -1,12 +1,6 @@
 = @hashgraph-did-js-sdk/publisher-internal
 
-This package provides an internal publisher implementation for the Hashgraph DID SDK. This publisher interacts directly with the Hedera network, making it suitable for:
-
-*   Publishing DID documents and updates
-*   Applications that require direct interaction with the Hedera network
-
-This package is ideal for situations where you need a simple and efficient way to publish DID-related transactions to the Hedera ledger.
-
+This package provides an internal publisher for the Hashgraph DID SDK, enabling direct interaction with the Hedera network to publish DID documents and updates. It offers a streamlined approach for submitting DID-related transactions to the Hedera ledger.
 
 == Installation
 
@@ -17,36 +11,22 @@ npm install @hashgraph-did-js-sdk/publisher-internal
 
 == Usage
 
-This example demonstrates how to publish a transaction to the Hedera network:
+The following example demonstrates how to use the `Publisher` to submit a transaction to the Hedera network:
 
 [source,typescript]
 ----
 import { Publisher } from '@hashgraph-did-js-sdk/publisher-internal';
 import { Client } from '@hashgraph/sdk';
 
+// Create a Hedera Client instance for the testnet
 const client = Client.forTestnet(); 
-// ... configure your client with network and account details
 
+// Configure the client with your network and account details
+// ...
+
+// Instantiate a new Publisher with the configured client
 const publisher = new Publisher(client);
 
-const transactionReceipt = await publisher.publish(transaction);
+// Publish a transaction to the Hedera network
+const transactionReceipt = await publisher.publish(transaction); 
 ----
-
-
-== API Reference
-
-=== `Publisher` Class
-
-==== `constructor(client: Client)`
-
-Creates a new `Publisher` instance.
-
-*   `client`:  A configured `Client` instance for interacting with the Hedera network.
-
-
-==== `publish(transaction: Transaction): Promise<TransactionReceipt>`
-
-Asynchronously executes the provided transaction on the Hedera network.
-
-*   `transaction`: The transaction to execute.
-*   **Returns:**  `Promise<TransactionReceipt>` - A promise that resolves to the transaction receipt.

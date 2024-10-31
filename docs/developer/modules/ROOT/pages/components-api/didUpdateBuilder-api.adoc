@@ -3,49 +3,6 @@
 The following documents serve as a reference for the `DIDUpdateBuilder` class, offering insight into the function's associated APIs.
 The `DIDUpdateBuilder` class provides a fluent interface to build a DID update operation that can be used to update a DID Document.
 
-
-== Usage examples
-
-* xref:components/registrar/updateDID/guide.adoc#build-did-update-operation[Build a DID Update operation]
-
-
-== Installation
-
-`DIDUpdateBuilder` function is part of the `@hashgraph-did-sdk/basic` package. Install the package using your preferred package manager:
-
-* Using npm:
-[source,bash]
-----
-npm install @hashgraph-did-sdk/basic
-----
-
-* Using yarn:
-[source,bash]
-----
-yarn add @hashgraph-did-sdk/basic
-----
-
-* Using pnpm:
-[source,bash]
-----
-pnpm add @hashgraph-did-sdk/basic
-----
-
-
-== Import
-
-Import a package using the CommonJS or ES module syntax.
-
-[source,js]
-----
-// import ESM
-import { DIDUpdateBuilder } from '@hashgraph-did-sdk/basic';
-
-// import CJS
-const { DIDUpdateBuilder } = require('@hashgraph-did-sdk/basic');
-----
-
-
 == Type
 
 [source,js]
@@ -267,7 +224,7 @@ public build(): Array<DIDUpdateOperation> {}
 Builds the DID update operation based on the added verification methods, services, and other changes.
 
 Returns::
-A list of xref:components-api/updateDID/api.adoc#type-did-update-operation[DIDUpdateOperation] objects representing the changes to the DID document.
+A list of xref:components-api/updateDID-api.adoc#type-did-update-operation[DIDUpdateOperation] objects representing the changes to the DID document.
 
 === `public toJSON` [[method-toJSON]]
 [source,js]

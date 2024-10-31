@@ -9,7 +9,8 @@
 
 * Components
   ** xref:components/resolver/guide.adoc[Resolver]
-  ** Registrar
+    *** xref:components/resolver/resolveDID/guide.adoc[Resolve a DID]
+  ** xref:components/registrar/guide.adoc[Registrar]
     *** xref:components/registrar/createDID/guide.adoc[Create a DID]
     *** xref:components/registrar/updateDID/guide.adoc[Update a DID]
 // *** xref:components/registrar/updateDID/guide2.adoc[Update a DID 2]
@@ -22,12 +23,13 @@
     *** xref::components/advanced/lifecycle/guide.adoc[Lifecycle]
 
 * Components API
-  ** xref:components-api/createDID/api.adoc[createDID API]
-  ** xref:components-api/updateDID/api.adoc[updateDID API]
-  ** xref:components-api/DIDUpdateBuilder/api.adoc[DIDUpdateBuilder API]
-  ** xref:components-api/deactivateDID/api.adoc[deactivateDID API]
+  ** xref:components-api/createDID-api.adoc[createDID API]
+  ** xref:components-api/updateDID-api.adoc[updateDID API]
+  ** xref:components-api/didUpdateBuilder-api.adoc[DIDUpdateBuilder API]
+  ** xref:components-api/deactivateDID-api.adoc[deactivateDID API]
 
 * Packages
-  ** xref:packages/core/guide.adoc[@hashgraph-did-sdk-js/core]
+  ** xref:packages/resolver/guide.adoc[@hashgraph-did-sdk-js/resolver]
+  ** xref:packages/registrar/guide.adoc[@hashgraph-did-sdk-js/registrar]
   ** xref:packages/signer-internal/guide.adoc[@hashgraph-did-sdk-js/signer-internal]
   ** xref:packages/publisher-internal/guide.adoc[@hashgraph-did-sdk-js/publisher-internal]

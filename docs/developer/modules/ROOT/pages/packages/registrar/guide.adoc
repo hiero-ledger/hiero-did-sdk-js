@@ -1,0 +1,28 @@
+= @hashgraph-did-js-sdk/registrar
+
+This package provides the functionality to register and manage Decentralized Identifiers (DIDs) on the Hedera network using the Hashgraph DID SDK. 
+
+== Installation
+
+Install the package via npm:
+
+[source,bash]
+----
+npm install @hashgraph-did-js-sdk/registrar
+----
+
+== Usage
+
+Here's a basic example demonstrating how to create a DID:
+
+[source,typescript]
+----
+import { createDID } from '@hashgraph-did-js-sdk/registrar'; // Updated import path
+
+// Create a DID on the testnet
+const { did, didDocument } = await createDID({ network: 'testnet' }); 
+
+// Log the DID string
+console.log(did.toString()); 
+
+----

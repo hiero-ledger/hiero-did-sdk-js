@@ -2,7 +2,7 @@
 
 == Introduction
 
-The `updateDID` function, a core component of the Hashgraph DID-SDK's xref:components-api/updateDID/api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
+The `updateDID` function, a core component of the Hashgraph DID-SDK's xref:components-api/updateDID-api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
 
 include::../../../shared/existing-did-updates-notes.adoc[]
 
@@ -314,13 +314,9 @@ const updatedDidDocument = await updateDID(did, {
 
 This approach provides a secure way to update DIDs while keeping the private key within the client's control, such as in a secure wallet environment.
 
-== Implementations
-
-The Hashgraph DID SDK provides a `updateDID` function within its core package. For further details, refer to the xref:packages/core/guide.adoc[`@hashgraph-did-sdk-js/core`] package documentation.
-
 == References
 
-* xref:components-api/updateDID/api.adoc[`updateDID` API Reference]
-* xref:components-api/DIDUpdateBuilder/api.adoc[`DIDUpdateBuilder` API Reference]
+* xref:components-api/updateDID-api.adoc[`updateDID` API Reference]
+* xref:components-api/didUpdateBuilder-api.adoc[`DIDUpdateBuilder` API Reference]
 * xref:components/signer/guide.adoc[Signer Reference]
 * xref:components/publisher/guide.adoc[Publisher Reference]

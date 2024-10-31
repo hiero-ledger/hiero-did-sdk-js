@@ -2,49 +2,6 @@
 
 The following documents serve as a reference for the `deactivateDID` function, offering insight into the function's associated APIs.
 
-
-== Usage examples
-
-* xref:components/registrar/deactivateDID/guide.adoc[Deactivate a DID Document]
-
-
-== Installation
-
-`deactivateDID` function is part of the `@hashgraph-did-sdk/basic` package. Install the package using your preferred package manager:
-
-* Using npm:
-[source,bash]
-----
-npm install @hashgraph-did-sdk/basic
-----
-
-* Using yarn:
-[source,bash]
-----
-yarn add @hashgraph-did-sdk/basic
-----
-
-* Using pnpm:
-[source,bash]
-----
-pnpm add @hashgraph-did-sdk/basic
-----
-
-
-== Import
-
-Import a package using the CommonJS or ES module syntax.
-
-[source,js]
-----
-// import ESM
-import { deactivateDID } from '@hashgraph-did-sdk/basic';
-
-// import CJS
-const { deactivateDID } = require('@hashgraph-did-sdk/basic');
-----
-
-
 == Type
 
 [source,js]
@@ -74,7 +31,7 @@ function deactivateDID(
 |=== 
 
 // Include Providers argument type
-include::../../shared/providers.adoc[]
+include::../shared/providers.adoc[]
 
 
 === `DeactivateDIDOptions` argument type

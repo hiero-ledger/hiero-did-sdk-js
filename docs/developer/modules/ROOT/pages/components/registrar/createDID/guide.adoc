@@ -125,12 +125,8 @@ const did = await createDID({
 });
 ----
 
-== Implementations
-
-The Hashgraph DID SDK provides a `createDID` function within its core package. For further details, refer to the xref:packages/core/guide.adoc[`@hashgraph-did-sdk-js/core`] package documentation.
-
 == References
 
-* xref:components-api/createDID/api.adoc[`createDID` API Reference]
+* xref:components-api/createDID-api.adoc[`createDID` API Reference]
 * xref:components/signer/guide.adoc[Signer Reference]
 * xref:components/publisher/guide.adoc[Publisher Reference]
