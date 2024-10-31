@@ -21,6 +21,8 @@
   ** Advanced
     *** xref::components/advanced/message/guide.adoc[Message]
     *** xref::components/advanced/lifecycle/guide.adoc[Lifecycle]
+      **** xref::components/advanced/lifecycle/builder/guide.adoc[Builder]
+      **** xref::components/advanced/lifecycle/runner/guide.adoc[Runner]
 
 * Components API
   ** xref:components-api/createDID-api.adoc[createDID API]
