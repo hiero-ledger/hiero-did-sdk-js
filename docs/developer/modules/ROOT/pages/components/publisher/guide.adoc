@@ -26,4 +26,4 @@ Developers are encouraged to create and contribute their own publisher implement
 
 The class diagram below illustrates the core methods of the `Publisher` interface for interacting with a distributed ledger technology (DLT) and publishing transactions.
 
-image::../../_images/publisher-class-diagram.png[]
+image::publisher-class-diagram.png[]

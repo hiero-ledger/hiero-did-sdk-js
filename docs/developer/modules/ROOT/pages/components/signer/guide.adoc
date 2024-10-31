@@ -28,4 +28,4 @@ Developers are encouraged to create and contribute their own signer implementati
 
 The class diagram below illustrates the core methods of the `Signer` interface for interacting with cryptographic keys.
 
-image::../../_images/signer-class-diagram.png[]
+image::signer-class-diagram.png[]
