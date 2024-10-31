@@ -21,3 +21,9 @@ This interface defines the core methods for interacting with the network and pub
 *  `publish(transaction): Promise<any>`: Asynchronously submits the provided transaction to the network, executes it, and returns a `Promise` that resolves to a result object containing the outcome of the transaction (e.g., success/failure status, transaction ID, etc.).
 
 Developers are encouraged to create and contribute their own publisher implementations, adhering to the `Publisher` interface, to extend the SDK's capabilities and support a broader range of distributed ledger technologies and custom transaction handling logic.
+
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `Publisher` interface for interacting with a distributed ledger technology (DLT) and publishing transactions.
+
+image::../../_images/publisher-class-diagram.png[]

@@ -1,0 +1,7 @@
+@startuml
+interface Publisher {
+  + network(): string
+  + publicKey(): Promise<MultibasePublicKey>
+  + publish(transaction: Transaction): Promise<Result> 
+}
+@enduml

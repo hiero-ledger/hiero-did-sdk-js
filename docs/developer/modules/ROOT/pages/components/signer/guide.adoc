@@ -23,3 +23,9 @@ This interface defines the core methods for signing, retrieving public keys, and
 *  `verify(message: Uint8Array, signature: Uint8Array): Promise<boolean>`:  Asynchronously verifies the given signature against the provided message using the signer's public key, returning a `Promise` that resolves to `true` if the signature is valid, `false` otherwise.
 
 Developers are encouraged to create and contribute their own signer implementations, adhering to the `Signer` interface, to extend the SDK's capabilities and support a broader range of distributed ledger technologies and custom transaction handling logic.
+
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `Signer` interface for interacting with cryptographic keys.
+
+image::../../_images/signer-class-diagram.png[]
