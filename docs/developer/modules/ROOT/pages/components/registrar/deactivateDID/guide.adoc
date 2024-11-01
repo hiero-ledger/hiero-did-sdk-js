@@ -1,6 +1,6 @@
 = `deactivateDID` Function
 
-== Introduction
+== Overview
 
 The `deactivateDID` function in the Hashgraph DID-SDK provides a way to deactivate existing DIDs for the Hedera DID method. This action effectively revokes the DID, making it unusable for future operations.
 

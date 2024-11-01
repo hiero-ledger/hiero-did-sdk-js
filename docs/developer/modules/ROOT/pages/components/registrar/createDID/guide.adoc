@@ -1,6 +1,6 @@
 = `createDID` Function
 
-== Introduction
+== Overview
 
 The `createDID` function is a fundamental component of the Hashgraph DID-SDK, responsible for generating fresh DIDs for the Hedera DID method. It provides a flexible and user-friendly interface, allowing users to choose from different configurations and key management strategies.
 

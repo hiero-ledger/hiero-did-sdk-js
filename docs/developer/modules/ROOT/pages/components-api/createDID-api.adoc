@@ -168,4 +168,4 @@ image::https://www.planttext.com/api/plantuml/svg/bLLDJ-Cm4BtxLup49GWgSMDLePOL5T
 
 == Function Implementation
 
-The Hashgraph DID SDK provides a `createDID` function within its core package. For further details, refer to the xref:packages/registrar/guide.adoc[`@hashgraph-did-sdk-js/registrar`] package documentation.
+The Hashgraph DID SDK provides a `createDID` function within its `registrar` package. For further details, refer to the xref:packages/registrar/guide.adoc[`@hashgraph-did-sdk-js/registrar`] package documentation.

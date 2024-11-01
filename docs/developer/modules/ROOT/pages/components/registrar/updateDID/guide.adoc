@@ -1,6 +1,6 @@
 = updateDID Function
 
-== Introduction
+== Overview
 
 The `updateDID` function, a core component of the Hashgraph DID-SDK's xref:components-api/updateDID-api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
 

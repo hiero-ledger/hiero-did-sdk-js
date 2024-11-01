@@ -1,0 +1,5 @@
+= `deactivateDID` Acceptance Tests
+
+This document outlines the various scenarios for deactivating DID documents using the `deactivateDID` function in the SDK.
+
+include::../shared/under-development.adoc[]

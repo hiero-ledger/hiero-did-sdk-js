@@ -1,6 +1,6 @@
 = Publisher
 
-== Introduction
+== Overview
 
 The `Publisher` is a core component within the Hashgraph DID SDK. It streamlines interactions with the distributed ledger by providing a standardized way to submit, execute, and pay for transactions. This ensures that DID-related operations are reliably processed and recorded on the network. The `Publisher` interface promotes interoperability and simplifies the development of DID applications, abstracting away the complexities of direct ledger interactions.
 

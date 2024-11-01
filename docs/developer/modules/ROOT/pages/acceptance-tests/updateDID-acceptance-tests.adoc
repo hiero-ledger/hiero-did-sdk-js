@@ -1,0 +1,5 @@
+= `updateDID` Acceptance Tests
+
+This document outlines the various scenarios for updating DID documents using the `updateDID` function in the SDK.
+
+include::../shared/under-development.adoc[]
