@@ -6,15 +6,9 @@ The `Signer` is a fundamental component of the Hashgraph DID SDK, responsible fo
 
 This component provides a standardized interface for signing and verifying data, enabling interoperability between different DID methods and key management solutions. It offers a streamlined approach to handle cryptographic operations, enhancing security and simplifying DID management within the SDK.
 
-== Implementations
-
-The Hashgraph DID SDK offers various out-of-the-box signer implementations to cater to diverse key management needs. These are provided as separate packages for modularity and flexibility.
-
-For example, the `signer-internal` package provides an internal signer that manages keys within the application's memory. This is suitable for development, testing, or applications with less stringent security needs. See the xref:packages/signer-internal/guide.adoc[`@hashgraph-did-sdk-js/signer-internal`] package documentation.
-
 == Interface
 
-Beyond the provided implementations, developers can create and contribute their own signers by adhering to the `Signer` interface. This extensibility allows for integration with various key management systems and custom signing logic, catering to a wide range of use cases and security requirements.
+The `Signer` interface defines the core methods for signing, retrieving public keys, and verifying signatures. Developers can create and contribute their own implementations of this interface to integrate with various key management systems and custom signing logic, catering to a wide range of use cases and security requirements.
 
 This interface defines the core methods for signing, retrieving public keys, and verifying signatures:
 
@@ -29,3 +23,9 @@ Developers are encouraged to create and contribute their own signer implementati
 The class diagram below illustrates the core methods of the `Signer` interface for interacting with cryptographic keys.
 
 image::signer-class-diagram.png[]
+
+== Implementations
+
+The Hashgraph DID SDK offers various out-of-the-box signer implementations to cater to diverse key management needs. These are provided as separate packages for modularity and flexibility.
+
+For example, the `signer-internal` package provides an internal signer that manages keys within the application's memory. This is suitable for development, testing, or applications with less stringent security needs. See the xref:packages/signer-internal/guide.adoc[`@hashgraph-did-sdk-js/signer-internal`] package documentation.
