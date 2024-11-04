@@ -31,5 +31,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@hashgraph/sdk": "^2.52.0"
   }
 }

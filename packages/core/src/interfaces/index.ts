@@ -1,0 +1,7 @@
+export * from './signer';
+export * from './public-key';
+export * from './network';
+export * from './publisher';
+export * from './did-message';
+export * from './did-document';
+export * from './verification-method-properties';

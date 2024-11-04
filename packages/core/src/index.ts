@@ -1,3 +1,1 @@
-export function main(): void {
-  console.log('Hello from main()');
-}
+export * from './interfaces';

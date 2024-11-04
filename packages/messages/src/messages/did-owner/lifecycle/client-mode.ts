@@ -1,0 +1,33 @@
+import {
+  TopicCreateTransaction,
+  TopicMessageSubmitTransaction,
+} from '@hashgraph/sdk';
+import { LifecycleBuilder } from '@hashgraph-did-sdk/lifecycle';
+import { Publisher } from '@hashgraph-did-sdk/core';
+import { DIDOwnerMessage } from '../message';
+
+export const DIDOwnerMessageHederaCSMLifeCycle =
+  new LifecycleBuilder<DIDOwnerMessage>()
+    .callback((message: DIDOwnerMessage, publisher: Publisher) => {
+      message.setNetwork(publisher.network());
+    })
+    .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
+      const response = await publisher.publish(
+        new TopicCreateTransaction()
+          .setAdminKey(publisher.publicKey())
+          .setSubmitKey(publisher.publicKey()),
+      );
+
+      const topicId = response.topicId?.toString() ?? '';
+
+      message.setTopicId(topicId);
+    })
+    .pause()
+    .signature()
+    .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
+      await publisher.publish(
+        new TopicMessageSubmitTransaction()
+          .setTopicId(message.topicId)
+          .setMessage(message.payload),
+      );
+    });

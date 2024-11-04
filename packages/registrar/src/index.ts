@@ -1,3 +1,3 @@
-export function main(): void {
-  console.log('Hello from main()');
-}
+export * from './create-did';
+export * from './deactivate-did';
+export * from './update-did';

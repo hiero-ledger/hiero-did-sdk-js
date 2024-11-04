@@ -20,6 +20,8 @@ export default tseslint.config(
       '**/dist/*',
       '**/jest.config.ts',
       '**/tsup.config.ts',
+      '**/eslint.config.mjs',
+      '**/cucumber.js',
     ],
   },
 );

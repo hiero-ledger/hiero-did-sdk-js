@@ -16,7 +16,6 @@
     "@antora/site-generator-default": "^3.1.9",
     "@cucumber/cucumber": "^7.0.0",
     "@eslint/js": "^9.13.0",
-    "@hashgraph/sdk": "^2.51.0",
     "@sntke/antora-mermaid-extension": "^0.0.6",
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.13",
@@ -31,6 +30,7 @@
     "semantic-release-monorepo": "^8.0.2",
     "testcontainers": "^10.13.2",
     "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "tslib": "^2.7.0",
     "tsup": "^8.3.4",
     "tsx": "^4.19.1",
@@ -38,6 +38,7 @@
     "typescript-eslint": "^8.11.0"
   },
   "dependencies": {
+    "@hashgraph/sdk": "^2.52.0",
     "bs58": "^6.0.0"
   },
   "workspaces": [

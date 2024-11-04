@@ -1,7 +1,7 @@
-'use strict';
+export function getResolver() {
+  function resolve() {
+    throw new Error('Not implemented');
+  }
 
-module.exports = resolver;
-
-function resolver() {
-  return 'Hello from resolver';
+  return { hedera: resolve };
 }
