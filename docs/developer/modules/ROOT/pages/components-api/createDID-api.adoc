@@ -1,4 +1,4 @@
-= `createDID` Function
+= createDID Function
 
 This document provides a concise reference for the `createDID` function within the Hedera DID SDK for JavaScript.
 
@@ -19,8 +19,8 @@ function createDID(
 
 The function accepts the following parameters:
 
-*   `providers`:  (Required) An object encapsulating configuration parameters for interacting with the Hedera network.
-*   `options`: (Optional) An object enabling customization of the DID creation procedure.
+*   **`providers`**:  (Required) An object encapsulating configuration parameters for interacting with the Hedera network.
+*   **`options`**: (Optional) An object enabling customization of the DID creation procedure.
 
 === providers Parameter
 

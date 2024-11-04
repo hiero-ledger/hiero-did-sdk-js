@@ -1,8 +1,10 @@
-= `deactivateDID` function
+= deactivateDID function
 
-The following documents serve as a reference for the `deactivateDID` function, offering insight into the function's associated APIs.
+This document provides a concise reference for the `deactivateDID` function within the Hedera DID SDK for JavaScript.
 
-== Type
+== Function Signature
+
+The `deactivateDID` function allows you to deactivate an existing DID.
 
 [source,js]
 ----
@@ -12,67 +14,102 @@ function deactivateDID(
 ): Promise<DeactivateDIDResult>;
 ----
 
+== Parameters
 
-== Arguments
+The function accepts the following parameters:
+
+*   **`providers`:** (Required) An object encapsulating configuration parameters for interacting with the Hedera network.
+*   **`options`:** (Required) An object containing the DID to deactivate.
+
+=== providers Parameter
+
+The table below details the structure of the `providers` parameter.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
 |Description
-
-|options
-|`DeactivateDIDOptions`
-|An object containing options to deactivate a DID.
 
 |providers
 |`Providers`
-|An object containing Hedera Client, xref:components/signer/guide.adoc[Signer] and xref:components/publisher/guide.adoc[Publisher].
-|=== 
-
-// Include Providers argument type
-include::../shared/providers.adoc[]
+|An object containing a Hedera Client, a cryptographic Signer, and a transaction Publisher (refer to <<providers-data-types>> for details).
+|===
 
 
-=== `DeactivateDIDOptions` argument type
+=== options Parameter
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
 |Description
 
 |did
 |`string`
-|A DID to deactivate.
+|The DID string of the Decentralized Identifier to deactivate.
 
 |privateKey?
-|`string \| PrivateKey`
-|A private key in DER string format or a xref:components/signer/guide.adoc[Private Key] class instance. This private key is used to create a xref:components/signer/guide.adoc[Local Signer] instance. If not specified and Signer is not specified, will create a new key pair.
-|=== 
+|`string` \| PrivateKey`
+|A private key (in DER format) or a `PrivateKey` object used to generate a xref:components/signer/guide.adoc[Signer] for signing the DID deactivate message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated.
+|===
 
+== Data Types
 
-== Returns
-Function returns a Promise that resolves to a `DeactivateDIDResult` object.
+This section elaborates on the data types employed within the `providers` parameter.
+
+[[providers-data-types]]
+=== Providers Type
+
+To utilize this type, at least one of the following must be defined: `client` or `publisher`. If both are provided, `publisher` takes precedence.
+
+The table below provides a detailed description of the `Providers` type.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
+|Description
+
+|clientOptions?
+|`ClientOptions`
+|Configuration options for instantiating a Hedera Client.
+
+|client?
+|`Client`
+|An instance of a Hedera Client.
+
+|signer?
+|`Signer`
+|An instance of a xref:components/signer/guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
+
+|publisher?
+|`Publisher`
+|An instance of a xref:components/publisher/guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|===
+
+== Return Value
+
+Upon successful execution, the function returns a Promise that resolves to a `DeactivateDIDResult` object.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
 |Description
 
 |did
 |`string`
-|A deactivated DID.
-
+|The deactivated DID.
 
 |didDocument
 |`DIDDocument`
 |An empty DID Document that represents a deactivated DID.
 |=== 
 
+== Errors
 
-== Throws
+The following table enumerates the exceptions that may arise during the execution of the `deactivateDID` function.
 
 [cols="1,1",options="header",frame="ends"]
 |===
@@ -91,12 +128,13 @@ Function returns a Promise that resolves to a `DeactivateDIDResult` object.
 |`InvalidPublisherError`
 |Thrown when the publisher is not a valid Publisher instance.
 |=== 
-// TODO: Add more throws
 
+== Class Diagram
 
-== Source code
-The implementation of the function can be found https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js[*here*]. In this source, the exact details of the function are provided, as well as an explanation of its operation in cases where further clarification is required.
+The following class diagram provides a visual representation of the relationships between key classes and interfaces involved in the `deactivateDID` function.
 
-== Dependencies
+image::https://www.planttext.com/api/plantuml/svg/bLLDJ-Cm4BtxLup49GWgSMDLePOL5TeA8H1TzhBQWt66O94waJqfGi1_ntQSnFde2av9vZtFctapLiuDSKtLDWUXaHFEKfdEKYnHfQY4HCDMwzKTPjAGvlgUP6vWDbl0HcOAzHxmjdh8fNcASQuzCkAp2o_huwRAgM6j2b5jKT4emwqkTZ95RKR8JKcoK8Qr31-zoALDqs33CmDrrcC7FRcpb2jydImrWlUSQitmm6_DbU72CVSZToXGbZJP2MDCvDmOY5jvOm1m54QObCsn6nrgcdUsmNjZr36qn6L4E8Jvo9QFaMWxRozz01bIsqxYKdGxqE3rodWmR8zDAnMXVkG2XvfruWrfgJAmI-c-ehrmeNP7BDGPRhjgNfTzXSw3EhSl0en_B7sITY1by-RZjVFMkVvwY7eW_IvwZBY7z-aQ8mONegWKhTCeff1U2ltS5vbABmf5kiZpK7A8Kb5AiKwNNwZ3AZ3-u2Oh2Eff1uUyp5k3VTX52wcyIo8qqICuKvCj6iCpdCEzBVt7Jwtvgnj-z-Kq1vBT2CQgOGp1zY4QHfPGTu_cyQLoqXDth6Til62nkJATTDe5_w2MZr9mb_CQwQb8__w3tIZONQ78_RCpI3R71vUNfwSd9uVm2-roSjYihc2n2Eoeuc_IGuDVEHMC_I_ptFuHx6_Y4m00[Dependency Diagram]
 
-image::https://www.planttext.com/api/plantuml/svg/bLJ1Jjmm4BtdAqRY4bHMuaOLeIrL8rI4gYAsz89wCCuGh6Rjo9viXO1_h-quYKsoBPnsC-_blV6RSSuCCKtTje4A6IUnOuIhIbIh2bkK5Kekq6JbHNcDjJ2acRuXqHXOhTQm4RL4lGUywkuQOHvYd6cFpFXPELfxp7GD3SnIyMwBacOgLrhjH8NQp93lBGabJJOoVFLB8wpCWCrwcdUG9My4Jq-vnCUzBKUKFM-EmNZWXsRIE2abzoFNo56qj7YYBCjumuo1-4XF6G1yY4QQgxwPOaZd2Df1h9YoF8HYCOgNcSauQszr03NIs7xkPARv3tY_BXuCcsDbXIJKzupZacyllY4jP0rsATrJj1EkDEv7eZK5rIjuEp3-vvEhJ56tmpzVxpE5vtHTWFTH9nuf8-xqEHgtZNcS_CHWdAjEqaKLrIJI7wL_foPByY68_vXPcOpTkK5nWdvu8GQlzJHWBtPFWfIFWeTE4u9BBj-YCQp60cviVny_QyqUtIod9-VvodBAUUuQiWxPlaR3N7AQha4HtmbdlN15qfMATYLEC0cGAqbQDKs_gJzHYtl1cTFyXlIWgjjVi9iLfniHfNzw2ldcwE3y_EJa-FWGlgBTG0QRyXBMwy2EEdudFHpmBM-5OF_9FBCVT_lL_mi0[diagram,svg]
+== Function Implementation
+
+The Hashgraph DID SDK provides a `deactivateDID` function within its `registrar` package. For further details, refer to the xref:packages/registrar/guide.adoc[`@hashgraph-did-sdk-js/registrar`] package documentation.

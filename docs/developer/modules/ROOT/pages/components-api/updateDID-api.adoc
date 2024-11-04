@@ -1,8 +1,10 @@
-= `updateDID` function
+= updateDID Function
 
-The following documents serve as a reference for the `updateDID` function, offering insight into the function's associated APIs.
+This document provides a concise reference for the `updateDID` function within the Hedera DID SDK for JavaScript.
 
-== Type
+== Function Signature
+
+The `updateDID` function allows you to update an existing DID document by providing the DID and an object specifying the desired modifications.
 
 [source,js]
 ----
@@ -12,72 +14,102 @@ function updateDID(
 ): Promise<UpdateDIDResult>;
 ----
 
+== Parameters
 
-== Arguments
+The function accepts the following parameters:
+
+*   **`providers`:** (Required) An object encapsulating configuration parameters for interacting with the Hedera network.
+*   **`options`:** (Required) An object containing the DID to update and the update operations to apply.
+
+=== providers Parameter
+
+The table below details the structure of the `providers` parameter.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
 |Description
-
-|options
-|`UpdateDIDOptions`
-|An object containing a DID and options to update a DID Document.
 
 |providers
 |`Providers`
-|An object containing Hedera Client, xref:components/signer/guide.adoc[Signer] and xref:components/publisher/guide.adoc[Publisher].
-|=== 
+|An object containing a Hedera Client, a cryptographic Signer, and a transaction Publisher (refer to <<providers-data-types>> for details).
+|===
 
-// Include Providers argument type
-include::../shared/providers.adoc[]
+=== options Parameter
 
-
-=== `UpdateDIDOptions` argument type
+The table below details the structure of the `options` parameter.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
 |Description
 
 |did
 |`string`
-|A DID to update.
+|The DID string of the Decentralized Identifier to update.
 
 |updates
 |`DIDUpdateOperation \| DIDUpdateOperation[]`
-|A xref:components-api/updateDID-api.adoc#type-did-update-operation[DIDUpdateOperation] interface or an array of xref:components-api/updateDID-api.adoc#type-did-update-operation[DIDUpdateOperation]'s. If an array is provided, the operations will be executed in the order they are provided.
+|A  `DIDUpdateOperation`  type or an array of  `DIDUpdateOperation`s (refer to <<didupdateoperation-type>> for details). Each `DIDUpdateOperation` represents a specific modification to the DID Document. If an array is provided, the operations will be executed in the order they are provided.
 
 |privateKey?
-|`string \| PrivateKey`
-|A private key in DER string format or a xref:components/signer/guide.adoc[Private Key] class instance. This private key is used to create a xref:components/signer/guide.adoc[Local Signer] instance. If not specified and Signer is not specified, will create a new key pair.
-|=== 
+|`string` \| PrivateKey`
+|A private key (in DER format) or a `PrivateKey` object used to generate a xref:components/signer/guide.adoc[Signer] for signing the DID update message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated.
+|===
 
-==== `DIDUpdateOperation` type [[type-did-update-operation]]
-A type representing a set of possible operations to update a DID Document, such as adding or removing a verification method.
+== Data Types
 
-[source,js]
-----
-type DIDUpdateOperation = 
-  | AddVerificationMethodOperation
-  | AddServiceOperation
-  | RemoveVerificationMethodOperation
-  | RemoveServiceOperation;
-----
+This section elaborates on the data types employed within the `providers` parameter.
 
-==== `AddVerificationMethodOperation` interface
-An interface representing an operation to add a verification method or a verification relationships to a DID Document.
+[[providers-data-types]]
+=== Providers Type
+
+To utilize this type, at least one of the following must be defined: `client` or `publisher`. If both are provided, `publisher` takes precedence.
+
+The table below provides a detailed description of the `Providers` type.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
+|Description
+
+|clientOptions?
+|`ClientOptions`
+|Configuration options for instantiating a Hedera Client.
+
+|client?
+|`Client`
+|An instance of a Hedera Client.
+
+|signer?
+|`Signer`
+|An instance of a xref:components/signer/guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
+
+|publisher?
+|`Publisher`
+|An instance of a xref:components/publisher/guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|===
+
+[[didupdateoperation-type]]
+=== DIDUpdateOperation Type
+
+This type represents the different operations you can perform to update a DID Document. Each operation modifies the DID Document in a specific way, such as adding a verification method, removing a service, etc.
+
+==== AddVerificationMethodOperation Type
+
+Adds a new verification method to the DID Document.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
 |Description
 
 |operation
-|`add-verification-method`
+|`'add-verification-method'`
 |A constant string representing the operation type.
 
 |id
@@ -86,7 +118,7 @@ An interface representing an operation to add a verification method or a verific
 
 |property
 |`VerificationMethodProperties`
-|xref:components-api/updateDID-api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to add.
+|A string representing the verification method or relationship property to add. Possible values are:  `verificationMethod`, `authentication`, `assertionMethod`, `keyAgreement`, `capabilityInvocation`, `capabilityDelegation`.
 
 |controller?
 |`string`
@@ -95,19 +127,21 @@ An interface representing an operation to add a verification method or a verific
 |publicKeyMultibase
 |`string`
 |The public key in multibase format to add.
-|=== 
 
-==== `AddServiceOperation` interface
-An interface representing an operation to add a service to a DID Document.
+|===
+
+==== AddServiceOperation Type
+
+Adds a new service endpoint to the DID Document.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
 |Description
 
 |operation
-|`add-service`
+|`'add-service'`
 |A constant string representing the operation type.
 
 |id
@@ -121,19 +155,21 @@ An interface representing an operation to add a service to a DID Document.
 |serviceEndpoint
 |`string`
 |The service endpoint to add.
-|=== 
 
-==== `RemoveVerificationMethodOperation` interface
-An interface representing an operation to remove a verification method or a verification relationship from a DID Document.
+|===
+
+==== RemoveVerificationMethodOperation Type
+
+Removes an existing verification method from the DID Document.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
 |Description
 
 |operation
-|`remove-verification-method`
+|`'remove-verification-method'`
 |A constant string representing the operation type.
 
 |id
@@ -142,67 +178,58 @@ An interface representing an operation to remove a verification method or a veri
 
 |property
 |`VerificationMethodProperties`
-|xref:components-api/updateDID-api.adoc#type-vm-properties[VerificationMethodProperties] is a string representing the verification method or relationship property to remove.
-|=== 
+|A string representing the verification method or relationship property to remove. Possible values are: `verificationMethod`, `authentication`, `assertionMethod`, `keyAgreement`, `capabilityInvocation`, `capabilityDelegation`.
 
-==== `RemoveServiceOperation` interface
-An interface representing an operation to remove a service from a DID Document.
+|===
+
+==== RemoveServiceOperation Type
+
+Removes an existing service endpoint from the DID Document.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
 |Description
 
 |operation
-|`remove-service`
+|`'remove-service'`
 |A constant string representing the operation type.
 
 |id
 |`string`
 |A unique identifier for the service to remove. Must start with `#`, e.g., `#service-1`.
-|=== 
 
-==== `VerificationMethodProperties` type [[type-vm-properties]]
-A type representing a set of possible properties to add to a verification method or a verification relationship.
+|===
 
-[source,js]
-----
-type VerificationMethodProperties = 
-  | "verificationMethod"
-  | "authentication"
-  | "assertionMethod"
-  | "keyAgreement"
-  | "capabilityInvocation"
-  | "capabilityDelegation";
-----
+== Return Value
 
-== Returns
-Function returns a Promise that resolves to a `UpdateDIDResult` object.
+Upon successful execution, the function returns a Promise that resolves to a `UpdateDIDResult` object.
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
-|Type 
+|Type
 |Description
 
 |did
 |`string`
-|A updated DID.
-
+|The updated DID string of the Decentralized Identifier.
 
 |didDocument
 |`DIDDocument`
-|A updated DID Document.
-|=== 
+|The updated DID Document associated with the Decentralized Identifier.
 
+|===
 
-== Throws
+== Errors
+
+The following table enumerates the exceptions that may arise during the execution of the `updateDID` function.
 
 [cols="1,1",options="header",frame="ends"]
 |===
 |Exception class
-|Description 
+|Description
 
 |`DIDNotFoundError`
 |Thrown when the DID is not found.
@@ -211,21 +238,19 @@ Function returns a Promise that resolves to a `UpdateDIDResult` object.
 |Thrown when the private key is not a valid DER string.
 
 |`InvalidSignerError`
-|Thrown when the signer is not a valid Signer instance.
+|Thrown when the signer is not a valid `Signer` instance.
 
 |`InvalidPublisherError`
-|Thrown when the publisher is not a valid Publisher instance.
-|=== 
-// TODO: Add more throws
+|Thrown when the publisher is not a valid `Publisher` instance.
 
+|===
 
-== Source code
-The implementation of the function can be found https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js[*here*]. In this source, the exact details of the function are provided, as well as an explanation of its operation in cases where further clarification is required.
+== Class Diagram
 
-== Dependencies
+The following class diagram provides a visual representation of the relationships between key classes and interfaces involved in the `updateDID` function.
 
-image::https://www.planttext.com/api/plantuml/svg/hLPHJzim47xFhx34Iz2en1jJXJeO5Lg7jY8AUvdsu3hNr93QaUrqge3_FiTs4Zj98QXxIdDt_hxFTvUxNaY5XIes6Ke04qMtMC4eeSaeWHnO0enGaD5qDhs3b4ebi7XGD9DeD9gW1KqPY3tEssAPKRds_LWOJoS-UiWJJMliiiXK5JNbfDW0Kns4My6tD04XEvvvhYXdCgeZZFKgengcyhNFjDYZ8DhncRpSmAvNgkVUSwfEXd7S2ynacMpEzdlkW03DLUzD0XgjnOhwMj1C1qPHH38i9VBl-HmXX3wXmWJ6t1uVL-awGNd5CcwIUup6dToyTi3heXkA8vI2gkyKbn1D8rH-spV6wLf8mrAcGAmmWJQd1LueGLcAT6UMRrvpbAQwKGAS9dCMmL0XQHvVIakJ-xpwPUmsoUWbx1j4REu3ZZ32L_hYrL-djsw59W8JmWkcPebdOw3-Sl4KalJ1Dua8YkygB0S8yKiPOhXcqOsZA46moTNE5AlJQIOC9yal47H52Ivb_W2rvacyxPZ6g1ks7rN0Xc-X1vXg87kpDoKjG6mfWLZQfpvZVxp7M9qRI7DPgBLkW50YxZ7stLwNvZqAAwgNPQ12NUhBL02KtqVyvBqSf2X07PehgOlXfobyFon3BUo1agvmZfSqesetXGnImnoJ7kD1udfPFgnmnhQSj1Ksnl-aq6CPeb3nxulvJpCTvij78CgQLu9lZEDHbigignT5Jw48ByirGXIoyyWDQZE5dYlVgqPr0yqCQ-9cQH1GplPu0rBYL7_n3tg2VhuK0k_C9glVIiuMPRC9kgnk6xZft_QwpH6hPdEF_JLUKlTizM2--zlCd_7Ktmo4CoLubjdCTslz-m_gpjnco7ixuFmSnOkJe-lhixFJqsFq3NGTC5fCRz1aug8znHyCTnSSSiebzit82_qVLFyv_GS0[diagram,svg]
+image::https://www.planttext.com/api/plantuml/svg/bLLDJ-Cm4BtxLup49GWgSMDLePOL5TeA8H1TzhBQWt66O94waJqfGi1_ntQSnFde2av9vZtFctapLiuDSKtLDWUXaHFEKfdEKYnHfQY4HCDMwzKTPjAGvlgUP6vWDbl0HcOAzHxmjdh8fNcASQuzCkAp2o_huwRAgM6j2b5jKT4emwqkTZ95RKR8JKcoK8Qr31-zoALDqs33CmDrrcC7FRcpb2jydImrWlUSQitmm6_DbU72CVSZToXGbZJP2MDCvDmOY5jvOm1m54QObCsn6nrgcdUsmNjZr36qn6L4E8Jvo9QFaMWxRozz01bIsqxYKdGxqE3rodWmR8zDAnMXVkG2XvfruWrfgJAmI-c-ehrmeNP7BDGPRhjgNfTzXSw3EhSl0en_B7sITY1by-RZjVFMkVvwY7eW_IvwZBY7z-aQ8mONegWKhTCeff1U2ltS5vbABmf5kiZpK7A8Kb5AiKwNNwZ3AZ3-u2Oh2Eff1uUyp5k3VTX52wcyIo8qqICuKvCj6iCpdCEzBVt7Jwtvgnj-z-Kq1vBT2CQgOGp1zY4QHfPGTu_cyQLoqXDth6Til62nkJATTDe5_w2MZr9mb_CQwQb8__w3tIZONQ78_RCpI3R71vUNfwSd9uVm2-roSjYihc2n2Eoeuc_IGuDVEHMC_I_ptFuHx6_Y4m00[Dependency Diagram]
 
-== Implementations
+== Function Implementation
 
-The Hashgraph DID SDK provides a `updateDID` function within its core package. For further details, refer to the xref:packages/registrar/guide.adoc[`@hashgraph-did-sdk-js/registrar`] package documentation.
+The Hashgraph DID SDK provides a `updateDID` function within its `registrar` package. For further details, refer to the xref:packages/registrar/guide.adoc[`@hashgraph-did-sdk-js/registrar`] package documentation.
