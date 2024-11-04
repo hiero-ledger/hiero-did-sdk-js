@@ -25,11 +25,11 @@
       **** xref::components/advanced/lifecycle/runner/guide.adoc[Runner]
 
 * Components API
-  ** xref:components-api/resolveDID-api.adoc[resolveDID API]
-  ** xref:components-api/createDID-api.adoc[createDID API]
-  ** xref:components-api/updateDID-api.adoc[updateDID API]
-  ** xref:components-api/didUpdateBuilder-api.adoc[DIDUpdateBuilder API]
-  ** xref:components-api/deactivateDID-api.adoc[deactivateDID API]
+  ** xref:components-api/resolveDID-api.adoc[resolveDID()]
+  ** xref:components-api/createDID-api.adoc[createDID()]
+  ** xref:components-api/updateDID-api.adoc[updateDID()]
+  ** xref:components-api/didUpdateBuilder-api.adoc[DIDUpdateBuilder()]
+  ** xref:components-api/deactivateDID-api.adoc[deactivateDID()]
 
 * Acceptance Tests
   ** xref:acceptance-tests/createDID-acceptance-tests.adoc[createDID Tests]
