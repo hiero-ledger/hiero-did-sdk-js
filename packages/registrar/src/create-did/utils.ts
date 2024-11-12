@@ -1,4 +1,4 @@
-import { Providers } from '../interfaces';
+import { ClientOptions, Providers } from '../interfaces';
 
 /**
  * Extract providers from options or providers object
@@ -13,11 +13,11 @@ export function extractProviders<Options extends object>(
 ): Providers {
   if (providers) return providers;
 
-  if ('client' in providersOrOptions) {
+  //if ('client' in providersOrOptions) {
     return providersOrOptions;
-  }
+  //}
 
-  throw new Error('Invalid providers');
+ // throw new Error('Invalid providers');
 }
 
 /**

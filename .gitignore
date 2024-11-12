@@ -10,3 +10,8 @@ node_modules/
 
 # Ignore coverage
 coverage/
+
+# Ignore hedera local node network log files
+test_suites/config/hedera/local-node/network_logs
+
+.vscode/

@@ -1,0 +1,13 @@
+{
+    "include": [
+        "test_suites/**/*.ts"
+    ],
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ESNext",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "allowJs": true,  
+    }
+}

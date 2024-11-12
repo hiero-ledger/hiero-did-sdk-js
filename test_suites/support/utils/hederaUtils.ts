@@ -7,12 +7,16 @@ import {
     TopicMessageQuery,
     TopicId,
     TopicMessage,
-    SubscriptionHandle
+    SubscriptionHandle,
+    AccountCreateTransaction,
+    Hbar
 } from '@hashgraph/sdk';
 
 let subscriptionHandle: SubscriptionHandle | null = null;
 let receivedMessages: string[] = [];
 
+// Usage example:
+// const client = await configureHederaClient('localhost', 50211, '0.0.2', '302e020100300506032b65700422042091132178e72057a1d7528025956fe39b0b847f200ab59b2fdd367017f3087137');
 export async function configureHederaClient(containerHost: string, port: number, operatorId: string, operatorKey: string): Promise<Client> {
     const client = Client.forNetwork({ [`${containerHost}:${port}`]: new AccountId(3) });
     const operatorPrivateKey = PrivateKey.fromString(operatorKey);
@@ -83,4 +87,20 @@ export function getReceivedMessages(): string[] {
 
 export function purgeReceivedMessages(): void {
     receivedMessages = [];
+}
+
+export async function createNewAccount(client: Client): Promise<AccountId> {
+    const newPrivateKey = PrivateKey.generate(); // Generate a new private key for the new account
+    const newPublicKey = newPrivateKey.publicKey;
+
+    // Create the new account with an initial balance of 1000 HBAR
+    const transaction = new AccountCreateTransaction()
+        .setKey(newPublicKey)
+        .setInitialBalance(new Hbar(1000));
+
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
+    const newAccountId = receipt.accountId;
+
+    return newAccountId!;
 }

@@ -5,9 +5,7 @@ let containers: StartedTestContainer[] = [];
 
 export async function startContainers(configPath: string): Promise<void> {
     network = await new Network().start();
-    
-    console.log(configPath);
-    
+
     const hederaNode = await new GenericContainer('gcr.io/hedera-registry/consensus-node:0.54.0-alpha.5')
         .withUser('root')
         .withName('network-node-single')
@@ -16,8 +14,8 @@ export async function startContainers(configPath: string): Promise<void> {
         .withDefaultLogDriver()
         .withNetwork(network)
         .withExposedPorts(
-            { container: 50211, host: 50211 }, 
-            { container: 50212, host: 50212 }, 
+            { container: 50211, host: 50211 },
+            { container: 50212, host: 50212 },
             { container: 9999, host: 9999 }
         )
         .withBindMounts([
@@ -25,17 +23,17 @@ export async function startContainers(configPath: string): Promise<void> {
             { source: `${configPath}/network_logs/recordStreams`, target: '/opt/hgcapp/recordStreams' }
         ])
         .withCopyFilesToContainer([
-            { source: `${configPath}/hedera-local-node-settings/network-node/entrypoint.sh`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/myentrypoint.sh' },
-            { source: `${configPath}/hedera-local-node-settings/network-node/config.txt`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/config.txt' },
-            { source: `${configPath}/hedera-local-node-settings/network-node/settings.txt`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/settings.txt' },
-            { source: `${configPath}/hedera-local-node-settings/network-node/log4j2.xml`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/log4j2.xml' },
-            { source: `${configPath}/hedera-local-node-settings/network-node/hedera.crt`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/hedera.crt' },
-            { source: `${configPath}/hedera-local-node-settings/network-node/hedera.key`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/hedera.key' }
+            { source: `${configPath}/settings/network-node/entrypoint.sh`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/myentrypoint.sh' },
+            { source: `${configPath}/settings/network-node/config.txt`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/config.txt' },
+            { source: `${configPath}/settings/network-node/settings.txt`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/settings.txt' },
+            { source: `${configPath}/settings/network-node/log4j2.xml`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/log4j2.xml' },
+            { source: `${configPath}/settings/network-node/hedera.crt`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/hedera.crt' },
+            { source: `${configPath}/settings/network-node/hedera.key`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/hedera.key' }
         ])
         .withCopyDirectoriesToContainer([
-            { source: `${configPath}/hedera-local-node-settings/network-node/data/config`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/data/config' },
-            { source: `${configPath}/hedera-local-node-settings/network-node/data/keys`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/data/keys' },
-            { source: `${configPath}/hedera-local-node-settings/record-parser`, target: '/opt/hgcapp/recordParser' }
+            { source: `${configPath}/settings/network-node/data/config`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/data/config' },
+            { source: `${configPath}/settings/network-node/data/keys`, target: '/opt/hgcapp/services-hedera/HapiApp2.0/data/keys' },
+            { source: `${configPath}/settings/record-parser`, target: '/opt/hgcapp/recordParser' }
         ])
         .withEnvironment(
             {
@@ -58,7 +56,7 @@ export async function startContainers(configPath: string): Promise<void> {
         .withName('mirror-node-db-single')
         .withNetworkAliases('mirror-node-db-single')
         .withCopyFilesToContainer([
-            { source: `${configPath}/hedera-local-node-settings/mirror-node/init.sh`, target: '/docker-entrypoint-initdb.d/init.sh' }
+            { source: `${configPath}/settings/mirror-node/init.sh`, target: '/docker-entrypoint-initdb.d/init.sh' }
         ])
         .withEnvironment({
             'POSTGRES_HOST_AUTH_METHOD': 'scram-sha-256',
@@ -100,7 +98,7 @@ async function startMirrorNodeGrpc(configPath: string, network: StartedNetwork, 
         .withName('mirror-node-grpc-single')
         .withNetworkAliases('mirror-node-grpc-single')
         .withCopyFilesToContainer([
-            { source: `${configPath}/hedera-local-node-settings/mirror-node/application.yml`, target: '/usr/etc/hedera-mirror-grpc/application.yml' }
+            { source: `${configPath}/settings/mirror-node/application.yml`, target: '/usr/etc/hedera-mirror-grpc/application.yml' }
         ])
         .withEnvironment({
             'JAVA_HEAP_MIN': '64m',
@@ -118,7 +116,7 @@ async function startMirrorNodeRest(configPath: string, network: StartedNetwork, 
         .withDefaultLogDriver()
         .withNetwork(network)
         .withExposedPorts(
-            { container: 5551, host: 5551} 
+            { container: 5551, host: 5551 }
         )
         .withUser('root')
         .withName('mirror-node-rest-single')
@@ -144,8 +142,8 @@ async function startMirrorNodeImporter(configPath: string, network: StartedNetwo
             { source: `${configPath}/network_logs/recordStreams/record0.0.3`, target: '/node/streams/recordstreams/record0.0.3' }
         ])
         .withCopyFilesToContainer([
-            { source: `${configPath}/hedera-local-node-settings/mirror-node/application.yml`, target: '/usr/etc/hedera-mirror-importer/application.yml' },
-            { source: `${configPath}/hedera-local-node-settings/mirror-node/addressBook.bin`, target: '/usr/etc/hedera-mirror-importer/local-dev-1-node.addressbook.f102.json.bin' }
+            { source: `${configPath}/settings/mirror-node/application.yml`, target: '/usr/etc/hedera-mirror-importer/application.yml' },
+            { source: `${configPath}/settings/mirror-node/addressBook.bin`, target: '/usr/etc/hedera-mirror-importer/local-dev-1-node.addressbook.f102.json.bin' }
         ])
         .withEnvironment({
             'HEDERA_MIRROR_IMPORTER_DB_HOST': db.getIpAddress('bridge'),
@@ -163,13 +161,13 @@ async function startMirrorNodeMonitor(configPath: string, network: StartedNetwor
         .withName('mirror-node-monitor-single')
         .withNetworkAliases('mirror-node-monitor-single')
         .withCopyFilesToContainer([
-          { source: `${configPath}/hedera-local-node-settings/mirror-node/application.yml`, target: '/usr/etc/hedera-mirror-monitor/application.yml' }
+            { source: `${configPath}/settings/mirror-node/application.yml`, target: '/usr/etc/hedera-mirror-monitor/application.yml' }
         ])
         .withEnvironment(
             {
-              'JAVA_HEAP_MIN': '64m',
-              'JAVA_HEAP_MAX': '256m',
-              'SPRING_CONFIG_ADDITIONAL_LOCATION': 'file:/usr/etc/hedera-mirror-monitor/'
+                'JAVA_HEAP_MIN': '64m',
+                'JAVA_HEAP_MAX': '256m',
+                'SPRING_CONFIG_ADDITIONAL_LOCATION': 'file:/usr/etc/hedera-mirror-monitor/'
             }
         )
         .withWaitStrategy(Wait.forLogMessage('Started MonitorApplication'))

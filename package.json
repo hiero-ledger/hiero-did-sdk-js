@@ -1,10 +1,10 @@
 {
   "name": "hashgraph-did-sdk",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "docs:build": "antora antora-playbook.yml",
     "docs:serve": "npx http-server ./build/site",
-    "test:cucumber": "cucumber-js -p default",
+    "test:cucumber": "TS_NODE_PROJECT=tsconfig.cucumber.json cucumber-js --config cucumber.mjs --exit",
     "packages:build": "lerna run build",
     "packages:test": "lerna run --parallel test",
     "packages:test:coverage": "jest --coverage",
@@ -14,12 +14,13 @@
   "devDependencies": {
     "@antora/cli": "^3.1.9",
     "@antora/site-generator-default": "^3.1.9",
-    "@cucumber/cucumber": "^7.0.0",
+    "@cucumber/cucumber": "^11.0.1",
     "@eslint/js": "^9.13.0",
     "@sntke/antora-mermaid-extension": "^0.0.6",
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.13",
-    "@types/node": "^22.7.4",
+    "@types/node": "^22.8.6",
+    "ajv": "^8.17.1",
     "dotenv": "^16.4.5",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
