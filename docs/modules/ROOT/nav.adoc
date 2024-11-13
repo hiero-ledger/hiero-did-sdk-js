@@ -6,9 +6,9 @@
   ** xref:02-analysis/requirements/index.adoc[Requirements]
 
 * Design
-  ** xref:03-design/architecture/01_introduction_and_goals/index.adoc[Introduction and Goals]
-  ** xref:03-design/architecture/03_architecture/index.adoc[Architecture]
-  ** xref:03-design/architecture/04_architecture_decisions/index.adoc[Architecture Decisions]
+  ** xref:03-design/01_introduction_and_goals/index.adoc[Introduction and Goals]
+  ** xref:03-design/03_architecture/index.adoc[Architecture]
+  ** xref:03-design/04_architecture_decisions/index.adoc[Architecture Decisions]
 
 * Implementation
   ** xref:04-implementation/getting-started/index.adoc[Getting Started]

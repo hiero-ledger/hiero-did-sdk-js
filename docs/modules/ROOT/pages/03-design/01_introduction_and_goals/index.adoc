@@ -1,0 +1,11 @@
+== Introduction and Goals
+
+include::00_executive_summary.adoc[]
+
+include::01_stakeholders.adoc[]
+
+include::02_requirements_overview.adoc[]
+
+include::03_risks_tech-debt.adoc[]
+
+include::04_glossary.adoc[]

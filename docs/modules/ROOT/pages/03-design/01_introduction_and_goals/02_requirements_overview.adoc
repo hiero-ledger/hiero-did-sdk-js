@@ -1,0 +1,94 @@
+=== Requirements Overview
+
+==== Functional Requirements
+
+This table lists the functional requirements for the Hashgraph DID-SDK, detailing the specific functionalities it must provide.
+
+[cols="1,8", id="requirements", options="header"]
+|===
+|ID | Requirement
+
+|[[FR-001]]FR-001 
+| The SDK shall support multibase encoding 
+
+|[[FR-002]]FR-002
+| The SDK shall support manual node selection 
+
+|[[FR-003]]FR-003 
+| The SDK shall allow serialization of transactions 
+
+|[[FR-004]]FR-004
+| The SDK shall allow freezing of transactions 
+
+|[[FR-005]]FR-005
+| The SDK shall allow signing transactions with external keys 
+
+|[[FR-006]]FR-006 
+| The SDK shall allow signing transactions with private keys 
+
+|[[FR-007]]FR-007 
+| The SDK shall support the 2018 verification key format 
+
+|[[FR-008]]FR-008 
+| The SDK shall support the 2020 verification key format 
+
+|[[FR-009]]FR-009 
+| The SDK shall include a DID resolver 
+
+|[[FR-010]]FR-010 
+| The SDK shall support JSON-LD format for DID resolution 
+
+|[[FR-011]]FR-011 
+| The SDK shall support dereferencing of DID services 
+
+|[[FR-012]]FR-012
+| The SDK shall support JSON format for DID resolution 
+
+|[[FR-013]]FR-013 
+| The SDK shall support CBOR format for DID resolution 
+
+|[[FR-014]]FR-014 
+| The SDK shall support dereferencing of DID fragments 
+
+|[[FR-015]]FR-015 
+| The SDK shall support management of DID services 
+
+|[[FR-016]]FR-016 
+| The SDK shall allow creation of DIDs 
+
+|[[FR-017]]FR-017 
+| The SDK shall enable batch updates for DID registrations 
+
+|[[FR-018]]FR-018 
+| The SDK shall allow transfer of DID ownership 
+
+|[[FR-019]]FR-019 
+| The SDK shall allow deactivation of DIDs 
+
+|[[FR-020]]FR-020 
+| The SDK shall support management of DID verification relationships 
+
+|[[FR-021]]FR-021 
+| The SDK shall support management of DID verification methods 
+|===
+
+==== Non-Functional Requirements
+
+This table lists the non-functional requirements for the Hashgraph DID-SDK, specifying quality attributes like performance, security, and maintainability.
+
+[cols="1,8", options="header"]
+|===
+|ID | Requirement
+
+|[[NFR-001]]NFR-001
+| The SDK shall be compatible with various environments 
+
+|[[NFR-002]]NFR-002 
+| The SDK shall have minimal dependencies on external Node modules 
+
+|[[NFR-003]]NFR-003
+| The SDK shall be compatible with specified Node.js versions 
+
+|[[NFR-004]]NFR-004 
+| The SDK shall have comprehensive test coverage 
+|===

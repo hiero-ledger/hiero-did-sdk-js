@@ -1,0 +1,36 @@
+=== Runtime View
+
+This diagram illustrates the runtime interactions between the components of the Hashgraph DID-SDK, a dApp developer, and the Hedera network during a typical DID management workflow. It shows the sequence of operations and how data flows between the components.
+
+image::runtime-view-diagram.png[]
+
+==== Components
+
+* **dApp Developer:**  The developer interacts with the DID-SDK to manage DIDs.
+
+* **Hashgraph DID-SDK:**  Contains the components responsible for DID operations:
+
+    * **Registrar:**  Handles DID creation, updates, deactivation, and resolution.
+    * **Resolver:** Resolves DID Documents.
+    * **Signer:** Signs DID messages.
+    * **Publisher:** Signs and publishes transactions.
+
+* **Hedera Topic Service:**  Provides a publish/subscribe mechanism for DID communication.
+
+* **Hedera Node:**  Acts as a gateway to the Hedera network.
+
+==== Interactions (Runtime Workflow)
+
+1. **DID Management:** The dApp developer initiates DID management operations (create, update, deactivate) through the Registrar component.
+
+2. **Signature Request:** The Registrar requests the Signer to sign the DID message.
+
+3. **DID Document Publication:** The Registrar sends the DID Document to the Publisher for publication.
+
+4. **Transaction Publication:** The Publisher signs the transaction and publishes it to the Hedera Topic Service.
+
+5. **Communication with Hedera Network:** The Hedera Topic Service interacts with the Hedera Node to process the transaction.
+
+6. **DID Document Resolution:** The dApp developer requests the Resolver to resolve a DID Document.
+
+7. **DID Document Retrieval:** The Resolver retrieves the DID Document from the Hedera Topic Service.

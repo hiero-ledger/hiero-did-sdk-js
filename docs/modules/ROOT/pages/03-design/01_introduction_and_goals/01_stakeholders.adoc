@@ -1,0 +1,28 @@
+=== Stakeholders
+
+This table outlines the key stakeholders involved in the development of the Hashgraph DID-SDK and their respective roles and expectations.
+
+[cols="2,2,3", options="header"]
+|===
+| Role | Contact | Expectations
+
+| Head of Engineering
+| Micha Roon 
+| Technical feasibility, performance, and alignment with Hedera's architecture
+
+| Lead Developer 
+| Pablo Buitrago 
+| Code quality, technical implementation, and adherence to best practices
+
+| Software Engineer 
+| Jakub Sydor 
+| Code quality, technical implementation, and efficient code execution
+
+| Scrum Master 
+| Gabriele Morelli 
+| On-time delivery, effective sprint management, and removal of impediments
+
+| Quality Assurance Engineer 
+| Waldemar Trawnicki 
+| Software quality, bug identification, and test coverage
+|===

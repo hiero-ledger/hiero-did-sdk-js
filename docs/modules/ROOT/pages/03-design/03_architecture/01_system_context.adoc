@@ -1,0 +1,19 @@
+=== System Context
+
+This diagram illustrates the high-level relationship between the Hashgraph DID-SDK and its primary users and dependencies. It provides a clear overview of how the SDK facilitates decentralized application development on the Hedera network.
+
+image::system-context-diagram.png[]
+
+==== Components
+
+* **dApp Developer:** Represents developers who utilize the DID-SDK to build decentralized applications that leverage decentralized identities on the Hedera network. They interact with the SDK to create, manage, and resolve DIDs, and to integrate verifiable credentials into their applications.
+
+* **Hashgraph DID-SDK:** A software development kit that provides tools and functionalities for managing decentralized identities on the Hedera Hashgraph network. It simplifies the process of working with DIDs by abstracting away the complexities of interacting with the Hedera network.
+
+* **Hedera Network:** The underlying distributed ledger technology that provides the infrastructure for creating and managing DIDs. It ensures the security and immutability of DID documents and verifiable credentials. The Hedera Consensus Service (HCS) plays a crucial role in anchoring DIDs to the Hedera network, providing a verifiable and auditable history of DID operations.
+
+==== Interactions
+
+* **dApp Developers use the Hashgraph DID-SDK:** Developers utilize the SDK's functions to integrate DID management capabilities into their applications. This includes generating key pairs, creating DID documents, updating DID information, and revoking DIDs when necessary.
+
+* **Hashgraph DID-SDK uses the Hedera Network:** The SDK interacts with the Hedera network to submit transactions related to DID management. This ensures that all DID operations are recorded on the Hedera ledger and are verifiable by anyone.
