@@ -1,3 +1,0 @@
-= Introduction and Goals
-
-Out of scope for the current Sprint.

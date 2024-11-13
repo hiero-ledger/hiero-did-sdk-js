@@ -1,4 +1,0 @@
-[WARNING]
-====
-This feature is currently outside the scope of the sprint.
-====

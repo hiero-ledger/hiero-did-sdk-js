@@ -1,0 +1,21 @@
+=== NFR 004: Testing
+
+==== Description
+
+Testing is an important part of the development process. The SDK should be tested in all the supported environments to ensure compatibility. The SDK should be tested with all the supported versions of Node.js to ensure compatibility. The SDK should be tested with both CommonJS and ES Modules to ensure compatibility. 80% code coverage should be achieved in the testing process. Unit tests and integration tests should be written to test the SDK. Each module of the SDK should be tested to ensure that it works as expected.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should be tested in all the supported environments.
+* The SDK should be tested with all the supported versions of Node.js.
+* The SDK should be tested with both CommonJS and ES Modules.
+* 80% code coverage should be achieved in the testing process.
+* Unit tests and integration tests should be written to test the SDK.
+
+==== References
+
+N/A

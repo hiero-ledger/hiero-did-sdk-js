@@ -1,5 +1,0 @@
-= `resolveDID` Function
-
-This document provides a concise reference for the `resolveDID` function within the Hedera DID SDK for JavaScript.
-
-include::../shared/under-development.adoc[]

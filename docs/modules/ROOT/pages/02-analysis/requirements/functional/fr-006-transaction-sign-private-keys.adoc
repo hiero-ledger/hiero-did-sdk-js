@@ -1,0 +1,19 @@
+=== FR 006: Transaction And Operation Should Be Able To Sign With Private Keys
+
+==== Description
+
+Any operation or transaction performed using the SDK should be able to be signed with private keys. Signing a transaction or operation with provided private keys. This will help be more compatible with previous SDK version and provide more flexibility to the users.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide a method to sign a transaction or operation with private keys.
+* User should be able to provide a private key in various formats like hex, base64, etc. preferably in multibase format.
+* The SDK should handle the signing process and return the signed transaction or operation.
+
+==== References
+
+* https://w3c-ccg.github.io/multibase/

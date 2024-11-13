@@ -1,0 +1,5 @@
+== resolveDID Function Tests
+
+This document outlines the various scenarios for resolving DID documents using the `resolveDID` function in the SDK.
+
+include::../../../shared/under-development.adoc[]

@@ -1,5 +1,0 @@
-= Lifecycle
-
-== Overview
-
-include::../../../shared/out-of-the-sprint-scope.adoc[]

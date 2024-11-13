@@ -1,0 +1,23 @@
+=== FR 019: Deactivate A DID
+
+==== Description
+
+Deactivate a DID and associated DID document, according to a Hedera DID method specification. Clients should be able to deactivate a DID using provided Private Key or be able to delegate the signing to the external service.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide an option to deactivate a DID.
+* The SDK should support following Key Management modes: 
+** Internal Secret Mode
+** External Secret Mode
+** Client-managed Secret Mode
+
+==== References
+
+* https://identity.foundation/did-registration/#key-management
+* https://identity.foundation/did-registration/#deactivate
+* https://github.com/hashgraph/did-method/

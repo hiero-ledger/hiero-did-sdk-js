@@ -1,0 +1,11 @@
+= Requirements
+
+This section outlines the system's functional and non-functional requirements, defining what the system must achieve and the constraints it must operate within. Update this section when requirements are added, modified, or removed to ensure alignment with stakeholder needs and project goals.
+
+== Functional
+
+include::functional/index.adoc[]
+
+== Non-Functional
+
+include::non-functional/index.adoc[]

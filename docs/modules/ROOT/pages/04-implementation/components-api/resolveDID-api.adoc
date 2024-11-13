@@ -1,0 +1,15 @@
+= `resolveDID` Function
+
+This document provides a concise reference for the `resolveDID` function within the Hedera DID SDK for JavaScript.
+
+include::../../shared/under-development.adoc[]
+
+== Class Diagram
+
+The following class diagram provides a visual representation of the relationships between key classes and interfaces involved in the `resolveDID` function.
+
+image::resolveDID-class-diagram.png[]
+
+== Function Implementation
+
+The Hashgraph DID SDK provides a `resolveDID` function within its `resolver` package. For further details, refer to the xref:06-deployment/packages/index.adoc#resolver-package[`@hashgraph-did-sdk-js/resolver`] package documentation.

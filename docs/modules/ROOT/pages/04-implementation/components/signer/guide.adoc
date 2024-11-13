@@ -1,0 +1,29 @@
+= Signer
+
+The `Signer` is a fundamental component of the Hashgraph DID SDK, responsible for securely managing cryptographic keys and generating digital signatures for DID operations.  These signatures are essential for ensuring the authenticity and integrity of actions like creating, updating, or deactivating a DID. The `Signer` supports the Hedera DID method, adhering to the DID specification and integrating seamlessly with the Hedera ecosystem.
+
+This component provides a standardized interface for signing and verifying data, enabling interoperability between different DID methods and key management solutions. It offers a streamlined approach to handle cryptographic operations, enhancing security and simplifying DID management within the SDK.
+
+== Interface
+
+The `Signer` interface defines the core methods for signing, retrieving public keys, and verifying signatures. Developers can create and contribute their own implementations of this interface to integrate with various key management systems and custom signing logic, catering to a wide range of use cases and security requirements.
+
+This interface defines the core methods for signing, retrieving public keys, and verifying signatures:
+
+*  `sign(message: Uint8Array): Promise<Uint8Array> | Uint8Array`:  Asynchronously signs the provided message using the signer's private key and returns a `Promise` that resolves to the signature.
+*  `publicKey(): Promise<MultibasePublicKey>`: Asynchronously retrieves the public key associated with the signer.
+*  `verify(message: Uint8Array, signature: Uint8Array): Promise<boolean>`:  Asynchronously verifies the given signature against the provided message using the signer's public key, returning a `Promise` that resolves to `true` if the signature is valid, `false` otherwise.
+
+Developers are encouraged to create and contribute their own signer implementations, adhering to the `Signer` interface, to extend the SDK's capabilities and support a broader range of distributed ledger technologies and custom transaction handling logic.
+
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `Signer` interface for interacting with cryptographic keys.
+
+image::signer-class-diagram.png[]
+
+== Implementations
+
+The Hashgraph DID SDK offers various out-of-the-box signer implementations to cater to diverse key management needs. These are provided as separate packages for modularity and flexibility.
+
+For example, the `signer-internal` package provides an internal signer that manages keys within the application's memory. This is suitable for development, testing, or applications with less stringent security needs. See the xref:06-deployment/packages/index.adoc#signer-internal-package[`@hashgraph-did-sdk-js/signer-internal`] package documentation.

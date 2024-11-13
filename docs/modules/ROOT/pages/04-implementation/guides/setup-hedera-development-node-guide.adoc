@@ -1,0 +1,26 @@
+= Setup Hedera Development Node
+
+include::../../shared/under-development.adoc[]
+
+== Introduction
+
+This guide provides step-by-step instructions to set up a Hedera development node on your local machine. A development node allows you to interact with the Hedera network in a sandboxed environment, making it ideal for:
+
+* **Learning and experimentation:** Explore Hedera Hashgraph concepts, APIs, and SDKs without incurring costs on the mainnet.
+* **Application development:** Build and test your decentralized applications (dApps) locally before deploying them to a production environment.
+* **Smart contract development:** Develop and debug your Solidity smart contracts in a controlled setting.
+
+By following this guide, you'll be able to quickly set up a Hedera development node and start building on the Hashgraph.
+
+**Prerequisites:**
+
+* **Basic understanding of command-line interfaces:** You should be comfortable using a terminal or command prompt.
+* **Docker:** Make sure you have Docker installed on your system. You can download it from the official Docker website: [https://www.docker.com/](https://www.docker.com/)
+
+**What you'll learn:**
+
+* How to download and run a Hedera development node Docker image.
+* How to configure your Hedera development node.
+* How to interact with your node using the Hedera command-line tools.
+
+Let's get started!

@@ -1,0 +1,27 @@
+=== FR 016: Register A DID
+
+==== Description
+
+Register a DID and associated DID document, according to a Hedera DID method specification. Clients should be able to register a DID using provided Private Key or be able to delegate the signing to the external service. 
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide an option to register a DID.
+* The SDK should be compatible with the Hedera DID method specification.
+* The SDK should provide an option to register a DID using a provided Private Key.
+* The SDK should provide an option to delegate the signing to an external service.
+* The SDK should support following Key Management modes: 
+** Internal Secret Mode
+** External Secret Mode
+** Client-managed Secret Mode
+
+==== References
+
+* https://identity.foundation/did-registration/#key-management
+* https://www.w3.org/TR/did-core/
+* https://identity.foundation/did-registration/#update
+* https://github.com/hashgraph/did-method/

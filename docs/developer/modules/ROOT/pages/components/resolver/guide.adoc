@@ -1,5 +1,0 @@
-= Resolver
-
-== Overview
-
-The `Resolver` is a fundamental component of the Hashgraph DID SDK, responsible for resolving Decentralized Identifiers (DIDs) to their corresponding DID Documents. It retrieves and cryptographically verifies these documents, which contain important information about the DID subject, such as public keys and authentication mechanisms. Supporting the Hedera DID method, the `Resolver` adheres to the DID specification and uses the Hedera Consensus Service (HCS) for secure and verifiable retrieval, enabling a wide range of DID operations.

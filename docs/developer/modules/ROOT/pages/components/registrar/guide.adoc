@@ -1,5 +1,0 @@
-= Registrar
-
-== Overview
-
-The Registrar is a core component of the Hashgraph DID SDK, responsible for registering and updating Decentralized Identifiers (DIDs) on the Hedera network. It facilitates the creation and management of DIDs by interacting with the Hedera Consensus Service (HCS), ensuring the secure and verifiable registration of DID documents. Supporting the Hedera DID method, the Registrar adheres to the DID specification and provides a streamlined interface for developers to integrate DID management into their applications.

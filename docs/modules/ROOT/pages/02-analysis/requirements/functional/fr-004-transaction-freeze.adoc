@@ -1,0 +1,21 @@
+=== FR 004: Transaction And Operation Should Be Able To Be Frozen
+
+==== Description
+
+Any operation or transaction performed using the SDK should be able to be frozen. Freezing a transaction or operation involves blocking the possibility of further editing, thus putting it in a state ready to be signed and executed. In this way, we will be able to avoid consistency problems.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide a method to freeze a transaction or operation.
+* The SDK should provide a method to check if a transaction or operation is frozen.
+* The frozen state of a transaction or operation should be immutable.
+* The frozen state of a transaction or operation should be irreversible.
+* The frozen transaction or operation should be ready to be signed and executed.
+
+==== References
+
+* https://github.com/hashgraph/hedera-sdk-reference/blob/main/reference/core/Transaction.md#freeze--transaction

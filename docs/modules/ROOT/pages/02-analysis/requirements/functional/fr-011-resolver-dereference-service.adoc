@@ -1,0 +1,29 @@
+=== FR 011: Dereference DID Document Service
+
+==== Description
+
+The SDK should provide an option to dereference a DID Document service. Dereferencing a service means resolving the service endpoint to a specific URL. The resolved URL should be fully compatible with the DID specification. Dereferencing should be supported by DID URL. Optional user can pass additional parameter `relativeRef` to resolve the service endpoint with relative reference. Resolved service endpoint should be a valid URL.
+
+Example of a DID URL with relative reference:
+```
+did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790?service=service-1&relativeRef=/path/to/endpoint
+```
+or
+```
+did:hedera:testnet:z8brLDSMuByWYqd1A7yUhaiL8T2LKcxeUdihD4GmHdzar_0.0.4388790?service=service-1
+```
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide an option to dereference a DID Document service.
+* The SDK should be compatible with the DID specification.
+* The SDK should support dereferencing a service endpoint with relative reference.
+* The resolved service endpoint should be a valid URL.
+
+==== References
+
+* https://www.w3.org/TR/did-core/#did-url-dereferencing

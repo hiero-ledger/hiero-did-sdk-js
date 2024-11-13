@@ -1,0 +1,20 @@
+=== FR 005: Transaction And Operation Should Be Able To Sign With External Keys
+
+==== Description
+
+Any operation or transaction performed using the SDK should be able to be signed with external keys. Signing a transaction or operation with external keys involves using a key pair that is not managed by the SDK. This way, we will be able to sign transactions or operations with keys stored in a hardware wallet or any other external key management system.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should give ability to sign a transaction or operation with external keys.
+* The SDK should provide a asynchronous method to sign a transaction or operation.
+
+==== References
+
+* https://www.vaultproject.io/use-cases/key-management
+* https://aws.amazon.com/kms/
+* https://bladewallet.io/

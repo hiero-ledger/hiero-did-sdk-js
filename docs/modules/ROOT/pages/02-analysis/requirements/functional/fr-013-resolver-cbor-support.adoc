@@ -1,0 +1,20 @@
+=== FR 013: Resolve DID Document In CBOR Format
+
+==== Description
+
+The SDK should provide an option to resolve a DID Document in Concise Binary Object Representation (CBOR) format in hexadecimal encoding. The resolved DID Document should be fully compatible with the DID specification.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide an option to resolve a DID Document in CBOR format.
+* The SDK should be compatible with the CBOR format of the DID Document.
+
+==== References
+
+* https://www.rfc-editor.org/rfc/rfc8949.html
+* https://www.w3.org/TR/did-core/#production-and-consumption
+* https://www.w3.org/TR/did-cbor-representation/

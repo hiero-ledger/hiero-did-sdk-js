@@ -1,0 +1,19 @@
+=== FR 010: Resolve DID Document In JSON LD Format
+
+==== Description
+
+The SDK should provide a way to resolve a DID Document in JSON-LD format. JSON-LD representation of a DID Document is a standard way to represent a DID Document in a machine-readable format. The SDK should add proper JSON-LD context to the resolved DID Document.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide an option to resolve a DID Document in JSON-LD format.
+* The SDK should add proper JSON-LD context to the resolved DID Document.
+
+==== References
+
+* https://www.w3.org/TR/json-ld11/
+* https://www.w3.org/TR/did-core/#json-ld

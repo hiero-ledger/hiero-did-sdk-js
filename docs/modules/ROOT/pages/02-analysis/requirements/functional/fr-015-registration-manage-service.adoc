@@ -1,0 +1,25 @@
+=== FR 015: Manage Service
+
+==== Description
+
+The SDK should provide an option to manage the services of a DID Document. Clients should be able to add and revoke services from the DID Document. The SDK should be compatible with the Hedera DID method specification.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide an option to add a service to a DID Document.
+* The SDK should provide an option to revoke a service from a DID Document.
+* The SDK should support following Key Management modes: 
+** Internal Secret Mode
+** External Secret Mode
+** Client-managed Secret Mode
+
+==== References
+
+* https://identity.foundation/did-registration/#key-management
+* https://www.w3.org/TR/did-core/
+* https://identity.foundation/did-registration/#update
+* https://github.com/hashgraph/did-method/

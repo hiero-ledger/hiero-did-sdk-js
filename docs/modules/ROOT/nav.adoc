@@ -1,0 +1,43 @@
+* Planning
+  ** HIPs
+    **** xref:01-planning/hips/hip-0001-new-did-sdk.adoc[HIP-001 New Hashgraph DID-SDK]
+
+* Analysis
+  ** xref:02-analysis/requirements/index.adoc[Requirements]
+
+* Design
+  *** xref:03-design/architecture/01_introduction_and_goals/index.adoc[Introduction and Goals]
+  *** xref:03-design/architecture/03_architecture/index.adoc[Architecture]
+  *** xref:03-design/architecture/04_architecture_decisions/index.adoc[Architecture Decisions]
+
+* Implementation
+  ** xref:04-implementation/getting-started/index.adoc[Getting Started]
+  ** Guides
+    *** xref:04-implementation/guides/setup-hedera-development-node-guide.adoc[Setup Hedera Development Node]
+    *** xref:04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes]
+  ** Components
+    *** xref:04-implementation/components/resolver/index.adoc[Resolver]
+    *** xref:04-implementation/components/registrar/index.adoc[Registrar]
+    *** xref:04-implementation/components/signer/guide.adoc[Signer]
+    *** xref:04-implementation/components/publisher/guide.adoc[Publisher]
+    *** xref:04-implementation/components/advanced/guide.adoc[Advanced]
+      **** xref:04-implementation/components/advanced/message/guide.adoc[Message]
+      **** xref:04-implementation/components/advanced/lifecycle/guide.adoc[Lifecycle]
+        ***** xref:04-implementation/components/advanced/lifecycle/builder/guide.adoc[Builder]
+        ***** xref:04-implementation/components/advanced/lifecycle/runner/guide.adoc[Runner]
+
+  ** Components API
+    *** xref:04-implementation/components-api/resolveDID-api.adoc[resolveDID Function]
+    *** xref:04-implementation/components-api/createDID-api.adoc[createDID Function]
+    *** xref:04-implementation/components-api/updateDID-api.adoc[updateDID Function]
+    *** xref:04-implementation/components-api/didUpdateBuilder-api.adoc[DIDUpdateBuilder Class]
+    *** xref:04-implementation/components-api/deactivateDID-api.adoc[deactivateDID Function]
+
+* Testing 
+  ** xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests]
+
+* Deployment
+  ** xref:06-deployment/packages/index.adoc[Packages]
+
+* Maintenance
+  ** xref:07-maintenance/support/guide.adoc[Support]

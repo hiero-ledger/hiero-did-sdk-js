@@ -1,0 +1,11 @@
+= Packages
+
+This section lists the packages that make up the Hashgraph DID SDK, enabling decentralized identity on Hedera Hashgraph. Update this section when packages are added, modified, or removed to ensure alignment with current standards and functionality.
+
+include::registrar-package.adoc[]
+
+include::signer-internal-package.adoc[]
+
+include::publisher-internal-package.adoc[]
+
+include::resolver-package.adoc[]

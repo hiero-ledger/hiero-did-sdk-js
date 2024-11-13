@@ -1,3 +1,0 @@
-= Risks and Technical Debt
-
-Out of scope for the current Sprint.
