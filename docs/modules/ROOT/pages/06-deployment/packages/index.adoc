@@ -1,4 +1,4 @@
-= Packages
+= npm Packages
 
 This section lists the packages that make up the Hashgraph DID SDK, enabling decentralized identity on Hedera Hashgraph. Update this section when packages are added, modified, or removed to ensure alignment with current standards and functionality.
 

@@ -1,0 +1,3 @@
+This document outlines various scenarios for publishing DID documents to the Hedera network using the SDK's `Publisher` component.
+
+include::../../shared/under-development.adoc[]

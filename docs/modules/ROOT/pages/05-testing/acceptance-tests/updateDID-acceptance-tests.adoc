@@ -1,5 +1,5 @@
-== updateDID Function Tests
+=== updateDID Function
 
 This document outlines the various scenarios for updating DID documents using the `updateDID` function in the SDK.
 
-include::../../../shared/under-development.adoc[]
+include::../../shared/under-development.adoc[]

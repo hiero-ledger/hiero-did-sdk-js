@@ -1,0 +1,5 @@
+=== createDID Function
+
+This document outlines the various scenarios for creating DID documents using the `createDID` function in the SDK.
+
+include::../../shared/under-development.adoc[]
