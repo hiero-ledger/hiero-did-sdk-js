@@ -11,8 +11,8 @@
   ** xref:03-design/04_architecture_decisions/index.adoc[Architecture Decisions]
 
 * Implementation
-  ** xref:04-implementation/getting-started/index.adoc[Getting Started]
   ** Guides
+    *** xref:04-implementation/guides/getting-started.adoc[Getting Started]
     *** xref:04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes]
     *** Advanced
       **** xref:04-implementation/guides/advanced/setup-hedera-development-node-guide.adoc[Setup Hedera Development Node]
