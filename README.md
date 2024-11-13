@@ -16,6 +16,15 @@ This repository houses a robust JavaScript SDK designed to streamline the integr
 * **Standards Compliant:**  Built in accordance with the W3C DID specification and the Hedera DID Method.
 * **Enhanced Developer Experience:**  Leverages TypeScript for improved type safety and code maintainability.
 
+## HIPs
+
+This SDK implements the following Hedera Improvement Proposals (HIPs):
+
+  * [HIP-0001](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/01-planning/hips/hip-0001-new-did-sdk.html): This HIP proposes the creation of a new JavaScript SDK for managing Decentralized Identifiers (DIDs) on the Hedera network. The SDK aims to provide a comprehensive and user-friendly interface for developers to integrate DIDs into their applications.
+
+## Requirements
+
+This SDK was developed to fulfill a set of specific requirements outlined in the [Requirements Document](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/02-analysis/requirements/index.html). These requirements encompass various aspects of DID management, security, and developer experience, ensuring that the SDK meets the needs of its users effectively.
 
 ## Design
 
