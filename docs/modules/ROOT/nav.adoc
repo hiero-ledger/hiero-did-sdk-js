@@ -13,8 +13,9 @@
 * Implementation
   ** xref:04-implementation/getting-started/index.adoc[Getting Started]
   ** Guides
-    *** xref:04-implementation/guides/setup-hedera-development-node-guide.adoc[Setup Hedera Development Node]
     *** xref:04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes]
+    *** Advanced
+      **** xref:04-implementation/guides/advanced/setup-hedera-development-node-guide.adoc[Setup Hedera Development Node]
   ** Components
     *** xref:04-implementation/components/resolver/index.adoc[Resolver]
     *** xref:04-implementation/components/registrar/index.adoc[Registrar]
