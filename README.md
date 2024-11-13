@@ -19,23 +19,23 @@ This repository houses a robust JavaScript SDK designed to streamline the integr
 
 ## Design
 
-Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the [Architecture Overview](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/03-design/01_introduction_and_goals/index.html).
+Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/03-design/01_introduction_and_goals/index.html" target="_blank">Architecture Overview</a>.
 
 ## Implementation
 
-For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed [Implementation Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/getting-started/index.html).
+For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/getting-started/index.html" target="_blank">Implementation Guide</a>.
 
 ## Testing
 
-Rigorous [Acceptance Tests](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/05-testing/acceptance-tests/index.html) have been implemented to validate the SDK's functionality against real-world scenarios and ensure it meets user requirements.
+Rigorous <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/05-testing/acceptance-tests/index.html" target="_blank">Acceptance Tests</a> have been implemented to validate the SDK's functionality against real-world scenarios and ensure it meets user requirements.
 
 ## Deployment
 
-This SDK is distributed as a collection of packages.  Detailed information about these packages and their contents can be found in the [Packages](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/06-deployment/packages/index.html) section.
+This SDK is distributed as a collection of packages.  Detailed information about these packages and their contents can be found in the <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/06-deployment/packages/index.html" target="_blank">Packages</a> section.
 
 ## Maintenance
 
-Should you encounter any issues or require assistance, please refer to the comprehensive [Support Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/07-maintenance/support/guide.html).
+Should you encounter any issues or require assistance, please refer to the comprehensive <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/07-maintenance/support/guide.html" target="_blank">Support Guide</a>.
 
 ## License
 
