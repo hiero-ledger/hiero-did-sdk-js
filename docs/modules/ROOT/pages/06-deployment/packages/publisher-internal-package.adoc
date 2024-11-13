@@ -1,15 +1,15 @@
-== Publisher Package
+== Publisher Internal Package
 
 This package provides an internal publisher for the Hashgraph DID SDK, enabling direct interaction with the Hedera network to publish DID documents and updates. It offers a streamlined approach for submitting DID-related transactions to the Hedera ledger.
 
-=== Installation
+*Installation*
 
 [source,bash]
 ----
 npm install @hashgraph-did-js-sdk/publisher-internal
 ----
 
-=== Usage
+*Usage*
 
 The following example demonstrates how to use the `Publisher` to submit a transaction to the Hedera network:
 

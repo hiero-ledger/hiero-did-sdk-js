@@ -2,7 +2,7 @@
 
 This package provides the functionality for resolving Decentralized Identifiers (DIDs) registered using the Hedera DID method. It allows you to retrieve and verify DID Documents associated with a given DID, ensuring you have the latest, cryptographically-verified information.
 
-=== Installation
+*Installation*
 
 Install the package via npm:
 
@@ -11,7 +11,7 @@ Install the package via npm:
 npm install @hashgraph-did-js-sdk/resolver
 ----
 
-=== Usage
+*Usage*
 
 Here's an example demonstrating how to resolve a DID and retrieve its DID Document:
 

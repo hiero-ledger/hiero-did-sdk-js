@@ -2,14 +2,14 @@
 
 This package provides an internal signer for the Hashgraph DID SDK, managing keys in memory. It's suitable for development, testing, and applications with less stringent security needs.
 
-=== Installation
+*Installation*
 
 [source,bash]
 ----
 npm install @hashgraph-did-js-sdk/signer-internal
 ----
 
-=== Usage
+*Usage*
 
 The example below demonstrates how to use the `Signer`:
 
