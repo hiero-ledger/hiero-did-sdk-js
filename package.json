@@ -9,7 +9,8 @@
     "packages:test": "jest",
     "packages:test:ci": "jest --ci --coverage --testLocationInResults --json --outputFile=coverage/report.json",
     "packages:lint": "eslint 'packages/**/**.ts'",
-    "packages:release": "lerna publish"
+    "packages:release": "lerna publish",
+    "hedera:start": "ts-node ./test_suites/hederaLocalNode.ts"
   },
   "devDependencies": {
     "@antora/cli": "^3.1.9",

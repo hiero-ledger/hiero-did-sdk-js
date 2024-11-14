@@ -1,3 +1,47 @@
 = Setup Hedera Development Node
 
 include::../../../shared/under-development.adoc[]
+
+== Run local hedera node used by internal testing suite
+
+*Run*
+
+[source,bash]
+----
+npm run hedera:start
+----
+
+*Console output*
+
+[source,bash]
+----
+Starting Hedera Local Node containers...
+Started Hedera Local Node containers...done.
+----
+
+*Accounts list*
+[cols="1,1,1"]
+|===
+|ID |Private key | balance
+
+|0.0.1002 |0x2c55a65b9ae99b5aee790f3f07634896627a26c9fd8460c97058b32579684b60 |10000 ℏ 
+|0.0.1003 |0x0e2161b2e6f2d801ef364042e6c0792aa10e07fa38680de06d4db0036c44f4b6 |10000 ℏ 
+|0.0.1004 |0x30173710e439883b329042c1a5e15b0e982a2caf3e9c7e93e3c88b953addd651 |10000 ℏ 
+|0.0.1005 |0x3ee101ae0556279500bcb276d80db192ffe7a36d9a3e5530dcdc9ba30c88f96c |10000 ℏ 
+|0.0.1006 |0x755c4df6c25868d47d734a2567cc2b40e23cc6b042ae9c1e9906750fadb715fa |10000 ℏ 
+|0.0.1007 |0xf5ca2d9f83c42f37091b0b28536f95bbfaca637f3eca99491184c6bf893897ec |10000 ℏ 
+|0.0.1008 |0xc1e9e486450d8f2a7f6a211ae8e9fce9b9807f593fe853fe1a29a2204907d946 |10000 ℏ 
+|0.0.1009 |0x5881aa6c3af348248c4a18d5fa876dd973c5308f2fb818dbb857e742d9dbfa6d |10000 ℏ 
+|0.0.1010 |0x28f6c9477a68e7082d4bae82a1333acdf90463e3a33cef9eec45500d449a855a |10000 ℏ 
+|0.0.1011 |0x1e3cc555262836a8b19fe0d42dc597f61299ab08a916df31d0bc0a4286e3969b |10000 ℏ 
+|===
+
+*Exposed endpoints*
+[cols="1,1"]
+|===
+|Type | Endpoint
+
+|*Consensus Node Endpoint*          |http://localhost:50211
+|*Mirror Node GRPC Endpoint*	    |http://localhost:5600
+|*Mirror Node REST API Endpoint*	|http://localhost:5551
+|===

@@ -5,8 +5,17 @@ let containers: StartedTestContainer[] = [];
 
 export async function startContainers(configPath: string): Promise<void> {
     network = await new Network().start();
+    const { consensusNode, postgres } = await startConsensusNode(configPath, network);
+    const mirrorGrpc = await startMirrorNodeGrpc(configPath, network, postgres);
+    const mirrorRest = await startMirrorNodeRest(configPath, network, postgres);
+    const importer = await startMirrorNodeImporter(configPath, network, postgres);
+    const monitor = await startMirrorNodeMonitor(configPath, network);
 
-    const hederaNode = await new GenericContainer('gcr.io/hedera-registry/consensus-node:0.54.0-alpha.5')
+    containers.push(consensusNode, postgres, mirrorGrpc, mirrorRest, importer, monitor);
+}
+
+async function startConsensusNode(configPath: string, network: StartedNetwork): Promise<{ consensusNode: StartedTestContainer, postgres: StartedTestContainer; }>  {
+    const consensusNode = await new GenericContainer('gcr.io/hedera-registry/consensus-node:0.54.0-alpha.5')
         .withUser('root')
         .withName('network-node-single')
         .withNetworkAliases('network-node-single')
@@ -71,19 +80,7 @@ export async function startContainers(configPath: string): Promise<void> {
         .withWaitStrategy(Wait.forLogMessage('PostgreSQL init process complete; ready for start up.'))
         .start();
 
-    // Start Mirror Node GRPC
-    const mirrorGrpc = await startMirrorNodeGrpc(configPath, network, postgres);
-
-    // Start Mirror Node REST
-    const mirrorRest = await startMirrorNodeRest(configPath, network, postgres);
-
-    // Start Mirror Node Importer
-    const importer = await startMirrorNodeImporter(configPath, network, postgres);
-
-    // Start Mirror Node Monitor
-    const monitor = await startMirrorNodeMonitor(configPath, network);
-
-    containers.push(hederaNode, postgres, mirrorGrpc, mirrorRest, importer, monitor);
+    return { postgres, consensusNode };
 }
 
 async function startMirrorNodeGrpc(configPath: string, network: StartedNetwork, db: StartedTestContainer): Promise<StartedTestContainer> {
@@ -178,6 +175,5 @@ export async function stopContainers(): Promise<void> {
     for (const container of containers) {
         await container.stop();
     }
-
     network.stop();
 }
