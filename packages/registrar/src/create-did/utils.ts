@@ -1,4 +1,5 @@
-import { ClientOptions, Providers } from '../interfaces';
+import { Providers } from '../interfaces';
+import { CreateDIDOptions } from './interface';
 
 /**
  * Extract providers from options or providers object
@@ -13,11 +14,11 @@ export function extractProviders<Options extends object>(
 ): Providers {
   if (providers) return providers;
 
-  //if ('client' in providersOrOptions) {
+  if (isProviders(providersOrOptions)) {
     return providersOrOptions;
-  //}
+  }
 
- // throw new Error('Invalid providers');
+  throw new Error('Invalid providers');
 }
 
 /**
@@ -25,12 +26,27 @@ export function extractProviders<Options extends object>(
  * @param providersOrOptions Object containing providers or options
  * @returns Options object
  */
-export function extractOptions<Options extends object>(
-  providersOrOptions: Providers | Options,
-): Options {
-  if ('client' in providersOrOptions) {
-    return {} as Options;
+export function extractOptions(
+  providersOrOptions: Providers | CreateDIDOptions,
+): CreateDIDOptions {
+  if (isProviders(providersOrOptions)) {
+    return {} as CreateDIDOptions;
   }
 
-  return providersOrOptions as Options;
+  return providersOrOptions;
 }
+
+/**
+ * Check if the value is a Providers object
+ * @param value Value to check
+ * @returns True if the value is a Providers object
+ */
+const isProviders = (value: unknown): value is Providers => {
+  if (!value || !(value instanceof Object)) return false;
+  return (
+    'client' in value ||
+    'clientOptions' in value ||
+    'signer' in value ||
+    'publisher' in value
+  );
+};

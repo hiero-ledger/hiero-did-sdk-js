@@ -12,13 +12,21 @@ export const DIDOwnerMessageHederaCSMLifeCycle =
       message.setNetwork(publisher.network());
     })
     .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
+      if (message.hasTopicId) {
+        return;
+      }
+
       const response = await publisher.publish(
         new TopicCreateTransaction()
           .setAdminKey(publisher.publicKey())
           .setSubmitKey(publisher.publicKey()),
       );
 
-      const topicId = response.topicId?.toString() ?? '';
+      const topicId = response.topicId?.toString();
+
+      if (!topicId) {
+        throw new Error('Topic ID is missing');
+      }
 
       message.setTopicId(topicId);
     })

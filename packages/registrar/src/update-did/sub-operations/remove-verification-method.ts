@@ -1,5 +1,5 @@
 import { Publisher, Signer } from '@hashgraph-did-sdk/core';
-import { LifecycleRunner } from '@hashgraph-did-sdk/lifecycle';
+import { LifecycleRunner, RunnerState } from '@hashgraph-did-sdk/lifecycle';
 import {
   DIDRemoveVerificationMethodMessage,
   DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
@@ -14,7 +14,7 @@ export async function removeVerificationMethod(
   operationOptions: UpdateDIDOptions,
   signer: Signer,
   publisher: Publisher,
-) {
+): Promise<RunnerState<DIDRemoveVerificationMethodMessage>> {
   const manager = new LifecycleRunner(
     DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
   );
@@ -32,10 +32,3 @@ export async function removeVerificationMethod(
 
   return state;
 }
-
-export const removeVerificationMethodConfig = {
-  'remove-verification-method': {
-    apply: removeVerificationMethod,
-    message: DIDRemoveVerificationMethodMessage,
-  },
-} as const;

@@ -6,8 +6,8 @@
     "docs:serve": "npx http-server ./build/site",
     "test:cucumber": "TS_NODE_PROJECT=tsconfig.cucumber.json cucumber-js --config cucumber.mjs --exit",
     "packages:build": "lerna run build",
-    "packages:test": "lerna run --parallel test",
-    "packages:test:coverage": "jest --coverage",
+    "packages:test": "jest",
+    "packages:test:ci": "jest --ci --coverage --testLocationInResults --json --outputFile=coverage/report.json",
     "packages:lint": "eslint 'packages/**/**.ts'",
     "packages:release": "lerna publish"
   },

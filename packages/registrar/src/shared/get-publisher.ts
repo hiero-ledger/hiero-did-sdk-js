@@ -30,7 +30,6 @@ export function getPublisher(providers: Providers): Publisher {
 
   const clientOptions = providers.clientOptions;
 
-  // TODO: validate network name
   const client = Client.forName(providers.clientOptions.network).setOperator(
     clientOptions.accountId,
     clientOptions.privateKey,

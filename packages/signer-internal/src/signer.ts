@@ -1,5 +1,9 @@
 import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '@hashgraph-did-sdk/core';
+import {
+  isEd25519DerPrivateKeyString,
+  isEd25519PrivateKey,
+} from './validators';
 
 /**
  * An internal implementation of the Signer interface.
@@ -16,12 +20,18 @@ export class InternalSigner implements Signer {
    * @param privateKeyOrDer The PrivateKey object or the private key in DER format.
    */
   constructor(privateKeyOrDer: string | PrivateKey) {
-    // TODO: verify if the private key is in DER format
-    // TODO: verify if the private key is ed25519
     if (typeof privateKeyOrDer === 'string') {
+      if (!isEd25519DerPrivateKeyString(privateKeyOrDer)) {
+        throw new Error('Invalid private key format. Expected DER.');
+      }
+
       this.privateKey = PrivateKey.fromStringDer(privateKeyOrDer);
     } else {
       this.privateKey = privateKeyOrDer;
+    }
+
+    if (!isEd25519PrivateKey(this.privateKey)) {
+      throw new Error('Invalid private key type. Expected ED25519.');
     }
   }
 
@@ -42,6 +52,16 @@ export class InternalSigner implements Signer {
    */
   sign(message: Uint8Array): Uint8Array {
     return this.privateKey.sign(message);
+  }
+
+  /**
+   * Verify a signature of a message.
+   * @param message The original message.
+   * @param signature The signature to verify.
+   * @returns True if the signature is valid, false otherwise.
+   */
+  verify(message: Uint8Array, signature: Uint8Array): boolean {
+    return this.privateKey.publicKey.verify(message, signature);
   }
 
   /**

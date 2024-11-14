@@ -1,6 +1,5 @@
-import { Transaction, TransactionReceipt } from '@hashgraph/sdk';
+import { Transaction, TransactionReceipt, PublicKey } from '@hashgraph/sdk';
 import { Network } from './network';
-import { PublicKey } from '@hashgraph/sdk';
 
 /**
  * Publisher is an entity that can publish Hedera transactions to the network.

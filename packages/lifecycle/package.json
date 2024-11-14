@@ -13,7 +13,7 @@
   "types": "./dist/index.d.ts",
   "exports": {
     "import": {
-      "types": "./dist/index.d.mts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js"
     },
     "require": {
@@ -34,5 +34,9 @@
   },
   "dependencies": {
     "@hashgraph-did-sdk/core": "^0.0.1-alpha.0"
+  },
+  "devDependencies": {
+    "@hashgraph-did-sdk/publisher-internal": "^0.0.1-alpha.0",
+    "@hashgraph-did-sdk/signer-internal": "^0.0.1-alpha.0"
   }
 }

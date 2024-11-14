@@ -1,34 +1,27 @@
+import { addVerificationMethod } from './add-verification-method';
+import { removeVerificationMethod } from './remove-verification-method';
+import { addService } from './add-service';
+import { removeService } from './remove-service';
 import { DIDUpdateOperation, UpdateDIDOptions } from '../interface';
-import { addVerificationMethodConfig } from './add-verification-method';
-import { removeVerificationMethodConfig } from './remove-verification-method';
-import { addServiceConfig } from './add-service';
-import { removeServiceConfig } from './remove-service';
 import { Publisher, Signer } from '@hashgraph-did-sdk/core';
 
-const operationsAvailable = {
-  ...removeVerificationMethodConfig,
-  ...addVerificationMethodConfig,
-  ...addServiceConfig,
-  ...removeServiceConfig,
+const OPERATIONS_MAP = {
+  'add-verification-method': addVerificationMethod,
+  'remove-verification-method': removeVerificationMethod,
+  'add-service': addService,
+  'remove-service': removeService,
 } as const;
 
-type Operations = DIDUpdateOperation['operation'];
-type OperationFunction<Operation extends Operations> = (
-  operation: Extract<DIDUpdateOperation, { operation: Operation }>,
+export async function callOperation<T extends DIDUpdateOperation>(
+  data: T,
   options: UpdateDIDOptions,
   signer: Signer,
   publisher: Publisher,
-) => ReturnType<(typeof operationsAvailable)[Operation]['apply']>;
-type OperationsMap = {
-  [Operation in Operations]: OperationFunction<Operation>;
-};
-
-export const OPERATIONS_MAP = Object.keys(operationsAvailable).reduce(
-  (acc, operation: Operations) => {
-    return {
-      ...acc,
-      [operation]: operationsAvailable[operation].apply,
-    };
-  },
-  {} as OperationsMap,
-);
+) {
+  return await OPERATIONS_MAP[data.operation](
+    data as never,
+    options,
+    signer,
+    publisher,
+  );
+}

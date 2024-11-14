@@ -1,5 +1,5 @@
 import { Publisher, Signer } from '@hashgraph-did-sdk/core';
-import { LifecycleRunner } from '@hashgraph-did-sdk/lifecycle';
+import { LifecycleRunner, RunnerState } from '@hashgraph-did-sdk/lifecycle';
 import {
   DIDAddVerificationMethodMessage,
   DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
@@ -11,7 +11,7 @@ export async function addVerificationMethod(
   operationOptions: UpdateDIDOptions,
   signer: Signer,
   publisher: Publisher,
-) {
+): Promise<RunnerState<DIDAddVerificationMethodMessage>> {
   const manager = new LifecycleRunner(
     DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
   );
@@ -19,9 +19,7 @@ export async function addVerificationMethod(
   const didUpdateMessage = new DIDAddVerificationMethodMessage({
     did: operationOptions.did,
     controller: options.controller ?? operationOptions.did,
-    // verify id
     id: options.id,
-    // verify publicKeyMultibase
     publicKeyMultibase: options.publicKeyMultibase,
     property: options.property,
   });
@@ -33,10 +31,3 @@ export async function addVerificationMethod(
 
   return state;
 }
-
-export const addVerificationMethodConfig = {
-  'add-verification-method': {
-    apply: addVerificationMethod,
-    message: DIDAddVerificationMethodMessage,
-  },
-} as const;

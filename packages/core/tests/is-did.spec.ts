@@ -1,0 +1,41 @@
+import { PrivateKey } from '@hashgraph/sdk';
+import bs58 from 'bs58';
+import { isHederaDID } from '../src';
+
+describe('Hedera DID validator', () => {
+  it.each([
+    '', // Empty string
+    'did:hedera:mainnet:', // Missing public key and topic ID
+    'did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4', // Missing topic ID
+    'did:hedera:previewnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1', // Invalid network
+    'did:hedera:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1', // Missing network
+    'did:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1', // Missing Hedera prefix
+    'hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1', // Missing DID prefix
+    'J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4', // Missing DID prefix and topic ID
+    'did:hedera:mainnet:QDui45JN8tAZyc8aNcgc8ZPHeESjrtDfA3CHgUHJhzxU8KBNAt4rPDdg1jBUPMKQ_0.0.1', // Invalid ED25519 public key
+    'did:hedera:mainnet:bSJxbfGGZ5sAr7U2Bdgk1EMskb9EATHJi7rrq3rxfW6r2WVnPGitj6S9UMUvLKceUYtA_0.0.1', // Invalid ED25519 public key
+    'did:hedera:mainnet:J98ruZlvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1', // Invalid base58 public key
+    'did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736', // Not a Hedera DID
+  ])('should return false for invalid Hedera DIDs', (did) => {
+    expect(isHederaDID(did)).toBe(false);
+  });
+
+  it.each([
+    'did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1',
+    'did:hedera:mainnet:72WMyD2roqqXk8GmBAHyrtgGg5hUR4Dkkh3HtWWSEQ4_0.0.1',
+    'did:hedera:mainnet:HZhZzgrEKVvt2PtkqzX3AkWUzKwFEtdZhriuSeuMKz3X_1.1.1',
+    'did:hedera:testnet:AN8jSKuP7cuBfgW4vTFtG9WvqG5FyTQZmsKZw8ewYXwi_11.111.111111',
+    'did:hedera:testnet:4nXwbafzJfvEhtcNMK6wDZrzSu5eSS6CGGPoacvGHDQw_0.0.1',
+  ])('should return true for valid Hedera DIDs', (did) => {
+    expect(isHederaDID(did)).toBe(true);
+  });
+
+  it('should return true to auto-generated DIDs', async () => {
+    const privateKey = await PrivateKey.generateED25519Async();
+    const publicKeyBytes = privateKey.publicKey.toBytes();
+    const publicKeyBase58 = bs58.encode(publicKeyBytes);
+    const did = `did:hedera:mainnet:${publicKeyBase58}_0.0.1`;
+
+    expect(isHederaDID(did)).toBe(true);
+  });
+});

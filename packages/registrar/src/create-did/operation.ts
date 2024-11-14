@@ -38,7 +38,7 @@ export async function createDID(
 
   const publisher = getPublisher(operationProviders);
   const signer = getSigner(
-    providers?.signer,
+    operationProviders.signer,
     operationOptions.privateKey,
     true,
   );
@@ -46,7 +46,7 @@ export async function createDID(
   const publicKey = await signer.publicKey();
 
   const didOwnerMessage = new DIDOwnerMessage({
-    publicKey: PublicKey.fromString(publicKey),
+    publicKey: PublicKey.fromStringED25519(publicKey),
     controller: operationOptions.controller,
     topicId: operationOptions.topicId,
   });
@@ -56,7 +56,7 @@ export async function createDID(
   const state = await manager.process(didOwnerMessage, { signer, publisher });
 
   if (
-    providers?.client instanceof Object &&
+    operationProviders.clientOptions instanceof Object &&
     publisher instanceof InternalPublisher
   ) {
     publisher.client.close();
@@ -66,7 +66,6 @@ export async function createDID(
     throw new Error('DID creation failed');
   }
 
-  // TODO: return proper DID document
   return {
     did: didOwnerMessage.did,
     privateKey:
@@ -78,8 +77,8 @@ export async function createDID(
         {
           id: `${didOwnerMessage.did}#did-root-key`,
           type: 'Ed25519VerificationKey2020',
-          controller: didOwnerMessage.did,
-          publicKeyBase58: publicKey,
+          controller: didOwnerMessage.controllerDid,
+          publicKeyMultibase: publicKey,
         },
       ],
     },

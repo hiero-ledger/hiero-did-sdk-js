@@ -1,23 +1,6 @@
-import { Publisher, Signer, Network } from '@hashgraph-did-sdk/core';
-import { Client, PrivateKey } from '@hashgraph/sdk';
-
-export interface ClientOptions {
-  /**
-   * The operator private key.
-   * Can be a string or a PrivateKey object.
-   */
-  privateKey: string | PrivateKey;
-
-  /**
-   * The operator account ID.
-   */
-  accountId: string;
-
-  /**
-   * The network to connect to (mainnet, testnet, previewnet).
-   */
-  network: Network;
-}
+import { Publisher, Signer } from '@hashgraph-did-sdk/core';
+import { Client } from '@hashgraph/sdk';
+import { ClientOptions } from './client-options';
 
 export interface Providers {
   /**

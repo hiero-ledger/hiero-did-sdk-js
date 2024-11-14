@@ -3,7 +3,7 @@ import { UpdateDIDOptions, UpdateDIDResult } from './interface';
 import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';
 import { getSigner } from '../shared/get-signer';
-import { OPERATIONS_MAP } from './sub-operations';
+import { callOperation } from './sub-operations';
 
 /**
  * Update a DID on the Hedera network.
@@ -32,15 +32,7 @@ export async function updateDID(
     : [operationOptions.updates];
 
   for (const update of updates) {
-    await OPERATIONS_MAP[update.operation](
-      // TODO: Fix this type
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      update,
-      operationOptions,
-      signer,
-      publisher,
-    );
+    await callOperation(update, operationOptions, signer, publisher);
   }
 
   if (

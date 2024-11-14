@@ -1,9 +1,20 @@
-export interface VerificationMethod {
+export interface VerificationMethodBase58 {
   id: string;
-  type: string;
+  type: 'Ed25519VerificationKey2018';
   controller: string;
   publicKeyBase58: string;
 }
+
+export interface VerificationMethodMultibase {
+  id: string;
+  type: 'Ed25519VerificationKey2020';
+  controller: string;
+  publicKeyMultibase: string;
+}
+
+export type VerificationMethod =
+  | VerificationMethodBase58
+  | VerificationMethodMultibase;
 
 export interface ServiceEndpoint {
   id: string;

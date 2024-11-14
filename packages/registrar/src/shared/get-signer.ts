@@ -4,8 +4,7 @@ import { PrivateKey } from '@hashgraph/sdk';
 
 /**
  * Extract the signer from the providers or create a new internal signer.
- * Internal signer
- *  is created with the provided private key.
+ * Internal signer is created with the provided private key.
  * If `autoCreate` parameter is true, a new internal signer is created with a random private key.
  * @param signer Signer instance
  * @param privateKey Private key in der string or PrivateKey instance

@@ -15,7 +15,19 @@ export class InternalPublisher implements Publisher {
    * Create a new InternalPublisher instance.
    * @param client The Hedera Client instance.
    */
-  constructor(public readonly client: Client) {}
+  constructor(public readonly client: Client) {
+    if (!client) {
+      throw new Error('Client is required');
+    }
+
+    if (!client.ledgerId) {
+      throw new Error('Client must be configured with a network');
+    }
+
+    if (!client.operatorPublicKey) {
+      throw new Error('Client must be configured with an operator account');
+    }
+  }
 
   /**
    * Name of the network that the publisher is connected to.

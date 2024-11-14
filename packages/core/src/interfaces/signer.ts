@@ -22,4 +22,16 @@ export abstract class Signer {
    * @remarks The public key is used to verify the signature.
    */
   abstract publicKey(): Promise<PublicKeyInBase58> | PublicKeyInBase58;
+
+  /**
+   * Verify a signature of a message.
+   *
+   * @param message The original message.
+   * @param signature The signature to verify.
+   * @returns True if the signature is valid, false otherwise.
+   */
+  abstract verify(
+    message: Uint8Array,
+    signature: Uint8Array,
+  ): Promise<boolean> | boolean;
 }

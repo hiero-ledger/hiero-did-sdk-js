@@ -5,9 +5,10 @@ const config: Config = {
     '^.+\\.ts$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
-  collectCoverage: true,
-  coveragePathIgnorePatterns: ['(tests/.*.mock).(js|ts)$'],
-  verbose: true,
+  globals: {
+    Uint8Array: Uint8Array,
+    ArrayBuffer: ArrayBuffer,
+  },
 };
 
 export default config;

@@ -1,5 +1,7 @@
+import { getResolver } from '../src';
+
 describe('Core', () => {
   it('should be tested', () => {
-    expect(true).toBe(true);
+    expect(getResolver()).toHaveProperty('hedera');
   });
 });

@@ -22,8 +22,12 @@ export class LifecycleBuilder<Message extends DIDMessage> {
    * Gets the step at the specified index.
    * @param step - The index of the step to get.
    * @returns The step at the specified index.
+   * @throws If the step does not exist.
    */
   get(step: number): Steps<Message> {
+    if (step >= this.pipeline.length) {
+      throw new Error('Step does not exist');
+    }
     return this.pipeline[step];
   }
 

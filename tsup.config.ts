@@ -9,6 +9,7 @@ const options: Options = {
   outDir: 'dist',
   format: ['cjs', 'esm'],
   entry: ['src/index.ts'],
+  skipNodeModulesBundle: true,
   outExtension({ format }) {
     return {
       js: `.${format}.js`,

@@ -70,7 +70,7 @@ export class LifecycleRunner<Message extends DIDMessage> {
     options: LifecycleRunnerOptions,
   ): Promise<RunnerState<Message>> {
     try {
-      const initialStep = options.step ? options.step + 1 : 0;
+      const initialStep = (options.step ?? -1) + 1;
       for (
         let stepIndex = initialStep;
         stepIndex < this.builder.length;

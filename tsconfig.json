@@ -13,17 +13,19 @@
     "declaration": true,
     "declarationMap": true,
     "paths": {
-      "@hashgraph-did-sdk/core": ["../core/src"],
-      "@hashgraph-did-sdk/lifecycle": ["../lifecycle/src"],
-      "@hashgraph-did-sdk/messages": ["../messages/src"],
-      "@hashgraph-did-sdk/publisher-internal": ["../publisher-internal/src"],
-      "@hashgraph-did-sdk/registrar": ["../registrar/src"],
-      "@hashgraph-did-sdk/resolver": ["../resolver/src"],
-      "@hashgraph-did-sdk/signer-internal": ["../signer-internal/src"]
+      "@hashgraph-did-sdk/core": ["../core/src/index.ts"],
+      "@hashgraph-did-sdk/lifecycle": ["../lifecycle/src/index.ts"],
+      "@hashgraph-did-sdk/messages": ["../messages/src/index.ts"],
+      "@hashgraph-did-sdk/publisher-internal": [
+        "../publisher-internal/src/index.ts"
+      ],
+      "@hashgraph-did-sdk/registrar": ["../registrar/src/index.ts"],
+      "@hashgraph-did-sdk/resolver": ["../resolver/src/index.ts"],
+      "@hashgraph-did-sdk/signer-internal": ["../signer-internal/src/index.ts"]
     }
   },
   "include": ["packages/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts", "dist"],
+  "exclude": ["node_modules", "**/*.spec.ts", "tests/**/*.ts", "dist"],
   "ts-node": {
     "moduleTypes": {
       "jest.config.ts": "cjs"
