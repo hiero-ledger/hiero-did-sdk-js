@@ -22,7 +22,7 @@ This SDK was developed to fulfill a set of specific requirements outlined in the
 
 == Design
 
-Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the xref:03-design/03_architecture/index.adoc[Architecture Overview].
+Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the xref:03-design/01_introduction_and_goals/index.adoc[Architecture Overview].
 
 == Implementation
 
