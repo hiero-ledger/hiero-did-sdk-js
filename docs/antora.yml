@@ -1,6 +1,6 @@
 name: documentation
 title: Documentation
 version: 0.0.1
-start_page: 01-planning/hips/hip-0001-new-did-sdk.adoc
+start_page: index.adoc
 nav:
   - modules/ROOT/nav.adoc
