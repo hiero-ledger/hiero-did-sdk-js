@@ -1,13 +1,13 @@
 {
   "name": "hashgraph-did-sdk",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "docs:build": "antora antora-playbook.yml",
     "docs:serve": "npx http-server ./build/site",
     "test:cucumber": "TS_NODE_PROJECT=tsconfig.cucumber.json cucumber-js --config cucumber.mjs --exit",
     "packages:build": "lerna run build",
     "packages:test": "jest",
-    "packages:test:ci": "jest --ci --coverage --testLocationInResults --json --outputFile=coverage/report.json",
+    "packages:test:ci": "npm run packages:test -- --ci --coverage --testLocationInResults --json --outputFile=coverage/report.json",
     "packages:lint": "eslint 'packages/**/**.ts'",
     "packages:release": "lerna publish",
     "hedera:start": "ts-node ./test_suites/hederaLocalNode.ts"
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.52.0",
-    "bs58": "^6.0.0"
+    "@scure/base": "^1.1.9"
   },
   "workspaces": [
     "packages/*"

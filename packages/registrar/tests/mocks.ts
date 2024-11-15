@@ -27,10 +27,3 @@ jest.mock('@hashgraph/sdk', () => {
     ),
   };
 });
-
-// TODO: remove when fixed, Workaround for bs58 dependency
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-jest.mock('bs58', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  ...jest.requireActual('bs58').default,
-}));

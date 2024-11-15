@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "@hashgraph-did-sdk/core": "^0.0.1-alpha.0",
-    "@hashgraph-did-sdk/lifecycle": "^0.0.1-alpha.0",
-    "bs58": "^6.0.0"
+    "@hashgraph-did-sdk/lifecycle": "^0.0.1-alpha.0"
   }
 }

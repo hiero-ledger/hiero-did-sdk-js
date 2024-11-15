@@ -1,5 +1,5 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import bs58 from 'bs58';
+import { KeysUtility } from '@hashgraph-did-sdk/core';
 import { isHederaDID } from '../src';
 
 describe('Hedera DID validator', () => {
@@ -33,7 +33,7 @@ describe('Hedera DID validator', () => {
   it('should return true to auto-generated DIDs', async () => {
     const privateKey = await PrivateKey.generateED25519Async();
     const publicKeyBytes = privateKey.publicKey.toBytes();
-    const publicKeyBase58 = bs58.encode(publicKeyBytes);
+    const publicKeyBase58 = KeysUtility.fromBytes(publicKeyBytes).toBase58();
     const did = `did:hedera:mainnet:${publicKeyBase58}_0.0.1`;
 
     expect(isHederaDID(did)).toBe(true);

@@ -1,6 +1,10 @@
 import { PublicKey } from '@hashgraph/sdk';
-import bs58 from 'bs58';
-import { DIDMessage, Network, isHederaDID } from '@hashgraph-did-sdk/core';
+import {
+  DIDMessage,
+  Network,
+  isHederaDID,
+  KeysUtility,
+} from '@hashgraph-did-sdk/core';
 import { DIDOwnerMessageConstructor, MessageSerialized } from './interfaces';
 import { isTopicId } from '../../validators/is-topic-id';
 
@@ -67,7 +71,9 @@ export class DIDOwnerMessage extends DIDMessage {
       throw new Error('Network is missing');
     }
 
-    const publicKeyBase58 = bs58.encode(this.publicKey.toBytes());
+    const publicKeyBase58 = KeysUtility.fromPublicKey(
+      this.publicKey,
+    ).toBase58();
     return `did:hedera:${this.network}:${publicKeyBase58}_${this.topicId}`;
   }
 
@@ -87,8 +93,9 @@ export class DIDOwnerMessage extends DIDMessage {
         id: `${this.did}#did-root-key`,
         type: 'Ed25519VerificationKey2020',
         controller: this.controllerDid,
-        // TODO: change to publicKeyMultibase
-        publicKeyMultibase: this.publicKey.toStringDer(),
+        publicKeyMultibase: KeysUtility.fromPublicKey(
+          this.publicKey,
+        ).toMultibase(),
       },
     };
 
