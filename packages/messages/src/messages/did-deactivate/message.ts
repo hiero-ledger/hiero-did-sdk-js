@@ -30,8 +30,8 @@ export class DIDDeactivateMessage extends DIDMessage {
   /**
    * Gets the operation of the message.
    */
-  get operation(): 'revoke' {
-    return 'revoke';
+  get operation(): 'delete' {
+    return 'delete';
   }
 
   /**

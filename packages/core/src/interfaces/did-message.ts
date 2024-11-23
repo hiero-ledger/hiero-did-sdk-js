@@ -1,5 +1,7 @@
 import { Signer } from './signer';
 
+export type DIDMessageOperation = 'create' | 'update' | 'revoke' | 'delete';
+
 /**
  * An abstract class that represents a DID message. This class is used to create, update, and revoke DIDs.
  */
@@ -12,7 +14,7 @@ export abstract class DIDMessage {
   /**
    * The operation that the DID message is performing.
    */
-  abstract get operation(): 'create' | 'update' | 'revoke';
+  abstract get operation(): DIDMessageOperation;
 
   /**
    * The DID that the message is associated with.

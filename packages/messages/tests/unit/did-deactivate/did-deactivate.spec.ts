@@ -81,10 +81,10 @@ describe('DID Deactivate message', () => {
     });
   });
 
-  it('should have operation set to create', async () => {
+  it('should have operation set to delete', async () => {
     const message = await randomMessage();
 
-    expect(message.operation).toBe('revoke');
+    expect(message.operation).toBe('delete');
   });
 
   it('should generate a timestamp if not provided', () => {
@@ -109,7 +109,7 @@ describe('DID Deactivate message', () => {
     expect(messageData).toBeDefined();
     expect(messageData).toMatchObject({
       timestamp: expect.any(String),
-      operation: 'revoke',
+      operation: 'delete',
       did: message.did,
       event: null,
     });

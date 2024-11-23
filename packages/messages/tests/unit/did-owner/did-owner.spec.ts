@@ -218,7 +218,7 @@ describe('DID Owner message', () => {
     expect(eventData).toBeDefined();
     expect(eventData).toMatchObject({
       DIDOwner: {
-        id: `did:hedera:mainnet:${PUBLIC_KEY_BASE58}_0.0.1#did-root-key`,
+        id: `did:hedera:mainnet:${PUBLIC_KEY_BASE58}_0.0.1`,
         type: 'Ed25519VerificationKey2020',
         controller: `did:hedera:mainnet:${PUBLIC_KEY_BASE58}_0.0.1`,
         publicKeyMultibase: expect.any(String),

@@ -1,7 +1,2 @@
-export function getResolver() {
-  function resolve() {
-    throw new Error('Not implemented');
-  }
-
-  return { hedera: resolve };
-}
+export * from './get-resolver';
+export * from './resolve-did';

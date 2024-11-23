@@ -90,7 +90,7 @@ export class DIDOwnerMessage extends DIDMessage {
   get message(): object {
     const event = {
       DIDOwner: {
-        id: `${this.did}#did-root-key`,
+        id: `${this.did}`,
         type: 'Ed25519VerificationKey2020',
         controller: this.controllerDid,
         publicKeyMultibase: KeysUtility.fromPublicKey(

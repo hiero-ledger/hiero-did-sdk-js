@@ -16,7 +16,7 @@ export type VerificationMethod =
   | VerificationMethodBase58
   | VerificationMethodMultibase;
 
-export interface ServiceEndpoint {
+export interface Service {
   id: string;
   type: string;
   serviceEndpoint: string;
@@ -28,7 +28,7 @@ export interface DIDDocument {
   id: string;
   controller: string;
   verificationMethod: VerificationMethod[];
-  service?: ServiceEndpoint[];
+  service?: Service[];
   authentication?: KeyCapabilityMethod[];
   assertionMethod?: KeyCapabilityMethod[];
   keyAgreement?: KeyCapabilityMethod[];
@@ -38,4 +38,23 @@ export interface DIDDocument {
 
 export interface JsonLdDIDDocument extends DIDDocument {
   '@context': string | string[];
+}
+
+export type DIDDocumentCbor = Uint8Array;
+
+export interface DIDDocumentMetadata {
+  created?: string;
+  updated?: string;
+  deactivated?: boolean;
+}
+
+export interface DIDResolutionMetadata {
+  contentType: 'application/ld+json;profile="https://w3id.org/did-resolution"';
+  retrieved?: string;
+}
+
+export interface DIDResolution {
+  didDocument: JsonLdDIDDocument;
+  didDocumentMetadata: DIDDocumentMetadata;
+  didResolutionMetadata: DIDResolutionMetadata;
 }
