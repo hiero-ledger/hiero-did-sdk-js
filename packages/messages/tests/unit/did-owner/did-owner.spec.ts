@@ -128,6 +128,23 @@ describe('DID Owner message', () => {
     expect(message.did).toBe(`did:hedera:mainnet:${PUBLIC_KEY_BASE58}_0.0.1`);
   });
 
+  it('should throw an error when topic id is missing when trying to access it', () => {
+    const message = new DIDOwnerMessage({
+      publicKey: PublicKey.fromStringED25519(PUBLIC_KEY_ED25519),
+      network: 'mainnet',
+    });
+
+    expect(() => message.topicId).toThrow('Topic ID is missing');
+  });
+
+  it('should throw an error when network id is missing when trying to generate did', () => {
+    const message = new DIDOwnerMessage({
+      publicKey: PublicKey.fromStringED25519(PUBLIC_KEY_ED25519),
+    });
+
+    expect(() => message.did).toThrow('Network is missing');
+  });
+
   it('should set controller to itself if not provided', () => {
     const message = new DIDOwnerMessage({
       publicKey: PublicKey.fromStringED25519(PUBLIC_KEY_ED25519),
@@ -173,6 +190,13 @@ describe('DID Owner message', () => {
     message.setNetwork('testnet');
 
     expect(message.network).toBe('testnet');
+  });
+
+  it('should update the controller', async () => {
+    const message = await randomMessage();
+    message.setController(VALID_DID);
+
+    expect(message.controller).toBe(VALID_DID);
   });
 
   it('should return true if topic ID is set', async () => {

@@ -12,7 +12,6 @@ const config: JestConfigWithTsJest = {
   collectCoverageFrom: [
     'packages/**/src/**/*.ts',
     '!packages/registrar/src/interfaces/index.ts',
-    '!packages/registrar/src/update-did/sub-operations/*-service.ts', // TODO : Remove when services are implemented
   ],
   coverageThreshold: {
     global: {

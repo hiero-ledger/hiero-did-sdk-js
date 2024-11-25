@@ -223,6 +223,16 @@ describe('Update DID operation', () => {
               property: 'verificationMethod',
               publicKeyMultibase: 'test',
             },
+            {
+              operation: 'add-service',
+              id: '#test',
+              type: 'ServiceType',
+              serviceEndpoint: 'http://example.com',
+            },
+            {
+              operation: 'remove-service',
+              id: '#test',
+            },
           ],
         },
         { signer, publisher },
@@ -245,9 +255,10 @@ describe('Update DID operation', () => {
       } as const;
 
       const secondOperation = {
-        operation: 'remove-verification-method',
+        operation: 'add-service',
         id: '#test',
-        property: 'verificationMethod',
+        type: 'ServiceType',
+        serviceEndpoint: 'http://example.com',
       } as const;
       const result = await updateDID(
         {
@@ -289,9 +300,8 @@ describe('Update DID operation', () => {
               property: 'verificationMethod',
             },
             {
-              operation: 'remove-verification-method',
+              operation: 'remove-service',
               id: '#test',
-              property: 'verificationMethod',
             },
           ],
         },

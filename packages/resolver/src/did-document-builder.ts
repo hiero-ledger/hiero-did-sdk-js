@@ -84,12 +84,12 @@ export class DidDocumentBuilder {
 
       // Handle deactivate message
       if (message.operation === 'delete') {
-        this.deactivated = true;
-
         const isSignatureValid = await this.verifySignature(message, signature);
         if (!isSignatureValid) {
           continue;
         }
+
+        this.deactivated = true;
 
         break;
       }

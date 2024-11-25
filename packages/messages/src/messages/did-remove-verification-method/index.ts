@@ -1,3 +1,3 @@
 export * from './message';
 export * from './lifecycle';
-export { DIDRemoveVerificationMethodMessage } from './message';
+export { DIDRemoveVerificationMethodMessageConstructor } from './interfaces';

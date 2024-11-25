@@ -1,15 +1,17 @@
 import { PrivateKey } from '@hashgraph/sdk';
+import { KeysUtility } from '@hashgraph-did-sdk/core';
 import { DidDocumentBuilder } from '../src/did-document-builder';
 import {
+  getAddServiceMessage,
   getAddVerificationMethodMessage,
   getDeactivateMessage,
   getDIDOwnerMessage,
+  getRemoveServiceMessage,
   getRemoveVerificationMethodMessage,
   TestSigner,
   VALID_ANOTHER_DID,
   VALID_DID,
 } from './helpers';
-import { KeysUtility } from '@hashgraph-did-sdk/core';
 import { TopicDIDMessage } from '../src/interfaces/topic-did-message';
 import { DID_ROOT_KEY_ID } from '../src/consts';
 
@@ -806,6 +808,41 @@ describe('DID Document Builder', () => {
         });
       });
 
+      it('should return DID document with additional service', async () => {
+        const service = getAddServiceMessage({
+          privateKey: didOwnerMessage.privateKey,
+          did: didOwnerMessage.did,
+          serviceId: 'service-1',
+        });
+
+        const didDocumentBuilder = await DidDocumentBuilder.from([
+          didOwnerMessage.message,
+          service.message,
+        ])
+          .forDID(didOwnerMessage.did)
+          .build();
+
+        expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
+          id: didOwnerMessage.did,
+          controller: didOwnerMessage.did,
+          verificationMethod: [
+            {
+              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              type: 'Ed25519VerificationKey2020',
+              controller: didOwnerMessage.did,
+              publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
+            },
+          ],
+          service: [
+            {
+              id: `${didOwnerMessage.did}#service-1`,
+              type: 'VerifiableCredentialService',
+              serviceEndpoint: 'https://example.com/credentials',
+            },
+          ],
+        });
+      });
+
       it('should have resolve the DID document with an alias of existing verification method', async () => {
         const verificationMethod = await getAddVerificationMethodMessage({
           privateKey: didOwnerMessage.privateKey,
@@ -865,6 +902,49 @@ describe('DID Document Builder', () => {
         });
       });
 
+      it('should not process deactivation message with invalid signature', async () => {
+        const deactivateMessage = getDeactivateMessage({
+          did: didOwnerMessage.did,
+          privateKey: didOwnerMessage.privateKey,
+          signature: didOwnerMessage.privateKey.sign(new Uint8Array([1, 2])),
+        });
+        const verificationMethodMessage = await getAddVerificationMethodMessage(
+          {
+            privateKey: didOwnerMessage.privateKey,
+            did: didOwnerMessage.did,
+            property: 'verificationMethod',
+            keyId: 'key-1',
+          },
+        );
+
+        const didDocumentBuilder = await DidDocumentBuilder.from([
+          didOwnerMessage.message,
+          deactivateMessage.message,
+          verificationMethodMessage.message,
+        ])
+          .forDID(didOwnerMessage.did)
+          .build();
+
+        expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
+          id: didOwnerMessage.did,
+          controller: didOwnerMessage.did,
+          verificationMethod: [
+            {
+              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              type: 'Ed25519VerificationKey2020',
+              controller: didOwnerMessage.did,
+              publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
+            },
+            {
+              id: `${didOwnerMessage.did}#key-1`,
+              type: 'Ed25519VerificationKey2020',
+              controller: didOwnerMessage.did,
+              publicKeyMultibase: verificationMethodMessage.publicKeyMultibase,
+            },
+          ],
+        });
+      });
+
       it('should not add message with invalid signature', async () => {
         const verificationMethodMessage = await getAddVerificationMethodMessage(
           {
@@ -887,6 +967,80 @@ describe('DID Document Builder', () => {
           didDocumentBuilder.toDidDocument().verificationMethod,
         ).toHaveLength(1);
       });
+
+      it('should not process message with invalid event data', async () => {
+        const invalidEvent = {
+          Service: {
+            id: 'service-1',
+            type: 'VerifiableCredentialService',
+            serviceEndpoint: 'https://example.com/credentials',
+          },
+        };
+
+        const messageData: TopicDIDMessage = {
+          timestamp: new Date().toISOString(),
+          operation: 'update',
+          did: didOwnerMessage.did,
+          event: Buffer.from(JSON.stringify(invalidEvent)).toString('base64'),
+        };
+        const signature = didOwnerMessage.privateKey.sign(
+          Buffer.from(JSON.stringify(messageData)),
+        );
+
+        const validMessage = {
+          message: messageData,
+          signature: Buffer.from(signature).toString('base64'),
+        };
+
+        const didDocumentBuilder = await DidDocumentBuilder.from([
+          didOwnerMessage.message,
+          JSON.stringify(validMessage),
+        ])
+          .forDID(didOwnerMessage.did)
+          .build();
+
+        expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
+          id: didOwnerMessage.did,
+          controller: didOwnerMessage.did,
+          verificationMethod: [
+            {
+              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              type: 'Ed25519VerificationKey2020',
+              controller: didOwnerMessage.did,
+              publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
+            },
+          ],
+        });
+      });
+
+      it('should not be able to remove did root key', async () => {
+        const removeVerificationMethod = getRemoveVerificationMethodMessage({
+          keyId: DID_ROOT_KEY_ID.slice(1),
+          did: didOwnerMessage.did,
+          privateKey: didOwnerMessage.privateKey,
+          property: 'verificationMethod',
+        });
+
+        const didDocumentBuilder = await DidDocumentBuilder.from([
+          didOwnerMessage.message,
+          removeVerificationMethod.message,
+        ])
+          .forDID(didOwnerMessage.did)
+          .build();
+
+        expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
+          id: didOwnerMessage.did,
+          controller: didOwnerMessage.did,
+          verificationMethod: [
+            {
+              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              type: 'Ed25519VerificationKey2020',
+              controller: didOwnerMessage.did,
+              publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
+            },
+          ],
+        });
+      });
     });
   });
 
@@ -907,18 +1061,21 @@ describe('DID Document Builder', () => {
         keyAgreementMethodToRemove,
         capabilityInvocationMethodToRemove,
         capabilityDelegationMethodToRemove,
+        serviceToRemove,
         removeVerificationMethod,
         removeAuthenticationMethod,
         removeAssertionMethod,
         removeKeyAgreementMethod,
         removeCapabilityInvocationMethod,
         removeCapabilityDelegationMethod,
+        removeService,
         verificationMethod,
         authenticationMethod,
         assertionMethod,
         keyAgreementMethod,
         capabilityInvocationMethod,
         capabilityDelegationMethod,
+        service,
       ] = await Promise.all([
         getAddVerificationMethodMessage({
           privateKey: didOwnerMessage.privateKey,
@@ -956,6 +1113,11 @@ describe('DID Document Builder', () => {
           did: didOwnerMessage.did,
           keyId: 'to-remove-6',
         }),
+        getAddServiceMessage({
+          privateKey: didOwnerMessage.privateKey,
+          did: didOwnerMessage.did,
+          serviceId: 'to-remove-7',
+        }),
         getRemoveVerificationMethodMessage({
           keyId: 'to-remove-1',
           did: didOwnerMessage.did,
@@ -990,6 +1152,11 @@ describe('DID Document Builder', () => {
           keyId: 'to-remove-6',
           did: didOwnerMessage.did,
           property: 'capabilityDelegation',
+          privateKey: didOwnerMessage.privateKey,
+        }),
+        getRemoveServiceMessage({
+          serviceId: 'to-remove-7',
+          did: didOwnerMessage.did,
           privateKey: didOwnerMessage.privateKey,
         }),
         getAddVerificationMethodMessage({
@@ -1028,16 +1195,23 @@ describe('DID Document Builder', () => {
           did: didOwnerMessage.did,
           keyId: 'key-6',
         }),
+        getAddServiceMessage({
+          privateKey: didOwnerMessage.privateKey,
+          did: didOwnerMessage.did,
+          serviceId: 'service-1',
+        }),
       ]);
 
       messages = [
         didOwnerMessage.message,
+        service.message,
         capabilityDelegationMethodToRemove.message,
         verificationMethodToRemove.message,
         verificationMethod.message,
         authenticationMethodToRemove.message,
         authenticationMethod.message,
         assertionMethod.message,
+        serviceToRemove.message,
         keyAgreementMethod.message,
         capabilityInvocationMethod.message,
         capabilityDelegationMethod.message,
@@ -1046,6 +1220,7 @@ describe('DID Document Builder', () => {
         removeCapabilityDelegationMethod.message,
         keyAgreementMethodToRemove.message,
         removeKeyAgreementMethod.message,
+        removeService.message,
         capabilityInvocationMethodToRemove.message,
         removeCapabilityInvocationMethod.message,
         removeVerificationMethod.message,
@@ -1109,6 +1284,13 @@ describe('DID Document Builder', () => {
             type: 'Ed25519VerificationKey2020',
             controller: did,
             publicKeyMultibase: expect.any(String),
+          },
+        ],
+        service: [
+          {
+            id: `${did}#service-1`,
+            type: 'VerifiableCredentialService',
+            serviceEndpoint: 'https://example.com/credentials',
           },
         ],
       };

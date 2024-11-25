@@ -5,9 +5,11 @@ import {
   VerificationMethodProperties,
 } from '@hashgraph-did-sdk/core';
 import {
+  DIDAddServiceMessage,
   DIDAddVerificationMethodMessage,
   DIDDeactivateMessage,
   DIDOwnerMessage,
+  DIDRemoveServiceMessage,
   DIDRemoveVerificationMethodMessage,
 } from '@hashgraph-did-sdk/messages';
 import { PrivateKey } from '@hashgraph/sdk';
@@ -104,9 +106,52 @@ export function getRemoveVerificationMethodMessage(
   };
 }
 
+interface AddServiceOptions {
+  privateKey: PrivateKey;
+  did: string;
+  serviceId: string;
+}
+
+export function getAddServiceMessage(options: AddServiceOptions) {
+  const message = new DIDAddServiceMessage({
+    id: `#${options.serviceId}`,
+    did: options.did,
+    type: 'VerifiableCredentialService',
+    serviceEndpoint: 'https://example.com/credentials',
+  });
+
+  const signature = options.privateKey.sign(message.messageBytes);
+  message.setSignature(signature);
+
+  return {
+    message: message.payload,
+  };
+}
+
+interface RemoveServiceOptions {
+  privateKey: PrivateKey;
+  did: string;
+  serviceId: string;
+}
+
+export function getRemoveServiceMessage(options: RemoveServiceOptions) {
+  const message = new DIDRemoveServiceMessage({
+    id: `#${options.serviceId}`,
+    did: options.did,
+  });
+
+  const signature = options.privateKey.sign(message.messageBytes);
+  message.setSignature(signature);
+
+  return {
+    message: message.payload,
+  };
+}
+
 interface DeactivateOptions {
   privateKey: PrivateKey;
   did: string;
+  signature?: Uint8Array;
 }
 
 export function getDeactivateMessage(options: DeactivateOptions) {
@@ -114,8 +159,12 @@ export function getDeactivateMessage(options: DeactivateOptions) {
     did: options.did,
   });
 
-  const signature = options.privateKey.sign(message.messageBytes);
-  message.setSignature(signature);
+  if (options.signature) {
+    message.setSignature(options.signature);
+  } else {
+    const signature = options.privateKey.sign(message.messageBytes);
+    message.setSignature(signature);
+  }
 
   return {
     message: message.payload,
