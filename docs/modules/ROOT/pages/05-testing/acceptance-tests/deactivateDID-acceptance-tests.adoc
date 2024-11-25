@@ -1,4 +1,4 @@
-=== deactivateDID Function
+== deactivateDID
 
 This document outlines the various scenarios for deactivating DID documents using the `deactivateDID` function in the SDK.
 

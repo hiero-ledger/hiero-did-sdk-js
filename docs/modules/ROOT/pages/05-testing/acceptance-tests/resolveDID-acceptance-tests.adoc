@@ -1,4 +1,4 @@
-=== resolveDID Function
+== resolveDID
 
 This document outlines the various scenarios for resolving DID documents using the `resolveDID` function in the SDK.
 

@@ -1,3 +1,5 @@
+== Signer
+
 This document outlines various scenarios for signing DID messages using the SDK’s `Signer` component.
 
 include::../../shared/under-development.adoc[]

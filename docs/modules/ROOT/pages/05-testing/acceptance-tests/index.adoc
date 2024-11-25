@@ -2,11 +2,7 @@
 
 This section defines the criteria and tests used to verify that the system meets the specified requirements. Each test ensures the system behaves as expected under various conditions. Update this section when new acceptance tests are added or existing tests are modified to reflect changes in requirements or functionality.
 
-== Resolver
-
 include::resolveDID-acceptance-tests.adoc[]
-
-== Registrar
 
 include::createDID-acceptance-tests.adoc[]
 
@@ -14,10 +10,6 @@ include::updateDID-acceptance-tests.adoc[]
 
 include::deactivateDID-acceptance-tests.adoc[]
 
-== Signer
-
 include::signer-acceptance-tests.adoc[]
-
-== Publisher
 
 include::publisher-acceptance-tests.adoc[]

@@ -41,13 +41,13 @@
     *** xref:04-implementation/components/publisher-api.adoc[Publisher]
 
 
-// * Testing 
-//   ** xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests]
+* Testing 
+  ** xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests]
 
 
 * Deployment
   ** xref:06-deployment/packages/index.adoc[npm Packages]
 
 
-// * Maintenance
-//   ** xref:07-maintenance/support/guide.adoc[Support]
+* Maintenance
+  ** xref:07-maintenance/support/guide.adoc[Support]

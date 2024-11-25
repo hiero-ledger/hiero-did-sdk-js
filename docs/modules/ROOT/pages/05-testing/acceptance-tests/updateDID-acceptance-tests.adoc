@@ -1,4 +1,4 @@
-=== updateDID Function
+== updateDID
 
 This document outlines the various scenarios for updating DID documents using the `updateDID` function in the SDK.
 
