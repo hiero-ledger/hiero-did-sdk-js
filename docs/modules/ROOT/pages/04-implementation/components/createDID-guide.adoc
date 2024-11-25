@@ -1,10 +1,21 @@
-== createDID Function
+= createDID Function
 
 The `createDID` function is a fundamental component of the Hashgraph DID-SDK, responsible for generating fresh DIDs for the Hedera DID method. It provides a flexible and user-friendly interface, allowing users to choose from different configurations and key management strategies.
 
-=== Creating a DID Document
+== Features
+
+*   **DID Creation:** Generates and registers new DIDs on the Hedera network with customizable options.
+*   **Key Management:** Supports various key types and formats for DID controllers and verification methods.
+*   **DID Document Generation:** Automatically generates DID Documents conforming to the DID specification.
+*   **Hedera Network Support:**  Supports DID creation on the Hedera mainnet, testnet, and previewnet.
+*   **Error Handling:** Provides robust error handling for invalid input, network issues, and other potential problems.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Creating a DID Document
 
 The following example demonstrates how to create a DID with minimal input using the `createDID` function:
+
+include::did-submission-checklist.adoc[]
 
 [source,js]
 ----
@@ -50,3 +61,9 @@ const { did, didDocument } = await createDID({
   client,
 });
 ----
+
+== References
+
+* xref:04-implementation/components/createDID-api.adoc[`createDID` API Reference]
+* xref:04-implementation/components/signer-api.adoc[`Signer` API Reference]
+* xref:04-implementation/components/publisher-api.adoc[`Publisher` API Reference]

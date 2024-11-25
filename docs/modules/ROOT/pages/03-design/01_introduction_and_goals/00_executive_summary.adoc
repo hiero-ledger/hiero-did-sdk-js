@@ -12,7 +12,7 @@ This proposal outlines the development of an enhanced Hashgraph DID-SDK (Decentr
 
 ==== Goals:
 
-* **Unlock High Performance:** By enabling asynchronous cryptographic operations, the SDK will allow the development of applications that are both responsive and scalable, even under high-demand scenarios. This is projected to result in a **20% increase in transaction throughput** and a **15% reduction in latency** compared to the current SDK.
+* **Unlock High Performance:** By enabling asynchronous cryptographic operations, the SDK will allow the development of applications that are both responsive and scalable, even under high-demand scenarios.
 
 * **Maximize Security:** Flexible key management options, including External Secret Mode and Client-managed Secret Mode, will give developers the tools to implement robust security measures tailored to their specific application needs.
 

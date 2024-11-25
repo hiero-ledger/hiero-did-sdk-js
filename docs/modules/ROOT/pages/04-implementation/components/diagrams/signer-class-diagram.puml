@@ -1,0 +1,10 @@
+@startuml
+class Signer {
+  - privateKey?: string
+  + constructor(privateKey?: string)
+  + {static} generate(): Signer
+  + publicKey(): string
+  + sign(message: Uint8Array): Uint8Array
+  + verify(message: Uint8Array, signature: Uint8Array): boolean
+}
+@enduml

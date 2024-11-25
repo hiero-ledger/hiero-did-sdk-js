@@ -1,11 +1,42 @@
 = npm Packages
 
-This section lists the packages that make up the Hashgraph DID SDK, enabling decentralized identity on Hedera Hashgraph. Update this section when packages are added, modified, or removed to ensure alignment with current standards and functionality.
+This document provides an overview of the npm packages that comprise the Hashgraph DID SDK.
 
-include::registrar-package.adoc[]
+== Essential Packages
 
-include::signer-internal-package.adoc[]
+These packages provide the essential building blocks for working with DIDs on Hedera.
 
-include::publisher-internal-package.adoc[]
+[cols="2,4", options="header"]
+|===
+| Package Name | Description
 
-include::resolver-package.adoc[]
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/resolver[@hashgraph-did-sdk/resolver]
+| Provides the functionality to resolve Decentralized Identifiers (DIDs) to their corresponding DID Documents.
+
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/registrar[@hashgraph-did-sdk/registrar]
+| Provides the functionality to create and manage DIDs on the Hedera network.
+
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/signer-internal[@hashgraph-did-sdk/signer-internal]
+| Provides the functionality for secure key generation and signing operations for DIDs.
+
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/publisher-internal[@hashgraph-did-sdk/publisher-internal]
+| Provides the functionality to submit and execute transactions related to DID operations on the Hedera network.
+|===
+
+== Advanced Packages
+
+These packages offer more specialized functionalities for advanced use cases.
+
+[cols="2,4", options="header"]
+|===
+| Package Name | Description
+
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/core[@hashgraph-did-sdk/core]
+| Provides essential interfaces, utilities, and validation tools for working with DIDs.
+
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/messages[@hashgraph-did-sdk/messages]
+|  Provides a set of classes for constructing and handling DID messages.
+
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/lifecycle[@hashgraph-did-sdk/lifecycle]
+| Enables management of complex asynchronous operations within DID-related applications.
+|===

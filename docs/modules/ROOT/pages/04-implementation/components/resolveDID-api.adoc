@@ -1,0 +1,117 @@
+= resolveDID API Reference
+
+This document provides a concise API reference for the `resolveDID` function within the Hedera DID SDK for JavaScript.
+
+== Function Signature
+
+[source,js]
+----
+function resolveDID(
+  did: string,
+  accept?: DIDResolutionAccept
+): Promise<DIDDocument | DIDResolutionResponse>;
+----
+
+== Parameters
+
+The function accepts the following parameters:
+
+*   **`did`**:  (Required) The DID string of the Decentralized Identifier to resolve.
+*   **`accept`**: (Optional)  Specifies the desired format for the DID Document resolution.
+
+=== did Parameter
+
+The table below details the structure of the `did` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|did
+|`string`
+|The DID string of the Decentralized Identifier to resolve.
+|===
+
+=== accept Parameter
+
+The table below details the structure of the `accept` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|accept?
+|`DIDResolutionAccept`
+|Specifies the desired format for the DID Document resolution. See <<accept-data-types>> for allowed values.
+|===
+
+== Data Types
+
+[[accept-data-types]]
+=== DIDResolutionAccept type
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name 
+|Type 
+|Description
+
+|DIDResolutionAccept
+|`string`
+|A string literal representing the desired format for DID Document resolution. It must be one of the following:
+
+  * `application/did+ld+json`
+
+  * `application/did+json`
+
+  * `application/ld+json;profile="https://w3id.org/did-resolution"`
+|===
+
+== Return Value
+
+Upon successful execution, the function returns a Promise that resolves to either a `DIDDocument` object or a `DIDResolutionResponse` object, depending on the value of the `accept` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|DID Document
+|`DIDDocument`
+|Returned if `accept` is `application/did+ld+json` or `application/did+json`. Contains the resolved DID Document.
+
+|DID Resolution Response
+|`DIDResolutionResponse`
+|Returned if `accept` is `application/ld+json;profile="https://w3id.org/did-resolution"`. Contains the resolved DID Document and additional metadata.
+|===
+
+== Errors
+
+The following exceptions may arise during the execution of the `resolveDID` function:
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception class
+|Description 
+
+|`DIDNotFoundError`
+|Thrown when the DID is not found.
+
+|`UnsupportedDIDMethodError`
+|Thrown when the DID method is not supported (only `did:hedera` is supported).
+
+|`InvalidDIDUrlError`
+|Thrown when the DID URL is invalid.
+
+|`UnsupportedAcceptValueError`
+|Thrown when an unsupported `accept` header value is provided.
+|===
+
+== Function Implementation
+
+The Hashgraph DID SDK provides a `resolveDID` function within its `resolver` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/resolver`] package documentation.

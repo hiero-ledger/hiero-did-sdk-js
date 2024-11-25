@@ -1,0 +1,101 @@
+= resolveDID Function
+
+The `resolveDID` function is a core component of the Hashgraph DID SDK. It resolves Decentralized Identifiers (DIDs) registered on the Hedera network to their corresponding DID Documents. These documents contain crucial information about the DID subject, such as public keys and authentication mechanisms, which are cryptographically verified by the `resolveDID` function. By adhering to the DID specification and leveraging the Hedera Consensus Service (HCS), `resolveDID` ensures secure and verifiable DID resolution, enabling a wide range of DID operations.
+
+== Features
+
+*   **DID Resolution:** Resolves Hedera DIDs to their corresponding DID Documents in various formats (JSON, JSON-LD, DID Resolution).
+*   **Cryptographic Verification:** Verifies the authenticity and integrity of DID Documents.
+*   **Hedera Network Support:** Supports resolving DIDs on the Hedera mainnet, testnet, and previewnet.
+*   **Error Handling:** Provides robust error handling for invalid DIDs, network issues, and unsupported formats.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Resolving a DID Document
+
+The following example demonstrates how to retrieve a DID Document using the `resolveDID` function.
+
+=== As JSON-LD format (Default Output)
+
+Retrieve a DID Document in JSON-LD format:
+
+[source, typescript]
+----
+import { resolveDID } from "@hashgraph-did-js-sdk/resolver";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+try {
+  const didDocument = await resolveDID(did); 
+  console.log(didDocument); 
+  // Example output:
+  // {
+  //   '@context': ['https://www.w3.org/ns/did/v1', 'https://w3id.org/security/suites/ed25519-2020/v1'],
+  //   id: 'did:hedera:testnet:z6Mkhj...',
+  //   verificationMethod: [ ... ], 
+  //   authentication: [ ... ],
+  //   // ... other properties
+  // }
+} catch (error) {
+  console.error("Error resolving DID:", error);
+}
+----
+
+=== As JSON
+
+Retrieve a DID Document in JSON format:
+
+[source, typescript]
+----
+import { resolveDID } from "@hashgraph-did-js-sdk/resolver";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+try {
+  const didDocument = await resolveDID(did, "application/did+json");
+  console.log(didDocument);
+  // Example output:
+  // {
+  //   id: 'did:hedera:testnet:z6Mkhj...',
+  //   verificationMethod: [ ... ], 
+  //   authentication: [ ... ],
+  //   // ... other properties
+  // }
+} catch (error) {
+  console.error("Error resolving DID:", error);
+}
+----
+
+=== With Full Metadata
+
+Retrieve a DID Document with full DID Resolution metadata:
+
+[source, typescript]
+----
+import { resolveDID } from "@hashgraph-did-js-sdk/resolver";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+try {
+  const didDocument = await resolveDID(
+    did,
+    'application/ld+json;profile="https://w3id.org/did-resolution"'
+  ); 
+  console.log(didDocument);
+  // Example output:
+  // {
+  //   didDocumentMetadata: { ... },
+  //   didResolutionMetadata: { ... },
+  //   didDocument: { 
+  //     '@context': [ ... ],
+  //     id: 'did:hedera:testnet:z6Mkhj...',
+  //     // ... other properties
+  //   }
+  // }
+} catch (error) {
+  console.error("Error resolving DID:", error);
+}
+----
+
+== References
+
+* xref:04-implementation/components/resolveDID-api.adoc[`resolveDID` API Reference]

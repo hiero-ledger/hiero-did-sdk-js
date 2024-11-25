@@ -1,4 +1,4 @@
-= Getting Started with the Hedera DID SDK
+= Hashgraph DID SDK: Getting Started
 
 == Introduction
 
@@ -23,18 +23,11 @@ This guide will walk you through the essential steps to get you started with the
 
 === 1. Install the SDK
 
-Use npm or yarn to install the necessary packages:
+Use npm to install the necessary packages:
 
 [source,bash]
 ----
 npm install @hashgraph/sdk @hashgraph-did-js-sdk/registrar @hashgraph-did-js-sdk/resolver
-----
-
-or
-
-[source,bash]
-----
-yarn add @hashgraph/sdk @hashgraph-did-js-sdk/registrar @hashgraph-did-js-sdk/resolver
 ----
 
 === 2.  Set up your environment
@@ -67,20 +60,24 @@ client.setOperator(myAccountId, myPrivateKey);
 
 [source,javascript]
 ----
-import { createDID } from "@hashgraph-did-js-sdk/registrar"; // Import from registrar
+import { createDID } from "@hashgraph-did-js-sdk/registrar";
 
-async function createMyDID() {
-  const { did, didDocument } = await createDID({
-    providers: {
-      testnet: client, // or for mainnet: { mainnet: client }
-    }
-  });
+async function main() {
+  try {
+    const { did, didDocument } = await createDID({
+      providers: {
+        client,
+      },
+    });
 
-  console.log(`Created DID: ${did}`);
-  console.log(`DID Document: ${JSON.stringify(didDocument, null, 2)}`);
+    console.log(`DID: ${did}`);
+    console.log(`DID Document: ${JSON.stringify(didDocument, null, 2)}`);
+  } catch (error) {
+    console.error("Error creating DID:", error);
+  }
 }
 
-createMyDID();
+main();
 ----
 
 This code will:
@@ -96,13 +93,18 @@ This code will:
 ----
 import { resolveDID } from "@hashgraph-did-js-sdk/resolver";
 
-async function resolveMyDID(did) {
-  const didDocument = await resolveDID(did);
+async function main() {
+  const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
 
-  console.log(`Resolved DID Document: ${JSON.stringify(didDocument, null, 2)}`);
+  try {
+    const didDocument = await resolveDID(did);
+    console.log(`DID Document: ${JSON.stringify(didDocument, null, 2)}`);
+  } catch (error) {
+    console.error("Error resolving DID:", error);
+  }
 }
 
-resolveMyDID("did:hedera:testnet:xxxxxxxx..."); // Replace with the DID you created
+main();
 ----
 
 This code demonstrates how to:
@@ -112,8 +114,7 @@ This code demonstrates how to:
 
 == Next Steps
 
-* **Explore the DID SDK documentation:**  Dive deeper into the features and functionality of the SDK. You can find comprehensive documentation, tutorials, and examples on the Hedera website.
-* **Learn about DID methods:** Understand the different DID methods supported by Hedera, such as `did:hedera:mainnet` and `did:hedera:testnet`.
-* **Build your decentralized identity solution:** Start developing your application using the Hedera DID SDK!
-
-We hope this guide helps you get started with the Hedera DID SDK. If you have any questions, please refer to the full documentation or reach out to the Hedera community for support.
+*   **Explore `resolveDID`:**  Dive deeper into the link:04-implementation/components/resolveDID-guide.adoc[`resolveDID`] function to understand its parameters, error handling, and advanced usage.
+*   **Manage DIDs:** Learn how to use link:04-implementation/components/createDID-guide.adoc[`createDID`], link:04-implementation/components/updateDID-guide.adoc[`updateDID`], and link:04-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
+*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the link:04-implementation/components/signer-guide.adoc[`Signer`] class.
+*   **Utilize the `Publisher`:** Integrate the link:04-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.

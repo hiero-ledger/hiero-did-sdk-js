@@ -1,0 +1,5 @@
+[WARNING]
+====
+* **Topic Permissions:** Ensure the xref:04-implementation/components/publisher-guide.adoc[Publisher] has permission to submit messages to the DID's Hedera Topic.
+* **Active DID and Signing Authority:**  Ensure the DID is active and the xref:04-implementation/components/signer-guide.adoc[Signer] has the authority to sign DID operation messages.
+====

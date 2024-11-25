@@ -1,0 +1,304 @@
+= DIDUpdateBuilder API Reference
+
+This document provides a concise API reference for the `DIDUpdateBuilder` class within the Hedera DID SDK for JavaScript. The `DIDUpdateBuilder` class provides a fluent interface to build a DID update operation that can be used to update a DID Document.
+
+== Class Diagram
+
+The following class diagram provides a visual representation of the relationships between key classes and interfaces involved in the `DIDUpdateBuilder` class.
+
+image::did-update-builder-class-diagram.png[]
+
+== Constructor
+
+=== `constructor`
+[source,ts]
+----
+constructor(did: string)
+----
+
+Initializes a new `DIDUpdateBuilder` instance.
+
+Parameters::
+* `did`: The DID string of the Decentralized Identifier to update.
+
+
+== Methods
+
+=== `addAuthenticationMethod` [[method-addAuthenticationMethod]]
+[source,ts]
+----
+public addAuthenticationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+----
+
+Adds an authentication method to the DID document. If a verification method with the same ID already exists, it will be replaced.
+A authentication method is a public key that can be used to authenticate the DID subject.
+
+Parameters::
+* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `removeAuthenticationMethod` [[method-removeAuthenticationMethod]]
+[source,ts]
+----
+public removeAuthenticationMethod(methodId: string): DIDUpdateBuilder {}
+----
+
+Removes an authentication method from the DID document by its identifier.
+
+Parameters::
+* `methodId`: The identifier of the authentication method to be removed.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `addAssertionMethod` [[method-addAssertionMethod]]
+[source,ts]
+----
+public addAssertionMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+----
+
+Adds an assertion method to the DID document. If a verification method with the same ID already exists, it will be replaced.
+A assertion method is a public key that can be used to express claims, such as for the purposes of issuing a Verifiable Credential
+
+Parameters::
+* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `removeAssertionMethod` [[method-removeAssertionMethod]]
+[source,ts]
+----
+public removeAssertionMethod(methodId: string): DIDUpdateBuilder {}
+----
+
+Removes an assertion method from the DID document by its identifier.
+
+Parameters::
+* `methodId`: The identifier of the assertion method to be removed.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `addKeyAgreementMethod` [[method-addKeyAgreementMethod]]
+[source,ts]
+----
+public addKeyAgreementMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+----
+
+Adds a key agreement method to the DID document. If a verification method with the same ID already exists, it will be replaced.
+A key agreement method is a public key that can be used to derive a shared secret for secure communication.
+
+Parameters::
+* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `removeKeyAgreementMethod` [[method-removeKeyAgreementMethod]]
+[source,ts]
+----
+public removeKeyAgreementMethod(methodId: string): DIDUpdateBuilder {}
+----
+
+Removes a key agreement method from the DID document by its identifier.
+
+Parameters::
+* `methodId`: The identifier of the key agreement method to be removed.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `addCapabilityInvocationMethod` [[method-addCapabilityInvocationMethod]]
+[source,ts]
+----
+public addCapabilityInvocationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+----
+
+Adds a capability invocation method to the DID document. If a verification method with the same ID already exists, it will be replaced.
+A capability invocation method is a public key that can be used to invoke a cryptographic capability, such as the authorization to update the DID Document.
+
+Parameters::
+* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `removeCapabilityInvocationMethod` [[method-removeCapabilityInvocationMethod]]
+[source,ts]
+----
+public removeCapabilityInvocationMethod(methodId: string): DIDUpdateBuilder {}
+----
+
+Removes a capability invocation method from the DID document by its identifier.
+
+Parameters::
+* `methodId`: The identifier of the capability invocation method to be removed.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `addCapabilityDelegationMethod` [[method-addCapabilityDelegationMethod]]
+[source,ts]
+----
+public addCapabilityDelegationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+----
+
+Adds a capability delegation method to the DID document. If a verification method with the same ID already exists, it will be replaced.
+A capability delegation method is a public key that can be used to delegate authority to another party.
+
+Parameters::
+* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `removeCapabilityDelegationMethod` [[method-removeCapabilityDelegationMethod]]
+[source,ts]
+----
+public removeCapabilityDelegationMethod(methodId: string): DIDUpdateBuilder {}
+----
+
+Removes a capability delegation method from the DID document by its identifier.
+
+Parameters::
+* `methodId`: The identifier of the capability delegation method to be removed.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `addService` [[method-addService]]
+[source,ts]
+----
+public addService(service: Service): DIDUpdateBuilder {}
+----
+
+Adds a service to the DID document. If a service with the same ID already exists, it will be replaced.
+
+Parameters::
+* `service`: The <<service-type,Service>> object to be added.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `removeService` [[method-removeService]]
+[source,ts]
+----
+public removeService(serviceId: string): DIDUpdateBuilder {}
+----
+
+Removes a service from the DID document by its identifier.
+
+Parameters::
+* `serviceId`: The identifier of the service to be removed.
+
+Returns::
+The current `DIDUpdateBuilder` instance for method chaining.
+
+=== `build` [[method-build]]
+[source,ts]
+----
+public build(): Array<DIDUpdateOperation> {}
+----
+
+Builds the DID update operation based on the added verification methods, services, and other changes.
+
+Returns::
+A list of xref:04-implementation/components/updateDID-api.adoc#didupdateoperation-type[DIDUpdateOperation] objects representing the changes to the DID document.
+
+=== `toJSON` [[method-toJSON]]
+[source,ts]
+----
+public toJSON(): Object {}
+----
+
+Converts the `DIDUpdateBuilder` instance to a JSON object.
+
+Returns::
+The JSON representation of the `DIDUpdateBuilder` instance.
+
+=== `fromJSON` [[method-fromJSON]]
+[source,ts]
+----
+public static fromJSON(json: Object): DIDUpdateBuilder {}
+----
+
+Creates a new `DIDUpdateBuilder` instance from a JSON object.
+
+Parameters::
+* `json`: The JSON object to create the `DIDUpdateBuilder` instance from.
+
+Returns::
+A new `DIDUpdateBuilder` instance created from the JSON object.
+
+
+
+== Related Types
+
+These types are used as parameters or return values in the `DIDUpdateBuilder` methods:
+
+[[verification-method-type]]
+=== VerificationMethod Type
+
+[cols="1,1,2",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|id
+|`string`
+|The identifier of the verification method, e.g., `#key-1`.
+
+|type
+|`string`
+|The type of verification method, e.g., `Ed25519VerificationKey2020`.
+
+|controller
+|`string`
+|The DID that controls the verification method.
+
+|publicKeyMultibase
+|`string`
+|The public key in multibase format.
+
+|===
+
+=== Service Type
+
+[cols="1,1,2",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|id
+|`string`
+|The identifier of the service, e.g., `#service-1`.
+
+|type
+|`string`
+|The type of service, e.g., `MessagingService`.
+
+|serviceEndpoint
+|`string`
+|The service endpoint URL.
+
+|===
+
+== Errors
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception Class
+|Description
+
+|`DIDUpdateBuilderError`
+|Thrown if there is an error building the DID update operation.
+|===
+
+== Class Implementation
+
+The Hashgraph DID SDK provides a `DIDUpdateBuilder` class within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/registrar`] package documentation.

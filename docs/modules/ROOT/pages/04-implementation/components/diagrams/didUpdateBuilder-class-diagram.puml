@@ -1,0 +1,19 @@
+@startuml
+class DIDUpdateBuilder {
+  + addAuthenticationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder
+  + removeAuthenticationMethod(methodId: string): DIDUpdateBuilder
+  + addAssertionMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder
+  + removeAssertionMethod(methodId: string): DIDUpdateBuilder
+  + addKeyAgreementMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder
+  + removeKeyAgreementMethod(methodId: string): DIDUpdateBuilder
+  + addCapabilityInvocationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder
+  + removeCapabilityInvocationMethod(methodId: string): DIDUpdateBuilder
+  + addCapabilityDelegationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder
+  + removeCapabilityDelegationMethod(methodId: string): DIDUpdateBuilder
+  + addService(service: Service): DIDUpdateBuilder
+  + removeService(serviceId: string): DIDUpdateBuilder
+  + build(): Array<DIDUpdateOperation>
+  + toJSON(): Object
+  + {static} fromJSON(json: Object): DIDUpdateBuilder
+}
+@enduml

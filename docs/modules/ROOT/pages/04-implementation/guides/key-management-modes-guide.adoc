@@ -1,4 +1,4 @@
-= Key Management Modes
+= Hashgraph DID SDK: Key Management Modes
 
 This guide outlines the different key management strategies supported by the DID-SDK, allowing you to choose the approach that best suits your security needs and application architecture.  Proper key management is crucial for the security and integrity of your Decentralized Identifiers (DIDs). Choose the strategy that aligns with your risk tolerance and operational requirements.
 
@@ -195,10 +195,9 @@ await deactivateDID(did, {
 });
 ----
 
-== References
+== Next Steps
 
-* xref:04-implementation/components-api/createDID-api.adoc[`createDID` API Reference]
-* xref:04-implementation/components-api/updateDID-api.adoc[`updateDID` API Reference]
-* xref:04-implementation/components-api/deactivateDID-api.adoc[`deactivateDID` API Reference]
-* xref:04-implementation/components/signer/guide.adoc[Signer Reference]
-* xref:04-implementation/components/publisher/guide.adoc[Publisher Reference]
+*   **Explore `resolveDID`:**  Dive deeper into the xref::04-implementation/components/resolveDID-guide.adoc[resolveDID] function to understand its parameters, error handling, and advanced usage.
+*   **Manage DIDs:** Learn how to use xref::04-implementation/components/createDID-guide.adoc[createDID], xref::04-implementation/components/updateDID-guide.adoc[updateDID], and xref::04-implementation/components/deactivateDID-guide.adoc[deactivateDID] to effectively manage DIDs on Hedera.
+*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::04-implementation/components/signer-guide.adoc[Signer] class.
+*   **Utilize the `Publisher`:** Integrate the xref::04-implementation/components/publisher-guide.adoc[Publisher] class into your application for seamless transaction submission.

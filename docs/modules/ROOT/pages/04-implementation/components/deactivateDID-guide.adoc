@@ -1,0 +1,37 @@
+= deactivateDID Function
+
+The `deactivateDID` function in the Hashgraph DID-SDK provides a way to deactivate existing DIDs for the Hedera DID method. This action effectively revokes the DID, making it unusable for future operations.
+
+== Features
+
+*   **DID Deactivation:** Deactivates registered DIDs on the Hedera network, revoking their validity.
+*   **Secure Deactivation:**  Ensures secure and verifiable deactivation by leveraging the Hedera Consensus Service (HCS).
+*   **DID Document Update:**  Updates the DID Document to reflect the deactivated status of the DID.
+*   **Hedera Network Support:** Supports DID deactivation on the Hedera mainnet, testnet, and previewnet.
+*   **Error Handling:** Provides robust error handling for invalid input, network issues, and other potential problems.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Deactivating a DID Document
+
+To deactivate a DID, you need to provide the DID string and the client options to the `deactivateDID` function.
+
+include::did-submission-checklist.adoc[]
+
+[source,js]
+----
+const clientOptions = {
+  privateKey: "0x...", // Replace with your Hedera account private key
+  accountId: "0.0.0....", // Replace with your Hedera account ID
+  network: "testnet",
+};
+
+await deactivateDID(did, { clientOptions });
+----
+
+In this example, `deactivateDID` takes the DID to be deactivated and an object containing the `clientOptions`. This configuration object should include the necessary information to interact with the Hedera network, such as the private key, account ID, and network.
+
+== References
+
+* xref:04-implementation/components/deactivateDID-api.adoc[`deactivateDID` API Reference]
+* xref:04-implementation/components/signer-api.adoc[`Signer` API Reference]
+* xref:04-implementation/components/publisher-api.adoc[`Publisher` API Reference]

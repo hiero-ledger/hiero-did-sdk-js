@@ -1,0 +1,70 @@
+= Signer Class
+
+The `Signer` is a fundamental component of the Hashgraph DID SDK, responsible for securely managing cryptographic keys and generating digital signatures for DID operations.  These signatures are essential for ensuring the authenticity and integrity of actions like creating, updating, or deactivating a DID. The `Signer` supports the Hedera DID method, adhering to the DID specification and integrating seamlessly with the Hedera ecosystem.
+
+This component provides a standardized way to handle cryptographic operations, enhancing security and simplifying DID management within the SDK.
+
+== Features
+
+*   **Key Generation:** Generates secure key pairs for use with DIDs.
+*   **Signature Generation:**  Creates digital signatures for DID operations, ensuring authenticity and integrity.
+*   **Signature Verification:** Verifies digital signatures to validate the origin and integrity of data.
+*   **Key Management:**  Provides a standardized interface for managing cryptographic keys.
+*   **Compatibility:** Supports various key formats and algorithms.
+*   **Error Handling:**  Includes robust error handling for invalid keys and other potential issues.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Using the Signer
+
+=== Generating a Key Pair and Signing a Message
+
+This example demonstrates how to generate a new key pair using the `Signer` and sign a message:
+
+[source, typescript]
+----
+import { Signer } from "@hashgraph-did-js-sdk/signer-internal"; // Import from signer-internal
+
+async function main() {
+  const signer = Signer.generate();
+  const publicKey = await signer.publicKey();
+
+  console.log(`Public Key: ${publicKey}`);
+
+  const message = new Uint8Array([1, 2, 3, 4, 5]);
+  const signature = await signer.sign(message);
+
+  console.log(`Signature: ${signature}`);
+}
+
+main();
+----
+
+=== Verifying a Signature
+
+This example demonstrates how to verify a signature using the `Signer`:
+
+[source, typescript]
+----
+import { Signer } from "@hashgraph-did-js-sdk/signer-internal"; // Import from signer-internal
+
+async function main() {
+  const signer = Signer.generate();
+  const publicKey = await signer.publicKey();
+
+  console.log(`Public Key: ${publicKey}`);
+
+  const message = new Uint8Array([1, 2, 3, 4, 5]);
+  const signature = await signer.sign(message);
+
+  console.log(`Signature: ${signature}`);
+
+  const isValid = await signer.verify(message, signature);
+  console.log(`Signature valid? ${isValid}`);
+}
+
+main();
+----
+
+== References
+
+* xref:04-implementation/components/signer-api.adoc[`Signer` API Reference]

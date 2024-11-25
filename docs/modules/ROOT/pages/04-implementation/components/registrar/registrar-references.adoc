@@ -1,8 +1,0 @@
-== References
-
-* xref:04-implementation/components-api/createDID-api.adoc[`createDID` API Reference]
-* xref:04-implementation/components-api/updateDID-api.adoc[`updateDID` API Reference]
-* xref:04-implementation/components-api/didUpdateBuilder-api.adoc[`DIDUpdateBuilder` API Reference]
-* xref:04-implementation/components-api/deactivateDID-api.adoc[`deactivateDID` API Reference]
-* xref:04-implementation/components/signer/guide.adoc[Signer Reference]
-* xref:04-implementation/components/publisher/guide.adoc[Publisher Reference]

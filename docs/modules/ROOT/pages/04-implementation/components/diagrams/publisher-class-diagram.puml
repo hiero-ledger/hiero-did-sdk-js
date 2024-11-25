@@ -1,0 +1,8 @@
+@startuml
+class Publisher {
+  + constructor(client: Client)
+  + publish(transaction: Transaction): Promise<TransactionReceipt>
+  + network(): string
+  + publicKey(): PublicKey
+}
+@enduml

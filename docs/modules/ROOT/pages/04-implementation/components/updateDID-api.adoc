@@ -1,6 +1,6 @@
-= updateDID Function
+= updateDID API Reference
 
-This document provides a concise reference for the `updateDID` function within the Hedera DID SDK for JavaScript.
+This document provides a concise API reference for the `updateDID` function within the Hedera DID SDK for JavaScript.
 
 == Function Signature
 
@@ -56,7 +56,7 @@ The table below details the structure of the `options` parameter.
 
 |privateKey?
 |`string` \| PrivateKey`
-|A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer/guide.adoc[Signer] for signing the DID update message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated.
+|A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for signing the DID update message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated.
 |===
 
 == Data Types
@@ -86,11 +86,11 @@ The table below provides a detailed description of the `Providers` type.
 
 |signer?
 |`Signer`
-|An instance of a xref:04-implementation/components/signer/guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
+|An instance of a xref:04-implementation/components/signer-guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
 
 |publisher?
 |`Publisher`
-|An instance of a xref:04-implementation/components/publisher/guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|An instance of a xref:04-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
 |===
 
 [[didupdateoperation-type]]
@@ -245,12 +245,6 @@ The following table enumerates the exceptions that may arise during the executio
 
 |===
 
-== Class Diagram
-
-The following class diagram provides a visual representation of the relationships between key classes and interfaces involved in the `updateDID` function.
-
-image::https://www.planttext.com/api/plantuml/svg/bLLDJ-Cm4BtxLup49GWgSMDLePOL5TeA8H1TzhBQWt66O94waJqfGi1_ntQSnFde2av9vZtFctapLiuDSKtLDWUXaHFEKfdEKYnHfQY4HCDMwzKTPjAGvlgUP6vWDbl0HcOAzHxmjdh8fNcASQuzCkAp2o_huwRAgM6j2b5jKT4emwqkTZ95RKR8JKcoK8Qr31-zoALDqs33CmDrrcC7FRcpb2jydImrWlUSQitmm6_DbU72CVSZToXGbZJP2MDCvDmOY5jvOm1m54QObCsn6nrgcdUsmNjZr36qn6L4E8Jvo9QFaMWxRozz01bIsqxYKdGxqE3rodWmR8zDAnMXVkG2XvfruWrfgJAmI-c-ehrmeNP7BDGPRhjgNfTzXSw3EhSl0en_B7sITY1by-RZjVFMkVvwY7eW_IvwZBY7z-aQ8mONegWKhTCeff1U2ltS5vbABmf5kiZpK7A8Kb5AiKwNNwZ3AZ3-u2Oh2Eff1uUyp5k3VTX52wcyIo8qqICuKvCj6iCpdCEzBVt7Jwtvgnj-z-Kq1vBT2CQgOGp1zY4QHfPGTu_cyQLoqXDth6Til62nkJATTDe5_w2MZr9mb_CQwQb8__w3tIZONQ78_RCpI3R71vUNfwSd9uVm2-roSjYihc2n2Eoeuc_IGuDVEHMC_I_ptFuHx6_Y4m00[Dependency Diagram]
-
 == Function Implementation
 
-The Hashgraph DID SDK provides a `updateDID` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#registrar-package[`@hashgraph-did-sdk-js/registrar`] package documentation.
+The Hashgraph DID SDK provides a `updateDID` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/registrar`] package documentation.

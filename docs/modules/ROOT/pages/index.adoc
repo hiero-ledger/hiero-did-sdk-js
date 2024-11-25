@@ -26,7 +26,7 @@ Gain a comprehensive understanding of the SDK's architecture and underlying desi
 
 == Implementation
 
-For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed xref:04-implementation/guides/getting-started.adoc[Getting Started Guide].
+For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed xref:04-implementation/guides/getting-started-guide.adoc[Getting Started Guide].
 
 == Testing
 

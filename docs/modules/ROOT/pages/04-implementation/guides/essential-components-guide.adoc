@@ -1,0 +1,25 @@
+= Hashgraph DID SDK: Essential Components
+
+== Introduction
+
+This guide provides an overview of the essential components and functions that power the Hashgraph DID SDK. These elements work together to enable developers to seamlessly create, manage, and resolve Decentralized Identifiers (DIDs) on the Hedera network. Familiarizing yourself with these core aspects is key to effectively leveraging the SDK for your decentralized identity solutions.
+
+=== Resolving DIDs with `resolveDID`
+
+The `resolveDID` function is your gateway to accessing DID Documents. It retrieves and verifies these documents, which contain crucial information about a DID, such as public keys and authentication methods.  By using the Hedera Consensus Service (HCS), `resolveDID` ensures secure and verifiable retrieval, adhering to the DID specification and supporting the Hedera DID method.
+
+=== Managing DIDs: `createDID`, `updateDID`, and `deactivateDID`
+
+The Hashgraph DID SDK provides a streamlined way to manage the entire lifecycle of a DID. With `createDID`, you can generate and register new DIDs on the Hedera network.  `updateDID` allows you to modify existing DIDs, while `deactivateDID` enables you to revoke a DID when needed. These functions interact with the HCS to ensure the secure handling of DID documents, adhering to the DID specification and supporting the Hedera DID method.
+
+=== Secure Key Management with the `Signer` Class
+
+The `Signer` class plays a vital role in securing your DID operations. It provides a standardized way to generate keys, sign messages, and verify signatures. This ensures the integrity and authenticity of your DID operations, contributing to the overall trustworthiness of DIDs on Hedera.
+
+=== Streamlined Transaction Handling with the `Publisher` Class
+
+The `Publisher` class acts as a bridge between your DID operations and the Hedera network. It simplifies the submission of transactions to the Hedera Consensus Service (HCS), streamlining the process of registering, updating, and deactivating DIDs. With automatic network detection and robust error handling, the `Publisher` class ensures a smooth and reliable experience.
+
+
+== Next Steps
+*   **Key Management Modes:**  Learn about the different key management strategies supported by the DID-SDK and choose the best one for your needs: xref::04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes Guide].

@@ -1,10 +1,22 @@
-== updateDID Function
+= updateDID Function
 
-The `updateDID` function, a core component of the Hashgraph DID-SDK's xref:04-implementation/components-api/updateDID-api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
+The `updateDID` function, a core component of the Hashgraph DID-SDK's xref:04-implementation/components/updateDID-api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
 
-=== Updating a DID Document
+== Features
+
+*   **DID Updating:** Updates existing DIDs on the Hedera network, allowing modifications to DID Documents.
+*   **Flexible Updates:** Supports various update operations, such as adding or removing verification methods, services, and other properties.
+*   **Secure Updates:** Ensures secure and verifiable updates by leveraging the Hedera Consensus Service (HCS).
+*   **DID Document Versioning:**  Maintains a history of DID Document updates for auditability and transparency.
+*   **Hedera Network Support:** Supports DID updates on the Hedera mainnet, testnet, and previewnet.
+*   **Error Handling:** Provides robust error handling for invalid input, network issues, and other potential problems.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Updating a DID Document
 
 The following example demonstrates how to update a DID document using the `updateDID` function:
+
+include::did-submission-checklist.adoc[]
 
 [source,javascript]
 ----
@@ -252,3 +264,10 @@ Verification relationships express the relationship between a verification metho
       .removeCapabilityInvocationMethod("did:hedera:mainnet:...#key-1")
       .build();
 ----
+
+== References
+
+* xref:04-implementation/components/updateDID-api.adoc[`updateDID` API Reference]
+* xref:04-implementation/components/didUpdateBuilder-api.adoc[`DIDUpdateBuilder` API Reference]
+* xref:04-implementation/components/signer-api.adoc[`Signer` API Reference]
+* xref:04-implementation/components/publisher-api.adoc[`Publisher` API Reference]
