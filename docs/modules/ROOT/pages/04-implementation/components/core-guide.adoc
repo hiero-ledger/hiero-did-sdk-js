@@ -1,3 +1,89 @@
 = Core
 
-include::../../shared/under-development.adoc[]
+The core component is the foundation of the Hashgraph DID SDK. It provides essential interfaces, utilities, and validation tools for working with Decentralized Identifiers (DIDs) on the Hedera network.
+
+== Key Features
+
+=== Interfaces
+
+The core component defines several key interfaces that are used throughout the Hashgraph DID SDK:
+
+*   `DIDDocument`: Represents a DID Document, which contains information about a DID, such as its public keys and services.
+*   `Signer`:  Defines the methods for signing and verifying data using a DID's private key.
+*   `Publisher`: Defines the methods for submitting transactions to the Hedera network.
+*   `DIDMessage`:  Represents a message used for DID operations, such as creating, updating, or deactivating a DID.
+*   `PublicKey`: An interface for representing public keys.
+*   `Network`: An interface for defining Hedera network configurations.
+*   `VerificationMethodProperties`: An interface for defining verification method properties.
+
+=== Utilities
+
+The core component also provides the `KeysUtility` class with a wide range of functions for:
+
+*   **Transforming keys:** Convert keys between different formats (bytes, base58, multibase, Hedera `PublicKey`).
+*   **Loading keys:** Load keys from various sources (bytes, base58, DER string, Hedera `PublicKey`).
+*   **Exporting keys:** Export keys in different formats for use in other applications or systems.
+
+=== DID Validation
+
+The core component exports the `isHederaDID` function, which uses regular expressions to validate Hedera DIDs, ensuring they adhere to the DID specification:
+
+*   Checks for correct DID format, including the `did:hedera` prefix, network, public key, and topic ID.
+*   Validates the network identifier against allowed values (mainnet, testnet).
+*   Uses a regular expression to validate the base58-encoded public key.
+
+
+== Usage Examples
+
+=== Validating a Hedera DID
+
+This example demonstrates how to use the `isHederaDID` function to validate a Hedera DID:
+
+[source, typescript]
+----
+import { isHederaDID } from "@hashgraph-did-sdk/core";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to validate
+
+if (isHederaDID(did)) {
+  console.log(`${did} is a valid Hedera DID`);
+} else {
+  console.log(`${did} is not a valid Hedera DID`);
+}
+----
+
+=== Generating a Key Pair
+
+This example demonstrates how to use the `KeysUtility` class to generate a new ED25519 key pair:
+
+[source, typescript]
+----
+import { KeysUtility } from "@hashgraph-did-sdk/core";
+
+const keys = KeysUtility.generateEd25519KeyPair();
+
+console.log(`Private Key: ${keys.privateKey}`);
+console.log(`Public Key: ${keys.publicKey}`);
+----
+
+=== Transforming Keys
+
+This example shows how to use the `KeysUtility` to transform keys between different formats:
+
+[source, typescript]
+----
+import { KeysUtility } from "@hashgraph-did-sdk/core";
+import { PublicKey } from "@hashgraph/sdk";
+
+// Load a key from a Hedera PublicKey
+const keyUtil = KeysUtility.fromPublicKey(publicKey); 
+
+// Transform the key to different formats
+const publicKeyMultibase = keyUtil.toMultibase();
+const publicKeyBase58 = keyUtil.toBase58();  
+const publicKeyBytes = keyUtil.toBytes();
+----
+
+== References
+
+* xref:04-implementation/components/core-api.adoc[core API Reference]
