@@ -40,7 +40,7 @@
     "typescript-eslint": "^8.11.0"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.52.0",
+    "@hashgraph/sdk": "^2.53.0",
     "@scure/base": "^1.1.9"
   },
   "workspaces": [

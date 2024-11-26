@@ -38,6 +38,7 @@
     "@hashgraph-did-sdk/messages": "^0.0.1-alpha.0",
     "@hashgraph-did-sdk/publisher-internal": "^0.0.1-alpha.0",
     "@hashgraph-did-sdk/resolver": "^0.0.1-alpha.0",
-    "@hashgraph-did-sdk/signer-internal": "^0.0.1-alpha.0"
+    "@hashgraph-did-sdk/signer-internal": "^0.0.1-alpha.0",
+    "@hashgraph/sdk": "^2.53.0"
   }
 }

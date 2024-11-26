@@ -19,12 +19,12 @@ import { DidDocumentBuilder } from './did-document-builder';
  */
 export async function resolveDID(
   didUrl: string,
-  accept?: 'application/did+json',
+  accept: 'application/did+json',
   options?: ResolveDIDOptions,
 ): Promise<DIDDocument>;
 export async function resolveDID(
   didUrl: string,
-  accept: 'application/did+ld+json',
+  accept?: 'application/did+ld+json',
   options?: ResolveDIDOptions,
 ): Promise<JsonLdDIDDocument>;
 export async function resolveDID(

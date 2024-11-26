@@ -1,4 +1,4 @@
-import { PublicKeyInBase58 } from './public-key';
+import { PublicKeyInDer } from './public-key';
 
 /**
  * A signer is an entity that can sign messages.
@@ -18,10 +18,10 @@ export abstract class Signer {
    *
    * @returns The public key.
    * @throws If the public key cannot be retrieved.
-   * @remarks The public key is in base58 format.
+   * @remarks The public key is in der format.
    * @remarks The public key is used to verify the signature.
    */
-  abstract publicKey(): Promise<PublicKeyInBase58> | PublicKeyInBase58;
+  abstract publicKey(): Promise<PublicKeyInDer> | PublicKeyInDer;
 
   /**
    * Verify a signature of a message.
