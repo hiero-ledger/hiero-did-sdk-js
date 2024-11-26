@@ -8,7 +8,7 @@ The `updateDID` function, a core component of the Hashgraph DID-SDK's xref:04-im
 *   **Flexible Updates:** Supports various update operations, such as adding or removing verification methods, services, and other properties.
 *   **Secure Updates:** Ensures secure and verifiable updates by leveraging the Hedera Consensus Service (HCS).
 *   **DID Document Versioning:**  Maintains a history of DID Document updates for auditability and transparency.
-*   **Hedera Network Support:** Supports DID updates on the Hedera mainnet, testnet, and previewnet.
+*   **Hedera Network Support:** Supports DID updates on the Hedera mainnet and testnet.
 *   **Error Handling:** Provides robust error handling for invalid input, network issues, and other potential problems.
 *   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
 

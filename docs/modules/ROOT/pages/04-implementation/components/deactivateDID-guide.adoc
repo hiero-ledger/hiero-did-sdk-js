@@ -7,7 +7,7 @@ The `deactivateDID` function in the Hashgraph DID-SDK provides a way to deactiva
 *   **DID Deactivation:** Deactivates registered DIDs on the Hedera network, revoking their validity.
 *   **Secure Deactivation:**  Ensures secure and verifiable deactivation by leveraging the Hedera Consensus Service (HCS).
 *   **DID Document Update:**  Updates the DID Document to reflect the deactivated status of the DID.
-*   **Hedera Network Support:** Supports DID deactivation on the Hedera mainnet, testnet, and previewnet.
+*   **Hedera Network Support:** Supports DID deactivation on the Hedera mainnet and testnet.
 *   **Error Handling:** Provides robust error handling for invalid input, network issues, and other potential problems.
 *   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
 

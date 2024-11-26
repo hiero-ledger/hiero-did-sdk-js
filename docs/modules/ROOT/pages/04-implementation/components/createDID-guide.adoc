@@ -7,7 +7,7 @@ The `createDID` function is a fundamental component of the Hashgraph DID-SDK, re
 *   **DID Creation:** Generates and registers new DIDs on the Hedera network with customizable options.
 *   **Key Management:** Supports various key types and formats for DID controllers and verification methods.
 *   **DID Document Generation:** Automatically generates DID Documents conforming to the DID specification.
-*   **Hedera Network Support:**  Supports DID creation on the Hedera mainnet, testnet, and previewnet.
+*   **Hedera Network Support:**  Supports DID creation on the Hedera mainnet and testnet.
 *   **Error Handling:** Provides robust error handling for invalid input, network issues, and other potential problems.
 *   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
 

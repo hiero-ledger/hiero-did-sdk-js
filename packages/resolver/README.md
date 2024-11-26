@@ -6,7 +6,7 @@ This package provides the `resolveDID` function, a core component of the Hashgra
 
 - **DID Resolution:** Resolves Hedera DIDs to their corresponding DID Documents in various formats (JSON, JSON-LD, DID Resolution).
 - **Cryptographic Verification:** Verifies the authenticity and integrity of DID Documents.
-- **Hedera Network Support:** Supports resolving DIDs on the Hedera mainnet, testnet, and previewnet.
+- **Hedera Network Support:** Supports resolving DIDs on the Hedera mainnet and testnet.
 - **Error Handling:** Provides robust error handling for invalid DIDs, network issues, and unsupported formats.
 - **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
 
@@ -24,7 +24,7 @@ Learn how to use the `resolveDID` function to resolve DID Documents in the [reso
 
 ## API Reference
 
-Learn more in the [`resolveDID` API Reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components-api/resolveDID-api.html).
+Learn more in the [`resolveDID` API Reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/resolveDID-api.html).
 
 ## Running Tests
 

@@ -31,6 +31,11 @@
     *** xref:04-implementation/components/signer-guide.adoc[Signer]
     *** xref:04-implementation/components/publisher-guide.adoc[Publisher]
 
+    *** Advanced
+      **** xref:04-implementation/components/core-guide.adoc[Core]
+      **** xref:04-implementation/components/messages-guide.adoc[Messages]
+      **** xref:04-implementation/components/lifecycle-guide.adoc[LifeCycle]
+
   ** Components API
     *** xref:04-implementation/components/resolveDID-api.adoc[resolveDID]
     *** xref:04-implementation/components/createDID-api.adoc[createDID]
@@ -40,6 +45,10 @@
     *** xref:04-implementation/components/signer-api.adoc[Signer]
     *** xref:04-implementation/components/publisher-api.adoc[Publisher]
 
+    *** Advanced
+      **** xref:04-implementation/components/core-api.adoc[Core]
+      **** xref:04-implementation/components/messages-api.adoc[Messages]
+      **** xref:04-implementation/components/lifecycle-api.adoc[LifeCycle]
 
 * Testing 
   ** xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests]

@@ -1,15 +1,25 @@
 # @hashgraph-did-sdk/registrar
 
-This package provides the [Registrar](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/registrar/index.html), a core component of the [Hashgraph DID SDK](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js) responsible for registering and updating Decentralized Identifiers (DIDs) on the Hedera network. It facilitates the creation and management of DIDs by interacting with the Hedera Consensus Service (HCS), ensuring the secure and verifiable registration of DID documents. Supporting the Hedera DID method, the Registrar adheres to the DID specification and provides a streamlined interface for developers to integrate DID management into their applications.
+This package provides the core functions for registering and managing Decentralized Identifiers (DIDs) on the Hedera network within the [Hashgraph DID SDK](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js). It offers a streamlined interface for creating, updating, and deactivating DIDs, ensuring secure and verifiable DID operations.
+
+Specifically, this package provides the `createDID`, `updateDID`, and `deactivateDID` functions. These functions allow you to:
+
+*   **`createDID`:** Generate and register a new DID on the Hedera network.
+*   **`updateDID`:** Update an existing DID by modifying its associated DID Document.
+*   **`deactivateDID`:** Deactivate a DID, effectively revoking it.
+
+These functions interact with the Hedera Consensus Service (HCS) to ensure that DID operations are securely and verifiably recorded on the Hedera network. By adhering to the DID specification, these functions enable interoperable and standardized DID management.
 
 ## Features
 
-- **DID Creation:** Generate and register new DIDs with customizable configurations.
-- **DID Updating:** Update existing DIDs, including adding or removing verification methods and services.
-- **DID Deactivation:** Deactivate DIDs to revoke their validity.
-- **Simplified Interface:**  Provides an intuitive and easy-to-use API for managing DIDs.
-- **Integration with Hedera:** Seamlessly integrates with the Hedera JavaScript SDK for ledger interactions.
-
+*   **DID Creation:** Generates and registers new DIDs on the Hedera network with customizable options.
+*   **DID Updating:** Updates existing DIDs, allowing modifications to DID Documents.
+*   **DID Deactivation:** Deactivates registered DIDs on the Hedera network, revoking their validity.
+*   **Key Management:** Supports various key types and formats for DID controllers and verification methods.
+*   **DID Document Generation:** Automatically generates DID Documents conforming to the DID specification.
+*   **Hedera Network Support:**  Supports DID operations on the Hedera mainnet and testnet.
+*   **Error Handling:** Provides robust error handling for invalid input, network issues, and other potential problems.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
 
 ## Installation
 
@@ -21,71 +31,22 @@ npm install @hashgraph-did-sdk/registrar
 
 ## Usage
 
-This package is intended for internal use within the `@hashgraph-did-sdk`. However, it can be used independently if needed.
+This package provides three main functions for managing DIDs: `createDID`, `updateDID`, and `deactivateDID`.
 
-**Note:** This package exports functions for creating, updating, and deactivating DIDs. Each function provides flexibility in how you interact with the Hedera network. You can provide your own `Client`, `Publisher`, and `Signer` instances, or rely on the built-in mechanisms for these components.
+Learn how to use the `createDID` function to create a new DID in the [`createDID` Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/createDID-guide.html).
 
+Learn how to use the `updateDID` function to update an existing DID in the [`updateDID` Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/updateDID-guide.html).
 
-### Creating a DID
-
-```javascript
-import { createDID } from '@hashgraph-did-sdk/registrar';
-
-const { did, didDocument, privateKey } = await createDID({ 
-  // Optionally provide a client, publisher, signer, or private key
-});
-
-console.log('DID:', did);
-console.log('DID Document:', didDocument); 
-```
-
-For more details, see the [`createDID` function documentation](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components-api/createDID-api.html).
-
-
-### Updating a DID
-
-```javascript
-import { updateDID } from '@hashgraph-did-sdk/registrar';
-
-const { did, didDocument } = await updateDID({
-  did: 'did:hedera:...',  // The DID to update
-  updates: [
-    // Array of update operations
-    { operation: 'add-verification-method', ... },
-    { operation: 'remove-service', ... },
-  ],
-  // Optionally provide a client, publisher, signer, or private key
-});
-```
-
-For more details, see the [`updateDID` function documentation](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components-api/updateDID-api.html).
-
-
-### Deactivating a DID
-
-```javascript
-import { deactivateDID } from '@hashgraph-did-sdk/registrar';
-
-const { did, didDocument } = await deactivateDID({
-  did: 'did:hedera:...'  // The DID to deactivate
-  // Optionally provide a client, publisher, signer, or private key
-});
-```
-
-For more details, see the [`deactivateDID` function documentation](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components-api/deactivateDID-api.html).
+Learn how to use the `deactivateDID` function to deactivate a DID in the [`deactivateDID` Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/deactivateDID-guide.html).
 
 
 ## API Reference
 
-Detailed API documentation is available in the [Hashgraph DID SDK documentation](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/).
+Learn more in the [`createDID` API reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/createDID-api.html).
 
-## Error Handling
+Learn more in the [`updateDID` API reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/updateDID-api.html).
 
-The functions in this package may throw errors under various conditions, such as:
-
-- **Invalid DID format:** If the provided DID string is not in a valid format.
-- **Network errors:** If there are issues connecting to or interacting with the Hedera network.
-- **Invalid update operations:** If the provided update operations for a DID are invalid.
+Learn more in the [`deactivateDID` API reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/deactivateDID-api.html).
 
 
 ## Running Tests
@@ -101,5 +62,6 @@ npm test
 This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
 
 ## References
+
   * [Hashgraph DID SDK](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
   * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.

@@ -7,7 +7,7 @@ The `Publisher` is a core component within the Hashgraph DID SDK. It streamlines
 *   **Transaction Submission:**  Submits transactions to the Hedera network for DID operations.
 *   **Transaction Execution:**  Executes transactions on the Hedera network, ensuring reliable processing.
 *   **Network Interaction:** Provides a streamlined interface for interacting with the Hedera network.
-*   **Network Detection:** Automatically detects the Hedera network environment (mainnet, testnet, previewnet).
+*   **Network Detection:** Automatically detects the Hedera network environment (mainnet, testnet).
 *   **Error Handling:**  Includes robust error handling for transaction failures and network issues.
 *   **Extensibility:** Designed for extensibility to support future Hedera network features.
 *   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
