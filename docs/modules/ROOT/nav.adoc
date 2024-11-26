@@ -55,7 +55,7 @@
 
 
 * Deployment
-  ** xref:06-deployment/packages/index.adoc[npm Packages]
+  ** xref:06-deployment/packages/index.adoc[Packages Guide]
 
 
 * Maintenance

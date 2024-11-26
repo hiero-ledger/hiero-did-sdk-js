@@ -1,4 +1,4 @@
-= npm Packages
+= Packages Guide
 
 This document provides an overview of the npm packages that comprise the Hashgraph DID SDK.
 
