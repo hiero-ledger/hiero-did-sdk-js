@@ -1,3 +1,60 @@
-= LifeCycle
+= Lifecycle
 
-include::../../shared/under-development.adoc[]
+The Lifecycle component is the foundation of the Hashgraph DID SDK. TIt provides a powerful and flexible system for orchestrating complex asynchronous operations related to Decentralized Identifiers (DIDs).
+
+== Overview
+
+The Lifecycle Management component simplifies the development of robust and reliable DID-related applications by streamlining the process of defining, managing, and executing sequences of asynchronous steps. It provides features such as:
+
+*   **Step-by-Step Execution:** Define a clear sequence of asynchronous steps for DID operations.
+*   **Callback Integration:** Incorporate custom callback functions at any point in the lifecycle.
+*   **Signature Handling:** Include signature generation and verification steps seamlessly.
+*   **Pause/Resume Functionality:** Introduce pauses for manual intervention or external interactions, and resume execution when ready.
+*   **Error Handling:** Implement robust error handling with catch steps to gracefully handle exceptions.
+*   **Flexible Builder Pattern:** Provides a fluent API for building and configuring lifecycles with ease.
+
+These features enable developers to create complex DID workflows while maintaining a clear and organized structure.
+
+== Using the Lifecycle Management Component
+
+The core of the Lifecycle Management component is the `LifecycleBuilder` class. It provides a fluent API for defining the steps involved in a DID operation. Here's a basic example of how to use the `LifecycleBuilder`:
+
+[source,typescript]
+----
+import { LifecycleBuilder, LifecycleRunner } from "@hashgraph-did-js-sdk/lifecycle";
+
+const lifecycle = new LifecycleBuilder()
+  .callback(async (context) => {
+    // Perform an asynchronous operation
+    context.data = await fetchData();  
+  })
+  .signWithSigner() // Sign the data
+  .callback(async (context) => {
+    // Continue with the next step
+    await submitData(context.data);
+  })
+  .catch((error) => {
+    // Handle errors gracefully
+    console.error("Lifecycle error:", error);
+  })
+  .build();
+
+const runner = new LifecycleRunner(lifecycle);
+const state = await runner.process(message, {
+  // Provide necessary context (e.g., signer, publisher)
+});
+----
+
+This example demonstrates a simple lifecycle with three steps:
+
+1.  An asynchronous callback function that fetches some data.
+2.  A signing step using `signWithSigner`.
+3.  Another asynchronous callback function that submits the data.
+
+The `catch` method is used to handle any errors that occur during the lifecycle execution.
+
+The `LifecycleRunner` class is responsible for executing the lifecycle. The `process` method starts the execution and returns a `LifecycleState` object, which contains information about the current state of the lifecycle.
+
+== References
+
+* xref:04-implementation/components/lifecycle-api.adoc[lifecycle API Reference]

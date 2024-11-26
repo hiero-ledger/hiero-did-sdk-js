@@ -1,3 +1,126 @@
-= LifeCycle API Reference
+= Lifecycle API Reference
 
-include::../../shared/under-development.adoc[]
+This document provides a concise API reference for the Lifecycle Management component within the Hedera DID SDK for JavaScript.
+
+== Classes
+
+=== LifecycleBuilder
+
+The `LifecycleBuilder` class provides a fluent interface for defining the steps involved in a DID operation.
+
+==== Methods
+
+===== `callback`
+[source,typescript]
+----
+callback(callback: (context: LifecycleContext) => Promise<void> | void): LifecycleBuilder
+----
+
+Adds a callback step to the lifecycle.
+
+Parameters::
+* `callback`:  A function that will be executed asynchronously. It receives a `LifecycleContext` object as a parameter, which provides access to data and utilities within the lifecycle.
+
+Returns::
+The `LifecycleBuilder` instance for method chaining.
+
+===== `signWithSigner`
+[source,typescript]
+----
+signWithSigner(): LifecycleBuilder
+----
+
+Adds a signing step to the lifecycle. This step uses the `Signer` provided in the `LifecycleContext` to sign the data.
+
+Returns::
+The `LifecycleBuilder` instance for method chaining.
+
+===== `pause`
+[source,typescript]
+----
+pause(): LifecycleBuilder
+----
+
+Adds a pause step to the lifecycle. This allows for manual intervention or waiting for external events before continuing the execution.
+
+Returns::
+The `LifecycleBuilder` instance for method chaining.
+
+===== `catch`
+[source,typescript]
+----
+catch(callback: (error: unknown) => void): LifecycleBuilder
+----
+
+Adds a catch step to the lifecycle. This step is used to handle errors that occur during the execution of previous steps.
+
+Parameters::
+* `callback`: A function that will be executed if an error occurs. It receives the error object as a parameter.
+
+Returns::
+The `LifecycleBuilder` instance for method chaining.
+
+===== `build`
+[source,typescript]
+----
+build(): Lifecycle
+----
+
+Builds the lifecycle definition.
+
+Returns::
+A `Lifecycle` object representing the defined sequence of steps.
+
+=== LifecycleRunner
+
+The `LifecycleRunner` class is responsible for executing a `Lifecycle`.
+
+==== Methods
+
+===== `process`
+[source,typescript]
+----
+process(message: any, context: LifecycleContext): Promise<LifecycleState>
+----
+
+Starts the execution of the lifecycle.
+
+Parameters::
+* `message`:  The initial message or data to be processed by the lifecycle.
+* `context`:  A `LifecycleContext` object providing access to data and utilities within the lifecycle.
+
+Returns::
+A `Promise` that resolves to a `LifecycleState` object, which contains information about the current state of the lifecycle.
+
+===== `resume`
+[source,typescript]
+----
+resume(state: LifecycleState, context: LifecycleContext): Promise<LifecycleState>
+----
+
+Resumes the execution of a paused lifecycle.
+
+Parameters::
+* `state`: The `LifecycleState` object representing the paused state of the lifecycle.
+* `context`: A `LifecycleContext` object providing access to data and utilities within the lifecycle.
+
+Returns::
+A `Promise` that resolves to a `LifecycleState` object, which contains information about the current state of the lifecycle.
+
+== Interfaces
+
+=== Lifecycle
+
+Represents a sequence of steps in a DID operation.
+
+=== LifecycleContext
+
+Provides access to data and utilities within a lifecycle.
+
+=== LifecycleState
+
+Represents the current state of a lifecycle execution.
+
+== Component Implementation
+
+The Hashgraph DID SDK provides the Lifecycle Management classes and interfaces within its `lifecycle` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hashgraph-did-sdk-js/lifecycle`] package documentation.

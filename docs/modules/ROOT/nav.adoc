@@ -34,7 +34,7 @@
     *** Advanced
       **** xref:04-implementation/components/core-guide.adoc[Core]
       **** xref:04-implementation/components/messages-guide.adoc[Messages]
-      **** xref:04-implementation/components/lifecycle-guide.adoc[LifeCycle]
+      **** xref:04-implementation/components/lifecycle-guide.adoc[Lifecycle]
 
   ** Components API
     *** xref:04-implementation/components/resolveDID-api.adoc[resolveDID]
@@ -48,7 +48,7 @@
     *** Advanced
       **** xref:04-implementation/components/core-api.adoc[Core]
       **** xref:04-implementation/components/messages-api.adoc[Messages]
-      **** xref:04-implementation/components/lifecycle-api.adoc[LifeCycle]
+      **** xref:04-implementation/components/lifecycle-api.adoc[Lifecycle]
 
 * Testing 
   ** xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests]
