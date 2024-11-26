@@ -1,6 +1,6 @@
 = Core API Reference
 
-This document provides a concise API reference for the core interfaces, utilities, and functions within the Hedera DID SDK for JavaScript. This component forms the foundation of the SDK, providing essential tools for working with Decentralized Identifiers (DIDs) on the Hedera network.
+This document provides a concise API reference for the core interfaces, utilities, and functions within the Hedera DID SDK for JavaScript.
 
 == Interfaces
 
