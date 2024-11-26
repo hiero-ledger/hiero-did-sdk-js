@@ -1,0 +1,14 @@
+@startuml
+abstract class DIDMessage {
+  + toBytes(): Uint8Array
+  + {static} fromBytes(bytes: Uint8Array): DIDMessage
+}
+
+class DIDAddVerificationMethodMessage extends DIDMessage {
+  - did: string
+  - controller: string
+  - property: string
+  - publicKeyMultibase: string
+  - id: string
+}
+@enduml

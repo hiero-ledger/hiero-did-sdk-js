@@ -1,0 +1,7 @@
+@startuml
+interface DIDMessage {
+  + type: string
+  + did?: string
+  + operation?: DIDOperation
+}
+@enduml

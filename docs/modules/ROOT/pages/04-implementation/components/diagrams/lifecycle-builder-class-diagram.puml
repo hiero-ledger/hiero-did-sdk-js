@@ -1,0 +1,9 @@
+@startuml
+class LifecycleBuilder {
+  + callback(callback: (context: LifecycleContext) => Promise<void> | void): LifecycleBuilder
+  + signWithSigner(): LifecycleBuilder
+  + pause(): LifecycleBuilder
+  + catch(callback: (error: unknown) => void): LifecycleBuilder
+  + build(): Lifecycle
+}
+@enduml

@@ -2,62 +2,19 @@
 
 This document provides a concise API reference for the Messages component within the Hedera DID SDK for JavaScript.
 
-== DID Message Classes
+== Message Classes
 
-=== DIDOwnerMessage
+=== DIDMessage
 
-Represents a DID Owner message, used for creating and managing DID ownership.
+Represents an abstract DID Message. All other DID Message classes inherit from this class.
 
-[cols="1,1,3", options="header", frame="ends"]
-|===
-| Name | Type | Description
-| publicKey | `string` | The multibase-encoded public key of the DID owner.
-| network | `string` | The Hedera network on which the DID is registered.
-| topicId | `string` | The ID of the Hedera topic associated with the DID.
-|===
+==== Class Diagram
 
-=== DIDAddVerificationMethodMessage
+image::did-message-class-diagram.png[]
 
-Represents a DID Add Verification Method message, used for adding verification methods to a DID Document.
+==== Methods
 
-[cols="1,1,3", options="header", frame="ends"]
-|===
-| Name | Type | Description
-| did | `string` | The DID string of the Decentralized Identifier.
-| controller | `string` | The DID that controls the verification method.
-| property | `string` | The property to which the verification method will be added (e.g., "verificationMethod", "authentication").
-| publicKeyMultibase | `string` | The multibase-encoded public key of the verification method.
-| id | `string` | The identifier of the verification method (e.g., "#key-1").
-|===
-
-=== DIDRemoveVerificationMethodMessage
-
-Represents a DID Remove Verification Method message, used for removing verification methods from a DID Document.
-
-[cols="1,1,3", options="header", frame="ends"]
-|===
-| Name | Type | Description
-| did | `string` | The DID string of the Decentralized Identifier.
-| property | `string` | The property from which the verification method will be removed (e.g., "verificationMethod", "authentication").
-| id | `string` | The identifier of the verification method to be removed (e.g., "#key-1").
-|===
-
-=== DIDDeactivateMessage
-
-Represents a DID Deactivate message, used for deactivating a DID.
-
-[cols="1,1,3", options="header", frame="ends"]
-|===
-| Name | Type | Description
-| did | `string` | The DID string of the Decentralized Identifier to deactivate.
-|===
-
-== Methods
-
-Each DID Message class has the following methods:
-
-=== `toBytes`
-
+===== `toBytes`
 [source,typescript]
 ----
 toBytes(): Uint8Array
@@ -68,8 +25,7 @@ Serializes the DID Message into a byte array.
 Returns::
 The serialized DID Message as a byte array.
 
-=== `fromBytes`
-
+===== `fromBytes`
 [source,typescript]
 ----
 static fromBytes(bytes: Uint8Array): DIDMessage
@@ -82,6 +38,83 @@ Parameters::
 
 Returns::
 The deserialized DID Message object.
+
+
+
+=== DIDOwnerMessage
+
+Represents a DID Owner message, used for creating and managing DID ownership.
+
+==== Class Diagram
+
+image::did-owner-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| publicKey | `string` | The multibase-encoded public key of the DID owner.
+| network | `string` | The Hedera network on which the DID is registered.
+| topicId | `string` | The ID of the Hedera topic associated with the DID.
+|===
+
+
+=== DIDAddVerificationMethodMessage
+
+Represents a DID Add Verification Method message, used for adding verification methods to a DID Document.
+
+==== Class Diagram
+
+image::did-add-verification-method-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| did | `string` | The DID string of the Decentralized Identifier.
+| controller | `string` | The DID that controls the verification method.
+| property | `string` | The property to which the verification method will be added (e.g., "verificationMethod", "authentication").
+| publicKeyMultibase | `string` | The multibase-encoded public key of the verification method.
+| id | `string` | The identifier of the verification method (e.g., "#key-1").
+|===
+
+
+=== DIDRemoveVerificationMethodMessage
+
+Represents a DID Remove Verification Method message, used for removing verification methods from a DID Document.
+
+==== Class Diagram
+
+image::did-remove-verification-method-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| did | `string` | The DID string of the Decentralized Identifier.
+| property | `string` | The property from which the verification method will be removed (e.g., "verificationMethod", "authentication").
+| id | `string` | The identifier of the verification method to be removed (e.g., "#key-1").
+|===
+
+
+=== DIDDeactivateMessage
+
+Represents a DID Deactivate message, used for deactivating a DID.
+
+==== Class Diagram
+
+image::did-deactivate-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| did | `string` | The DID string of the Decentralized Identifier to deactivate.
+|===
 
 == Component Implementation
 

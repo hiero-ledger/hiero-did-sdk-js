@@ -1,0 +1,5 @@
+@startuml
+interface Publisher {
+  + publish(transaction: any) => Promise<any>
+}
+@enduml

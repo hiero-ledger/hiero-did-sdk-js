@@ -8,6 +8,10 @@ This document provides a concise API reference for the Lifecycle Management comp
 
 The `LifecycleBuilder` class provides a fluent interface for defining the steps involved in a DID operation.
 
+==== Class Diagram
+
+image::lifecycle-builder-class-diagram.png[]
+
 ==== Methods
 
 ===== `callback`
@@ -75,6 +79,10 @@ A `Lifecycle` object representing the defined sequence of steps.
 
 The `LifecycleRunner` class is responsible for executing a `Lifecycle`.
 
+==== Class Diagram
+
+image::lifecycle-runner-class-diagram.png[]
+
 ==== Methods
 
 ===== `process`
@@ -106,20 +114,6 @@ Parameters::
 
 Returns::
 A `Promise` that resolves to a `LifecycleState` object, which contains information about the current state of the lifecycle.
-
-== Interfaces
-
-=== Lifecycle
-
-Represents a sequence of steps in a DID operation.
-
-=== LifecycleContext
-
-Provides access to data and utilities within a lifecycle.
-
-=== LifecycleState
-
-Represents the current state of a lifecycle execution.
 
 == Component Implementation
 

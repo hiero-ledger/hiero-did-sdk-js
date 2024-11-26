@@ -1,12 +1,18 @@
 = Core API Reference
 
-This document provides a concise API reference for the core interfaces, utilities, and functions within the Hedera DID SDK for JavaScript.
+This document provides a concise API reference for the core interfaces, utilities, and functions within the Hedera DID SDK for JavaScript. This component forms the foundation of the SDK, providing essential tools for working with Decentralized Identifiers (DIDs) on the Hedera network.
 
 == Interfaces
 
 === DIDDocument
 
 Represents a DID Document, which contains information about a DID, such as its public keys and services.
+
+==== Interface Diagram
+
+image::did-document-interface-diagram.png[]
+
+==== Properties
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -51,9 +57,16 @@ Represents a DID Document, which contains information about a DID, such as its p
 |An optional array of services associated with the DID.
 |===
 
+
 === Signer
 
 Defines the methods for signing and verifying data using a DID's private key.
+
+==== Interface Diagram
+
+image::signer-interface-diagram.png[]
+
+==== Properties
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -74,9 +87,16 @@ Defines the methods for signing and verifying data using a DID's private key.
 |Asynchronously verifies the given signature against the provided message using the signer's public key, returning a `Promise` that resolves to `true` if the signature is valid, `false` otherwise.
 |===
 
+
 === Publisher
 
 Defines the methods for submitting transactions to the Hedera network.
+
+==== Interface Diagram
+
+image::publisher-interface-diagram.png[]
+
+==== Properties
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -89,9 +109,16 @@ Defines the methods for submitting transactions to the Hedera network.
 |Asynchronously submits the provided transaction to the network, executes it, and returns a `Promise` that resolves to a result object containing the outcome of the transaction.
 |===
 
+
 === DIDMessage
 
 Represents a message used for DID operations, such as creating, updating, or deactivating a DID.
+
+==== Interface Diagram
+
+image::did-message-interface-diagram.png[]
+
+==== Properties
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -112,9 +139,16 @@ Represents a message used for DID operations, such as creating, updating, or dea
 |The DID operation to be performed.
 |===
 
+
 === PublicKey
 
 An interface for representing public keys.
+
+==== Interface Diagram
+
+image::public-key-interface-diagram.png[]
+
+==== Properties
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -139,9 +173,16 @@ An interface for representing public keys.
 |The public key in multibase format.
 |===
 
+
 === Network
 
 An interface for defining Hedera network configurations.
+
+==== Interface Diagram
+
+image::network-interface-diagram.png[]
+
+==== Properties
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -158,9 +199,16 @@ An interface for defining Hedera network configurations.
 |The chain ID of the Hedera network.
 |===
 
+
 === VerificationMethodProperties
 
 An interface for defining verification method properties.
+
+==== Interface Diagram
+
+image::verification-method-properties-interface-diagram.png[]
+
+==== Properties
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -199,6 +247,12 @@ An interface for defining verification method properties.
 
 Provides methods for generating, transforming, and validating cryptographic keys.
 
+==== Class Diagram
+
+image::keys-utility-class-diagram.png[]
+
+==== Properties
+
 [cols="1,1,3",options="header",frame="ends"]
 |===
 |Name
@@ -231,6 +285,8 @@ Provides methods for generating, transforming, and validating cryptographic keys
 === isHederaDID
 
 Checks if a given string is a valid Hedera DID.
+
+==== Properties
 
 [cols="1,1,3",options="header",frame="ends"]
 |===

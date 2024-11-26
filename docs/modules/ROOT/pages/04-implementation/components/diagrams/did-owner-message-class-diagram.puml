@@ -1,0 +1,12 @@
+@startuml
+abstract class DIDMessage {
+  + toBytes(): Uint8Array
+  + {static} fromBytes(bytes: Uint8Array): DIDMessage
+}
+
+class DIDOwnerMessage extends DIDMessage {
+  - publicKey: string
+  - network: string
+  - topicId: string
+}
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+abstract class DIDMessage {
+  + toBytes(): Uint8Array
+  + {static} fromBytes(bytes: Uint8Array): DIDMessage
+}
+
+class DIDDeactivateMessage extends DIDMessage {
+  - did: string
+}
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+interface DIDDocument {
+  + id: string
+  + controller?: string | string[]
+  + verificationMethod?: VerificationMethod[]
+  + authentication?: string[] keyAgreement?: string[] | VerificationMethod[]
+   service?: Service[]
+}
+@enduml

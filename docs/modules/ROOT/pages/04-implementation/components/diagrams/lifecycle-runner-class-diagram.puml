@@ -1,0 +1,7 @@
+@startuml
+class LifecycleRunner {
+  + constructor(lifecycle: Lifecycle)
+  + process(message: any, context: LifecycleContext): Promise<LifecycleState>
+  + resume(state: LifecycleState, context: LifecycleContext): Promise<LifecycleState>
+}
+@enduml

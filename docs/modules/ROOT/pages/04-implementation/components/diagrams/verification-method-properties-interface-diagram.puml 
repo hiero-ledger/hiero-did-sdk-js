@@ -1,0 +1,8 @@
+@startuml
+interface VerificationMethodProperties {
+  + verificationMethod: VerificationMethod[]
+  + authentication?: string[] | VerificationMethod[]
+  + assertion
+  + capabilityInvocation?: string[]
+}
+@enduml
