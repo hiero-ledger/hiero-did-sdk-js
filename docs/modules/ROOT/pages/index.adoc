@@ -34,11 +34,11 @@ Rigorous xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests] have been
 
 == Deployment
 
-This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the xref:06-deployment/packages/index.adoc[Packages] section.
+This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the xref:06-deployment/packages/index.adoc[Packages Guide] section.
 
 == Maintenance
 
-Should you encounter any issues or require assistance, please refer to the comprehensive xref:07-maintenance/support/guide.adoc[Support Guide].
+Should you encounter any issues or require assistance, please refer to the comprehensive xref:07-maintenance/support/getting-support-guide.adoc[Getting Support Guide].
 
 == License
 

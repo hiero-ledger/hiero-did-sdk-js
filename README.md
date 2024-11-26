@@ -40,11 +40,11 @@ Rigorous <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did
 
 ## Deployment
 
-This SDK is distributed as a collection of packages.  Detailed information about these packages and their contents can be found in the <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/06-deployment/packages/index.html" target="_blank">Packages</a> section.
+This SDK is distributed as a collection of packages.  Detailed information about these packages and their contents can be found in the <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/06-deployment/packages/index.html" target="_blank">Packages Guide</a> section.
 
 ## Maintenance
 
-Should you encounter any issues or require assistance, please refer to the comprehensive <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/07-maintenance/support/guide.html" target="_blank">Support Guide</a>.
+Should you encounter any issues or require assistance, please refer to the comprehensive <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/07-maintenance/support/getting-support-guide.html" target="_blank">Getting Support Guide</a>.
 
 ## License
 
