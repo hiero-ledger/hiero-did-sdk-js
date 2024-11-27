@@ -58,6 +58,7 @@ jobs:
           commit-message: 'chore(release): publish v${{ env.PACKAGE_VERSION }}'
           reviewers: '@ChangoBuitrago, @sydor-leocode'
           branch: release/${{ env.PACKAGE_VERSION }}
+          branch-suffix: timestamp
           sign-commits: true
           title: 'Release Candidate v${{ env.PACKAGE_VERSION }}'
           body: 'This is an automated pull request to release a new version of the package. Merging this pull request will publish a new version of the package to npm and GitHub.'
