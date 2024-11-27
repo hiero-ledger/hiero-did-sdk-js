@@ -4,6 +4,7 @@ build/
 
 # IDE files
 .vscode/
+.idea/
 
 # Ignore node_modules
 node_modules/
@@ -14,4 +15,5 @@ coverage/
 # Ignore hedera local node network log files
 test_suites/config/hedera/local-node/network_logs
 
-.vscode/
+# Ignore debug logs
+lerna-debug.log

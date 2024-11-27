@@ -1,44 +1,50 @@
 {
   "name": "@hashgraph-did-sdk/registrar",
-  "version": "0.0.1-alpha.0",
-  "description": "TODO",
+  "version": "0.0.0",
+  "description": "This package provides the core functions for registering and managing Decentralized Identifiers (DIDs) on the Hedera network within the Hashgraph DID SDK. It offers a streamlined interface for creating, updating, and deactivating DIDs, ensuring secure and verifiable DID operations.",
   "author": {
     "name": "The Hashgraph Association",
     "url": "https://www.hashgraph.swiss/"
   },
-  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/issues"
+  },
+  "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "import": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.esm.js"
-    },
-    "require": {
-      "types": "./dist/index.d.cts",
-      "require": "./dist/index.cjs.js"
+    ".": {
+      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.esm.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js"
+    "url": "git@github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js",
+    "directory": "packages/registrar"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "scripts": {
     "test": "jest",
     "build": "tsup"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com",
+    "scope": "@hashgraph-did-sdk"
   },
   "dependencies": {
-    "@hashgraph-did-sdk/core": "^0.0.1-alpha.0",
-    "@hashgraph-did-sdk/lifecycle": "^0.0.1-alpha.0",
-    "@hashgraph-did-sdk/messages": "^0.0.1-alpha.0",
-    "@hashgraph-did-sdk/publisher-internal": "^0.0.1-alpha.0",
-    "@hashgraph-did-sdk/resolver": "^0.0.1-alpha.0",
-    "@hashgraph-did-sdk/signer-internal": "^0.0.1-alpha.0",
+    "@hashgraph-did-sdk/core": "^0.0.0",
+    "@hashgraph-did-sdk/lifecycle": "^0.0.0",
+    "@hashgraph-did-sdk/messages": "^0.0.0",
+    "@hashgraph-did-sdk/publisher-internal": "^0.0.0",
+    "@hashgraph-did-sdk/resolver": "^0.0.0",
+    "@hashgraph-did-sdk/signer-internal": "^0.0.0",
     "@hashgraph/sdk": "^2.53.0"
   }
 }
