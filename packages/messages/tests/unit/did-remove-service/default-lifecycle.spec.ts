@@ -1,4 +1,4 @@
-import { LifecycleRunner, RunnerState } from '@hashgraph-did-sdk/lifecycle';
+import { LifecycleRunner, RunnerState } from '@swiss-digital-assets-institute/lifecycle';
 import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDRemoveServiceMessage,

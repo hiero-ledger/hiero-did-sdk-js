@@ -1,4 +1,4 @@
-import { DIDMessage, Publisher, Signer } from '@hashgraph-did-sdk/core';
+import { DIDMessage, Publisher, Signer } from '@swiss-digital-assets-institute/core';
 import { LifecycleBuilder } from './builder';
 import { RunnerState } from './interfaces/runner-state';
 

@@ -56,7 +56,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore(release): publish v${{ env.PACKAGE_VERSION }}'
-          reviewers: '@ChangoBuitrago, @sydor-leocode'
+          reviewers: 'ChangoBuitrago,sydor-leocode'
           branch: release/${{ env.PACKAGE_VERSION }}
           branch-suffix: timestamp
           sign-commits: true

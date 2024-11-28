@@ -1,4 +1,4 @@
-import { isHederaDIDUrl } from '@hashgraph-did-sdk/core';
+import { isHederaDIDUrl } from '@swiss-digital-assets-institute/core';
 import { isObject, isString } from './base';
 import { AddServiceEvent } from '../interfaces/add-service-event';
 

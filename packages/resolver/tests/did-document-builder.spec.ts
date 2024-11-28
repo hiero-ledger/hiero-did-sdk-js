@@ -1,5 +1,5 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { KeysUtility } from '@hashgraph-did-sdk/core';
+import { KeysUtility } from '@swiss-digital-assets-institute/core';
 import { DidDocumentBuilder } from '../src/did-document-builder';
 import {
   getAddServiceMessage,

@@ -4,7 +4,7 @@ import {
   Network,
   isHederaDID,
   KeysUtility,
-} from '@hashgraph-did-sdk/core';
+} from '@swiss-digital-assets-institute/core';
 import { DIDOwnerMessageConstructor, MessageSerialized } from './interfaces';
 import { isTopicId } from '../../validators/is-topic-id';
 

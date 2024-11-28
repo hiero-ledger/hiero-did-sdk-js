@@ -1,4 +1,4 @@
-import { InternalPublisher } from '@hashgraph-did-sdk/publisher-internal';
+import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { PrivateKey } from '@hashgraph/sdk';
 import { getPublisher } from '../../src/shared/get-publisher';
 import { randomClient, TestPublisher, TestSigner } from '../helpers';

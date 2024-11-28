@@ -1,4 +1,4 @@
-import { Publisher, DIDMessage } from '@hashgraph-did-sdk/core';
+import { Publisher, DIDMessage } from '@swiss-digital-assets-institute/core';
 
 /**
  * A step in the lifecycle pipeline.

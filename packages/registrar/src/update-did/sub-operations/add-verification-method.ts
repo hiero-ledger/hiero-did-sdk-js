@@ -1,9 +1,9 @@
-import { Publisher, Signer } from '@hashgraph-did-sdk/core';
-import { LifecycleRunner, RunnerState } from '@hashgraph-did-sdk/lifecycle';
+import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
+import { LifecycleRunner, RunnerState } from '@swiss-digital-assets-institute/lifecycle';
 import {
   DIDAddVerificationMethodMessage,
   DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
-} from '@hashgraph-did-sdk/messages';
+} from '@swiss-digital-assets-institute/messages';
 import { AddVerificationMethodOperation, UpdateDIDOptions } from '../interface';
 
 export async function addVerificationMethod(

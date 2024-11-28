@@ -1,9 +1,10 @@
+import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
 import { addVerificationMethod } from './add-verification-method';
 import { removeVerificationMethod } from './remove-verification-method';
 import { addService } from './add-service';
 import { removeService } from './remove-service';
 import { DIDUpdateOperation, UpdateDIDOptions } from '../interface';
-import { Publisher, Signer } from '@hashgraph-did-sdk/core';
+
 
 const OPERATIONS_MAP = {
   'add-verification-method': addVerificationMethod,

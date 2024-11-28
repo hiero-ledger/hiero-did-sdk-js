@@ -1,4 +1,4 @@
-import { DIDMessage, isHederaDID } from '@hashgraph-did-sdk/core';
+import { DIDMessage, isHederaDID } from '@swiss-digital-assets-institute/core';
 import {
   DIDAddServiceMessageConstructor,
   MessageSerialized,

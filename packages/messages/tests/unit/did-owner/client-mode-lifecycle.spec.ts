@@ -1,10 +1,10 @@
-import { LifecycleRunner, RunnerState } from '@hashgraph-did-sdk/lifecycle';
+import { LifecycleRunner, RunnerState } from '@swiss-digital-assets-institute/lifecycle';
+import { Publisher } from '@swiss-digital-assets-institute/core';
 import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDOwnerMessage,
   DIDOwnerMessageHederaCSMLifeCycle,
 } from '../../../src';
-import { Publisher } from '@hashgraph-did-sdk/core';
 import { NETWORK, SIGNATURE, VALID_DID_TOPIC_ID } from '../helpers';
 
 describe('Client Mode DID Owner Lifecycle', () => {

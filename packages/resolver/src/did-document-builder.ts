@@ -10,7 +10,7 @@ import {
   DIDResolutionMetadata,
   DIDDocumentMetadata,
   isHederaDID,
-} from '@hashgraph-did-sdk/core';
+} from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
 import { isJsonString } from './validators/is-json';
 import { isDIDMessage } from './validators/is-did-message';

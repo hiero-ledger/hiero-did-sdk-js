@@ -3,7 +3,7 @@ import {
   PublicKeyInBase58,
   Publisher,
   Signer,
-} from '@hashgraph-did-sdk/core';
+} from '@swiss-digital-assets-institute/core';
 import {
   Client,
   PrivateKey,

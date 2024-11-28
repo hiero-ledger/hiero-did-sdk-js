@@ -1,4 +1,4 @@
-import { DIDDocument } from '@hashgraph-did-sdk/core';
+import { DIDDocument } from '@swiss-digital-assets-institute/core';
 import { PrivateKey } from '@hashgraph/sdk';
 
 export interface CreateDIDOptions {

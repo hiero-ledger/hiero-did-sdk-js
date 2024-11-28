@@ -1,4 +1,4 @@
-import { Signer } from '@hashgraph-did-sdk/core';
+import { Signer } from '@swiss-digital-assets-institute/core';
 
 export interface ResolveDIDOptions {
   /**

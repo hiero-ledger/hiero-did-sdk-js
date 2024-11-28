@@ -3,7 +3,7 @@ import {
   DIDResolution,
   isHederaDIDUrl,
   JsonLdDIDDocument,
-} from '@hashgraph-did-sdk/core';
+} from '@swiss-digital-assets-institute/core';
 import { ResolveDIDOptions } from './interfaces/resolve-did-options';
 import { parseDIDUrl } from './parse-did-url';
 import { TopicReader } from './topic-reader';

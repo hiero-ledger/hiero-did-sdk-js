@@ -1,5 +1,5 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { Signer } from '@hashgraph-did-sdk/core';
+import { Signer } from '@swiss-digital-assets-institute/core';
 import {
   isEd25519DerPrivateKeyString,
   isEd25519PrivateKey,

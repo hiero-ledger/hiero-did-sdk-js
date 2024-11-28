@@ -1,4 +1,4 @@
-import { isHederaDID } from '@hashgraph-did-sdk/core';
+import { isHederaDID } from '@swiss-digital-assets-institute/core';
 import { TopicDIDContent } from '../interfaces/topic-did-message';
 import { isObject, isString } from './base';
 

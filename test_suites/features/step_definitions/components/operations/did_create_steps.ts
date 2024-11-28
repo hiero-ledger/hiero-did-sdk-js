@@ -1,6 +1,6 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from 'expect';
-import { createDID } from '@hashgraph-did-sdk/registrar';
+import { createDID } from '@swiss-digital-assets-institute/registrar';
 import { DIDWorld } from '../../../../support/context';
 import * as Ajv from 'ajv';
 import * as fs from 'fs';

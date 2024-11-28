@@ -1,4 +1,4 @@
-import { isHederaDID, isHederaDIDUrl } from '@hashgraph-did-sdk/core';
+import { isHederaDID, isHederaDIDUrl } from '@swiss-digital-assets-institute/core';
 
 export function isString(value: unknown): value is string {
   if (!value) return false;

@@ -1,4 +1,4 @@
-import { Publisher, Signer } from '@hashgraph-did-sdk/core';
+import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
 import { Client } from '@hashgraph/sdk';
 import { ClientOptions } from './client-options';
 

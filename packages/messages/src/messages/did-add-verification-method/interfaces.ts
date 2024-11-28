@@ -1,4 +1,4 @@
-import { VerificationMethodProperties } from '@hashgraph-did-sdk/core';
+import { VerificationMethodProperties } from '@swiss-digital-assets-institute/core';
 
 export interface DIDAddVerificationMethodMessageConstructor {
   /**

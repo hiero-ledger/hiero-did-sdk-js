@@ -1,5 +1,5 @@
 {
-  "name": "@hashgraph-did-sdk/core",
+  "name": "@swiss-digital-assets-institute/core",
   "version": "0.0.0",
   "description": "This package forms the foundation of the Hashgraph DID SDK. It provides essential interfaces, utilities, and validation tools for working with Decentralized Identifiers (DIDs) on the Hedera network.",
   "author": {
@@ -36,7 +36,7 @@
   "publishConfig": {
     "access": "restricted",
     "registry": "https://npm.pkg.github.com",
-    "scope": "@hashgraph-did-sdk"
+    "scope": "@swiss-digital-assets-institute"
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",

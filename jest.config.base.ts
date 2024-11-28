@@ -5,7 +5,7 @@ const config: Config = {
     '^.+\\.ts$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@hashgraph-did-sdk/(.*)$': '<rootDir>/packages/$1/src',
+    '^@swiss-digital-assets-institute/(.*)$': '<rootDir>/packages/$1/src',
   },
   extensionsToTreatAsEsm: ['.ts'],
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],

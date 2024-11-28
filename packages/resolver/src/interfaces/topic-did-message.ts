@@ -1,4 +1,4 @@
-import { DIDMessageOperation } from '@hashgraph-did-sdk/core';
+import { DIDMessageOperation } from '@swiss-digital-assets-institute/core';
 
 export interface TopicDIDMessage {
   timestamp: string;

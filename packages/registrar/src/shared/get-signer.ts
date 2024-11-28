@@ -1,5 +1,5 @@
-import { Signer } from '@hashgraph-did-sdk/core';
-import { InternalSigner } from '@hashgraph-did-sdk/signer-internal';
+import { Signer } from '@swiss-digital-assets-institute/core';
+import { InternalSigner } from '@swiss-digital-assets-institute/signer-internal';
 import { PrivateKey } from '@hashgraph/sdk';
 
 /**

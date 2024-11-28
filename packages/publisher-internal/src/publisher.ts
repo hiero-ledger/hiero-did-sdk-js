@@ -4,7 +4,7 @@ import {
   Transaction,
   TransactionReceipt,
 } from '@hashgraph/sdk';
-import { Network, Publisher } from '@hashgraph-did-sdk/core';
+import { Network, Publisher } from '@swiss-digital-assets-institute/core';
 
 /**
  * InternalPublisher is an implementation of the Publisher interface.

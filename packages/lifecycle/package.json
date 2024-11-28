@@ -1,5 +1,5 @@
 {
-  "name": "@hashgraph-did-sdk/lifecycle",
+  "name": "@swiss-digital-assets-institute/lifecycle",
   "version": "0.0.0",
   "description": "This package provides a lifecycle management system for orchestrating complex asynchronous operations within the Hashgraph DID SDK. It enables developers to define sequences of steps, handle asynchronous actions, manage signatures, and control the flow of execution with features like pausing and resuming. By streamlining these processes, it simplifies the development of robust and reliable DID-related applications.",
   "author": {
@@ -36,13 +36,9 @@
   "publishConfig": {
     "access": "restricted",
     "registry": "https://npm.pkg.github.com",
-    "scope": "@hashgraph-did-sdk"
+    "scope": "@swiss-digital-assets-institute"
   },
   "dependencies": {
-    "@hashgraph-did-sdk/core": "^0.0.0"
-  },
-  "devDependencies": {
-    "@hashgraph-did-sdk/publisher-internal": "^0.0.0",
-    "@hashgraph-did-sdk/signer-internal": "^0.0.0"
+    "@swiss-digital-assets-institute/core": "0.0.0"
   }
 }

@@ -1,4 +1,4 @@
-import { Network } from '@hashgraph-did-sdk/core';
+import { Network } from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
 
 export interface DIDOwnerMessageConstructor {

@@ -1,5 +1,5 @@
-import { InternalPublisher } from '@hashgraph-did-sdk/publisher-internal';
-import { InternalSigner } from '@hashgraph-did-sdk/signer-internal';
+import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { InternalSigner } from '@swiss-digital-assets-institute/signer-internal';
 import { LifecycleRunner, LifecycleBuilder } from '../src';
 import { randomClient } from './helpers';
 

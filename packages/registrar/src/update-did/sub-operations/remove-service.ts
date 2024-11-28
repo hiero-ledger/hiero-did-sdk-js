@@ -1,9 +1,9 @@
-import { Publisher, Signer } from '@hashgraph-did-sdk/core';
+import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
 import {
   DIDRemoveServiceMessage,
   DIDRemoveServiceMessageHederaDefaultLifeCycle,
-} from '@hashgraph-did-sdk/messages';
-import { LifecycleRunner } from '@hashgraph-did-sdk/lifecycle';
+} from '@swiss-digital-assets-institute/messages';
+import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
 import { RemoveServiceOperation, UpdateDIDOptions } from '../interface';
 
 export async function removeService(

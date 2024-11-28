@@ -1,4 +1,4 @@
-import { isHederaDIDUrl } from '@hashgraph-did-sdk/core';
+import { isHederaDIDUrl } from '@swiss-digital-assets-institute/core';
 import { RemoveVerificationRelationshipMethodEvent } from '../interfaces/remove-verification-relationship-method-event';
 import { isObject, isString } from './base';
 

@@ -1,10 +1,10 @@
 import {
   DIDOwnerMessage,
   DIDOwnerMessageHederaDefaultLifeCycle,
-} from '@hashgraph-did-sdk/messages';
-import { LifecycleRunner } from '@hashgraph-did-sdk/lifecycle';
-import { InternalSigner } from '@hashgraph-did-sdk/signer-internal';
-import { InternalPublisher } from '@hashgraph-did-sdk/publisher-internal';
+} from '@swiss-digital-assets-institute/messages';
+import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
+import { InternalSigner } from '@swiss-digital-assets-institute/signer-internal';
+import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { PublicKey } from '@hashgraph/sdk';
 import { CreateDIDOptions, CreateDIDResult } from './interface';
 import { Providers } from '../interfaces';

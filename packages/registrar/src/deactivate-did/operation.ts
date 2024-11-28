@@ -1,9 +1,9 @@
-import { LifecycleRunner } from '@hashgraph-did-sdk/lifecycle';
-import { InternalPublisher } from '@hashgraph-did-sdk/publisher-internal';
+import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
+import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
 import {
   DIDDeactivateMessage,
   DIDDeactivateMessageHederaDefaultLifeCycle,
-} from '@hashgraph-did-sdk/messages';
+} from '@swiss-digital-assets-institute/messages';
 import { DeactivateDIDOptions, DeactivateDIDResult } from './interface';
 import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';

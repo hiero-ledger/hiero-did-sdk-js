@@ -13,15 +13,15 @@
     "declaration": true,
     "declarationMap": true,
     "paths": {
-      "@hashgraph-did-sdk/core": ["../core/src/index.ts"],
-      "@hashgraph-did-sdk/lifecycle": ["../lifecycle/src/index.ts"],
-      "@hashgraph-did-sdk/messages": ["../messages/src/index.ts"],
-      "@hashgraph-did-sdk/publisher-internal": [
+      "@swiss-digital-assets-institute/core": ["../core/src/index.ts"],
+      "@swiss-digital-assets-institute/lifecycle": ["../lifecycle/src/index.ts"],
+      "@swiss-digital-assets-institute/messages": ["../messages/src/index.ts"],
+      "@swiss-digital-assets-institute/publisher-internal": [
         "../publisher-internal/src/index.ts"
       ],
-      "@hashgraph-did-sdk/registrar": ["../registrar/src/index.ts"],
-      "@hashgraph-did-sdk/resolver": ["../resolver/src/index.ts"],
-      "@hashgraph-did-sdk/signer-internal": ["../signer-internal/src/index.ts"]
+      "@swiss-digital-assets-institute/registrar": ["../registrar/src/index.ts"],
+      "@swiss-digital-assets-institute/resolver": ["../resolver/src/index.ts"],
+      "@swiss-digital-assets-institute/signer-internal": ["../signer-internal/src/index.ts"]
     }
   },
   "include": ["packages/**/*"],

@@ -1,7 +1,7 @@
 import {
   DIDDocument,
   VerificationMethodProperties,
-} from '@hashgraph-did-sdk/core';
+} from '@swiss-digital-assets-institute/core';
 import { PrivateKey } from '@hashgraph/sdk';
 
 export interface AddServiceOperation {

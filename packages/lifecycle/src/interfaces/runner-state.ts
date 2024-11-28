@@ -1,4 +1,4 @@
-import { DIDMessage } from '@hashgraph-did-sdk/core';
+import { DIDMessage } from '@swiss-digital-assets-institute/core';
 
 export type StateStatus = 'success' | 'error' | 'pause';
 

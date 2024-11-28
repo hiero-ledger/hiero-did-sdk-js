@@ -3,7 +3,7 @@ import {
   PublicKeyInBase58,
   Signer,
   VerificationMethodProperties,
-} from '@hashgraph-did-sdk/core';
+} from '@swiss-digital-assets-institute/core';
 import {
   DIDAddServiceMessage,
   DIDAddVerificationMethodMessage,
@@ -11,7 +11,7 @@ import {
   DIDOwnerMessage,
   DIDRemoveServiceMessage,
   DIDRemoveVerificationMethodMessage,
-} from '@hashgraph-did-sdk/messages';
+} from '@swiss-digital-assets-institute/messages';
 import { PrivateKey } from '@hashgraph/sdk';
 
 export const VALID_DID_TOPIC_ID = '0.0.2';

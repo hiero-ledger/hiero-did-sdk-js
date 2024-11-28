@@ -2,7 +2,7 @@ import {
   DIDMessage,
   isHederaDID,
   VerificationMethodProperties,
-} from '@hashgraph-did-sdk/core';
+} from '@swiss-digital-assets-institute/core';
 import {
   DIDAddVerificationMethodMessageConstructor,
   MessageSerialized,

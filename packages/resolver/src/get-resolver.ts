@@ -3,7 +3,7 @@ import {
   DIDDocumentCbor,
   DIDResolution,
   JsonLdDIDDocument,
-} from '@hashgraph-did-sdk/core';
+} from '@swiss-digital-assets-institute/core';
 import { resolveDID } from './resolve-did';
 
 async function resolveWrapper(

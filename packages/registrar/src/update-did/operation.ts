@@ -1,4 +1,4 @@
-import { InternalPublisher } from '@hashgraph-did-sdk/publisher-internal';
+import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { UpdateDIDOptions, UpdateDIDResult } from './interface';
 import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';

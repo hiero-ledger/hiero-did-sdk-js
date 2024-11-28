@@ -1,4 +1,4 @@
-import { DIDMessage } from '@hashgraph-did-sdk/core';
+import { DIDMessage } from '@swiss-digital-assets-institute/core';
 import { Steps, CallbackStep, CatchStep } from './interfaces/steps';
 
 /**

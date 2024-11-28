@@ -1,4 +1,4 @@
-import { RelationShipProperties } from '@hashgraph-did-sdk/core';
+import { RelationShipProperties } from '@swiss-digital-assets-institute/core';
 
 export interface AddVerificationRelationshipMethodEvent {
   VerificationRelationship: {

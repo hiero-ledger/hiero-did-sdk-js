@@ -1,9 +1,9 @@
-import { Publisher, Signer } from '@hashgraph-did-sdk/core';
-import { LifecycleRunner } from '@hashgraph-did-sdk/lifecycle';
+import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
+import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
 import {
   DIDAddServiceMessage,
   DIDAddServiceMessageHederaDefaultLifeCycle,
-} from '@hashgraph-did-sdk/messages';
+} from '@swiss-digital-assets-institute/messages';
 import { AddServiceOperation, UpdateDIDOptions } from '../interface';
 
 export async function addService(

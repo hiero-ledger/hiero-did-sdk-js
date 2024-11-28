@@ -1,4 +1,4 @@
-import { isHederaDID } from '@hashgraph-did-sdk/core';
+import { isHederaDID } from '@swiss-digital-assets-institute/core';
 import { DIDOwnerEvent } from '../interfaces/did-owner-event';
 import { hasVerificationMethodProperties, isObject, isString } from './base';
 
