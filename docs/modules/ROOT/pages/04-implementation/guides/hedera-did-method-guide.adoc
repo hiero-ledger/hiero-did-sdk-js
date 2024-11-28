@@ -1,0 +1,120 @@
+= Hedera DID Method
+
+This guide provides an overview of the Hedera DID Method Specification, which defines how Decentralized Identifiers (DIDs) are created, resolved, updated, and deactivated on the Hedera network.
+
+== DID Format
+
+A Hedera DID adheres to the following format:
+
+```
+did:hedera:<network>:<base58-encoded-public-key>_<topic-id>
+```
+
+Where:
+
+*   `<network>` is either `mainnet` or `testnet`.
+*   `<base58-encoded-public-key>` is the base58 encoding of the DID's root public key.
+*   `<topic-id>` is the ID of the Hedera topic associated with the DID.
+
+This structure ensures that Hedera DIDs are easily identifiable and can be resolved to their corresponding DID Documents.
+
+== CRUD Operations
+
+The Hedera DID method utilizes the Hedera Consensus Service (HCS) to manage the lifecycle of DIDs. The following CRUD operations are supported:
+
+*   **Create:** A new DID is created by sending a `ConsensusSubmitMessage` transaction to an HCS topic. The message includes the initial DID Document or DID Owner information.
+*   **Read (Resolve):** A DID is resolved by reading messages from the associated HCS topic. The DID Document is constructed by processing the messages in chronological order.
+*   **Update:**  A DID Document is updated by sending a `ConsensusSubmitMessage` transaction with an updated `DIDOwner`, `VerificationMethod`, or `VerificationRelationship`.
+*   **Deactivate:** A DID is deactivated by sending a `ConsensusSubmitMessage` transaction with the `deactivate` operation.
+*   **Delete:** A DID Document is deleted by sending a `ConsensusSubmitMessage` transaction with the `delete` operation.
+
+These operations leverage the immutability and transparency of the Hedera network to provide a secure and auditable way to manage DIDs.
+
+=== Create
+
+To create a DID, you need to:
+
+1.  Generate a key pair.
+2.  Create an HCS topic.
+3.  Submit a `create` message to the topic, including the DID Document or DID owner information.
+
+The initial DID Document MUST contain a public key with the ID `#did-root-key` and type `Ed25519VerificationKey2018`.
+
+=== Read (Resolve)
+
+To resolve a DID, you need to:
+
+1.  Retrieve the messages from the HCS topic associated with the DID.
+2.  Process the messages to construct the current state of the DID Document.
+
+If the most recent valid message has the `operation` set to `delete`, the DID Document returned MUST be empty.
+
+=== Update
+
+To update a DID, you need to:
+
+1.  Submit an `update` message to the HCS topic associated with the DID.
+2.  Include the changes to be made to the DID Document in the message payload.
+
+The message payload can include updates to the DID Document's `DIDOwner`, `VerificationMethod`, or `VerificationRelationship`.
+
+=== Deactivate
+
+To deactivate a DID, you need to:
+
+1.  Submit a `deactivate` message to the HCS topic associated with the DID.
+
+This operation revokes the DID, making it unusable for further operations.
+
+=== Delete
+
+To delete a DID, you need to:
+
+1.  Submit a `delete` message to the HCS topic associated with the DID.
+
+This operation removes the DID's association with the Hedera topic.
+
+== DID Messages
+
+DID operations are performed using DID Messages, which are JSON objects containing information about the operation and the DID. Each message includes:
+
+*   `operation`: The type of operation being performed (create, update, deactivate, or delete).
+*   `did`: The DID string.
+*   `event`: A Base64-encoded JSON object containing the data relevant to the operation.
+*   `timestamp`: The message creation timestamp.
+*   `signature`: A signature of the message content, signed by the DID controller's private key.
+
+These messages are submitted to the HCS topic associated with the DID, creating a verifiable and tamper-proof record of DID operations.
+
+== Event Payloads
+
+DID Messages include an `event` property that contains the data relevant to the operation. The following event types are supported:
+
+*   `DIDDocument`:  A reference to a DID Document stored in IPFS.
+*   `DIDOwner`:  Information about the DID's controller and public key.
+*   `VerificationMethod`:  A cryptographic public key associated with the DID.
+*   `VerificationRelationship`:  The relationship between the DID subject and a verification method (e.g., authentication, assertion).
+*   `Service`:  A service endpoint associated with the DID.
+
+These events allow for flexible and granular updates to the DID Document, enabling various use cases and interactions.
+
+== Security and Privacy Considerations
+
+The Hedera DID method inherits the security properties of the Hedera network, including its hashgraph consensus algorithm, proof-of-stake model, and fee structure. This ensures the integrity and availability of DID data.
+
+Privacy considerations include avoiding the inclusion of Personally Identifiable Information (PII) in DID Documents and mitigating the risk of correlation by using unique DIDs and keys for different interactions.
+
+== Full Specification
+
+This guide provides a concise overview of the Hedera DID Method. For a deeper understanding, refer to the link:https://github.com/hashgraph/did-method/blob/master/hedera-did-method-specification.md[Hedera DID Method Specification].
+
+== References
+
+*   link:https://w3c.github.io/did-core/[DID Specification]: The official W3C specification for Decentralized Identifiers (DIDs).
+*   link:https://github.com/hashgraph/did-method/blob/master/hedera-did-method-specification.md[Hedera DID Method Specification]: The official specification document for the Hedera DID method.
+*   link:https://github.com/hashgraph/hedera-sdk-js[Hedera JavaScript SDK]: The official Hedera JavaScript SDK, used for interacting with the Hedera network.
+*   link:https://docs.hedera.com[Hedera docs]: Official documentation for Hedera Hashgraph.
+
+== Next Steps
+
+*   **Essential Components:** Learn about the essential components and functions of the Hashgraph DID SDK in the xref::04-implementation/guides/essential-components-guide.adoc[Essential Components Guide].

@@ -16,6 +16,7 @@
 * Implementation
   ** Guides
   *** The Basics
+    **** xref:04-implementation/guides/hedera-did-method-guide.adoc[Hedera DID Method]
     **** xref:04-implementation/guides/essential-components-guide.adoc[Essential Components]
     **** xref:04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes]
   *** Environment Setup
