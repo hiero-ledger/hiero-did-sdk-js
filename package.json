@@ -16,7 +16,7 @@
     "packages:release:preminor": "lerna version preminor --no-push --yes",
     "packages:release:prepatch": "lerna version prepatch --no-push --yes",
     "packages:release:prerelease": "lerna version prerelease --no-push --yes",
-    "packages:publish": "lerna publish --yes",
+    "packages:publish": "lerna publish from-package --yes",
     "hedera:start": "ts-node ./test_suites/hederaLocalNode.ts",
     "prepublishOnly": "npm run packages:build"
   },
