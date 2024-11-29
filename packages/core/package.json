@@ -21,6 +21,12 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js",
