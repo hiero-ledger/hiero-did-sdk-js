@@ -46,5 +46,5 @@ jobs:
         with:
           tag: 'v${{ env.PACKAGE_VERSION }}'
           name: 'Release v${{ env.PACKAGE_VERSION }}'
-          body: 'New release of Hashgraph DID SDK. See [CHANGELOG](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/CHANGELOG.md) for details.'
+          generateReleaseNotes: true
           prerelease: ${{ env.PRERELEASE }}
