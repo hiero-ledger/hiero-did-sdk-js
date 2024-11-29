@@ -41,17 +41,10 @@ jobs:
             echo "PRERELEASE=false" >> $GITHUB_ENV
           fi
 
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: 'v${{ env.PACKAGE_VERSION }}'
-
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
           tag: 'v${{ env.PACKAGE_VERSION }}'
           name: 'Release v${{ env.PACKAGE_VERSION }}'
-          body: ${{ steps.tag_version.outputs.changelog }}
+          body: 'New release of Hashgraph DID SDK. See [CHANGELOG](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/CHANGELOG.md) for details.'
           prerelease: ${{ env.PRERELEASE }}
