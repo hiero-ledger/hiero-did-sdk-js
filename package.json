@@ -1,5 +1,6 @@
 {
   "name": "hashgraph-did-sdk",
+  "private": true,
   "type": "module",
   "scripts": {
     "docs:build": "antora antora-playbook.yml",

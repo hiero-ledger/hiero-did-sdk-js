@@ -30,7 +30,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js",
+    "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js.git",
     "directory": "packages/core"
   },
   "engines": {
