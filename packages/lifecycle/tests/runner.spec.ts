@@ -1,5 +1,5 @@
 import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
-import { InternalSigner } from '@swiss-digital-assets-institute/signer-internal';
+import { Signer } from '@swiss-digital-assets-institute/signer-internal';
 import { LifecycleRunner, LifecycleBuilder } from '../src';
 import { randomClient } from './helpers';
 
@@ -45,7 +45,7 @@ describe('Lifecycle runner class', () => {
 
       builder.signWithSigner();
 
-      const signer = InternalSigner.generate();
+      const signer = Signer.generate();
 
       const signWithMock = jest.fn();
 

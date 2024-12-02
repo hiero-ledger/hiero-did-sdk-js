@@ -1,5 +1,5 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { Signer } from '@swiss-digital-assets-institute/core';
+import { Signer as BaseSigner } from '@swiss-digital-assets-institute/core';
 import {
   isEd25519DerPrivateKeyString,
   isEd25519PrivateKey,
@@ -9,14 +9,14 @@ import {
  * An internal implementation of the Signer interface.
  * This implementation uses the Hedera PrivateKey class with Ed25519 algorithm.
  */
-export class InternalSigner implements Signer {
+export class Signer implements BaseSigner {
   /**
    * The private key used for signing.
    */
   public readonly privateKey: PrivateKey;
 
   /**
-   * Create a new InternalSigner instance.
+   * Create a new Signer instance.
    * @param privateKeyOrDer The PrivateKey object or the private key in DER format.
    */
   constructor(privateKeyOrDer: string | PrivateKey) {
@@ -65,11 +65,11 @@ export class InternalSigner implements Signer {
   }
 
   /**
-   * Generate a new InternalSigner instance with a new random private key.
-   * @returns A new InternalSigner instance.
+   * Generate a new Signer instance with a new random private key.
+   * @returns A new Signer instance.
    */
-  static generate(): InternalSigner {
+  static generate(): Signer {
     const privateKey = PrivateKey.generateED25519();
-    return new InternalSigner(privateKey);
+    return new Signer(privateKey);
   }
 }

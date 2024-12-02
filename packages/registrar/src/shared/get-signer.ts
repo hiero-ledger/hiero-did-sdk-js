@@ -1,5 +1,5 @@
-import { Signer } from '@swiss-digital-assets-institute/core';
-import { InternalSigner } from '@swiss-digital-assets-institute/signer-internal';
+import { Signer as BaseSigner } from '@swiss-digital-assets-institute/core';
+import { Signer } from '@swiss-digital-assets-institute/signer-internal';
 import { PrivateKey } from '@hashgraph/sdk';
 
 /**
@@ -13,21 +13,21 @@ import { PrivateKey } from '@hashgraph/sdk';
  * @returns The signer instance
  */
 export function getSigner(
-  signer?: Signer,
+  signer?: BaseSigner,
   privateKey?: string | PrivateKey,
   autoCreate = false,
-): Signer {
+): BaseSigner {
   if (signer) {
     return signer;
   }
 
   if (privateKey) {
-    return new InternalSigner(privateKey);
+    return new Signer(privateKey);
   }
 
   if (!autoCreate) {
     throw new Error('Missing signer or private key');
   }
 
-  return InternalSigner.generate();
+  return Signer.generate();
 }

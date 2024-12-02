@@ -1,10 +1,10 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { InternalSigner } from '../src';
+import { Signer } from '../src';
 
 describe('Internal signer class', () => {
   describe('initializing a signer', () => {
     it('should generate a new ED25519 key pair', () => {
-      const signer = InternalSigner.generate();
+      const signer = Signer.generate();
 
       expect(signer.privateKey).toBeInstanceOf(PrivateKey);
       expect(signer.privateKey.type).toBe('ED25519');
@@ -12,7 +12,7 @@ describe('Internal signer class', () => {
 
     it('should accept a ED25519 private key as a parameter', () => {
       const privateKey = PrivateKey.generateED25519();
-      const signer = new InternalSigner(privateKey);
+      const signer = new Signer(privateKey);
 
       expect(signer.privateKey).toBeInstanceOf(PrivateKey);
       expect(signer.privateKey.type).toBe('ED25519');
@@ -20,7 +20,7 @@ describe('Internal signer class', () => {
 
     it('should accept a ED25519 private key as a parameter in DER format', () => {
       const privateKey = PrivateKey.generateED25519().toStringDer();
-      const signer = new InternalSigner(privateKey);
+      const signer = new Signer(privateKey);
 
       expect(signer.privateKey).toBeInstanceOf(PrivateKey);
       expect(signer.privateKey.type).toBe('ED25519');
@@ -28,14 +28,14 @@ describe('Internal signer class', () => {
 
     it('should throw an error if the private key is not ED25519', () => {
       const privateKey = PrivateKey.generateECDSA();
-      expect(() => new InternalSigner(privateKey)).toThrow(
+      expect(() => new Signer(privateKey)).toThrow(
         'Invalid private key type. Expected ED25519.',
       );
     });
 
     it('should throw an error if the private key is not in DER format', () => {
       const privateKey = PrivateKey.generateED25519().toStringRaw();
-      expect(() => new InternalSigner(privateKey)).toThrow(
+      expect(() => new Signer(privateKey)).toThrow(
         'Invalid private key format. Expected DER.',
       );
     });
@@ -44,7 +44,7 @@ describe('Internal signer class', () => {
   describe('getting the public key', () => {
     it('should return the matching public key', () => {
       const privateKey = PrivateKey.generateED25519();
-      const signer = new InternalSigner(privateKey.toStringDer());
+      const signer = new Signer(privateKey.toStringDer());
 
       const publicKey = signer.publicKey();
 
@@ -55,7 +55,7 @@ describe('Internal signer class', () => {
   describe('signing and verifying a message', () => {
     it('should sign a message', () => {
       const privateKey = PrivateKey.generateED25519();
-      const signer = new InternalSigner(privateKey);
+      const signer = new Signer(privateKey);
 
       const message = Buffer.from('Hello, Hedera!');
       const signature = signer.sign(message);
@@ -66,7 +66,7 @@ describe('Internal signer class', () => {
 
     it('should generate always the same signature for the same message', () => {
       const privateKey = PrivateKey.generateED25519();
-      const signer = new InternalSigner(privateKey);
+      const signer = new Signer(privateKey);
 
       const message = Buffer.from('Hello, Hedera!');
       const signature1 = signer.sign(message);
@@ -77,7 +77,7 @@ describe('Internal signer class', () => {
 
     it('should verify a valid signature', () => {
       const privateKey = PrivateKey.generateED25519();
-      const signer = new InternalSigner(privateKey);
+      const signer = new Signer(privateKey);
 
       const message = Buffer.from('Hello, Hedera!');
       const signature = signer.sign(message);
@@ -89,12 +89,12 @@ describe('Internal signer class', () => {
 
     it('should verify a valid signature with another signer instance', () => {
       const privateKey = PrivateKey.generateED25519();
-      const signer = new InternalSigner(privateKey.toStringDer());
+      const signer = new Signer(privateKey.toStringDer());
 
       const message = Buffer.from('Hello, Hedera!');
       const signature = signer.sign(message);
 
-      const verifier = new InternalSigner(privateKey.toStringDer());
+      const verifier = new Signer(privateKey.toStringDer());
       const isValid = verifier.verify(message, signature);
 
       expect(isValid).toBe(true);
@@ -102,7 +102,7 @@ describe('Internal signer class', () => {
 
     it('should not verify an invalid signature', () => {
       const privateKey = PrivateKey.generateED25519();
-      const signer = new InternalSigner(privateKey);
+      const signer = new Signer(privateKey);
 
       const message = Buffer.from('Hello, Hedera!');
       const signature = signer.sign(message);
@@ -116,10 +116,10 @@ describe('Internal signer class', () => {
 
     it('should not verify a signature with a different key', () => {
       const privateKey1 = PrivateKey.generateED25519();
-      const signer1 = new InternalSigner(privateKey1);
+      const signer1 = new Signer(privateKey1);
 
       const privateKey2 = PrivateKey.generateED25519();
-      const signer2 = new InternalSigner(privateKey2);
+      const signer2 = new Signer(privateKey2);
 
       const message = Buffer.from('Hello, Hedera!');
       const signature = signer1.sign(message);

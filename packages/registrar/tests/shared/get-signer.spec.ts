@@ -1,5 +1,5 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { InternalSigner } from '@swiss-digital-assets-institute/signer-internal';
+import { Signer } from '@swiss-digital-assets-institute/signer-internal';
 import { getSigner } from '../../src/shared/get-signer';
 import { TestSigner } from '../helpers';
 
@@ -13,7 +13,7 @@ describe('Get signer from providers', () => {
     const privateKey = await PrivateKey.generateED25519Async();
 
     const signer = getSigner(undefined, privateKey);
-    expect(signer).toBeInstanceOf(InternalSigner);
+    expect(signer).toBeInstanceOf(Signer);
     expect(signer.publicKey()).toBe(privateKey.publicKey.toStringDer());
   });
 
@@ -23,6 +23,6 @@ describe('Get signer from providers', () => {
 
   it('should create new InternalSigner instance with random private key when autoCreate option is enabled', () => {
     const signer = getSigner(undefined, undefined, true);
-    expect(signer).toBeInstanceOf(InternalSigner);
+    expect(signer).toBeInstanceOf(Signer);
   });
 });

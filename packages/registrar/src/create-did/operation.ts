@@ -3,7 +3,7 @@ import {
   DIDOwnerMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
 import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
-import { InternalSigner } from '@swiss-digital-assets-institute/signer-internal';
+import { Signer } from '@swiss-digital-assets-institute/signer-internal';
 import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { PublicKey } from '@hashgraph/sdk';
 import { CreateDIDOptions, CreateDIDResult } from './interface';
@@ -68,8 +68,7 @@ export async function createDID(
 
   return {
     did: didOwnerMessage.did,
-    privateKey:
-      signer instanceof InternalSigner ? signer.privateKey : undefined,
+    privateKey: signer instanceof Signer ? signer.privateKey : undefined,
     didDocument: {
       id: didOwnerMessage.did,
       controller: didOwnerMessage.controllerDid,
