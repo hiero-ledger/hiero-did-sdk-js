@@ -1,6 +1,6 @@
 import { Client } from '@hashgraph/sdk';
 import { Publisher } from '@swiss-digital-assets-institute/core';
-import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { Publisher as InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { Providers } from '../interfaces';
 
 /**

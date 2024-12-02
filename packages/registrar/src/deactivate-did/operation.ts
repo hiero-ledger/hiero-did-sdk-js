@@ -1,5 +1,5 @@
 import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
-import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import {
   DIDDeactivateMessage,
   DIDDeactivateMessageHederaDefaultLifeCycle,
@@ -40,7 +40,7 @@ export async function deactivateDID(
 
   if (
     operationProviders.client instanceof Object &&
-    publisher instanceof InternalPublisher
+    publisher instanceof Publisher
   ) {
     publisher.client.close();
   }

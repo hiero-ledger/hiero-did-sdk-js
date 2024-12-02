@@ -5,13 +5,13 @@ import { ClientOptions } from './client-options';
 export interface Providers {
   /**
    * The client options used to create the Hedera client.
-   * Used to create a InternalPublisher if the publisher is not provided.
+   * Used to create a Internal Publisher if the publisher is not provided.
    */
   clientOptions?: ClientOptions;
 
   /**
    * The Hedera client used to interact with the Hedera network.
-   * Used to create a InternalPublisher if the publisher is not provided.
+   * Used to create a Internal Publisher if the publisher is not provided.
    */
   client?: Client;
 

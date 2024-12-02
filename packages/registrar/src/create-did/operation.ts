@@ -4,7 +4,7 @@ import {
 } from '@swiss-digital-assets-institute/messages';
 import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
 import { Signer } from '@swiss-digital-assets-institute/signer-internal';
-import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { PublicKey } from '@hashgraph/sdk';
 import { CreateDIDOptions, CreateDIDResult } from './interface';
 import { Providers } from '../interfaces';
@@ -57,7 +57,7 @@ export async function createDID(
 
   if (
     operationProviders.clientOptions instanceof Object &&
-    publisher instanceof InternalPublisher
+    publisher instanceof Publisher
   ) {
     publisher.client.close();
   }

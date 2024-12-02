@@ -1,13 +1,13 @@
-import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { Signer } from '@swiss-digital-assets-institute/signer-internal';
 import { LifecycleRunner, LifecycleBuilder } from '../src';
 import { randomClient } from './helpers';
 
 describe('Lifecycle runner class', () => {
-  let publisher: InternalPublisher;
+  let publisher: Publisher;
 
   beforeAll(() => {
-    publisher = new InternalPublisher(randomClient());
+    publisher = new Publisher(randomClient());
   });
 
   afterAll(() => {

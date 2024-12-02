@@ -1,4 +1,4 @@
-import { InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { PrivateKey } from '@hashgraph/sdk';
 import { getPublisher } from '../../src/shared/get-publisher';
 import { randomClient, TestPublisher, TestSigner } from '../helpers';
@@ -14,7 +14,7 @@ describe('Get publisher from providers', () => {
 
     const publisher = getPublisher({ client });
     expect(publisher).toBeDefined();
-    expect(publisher).toBeInstanceOf(InternalPublisher);
+    expect(publisher).toBeInstanceOf(Publisher);
 
     expect(publisher.network()).toBe('testnet');
     expect(publisher.publicKey()).toStrictEqual(client.operatorPublicKey);
@@ -33,12 +33,12 @@ describe('Get publisher from providers', () => {
     });
 
     expect(publisher).toBeDefined();
-    expect(publisher).toBeInstanceOf(InternalPublisher);
+    expect(publisher).toBeInstanceOf(Publisher);
 
     expect(publisher.network()).toBe('testnet');
     expect(publisher.publicKey()).toStrictEqual(privateKey.publicKey);
 
-    if (publisher instanceof InternalPublisher) {
+    if (publisher instanceof Publisher) {
       publisher.client.close();
     }
   });

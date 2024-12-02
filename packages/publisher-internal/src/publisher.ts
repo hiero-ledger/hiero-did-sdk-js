@@ -4,15 +4,18 @@ import {
   Transaction,
   TransactionReceipt,
 } from '@hashgraph/sdk';
-import { Network, Publisher } from '@swiss-digital-assets-institute/core';
+import {
+  Network,
+  Publisher as BasePublisher,
+} from '@swiss-digital-assets-institute/core';
 
 /**
- * InternalPublisher is an implementation of the Publisher interface.
+ * Internal Publisher is an implementation of the Publisher interface.
  * It uses the Hedera Client class to publish transactions to the network.
  */
-export class InternalPublisher implements Publisher {
+export class Publisher implements BasePublisher {
   /**
-   * Create a new InternalPublisher instance.
+   * Create a new Publisher instance.
    * @param client The Hedera Client instance.
    */
   constructor(public readonly client: Client) {
