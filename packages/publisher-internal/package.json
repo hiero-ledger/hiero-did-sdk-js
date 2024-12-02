@@ -9,6 +9,7 @@
   "bugs": {
     "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/issues"
   },
+  "homepage": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/publisher-internal#readme",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.cjs.js",
@@ -42,7 +43,8 @@
   "publishConfig": {
     "access": "restricted",
     "registry": "https://npm.pkg.github.com",
-    "scope": "@swiss-digital-assets-institute"
+    "scope": "@swiss-digital-assets-institute",
+    "directory": "packages/publisher-internal"
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
