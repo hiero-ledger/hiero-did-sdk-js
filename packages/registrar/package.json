@@ -43,8 +43,7 @@
   "publishConfig": {
     "access": "restricted",
     "registry": "https://npm.pkg.github.com",
-    "scope": "@swiss-digital-assets-institute",
-    "directory": "packages/registrar"
+    "scope": "@swiss-digital-assets-institute"
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",

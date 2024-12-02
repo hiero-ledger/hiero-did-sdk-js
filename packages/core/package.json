@@ -28,11 +28,6 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js",
-    "directory": "packages/core"
-  },
   "engines": {
     "node": ">=18"
   },
@@ -43,8 +38,7 @@
   "publishConfig": {
     "access": "restricted",
     "registry": "https://npm.pkg.github.com",
-    "scope": "@swiss-digital-assets-institute",
-    "directory": "packages/core"
+    "scope": "@swiss-digital-assets-institute"
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
