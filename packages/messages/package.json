@@ -9,7 +9,6 @@
   "bugs": {
     "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/issues"
   },
-  "homepage": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/messages#readme",
   "readme": "./packages/messages/README.md",
   "license": "Apache-2.0",
   "type": "module",
