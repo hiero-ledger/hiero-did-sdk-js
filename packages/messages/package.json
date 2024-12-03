@@ -1,6 +1,6 @@
 {
   "name": "@swiss-digital-assets-institute/messages",
-  "version": "0.0.2-alpha.7",
+  "version": "0.0.2-alpha.8",
   "description": "This package provides a comprehensive set of classes for constructing and handling DID Messages within the Hashgraph DID SDK. These DID Messages facilitate various DID operations on the Hedera network, such as creating, updating, and deactivating DIDs, as well as managing their associated keys and services.",
   "author": {
     "name": "The Hashgraph Association",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
-    "@swiss-digital-assets-institute/core": "0.0.2-alpha.7",
-    "@swiss-digital-assets-institute/lifecycle": "0.0.2-alpha.7"
+    "@swiss-digital-assets-institute/core": "0.0.2-alpha.8",
+    "@swiss-digital-assets-institute/lifecycle": "0.0.2-alpha.8"
   }
 }
