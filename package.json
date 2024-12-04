@@ -1,7 +1,6 @@
 {
   "name": "hashgraph-did-sdk",
   "private": true,
-  "type": "module",
   "scripts": {
     "docs:build": "antora antora-playbook.yml",
     "docs:serve": "npx http-server ./build/site",
@@ -18,6 +17,7 @@
     "packages:release:prepatch": "lerna version prepatch --no-push --yes",
     "packages:release:prerelease": "lerna version prerelease --no-push --yes",
     "packages:publish": "lerna publish from-package --yes",
+    "examples:run": "tsx --env-file examples/.env",
     "hedera:start": "ts-node ./test_suites/hederaLocalNode.ts",
     "prepublishOnly": "npm run packages:build"
   },
@@ -41,6 +41,7 @@
     "ts-node": "^10.9.2",
     "tslib": "^2.7.0",
     "tsup": "^8.3.4",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.11.0"
   },

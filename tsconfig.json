@@ -8,23 +8,32 @@
     "target": "ES2021",
     "sourceMap": true,
     "allowJs": false,
-    "outDir": "dist",
     "baseUrl": ".",
+    "rootDir": ".",
     "declaration": true,
     "declarationMap": true,
     "paths": {
-      "@swiss-digital-assets-institute/core": ["../core/src/index.ts"],
-      "@swiss-digital-assets-institute/lifecycle": ["../lifecycle/src/index.ts"],
-      "@swiss-digital-assets-institute/messages": ["../messages/src/index.ts"],
-      "@swiss-digital-assets-institute/publisher-internal": [
-        "../publisher-internal/src/index.ts"
+      "@swiss-digital-assets-institute/core": ["packages/core/src/index.ts"],
+      "@swiss-digital-assets-institute/lifecycle": [
+        "packages/lifecycle/src/index.ts"
       ],
-      "@swiss-digital-assets-institute/registrar": ["../registrar/src/index.ts"],
-      "@swiss-digital-assets-institute/resolver": ["../resolver/src/index.ts"],
-      "@swiss-digital-assets-institute/signer-internal": ["../signer-internal/src/index.ts"]
+      "@swiss-digital-assets-institute/messages": [
+        "packages/messages/src/index.ts"
+      ],
+      "@swiss-digital-assets-institute/publisher-internal": [
+        "packages/publisher-internal/src/index.ts"
+      ],
+      "@swiss-digital-assets-institute/registrar": [
+        "packages/registrar/src/index.ts"
+      ],
+      "@swiss-digital-assets-institute/resolver": [
+        "packages/resolver/src/index.ts"
+      ],
+      "@swiss-digital-assets-institute/signer-internal": [
+        "packages/signer-internal/src/index.ts"
+      ]
     }
   },
-  "include": ["packages/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "tests/**/*.ts", "dist"],
   "ts-node": {
     "moduleTypes": {

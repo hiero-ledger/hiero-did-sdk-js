@@ -6,6 +6,7 @@ const options: Options = {
   clean: true,
   minify: true,
   dts: true,
+  tsconfig: 'tsconfig.build.json',
   outDir: 'dist',
   format: ['cjs', 'esm'],
   entry: ['src/index.ts'],
