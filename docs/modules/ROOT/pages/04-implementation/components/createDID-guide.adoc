@@ -87,7 +87,7 @@ const { did, didDocument } = await createDID({
 });
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-did.ts[example] in the source code.**
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-DID.ts[example] in the source code.**
 
 
 == References
