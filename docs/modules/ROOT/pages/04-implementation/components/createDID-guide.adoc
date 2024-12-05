@@ -1,6 +1,6 @@
 = createDID Function
 
-The `createDID` function is a fundamental component of the Hashgraph DID-SDK, responsible for generating fresh DIDs for the Hedera DID method. It provides a flexible and user-friendly interface, allowing users to choose from different configurations and key management strategies.
+The `createDID` function is a core component of the Hashgraph DID SDK, responsible for generating new DIDs for the Hedera DID method. It provides a flexible and user-friendly interface, allowing you to customize various aspects of the DID creation process.
 
 == Features
 
@@ -13,9 +13,11 @@ The `createDID` function is a fundamental component of the Hashgraph DID-SDK, re
 
 == Creating a DID Document
 
-The following example demonstrates how to create a DID with minimal input using the `createDID` function:
+The following examples demonstrate how to use the `createDID` function in different scenarios.
 
-include::did-submission-checklist.adoc[]
+=== With Client Options
+
+You can customize the Hedera network and account used for creating the DID by providing `clientOptions` to the `createDID` function.
 
 [source,js]
 ----
@@ -30,7 +32,32 @@ const { did, didDocument, privateKey } = await createDID({
 });
 ----
 
-In this example, the `createDID` function automatically initializes a new key pair for the DID owner. A Hedera `Client` instance is configured with essential parameters, including the Hedera account private key, account ID, and network. The function then returns the generated private key, the newly created DID, and its corresponding DID document.
+In this example, a Hedera `Client` instance is configured with essential parameters, including the Hedera account private key, account ID, and network. The function then returns the generated private key, the newly created DID, and its corresponding DID document.
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.**
+
+
+=== With a Hedera Client
+
+You can provide a Hedera `Client` instance directly to the `createDID` function. This allows for more fine-grained control over the client configuration and network interaction.
+
+[source,js]
+----
+const privateKey = "0x..."; // Replace with your Hedera account private key
+const accountId = "0.0.0...."; // Replace with your Hedera account ID
+
+const client = Client.forTestnet();
+client.setOperator(accountId, privateKey); 
+
+const { did, didDocument } = await createDID({
+  client,
+});
+----
+
+In this example, a pre-configured Hedera `Client` instance is passed to the `createDID` function.
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.**
+
 
 === With a Custom Controller
 
@@ -38,21 +65,19 @@ To modify the `controller` of a newly created DID, you can specify the desired c
 
 [source,js]
 ----
-const clientOptions = {
-  privateKey: "0x...", // Replace with your Hedera account private key
-  accountId: "0.0.0....", // Replace with your Hedera account ID
-  network: "testnet",
-};
-
 const { did, didDocument } = await createDID({
   controller: "did:hedera:mainnet:...", // Replace with your desired DID controller
-}, { clientOptions });
+});
 ----
-In this example, the `controller` property is used to specify the desired controller for the newly created DID. The `clientOptions` object is still used to configure the Hedera `Client` instance.
+
+In this example, the `controller` property is used to specify the desired controller for the newly created DID. 
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-custom-controller.ts[example] in the source code.**
+
 
 === With a Topic-Specific DID
 
-In certain cases, it may be desirable to create a DID associated with a specific topic. This can be achieved by providing the relevant Topic ID to the `createDID` function. It is important to ensure that the `Client` or `Publisher` being passed has the necessary permissions to submit content to that topic.
+In certain cases, it may be desirable to create a DID associated with a specific topic. This can be achieved by providing the relevant topic ID to the `createDID` function. It is important to ensure that the `Client` or `Publisher` being passed has the necessary permissions to submit content to that topic.
 
 [source,js]
 ----
@@ -62,8 +87,9 @@ const { did, didDocument } = await createDID({
 });
 ----
 
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-did.ts[example] in the source code.**
+
+
 == References
 
 * xref:04-implementation/components/createDID-api.adoc[`createDID` API Reference]
-* xref:04-implementation/components/signer-api.adoc[`Signer` API Reference]
-* xref:04-implementation/components/publisher-api.adoc[`Publisher` API Reference]

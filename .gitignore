@@ -17,3 +17,9 @@ test_suites/config/hedera/local-node/network_logs
 
 # Ignore debug logs
 lerna-debug.log
+
+# Ignore all .env files in all directories
+*.env
+
+# Except for .env.template files in any directory
+!**/.env.template

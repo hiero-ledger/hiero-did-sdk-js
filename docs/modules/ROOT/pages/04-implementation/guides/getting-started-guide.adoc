@@ -65,9 +65,7 @@ import { createDID } from "@hashgraph-did-js-sdk/registrar";
 async function main() {
   try {
     const { did, didDocument } = await createDID({
-      providers: {
-        client,
-      },
+      client,
     });
 
     console.log(`DID: ${did}`);
@@ -77,7 +75,7 @@ async function main() {
   }
 }
 
-main();
+main().finally(() => client.close());
 ----
 
 This code will:
@@ -104,7 +102,7 @@ async function main() {
   }
 }
 
-main();
+main().finally(() => client.close());
 ----
 
 This code demonstrates how to:

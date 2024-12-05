@@ -71,11 +71,11 @@ The table below provides a detailed description of the `Providers` type.
 
 |clientOptions?
 |`ClientOptions`
-|Configuration options for instantiating a Hedera Client.
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
 
 |client?
 |`Client`
-|An instance of a Hedera Client.
+|An instance of a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
 
 |signer?
 |`Signer`
@@ -99,11 +99,11 @@ The table below provides a detailed description of the `CreateDIDOptions` type.
 
 |controller?
 |`string`
-|A DID string representing the entity controlling the newly created DID. If not specified, the generated DID will be self-managed.
+|A DID string representing the entity controlling the newly created DID. If not specified, the generated DID will be self-managed. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-custom-controller.ts[example] in the source code.
 
 |topicId?
 |`string`
-|The ID of the Hedera Topic associated with the DID. If omitted, a new topic will be automatically created.
+|The ID of the Hedera Topic associated with the DID. If omitted, a new topic will be automatically created. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-did.ts[example] in the source code.
 
 |privateKey?
 |`string` \| `PrivateKey`

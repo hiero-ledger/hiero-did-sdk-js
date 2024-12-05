@@ -1,44 +1,50 @@
-<p align="center">
-  <img src="../docs/modules/ROOT/images/THA-logo.png" alt="THA Logo">  
-</p>
-
-<h1 align="center">Examples for Hashgraph DID SDK</h1>
+# Hashgraph DID SDK Examples
 
 ## Overview
 
-This directory contains example implementations demonstrating the usage of the Hedera Decentralized Identifier (DID) SDK.
+This directory contains example implementations demonstrating the usage of the Hedera Decentralized Identifier (DID) SDK. These examples showcase various functionalities of the SDK, such as creating DIDs, updating DID documents, resolving DIDs, and managing keys.
 
 ## Prerequisites
 
-- Hashgraph DID SDK
-- Node.js (version 18 or higher)
-- Hedera Testnet Account
+- Hashgraph DID SDK: Make sure you have the Hashgraph DID SDK installed in your project.
+- Node.js: Ensure you have Node.js (version 18 or higher) installed on your system.
+- Hedera Testnet Account: You'll need a Hedera account on the testnet with some hbars to pay for transaction fees.
 
 ## Examples
 
-- `create-did`: Demonstrates creating a new Decentralized Identifier
+The following examples are available in this directory:
+
+*   **[`createDID-with-client-options.ts`](./createDID-with-client-options.ts)**: Demonstrates how to create a DID with custom client options, such as network and account credentials.
+*   **[`createDID-with-a-client.ts`](./createDID-with-a-client.ts)**:  Shows how to create a DID using a pre-configured Hedera `Client` instance.
+*   **[`createDID-with-a-custom-controller.ts`](./createDID-with-a-custom-controller.ts)**:  Demonstrates how to create a DID with a custom controller DID.
+*   **[`createDID-with-a-topic-specific-did.ts`](./createDID-with-a-topic-specific-did.ts)**:  Shows how to create a DID associated with a specific Hedera topic ID.
 
 ## Running the Examples
 
 To run the examples, follow these steps:
 
-1. Install dependencies:
+1.  **Install dependencies:**
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
-2. Set your Hedera Testnet account ID and private key in the `.env` file.
+2.  **Set up environment variables:**
 
-3. Run the example:
+    *   Copy the `.env.template` file to `.env`.
+    *   Store your Hedera testnet account ID and private key in the `.env` file:
 
-   ```bash
-   npm run examples:run -- examples/<<example-name>>
-   ```
+        ```bash
+        HEDERA_TESTNET_ACCOUNT_ID=0.0.your-account-id
+        HEDERA_TESTNET_PRIVATE_KEY=your-private-key
+        ```
 
-   Where `<<example-name>>` is the name of the example you want to run, e.g. `create-did`.
-   List of examples can be found above in the [Examples](#examples) section.
+3.  **Run an example:**
 
-## Contributing
+    ```bash
+    npm run examples:run -- examples/<<example-filename>>
+    ```
 
-We welcome contributions to improve and expand these examples - simply fork the repository, add your example, and submit a Pull Request. Please ensure your example is well-documented and follows the project's coding standards.
+    Where `<<example-filename>>` is the filename of the example you want to run (e.g., `createDID-with-client-options.ts`).
+
+**Note:** Make sure to replace the placeholder values in the examples and the `.env` file with your actual Hedera account details and desired configuration.

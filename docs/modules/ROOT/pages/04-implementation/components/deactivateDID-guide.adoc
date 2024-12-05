@@ -1,6 +1,6 @@
 = deactivateDID Function
 
-The deactivateDID function is a fundamental component of the Hashgraph DID-SDK, responsible for deactivating existing DIDs for the Hedera DID method. This action effectively revokes the DID, making it unusable for future operations.
+The `deactivateDID` function is a core component of the Hashgraph DID SDK, responsible for deactivating existing DIDs for the Hedera DID method. This action effectively revokes the DID, making it unusable for future operations.
 
 == Features
 
@@ -13,9 +13,11 @@ The deactivateDID function is a fundamental component of the Hashgraph DID-SDK, 
 
 == Deactivating a DID Document
 
-To deactivate a DID, you need to provide the DID string and the client options to the `deactivateDID` function.
+The following examples demonstrate how to deactivate a DID document using the `deactivateDID` function in different scenarios.
 
-include::did-submission-checklist.adoc[]
+=== With Client Options
+
+You can customize the Hedera network and account used for deactivating the DID by providing `clientOptions` to the `deactivateDID` function.
 
 [source,js]
 ----
@@ -30,8 +32,25 @@ await deactivateDID(did, { clientOptions });
 
 In this example, `deactivateDID` takes the DID to be deactivated and an object containing the `clientOptions`. This configuration object should include the necessary information to interact with the Hedera network, such as the private key, account ID, and network.
 
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/deactivateDID-with-client-options.ts[example] in the source code.**
+
+=== With a Hedera Client
+
+You can provide a Hedera `Client` instance directly to the `deactivateDID` function. This allows for more fine-grained control over the client configuration and network interaction.
+
+[source,js]
+----
+const client = Client.forTestnet();
+client.setOperator(accountId, privateKey);
+
+await deactivateDID(did, { client });
+----
+
+In this example, a pre-configured Hedera `Client` instance is passed to the `deactivateDID` function.
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/deactivateDID-with-a-client.ts[example] in the source code.**
+
+
 == References
 
 * xref:04-implementation/components/deactivateDID-api.adoc[`deactivateDID` API Reference]
-* xref:04-implementation/components/signer-api.adoc[`Signer` API Reference]
-* xref:04-implementation/components/publisher-api.adoc[`Publisher` API Reference]

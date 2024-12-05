@@ -78,11 +78,11 @@ The table below provides a detailed description of the `Providers` type.
 
 |clientOptions?
 |`ClientOptions`
-|Configuration options for instantiating a Hedera Client.
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-client-options.ts[example] in the source code.
 
 |client?
 |`Client`
-|An instance of a Hedera Client.
+|An instance of a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-client-instance.ts[example] in the source code.
 
 |signer?
 |`Signer`
@@ -126,7 +126,7 @@ Adds a new verification method to the DID Document.
 
 |publicKeyMultibase
 |`string`
-|The public key in multibase format to add.
+|The public key in multibase format to add. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-private-key.ts[example] in the source code.
 
 |===
 

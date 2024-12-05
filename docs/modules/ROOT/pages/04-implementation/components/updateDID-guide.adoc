@@ -14,158 +14,106 @@ The `updateDID` function, a core component of the Hashgraph DID-SDK's xref:04-im
 
 == Updating a DID Document
 
-The following example demonstrates how to update a DID document using the `updateDID` function:
+The following examples demonstrate how to update a DID document using the `updateDID` function in different scenarios.
 
-include::did-submission-checklist.adoc[]
+=== With Client Options
+
+You can customize the Hedera network and account used for updating the DID by providing `clientOptions` to the `updateDID` function.
 
 [source,javascript]
 ----
+// Define client options with your Hedera account ID and private key
 const clientOptions = {
-  privateKey: "0x...", // Replace with your Hedera account private key
-  accountId: "0.0.0....", // Replace with your Hedera account ID
   network: "testnet",
+  accountId: "your-account-id",
+  privateKey: "your-private-key"
 };
 
-// Assuming 'did' is the DID you want to update and 'didDocument' is its current DID document
-const updatedDidDocument = await updateDID(did, {
-  document: {
-    ...didDocument,
-    verificationMethod: [
-      // Update or add verification methods
+const updatedDidDocument = await updateDID(
+  "did:hedera:testnet:...", // Replace with the DID you want to update
+  {
+    updates: [
+      {
+        operation: "add-verification-method",
+        // ... other properties
+      },
+      {
+        operation: "add-service",
+        // ... other properties
+      }
     ],
-    service: [
-      // Update or add services
+    privateKey: "your-private-key" // Private key for signing the update
+  }, 
+  { clientOptions }
+);
+----
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-client-options.ts[example] in the source code.**
+
+
+=== With a Hedera Client
+
+You can provide a Hedera `Client` instance directly to the `updateDID` function.
+
+[source,javascript]
+----
+// Create a Hedera Client instance
+const client = Client.forTestnet();
+client.setOperator("your-account-id", "your-private-key");
+
+const updatedDidDocument = await updateDID(
+  "did:hedera:testnet:...", // Replace with the DID you want to update
+  {
+    updates: [
+      {
+        operation: "add-verification-method",
+        // ... other properties
+      },
+      {
+        operation: "add-service",
+        // ... other properties
+      }
     ],
-  },
-}, { clientOptions });
+    privateKey: "your-private-key" // Private key for signing the update
+  }, 
+  { client }
+);
 ----
 
-In this example, the `updateDID` function takes the DID to be updated and an object containing the desired changes within its `document` property. You can modify various properties of the DID document, such as `verificationMethod` (for adding or updating keys) and `service` (for managing associated services).
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-client.ts[example] in the source code.**
 
-=== With a Private Key
 
-This example illustrates how to update a DID using a private key. The process involves specifying the DID to be updated, the corresponding private key in DER format, and a client object configured with the necessary Hedera account information.
+=== With Multiple Properties
+
+You can update multiple properties of a DID document simultaneously by providing an array of `updates`.
 
 [source,javascript]
 ----
-const { did, didDocument, privateKey } = await updateDID({
-  did: "did:hedera:mainnet:...", // Replace with your desired DID
-  updates: {
-    operation: "add-verification-method", 
-    id: '#key-1',
-    property: 'verificationMethod',
-    publicKeyMultibase: 'z6Mkq...', 
-  }, // Replace with your desired updates
-  privateKey: "0x...", // Replace with your private key in DER format
-}, {
-  client: {
-    privateKey: "0x...", // Replace with your Hedera account private key
-    accountId: "0.0.0....", // Replace with your Hedera account ID
-    network: "testnet", 
-  },
-});
-----
-
-In this example, `updateDID` accepts an `updates` object to specify modifications to the DID document. This object defines an operation, such as `add-verification-method`, which adds a new public key to the  `verificationMethod` array in the DID document.
-
-=== With a Client Instance
-
-Instead of passing individual options for the client, you can create a `Client` instance and pass it directly as an argument. This approach offers greater flexibility and control over client configuration.
-
-[source,javascript]
-----
-const client = new Client({
-  privateKey: "0x...", // Replace with your Hedera account private key
-  accountId: "0.0.0....", // Replace with your Hedera account ID
-  network: "testnet", 
-});
-
-const { did, didDocument } = await updateDID({
-  did: "did:hedera:mainnet:...", // Replace with your desired DID
-  updates: {
-    operation: "add-verification-method", 
-    id: '#key-1',
-    property: 'verificationMethod',
-    publicKeyMultibase: 'z6Mkq...', 
-  }, // Replace with your desired updates
-  privateKey: "0x...", // Replace with your private key in DER format
-}, { client });
-----
-
-This example first initializes a `Client` object with the necessary Hedera network and account details. Then, this `client` object is passed directly to the `updateDID` function. This approach streamlines the process and allows for more advanced client configurations.
-
-=== With Specific Properties
-
-You can change the controller of a DID using the `updateDID` function. The new controller must be a valid, active DID according to the Hedera method.
-
-[source,javascript]
-----
-const updatedDidDocument = await updateDID(did, {
-  document: {
-    ...didDocument,
-    controller: 'did:hedera:testnet:...', // New controller DID
-  },
-}, { clientOptions });
-----
-
-To add or remove keys associated with your DID, modify the `verificationMethod` property within the DID document.
-
-[source,javascript]
-----
-const updatedDidDocument = await updateDID(did, {
-  document: {
-    ...didDocument,
-    verificationMethod: [
-      // Add new verification methods or remove existing ones
+const updatedDidDocument = await updateDID(
+  "did:hedera:testnet:...", // Replace with the DID you want to update
+  {
+    updates: [
+      {
+        operation: "add-verification-method",
+        // ... other properties
+      },
+      {
+        operation: "add-verification-method",
+        // ... other properties
+      },
+      {
+        operation: "remove-service",
+        // ... other properties
+      }
     ],
-  },
-}, { clientOptions });
+    privateKey: "your-private-key" // Private key for signing the update
+  }, 
+  { client }
+);
 ----
 
-Services linked to your DID can be updated or removed by modifying the `service` property.
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-multiple-properties.ts[example] in the source code.**
 
-[source,javascript]
-----
-const updatedDidDocument = await updateDID(did, {
-  document: {
-    ...didDocument,
-    service: [
-      // Add new services or remove existing ones
-    ],
-  },
-}, { clientOptions });
-----
-
-=== With Multiple DID Document Properties
-
-You can update multiple properties of a DID document simultaneously. To do this, provide an array of operations detailing the desired changes. Each update within the array will generate a separate message requiring an individual signature. Consequently, the transaction fee for this operation will increase with the number of updates, as each new DID message sent to the topic incurs a fee.
-
-[source,javascript]
-----
-const { did, didDocument } = await updateDID({
-  did: "did:hedera:mainnet:...", // Replace with your DID
-  updates: [
-    {
-      operation: "add-verification-method",
-      id: '#key-1',
-      property: 'verificationMethod',
-      publicKeyMultibase: 'z6Mkq...', // Replace with your public key
-    },
-    {
-      operation: "add-verification-method",
-      id: '#key-2',
-      property: 'authentication',
-      publicKeyMultibase: 'z9Kpq...', // Replace with your public key
-    },
-    {
-      operation: "remove-service",
-      id: '#service-1',
-    }
-  ], 
-}, { client, signer }); 
-----
-
-In this example, `updateDID` uses an `updates` array to modify the DID document. Each array element defines an operation, such as adding a key to the `verificationMethod` array, adding a key to the `authentication` array, or removing a service.
 
 === With the DIDUpdateBuilder Class
 
@@ -265,9 +213,9 @@ Verification relationships express the relationship between a verification metho
       .build();
 ----
 
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-DID-update-builder.ts[example] in the source code.**
+
 == References
 
 * xref:04-implementation/components/updateDID-api.adoc[`updateDID` API Reference]
 * xref:04-implementation/components/didUpdateBuilder-api.adoc[`DIDUpdateBuilder` API Reference]
-* xref:04-implementation/components/signer-api.adoc[`Signer` API Reference]
-* xref:04-implementation/components/publisher-api.adoc[`Publisher` API Reference]
