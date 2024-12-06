@@ -56,7 +56,7 @@ The table below details the structure of the `options` parameter.
 
 |privateKey?
 |`string` \| PrivateKey`
-|A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for signing the DID update message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated.
+|A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for signing the DID update message.
 |===
 
 == Data Types
