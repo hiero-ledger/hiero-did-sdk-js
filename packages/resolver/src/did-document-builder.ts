@@ -347,9 +347,8 @@ export class DidDocumentBuilder {
 
   private setPublicKeyFromDIDOwner(event: DIDOwnerEvent): void {
     if (event.DIDOwner.publicKeyMultibase) {
-      // TODO: KeysUtility add multibase support
-      this.didPublicKey = KeysUtility.fromBase58(
-        event.DIDOwner.publicKeyMultibase.slice(1),
+      this.didPublicKey = KeysUtility.fromMultibase(
+        event.DIDOwner.publicKeyMultibase,
       ).toPublicKey();
 
       return;
