@@ -82,7 +82,7 @@ The table below provides a detailed description of the `Providers` type.
 
 |client?
 |`Client`
-|An instance of a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-client-instance.ts[example] in the source code.
+|An instance of a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-client.ts[example] in the source code.
 
 |signer?
 |`Signer`
