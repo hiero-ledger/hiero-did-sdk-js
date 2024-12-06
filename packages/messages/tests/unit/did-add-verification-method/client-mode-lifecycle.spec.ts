@@ -1,11 +1,14 @@
-import { LifecycleRunner, RunnerState } from '@swiss-digital-assets-institute/lifecycle';
+import {
+  LifecycleRunner,
+  RunnerState,
+} from '@swiss-digital-assets-institute/lifecycle';
 import { Publisher } from '@swiss-digital-assets-institute/core';
 import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDAddVerificationMethodMessage,
   DIDAddVerificationMethodMessageHederaCSMLifeCycle,
 } from '../../../src';
-import { SIGNATURE, VALID_DID } from '../helpers';
+import { PUBLIC_KEY_MULTIBASE, SIGNATURE, VALID_DID } from '../helpers';
 
 describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
   describe('when processing a valid DIDAddVerificationMethodMessage', () => {
@@ -15,7 +18,7 @@ describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
 
     beforeEach(async () => {
       message = new DIDAddVerificationMethodMessage({
-        publicKeyMultibase: 'z6LSk4Qv3Q',
+        publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
         controller: VALID_DID,
         property: 'verificationMethod',
         id: '#key-1',

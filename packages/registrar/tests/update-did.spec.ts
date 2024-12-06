@@ -7,6 +7,7 @@ import {
   TestPublisher,
   TestSigner,
   VALID_DID,
+  PUBLIC_KEY_MULTIBASE,
 } from './helpers';
 import * as UpdateSubOperations from '../src/update-did/sub-operations';
 
@@ -221,7 +222,7 @@ describe('Update DID operation', () => {
               operation: 'add-verification-method',
               id: '#test',
               property: 'verificationMethod',
-              publicKeyMultibase: 'test',
+              publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
             },
             {
               operation: 'add-service',
@@ -251,7 +252,7 @@ describe('Update DID operation', () => {
         operation: 'add-verification-method',
         id: '#test',
         property: 'verificationMethod',
-        publicKeyMultibase: 'test',
+        publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
       } as const;
 
       const secondOperation = {

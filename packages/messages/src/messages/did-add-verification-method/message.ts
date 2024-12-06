@@ -40,7 +40,7 @@ export class DIDAddVerificationMethodMessage extends DIDMessage {
       throw new Error('The ID must be a valid property ID.');
     }
 
-    if (isEd25519PublicKey(payload.publicKeyMultibase)) {
+    if (!isEd25519PublicKey(payload.publicKeyMultibase)) {
       throw new Error('Invalid length for the public key.');
     }
 

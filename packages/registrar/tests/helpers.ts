@@ -64,4 +64,6 @@ export function randomClient(network: Network = 'testnet'): Client {
 export const CREATED_TOPIC_ID = '0.0.1';
 export const OPERATOR_PUBLIC_KEY = 'test-operator-public-key';
 export const VALID_DID_TOPIC_ID = '0.0.2';
-export const VALID_DID = `did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_${VALID_DID_TOPIC_ID}`;
+export const PUBLIC_KEY_BASE58 = 'J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4';
+export const PUBLIC_KEY_MULTIBASE = `z${PUBLIC_KEY_BASE58}`;
+export const VALID_DID = `did:hedera:mainnet:${PUBLIC_KEY_BASE58}_${VALID_DID_TOPIC_ID}`;
