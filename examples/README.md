@@ -14,10 +14,30 @@ This directory contains example implementations demonstrating the usage of the H
 
 The following examples are available in this directory:
 
-*   **[`createDID-with-client-options.ts`](./createDID-with-client-options.ts)**: Demonstrates how to create a DID with custom client options, such as network and account credentials.
-*   **[`createDID-with-a-client.ts`](./createDID-with-a-client.ts)**:  Shows how to create a DID using a pre-configured Hedera `Client` instance.
-*   **[`createDID-with-a-custom-controller.ts`](./createDID-with-a-custom-controller.ts)**:  Demonstrates how to create a DID with a custom controller DID.
+### resolveDID
+
+*   **[`resolveDID-as-json-ld.ts`](./resolveDID-as-json-ld.ts)**: Demonstrates how to resolve a DID and retrieve its corresponding DID Document in JSON-LD format.
+*   **[`resolveDID-as-json.ts`](./resolveDID-as-json.ts)**: Demonstrates how to resolve a DID and retrieve its corresponding DID Document in JSON format.
+*   **[`resolveDID-with-full-metadata.ts`](./resolveDID-with-full-metadata.ts)**: Demonstrates how to resolve a DID and retrieve its corresponding DID Document with full DID Resolution metadata.
+
+### createDID
+
+*   **[`createDID-with-client-options.ts`](./createDID-with-client-options.ts)**: Demonstrates how to create a DID with custom `client-options`.
+*   **[`createDID-with-a-client.ts`](./createDID-with-a-client.ts)**:  Shows how to create a DID using a pre-configured Hedera `client` instance.
+*   **[`createDID-with-a-custom-controller.ts`](./createDID-with-a-custom-controller.ts)**:  Demonstrates how to create a DID with a custom `controller`.
 *   **[`createDID-with-a-topic-specific-did.ts`](./createDID-with-a-topic-specific-did.ts)**:  Shows how to create a DID associated with a specific Hedera topic ID.
+
+### updateDID
+
+*   **[`updateDID-with-client-options.ts`](./updateDID-with-client-options.ts)**: Demonstrates how to update a DID with custom `client-options`.
+*   **[`updateDID-with-a-client.ts`](./updateDID-with-a-client.ts)**: Shows how to update a DID using a pre-configured Hedera `client` instance.
+*   **[`updateDID-with-multiple-properties.ts`](./updateDID-with-multiple-properties.ts)**: Demonstrates how to update multiple properties of a DID document simultaneously.
+*   **[`updateDID-with-DID-update-builder.ts`](./updateDID-with-DID-update-builder.ts)**: Demonstrates how to use the `DIDUpdateBuilder` class to construct and execute DID update operations.
+
+### deactivateDID
+
+*   **[`deactivateDID-with-client-options.ts`](./deactivateDID-with-client-options.ts)**: Demonstrates how to deactivate a DID with custom `client-options`.
+*   **[`deactivateDID-with-a-client.ts`](./deactivateDID-with-a-client.ts)**: Shows how to deactivate a DID using a pre-configured Hedera `client` instance.
 
 ## Running the Examples
 
