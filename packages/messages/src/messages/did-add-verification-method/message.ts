@@ -1,5 +1,6 @@
 import {
   DIDMessage,
+  isEd25519PublicKey,
   isHederaDID,
   VerificationMethodProperties,
 } from '@swiss-digital-assets-institute/core';
@@ -39,7 +40,9 @@ export class DIDAddVerificationMethodMessage extends DIDMessage {
       throw new Error('The ID must be a valid property ID.');
     }
 
-    // TODO: Validate the public key multibase
+    if (isEd25519PublicKey(payload.publicKeyMultibase)) {
+      throw new Error('Invalid length for the public key.');
+    }
 
     this.controller = payload.controller;
     this.publicKeyMultibase = payload.publicKeyMultibase;
