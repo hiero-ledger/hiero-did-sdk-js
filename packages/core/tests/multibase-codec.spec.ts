@@ -76,4 +76,14 @@ describe('Multibase format utilities', () => {
       expect(Buffer.from(decoded).toString('utf8')).toEqual(value);
     },
   );
+
+  it('should throw an error when decoding an invalid multibase string', () => {
+    expect(() => MultibaseCodec.decode('invalid')).toThrow();
+  });
+
+  it('should throw an error when encoding with an invalid algorithm', () => {
+    expect(() =>
+      MultibaseCodec.encode(Buffer.from(rawText, 'utf8'), 'invalid' as never),
+    ).toThrow();
+  });
 });
