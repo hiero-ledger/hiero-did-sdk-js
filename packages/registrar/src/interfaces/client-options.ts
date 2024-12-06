@@ -16,5 +16,5 @@ export interface ClientOptions {
   /**
    * The network to connect to (mainnet, testnet, previewnet).
    */
-  network: string | Network;
+  network: Network;
 }

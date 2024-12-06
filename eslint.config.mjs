@@ -27,7 +27,13 @@ export default tseslint.config(
   {
     rules: {
       '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
-      '@typescript-eslint/no-unsafe-assignment': 0,
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+    },
+  },
+  {
+    files: ['examples/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'off',
     },
   },
 );
