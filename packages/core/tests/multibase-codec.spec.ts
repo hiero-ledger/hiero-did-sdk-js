@@ -78,12 +78,14 @@ describe('Multibase format utilities', () => {
   );
 
   it('should throw an error when decoding an invalid multibase string', () => {
-    expect(() => MultibaseCodec.decode('invalid')).toThrow();
+    expect(() => MultibaseCodec.decode('invalid')).toThrow(
+      'String is not a valid multibase encoded string',
+    );
   });
 
   it('should throw an error when encoding with an invalid algorithm', () => {
     expect(() =>
       MultibaseCodec.encode(Buffer.from(rawText, 'utf8'), 'invalid' as never),
-    ).toThrow();
+    ).toThrow('Invalid multibase algorithm');
   });
 });

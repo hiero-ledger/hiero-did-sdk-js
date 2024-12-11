@@ -65,13 +65,13 @@ export class MultibaseCodec {
   static decode(data: string): Uint8Array {
     const identifier = data[0] as Identifier;
     const algorithm = this.algorithmMap[identifier];
-    const decode = this.bases[algorithm].decode;
+    const decoder = this.bases[algorithm];
 
-    if (!decode) {
+    if (!decoder) {
       throw new Error('String is not a valid multibase encoded string');
     }
 
-    return decode(data.slice(1));
+    return decoder.decode(data.slice(1));
   }
 
   /**
@@ -87,12 +87,12 @@ export class MultibaseCodec {
     const identifier = Object.keys(this.algorithmMap).find(
       (key: Identifier) => this.algorithmMap[key] === algorithm,
     );
-    const encode = this.bases[algorithm].encode;
+    const encoder = this.bases[algorithm];
 
-    if (!encode) {
+    if (!encoder) {
       throw new Error('Invalid multibase algorithm');
     }
 
-    return `${identifier}${encode(data)}`;
+    return `${identifier}${encoder.encode(data)}`;
   }
 }

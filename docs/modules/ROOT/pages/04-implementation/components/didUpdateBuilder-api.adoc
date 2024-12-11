@@ -8,33 +8,19 @@ The following class diagram provides a visual representation of the relationship
 
 image::did-update-builder-class-diagram.png[]
 
-== Constructor
-
-=== `constructor`
-[source,ts]
-----
-constructor(did: string)
-----
-
-Initializes a new `DIDUpdateBuilder` instance.
-
-Parameters::
-* `did`: The DID string of the Decentralized Identifier to update.
-
-
 == Methods
 
 === `addAuthenticationMethod` [[method-addAuthenticationMethod]]
 [source,ts]
 ----
-public addAuthenticationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+public addAuthenticationMethod(method: VerificationMethod): DIDUpdateBuilder {}
 ----
 
 Adds an authentication method to the DID document. If a verification method with the same ID already exists, it will be replaced.
 A authentication method is a public key that can be used to authenticate the DID subject.
 
 Parameters::
-* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+* `method`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
 The current `DIDUpdateBuilder` instance for method chaining.
@@ -56,14 +42,14 @@ The current `DIDUpdateBuilder` instance for method chaining.
 === `addAssertionMethod` [[method-addAssertionMethod]]
 [source,ts]
 ----
-public addAssertionMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+public addAssertionMethod(method: VerificationMethod): DIDUpdateBuilder {}
 ----
 
 Adds an assertion method to the DID document. If a verification method with the same ID already exists, it will be replaced.
 A assertion method is a public key that can be used to express claims, such as for the purposes of issuing a Verifiable Credential
 
 Parameters::
-* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+* `method`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
 The current `DIDUpdateBuilder` instance for method chaining.
@@ -85,14 +71,14 @@ The current `DIDUpdateBuilder` instance for method chaining.
 === `addKeyAgreementMethod` [[method-addKeyAgreementMethod]]
 [source,ts]
 ----
-public addKeyAgreementMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+public addKeyAgreementMethod(method: VerificationMethod): DIDUpdateBuilder {}
 ----
 
 Adds a key agreement method to the DID document. If a verification method with the same ID already exists, it will be replaced.
 A key agreement method is a public key that can be used to derive a shared secret for secure communication.
 
 Parameters::
-* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+* `method`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
 The current `DIDUpdateBuilder` instance for method chaining.
@@ -114,14 +100,14 @@ The current `DIDUpdateBuilder` instance for method chaining.
 === `addCapabilityInvocationMethod` [[method-addCapabilityInvocationMethod]]
 [source,ts]
 ----
-public addCapabilityInvocationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+public addCapabilityInvocationMethod(method: VerificationMethod): DIDUpdateBuilder {}
 ----
 
 Adds a capability invocation method to the DID document. If a verification method with the same ID already exists, it will be replaced.
 A capability invocation method is a public key that can be used to invoke a cryptographic capability, such as the authorization to update the DID Document.
 
 Parameters::
-* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+* `method`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
 The current `DIDUpdateBuilder` instance for method chaining.
@@ -143,14 +129,14 @@ The current `DIDUpdateBuilder` instance for method chaining.
 === `addCapabilityDelegationMethod` [[method-addCapabilityDelegationMethod]]
 [source,ts]
 ----
-public addCapabilityDelegationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {}
+public addCapabilityDelegationMethod(method: VerificationMethod): DIDUpdateBuilder {}
 ----
 
 Adds a capability delegation method to the DID document. If a verification method with the same ID already exists, it will be replaced.
 A capability delegation method is a public key that can be used to delegate authority to another party.
 
 Parameters::
-* `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
+* `method`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
 The current `DIDUpdateBuilder` instance for method chaining.
@@ -208,32 +194,6 @@ Builds the DID update operation based on the added verification methods, service
 Returns::
 A list of xref:04-implementation/components/updateDID-api.adoc#didupdateoperation-type[DIDUpdateOperation] objects representing the changes to the DID document.
 
-=== `toJSON` [[method-toJSON]]
-[source,ts]
-----
-public toJSON(): Object {}
-----
-
-Converts the `DIDUpdateBuilder` instance to a JSON object.
-
-Returns::
-The JSON representation of the `DIDUpdateBuilder` instance.
-
-=== `fromJSON` [[method-fromJSON]]
-[source,ts]
-----
-public static fromJSON(json: Object): DIDUpdateBuilder {}
-----
-
-Creates a new `DIDUpdateBuilder` instance from a JSON object.
-
-Parameters::
-* `json`: The JSON object to create the `DIDUpdateBuilder` instance from.
-
-Returns::
-A new `DIDUpdateBuilder` instance created from the JSON object.
-
-
 
 == Related Types
 
@@ -251,10 +211,6 @@ These types are used as parameters or return values in the `DIDUpdateBuilder` me
 |id
 |`string`
 |The identifier of the verification method, e.g., `#key-1`.
-
-|type
-|`string`
-|The type of verification method, e.g., `Ed25519VerificationKey2020`.
 
 |controller
 |`string`
@@ -286,17 +242,6 @@ These types are used as parameters or return values in the `DIDUpdateBuilder` me
 |`string`
 |The service endpoint URL.
 
-|===
-
-== Errors
-
-[cols="1,1",options="header",frame="ends"]
-|===
-|Exception Class
-|Description
-
-|`DIDUpdateBuilderError`
-|Thrown if there is an error building the DID update operation.
 |===
 
 == Class Implementation
