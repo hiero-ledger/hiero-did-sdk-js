@@ -1,4 +1,4 @@
-import { parseDIDUrl } from '../src/parse-did-url';
+import { parseDIDUrl } from '../src/helpers';
 
 const METHOD = 'hedera';
 const NETWORK = 'mainnet';
@@ -11,7 +11,7 @@ const EXPECTED_PARAMS = {
   versionId: '1',
   timestamp: '1234567890',
 };
-const FRAGMENT = '#public-key-0';
+const FRAGMENT = 'public-key-0';
 
 describe('Hedera DID URL parser', () => {
   it('should parse a simple Hedera DID', () => {
@@ -66,7 +66,7 @@ describe('Hedera DID URL parser', () => {
   });
 
   it('should parse a Hedera DID with fragment', () => {
-    const did = `did:${METHOD}:${NETWORK}:${PUBLIC_KEY}_${TOPIC_ID}${FRAGMENT}`;
+    const did = `did:${METHOD}:${NETWORK}:${PUBLIC_KEY}_${TOPIC_ID}#${FRAGMENT}`;
 
     const result = parseDIDUrl(did);
 
@@ -83,7 +83,7 @@ describe('Hedera DID URL parser', () => {
   });
 
   it('should parse a Hedera DID with fragment and path', () => {
-    const did = `did:${METHOD}:${NETWORK}:${PUBLIC_KEY}_${TOPIC_ID}${PATH}${FRAGMENT}`;
+    const did = `did:${METHOD}:${NETWORK}:${PUBLIC_KEY}_${TOPIC_ID}${PATH}#${FRAGMENT}`;
 
     const result = parseDIDUrl(did);
 
@@ -100,7 +100,7 @@ describe('Hedera DID URL parser', () => {
   });
 
   it('should parse a Hedera DID with fragment and query params', () => {
-    const did = `did:${METHOD}:${NETWORK}:${PUBLIC_KEY}_${TOPIC_ID}${QUERY}${FRAGMENT}`;
+    const did = `did:${METHOD}:${NETWORK}:${PUBLIC_KEY}_${TOPIC_ID}${QUERY}#${FRAGMENT}`;
 
     const result = parseDIDUrl(did);
 
@@ -134,7 +134,7 @@ describe('Hedera DID URL parser', () => {
   });
 
   it('should parse a Hedera DID with query params, path and fragment', () => {
-    const did = `did:${METHOD}:${NETWORK}:${PUBLIC_KEY}_${TOPIC_ID}${PATH}${QUERY}${FRAGMENT}`;
+    const did = `did:${METHOD}:${NETWORK}:${PUBLIC_KEY}_${TOPIC_ID}${PATH}${QUERY}#${FRAGMENT}`;
 
     const result = parseDIDUrl(did);
 

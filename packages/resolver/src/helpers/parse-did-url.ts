@@ -88,6 +88,6 @@ export function parseDIDUrl(didUrl: string): Output {
     topicId,
     path,
     params,
-    fragment,
+    fragment: fragment ? fragment.slice(1) : undefined,
   };
 }

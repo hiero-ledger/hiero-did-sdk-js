@@ -140,7 +140,7 @@ describe('DID Resolver', () => {
     messagesMock.mockReturnValue(messages);
 
     await expect(resolveDID('did:hedera:testnet:zguayisd')).rejects.toThrow(
-      'Unsupported DID method or invalid DID URL',
+      'Unsupported DID method or invalid DID',
     );
   });
 

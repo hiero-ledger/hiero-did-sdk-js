@@ -13,9 +13,12 @@ import {
   DIDRemoveVerificationMethodMessage,
 } from '@swiss-digital-assets-institute/messages';
 import { PrivateKey } from '@hashgraph/sdk';
+import { DIDResolution } from '@swiss-digital-assets-institute/core';
 
 export const VALID_DID_TOPIC_ID = '0.0.2';
-export const VALID_DID = `did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_${VALID_DID_TOPIC_ID}`;
+export const VALID_DID_PUBLIC_KEY =
+  'J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4';
+export const VALID_DID = `did:hedera:mainnet:${VALID_DID_PUBLIC_KEY}_${VALID_DID_TOPIC_ID}`;
 export const VALID_ANOTHER_DID = `did:hedera:mainnet:EEzEMBWymV2cWziV4mVrgW9oFzJ31MteGu25ddMPNTR7_${VALID_DID_TOPIC_ID}`;
 
 interface DIDOwnerOptions {
@@ -190,3 +193,66 @@ export class TestSigner implements Signer {
     return this.verifyMock(message, signature) as never;
   }
 }
+
+export const DID_RESOLUTION: DIDResolution = {
+  didDocument: {
+    '@context': 'https://w3id.org/did-resolution/v1',
+    id: VALID_DID,
+    controller: VALID_DID,
+    verificationMethod: [
+      {
+        id: `${VALID_DID}#did-root-key`,
+        type: 'Ed25519VerificationKey2020',
+        controller: VALID_DID,
+        publicKeyMultibase: `z${VALID_DID_PUBLIC_KEY},`,
+      },
+    ],
+    assertionMethod: ['#did-root-key'],
+    authentication: ['#did-root-key'],
+    capabilityInvocation: ['#did-root-key'],
+    capabilityDelegation: ['#did-root-key'],
+    keyAgreement: [
+      {
+        id: `${VALID_DID}#key-1`,
+        type: 'Ed25519VerificationKey2020',
+        controller: VALID_DID,
+        publicKeyMultibase: `z${VALID_DID_PUBLIC_KEY},`,
+      },
+    ],
+    service: [
+      {
+        id: `#srv-1`,
+        type: 'LinkedResource',
+        serviceEndpoint: 'https://example.com/1',
+      },
+      {
+        id: `${VALID_DID}#srv-2`,
+        type: 'LinkedResource',
+        serviceEndpoint: 'https://example.com/2/',
+      },
+      {
+        id: `${VALID_DID}#srv-invalid`,
+        type: 'LinkedResource',
+        serviceEndpoint: 1 as never,
+      },
+      {
+        id: `${VALID_DID}#srv-multiple`,
+        type: 'LinkedResource',
+        serviceEndpoint: [
+          'https://example.com/3/',
+          'https://example.com/4/',
+        ] as never,
+      },
+    ],
+  },
+  didDocumentMetadata: {
+    created: new Date().toISOString(),
+    updated: new Date().toISOString(),
+    deactivated: false,
+  },
+  didResolutionMetadata: {
+    contentType:
+      'application/ld+json;profile="https://w3id.org/did-resolution"',
+    retrieved: new Date().toISOString(),
+  },
+};

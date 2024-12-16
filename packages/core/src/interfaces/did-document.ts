@@ -16,10 +16,20 @@ export type VerificationMethod =
   | VerificationMethodBase58
   | VerificationMethodMultibase;
 
+export type JsonLdVerificationMethod = VerificationMethod & {
+  '@context'?: string | string[];
+};
+
+export type ServiceEndpoint = string;
+
 export interface Service {
   id: string;
   type: string;
-  serviceEndpoint: string;
+  serviceEndpoint: ServiceEndpoint;
+}
+
+export interface JsonLdService extends Service {
+  '@context'?: string | string[];
 }
 
 export type KeyCapabilityMethod = string | VerificationMethod;
@@ -57,4 +67,10 @@ export interface DIDResolution {
   didDocument: JsonLdDIDDocument;
   didDocumentMetadata: DIDDocumentMetadata;
   didResolutionMetadata: DIDResolutionMetadata;
+}
+
+export interface DIDDereferenceResolution {
+  contentStream: JsonLdService | JsonLdVerificationMethod | ServiceEndpoint;
+  dereferencingMetadata: DIDDocumentMetadata;
+  contentMetadata: DIDResolutionMetadata;
 }

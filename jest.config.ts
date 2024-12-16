@@ -12,6 +12,7 @@ const config: JestConfigWithTsJest = {
   collectCoverageFrom: [
     'packages/**/src/**/*.ts',
     '!packages/registrar/src/interfaces/index.ts',
+    '!packages/resolver/src/interfaces/index.ts',
   ],
   coverageThreshold: {
     global: {

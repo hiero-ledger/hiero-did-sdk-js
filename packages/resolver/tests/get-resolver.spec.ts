@@ -18,11 +18,12 @@ describe('DID get resolver function', () => {
   it('should call resolveDID function with proper arguments', async () => {
     const resolver = getResolver();
     const did = 'did:hedera:testnet:1234';
-    const accept = 'application/did+ld+json';
-    const options = { accept };
 
-    await resolver.hedera(did, {}, {}, options);
+    await resolver.hedera(did);
 
-    expect(resolveDID).toHaveBeenCalledWith(did, accept);
+    expect(resolveDID).toHaveBeenCalledWith(
+      did,
+      'application/ld+json;profile="https://w3id.org/did-resolution"',
+    );
   });
 });

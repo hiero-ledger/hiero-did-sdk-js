@@ -12,21 +12,21 @@ import {
   isHederaDID,
 } from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
-import { isJsonString } from './validators/is-json';
-import { isDIDMessage } from './validators/is-did-message';
 import {
   TopicDIDContent,
   TopicDIDMessage,
-} from './interfaces/topic-did-message';
+  DIDEvent,
+  AddVerificationMethodEvent,
+  AddVerificationRelationshipMethodEvent,
+  AddServiceEvent,
+  DIDOwnerEvent,
+  RemoveVerificationMethodEvent,
+  RemoveServiceEvent,
+  RemoveVerificationRelationshipMethodEvent,
+} from './interfaces';
 import { isDIDMessageEvent } from './validators/is-did-message-event';
-import { DIDEvent } from './interfaces/did-event';
-import { AddVerificationMethodEvent } from './interfaces/add-verification-method-event';
-import { AddServiceEvent } from './interfaces/add-service-event';
-import { AddVerificationRelationshipMethodEvent } from './interfaces/add-verification-relationship-method-event';
-import { DIDOwnerEvent } from './interfaces/did-owner-event';
-import { RemoveVerificationMethodEvent } from './interfaces/remove-verification-method-event';
-import { RemoveServiceEvent } from './interfaces/remove-service-event';
-import { RemoveVerificationRelationshipMethodEvent } from './interfaces/remove-verification-relationship-method-event';
+import { isJsonString } from './validators/is-json';
+import { isDIDMessage } from './validators/is-did-message';
 import { DID_ROOT_KEY_ID } from './consts';
 
 /**

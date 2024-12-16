@@ -8,11 +8,11 @@ import { resolveDID } from './resolve-did';
 
 async function resolveWrapper(
   did: string,
-  _: unknown,
-  __: unknown,
-  options: { accept: string },
 ): Promise<DIDDocument | JsonLdDIDDocument | DIDDocumentCbor | DIDResolution> {
-  return await resolveDID(did, options.accept as never);
+  return await resolveDID(
+    did,
+    'application/ld+json;profile="https://w3id.org/did-resolution"',
+  );
 }
 
 /**

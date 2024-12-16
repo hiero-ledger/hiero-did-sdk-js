@@ -15,3 +15,5 @@ export interface GetResolveDIDOptions extends ResolveDIDOptions {
    */
   verifier?: Signer;
 }
+
+export type DereferenceDIDOptions = ResolveDIDOptions;

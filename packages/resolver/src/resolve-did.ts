@@ -1,47 +1,47 @@
 import {
   DIDDocument,
   DIDResolution,
-  isHederaDIDUrl,
+  isHederaDID,
   JsonLdDIDDocument,
 } from '@swiss-digital-assets-institute/core';
-import { ResolveDIDOptions } from './interfaces/resolve-did-options';
-import { parseDIDUrl } from './parse-did-url';
+import { ResolveDIDOptions, Accept } from './interfaces';
+import { parseDID } from './helpers';
 import { TopicReader } from './topic-reader';
 import { DidDocumentBuilder } from './did-document-builder';
 
 /**
  * Resolve a DID to a DID document.
  *
- * @param didUrl The DID URL or DID to resolve.
+ * @param did The DID to resolve.
  * @param accept The media type that the client prefers for the response. Acceptable values: application/did+json, application/did+ld+json, application/did+cbor and application/ld+json;profile="https://w3id.org/did-resolution". If not specified, the default value is application/did+ld+json.
  * @param options The options to use when resolving the DID.
  * @returns The resolved DID document.
  */
 export async function resolveDID(
-  didUrl: string,
+  did: string,
   accept: 'application/did+json',
   options?: ResolveDIDOptions,
 ): Promise<DIDDocument>;
 export async function resolveDID(
-  didUrl: string,
+  did: string,
   accept?: 'application/did+ld+json',
   options?: ResolveDIDOptions,
 ): Promise<JsonLdDIDDocument>;
 export async function resolveDID(
-  didUrl: string,
+  did: string,
   accept: 'application/ld+json;profile="https://w3id.org/did-resolution"',
   options?: ResolveDIDOptions,
 ): Promise<DIDResolution>;
 export async function resolveDID(
-  didUrl: string,
-  accept: string = 'application/did+ld+json',
+  did: string,
+  accept: Accept = 'application/did+ld+json',
   options: ResolveDIDOptions = {},
 ): Promise<DIDDocument | JsonLdDIDDocument | DIDResolution> {
-  if (!isHederaDIDUrl(didUrl)) {
-    throw new Error('Unsupported DID method or invalid DID URL');
+  if (!isHederaDID(did)) {
+    throw new Error('Unsupported DID method or invalid DID');
   }
 
-  const { topicId, network, did } = parseDIDUrl(didUrl);
+  const { topicId, network } = parseDID(did);
 
   const topicReader = await new TopicReader(topicId, network).fetchAllToDate();
   const topicMessages = topicReader.getMessages();
