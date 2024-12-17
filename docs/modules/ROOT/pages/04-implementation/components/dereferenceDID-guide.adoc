@@ -1,0 +1,92 @@
+= dereferenceDID Function
+
+The `dereferenceDID` function is extended from the `resolveDID` function. It allows you to dereference a DID URL and retrieve the corresponding Verification Method, or Service. 
+
+== Dereferencing a DID Document
+
+The following examples demonstrate how to use the `dereferenceDID` function to retrieve a Verification Method or Service.
+
+=== Dereference a DID Document Fragment
+
+This example shows how to dereference a DID Document fragment. It can be used to retrieve a Verification Method, Verification Relationship, or Service.
+To dereference a DID Document fragment, the `didUrl` must contain a fragment. The fragment can be a `verificationMethod`, `verificationRelationship`, or `service`. 
+For example, `did:hedera:testnet:z6Mkhj...#verificationMethod` or `did:hedera:testnet:z6Mkhj...#service`.
+
+[source, typescript]
+----
+import { dereferenceDID } from '@swiss-digital-assets-institute/resolver';
+
+const didUrl =
+  'did:hedera:testnet:23g2MabDNq3KyB7oeH9yYZsJTRVeQ24DqX8o6scB98e3_0.0.5217215#did-root-key'; // Replace with the DID URL you want to dereference
+
+async function main() {
+  try {
+    const verificationMethod = await dereferenceDID(didUrl);
+    console.log(verificationMethod);
+  } catch (error) {
+    console.error('Error dereferencing DID:', error);
+  }
+}
+
+main();
+----
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/dereferenceDID-fragment.ts[example] in the source code.**
+
+=== Dereference a DID Document Service Endpoint
+
+This example shows how to dereference a DID Document Service Endpoint. It can be used to retrieve a Service Endpoint.
+To dereference a DID Document Service Endpoint, the `didUrl` must contain a `service` parameter with additional `relativeRef` parameter.
+For example, `did:hedera:testnet:z6Mkhj...?service=github&relativeRef=hashgraph-did-sdk-js`. As a result, the function will return the Service Endpoint of the `github` service. `relativeRef` is appended to the service endpoint as a path to the URL.
+
+[source, typescript]
+----
+import { dereferenceDID } from '@swiss-digital-assets-institute/resolver';
+
+const didUrl =
+  'did:hedera:testnet:3f3zxTz93CXnqhW3bNxqeyk8Gfk7v2yR27DRgSTYvHog_0.0.5278919?service=github&relativeRef=hashgraph-did-sdk-js';
+
+async function main() {
+  try {
+    const serviceEndpoint = await dereferenceDID(didUrl);
+    console.log(serviceEndpoint);
+  } catch (error) {
+    console.error('Error dereferencing DID:', error);
+  }
+}
+
+main();
+----
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/dereferenceDID-service-endpoint.ts[example] in the source code.**
+
+=== Different `accept` values
+
+`dereferenceDID` supports different `accept` values in the same way as `resolveDID`. Currently, the only supported `accept` value is `application/ld+json;profile="https://w3id.org/did-resolution"`, `application/did+json` and `application/did+ld+json`. Based on the `accept` value, the function will return the corresponding Verification Method, Verification Relationship, or Service Endpoint in the corresponding format. `application/did+json` and `application/did+ld+json` are the same format, but `application/did+ld+json` adds `@context` to the JSON-LD document. `application/ld+json;profile="https://w3id.org/did-resolution"` adds resolution and content metadata to the result. 
+
+In example below, the `accept` value is `application/ld+json;profile="https://w3id.org/did-resolution"`. As a result, the function will return the Verification Method in JSON-LD format with resolution and content metadata.
+
+[source, typescript]
+----
+import { dereferenceDID } from "@hashgraph-did-js-sdk/resolver";
+
+const didUrl = "did:hedera:testnet:z6Mkhj...#did-root-key"; // Replace with the DID URL you want to resolve
+
+async function main() {
+  try {
+    const didDocument = await dereferenceDID(
+      didUrl,
+      'application/ld+json;profile="https://w3id.org/did-resolution"'
+    ); 
+    console.log(didDocument);
+  } catch (error) {
+    console.error("Error dereferencing DID:", error);
+  }
+}
+
+main();
+----
+
+== References
+
+* xref:04-implementation/components/dereferenceDID-api.adoc[`dereferenceDID` API Reference]

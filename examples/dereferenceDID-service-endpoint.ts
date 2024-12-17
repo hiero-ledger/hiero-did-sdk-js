@@ -11,7 +11,10 @@ const didUrl =
 
 async function main() {
   try {
-    const serviceEndpoint = await dereferenceDID(didUrl);
+    const serviceEndpoint = await dereferenceDID(
+      didUrl,
+      'application/ld+json;profile="https://w3id.org/did-resolution"',
+    );
     console.log(serviceEndpoint);
   } catch (error) {
     console.error('Error dereferencing DID:', error);
