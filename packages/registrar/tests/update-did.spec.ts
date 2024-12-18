@@ -11,6 +11,15 @@ import {
 } from './helpers';
 import * as UpdateSubOperations from '../src/update-did/sub-operations';
 
+const didDocumentMock = jest.fn();
+jest.mock('@swiss-digital-assets-institute/resolver', () => {
+  return {
+    resolveDID: jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(didDocumentMock())),
+  };
+});
+
 describe('Update DID operation', () => {
   const TopicMessageSubmitTransactionMockImplementation = {
     setTopicId: jest.fn().mockReturnThis(),
@@ -26,6 +35,11 @@ describe('Update DID operation', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    didDocumentMock.mockResolvedValue({
+      id: VALID_DID,
+      controller: VALID_DID,
+      verificationMethod: [],
+    });
   });
 
   describe('Provider options', () => {
@@ -311,6 +325,97 @@ describe('Update DID operation', () => {
 
       expect(result).toBeDefined();
       expect(updateOperationsMock).toHaveBeenCalledTimes(3);
+    });
+
+    it('should throw an error if verification method already exists', async () => {
+      didDocumentMock.mockReturnValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: '#test',
+          },
+        ],
+      });
+
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: [
+              {
+                operation: 'add-verification-method',
+                id: '#test',
+                property: 'verificationMethod',
+                publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+              },
+            ],
+          },
+          {
+            signer,
+            publisher,
+          },
+        ),
+      ).rejects.toThrow();
+    });
+
+    it('should throw an error if service already exists', async () => {
+      didDocumentMock.mockReturnValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        service: [{ id: '#test' }],
+      });
+
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: [
+              {
+                operation: 'add-service',
+                id: '#test',
+                type: 'ServiceType',
+                serviceEndpoint: 'http://example.com',
+              },
+            ],
+          },
+          { signer, publisher },
+        ),
+      ).rejects.toThrow();
+    });
+
+    it('should return the updated DID document', async () => {
+      jest.clearAllMocks();
+
+      const didDocument = {
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: '#test',
+          },
+        ],
+      };
+
+      didDocumentMock.mockReturnValue(didDocument);
+
+      const result = await updateDID(
+        {
+          did: VALID_DID,
+          updates: [
+            {
+              operation: 'add-verification-method',
+              id: '#new-vm',
+              property: 'verificationMethod',
+              publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+            },
+          ],
+        },
+        { signer, publisher },
+      );
+
+      expect(result.didDocument).toBeDefined();
+      expect(result.didDocument).toBe(didDocument);
     });
   });
 });

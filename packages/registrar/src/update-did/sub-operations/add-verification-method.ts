@@ -1,17 +1,30 @@
-import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
-import { LifecycleRunner, RunnerState } from '@swiss-digital-assets-institute/lifecycle';
+import {
+  DIDDocument,
+  Publisher,
+  Signer,
+} from '@swiss-digital-assets-institute/core';
+import {
+  LifecycleRunner,
+  RunnerState,
+} from '@swiss-digital-assets-institute/lifecycle';
 import {
   DIDAddVerificationMethodMessage,
   DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
 import { AddVerificationMethodOperation, UpdateDIDOptions } from '../interface';
+import { haveId } from '../helpers/have-id';
 
 export async function addVerificationMethod(
   options: AddVerificationMethodOperation,
   operationOptions: UpdateDIDOptions,
   signer: Signer,
   publisher: Publisher,
+  currentDidDocument: DIDDocument,
 ): Promise<RunnerState<DIDAddVerificationMethodMessage>> {
+  if (haveId(options.id, currentDidDocument)) {
+    throw new Error('Verification method id already exists');
+  }
+
   const manager = new LifecycleRunner(
     DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
   );

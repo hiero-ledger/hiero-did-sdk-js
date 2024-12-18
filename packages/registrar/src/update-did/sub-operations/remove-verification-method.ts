@@ -1,5 +1,8 @@
 import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
-import { LifecycleRunner, RunnerState } from '@swiss-digital-assets-institute/lifecycle';
+import {
+  LifecycleRunner,
+  RunnerState,
+} from '@swiss-digital-assets-institute/lifecycle';
 import {
   DIDRemoveVerificationMethodMessage,
   DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,

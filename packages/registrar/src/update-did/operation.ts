@@ -1,4 +1,5 @@
 import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { resolveDID } from '@swiss-digital-assets-institute/resolver';
 import { UpdateDIDOptions, UpdateDIDResult } from './interface';
 import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';
@@ -31,8 +32,19 @@ export async function updateDID(
     ? operationOptions.updates
     : [operationOptions.updates];
 
+  const currentDidDocument = await resolveDID(
+    operationOptions.did,
+    'application/did+json',
+  );
+
   for (const update of updates) {
-    await callOperation(update, operationOptions, signer, publisher);
+    await callOperation(
+      update,
+      operationOptions,
+      signer,
+      publisher,
+      currentDidDocument,
+    );
   }
 
   if (
@@ -42,13 +54,13 @@ export async function updateDID(
     publisher.client.close();
   }
 
-  // TODO: Resolve a DID document
+  const updatedDidDocument = await resolveDID(
+    operationOptions.did,
+    'application/did+json',
+  );
+
   return {
     did: operationOptions.did,
-    didDocument: {
-      id: operationOptions.did,
-      controller: '',
-      verificationMethod: [],
-    },
+    didDocument: updatedDidDocument,
   };
 }
