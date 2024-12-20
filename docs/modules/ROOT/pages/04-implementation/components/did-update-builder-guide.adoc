@@ -10,10 +10,9 @@ Verification methods are used to prove the authenticity of a DID Document. The x
 ----
 const builder = new DIDUpdateBuilder()
   .addVerificationMethod({
-    id: "did:hedera:mainnet:...#key-1",
+    id: "#key-1",
     controller: "did:hedera:mainnet:...",
     publicKeyMultibase: "z6Mk...",
-    type: "Ed25519VerificationKey2020",
   })
   .build();
 ----
@@ -24,16 +23,14 @@ You can add multiple verification methods to a DID Document by calling the `addV
 ----
 const builder = new DIDUpdateBuilder()
   .addVerificationMethod({
-    id: "did:hedera:mainnet:...#key-1",
+    id: "#key-1",
     controller: "did:hedera:mainnet:...",
     publicKeyMultibase: "z6Mk...",
-    type: "Ed25519VerificationKey2020",
   })
   .addVerificationMethod({
-    id: "did:hedera:mainnet:...#key-2",
+    id: "#key-2",
     controller: "did:hedera:mainnet:...",
     publicKeyMultibase: "z6Km...",
-    type: "Ed25519VerificationKey2020",
   })
   .build();
 ----
@@ -43,7 +40,7 @@ To remove a verification method from a DID Document, use the xref:04-implementat
 [source,js]
 ----
 const builder = new DIDUpdateBuilder()
-  .removeVerificationMethod("did:hedera:mainnet:...#key-1")
+  .removeVerificationMethod("#key-1")
   .build();
 ----
 
@@ -54,8 +51,8 @@ Services are used to provide additional information about a DID Document. The xr
 ----
 const builder = new DIDUpdateBuilder()
   .addService({
-    id: "did:hedera:mainnet:...#service-1",
-    controller: "did:hedera:mainnet:...",
+    id: "#service-1",
+    type: "LinkedDomains",
     serviceEndpoint: "https://example.com",
   })
   .build();
@@ -67,13 +64,13 @@ You can add multiple services to a DID Document by calling the `addService` meth
 ----
 const builder = new DIDUpdateBuilder()
   .addService({
-    id: "did:hedera:mainnet:...#service-1",
-    controller: "did:hedera:mainnet:...",
+    id: "#service-1",
+    type: "LinkedDomains",
     serviceEndpoint: "https://example.com",
   })
   .addService({
-    id: "did:hedera:mainnet:...#service-2",
-    controller: "did:hedera:mainnet:...",
+    id: "#service-2",
+    type: "LinkedDomains",
     serviceEndpoint: "https://example.org",
   }) 
   .build();
@@ -84,7 +81,7 @@ To remove a service from a DID Document, use the xref:04-implementation/componen
 [source,js]
 ----
 const builder = new DIDUpdateBuilder()
-  .removeService("did:hedera:mainnet:...#service-1")
+  .removeService("#service-1")
   .build();
 ----
 
@@ -99,16 +96,13 @@ Example of adding a verification relationship:
 ----
 const builder = new DIDUpdateBuilder()
   .addCapabilityInvocationMethod({
-    id: "did:hedera:mainnet:...#key-1",
+    id: "#key-1",
     controller: "did:hedera:mainnet:...",
     publicKeyMultibase: "z6Mk...",
-    type: "Ed25519VerificationKey2020",
   })
   .addAuthenticationMethod({
-    id: "did:hedera:mainnet:...#key-2",
-    controller: "did:hedera:mainnet:...",
+    id: "#key-2",
     publicKeyMultibase: "z6Km...",
-    type: "Ed25519VerificationKey2020",
   })
   .build();
 ----
@@ -118,7 +112,7 @@ Also you can remove a verification relationship by using the corresponding metho
 [source,js]
 ----
 const builder = new DIDUpdateBuilder()
-  .removeCapabilityInvocationMethod("did:hedera:mainnet:...#key-1")
+  .removeCapabilityInvocationMethod("#key-1")
   .build();
 ----
 
@@ -127,6 +121,6 @@ A verification relationship can be added as an alias for a already existing veri
 [source,js]
 ----
 const builder = new DIDUpdateBuilder()
-  .addCapabilityInvocationMethod("did:hedera:mainnet:...#key-1")
+  .addCapabilityInvocationMethod("#key-1")
   .build();
 ----

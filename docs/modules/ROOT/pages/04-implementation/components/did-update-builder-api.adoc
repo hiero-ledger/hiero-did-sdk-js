@@ -213,8 +213,8 @@ These types are used as parameters or return values in the `DIDUpdateBuilder` me
 |The identifier of the verification method, e.g., `#key-1`.
 
 |controller
-|`string`
-|The DID that controls the verification method.
+|`string?`
+|The DID that controls the verification method. Default is DID itself.
 
 |publicKeyMultibase
 |`string`

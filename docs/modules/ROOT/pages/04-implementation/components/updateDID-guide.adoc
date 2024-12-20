@@ -121,7 +121,7 @@ The `DIDUpdateBuilder` class provides a convenient way to construct and execute 
 
 To use the `DIDUpdateBuilder`:
 
-1.  **Create an instance:**  `new DIDUpdateBuilder(did)` where `did` is the DID to update.
+1.  **Create an instance:** Using `new DIDUpdateBuilder()` create new builder instance.
 2.  **Specify modifications:** Use the builder's methods (e.g., `addVerificationMethod`, `removeService`).
 3.  **Build operations:** Call `build()` to generate the update operations.
 4.  **Execute the update:** Pass the generated operations to the `updateDID` function.
@@ -134,12 +134,11 @@ Verification methods prove the authenticity of a DID Document.
 
 [source,javascript]
 ----
-    const builder = new DIDUpdateBuilder(did)
+    const builder = new DIDUpdateBuilder()
       .addVerificationMethod({
-        id: "did:hedera:mainnet:...#key-1",
+        id: "#key-1",
         controller: "did:hedera:mainnet:...",
         publicKeyMultibase: "z6Mk...",
-        type: "Ed25519VerificationKey2020",
       })
       .addVerificationMethod({ 
         // ... another verification method
@@ -151,8 +150,8 @@ Verification methods prove the authenticity of a DID Document.
 
 [source,javascript]
 ----
-    const builder = new DIDUpdateBuilder(did)
-      .removeVerificationMethod("did:hedera:mainnet:...#key-1")
+    const builder = new DIDUpdateBuilder()
+      .removeVerificationMethod("#key-1")
       .build();
 ----
 
@@ -164,10 +163,10 @@ Services provide additional information about a DID Document.
 
 [source,javascript]
 ----
-    const builder = new DIDUpdateBuilder(did)
+    const builder = new DIDUpdateBuilder()
       .addService({
-        id: "did:hedera:mainnet:...#service-1",
-        controller: "did:hedera:mainnet:...",
+        id: "#service-1",
+        type: "LinkedDomains",
         serviceEndpoint: "https://example.com",
       })
       .addService({ 
@@ -180,8 +179,8 @@ Services provide additional information about a DID Document.
 
 [source,javascript]
 ----
-    const builder = new DIDUpdateBuilder(did)
-      .removeService("did:hedera:mainnet:...#service-1")
+    const builder = new DIDUpdateBuilder()
+      .removeService("#service-1")
       .build();
 ----
 
@@ -193,14 +192,13 @@ Verification relationships express the relationship between a verification metho
 
 [source,javascript]
 ----
-    const builder = new DIDUpdateBuilder(did)
+    const builder = new DIDUpdateBuilder()
       .addCapabilityInvocationMethod({
-        id: "did:hedera:mainnet:...#key-1",
+        id: "#key-1",
         controller: "did:hedera:mainnet:...",
         publicKeyMultibase: "z6Mk...",
-        type: "Ed25519VerificationKey2020",
       })
-      .addAuthenticationMethod("did:hedera:mainnet:...#key-2") // Using an existing method's ID
+      .addAuthenticationMethod("#key-2") // Using an existing method's ID
       .build();
 ----
 
@@ -208,8 +206,8 @@ Verification relationships express the relationship between a verification metho
 
 [source,javascript]
 ----
-    const builder = new DIDUpdateBuilder(did)
-      .removeCapabilityInvocationMethod("did:hedera:mainnet:...#key-1")
+    const builder = new DIDUpdateBuilder()
+      .removeCapabilityInvocationMethod("#key-1")
       .build();
 ----
 
