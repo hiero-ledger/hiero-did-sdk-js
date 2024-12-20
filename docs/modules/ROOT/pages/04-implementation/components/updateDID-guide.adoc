@@ -216,4 +216,4 @@ Verification relationships express the relationship between a verification metho
 == References
 
 * xref:04-implementation/components/updateDID-api.adoc[`updateDID` API Reference]
-* xref:04-implementation/components/didUpdateBuilder-api.adoc[`DIDUpdateBuilder` API Reference]
+* xref:04-implementation/components/did-update-builder-api.adoc[`DIDUpdateBuilder` API Reference]
