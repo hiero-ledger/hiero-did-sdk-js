@@ -9,7 +9,7 @@ jobs:
   bdd-tests:
     runs-on:
       labels: hedera-local-node-runner
-      name: BDD Tests
+    name: BDD Tests
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
