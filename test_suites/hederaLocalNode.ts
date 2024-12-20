@@ -1,6 +1,6 @@
 import { startContainers, stopContainers } from './support/utils/containerUtils';
-import * as path from 'path';
 import { deleteDirectories } from './support/utils/fileUtils';
+import * as path from 'path';
 
 const CONFIG_PATH = path.join(__dirname, './config/hedera/local-node');
 
@@ -32,7 +32,10 @@ async function startLocalHederaNode() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   process.on('SIGINT', () => handleExit('SIGINT'));
+
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   process.on('SIGTERM', () => handleExit('SIGTERM'));
 
   // Keep the process alive indefinitely

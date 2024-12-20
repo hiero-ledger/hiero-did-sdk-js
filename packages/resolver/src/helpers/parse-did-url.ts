@@ -53,7 +53,7 @@ interface Output {
  */
 export function parseDIDUrl(didUrl: string): Output {
   const didPattern =
-    /^did:([a-zA-Z0-9]+):([a-zA-Z0-9]+):([a-zA-Z0-9]+)_([0-9]+\.[0-9]+\.[0-9]+)(\/[^?#]*)?(\?[^#]*)?(#.*)?$/;
+    /^did:([a-zA-Z0-9]+):([a-zA-Z0-9-]+):([a-zA-Z0-9]+)_([0-9]+\.[0-9]+\.[0-9]+)(\/[^?#]*)?(\?[^#]*)?(#.*)?$/;
 
   const match = didUrl.match(didPattern);
   if (!match) {

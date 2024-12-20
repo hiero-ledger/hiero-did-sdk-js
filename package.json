@@ -4,7 +4,7 @@
   "scripts": {
     "docs:build": "antora antora-playbook.yml",
     "docs:serve": "npx http-server ./build/site",
-    "test:cucumber": "TS_NODE_PROJECT=tsconfig.cucumber.json cucumber-js --config cucumber.mjs --exit",
+    "test:cucumber": "TS_NODE_PROJECT=./test_suites/tsconfig.json cucumber-js --config test_suites/cucumber.mjs --tags ${CUCUMBER_TAGS:-'not @ignore'} --exit ${CUCUMBER_SCENARIO:-''}",
     "packages:build": "lerna run build",
     "packages:test": "jest",
     "packages:test:ci": "npm run packages:test -- --ci --coverage --testLocationInResults --json --outputFile=coverage/report.json",
@@ -18,13 +18,14 @@
     "packages:release:prerelease": "lerna version prerelease --no-push --yes",
     "packages:publish": "lerna publish from-package --yes",
     "examples:run": "tsx --env-file examples/.env",
-    "hedera:start": "ts-node ./test_suites/hederaLocalNode.ts",
+    "hedera:start": "tsx --tsconfig test_suites/tsconfig.json ./test_suites/hederaLocalNode.ts",
     "prepublishOnly": "npm run packages:build"
   },
   "devDependencies": {
     "@antora/cli": "^3.1.9",
     "@antora/site-generator-default": "^3.1.9",
-    "@cucumber/cucumber": "^11.0.1",
+    "@cucumber/cucumber": "^11.1.0",
+    "@cucumber/pretty-formatter": "^1.0.1",
     "@eslint/js": "^9.13.0",
     "@sntke/antora-mermaid-extension": "^0.0.6",
     "@types/eslint__js": "^8.42.3",

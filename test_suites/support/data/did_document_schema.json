@@ -36,7 +36,7 @@
                         "type": "string",
                         "pattern": "^did:hedera:(mainnet|testnet|local-node):[0-9A-Za-z]+_\\d+\\.\\d+\\.\\d+$"
                     },
-                    "publicKeyBase58": {
+                    "publicKeyMulitbase": {
                         "type": "string",
                         "pattern": "^[0-9A-Za-z]+$"
                     }

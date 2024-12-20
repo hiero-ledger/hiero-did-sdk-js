@@ -9,27 +9,35 @@ const CONFIG_PATH = path.join(__dirname, '../config/hedera/local-node');
 setDefaultTimeout(15 * 60 * 1000);
 
 BeforeAll(async () => {
-  await deleteDirectories([
-    `${CONFIG_PATH}/network_logs/accountBalances`,
-    `${CONFIG_PATH}/network_logs/recordStreams`
-  ]);
+  const spinNode = process.env.SPIN_NODE || false;
 
-  await startContainers(CONFIG_PATH);
+  if (spinNode) {
+    await deleteDirectories([
+      `${CONFIG_PATH}/network_logs/accountBalances`,
+      `${CONFIG_PATH}/network_logs/recordStreams`
+    ]);
+
+    await startContainers(CONFIG_PATH);
+  }
 });
 
 AfterAll(async () => {
-  await stopContainers();
+  const spinNode = process.env.SPIN_NODE || false;
 
-  await deleteDirectories([
-    `${CONFIG_PATH}/network_logs/accountBalances`,
-    `${CONFIG_PATH}/network_logs/recordStreams`
-  ]);
+  if (spinNode) {
+    await stopContainers();
+
+    await deleteDirectories([
+      `${CONFIG_PATH}/network_logs/accountBalances`,
+      `${CONFIG_PATH}/network_logs/recordStreams`
+    ]);
+  }
 });
 
-Before(async function (this: DIDWorld) { 
-  this.sharedData = {} 
+Before(async function (this: DIDWorld) {
+  this.sharedData = {}
 });
 
 After(async function (scenario) {
-  this.sharedData = {} 
+  this.sharedData = {}
 });

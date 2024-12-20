@@ -1,7 +1,7 @@
 import { Network } from '../interfaces';
 
 // Constants
-const VALID_NETWORKS: Network[] = ['mainnet', 'testnet'];
+const VALID_NETWORKS: Network[] = ['mainnet', 'testnet', 'local-node'];
 
 const BASE58_CHARS =
   '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';

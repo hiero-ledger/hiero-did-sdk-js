@@ -11,6 +11,7 @@ import { Providers } from '../interfaces';
 import { extractOptions, extractProviders } from './utils';
 import { getPublisher } from '../shared/get-publisher';
 import { getSigner } from '../shared/get-signer';
+import { KeysUtility } from '@swiss-digital-assets-institute/core';
 
 /**
  * Create a new DID on the Hedera network.
@@ -77,7 +78,7 @@ export async function createDID(
           id: `${didOwnerMessage.did}#did-root-key`,
           type: 'Ed25519VerificationKey2020',
           controller: didOwnerMessage.controllerDid,
-          publicKeyMultibase: publicKey,
+          publicKeyMultibase: KeysUtility.fromDerString(publicKey).toMultibase(),
         },
       ],
     },
