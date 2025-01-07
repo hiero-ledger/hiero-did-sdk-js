@@ -1,3 +1,4 @@
+import { CborCodec } from '../../core/src';
 import { resolveDID } from '../src';
 import { getAddVerificationMethodMessage, getDIDOwnerMessage } from './helpers';
 
@@ -19,6 +20,8 @@ jest.mock('../src/topic-reader.ts', () => {
 describe('DID Resolver', () => {
   let messages: string[] = [];
   let did: string;
+  let didOwnerPublicKey: string;
+  let vmPublicKey: string;
 
   beforeEach(async () => {
     const didOwnerMessage = await getDIDOwnerMessage();
@@ -30,6 +33,9 @@ describe('DID Resolver', () => {
     });
 
     did = didOwnerMessage.did;
+
+    didOwnerPublicKey = didOwnerMessage.publicKeyMultibase;
+    vmPublicKey = verificationMethod.publicKeyMultibase;
 
     messages = [didOwnerMessage.message, verificationMethod.message];
   });
@@ -49,13 +55,13 @@ describe('DID Resolver', () => {
           id: `${did}#did-root-key`,
           type: 'Ed25519VerificationKey2020',
           controller: did,
-          publicKeyMultibase: expect.any(String),
+          publicKeyMultibase: didOwnerPublicKey,
         },
         {
           id: `${did}#key-1`,
           type: 'Ed25519VerificationKey2020',
           controller: did,
-          publicKeyMultibase: expect.any(String),
+          publicKeyMultibase: vmPublicKey,
         },
       ],
     });
@@ -75,13 +81,13 @@ describe('DID Resolver', () => {
           id: `${did}#did-root-key`,
           type: 'Ed25519VerificationKey2020',
           controller: did,
-          publicKeyMultibase: expect.any(String),
+          publicKeyMultibase: didOwnerPublicKey,
         },
         {
           id: `${did}#key-1`,
           type: 'Ed25519VerificationKey2020',
           controller: did,
-          publicKeyMultibase: expect.any(String),
+          publicKeyMultibase: vmPublicKey,
         },
       ],
     });
@@ -115,17 +121,45 @@ describe('DID Resolver', () => {
             id: `${did}#did-root-key`,
             type: 'Ed25519VerificationKey2020',
             controller: did,
-            publicKeyMultibase: expect.any(String),
+            publicKeyMultibase: didOwnerPublicKey,
           },
           {
             id: `${did}#key-1`,
             type: 'Ed25519VerificationKey2020',
             controller: did,
-            publicKeyMultibase: expect.any(String),
+            publicKeyMultibase: vmPublicKey,
           },
         ],
       },
     });
+  });
+
+  it('should resolve a did document to CBOR format', async () => {
+    messagesMock.mockReturnValue(messages);
+
+    const didDocument = await resolveDID(did, 'application/did+cbor');
+
+    expect(didDocument).toBeDefined();
+    expect(didDocument).toStrictEqual(
+      CborCodec.encode({
+        id: did,
+        controller: did,
+        verificationMethod: [
+          {
+            id: `${did}#did-root-key`,
+            controller: did,
+            type: 'Ed25519VerificationKey2020',
+            publicKeyMultibase: didOwnerPublicKey,
+          },
+          {
+            id: `${did}#key-1`,
+            type: 'Ed25519VerificationKey2020',
+            controller: did,
+            publicKeyMultibase: vmPublicKey,
+          },
+        ],
+      }),
+    );
   });
 
   it('should throw an error for invalid accept option', async () => {

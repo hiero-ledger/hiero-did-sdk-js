@@ -7,6 +7,7 @@ import {
   Service,
   ServiceEndpoint,
   VerificationMethod,
+  CborCodec,
 } from '@swiss-digital-assets-institute/core';
 
 export class DIDDereferenceBuilder {
@@ -80,6 +81,10 @@ export class DIDDereferenceBuilder {
       dereferencingMetadata: this.didResolution.didDocumentMetadata,
       contentMetadata: this.didResolution.didResolutionMetadata,
     };
+  }
+
+  toCbor(): Uint8Array {
+    return CborCodec.encode(this.toJson());
   }
 
   /**

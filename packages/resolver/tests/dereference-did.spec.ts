@@ -1,3 +1,4 @@
+import { CborCodec } from '@swiss-digital-assets-institute/core';
 import { resolveDID } from '../src';
 import { dereferenceDID } from '../src/dereference-did';
 import { DID_RESOLUTION, VALID_DID } from './helpers';
@@ -69,6 +70,19 @@ describe('DID Dereference', () => {
       ...DID_RESOLUTION.didDocument.service[1],
       '@context': DID_RESOLUTION.didDocument['@context'],
     });
+  });
+
+  it('should return dereferenced service in CBOR format', async () => {
+    didDocumentMock.mockReturnValue(DID_RESOLUTION);
+
+    const result = await dereferenceDID(
+      `${VALID_DID}#srv-2`,
+      'application/did+cbor',
+    );
+
+    expect(result).toEqual(
+      CborCodec.encode(DID_RESOLUTION.didDocument.service[1]),
+    );
   });
 
   it('should throw an error if the accept header is not supported', async () => {

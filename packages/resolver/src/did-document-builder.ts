@@ -10,6 +10,7 @@ import {
   DIDResolutionMetadata,
   DIDDocumentMetadata,
   isHederaDID,
+  CborCodec,
 } from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
 import {
@@ -208,7 +209,7 @@ export class DidDocumentBuilder {
   }
 
   toDidDocumentCbor(): Uint8Array {
-    throw new Error('Method not implemented.');
+    return CborCodec.encode(this.toDidDocument());
   }
 
   private parseTopicMessage(topicMessage: string): TopicDIDContent | undefined {

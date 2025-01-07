@@ -18,7 +18,8 @@ export type DereferenceDIDResult =
   | ServiceEndpoint
   | JsonLdVerificationMethod
   | JsonLdService
-  | DIDDereferenceResolution;
+  | DIDDereferenceResolution
+  | Uint8Array;
 
 /**
  * Dereference a DID URL into a resource depending on the DID URL.
@@ -43,6 +44,11 @@ export async function dereferenceDID(
   accept: 'application/ld+json;profile="https://w3id.org/did-resolution"',
   options?: DereferenceDIDOptions,
 ): Promise<DIDDereferenceResolution>;
+export async function dereferenceDID(
+  didUrl: string,
+  accept: 'application/did+cbor',
+  options?: DereferenceDIDOptions,
+): Promise<Uint8Array>;
 export async function dereferenceDID(
   didUrl: string,
   accept: Accept = 'application/did+ld+json',
@@ -73,6 +79,8 @@ export async function dereferenceDID(
       return didDereferenceBuilder.toJsonLd();
     case 'application/ld+json;profile="https://w3id.org/did-resolution"':
       return didDereferenceBuilder.toResolution();
+    case 'application/did+cbor':
+      return didDereferenceBuilder.toCbor();
     default:
       throw new Error('Unsupported `accept` value');
   }

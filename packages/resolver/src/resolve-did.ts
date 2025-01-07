@@ -34,9 +34,14 @@ export async function resolveDID(
 ): Promise<DIDResolution>;
 export async function resolveDID(
   did: string,
+  accept: 'application/did+cbor',
+  options?: ResolveDIDOptions,
+): Promise<Uint8Array>;
+export async function resolveDID(
+  did: string,
   accept: Accept = 'application/did+ld+json',
   options: ResolveDIDOptions = {},
-): Promise<DIDDocument | JsonLdDIDDocument | DIDResolution> {
+): Promise<DIDDocument | JsonLdDIDDocument | DIDResolution | Uint8Array> {
   if (!isHederaDID(did)) {
     throw new Error('Unsupported DID method or invalid DID');
   }
@@ -57,6 +62,8 @@ export async function resolveDID(
       return didDocumentBuilder.toJsonLdDIDDocument();
     case 'application/ld+json;profile="https://w3id.org/did-resolution"':
       return didDocumentBuilder.toResolution();
+    case 'application/did+cbor':
+      return didDocumentBuilder.toDidDocumentCbor();
     default:
       throw new Error('Unsupported `accept` value');
   }
