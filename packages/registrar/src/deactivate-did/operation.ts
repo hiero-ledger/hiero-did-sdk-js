@@ -1,4 +1,7 @@
-import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
+import {
+  LifecycleRunner,
+  LifecycleRunnerOptions,
+} from '@swiss-digital-assets-institute/lifecycle';
 import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import {
   DIDDeactivateMessage,
@@ -8,6 +11,7 @@ import { DeactivateDIDOptions, DeactivateDIDResult } from './interface';
 import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';
 import { getSigner } from '../shared/get-signer';
+import { MessageAwaiter } from '../shared/message-awaiter';
 
 /**
  * Deactivate a DID on the Hedera network
@@ -32,11 +36,22 @@ export async function deactivateDID(
   const manager = new LifecycleRunner(
     DIDDeactivateMessageHederaDefaultLifeCycle,
   );
-
-  const state = await manager.process(didDeactivateMessage, {
+  const runnerOptions: LifecycleRunnerOptions = {
     signer,
     publisher,
-  });
+  };
+
+  const firstState = await manager.process(didDeactivateMessage, runnerOptions);
+
+  // Set up a message awaiter to wait for the message to be available in the topic
+  const messageAwaiter = new MessageAwaiter(
+    didDeactivateMessage.topicId,
+    publisher.network(),
+  )
+    .forMessages([didDeactivateMessage.payload])
+    .setStartsAt(new Date());
+
+  const secondState = await manager.resume(firstState, runnerOptions);
 
   if (
     operationProviders.client instanceof Object &&
@@ -45,11 +60,12 @@ export async function deactivateDID(
     publisher.client.close();
   }
 
-  if (state.status !== 'success') {
+  if (secondState.status !== 'success') {
     throw new Error('DID deactivation failed');
   }
 
-  // TODO: return proper DID document
+  await messageAwaiter.wait();
+
   return {
     did: didDeactivateMessage.did,
     didDocument: {

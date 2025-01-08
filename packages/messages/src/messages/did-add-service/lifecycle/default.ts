@@ -6,6 +6,7 @@ import { DIDAddServiceMessage } from '../message';
 export const DIDAddServiceMessageHederaDefaultLifeCycle =
   new LifecycleBuilder<DIDAddServiceMessage>()
     .signWithSigner()
+    .pause()
     .callback(async (message: DIDAddServiceMessage, publisher: Publisher) => {
       await publisher.publish(
         new TopicMessageSubmitTransaction()

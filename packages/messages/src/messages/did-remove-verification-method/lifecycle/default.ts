@@ -6,6 +6,7 @@ import { DIDRemoveVerificationMethodMessage } from '../message';
 export const DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle =
   new LifecycleBuilder<DIDRemoveVerificationMethodMessage>()
     .signWithSigner()
+    .pause()
     .callback(
       async (
         message: DIDRemoveVerificationMethodMessage,

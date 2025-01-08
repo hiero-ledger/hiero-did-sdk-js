@@ -89,6 +89,8 @@ export type DIDUpdateOperation =
   | RemoveServiceOperation
   | RemoveVerificationMethodOperation;
 
+export type DIDUpdateOperationsKeys = DIDUpdateOperation['operation'];
+
 export interface UpdateDIDOptions {
   /**
    * The DID to update

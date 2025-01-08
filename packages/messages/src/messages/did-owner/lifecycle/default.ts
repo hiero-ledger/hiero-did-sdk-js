@@ -31,6 +31,7 @@ export const DIDOwnerMessageHederaDefaultLifeCycle =
       message.setTopicId(topicId);
     })
     .signWithSigner()
+    .pause()
     .callback(async (message: DIDOwnerMessage, publisher: Publisher) => {
       await publisher.publish(
         new TopicMessageSubmitTransaction()

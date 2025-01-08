@@ -1,26 +1,22 @@
-import {
-  DIDDocument,
-  Publisher,
-  Signer,
-} from '@swiss-digital-assets-institute/core';
-import {
-  LifecycleRunner,
-  RunnerState,
-} from '@swiss-digital-assets-institute/lifecycle';
+import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
 import {
   DIDAddVerificationMethodMessage,
   DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
-import { AddVerificationMethodOperation, UpdateDIDOptions } from '../interface';
+import { AddVerificationMethodOperation } from '../interface';
 import { haveId } from '../helpers/have-id';
+import { ExecuteFunction, PrepareFunction } from './interfaces';
 
-export async function addVerificationMethod(
-  options: AddVerificationMethodOperation,
-  operationOptions: UpdateDIDOptions,
-  signer: Signer,
-  publisher: Publisher,
-  currentDidDocument: DIDDocument,
-): Promise<RunnerState<DIDAddVerificationMethodMessage>> {
+export const prepare: PrepareFunction<
+  DIDAddVerificationMethodMessage,
+  AddVerificationMethodOperation
+> = async (
+  options,
+  operationOptions,
+  currentDidDocument,
+  signer,
+  publisher,
+) => {
   if (haveId(options.id, currentDidDocument)) {
     throw new Error('Verification method id already exists');
   }
@@ -29,7 +25,7 @@ export async function addVerificationMethod(
     DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
   );
 
-  const didUpdateMessage = new DIDAddVerificationMethodMessage({
+  const message = new DIDAddVerificationMethodMessage({
     did: operationOptions.did,
     controller: options.controller ?? operationOptions.did,
     id: options.id,
@@ -37,10 +33,27 @@ export async function addVerificationMethod(
     property: options.property,
   });
 
-  const state = await manager.process(didUpdateMessage, {
+  const state = await manager.process(message, {
     signer,
     publisher,
   });
 
   return state;
-}
+};
+
+export const execute: ExecuteFunction<DIDAddVerificationMethodMessage> = async (
+  previousState,
+  signer,
+  publisher,
+) => {
+  const manager = new LifecycleRunner(
+    DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
+  );
+
+  const state = await manager.resume(previousState, {
+    signer,
+    publisher,
+  });
+
+  return state;
+};

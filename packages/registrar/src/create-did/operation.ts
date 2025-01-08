@@ -2,16 +2,20 @@ import {
   DIDOwnerMessage,
   DIDOwnerMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
-import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
+import {
+  LifecycleRunner,
+  LifecycleRunnerOptions,
+} from '@swiss-digital-assets-institute/lifecycle';
 import { Signer } from '@swiss-digital-assets-institute/signer-internal';
 import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { KeysUtility } from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
-import { CreateDIDOptions, CreateDIDResult } from './interface';
 import { Providers } from '../interfaces';
-import { extractOptions, extractProviders } from './utils';
 import { getPublisher } from '../shared/get-publisher';
 import { getSigner } from '../shared/get-signer';
-import { KeysUtility } from '@swiss-digital-assets-institute/core';
+import { MessageAwaiter } from '../shared/message-awaiter';
+import { extractOptions, extractProviders } from './utils';
+import { CreateDIDOptions, CreateDIDResult } from './interface';
 
 /**
  * Create a new DID on the Hedera network.
@@ -53,8 +57,28 @@ export async function createDID(
   });
 
   const manager = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
+  const runnerOptions: LifecycleRunnerOptions = {
+    signer,
+    publisher,
+  };
 
-  const state = await manager.process(didOwnerMessage, { signer, publisher });
+  // Start processing the lifecycle
+  const firstState = await manager.process(didOwnerMessage, runnerOptions);
+
+  if (firstState.status !== 'pause') {
+    throw new Error('Should not be thrown');
+  }
+
+  // Set up a message awaiter to wait for the message to be available in the topic
+  const messageAwaiter = new MessageAwaiter(
+    didOwnerMessage.topicId,
+    publisher.network(),
+  )
+    .forMessages([didOwnerMessage.payload])
+    .setStartsAt(new Date());
+
+  // Resume the lifecycle
+  const secondState = await manager.resume(firstState, runnerOptions);
 
   if (
     operationProviders.clientOptions instanceof Object &&
@@ -63,9 +87,12 @@ export async function createDID(
     publisher.client.close();
   }
 
-  if (state.status !== 'success') {
+  if (secondState.status !== 'success') {
     throw new Error('DID creation failed');
   }
+
+  // Wait for the message to be available in the topic
+  await messageAwaiter.wait();
 
   return {
     did: didOwnerMessage.did,
@@ -78,7 +105,8 @@ export async function createDID(
           id: `${didOwnerMessage.did}#did-root-key`,
           type: 'Ed25519VerificationKey2020',
           controller: didOwnerMessage.controllerDid,
-          publicKeyMultibase: KeysUtility.fromDerString(publicKey).toMultibase(),
+          publicKeyMultibase:
+            KeysUtility.fromDerString(publicKey).toMultibase(),
         },
       ],
     },

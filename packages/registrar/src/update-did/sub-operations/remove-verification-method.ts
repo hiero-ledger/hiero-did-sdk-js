@@ -1,37 +1,44 @@
-import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
-import {
-  LifecycleRunner,
-  RunnerState,
-} from '@swiss-digital-assets-institute/lifecycle';
+import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
 import {
   DIDRemoveVerificationMethodMessage,
   DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
-import {
-  RemoveVerificationMethodOperation,
-  UpdateDIDOptions,
-} from '../interface';
+import { RemoveVerificationMethodOperation } from '../interface';
+import { ExecuteFunction, PrepareFunction } from './interfaces';
 
-export async function removeVerificationMethod(
-  options: RemoveVerificationMethodOperation,
-  operationOptions: UpdateDIDOptions,
-  signer: Signer,
-  publisher: Publisher,
-): Promise<RunnerState<DIDRemoveVerificationMethodMessage>> {
+export const prepare: PrepareFunction<
+  DIDRemoveVerificationMethodMessage,
+  RemoveVerificationMethodOperation
+> = async (options, operationOptions, _, signer, publisher) => {
   const manager = new LifecycleRunner(
     DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
   );
 
-  const didUpdateMessage = new DIDRemoveVerificationMethodMessage({
+  const message = new DIDRemoveVerificationMethodMessage({
     did: operationOptions.did,
     id: options.id,
     property: options.property,
   });
 
-  const state = await manager.process(didUpdateMessage, {
+  const state = await manager.process(message, {
     signer,
     publisher,
   });
 
   return state;
-}
+};
+
+export const execute: ExecuteFunction<
+  DIDRemoveVerificationMethodMessage
+> = async (previousState, signer, publisher) => {
+  const manager = new LifecycleRunner(
+    DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
+  );
+
+  const state = await manager.resume(previousState, {
+    signer,
+    publisher,
+  });
+
+  return state;
+};

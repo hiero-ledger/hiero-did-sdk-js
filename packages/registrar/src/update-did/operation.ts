@@ -4,7 +4,8 @@ import { UpdateDIDOptions, UpdateDIDResult } from './interface';
 import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';
 import { getSigner } from '../shared/get-signer';
-import { callOperation } from './sub-operations';
+import { MessageAwaiter } from '../shared/message-awaiter';
+import { prepareOperation, executeOperation } from './sub-operations';
 
 /**
  * Update a DID on the Hedera network.
@@ -37,14 +38,47 @@ export async function updateDID(
     'application/did+json',
   );
 
-  for (const update of updates) {
-    await callOperation(
-      update,
-      operationOptions,
-      signer,
-      publisher,
-      currentDidDocument,
-    );
+  if (updates.length === 0) {
+    return {
+      did: operationOptions.did,
+      didDocument: currentDidDocument,
+    };
+  }
+
+  // Prepare updates for execution
+  const preparedStateMessages = await Promise.all(
+    updates.map(async (update) => {
+      const preparedMessage = await prepareOperation(
+        update,
+        operationOptions,
+        currentDidDocument,
+        signer,
+        publisher,
+      );
+
+      return {
+        state: preparedMessage,
+        operation: update.operation,
+      };
+    }),
+  );
+
+  // Set up a message awaiter to wait for the message to be available in the topic
+  const messagesToWaitFor = preparedStateMessages.map(
+    ({ state }) => state.message.payload,
+  );
+
+  const messageAwaiter = new MessageAwaiter(
+    preparedStateMessages[0].state.message.topicId,
+    publisher.network(),
+  )
+    .forMessages(messagesToWaitFor)
+    .setStartsAt(new Date());
+
+  // Execute updates
+  for (const { state, operation } of preparedStateMessages) {
+    // TODO: Handle individual operation failures
+    await executeOperation(operation, state, signer, publisher);
   }
 
   if (
@@ -53,6 +87,9 @@ export async function updateDID(
   ) {
     publisher.client.close();
   }
+
+  // Wait for the messages to be available in the topic before resolving the updated DID document
+  await messageAwaiter.wait();
 
   const updatedDidDocument = await resolveDID(
     operationOptions.did,

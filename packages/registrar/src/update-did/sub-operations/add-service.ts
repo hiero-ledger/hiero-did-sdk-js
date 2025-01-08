@@ -1,23 +1,22 @@
-import {
-  DIDDocument,
-  Publisher,
-  Signer,
-} from '@swiss-digital-assets-institute/core';
 import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
 import {
   DIDAddServiceMessage,
   DIDAddServiceMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
-import { AddServiceOperation, UpdateDIDOptions } from '../interface';
+import { AddServiceOperation } from '../interface';
 import { haveId } from '../helpers/have-id';
+import { ExecuteFunction, PrepareFunction } from './interfaces';
 
-export async function addService(
-  options: AddServiceOperation,
-  operationOptions: UpdateDIDOptions,
-  signer: Signer,
-  publisher: Publisher,
-  currentDidDocument: DIDDocument,
-) {
+export const prepare: PrepareFunction<
+  DIDAddServiceMessage,
+  AddServiceOperation
+> = async (
+  options,
+  operationOptions,
+  currentDidDocument,
+  signer,
+  publisher,
+) => {
   if (haveId(options.id, currentDidDocument)) {
     throw new Error('Service id already exists');
   }
@@ -26,17 +25,34 @@ export async function addService(
     DIDAddServiceMessageHederaDefaultLifeCycle,
   );
 
-  const didUpdateMessage = new DIDAddServiceMessage({
+  const message = new DIDAddServiceMessage({
     did: operationOptions.did,
     id: options.id,
     type: options.type,
     serviceEndpoint: options.serviceEndpoint,
   });
 
-  const state = await manager.process(didUpdateMessage, {
+  const state = await manager.process(message, {
     signer,
     publisher,
   });
 
   return state;
-}
+};
+
+export const execute: ExecuteFunction<DIDAddServiceMessage> = async (
+  previousState,
+  signer,
+  publisher,
+) => {
+  const manager = new LifecycleRunner(
+    DIDAddServiceMessageHederaDefaultLifeCycle,
+  );
+
+  const state = await manager.resume(previousState, {
+    signer,
+    publisher,
+  });
+
+  return state;
+};
