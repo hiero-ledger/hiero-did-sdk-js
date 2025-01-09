@@ -1,4 +1,10 @@
-import { TopicMessageSubmitTransactionMock } from './mocks';
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import {
+  TopicMessageSubmitTransactionMock,
+  MessageAwaiterForMessagesMock,
+  MessageAwaiterConstructorMock,
+} from './mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
 import { updateDID, UpdateDIDResult } from '../src';
@@ -259,7 +265,7 @@ describe('Update DID operation', () => {
     it('should apply update operations in order', async () => {
       const updateOperationsMock = jest.spyOn(
         UpdateSubOperations,
-        'callOperation',
+        'prepareOperation',
       );
 
       const firstOperation = {
@@ -294,10 +300,48 @@ describe('Update DID operation', () => {
       );
     });
 
+    it('should execute update operations in order', async () => {
+      const updateOperationsMock = jest.spyOn(
+        UpdateSubOperations,
+        'executeOperation',
+      );
+
+      const firstOperation = {
+        operation: 'add-verification-method',
+        id: '#test',
+        property: 'verificationMethod',
+        publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+      } as const;
+
+      const secondOperation = {
+        operation: 'add-service',
+        id: '#test',
+        type: 'ServiceType',
+        serviceEndpoint: 'http://example.com',
+      } as const;
+      const result = await updateDID(
+        {
+          did: VALID_DID,
+          updates: [firstOperation, secondOperation],
+        },
+        { signer, publisher },
+      );
+
+      expect(result).toBeDefined();
+      expect(updateOperationsMock).toHaveBeenCalledTimes(2);
+
+      expect(updateOperationsMock.mock.calls[0][0]).toBe(
+        firstOperation.operation,
+      );
+      expect(updateOperationsMock.mock.calls[1][0]).toBe(
+        secondOperation.operation,
+      );
+    });
+
     it('should execute all update operations', async () => {
       const updateOperationsMock = jest.spyOn(
         UpdateSubOperations,
-        'callOperation',
+        'executeOperation',
       );
 
       const result = await updateDID(
@@ -417,5 +461,75 @@ describe('Update DID operation', () => {
       expect(result.didDocument).toBeDefined();
       expect(result.didDocument).toBe(didDocument);
     });
+  });
+
+  it('should set message awaiter with proper topic id and network', async () => {
+    const publisher = new TestPublisher(jest.fn().mockReturnValue('testnet'));
+    const signer = new TestSigner();
+    signer.signMock.mockResolvedValue('test-signature');
+
+    await updateDID(
+      {
+        did: VALID_DID,
+        updates: {
+          operation: 'remove-verification-method',
+          id: '#test',
+          property: 'verificationMethod',
+        },
+      },
+      { signer, publisher },
+    );
+
+    expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
+      VALID_DID_TOPIC_ID,
+      'testnet',
+    ]);
+  });
+
+  it('should set message awaiter for a created messages', async () => {
+    const publisher = new TestPublisher();
+    const signer = new TestSigner();
+    signer.signMock.mockResolvedValue('test-signature');
+
+    await updateDID(
+      {
+        did: VALID_DID,
+        updates: [
+          {
+            operation: 'remove-verification-method',
+            id: '#test',
+            property: 'verificationMethod',
+          },
+          {
+            operation: 'remove-service',
+            id: '#test',
+          },
+          {
+            operation: 'add-service',
+            id: '#test',
+            serviceEndpoint: 'http://example.com',
+            type: 'ServiceType',
+          },
+          {
+            operation: 'add-verification-method',
+            id: '#test',
+            property: 'verificationMethod',
+            publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          },
+        ],
+      },
+      { signer, publisher },
+    );
+
+    expect(
+      TopicMessageSubmitTransactionMockImplementation.setMessage.mock.calls,
+    ).toHaveLength(4);
+
+    const messages =
+      TopicMessageSubmitTransactionMockImplementation.setMessage.mock.calls.map(
+        (call) => call[0],
+      );
+
+    expect(MessageAwaiterForMessagesMock).toHaveBeenCalledWith(messages);
   });
 });

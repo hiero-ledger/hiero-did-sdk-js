@@ -3,6 +3,9 @@ import {
   Publisher,
   Signer,
 } from '@swiss-digital-assets-institute/core';
+import { RunnerState } from '@swiss-digital-assets-institute/lifecycle';
+import { DIDMessage } from '@swiss-digital-assets-institute/core';
+
 import {
   DIDUpdateOperation,
   DIDUpdateOperationsKeys,
@@ -12,9 +15,7 @@ import * as AddVerificationMethod from './add-verification-method';
 import * as RemoveVerificationMethod from './remove-verification-method';
 import * as AddService from './add-service';
 import * as RemoveService from './remove-service';
-import { DIDMessage } from '@swiss-digital-assets-institute/core';
 import { ExecuteFunction, PrepareFunction } from './interfaces';
-import { RunnerState } from '@swiss-digital-assets-institute/lifecycle';
 
 interface OperationMapValue {
   execute: ExecuteFunction;

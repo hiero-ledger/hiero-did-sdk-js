@@ -1,4 +1,9 @@
-import { TopicMessageSubmitTransactionMock } from './mocks';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import {
+  TopicMessageSubmitTransactionMock,
+  MessageAwaiterForMessagesMock,
+  MessageAwaiterConstructorMock,
+} from './mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
 import { deactivateDID, DeactivateDIDResult } from '../src';
@@ -112,6 +117,41 @@ describe('Deactivate DID operation', () => {
     );
 
     expect(signSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set message awaiter with proper topic id and network', async () => {
+    const publisher = new TestPublisher(jest.fn().mockReturnValue('testnet'));
+
+    result = await deactivateDID(
+      { did: VALID_DID },
+      {
+        signer: defaultSigner,
+        publisher,
+      },
+    );
+
+    expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
+      VALID_DID_TOPIC_ID,
+      'testnet',
+    ]);
+  });
+
+  it('should set message awaiter for a created message', async () => {
+    const publisher = new TestPublisher();
+
+    result = await deactivateDID(
+      { did: VALID_DID },
+      {
+        signer: defaultSigner,
+        publisher,
+      },
+    );
+
+    const message =
+      TopicMessageSubmitTransactionMockImplementation.setMessage.mock
+        .calls[0][0];
+
+    expect(MessageAwaiterForMessagesMock).toHaveBeenCalledWith([message]);
   });
 
   afterEach(() => {

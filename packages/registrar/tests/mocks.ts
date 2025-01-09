@@ -27,3 +27,18 @@ jest.mock('@hashgraph/sdk', () => {
     ),
   };
 });
+
+export const MessageAwaiterForMessagesMock = jest.fn().mockReturnThis();
+export const MessageAwaiterConstructorMock = jest.fn();
+jest.mock('../src/shared/message-awaiter.ts', () => {
+  return {
+    MessageAwaiter: jest.fn().mockImplementation((...args) => {
+      MessageAwaiterConstructorMock(args);
+      return {
+        forMessages: MessageAwaiterForMessagesMock,
+        setStartsAt: jest.fn().mockReturnThis(),
+        wait: jest.fn().mockResolvedValue(void 0),
+      };
+    }),
+  };
+});

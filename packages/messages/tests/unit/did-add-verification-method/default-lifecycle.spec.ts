@@ -60,10 +60,34 @@ describe('Default DIDAddVerificationMethodMessage Lifecycle', () => {
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
-    it('should publish the message to the topic', () => {
-      expect(publishMock).toHaveBeenCalledWith(
-        expect.any(TopicMessageSubmitTransaction),
-      );
+    it('should have a paused state', () => {
+      expect(result.status).toBe('pause');
+    });
+
+    describe('when resuming the lifecycle', () => {
+      beforeEach(async () => {
+        const runner = new LifecycleRunner(
+          DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
+        );
+        result = await runner.resume(result, {
+          signer: {
+            publicKey: jest.fn(),
+            sign: signMock,
+            verify: jest.fn(),
+          },
+          publisher: {
+            network: jest.fn(),
+            publicKey: jest.fn(),
+            publish: publishMock,
+          },
+        });
+      });
+
+      it('should publish the message to the topic', () => {
+        expect(publishMock).toHaveBeenCalledWith(
+          expect.any(TopicMessageSubmitTransaction),
+        );
+      });
     });
 
     afterEach(() => {

@@ -1,4 +1,8 @@
-import { LifecycleRunner, RunnerState } from '@swiss-digital-assets-institute/lifecycle';
+import {
+  LifecycleRunner,
+  LifecycleRunnerOptions,
+  RunnerState,
+} from '@swiss-digital-assets-institute/lifecycle';
 import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDOwnerMessage,
@@ -55,10 +59,34 @@ describe('Default DID Owner Lifecycle', () => {
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
-    it('should publish the message to the topic', () => {
-      expect(publishMock).toHaveBeenCalledWith(
-        expect.any(TopicMessageSubmitTransaction),
-      );
+    it('should have a paused state', () => {
+      expect(result.status).toBe('pause');
+    });
+
+    describe('when resuming the lifecycle', () => {
+      beforeEach(async () => {
+        const runner = new LifecycleRunner(
+          DIDOwnerMessageHederaDefaultLifeCycle,
+        );
+        result = await runner.resume(result, {
+          signer: {
+            publicKey: jest.fn(),
+            sign: signMock,
+            verify: jest.fn(),
+          },
+          publisher: {
+            network: jest.fn(),
+            publicKey: jest.fn(),
+            publish: publishMock,
+          },
+        });
+      });
+
+      it('should publish the message to the topic', () => {
+        expect(publishMock).toHaveBeenCalledWith(
+          expect.any(TopicMessageSubmitTransaction),
+        );
+      });
     });
 
     afterEach(() => {
@@ -99,7 +127,7 @@ describe('Default DID Owner Lifecycle', () => {
     const publishMock = jest.fn();
 
     const runner = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
-    await runner.process(message, {
+    const runnerOptions: LifecycleRunnerOptions = {
       signer: {
         publicKey: () => privateKey.publicKey.toStringDer(),
         sign: jest.fn().mockResolvedValue(SIGNATURE),
@@ -110,7 +138,9 @@ describe('Default DID Owner Lifecycle', () => {
         publicKey: () => privateKey.publicKey,
         publish: publishMock,
       },
-    });
+    };
+    const state = await runner.process(message, runnerOptions);
+    await runner.resume(state, runnerOptions);
 
     expect(publishMock).toHaveBeenCalledTimes(1);
   });

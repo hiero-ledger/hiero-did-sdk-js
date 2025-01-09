@@ -44,7 +44,7 @@ export class MessageAwaiter {
    * @param ms The timeout in milliseconds.
    * @returns This instance.
    */
-  setTimeout(ms: number): this {
+  withTimeout(ms: number): this {
     if (ms <= 0) {
       throw new Error('Timeout must be greater than 0');
     }
@@ -70,6 +70,10 @@ export class MessageAwaiter {
    * @throws An error if the messages are not found before the timeout.
    */
   async wait(): Promise<void> {
+    if (this.messages.length === 0) {
+      throw new Error('No messages to wait for');
+    }
+
     this.clear();
 
     return new Promise<void>((resolve, reject) => {

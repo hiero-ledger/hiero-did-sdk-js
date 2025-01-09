@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   TopicCreateTransactionMock,
   TopicMessageSubmitTransactionMock,
+  MessageAwaiterForMessagesMock,
+  MessageAwaiterConstructorMock,
 } from './mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
@@ -197,5 +200,40 @@ describe('Create DID operation', () => {
 
       expect(result.did).toContain(CREATED_TOPIC_ID);
     });
+  });
+
+  it('should set message awaiter with proper topic id and network', async () => {
+    const clientPrivateKey = await PrivateKey.generateED25519Async();
+
+    await createDID({
+      clientOptions: {
+        network: 'testnet',
+        privateKey: clientPrivateKey,
+        accountId: '0.0.12345',
+      },
+    });
+
+    expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
+      CREATED_TOPIC_ID,
+      'testnet',
+    ]);
+  });
+
+  it('should set message awaiter for a created message', async () => {
+    const clientPrivateKey = await PrivateKey.generateED25519Async();
+
+    await createDID({
+      clientOptions: {
+        network: 'testnet',
+        privateKey: clientPrivateKey,
+        accountId: '0.0.12345',
+      },
+    });
+
+    const message =
+      TopicMessageSubmitTransactionMockImplementation.setMessage.mock
+        .calls[0][0];
+
+    expect(MessageAwaiterForMessagesMock).toHaveBeenCalledWith([message]);
   });
 });
