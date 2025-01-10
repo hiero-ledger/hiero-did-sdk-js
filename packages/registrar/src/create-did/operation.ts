@@ -75,7 +75,11 @@ export async function createDID(
     publisher.network(),
   )
     .forMessages([didOwnerMessage.payload])
-    .setStartsAt(new Date());
+    .setStartsAt(new Date())
+    .withWaitForTopic()
+    .withTimeout(
+      operationOptions.messageAwaitingTimeout ?? MessageAwaiter.DEFAULT_TIMEOUT,
+    );
 
   // Resume the lifecycle
   const secondState = await manager.resume(firstState, runnerOptions);
@@ -92,7 +96,9 @@ export async function createDID(
   }
 
   // Wait for the message to be available in the topic
-  await messageAwaiter.wait();
+  if (operationOptions.messageAwaiting ?? true) {
+    await messageAwaiter.wait();
+  }
 
   return {
     did: didOwnerMessage.did,

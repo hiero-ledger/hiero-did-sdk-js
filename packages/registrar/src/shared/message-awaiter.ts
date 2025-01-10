@@ -15,9 +15,10 @@ export class MessageAwaiter {
   private messages: string[] = [];
   private msTimeout: number;
   private startsAt: Date;
+  private waitForTopic: boolean = false;
   private subscriptionHandler: SubscriptionHandle | null;
 
-  private static DEFAULT_TIMEOUT = 2 * 60 * 1000; // 2 minutes
+  public static DEFAULT_TIMEOUT = 2 * 60 * 1000; // 2 minutes
 
   constructor(
     private readonly topicId: string,
@@ -64,6 +65,11 @@ export class MessageAwaiter {
     return this;
   }
 
+  withWaitForTopic(): this {
+    this.waitForTopic = true;
+    return this;
+  }
+
   /**
    * Start waiting for the messages. It will resolve when all messages are found in the topic. If the messages are not found before the timeout, an error is thrown.
    * @returns A promise that resolves when all messages are found in the topic.
@@ -87,7 +93,7 @@ export class MessageAwaiter {
       this.subscriptionHandler = new TopicMessageQuery()
         .setTopicId(this.topicId)
         .setStartTime(Timestamp.fromDate(this.startsAt ?? new Date()))
-        .setMaxAttempts(0)
+        .setMaxAttempts(this.waitForTopic ? 10 : 0)
         .subscribe(
           this.client,
           (_, error) => {

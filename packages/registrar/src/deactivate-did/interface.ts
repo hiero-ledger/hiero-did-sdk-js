@@ -1,7 +1,8 @@
 import { DIDDocument } from '@swiss-digital-assets-institute/core';
 import { PrivateKey } from '@hashgraph/sdk';
+import { CommonRegistrarOptions } from '../interfaces/common-options';
 
-export interface DeactivateDIDOptions {
+export interface DeactivateDIDOptions extends CommonRegistrarOptions {
   /**
    * The DID to deactivate
    */

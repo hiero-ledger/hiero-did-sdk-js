@@ -1,5 +1,5 @@
 import { createDID } from '@swiss-digital-assets-institute/registrar';
-import { Signer } from '../../packages/signer-internal/src/signer';
+import { Signer } from '@swiss-digital-assets-institute/signer-internal';
 import { DIDWorld } from './context';
 
 export async function basicCreateDID(didWorld: DIDWorld) {

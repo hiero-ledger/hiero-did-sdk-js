@@ -4,7 +4,7 @@
   "scripts": {
     "docs:build": "antora antora-playbook.yml",
     "docs:serve": "npx http-server ./build/site",
-    "test:cucumber": "TS_NODE_PROJECT=./test_suites/tsconfig.json cucumber-js --config test_suites/cucumber.mjs --tags ${CUCUMBER_TAGS:-'not @ignore'} --exit ${CUCUMBER_SCENARIO:-''}",
+    "test:cucumber": "TS_NODE_PROJECT=./test-suites/tsconfig.json cucumber-js --config test-suites/cucumber.mjs --tags ${CUCUMBER_TAGS:-'not @ignore'} --exit ${CUCUMBER_SCENARIO:-''}",
     "packages:build": "lerna run build",
     "packages:test": "jest",
     "packages:test:ci": "npm run packages:test -- --ci --coverage --testLocationInResults --json --outputFile=coverage/report.json",
@@ -18,7 +18,7 @@
     "packages:release:prerelease": "lerna version prerelease --no-push --yes",
     "packages:publish": "lerna publish from-package --yes",
     "examples:run": "tsx --env-file examples/.env",
-    "hedera:start": "tsx --tsconfig test_suites/tsconfig.json ./test_suites/hederaLocalNode.ts",
+    "hedera:start": "tsx --tsconfig test-suites/tsconfig.json ./test-suites/hedera-local-node.ts",
     "prepublishOnly": "npm run packages:build"
   },
   "devDependencies": {
@@ -41,6 +41,7 @@
     "testcontainers": "^10.13.2",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "tslib": "^2.7.0",
     "tsup": "^8.3.4",
     "tsx": "^4.19.2",

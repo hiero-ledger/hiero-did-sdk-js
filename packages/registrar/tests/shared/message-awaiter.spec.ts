@@ -153,6 +153,27 @@ describe('Message Awaiter', () => {
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
   });
 
+  it('should have wait for topic set to false as default', () => {
+    const messageAwaiter = new MessageAwaiter('0.0.123', 'testnet');
+
+    expect(messageAwaiter['waitForTopic']).toBeFalsy();
+  });
+
+  it('should update wait for topic to true', () => {
+    const messageAwaiter = new MessageAwaiter(
+      '0.0.123',
+      'testnet',
+    ).withWaitForTopic();
+
+    expect(messageAwaiter['waitForTopic']).toBe(true);
+  });
+
+  it('should throw an error when timeout is less then 1', () => {
+    expect(() => {
+      new MessageAwaiter('0.0.123', 'testnet').withTimeout(0);
+    }).toThrow('Timeout must be greater than 0');
+  });
+
   describe('when timeout is reached', () => {
     it('should throw an error', async () => {
       const messageAwaiter = new MessageAwaiter('0.0.123', 'testnet')

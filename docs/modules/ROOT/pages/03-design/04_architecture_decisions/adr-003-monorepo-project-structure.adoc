@@ -20,7 +20,7 @@ The monorepo will be organized into the following top-level directories:
 * `examples/`: Includes sample applications and code snippets demonstrating SDK usage.
 * `docs/`: Contains documentation files, guides, and API references.
 * `scripts/`: Includes scripts for common tasks (building, testing, linting, releasing).
-* `test_suites/`: Contains test files and configurations for BDD tests.
+* `test-suites/`: Contains test files and configurations for BDD tests.
 
 ==== Consequences
 

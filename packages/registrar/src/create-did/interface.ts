@@ -1,7 +1,8 @@
 import { DIDDocument } from '@swiss-digital-assets-institute/core';
 import { PrivateKey } from '@hashgraph/sdk';
+import { CommonRegistrarOptions } from '../interfaces/common-options';
 
-export interface CreateDIDOptions {
+export interface CreateDIDOptions extends CommonRegistrarOptions {
   /**
    * The controller of the DID. If not provided, the DID will be self-controlled.
    */

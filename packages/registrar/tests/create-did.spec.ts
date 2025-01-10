@@ -4,6 +4,8 @@ import {
   TopicMessageSubmitTransactionMock,
   MessageAwaiterForMessagesMock,
   MessageAwaiterConstructorMock,
+  MessageAwaiterWaitMock,
+  MessageAwaiterWithTimeoutMock,
 } from './mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
@@ -235,5 +237,43 @@ describe('Create DID operation', () => {
         .calls[0][0];
 
     expect(MessageAwaiterForMessagesMock).toHaveBeenCalledWith([message]);
+  });
+
+  it('should not call wait method when messageAwaiting is set to false', async () => {
+    const clientPrivateKey = await PrivateKey.generateED25519Async();
+
+    await createDID(
+      {
+        messageAwaiting: false,
+      },
+      {
+        clientOptions: {
+          network: 'testnet',
+          privateKey: clientPrivateKey,
+          accountId: '0.0.12345',
+        },
+      },
+    );
+
+    expect(MessageAwaiterWaitMock).not.toHaveBeenCalled();
+  });
+
+  it('should set a message awaiter different timeout', async () => {
+    const clientPrivateKey = await PrivateKey.generateED25519Async();
+
+    await createDID(
+      {
+        messageAwaitingTimeout: 1,
+      },
+      {
+        clientOptions: {
+          network: 'testnet',
+          privateKey: clientPrivateKey,
+          accountId: '0.0.12345',
+        },
+      },
+    );
+
+    expect(MessageAwaiterWithTimeoutMock).toHaveBeenCalledWith(1);
   });
 });

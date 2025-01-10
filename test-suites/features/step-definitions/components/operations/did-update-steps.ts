@@ -1,9 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+// TODO: fix the any types
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 import { expect } from 'expect';
-import { createDID, DIDUpdateOperation, updateDID, UpdateDIDResult} from '@swiss-digital-assets-institute/registrar';
+import {
+  createDID,
+  DIDUpdateOperation,
+  updateDID,
+} from '@swiss-digital-assets-institute/registrar';
 import { resolveDID } from '@swiss-digital-assets-institute/resolver';
-import { DIDWorld } from '../../../../support/context';
 import { Signer } from '@swiss-digital-assets-institute/signer-internal';
+import { DIDWorld } from '../../../../support/context';
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -22,7 +30,6 @@ function parseUpdateDefinitionFromMatrix(
         item.properties != '' &&
         JSON.parse(item.properties)),
     };
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     delete flattenItem.properties;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return flattenItem;
@@ -46,7 +53,9 @@ function parseUpdateDefinitions(didWorld: DIDWorld, dataTable: DataTable) {
   didWorld.sharedData['updateDefinitions'] = updateDefinitions;
 }
 
-Given('an existing DID with its current DID Document', async function (this: DIDWorld) {
+Given(
+  'an existing DID with its current DID Document',
+  async function (this: DIDWorld) {
     const { did, didDocument, privateKey } = await createDID({
       clientOptions: {
         privateKey: this.sharedData['operatorPrivateKey'],
@@ -61,7 +70,6 @@ Given('an existing DID with its current DID Document', async function (this: DID
     this.sharedData['privateKey'] = privateKey;
 
     await delay(5 * 1000);
-
   },
 );
 
@@ -69,12 +77,17 @@ Given('an update definition:', function (this: DIDWorld, dataTable: DataTable) {
   parseUpdateDefinitions(this, dataTable);
 });
 
-Given('an update definitions:', function (this: DIDWorld, dataTable: DataTable) {
+Given(
+  'an update definitions:',
+  function (this: DIDWorld, dataTable: DataTable) {
     parseUpdateDefinitionFromMatrix(this, dataTable);
-});
+  },
+);
 
-When('the `updateDID` is called with the SDK Client', function (this: DIDWorld, done) {
-    const result: Promise<UpdateDIDResult> = updateDID(
+When(
+  'the `updateDID` is called with the SDK Client',
+  async function (this: DIDWorld) {
+    const result = await updateDID(
       {
         did: this.sharedData['did'],
         updates: this.sharedData['updateDefinitions'],
@@ -89,23 +102,21 @@ When('the `updateDID` is called with the SDK Client', function (this: DIDWorld, 
       },
     );
 
-    result.then((r) => {
-      this.sharedData['updatedDid'] = r.did;
-      this.sharedData['updatedDidDocument'] = r.didDocument;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      done();
-    });
+    this.sharedData['updatedDid'] = result.did;
+    this.sharedData['updatedDidDocument'] = result.didDocument;
   },
 );
 
-When('the `updateDID` is called with the SDK Client and update definition:', function (this: DIDWorld, dataTable: DataTable, done) {
+When(
+  'the `updateDID` is called with the SDK Client and update definition:',
+  async function (this: DIDWorld, dataTable: DataTable) {
     parseUpdateDefinitions(this, dataTable);
 
     const defaultSigner = new Signer(
       this.sharedData['operatorPrivateKey'] as string,
     );
 
-    const result: Promise<UpdateDIDResult> = updateDID(
+    const result = await updateDID(
       {
         did: this.sharedData['did'],
         updates: this.sharedData['updateDefinitions'],
@@ -120,23 +131,21 @@ When('the `updateDID` is called with the SDK Client and update definition:', fun
       },
     );
 
-    result.then((r) => {
-      this.sharedData['updatedDid'] = r.did;
-      this.sharedData['updatedDidDocument'] = r.didDocument;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      done();
-    });
+    this.sharedData['updatedDid'] = result.did;
+    this.sharedData['updatedDidDocument'] = result.didDocument;
   },
 );
 
-When('the `updateDID` is called with the SDK Client and update definitions:', function (this: DIDWorld, dataTable, done) {
+When(
+  'the `updateDID` is called with the SDK Client and update definitions:',
+  async function (this: DIDWorld, dataTable: DataTable) {
     parseUpdateDefinitionFromMatrix(this, dataTable);
 
     const defaultSigner = new Signer(
       this.sharedData['operatorPrivateKey'] as string,
     );
 
-    const result: Promise<UpdateDIDResult> = updateDID(
+    const result = await updateDID(
       {
         did: this.sharedData['did'],
         updates: this.sharedData['updateDefinitions'],
@@ -151,16 +160,14 @@ When('the `updateDID` is called with the SDK Client and update definitions:', fu
       },
     );
 
-    result.then((r) => {
-      this.sharedData['updatedDid'] = r.did;
-      this.sharedData['updatedDidDocument'] = r.didDocument;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      done();
-    });
+    this.sharedData['updatedDid'] = result.did;
+    this.sharedData['updatedDidDocument'] = result.didDocument;
   },
 );
 
-Then('the function should return updated DID Document', async function (this: DIDWorld) {
+Then(
+  'the function should return updated DID Document',
+  async function (this: DIDWorld) {
     const did: string = this.sharedData['updatedDid'];
     const signer = new Signer(this.sharedData['operatorPrivateKey'] as string);
 
@@ -175,7 +182,9 @@ Then('the function should return updated DID Document', async function (this: DI
   },
 );
 
-Then('the DID Document includes verification method with the definition:', function (this: DIDWorld, dataTable) {
+Then(
+  'the DID Document includes verification method with the definition:',
+  function (this: DIDWorld, dataTable: DataTable) {
     const data = dataTable.rowsHash();
     const definition = {
       id: data.id,
@@ -192,15 +201,23 @@ Then('the DID Document includes verification method with the definition:', funct
       ...(this.sharedData['updatedDidDocument'].keyAgreement || []),
       ...(this.sharedData['updatedDidDocument'].capabilityInvocation || []),
     ];
-    const verificationMethod = verificationMethods.find((veryficaitonMethod: any) =>  veryficaitonMethod.id === `${this.sharedData['updatedDidDocument'].id}${definition.id}`);
+    const verificationMethod = verificationMethods.find(
+      (verificationMethod: any) =>
+        verificationMethod.id ===
+        `${this.sharedData['updatedDidDocument'].id}${definition.id}`,
+    );
 
     expect(verificationMethod).not.toBeNull();
     expect(verificationMethod.type).toEqual(definition.type);
-    expect(verificationMethod.publicKeyMultibase).toEqual(definition.publicKeyMultibase);
+    expect(verificationMethod.publicKeyMultibase).toEqual(
+      definition.publicKeyMultibase,
+    );
   },
 );
 
-Then('the DID Document includes service with the definition:', function (this: DIDWorld, dataTable) {
+Then(
+  'the DID Document includes service with the definition:',
+  function (this: DIDWorld, dataTable: DataTable) {
     const data = dataTable.rowsHash();
     const definition = {
       id: data.id,
@@ -208,14 +225,20 @@ Then('the DID Document includes service with the definition:', function (this: D
     };
 
     const services = this.sharedData['updatedDidDocument'].service || [];
-    const service = services.find((service: any) => service.id === `${this.sharedData['updatedDidDocument'].id}${definition.id}`);
+    const service = services.find(
+      (service: any) =>
+        service.id ===
+        `${this.sharedData['updatedDidDocument'].id}${definition.id}`,
+    );
 
     expect(service).not.toBeNull();
     expect(service.serviceEndpoint).toEqual(definition.serviceEndpoint);
   },
 );
 
-Then('the DID Document includes verification method with id {string}', function (this: DIDWorld, id: string) {
+Then(
+  'the DID Document includes verification method with id {string}',
+  function (this: DIDWorld, id: string) {
     const verificationMethods = [
       ...(this.sharedData['updatedDidDocument'].verificationMethod || []),
       ...(this.sharedData['updatedDidDocument'].capabilityDelegation || []),
@@ -224,21 +247,32 @@ Then('the DID Document includes verification method with id {string}', function 
       ...(this.sharedData['updatedDidDocument'].keyAgreement || []),
       ...(this.sharedData['updatedDidDocument'].capabilityInvocation || []),
     ];
-    const verificationMethodExists = verificationMethods.some((veryficationMethod) =>  veryficationMethod.id === `${this.sharedData['updatedDidDocument'].id}${id}`);
+    const verificationMethodExists = verificationMethods.some(
+      (verificationMethod) =>
+        verificationMethod.id ===
+        `${this.sharedData['updatedDidDocument'].id}${id}`,
+    );
 
     expect(verificationMethodExists).toBe(true);
   },
 );
 
-Then('the DID Document does include service with id {string}',  async function (this: DIDWorld, id: string) {
+Then(
+  'the DID Document does include service with id {string}',
+  function (this: DIDWorld, id: string) {
     const services = this.sharedData['updatedDidDocument'].service || [];
-    const serviceExists = services.some((service: any) => service.id === `${this.sharedData['updatedDidDocument'].id}${id}`);
+    const serviceExists = services.some(
+      (service: any) =>
+        service.id === `${this.sharedData['updatedDidDocument'].id}${id}`,
+    );
 
     expect(serviceExists).toBe(true);
   },
 );
 
-Then('the DID Document does not include service with id {string}', async function (this: DIDWorld, id: string) {
+Then(
+  'the DID Document does not include service with id {string}',
+  function (this: DIDWorld, id: string) {
     const services = this.sharedData['updatedDidDocument'].service || [];
     const serviceExists = services.some(
       (service: any) =>

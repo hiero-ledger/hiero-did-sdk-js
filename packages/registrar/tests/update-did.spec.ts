@@ -4,6 +4,8 @@ import {
   TopicMessageSubmitTransactionMock,
   MessageAwaiterForMessagesMock,
   MessageAwaiterConstructorMock,
+  MessageAwaiterWaitMock,
+  MessageAwaiterWithTimeoutMock,
 } from './mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
@@ -434,6 +436,7 @@ describe('Update DID operation', () => {
       const didDocument = {
         id: VALID_DID,
         controller: VALID_DID,
+        keyAgreement: [`${VALID_DID}#test`],
         verificationMethod: [
           {
             id: '#test',
@@ -461,75 +464,125 @@ describe('Update DID operation', () => {
       expect(result.didDocument).toBeDefined();
       expect(result.didDocument).toBe(didDocument);
     });
+
+    it('should not perform any updates when update array is empty', async () => {
+      const updateOperationsMock = jest.spyOn(
+        UpdateSubOperations,
+        'executeOperation',
+      );
+
+      const result = await updateDID(
+        {
+          did: VALID_DID,
+          updates: [],
+        },
+        { signer, publisher },
+      );
+
+      expect(result).toBeDefined();
+      expect(updateOperationsMock).not.toHaveBeenCalled();
+    });
   });
 
-  it('should set message awaiter with proper topic id and network', async () => {
+  describe('message awaiting', () => {
     const publisher = new TestPublisher(jest.fn().mockReturnValue('testnet'));
     const signer = new TestSigner();
     signer.signMock.mockResolvedValue('test-signature');
 
-    await updateDID(
-      {
-        did: VALID_DID,
-        updates: {
-          operation: 'remove-verification-method',
-          id: '#test',
-          property: 'verificationMethod',
-        },
-      },
-      { signer, publisher },
-    );
-
-    expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
-      VALID_DID_TOPIC_ID,
-      'testnet',
-    ]);
-  });
-
-  it('should set message awaiter for a created messages', async () => {
-    const publisher = new TestPublisher();
-    const signer = new TestSigner();
-    signer.signMock.mockResolvedValue('test-signature');
-
-    await updateDID(
-      {
-        did: VALID_DID,
-        updates: [
-          {
+    it('should set message awaiter with proper topic id and network', async () => {
+      await updateDID(
+        {
+          did: VALID_DID,
+          updates: {
             operation: 'remove-verification-method',
             id: '#test',
             property: 'verificationMethod',
           },
-          {
-            operation: 'remove-service',
-            id: '#test',
-          },
-          {
-            operation: 'add-service',
-            id: '#test',
-            serviceEndpoint: 'http://example.com',
-            type: 'ServiceType',
-          },
-          {
-            operation: 'add-verification-method',
-            id: '#test',
-            property: 'verificationMethod',
-            publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
-          },
-        ],
-      },
-      { signer, publisher },
-    );
-
-    expect(
-      TopicMessageSubmitTransactionMockImplementation.setMessage.mock.calls,
-    ).toHaveLength(4);
-
-    const messages =
-      TopicMessageSubmitTransactionMockImplementation.setMessage.mock.calls.map(
-        (call) => call[0],
+        },
+        { signer, publisher },
       );
 
-    expect(MessageAwaiterForMessagesMock).toHaveBeenCalledWith(messages);
+      expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
+        VALID_DID_TOPIC_ID,
+        'testnet',
+      ]);
+    });
+
+    it('should set message awaiter for a created messages', async () => {
+      await updateDID(
+        {
+          did: VALID_DID,
+          updates: [
+            {
+              operation: 'remove-verification-method',
+              id: '#test',
+              property: 'verificationMethod',
+            },
+            {
+              operation: 'remove-service',
+              id: '#test',
+            },
+            {
+              operation: 'add-service',
+              id: '#test',
+              serviceEndpoint: 'http://example.com',
+              type: 'ServiceType',
+            },
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'verificationMethod',
+              publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+            },
+          ],
+        },
+        { signer, publisher },
+      );
+
+      expect(
+        TopicMessageSubmitTransactionMockImplementation.setMessage.mock.calls,
+      ).toHaveLength(4);
+
+      const messages =
+        TopicMessageSubmitTransactionMockImplementation.setMessage.mock.calls.map(
+          (call) => call[0],
+        );
+
+      expect(MessageAwaiterForMessagesMock).toHaveBeenCalledWith(messages);
+    });
+
+    it('should not call wait method when messageAwaiting is set to false', async () => {
+      await updateDID(
+        {
+          did: VALID_DID,
+          messageAwaiting: false,
+          updates: {
+            operation: 'remove-verification-method',
+            id: '#test',
+            property: 'verificationMethod',
+          },
+        },
+        { signer, publisher },
+      );
+
+      expect(MessageAwaiterWaitMock).not.toHaveBeenCalled();
+    });
+
+    it('should set a message awaiter different timeout', async () => {
+      await updateDID(
+        {
+          did: VALID_DID,
+          messageAwaitingTimeout: 1,
+          updates: {
+            operation: 'remove-verification-method',
+            id: '#test',
+            property: 'verificationMethod',
+          },
+        },
+        { signer, publisher },
+      );
+
+      expect(MessageAwaiterWithTimeoutMock).toHaveBeenCalledWith(1);
+    });
   });
 });

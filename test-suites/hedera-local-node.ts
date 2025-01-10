@@ -1,5 +1,8 @@
-import { startContainers, stopContainers } from './support/utils/containerUtils';
-import { deleteDirectories } from './support/utils/fileUtils';
+import {
+  startContainers,
+  stopContainers,
+} from './support/utils/container-utils';
+import { deleteDirectories } from './support/utils/file-utils';
 import * as path from 'path';
 
 const CONFIG_PATH = path.join(__dirname, './config/hedera/local-node');
@@ -9,12 +12,12 @@ async function startLocalHederaNode() {
 
   await deleteDirectories([
     `${CONFIG_PATH}/network_logs/accountBalances`,
-    `${CONFIG_PATH}/network_logs/recordStreams`
+    `${CONFIG_PATH}/network_logs/recordStreams`,
   ]);
 
   await startContainers(CONFIG_PATH);
 
-  console.log('Started Hedera Local Node containers...done.')
+  console.log('Started Hedera Local Node containers...done.');
 
   // Handle graceful shutdown
   const handleExit = async (signal: string) => {
@@ -23,7 +26,7 @@ async function startLocalHederaNode() {
       await stopContainers();
       await deleteDirectories([
         `${CONFIG_PATH}/network_logs/accountBalances`,
-        `${CONFIG_PATH}/network_logs/recordStreams`
+        `${CONFIG_PATH}/network_logs/recordStreams`,
       ]);
       process.exit(0);
     } catch (error) {
@@ -39,7 +42,7 @@ async function startLocalHederaNode() {
   process.on('SIGTERM', () => handleExit('SIGTERM'));
 
   // Keep the process alive indefinitely
-  setInterval(() => { }, 1000);
+  setInterval(() => {}, 1000);
 }
 
 startLocalHederaNode().catch((error) => {

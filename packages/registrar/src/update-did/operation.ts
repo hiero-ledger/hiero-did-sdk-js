@@ -73,7 +73,10 @@ export async function updateDID(
     publisher.network(),
   )
     .forMessages(messagesToWaitFor)
-    .setStartsAt(new Date());
+    .setStartsAt(new Date())
+    .withTimeout(
+      operationOptions.messageAwaitingTimeout ?? MessageAwaiter.DEFAULT_TIMEOUT,
+    );
 
   // Execute updates
   for (const { state, operation } of preparedStateMessages) {
@@ -89,7 +92,9 @@ export async function updateDID(
   }
 
   // Wait for the messages to be available in the topic before resolving the updated DID document
-  await messageAwaiter.wait();
+  if (operationOptions.messageAwaiting ?? true) {
+    await messageAwaiter.wait();
+  }
 
   const updatedDidDocument = await resolveDID(
     operationOptions.did,

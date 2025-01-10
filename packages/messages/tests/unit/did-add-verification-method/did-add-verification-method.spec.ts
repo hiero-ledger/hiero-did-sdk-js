@@ -105,6 +105,18 @@ describe('DID Add verification method or verification relationship message', () 
       }).toThrow('The DID must be a valid Hedera DID.');
     });
 
+    it('should throw error when invalid key is provided', () => {
+      expect(() => {
+        new DIDAddVerificationMethodMessage({
+          did: VALID_DID,
+          controller: VALID_DID,
+          property: 'verificationMethod',
+          publicKeyMultibase: 'invalid',
+          id: '#key-1',
+        });
+      }).toThrow('Invalid length for the public key.');
+    });
+
     it('should throw error when invalid controller is provided', () => {
       expect(() => {
         new DIDAddVerificationMethodMessage({

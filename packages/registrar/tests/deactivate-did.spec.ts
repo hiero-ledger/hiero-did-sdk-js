@@ -3,6 +3,8 @@ import {
   TopicMessageSubmitTransactionMock,
   MessageAwaiterForMessagesMock,
   MessageAwaiterConstructorMock,
+  MessageAwaiterWaitMock,
+  MessageAwaiterWithTimeoutMock,
 } from './mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
@@ -152,6 +154,40 @@ describe('Deactivate DID operation', () => {
         .calls[0][0];
 
     expect(MessageAwaiterForMessagesMock).toHaveBeenCalledWith([message]);
+  });
+
+  it('should not call wait method when messageAwaiting is set to false', async () => {
+    const publisher = new TestPublisher();
+
+    await deactivateDID(
+      {
+        did: VALID_DID,
+        messageAwaiting: false,
+      },
+      {
+        signer: defaultSigner,
+        publisher,
+      },
+    );
+
+    expect(MessageAwaiterWaitMock).not.toHaveBeenCalled();
+  });
+
+  it('should set a message awaiter different timeout', async () => {
+    const publisher = new TestPublisher();
+
+    await deactivateDID(
+      {
+        did: VALID_DID,
+        messageAwaitingTimeout: 1,
+      },
+      {
+        signer: defaultSigner,
+        publisher,
+      },
+    );
+
+    expect(MessageAwaiterWithTimeoutMock).toHaveBeenCalledWith(1);
   });
 
   afterEach(() => {

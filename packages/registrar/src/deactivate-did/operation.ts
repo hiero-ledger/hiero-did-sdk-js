@@ -49,7 +49,10 @@ export async function deactivateDID(
     publisher.network(),
   )
     .forMessages([didDeactivateMessage.payload])
-    .setStartsAt(new Date());
+    .setStartsAt(new Date())
+    .withTimeout(
+      operationOptions.messageAwaitingTimeout ?? MessageAwaiter.DEFAULT_TIMEOUT,
+    );
 
   const secondState = await manager.resume(firstState, runnerOptions);
 
@@ -64,7 +67,10 @@ export async function deactivateDID(
     throw new Error('DID deactivation failed');
   }
 
-  await messageAwaiter.wait();
+  // Wait for the messages to be available in the topic before resolving the updated DID document
+  if (operationOptions.messageAwaiting ?? true) {
+    await messageAwaiter.wait();
+  }
 
   return {
     did: didDeactivateMessage.did,

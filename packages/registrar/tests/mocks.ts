@@ -30,6 +30,8 @@ jest.mock('@hashgraph/sdk', () => {
 
 export const MessageAwaiterForMessagesMock = jest.fn().mockReturnThis();
 export const MessageAwaiterConstructorMock = jest.fn();
+export const MessageAwaiterWaitMock = jest.fn().mockResolvedValue(void 0);
+export const MessageAwaiterWithTimeoutMock = jest.fn().mockReturnThis();
 jest.mock('../src/shared/message-awaiter.ts', () => {
   return {
     MessageAwaiter: jest.fn().mockImplementation((...args) => {
@@ -37,7 +39,9 @@ jest.mock('../src/shared/message-awaiter.ts', () => {
       return {
         forMessages: MessageAwaiterForMessagesMock,
         setStartsAt: jest.fn().mockReturnThis(),
-        wait: jest.fn().mockResolvedValue(void 0),
+        withTimeout: MessageAwaiterWithTimeoutMock,
+        withWaitForTopic: jest.fn().mockReturnThis(),
+        wait: MessageAwaiterWaitMock,
       };
     }),
   };

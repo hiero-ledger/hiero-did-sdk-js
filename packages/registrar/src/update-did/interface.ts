@@ -3,6 +3,7 @@ import {
   VerificationMethodProperties,
 } from '@swiss-digital-assets-institute/core';
 import { PrivateKey } from '@hashgraph/sdk';
+import { CommonRegistrarOptions } from '../interfaces/common-options';
 
 export interface AddServiceOperation {
   /**
@@ -91,7 +92,7 @@ export type DIDUpdateOperation =
 
 export type DIDUpdateOperationsKeys = DIDUpdateOperation['operation'];
 
-export interface UpdateDIDOptions {
+export interface UpdateDIDOptions extends CommonRegistrarOptions {
   /**
    * The DID to update
    */
