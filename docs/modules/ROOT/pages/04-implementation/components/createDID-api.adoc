@@ -108,6 +108,16 @@ The table below provides a detailed description of the `CreateDIDOptions` type.
 |privateKey?
 |`string` \| `PrivateKey`
 |A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for signing the DID creation message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated and the corresponding private key is returned. 
+
+|waitForDIDVisibility?
+|`boolean`
+|Whether to wait for the DID to be **visible** on the network. The DID registration transaction may be confirmed before the DID is actually accessible and usable on the network. This option ensures that the function waits until the DID is fully propagated and discoverable. If set to `false`, the function will return as soon as the registration transaction is confirmed, which may be faster but could lead to errors if you immediately try to use the DID. 
+
+Defaults to `true`.
+
+|visibilityTimeoutMs?
+|`number`
+|The maximum time (in milliseconds) to wait for the DID to be **visible** on the network. This option is only relevant if `waitForDIDVisibility` is set to `true`. If the DID is not visible within this timeout period, the function will throw an error. Defaults to 120000 milliseconds (2 minutes).
 |===
 
 == Return Value
