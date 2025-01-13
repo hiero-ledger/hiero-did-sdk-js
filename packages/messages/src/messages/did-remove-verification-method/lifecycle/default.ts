@@ -5,9 +5,10 @@ import { DIDRemoveVerificationMethodMessage } from '../message';
 
 export const DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle =
   new LifecycleBuilder<DIDRemoveVerificationMethodMessage>()
-    .signWithSigner()
-    .pause()
+    .signWithSigner('signature')
+    .pause('pause')
     .callback(
+      'publish-message',
       async (
         message: DIDRemoveVerificationMethodMessage,
         publisher: Publisher,

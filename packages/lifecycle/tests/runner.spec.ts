@@ -27,7 +27,7 @@ describe('Lifecycle runner class', () => {
       const runner = new LifecycleRunner(builder);
 
       const callbackFunction = jest.fn();
-      builder.callback(callbackFunction);
+      builder.callback('s1', callbackFunction);
 
       const state = await runner.process({} as never, {
         publisher,
@@ -43,7 +43,7 @@ describe('Lifecycle runner class', () => {
       const builder = new LifecycleBuilder();
       const runner = new LifecycleRunner(builder);
 
-      builder.signWithSigner();
+      builder.signWithSigner('s1');
 
       const signer = Signer.generate();
 
@@ -69,7 +69,7 @@ describe('Lifecycle runner class', () => {
       const builder = new LifecycleBuilder();
       const runner = new LifecycleRunner(builder);
 
-      builder.signWithSigner();
+      builder.signWithSigner('s1');
 
       await expect(
         runner.process({} as never, {
@@ -82,7 +82,7 @@ describe('Lifecycle runner class', () => {
       const builder = new LifecycleBuilder();
       const runner = new LifecycleRunner(builder);
 
-      builder.signature();
+      builder.signature('s1');
 
       const setSignatureMock = jest.fn();
       const signature = Buffer.from('signature');
@@ -109,7 +109,7 @@ describe('Lifecycle runner class', () => {
       const builder = new LifecycleBuilder();
       const runner = new LifecycleRunner(builder);
 
-      builder.signature();
+      builder.signature('s1');
 
       const setSignatureMock = jest.fn();
 
@@ -129,7 +129,7 @@ describe('Lifecycle runner class', () => {
       const builder = new LifecycleBuilder();
       const runner = new LifecycleRunner(builder);
 
-      builder.pause();
+      builder.pause('s1');
 
       const state = await runner.process({} as never, {
         publisher,
@@ -137,7 +137,8 @@ describe('Lifecycle runner class', () => {
 
       expect(state).toBeDefined();
       expect(state.status).toBe('pause');
-      expect(state.step).toBe(0);
+      expect(state.index).toBe(0);
+      expect(state.label).toBe('s1');
     });
 
     it('should return proper state when processing is successful', async () => {
@@ -150,7 +151,7 @@ describe('Lifecycle runner class', () => {
 
       expect(state).toBeDefined();
       expect(state.status).toBe('success');
-      expect(state.step).toBe(-1);
+      expect(state.index).toBe(-1);
       expect(state.message).toBeDefined();
     });
 
@@ -163,10 +164,10 @@ describe('Lifecycle runner class', () => {
       const error = new Error('error');
 
       builder
-        .callback(() => {
+        .callback('s1', () => {
           throw error;
         })
-        .catch(catchCallback);
+        .catch('s2', catchCallback);
 
       const state = await runner.process({} as never, {
         publisher,
@@ -176,7 +177,8 @@ describe('Lifecycle runner class', () => {
       expect(catchCallback).toHaveBeenCalledWith(error);
       expect(state).toBeDefined();
       expect(state.status).toBe('error');
-      expect(state.step).toBe(-1);
+      expect(state.index).toBe(-1);
+      expect(state.label).toBe('');
     });
 
     it('should throw an error when error occurred during processing without a catch step', async () => {
@@ -185,7 +187,7 @@ describe('Lifecycle runner class', () => {
 
       const error = new Error('error');
 
-      builder.callback(() => {
+      builder.callback('s1', () => {
         throw error;
       });
 
@@ -204,7 +206,10 @@ describe('Lifecycle runner class', () => {
     const step1Callback = jest.fn();
     const step2Callback = jest.fn();
 
-    builder.callback(step1Callback).pause().callback(step2Callback);
+    builder
+      .callback('s1', step1Callback)
+      .pause('s2')
+      .callback('s3', step2Callback);
 
     const state = await runner.process({} as never, {
       publisher,
@@ -212,7 +217,8 @@ describe('Lifecycle runner class', () => {
 
     expect(state).toBeDefined();
     expect(state.status).toBe('pause');
-    expect(state.step).toBe(1);
+    expect(state.index).toBe(1);
+    expect(state.label).toBe('s2');
     expect(step1Callback).toHaveBeenCalled();
 
     const resumedState = await runner.resume(state, {
@@ -234,7 +240,10 @@ describe('Lifecycle runner class', () => {
     const step1Callback = jest.fn();
     const step2Callback = jest.fn();
 
-    builder.pause().callback(step1Callback).callback(step2Callback);
+    builder
+      .pause('s1')
+      .callback('s2', step1Callback)
+      .callback('s3', step2Callback);
 
     const state = await runner.process({} as never, {
       publisher,
@@ -242,7 +251,8 @@ describe('Lifecycle runner class', () => {
 
     expect(state).toBeDefined();
     expect(state.status).toBe('pause');
-    expect(state.step).toBe(0);
+    expect(state.index).toBe(0);
+    expect(state.label).toBe('s1');
 
     const resumedState = await runner.resume(state, {
       publisher,
@@ -253,5 +263,60 @@ describe('Lifecycle runner class', () => {
 
     expect(step1Callback).toHaveBeenCalledTimes(1);
     expect(step2Callback).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call a hook when steps is completed', async () => {
+    const builder = new LifecycleBuilder();
+    const runner = new LifecycleRunner(builder);
+
+    const callbackFunction = jest.fn();
+    const hookFunction = jest.fn();
+
+    builder.callback('s1', callbackFunction).callback('s2', callbackFunction);
+
+    runner.onComplete('s1', hookFunction);
+
+    await runner.process({} as never, {
+      publisher,
+    });
+
+    expect(hookFunction).toHaveBeenCalledTimes(1);
+
+    expect(callbackFunction.mock.invocationCallOrder[0]).toBeLessThan(
+      hookFunction.mock.invocationCallOrder[0],
+    );
+  });
+
+  it('should call a hook with pause step in correct order', async () => {
+    const builder = new LifecycleBuilder();
+    const runner = new LifecycleRunner(builder);
+
+    const callbackFunction = jest.fn();
+    const hookFunction = jest.fn();
+
+    builder
+      .callback('s1', callbackFunction)
+      .pause('s2')
+      .callback('s3', callbackFunction);
+
+    runner.onComplete('s2', hookFunction);
+
+    const runnerState = await runner.process({} as never, {
+      publisher,
+    });
+
+    await runner.resume(runnerState, {
+      publisher,
+    });
+
+    expect(hookFunction).toHaveBeenCalledTimes(1);
+
+    expect(callbackFunction.mock.invocationCallOrder[0]).toBeLessThan(
+      hookFunction.mock.invocationCallOrder[0],
+    );
+
+    expect(hookFunction.mock.invocationCallOrder[0]).toBeLessThan(
+      callbackFunction.mock.invocationCallOrder[1],
+    );
   });
 });

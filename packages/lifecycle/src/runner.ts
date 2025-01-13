@@ -1,6 +1,11 @@
-import { DIDMessage, Publisher, Signer } from '@swiss-digital-assets-institute/core';
+import {
+  DIDMessage,
+  Publisher,
+  Signer,
+} from '@swiss-digital-assets-institute/core';
 import { LifecycleBuilder } from './builder';
 import { RunnerState } from './interfaces/runner-state';
+import { HookFunction } from './interfaces/hooks';
 
 /**
  * Options for the lifecycle runner.
@@ -22,9 +27,9 @@ export interface LifecycleRunnerOptions {
   signer?: Signer;
 
   /**
-   * The step to resume from.
+   * The step label to resume from.
    */
-  step?: number;
+  label?: string;
 
   /**
    * The publisher to use for publishing the message.
@@ -37,6 +42,8 @@ export interface LifecycleRunnerOptions {
  * A lifecycle pipeline is a series of steps that are executed in order.
  */
 export class LifecycleRunner<Message extends DIDMessage> {
+  private readonly hooks: Record<string, HookFunction<Message>[]> = {};
+
   /**
    * Creates a new instance of the LifecycleRunner class.
    * @param builder - The lifecycle builder to use.
@@ -55,7 +62,7 @@ export class LifecycleRunner<Message extends DIDMessage> {
     state: RunnerState<Message>,
     options: LifecycleRunnerOptions,
   ): Promise<RunnerState<Message>> {
-    return this.process(state.message, { ...options, step: state.step });
+    return this.process(state.message, { ...options, label: state.label });
   }
 
   /**
@@ -70,16 +77,27 @@ export class LifecycleRunner<Message extends DIDMessage> {
     options: LifecycleRunnerOptions,
   ): Promise<RunnerState<Message>> {
     try {
-      const initialStep = (options.step ?? -1) + 1;
+      const initialStep = options.label
+        ? (this.builder.getIndexByLabel(options.label) ?? -1) + 1
+        : 0;
+
       for (
         let stepIndex = initialStep;
         stepIndex < this.builder.length;
         stepIndex++
       ) {
-        const step = this.builder.get(stepIndex);
+        const step = this.builder.getByIndex(stepIndex);
+        const prevStep =
+          stepIndex > 0 ? this.builder.getByIndex(stepIndex - 1) : undefined;
+
+        if (prevStep?.type === 'pause') {
+          await this.callHooks(prevStep.label, message);
+        }
 
         if (step.type === 'callback') {
           await step.callback(message, options.publisher);
+          await this.callHooks(step.label, message);
+
           continue;
         }
 
@@ -88,6 +106,8 @@ export class LifecycleRunner<Message extends DIDMessage> {
             throw new Error('Signer is missing, but required.');
           }
           await message.signWith(options.signer);
+          await this.callHooks(step.label, message);
+
           continue;
         }
 
@@ -97,6 +117,8 @@ export class LifecycleRunner<Message extends DIDMessage> {
           }
 
           message.setSignature(options.args.signature);
+          await this.callHooks(step.label, message);
+
           continue;
         }
 
@@ -105,7 +127,8 @@ export class LifecycleRunner<Message extends DIDMessage> {
           return {
             message,
             status: 'pause',
-            step: stepIndex,
+            index: stepIndex,
+            label: step.label,
           };
         }
       }
@@ -113,7 +136,8 @@ export class LifecycleRunner<Message extends DIDMessage> {
       return {
         message,
         status: 'success',
-        step: -1,
+        label: '',
+        index: -1,
       };
     } catch (error: unknown) {
       if (!this.builder.catchStep) {
@@ -124,14 +148,30 @@ export class LifecycleRunner<Message extends DIDMessage> {
       return {
         message,
         status: 'error',
-        step: -1,
+        label: '',
+        index: -1,
       };
     }
   }
 
-  // TODO: Implement this method
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onComplete(label: string, callback: () => void) {
-    throw new Error('Method not implemented.');
+  /**
+   * Registers a hook to be called when the specified label is completed.
+   * Hooks are called in the parallel been the completion of the label and the next step.
+   * @param label Name of the label to hook into.
+   * @param callback The hook function to call.
+   */
+  onComplete(label: string, callback: HookFunction<Message>) {
+    this.hooks[label] = this.hooks[label] ?? [];
+    this.hooks[label].push(callback);
+  }
+
+  /**
+   * Calls the hooks for the specified label.
+   * @param label The label to call the hooks for.
+   */
+  private async callHooks(label: string, message: Message) {
+    const hooks = this.hooks[label] ?? [];
+
+    await Promise.all(hooks.map((hook) => hook(message)));
   }
 }

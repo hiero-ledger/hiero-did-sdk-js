@@ -5,9 +5,10 @@ import { DIDAddVerificationMethodMessage } from '../message';
 
 export const DIDAddVerificationMethodMessageHederaCSMLifeCycle =
   new LifecycleBuilder<DIDAddVerificationMethodMessage>()
-    .pause()
-    .signature()
+    .pause('pause')
+    .signature('signature')
     .callback(
+      'publish-message',
       async (
         message: DIDAddVerificationMethodMessage,
         publisher: Publisher,

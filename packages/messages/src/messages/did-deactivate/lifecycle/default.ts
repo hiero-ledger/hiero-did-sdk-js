@@ -5,12 +5,15 @@ import { DIDDeactivateMessage } from '../message';
 
 export const DIDDeactivateMessageHederaDefaultLifeCycle =
   new LifecycleBuilder<DIDDeactivateMessage>()
-    .signWithSigner()
-    .pause()
-    .callback(async (message: DIDDeactivateMessage, publisher: Publisher) => {
-      await publisher.publish(
-        new TopicMessageSubmitTransaction()
-          .setTopicId(message.topicId)
-          .setMessage(message.payload),
-      );
-    });
+    .signWithSigner('signature')
+    .pause('pause')
+    .callback(
+      'publish-message',
+      async (message: DIDDeactivateMessage, publisher: Publisher) => {
+        await publisher.publish(
+          new TopicMessageSubmitTransaction()
+            .setTopicId(message.topicId)
+            .setMessage(message.payload),
+        );
+      },
+    );

@@ -5,12 +5,15 @@ import { DIDAddServiceMessage } from '../message';
 
 export const DIDAddServiceMessageHederaDefaultLifeCycle =
   new LifecycleBuilder<DIDAddServiceMessage>()
-    .signWithSigner()
-    .pause()
-    .callback(async (message: DIDAddServiceMessage, publisher: Publisher) => {
-      await publisher.publish(
-        new TopicMessageSubmitTransaction()
-          .setTopicId(message.topicId)
-          .setMessage(message.payload),
-      );
-    });
+    .signWithSigner('signature')
+    .pause('pause')
+    .callback(
+      'publish-message',
+      async (message: DIDAddServiceMessage, publisher: Publisher) => {
+        await publisher.publish(
+          new TopicMessageSubmitTransaction()
+            .setTopicId(message.topicId)
+            .setMessage(message.payload),
+        );
+      },
+    );

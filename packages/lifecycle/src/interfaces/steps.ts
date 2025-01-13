@@ -6,6 +6,7 @@ import { Publisher, DIDMessage } from '@swiss-digital-assets-institute/core';
  */
 export interface CallbackStep<Message extends DIDMessage> {
   type: 'callback';
+  label: string;
   callback: (message: Message, publisher: Publisher) => void | Promise<void>;
 }
 
@@ -15,6 +16,7 @@ export interface CallbackStep<Message extends DIDMessage> {
  */
 export interface SignStep {
   type: 'sign';
+  label: string;
 }
 
 /**
@@ -23,6 +25,7 @@ export interface SignStep {
  */
 export interface SignatureStep {
   type: 'signature';
+  label: string;
 }
 
 /**
@@ -31,6 +34,7 @@ export interface SignatureStep {
  */
 export interface PauseStep {
   type: 'pause';
+  label: string;
 }
 
 /**
@@ -39,6 +43,7 @@ export interface PauseStep {
  */
 export interface CatchStep {
   type: 'catch';
+  label: string;
   callback: (error: unknown) => void | Promise<void>;
 }
 
