@@ -162,7 +162,7 @@ describe('Deactivate DID operation', () => {
     await deactivateDID(
       {
         did: VALID_DID,
-        messageAwaiting: false,
+        waitForDIDVisibility: false,
       },
       {
         signer: defaultSigner,
@@ -179,7 +179,7 @@ describe('Deactivate DID operation', () => {
     await deactivateDID(
       {
         did: VALID_DID,
-        messageAwaitingTimeout: 1,
+        visibilityTimeoutMs: 1,
       },
       {
         signer: defaultSigner,

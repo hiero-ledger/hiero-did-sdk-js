@@ -75,7 +75,7 @@ export async function updateDID(
     .forMessages(messagesToWaitFor)
     .setStartsAt(new Date())
     .withTimeout(
-      operationOptions.messageAwaitingTimeout ?? MessageAwaiter.DEFAULT_TIMEOUT,
+      operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT,
     );
 
   // Execute updates
@@ -92,7 +92,7 @@ export async function updateDID(
   }
 
   // Wait for the messages to be available in the topic before resolving the updated DID document
-  if (operationOptions.messageAwaiting ?? true) {
+  if (operationOptions.waitForDIDVisibility ?? true) {
     await messageAwaiter.wait();
   }
 

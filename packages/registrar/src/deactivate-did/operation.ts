@@ -51,7 +51,7 @@ export async function deactivateDID(
     .forMessages([didDeactivateMessage.payload])
     .setStartsAt(new Date())
     .withTimeout(
-      operationOptions.messageAwaitingTimeout ?? MessageAwaiter.DEFAULT_TIMEOUT,
+      operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT,
     );
 
   const secondState = await manager.resume(firstState, runnerOptions);
@@ -68,7 +68,7 @@ export async function deactivateDID(
   }
 
   // Wait for the messages to be available in the topic before resolving the updated DID document
-  if (operationOptions.messageAwaiting ?? true) {
+  if (operationOptions.waitForDIDVisibility ?? true) {
     await messageAwaiter.wait();
   }
 

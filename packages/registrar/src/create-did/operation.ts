@@ -78,7 +78,7 @@ export async function createDID(
     .setStartsAt(new Date())
     .withWaitForTopic()
     .withTimeout(
-      operationOptions.messageAwaitingTimeout ?? MessageAwaiter.DEFAULT_TIMEOUT,
+      operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT,
     );
 
   // Resume the lifecycle
@@ -96,7 +96,7 @@ export async function createDID(
   }
 
   // Wait for the message to be available in the topic
-  if (operationOptions.messageAwaiting ?? true) {
+  if (operationOptions.waitForDIDVisibility ?? true) {
     await messageAwaiter.wait();
   }
 

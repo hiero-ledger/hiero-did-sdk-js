@@ -555,7 +555,7 @@ describe('Update DID operation', () => {
       await updateDID(
         {
           did: VALID_DID,
-          messageAwaiting: false,
+          waitForDIDVisibility: false,
           updates: {
             operation: 'remove-verification-method',
             id: '#test',
@@ -572,7 +572,7 @@ describe('Update DID operation', () => {
       await updateDID(
         {
           did: VALID_DID,
-          messageAwaitingTimeout: 1,
+          visibilityTimeoutMs: 1,
           updates: {
             operation: 'remove-verification-method',
             id: '#test',

@@ -244,7 +244,7 @@ describe('Create DID operation', () => {
 
     await createDID(
       {
-        messageAwaiting: false,
+        waitForDIDVisibility: false,
       },
       {
         clientOptions: {
@@ -263,7 +263,7 @@ describe('Create DID operation', () => {
 
     await createDID(
       {
-        messageAwaitingTimeout: 1,
+        visibilityTimeoutMs: 1,
       },
       {
         clientOptions: {
