@@ -46,7 +46,11 @@ describe('Update DID operation', () => {
     didDocumentMock.mockResolvedValue({
       id: VALID_DID,
       controller: VALID_DID,
-      verificationMethod: [],
+      verificationMethod: [
+        {
+          id: '#test',
+        },
+      ],
     });
   });
 
@@ -66,7 +70,6 @@ describe('Update DID operation', () => {
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
           ],
         },
@@ -94,7 +97,6 @@ describe('Update DID operation', () => {
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
           ],
         },
@@ -115,7 +117,6 @@ describe('Update DID operation', () => {
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
           ],
         },
@@ -145,7 +146,6 @@ describe('Update DID operation', () => {
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
           ],
         },
@@ -172,7 +172,6 @@ describe('Update DID operation', () => {
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
           ],
         },
@@ -187,11 +186,6 @@ describe('Update DID operation', () => {
     afterEach(() => {
       expect(result).toMatchObject({
         did: VALID_DID,
-      });
-      expect(result.didDocument).toMatchObject({
-        id: result.did,
-        controller: expect.any(String),
-        verificationMethod: [],
       });
 
       expect(
@@ -221,7 +215,6 @@ describe('Update DID operation', () => {
           updates: {
             operation: 'remove-verification-method',
             id: '#test',
-            property: 'verificationMethod',
           },
         },
         { signer, publisher },
@@ -238,17 +231,16 @@ describe('Update DID operation', () => {
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
             {
               operation: 'add-verification-method',
-              id: '#test',
+              id: '#test-vm',
               property: 'verificationMethod',
               publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
             },
             {
               operation: 'add-service',
-              id: '#test',
+              id: '#test-service',
               type: 'ServiceType',
               serviceEndpoint: 'http://example.com',
             },
@@ -272,14 +264,14 @@ describe('Update DID operation', () => {
 
       const firstOperation = {
         operation: 'add-verification-method',
-        id: '#test',
+        id: '#test-vm',
         property: 'verificationMethod',
         publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
       } as const;
 
       const secondOperation = {
         operation: 'add-service',
-        id: '#test',
+        id: '#test-service',
         type: 'ServiceType',
         serviceEndpoint: 'http://example.com',
       } as const;
@@ -310,14 +302,14 @@ describe('Update DID operation', () => {
 
       const firstOperation = {
         operation: 'add-verification-method',
-        id: '#test',
+        id: '#test-vm',
         property: 'verificationMethod',
         publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
       } as const;
 
       const secondOperation = {
         operation: 'add-service',
-        id: '#test',
+        id: '#test-service',
         type: 'ServiceType',
         serviceEndpoint: 'http://example.com',
       } as const;
@@ -353,12 +345,10 @@ describe('Update DID operation', () => {
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
             {
               operation: 'remove-service',
@@ -482,9 +472,77 @@ describe('Update DID operation', () => {
       expect(result).toBeDefined();
       expect(updateOperationsMock).not.toHaveBeenCalled();
     });
+
+    it('should throw an error when verification method to remove is not existing within current did document', async () => {
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: '#test',
+          },
+        ],
+        authentication: [
+          {
+            id: '#test-auth',
+          },
+        ],
+        keyAgreement: [
+          {
+            id: '#test-ka',
+          },
+        ],
+      });
+
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: [
+              {
+                operation: 'remove-verification-method',
+                id: '#not-existing',
+              },
+            ],
+          },
+          { signer, publisher },
+        ),
+      ).rejects.toThrow(
+        'Verification method id does not exist. Nothing to remove',
+      );
+    });
+
+    it('should throw an error when verification method to remove is a service', async () => {
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        service: [
+          {
+            id: '#srv',
+          },
+        ],
+      });
+
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: [
+              {
+                operation: 'remove-verification-method',
+                id: '#srv',
+              },
+            ],
+          },
+          { signer, publisher },
+        ),
+      ).rejects.toThrow(
+        'Cannot remove service using remove-verification-method operation',
+      );
+    });
   });
 
-  describe('message awaiting', () => {
+  describe('Message awaiting', () => {
     const publisher = new TestPublisher(jest.fn().mockReturnValue('testnet'));
     const signer = new TestSigner();
     signer.signMock.mockResolvedValue('test-signature');
@@ -496,7 +554,6 @@ describe('Update DID operation', () => {
           updates: {
             operation: 'remove-verification-method',
             id: '#test',
-            property: 'verificationMethod',
           },
         },
         { signer, publisher },
@@ -516,7 +573,6 @@ describe('Update DID operation', () => {
             {
               operation: 'remove-verification-method',
               id: '#test',
-              property: 'verificationMethod',
             },
             {
               operation: 'remove-service',
@@ -524,13 +580,13 @@ describe('Update DID operation', () => {
             },
             {
               operation: 'add-service',
-              id: '#test',
+              id: '#test-service',
               serviceEndpoint: 'http://example.com',
               type: 'ServiceType',
             },
             {
               operation: 'add-verification-method',
-              id: '#test',
+              id: '#test-vm',
               property: 'verificationMethod',
               publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
             },
@@ -559,7 +615,6 @@ describe('Update DID operation', () => {
           updates: {
             operation: 'remove-verification-method',
             id: '#test',
-            property: 'verificationMethod',
           },
         },
         { signer, publisher },
@@ -576,7 +631,6 @@ describe('Update DID operation', () => {
           updates: {
             operation: 'remove-verification-method',
             id: '#test',
-            property: 'verificationMethod',
           },
         },
         { signer, publisher },

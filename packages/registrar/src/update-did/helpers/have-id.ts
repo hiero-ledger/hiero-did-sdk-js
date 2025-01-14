@@ -1,4 +1,5 @@
 import { DIDDocument } from '@swiss-digital-assets-institute/core';
+import { fragmentSearch } from './fragment-search';
 
 /**
  * Check if the id is already in the current DID document
@@ -7,27 +8,6 @@ import { DIDDocument } from '@swiss-digital-assets-institute/core';
  * @returns True if the id is already in the current DID document, false otherwise
  */
 export function haveId(id: string, didDocument: DIDDocument): boolean {
-  const documentPropertyKeys = Object.keys(
-    didDocument,
-  ) as (keyof DIDDocument)[];
-
-  for (const key of documentPropertyKeys) {
-    const service = didDocument[key];
-
-    if (typeof service === 'string') {
-      continue;
-    }
-
-    for (const item of service) {
-      if (typeof item === 'string') {
-        continue;
-      }
-
-      if (item.id === id || item.id === `${didDocument.id}${id}`) {
-        return true;
-      }
-    }
-  }
-
-  return false;
+  const searchResult = fragmentSearch(id, didDocument);
+  return searchResult.found;
 }

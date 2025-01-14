@@ -5,19 +5,32 @@ import {
 } from '@swiss-digital-assets-institute/messages';
 import { RemoveVerificationMethodOperation } from '../interface';
 import { ExecuteFunction, PrepareFunction } from './interfaces';
+import { fragmentSearch } from '../helpers/fragment-search';
 
 export const prepare: PrepareFunction<
   DIDRemoveVerificationMethodMessage,
   RemoveVerificationMethodOperation
-> = async (options, operationOptions, _, signer, publisher) => {
+> = async (options, operationOptions, didDocument, signer, publisher) => {
   const manager = new LifecycleRunner(
     DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
   );
 
+  const foundedFragment = fragmentSearch(options.id, didDocument);
+
+  if (!foundedFragment.found) {
+    throw new Error('Verification method id does not exist. Nothing to remove');
+  }
+
+  if (foundedFragment.property === 'service') {
+    throw new Error(
+      'Cannot remove service using remove-verification-method operation',
+    );
+  }
+
   const message = new DIDRemoveVerificationMethodMessage({
     did: operationOptions.did,
     id: options.id,
-    property: options.property,
+    property: foundedFragment.property,
   });
 
   const state = await manager.process(message, {

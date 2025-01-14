@@ -74,11 +74,6 @@ export interface RemoveVerificationMethodOperation {
   operation: 'remove-verification-method';
 
   /**
-   * The name of the verification method or relationship to remove, e.g. 'keyAgreement'
-   */
-  property: VerificationMethodProperties;
-
-  /**
    * The ID of the verification method to remove, e.g. '#key-1'
    */
   id: string;

@@ -25,7 +25,6 @@ export class DIDUpdateBuilder {
   removeAuthenticationMethod(id: string): DIDUpdateBuilder {
     this.operations.push({
       operation: 'remove-verification-method',
-      property: 'authentication',
       id,
     });
     return this;
@@ -43,7 +42,6 @@ export class DIDUpdateBuilder {
   removeAssertionMethod(id: string): DIDUpdateBuilder {
     this.operations.push({
       operation: 'remove-verification-method',
-      property: 'assertionMethod',
       id,
     });
     return this;
@@ -61,7 +59,6 @@ export class DIDUpdateBuilder {
   removeKeyAgreementMethod(id: string): DIDUpdateBuilder {
     this.operations.push({
       operation: 'remove-verification-method',
-      property: 'keyAgreement',
       id,
     });
     return this;
@@ -79,7 +76,6 @@ export class DIDUpdateBuilder {
   removeVerificationMethod(id: string): DIDUpdateBuilder {
     this.operations.push({
       operation: 'remove-verification-method',
-      property: 'verificationMethod',
       id,
     });
     return this;
@@ -97,7 +93,6 @@ export class DIDUpdateBuilder {
   removeCapabilityInvocationMethod(id: string): DIDUpdateBuilder {
     this.operations.push({
       operation: 'remove-verification-method',
-      property: 'capabilityInvocation',
       id,
     });
     return this;
@@ -115,7 +110,6 @@ export class DIDUpdateBuilder {
   removeCapabilityDelegationMethod(id: string): DIDUpdateBuilder {
     this.operations.push({
       operation: 'remove-verification-method',
-      property: 'capabilityDelegation',
       id,
     });
     return this;

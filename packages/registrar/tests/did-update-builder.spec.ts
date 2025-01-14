@@ -62,37 +62,25 @@ describe('DID Update Builder', () => {
   });
 
   it.each([
-    [
-      'removeAuthenticationMethod',
-      { operation: 'remove-verification-method', property: 'authentication' },
-    ],
-    [
-      'removeAssertionMethod',
-      { operation: 'remove-verification-method', property: 'assertionMethod' },
-    ],
-    [
-      'removeKeyAgreementMethod',
-      { operation: 'remove-verification-method', property: 'keyAgreement' },
-    ],
+    ['removeAuthenticationMethod', { operation: 'remove-verification-method' }],
+    ['removeAssertionMethod', { operation: 'remove-verification-method' }],
+    ['removeKeyAgreementMethod', { operation: 'remove-verification-method' }],
     [
       'removeCapabilityDelegationMethod',
       {
         operation: 'remove-verification-method',
-        property: 'capabilityDelegation',
       },
     ],
     [
       'removeCapabilityInvocationMethod',
       {
         operation: 'remove-verification-method',
-        property: 'capabilityInvocation',
       },
     ],
     [
       'removeVerificationMethod',
       {
         operation: 'remove-verification-method',
-        property: 'verificationMethod',
       },
     ],
   ] as const)('should add a %s operation', (method, expected) => {
@@ -160,7 +148,6 @@ describe('DID Update Builder', () => {
       {
         operation: 'remove-verification-method',
         id: '#key-1',
-        property: 'assertionMethod',
       },
       { operation: 'remove-service', id: '#service-1' },
     ]);
