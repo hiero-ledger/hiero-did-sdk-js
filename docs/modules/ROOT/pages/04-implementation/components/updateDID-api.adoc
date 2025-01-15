@@ -134,9 +134,9 @@ Adds a new verification method to the DID Document.
 |`string`
 |The DID that controls the verification method. If not provided, the DID of the DID Document is used.
 
-|publicKeyMultibase
+|publicKeyMultibase?
 |`string`
-|The public key in multibase format to add. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-private-key.ts[example] in the source code.
+|The public key in multibase format to add. Optional when adding verification relationship as an alias to an existing verification method. In that case `id` must be the same as the existing verification method. Otherwise is required. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-private-key.ts[example] in the source code.
 
 |===
 
@@ -185,10 +185,6 @@ Removes an existing verification method from the DID Document.
 |id
 |`string`
 |A unique identifier for the verification method or relationship to remove. Must start with `#`, e.g., `#key-1`.
-
-|property
-|`VerificationMethodProperties`
-|A string representing the verification method or relationship property to remove. Possible values are: `verificationMethod`, `authentication`, `assertionMethod`, `keyAgreement`, `capabilityInvocation`, `capabilityDelegation`.
 
 |===
 
