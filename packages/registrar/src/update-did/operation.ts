@@ -12,9 +12,6 @@ import { prepareOperation, executeOperation } from './sub-operations';
  * Supports multiple operations in a single request.
  * If bulk operations are provided, they will be executed in order.
  * Each operation is executed in a separate transaction.
- * Currently, only the following operations are supported:
- * - AddVerificationMethod
- * - RemoveVerificationMethod
  * @param operationOptions Options for updating a DID
  * @param operationProviders Providers for updating a DID
  * @returns The result of updating a DID

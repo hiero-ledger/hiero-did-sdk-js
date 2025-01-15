@@ -540,6 +540,219 @@ describe('Update DID operation', () => {
         'Cannot remove service using remove-verification-method operation',
       );
     });
+
+    it('should throw an error when verification method to remove is a service', async () => {
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        service: [
+          {
+            id: '#srv',
+          },
+        ],
+      });
+
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: [
+              {
+                operation: 'remove-verification-method',
+                id: '#srv',
+              },
+            ],
+          },
+          { signer, publisher },
+        ),
+      ).rejects.toThrow(
+        'Cannot remove service using remove-verification-method operation',
+      );
+    });
+
+    it('should throw an error when verification method does not have a public key included', async () => {
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+      });
+
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: [
+              {
+                operation: 'add-verification-method',
+                id: '#test',
+                property: 'verificationMethod',
+              },
+            ],
+          },
+          { signer, publisher },
+        ),
+      ).rejects.toThrow('The public key is required for verification methods.');
+    });
+
+    it('should throw an error when a duplicate id with different key is being added', async () => {
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: '#test',
+            publicKeyMultibase: 'test',
+          },
+        ],
+      });
+
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: [
+              {
+                operation: 'add-verification-method',
+                id: '#test',
+                property: 'verificationMethod',
+                publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+              },
+            ],
+          },
+          { signer, publisher },
+        ),
+      ).rejects.toThrow(
+        'The fragment ID #test is already in use for another verification method.',
+      );
+    });
+
+    it('should throw an error when an alias is being added for verification method', async () => {
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: '#test',
+            publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          },
+        ],
+      });
+
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: [
+              {
+                operation: 'add-verification-method',
+                id: '#test',
+                property: 'verificationMethod',
+                publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+              },
+            ],
+          },
+          { signer, publisher },
+        ),
+      ).rejects.toThrow(
+        'The fragment ID #test is already in use for another verification method.',
+      );
+    });
+
+    it('should add an alias for verification method with providing the same key', async () => {
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: '#test',
+            publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          },
+        ],
+      });
+
+      await updateDID(
+        {
+          did: VALID_DID,
+          updates: [
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'assertionMethod',
+              publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+            },
+          ],
+        },
+        { signer, publisher },
+      );
+
+      const submittedMessage = JSON.parse(
+        TopicMessageSubmitTransactionMockImplementation.setMessage.mock
+          .calls[0] as string,
+      );
+      const submittedEvent = JSON.parse(
+        Buffer.from(
+          submittedMessage.message.event as string,
+          'base64',
+        ).toString('utf-8'),
+      );
+
+      expect(submittedEvent).toStrictEqual({
+        VerificationRelationship: {
+          id: `${VALID_DID}#test`,
+          type: expect.any(String),
+          controller: VALID_DID,
+          publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          relationshipType: 'assertionMethod',
+        },
+      });
+    });
+
+    it('should add an alias for verification method with not providing a key', async () => {
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: '#test',
+            publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          },
+        ],
+      });
+
+      await updateDID(
+        {
+          did: VALID_DID,
+          updates: [
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'assertionMethod',
+            },
+          ],
+        },
+        { signer, publisher },
+      );
+
+      const submittedMessage = JSON.parse(
+        TopicMessageSubmitTransactionMockImplementation.setMessage.mock
+          .calls[0] as string,
+      );
+      const submittedEvent = JSON.parse(
+        Buffer.from(
+          submittedMessage.message.event as string,
+          'base64',
+        ).toString('utf-8'),
+      );
+
+      expect(submittedEvent).toStrictEqual({
+        VerificationRelationship: {
+          id: `${VALID_DID}#test`,
+          type: expect.any(String),
+          controller: VALID_DID,
+          publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          relationshipType: 'assertionMethod',
+        },
+      });
+    });
   });
 
   describe('Message awaiting', () => {

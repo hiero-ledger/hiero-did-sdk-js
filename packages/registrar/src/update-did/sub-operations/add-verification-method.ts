@@ -3,8 +3,8 @@ import {
   DIDAddVerificationMethodMessage,
   DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
+import { fragmentSearch } from '../helpers/fragment-search';
 import { AddVerificationMethodOperation } from '../interface';
-import { haveId } from '../helpers/have-id';
 import { ExecuteFunction, PrepareFunction } from './interfaces';
 
 export const prepare: PrepareFunction<
@@ -17,8 +17,29 @@ export const prepare: PrepareFunction<
   signer,
   publisher,
 ) => {
-  if (haveId(options.id, currentDidDocument)) {
-    throw new Error('Verification method id already exists');
+  const foundFragment = fragmentSearch(options.id, currentDidDocument);
+
+  if (
+    options.property === 'verificationMethod' &&
+    !options.publicKeyMultibase
+  ) {
+    throw new Error('The public key is required for verification methods.');
+  }
+
+  if (foundFragment.found && options.property === 'verificationMethod') {
+    throw new Error(
+      `The fragment ID ${options.id} is already in use for another verification method.`,
+    );
+  }
+
+  if (
+    foundFragment.found &&
+    options.publicKeyMultibase &&
+    options.publicKeyMultibase !== foundFragment.item['publicKeyMultibase']
+  ) {
+    throw new Error(
+      `The fragment ID ${options.id} is already in use for another verification method.`,
+    );
   }
 
   const manager = new LifecycleRunner(
@@ -29,7 +50,9 @@ export const prepare: PrepareFunction<
     did: operationOptions.did,
     controller: options.controller ?? operationOptions.did,
     id: options.id,
-    publicKeyMultibase: options.publicKeyMultibase,
+    publicKeyMultibase: options.publicKeyMultibase
+      ? options.publicKeyMultibase
+      : foundFragment.item['publicKeyMultibase'],
     property: options.property,
   });
 

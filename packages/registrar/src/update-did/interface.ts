@@ -51,7 +51,7 @@ export interface AddVerificationMethodOperation {
   id: string;
 
   /**
-   * The name of the verification method or relationship to add, e.g. 'keyAgreement'
+   * The name of the verification method or relationship to add, e.g. 'keyAgreement', 'authentication', 'verificationMethod'
    */
   property: VerificationMethodProperties;
 
@@ -62,9 +62,10 @@ export interface AddVerificationMethodOperation {
 
   /**
    * The public key of the verification method or relationship to add.
-   * In multibase format.
+   * In multibase format. It can be optional when adding as an alias for an existing verification method.
+   * Note: If property is 'verificationMethod', this field is required.
    */
-  publicKeyMultibase: string;
+  publicKeyMultibase?: string;
 }
 
 export interface RemoveVerificationMethodOperation {
