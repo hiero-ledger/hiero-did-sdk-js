@@ -9,6 +9,7 @@ import {
 } from './mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
+import { resolveDID } from '@swiss-digital-assets-institute/resolver';
 import { createDID, CreateDIDResult } from '../src';
 import {
   CREATED_TOPIC_ID,
@@ -17,6 +18,14 @@ import {
   TestSigner,
   VALID_DID,
 } from './helpers';
+
+jest.mock('@swiss-digital-assets-institute/resolver', () => {
+  return {
+    resolveDID: jest.fn().mockRejectedValue(new Error('DID not found')),
+  };
+});
+
+const resolverMock = resolveDID as jest.Mock;
 
 describe('Create DID operation', () => {
   const TopicCreateTransactionMockImplementation = {
@@ -275,5 +284,20 @@ describe('Create DID operation', () => {
     );
 
     expect(MessageAwaiterWithTimeoutMock).toHaveBeenCalledWith(1);
+  });
+
+  it('should throw an error if DID already exist', async () => {
+    const clientPrivateKey = await PrivateKey.generateED25519Async();
+    resolverMock.mockResolvedValue({ id: VALID_DID });
+
+    await expect(
+      createDID({
+        clientOptions: {
+          network: 'testnet',
+          privateKey: clientPrivateKey,
+          accountId: '0.0.12345',
+        },
+      }),
+    ).rejects.toThrow('DID already exists');
   });
 });

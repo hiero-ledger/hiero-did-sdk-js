@@ -1,3 +1,4 @@
+import { resolveDID } from '@swiss-digital-assets-institute/resolver';
 import { Providers } from '../interfaces';
 import { CreateDIDOptions } from './interface';
 
@@ -49,4 +50,31 @@ const isProviders = (value: unknown): value is Providers => {
     'signer' in value ||
     'publisher' in value
   );
+};
+
+/**
+ * Check if a DID exists on the network
+ * @param did The DID to check
+ * @returns True if the DID exists
+ */
+export async function checkDIDExists(did: string): Promise<boolean> {
+  try {
+    const resolvedDID = await resolveDID(did);
+    return !!resolvedDID;
+  } catch (error) {
+    if (isDidNotFoundError(error)) {
+      return false;
+    }
+    throw error;
+  }
+}
+
+/**
+ * Check if the error is a DID not found error
+ * @param error The object to check
+ * @returns True if the error is a DID not found error
+ */
+// TODO: fix that with custom errors classes
+const isDidNotFoundError = (error: unknown): error is Error => {
+  return error instanceof Error && error.message === 'DID not found';
 };

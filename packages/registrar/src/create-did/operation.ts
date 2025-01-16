@@ -14,7 +14,7 @@ import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';
 import { getSigner } from '../shared/get-signer';
 import { MessageAwaiter } from '../shared/message-awaiter';
-import { extractOptions, extractProviders } from './utils';
+import { checkDIDExists, extractOptions, extractProviders } from './utils';
 import { CreateDIDOptions, CreateDIDResult } from './interface';
 
 /**
@@ -67,6 +67,10 @@ export async function createDID(
 
   if (firstState.status !== 'pause') {
     throw new Error('Should not be thrown');
+  }
+
+  if (await checkDIDExists(firstState.message.did)) {
+    throw new Error('DID already exists');
   }
 
   // Set up a message awaiter to wait for the message to be available in the topic

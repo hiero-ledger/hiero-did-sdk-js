@@ -50,6 +50,11 @@ export async function resolveDID(
 
   const topicReader = await new TopicReader(topicId, network).fetchAllToDate();
   const topicMessages = topicReader.getMessages();
+
+  if (topicMessages.length === 0) {
+    throw new Error('DID not found');
+  }
+
   const didDocumentBuilder = await DidDocumentBuilder.from(topicMessages)
     .forDID(did)
     .withVerifier(options.verifier)
