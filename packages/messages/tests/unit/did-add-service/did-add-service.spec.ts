@@ -90,7 +90,7 @@ describe('DID add service message', () => {
           serviceEndpoint: 'https://example.com',
           id: '#service-1',
         });
-      }).toThrow('The DID must be a valid Hedera DID.');
+      }).toThrow('The DID must be a valid Hedera DID');
     });
 
     it('should throw error when invalid service endpoint is provided', () => {
@@ -101,7 +101,7 @@ describe('DID add service message', () => {
           serviceEndpoint: 'some-invalid-endpoint',
           id: '#service-1',
         });
-      }).toThrow('The service endpoint must be a valid URI.');
+      }).toThrow('The service endpoint must be a valid URI');
     });
 
     it('should throw error when invalid ID is provided', () => {
@@ -112,7 +112,7 @@ describe('DID add service message', () => {
           serviceEndpoint: 'https://example.com',
           id: 'service-1',
         });
-      }).toThrow('The ID must be a valid property ID.');
+      }).toThrow('The ID must be a valid property ID');
     });
   });
 

@@ -1,4 +1,5 @@
 import { resolveDID } from '@swiss-digital-assets-institute/resolver';
+import { DIDError } from '@swiss-digital-assets-institute/core';
 import {
   checkDIDExists,
   extractOptions,
@@ -47,7 +48,9 @@ describe('Create DID utils', () => {
     });
 
     it('should throw an error if object is not a provider object', () => {
-      expect(() => extractProviders({})).toThrow('Invalid providers');
+      expect(() => extractProviders({})).toThrow(
+        'Required providers are missing',
+      );
     });
   });
 
@@ -61,7 +64,7 @@ describe('Create DID utils', () => {
 
     it('should return false if DID does not exist', async () => {
       const did = 'did:hedera:testnet:zguayisd';
-      resolverMock.mockRejectedValue(new Error('DID not found'));
+      resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
 
       expect(await checkDIDExists(did)).toBe(false);
     });

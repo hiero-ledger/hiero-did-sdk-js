@@ -3,9 +3,10 @@ import {
   DIDRemoveVerificationMethodMessage,
   DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
+import { DIDError } from '@swiss-digital-assets-institute/core';
 import { RemoveVerificationMethodOperation } from '../interface';
-import { ExecuteFunction, PrepareFunction } from './interfaces';
 import { fragmentSearch } from '../helpers/fragment-search';
+import { ExecuteFunction, PrepareFunction } from './interfaces';
 
 export const prepare: PrepareFunction<
   DIDRemoveVerificationMethodMessage,
@@ -18,12 +19,16 @@ export const prepare: PrepareFunction<
   const foundedFragment = fragmentSearch(options.id, didDocument);
 
   if (!foundedFragment.found) {
-    throw new Error('Verification method id does not exist. Nothing to remove');
+    throw new DIDError(
+      'invalidArgument',
+      'Verification method ID does not exist. Nothing to remove',
+    );
   }
 
   if (foundedFragment.property === 'service') {
-    throw new Error(
-      'Cannot remove service using remove-verification-method operation',
+    throw new DIDError(
+      'invalidArgument',
+      'Cannot remove a service using `remove-verification-method` operation',
     );
   }
 

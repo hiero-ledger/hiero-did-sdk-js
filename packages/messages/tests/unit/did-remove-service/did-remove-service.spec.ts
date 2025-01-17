@@ -80,7 +80,7 @@ describe('DID remove service message', () => {
           did: 'invalid',
           id: '#service-1',
         });
-      }).toThrow('The DID must be a valid Hedera DID.');
+      }).toThrow('The DID must be a valid Hedera DID');
     });
 
     it('should throw error when invalid ID is provided', () => {
@@ -89,7 +89,7 @@ describe('DID remove service message', () => {
           did: VALID_DID,
           id: 'service-1',
         });
-      }).toThrow('The ID must be a valid property ID.');
+      }).toThrow('The ID must be a valid property ID');
     });
   });
 

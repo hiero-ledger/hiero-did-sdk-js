@@ -1,5 +1,8 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { Signer as BaseSigner } from '@swiss-digital-assets-institute/core';
+import {
+  Signer as BaseSigner,
+  DIDError,
+} from '@swiss-digital-assets-institute/core';
 import {
   isEd25519DerPrivateKeyString,
   isEd25519PrivateKey,
@@ -22,7 +25,10 @@ export class Signer implements BaseSigner {
   constructor(privateKeyOrDer: string | PrivateKey) {
     if (typeof privateKeyOrDer === 'string') {
       if (!isEd25519DerPrivateKeyString(privateKeyOrDer)) {
-        throw new Error('Invalid private key format. Expected DER.');
+        throw new DIDError(
+          'invalidArgument',
+          'Invalid private key format. Expected DER.',
+        );
       }
 
       this.privateKey = PrivateKey.fromStringDer(privateKeyOrDer);
@@ -31,7 +37,10 @@ export class Signer implements BaseSigner {
     }
 
     if (!isEd25519PrivateKey(this.privateKey)) {
-      throw new Error('Invalid private key type. Expected ED25519.');
+      throw new DIDError(
+        'invalidArgument',
+        'Invalid private key type. Expected ED25519.',
+      );
     }
   }
 

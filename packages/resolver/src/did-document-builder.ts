@@ -11,6 +11,7 @@ import {
   DIDDocumentMetadata,
   isHederaDID,
   CborCodec,
+  DIDError,
 } from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
 import {
@@ -56,7 +57,7 @@ export class DidDocumentBuilder {
 
   forDID(did: string): DidDocumentBuilder {
     if (!isHederaDID(did)) {
-      throw new Error('Invalid DID');
+      throw new DIDError('invalidDid', 'The DID must be a valid Hedera DID');
     }
 
     this.did = did;
@@ -70,7 +71,10 @@ export class DidDocumentBuilder {
 
   async build(): Promise<DidDocumentBuilder> {
     if (!this.did) {
-      throw new Error('DID is required to build a DID document');
+      throw new DIDError(
+        'internalError',
+        'The DID is required to build a DID document, call forDID() first',
+      );
     }
 
     for (const rawMessage of this.messages) {
@@ -258,7 +262,8 @@ export class DidDocumentBuilder {
     signature: string,
   ): Promise<boolean> {
     if (!this.didPublicKey && !this.verifier) {
-      throw new Error(
+      throw new DIDError(
+        'internalError',
         'Cannot verify signature without a public key or a verifier',
       );
     }
@@ -363,7 +368,10 @@ export class DidDocumentBuilder {
       return;
     }
 
-    throw new Error('No public key found in DIDOwner event');
+    throw new DIDError(
+      'internalError',
+      'No public key found in `DIDOwner` event',
+    );
   }
 
   static from(messages: string[]): DidDocumentBuilder {

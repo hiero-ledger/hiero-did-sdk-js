@@ -30,7 +30,9 @@ describe('DID Document Builder', () => {
 
   it('should throw an error if DID is invalid', () => {
     const didDocumentBuilder = DidDocumentBuilder.from([]);
-    expect(() => didDocumentBuilder.forDID('invalid')).toThrow('Invalid DID');
+    expect(() => didDocumentBuilder.forDID('invalid')).toThrow(
+      'The DID must be a valid Hedera DID',
+    );
   });
 
   it('should set verifier', () => {

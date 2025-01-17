@@ -1,4 +1,4 @@
-import { Network } from '@swiss-digital-assets-institute/core';
+import { DIDError, Network } from '@swiss-digital-assets-institute/core';
 
 interface Output {
   /**
@@ -57,7 +57,7 @@ export function parseDIDUrl(didUrl: string): Output {
 
   const match = didUrl.match(didPattern);
   if (!match) {
-    throw new Error('Invalid DID URL format');
+    throw new DIDError('invalidDidUrl', 'Invalid DID URL format');
   }
 
   const [

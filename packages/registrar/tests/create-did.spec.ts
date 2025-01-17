@@ -10,6 +10,7 @@ import {
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
 import { resolveDID } from '@swiss-digital-assets-institute/resolver';
+import { DIDError } from '@swiss-digital-assets-institute/core';
 import { createDID, CreateDIDResult } from '../src';
 import {
   CREATED_TOPIC_ID,
@@ -19,9 +20,12 @@ import {
   VALID_DID,
 } from './helpers';
 
+const notFoundError = new DIDError('notFound', 'DID not found');
 jest.mock('@swiss-digital-assets-institute/resolver', () => {
   return {
-    resolveDID: jest.fn().mockRejectedValue(new Error('DID not found')),
+    resolveDID: jest.fn().mockImplementation(() => {
+      throw notFoundError;
+    }),
   };
 });
 

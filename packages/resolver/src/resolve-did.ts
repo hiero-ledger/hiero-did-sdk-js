@@ -1,5 +1,6 @@
 import {
   DIDDocument,
+  DIDError,
   DIDResolution,
   isHederaDID,
   JsonLdDIDDocument,
@@ -43,7 +44,7 @@ export async function resolveDID(
   options: ResolveDIDOptions = {},
 ): Promise<DIDDocument | JsonLdDIDDocument | DIDResolution | Uint8Array> {
   if (!isHederaDID(did)) {
-    throw new Error('Unsupported DID method or invalid DID');
+    throw new DIDError('invalidDid', 'Unsupported DID method or invalid DID');
   }
 
   const { topicId, network } = parseDID(did);
@@ -52,7 +53,7 @@ export async function resolveDID(
   const topicMessages = topicReader.getMessages();
 
   if (topicMessages.length === 0) {
-    throw new Error('DID not found');
+    throw new DIDError('notFound', 'The DID document was not found');
   }
 
   const didDocumentBuilder = await DidDocumentBuilder.from(topicMessages)
@@ -70,6 +71,9 @@ export async function resolveDID(
     case 'application/did+cbor':
       return didDocumentBuilder.toDidDocumentCbor();
     default:
-      throw new Error('Unsupported `accept` value');
+      throw new DIDError(
+        'representationNotSupported',
+        'Unsupported representation format',
+      );
   }
 }

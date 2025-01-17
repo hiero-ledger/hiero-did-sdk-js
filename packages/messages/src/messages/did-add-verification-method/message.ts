@@ -1,4 +1,5 @@
 import {
+  DIDError,
   DIDMessage,
   isEd25519PublicKey,
   isHederaDID,
@@ -29,19 +30,28 @@ export class DIDAddVerificationMethodMessage extends DIDMessage {
     super();
 
     if (!isHederaDID(payload.did)) {
-      throw new Error('The DID must be a valid Hedera DID.');
+      throw new DIDError('invalidDid', 'The DID must be a valid Hedera DID');
     }
 
     if (!isHederaDID(payload.controller)) {
-      throw new Error('The controller must be a valid Hedera DID.');
+      throw new DIDError(
+        'invalidDid',
+        'The controller must be a valid Hedera DID',
+      );
     }
 
     if (!isPropertyID(payload.id)) {
-      throw new Error('The ID must be a valid property ID.');
+      throw new DIDError(
+        'invalidArgument',
+        'The ID must be a valid property ID',
+      );
     }
 
     if (!isEd25519PublicKey(payload.publicKeyMultibase)) {
-      throw new Error('Invalid length for the public key.');
+      throw new DIDError(
+        'invalidPublicKeyLength',
+        'Invalid length for the public key',
+      );
     }
 
     this.controller = payload.controller;

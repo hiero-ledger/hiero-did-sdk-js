@@ -1,4 +1,5 @@
 import {
+  DIDError,
   DIDMessage,
   Publisher,
   Signer,
@@ -103,7 +104,10 @@ export class LifecycleRunner<Message extends DIDMessage> {
 
         if (step.type === 'sign') {
           if (!options.signer) {
-            throw new Error('Signer is missing, but required.');
+            throw new DIDError(
+              'invalidArgument',
+              'Signer is missing, but required',
+            );
           }
           await message.signWith(options.signer);
           await this.callHooks(step.label, message);
@@ -113,7 +117,10 @@ export class LifecycleRunner<Message extends DIDMessage> {
 
         if (step.type === 'signature') {
           if (!options.args?.signature) {
-            throw new Error('Signature is missing, but required.');
+            throw new DIDError(
+              'invalidArgument',
+              'Signature is missing, but required',
+            );
           }
 
           message.setSignature(options.args.signature);

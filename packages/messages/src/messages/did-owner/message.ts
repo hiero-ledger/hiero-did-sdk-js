@@ -4,9 +4,10 @@ import {
   Network,
   isHederaDID,
   KeysUtility,
+  DIDError,
 } from '@swiss-digital-assets-institute/core';
-import { DIDOwnerMessageConstructor, MessageSerialized } from './interfaces';
 import { isTopicId } from '../../validators/is-topic-id';
+import { DIDOwnerMessageConstructor, MessageSerialized } from './interfaces';
 
 /**
  * DIDOwnerMessage is a message that represents the creation of a DID Document.
@@ -26,7 +27,7 @@ export class DIDOwnerMessage extends DIDMessage {
     super();
 
     if (payload.controller && !isHederaDID(payload.controller)) {
-      throw new Error('Controller is not a valid Hedera DID');
+      throw new DIDError('invalidDid', 'Controller is not a valid Hedera DID');
     }
 
     this.controller = payload.controller;
@@ -57,7 +58,7 @@ export class DIDOwnerMessage extends DIDMessage {
    */
   get topicId(): string {
     if (!this._topicId) {
-      throw new Error('Topic ID is missing');
+      throw new DIDError('internalError', 'Topic ID is missing');
     }
 
     return this._topicId;
@@ -68,7 +69,7 @@ export class DIDOwnerMessage extends DIDMessage {
    */
   get did(): string {
     if (!this.network) {
-      throw new Error('Network is missing');
+      throw new DIDError('internalError', 'Network is missing');
     }
 
     const publicKeyBase58 = KeysUtility.fromPublicKey(
@@ -113,7 +114,10 @@ export class DIDOwnerMessage extends DIDMessage {
    */
   setTopicId(topicId: string): void {
     if (!isTopicId(topicId)) {
-      throw new Error('Topic ID is not a valid Hedera topic ID');
+      throw new DIDError(
+        'invalidArgument',
+        'Topic ID is not a valid Hedera topic ID',
+      );
     }
     this._topicId = topicId;
   }
@@ -124,7 +128,7 @@ export class DIDOwnerMessage extends DIDMessage {
    */
   setController(controller: string): void {
     if (!isHederaDID(controller)) {
-      throw new Error('Controller is not a valid Hedera DID');
+      throw new DIDError('invalidDid', 'Controller is not a valid Hedera DID');
     }
 
     this.controller = controller;

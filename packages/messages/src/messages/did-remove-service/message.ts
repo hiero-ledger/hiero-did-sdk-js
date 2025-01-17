@@ -1,4 +1,8 @@
-import { DIDMessage, isHederaDID } from '@swiss-digital-assets-institute/core';
+import {
+  DIDError,
+  DIDMessage,
+  isHederaDID,
+} from '@swiss-digital-assets-institute/core';
 import {
   DIDRemoveServiceMessageConstructor,
   MessageSerialized,
@@ -21,11 +25,14 @@ export class DIDRemoveServiceMessage extends DIDMessage {
     super();
 
     if (!isHederaDID(payload.did)) {
-      throw new Error('The DID must be a valid Hedera DID.');
+      throw new DIDError('invalidDid', 'The DID must be a valid Hedera DID');
     }
 
     if (!isPropertyID(payload.id)) {
-      throw new Error('The ID must be a valid property ID.');
+      throw new DIDError(
+        'invalidArgument',
+        'The ID must be a valid property ID',
+      );
     }
 
     this.timestamp = payload.timestamp || new Date();

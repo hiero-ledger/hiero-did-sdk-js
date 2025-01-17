@@ -77,7 +77,7 @@ describe('DID Deactivate message', () => {
           did: 'invalid',
           signature: Buffer.from('a random message'),
         });
-      }).toThrow('DID is not a valid Hedera DID');
+      }).toThrow('The DID must be a valid Hedera DID');
     });
   });
 

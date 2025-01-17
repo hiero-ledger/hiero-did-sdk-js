@@ -1,4 +1,8 @@
-import { DIDMessage, isHederaDID } from '@swiss-digital-assets-institute/core';
+import {
+  DIDError,
+  DIDMessage,
+  isHederaDID,
+} from '@swiss-digital-assets-institute/core';
 import {
   DIDAddServiceMessageConstructor,
   MessageSerialized,
@@ -24,15 +28,21 @@ export class DIDAddServiceMessage extends DIDMessage {
     super();
 
     if (!isHederaDID(payload.did)) {
-      throw new Error('The DID must be a valid Hedera DID.');
+      throw new DIDError('invalidDid', 'The DID must be a valid Hedera DID');
     }
 
     if (!isPropertyID(payload.id)) {
-      throw new Error('The ID must be a valid property ID.');
+      throw new DIDError(
+        'invalidArgument',
+        'The ID must be a valid property ID',
+      );
     }
 
     if (!isURI(payload.serviceEndpoint)) {
-      throw new Error('The service endpoint must be a valid URI.');
+      throw new DIDError(
+        'invalidArgument',
+        'The service endpoint must be a valid URI',
+      );
     }
 
     // Validate the service endpoint.

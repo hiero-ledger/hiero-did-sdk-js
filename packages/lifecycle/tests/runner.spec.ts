@@ -75,7 +75,7 @@ describe('Lifecycle runner class', () => {
         runner.process({} as never, {
           publisher,
         }),
-      ).rejects.toThrow('Signer is missing, but required.');
+      ).rejects.toThrow('Signer is missing, but required');
     });
 
     it('should be able to process signature step', async () => {
@@ -122,7 +122,7 @@ describe('Lifecycle runner class', () => {
             publisher,
           },
         ),
-      ).rejects.toThrow('Signature is missing, but required.');
+      ).rejects.toThrow('Signature is missing, but required');
     });
 
     it('should be able to process pause step', async () => {

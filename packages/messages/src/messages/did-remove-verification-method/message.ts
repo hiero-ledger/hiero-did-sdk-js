@@ -2,6 +2,7 @@ import {
   VerificationMethodProperties,
   DIDMessage,
   isHederaDID,
+  DIDError,
 } from '@swiss-digital-assets-institute/core';
 import {
   DIDRemoveVerificationMethodMessageConstructor,
@@ -26,11 +27,14 @@ export class DIDRemoveVerificationMethodMessage extends DIDMessage {
     super();
 
     if (!isHederaDID(payload.did)) {
-      throw new Error('The DID must be a valid Hedera DID.');
+      throw new DIDError('invalidDid', 'The DID must be a valid Hedera DID.');
     }
 
     if (!isPropertyID(payload.id)) {
-      throw new Error('The ID must be a valid property ID.');
+      throw new DIDError(
+        'invalidArgument',
+        'The ID must be a valid property ID',
+      );
     }
 
     this.timestamp = payload.timestamp || new Date();

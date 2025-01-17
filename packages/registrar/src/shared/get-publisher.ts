@@ -1,5 +1,5 @@
 import { Client } from '@hashgraph/sdk';
-import { Publisher } from '@swiss-digital-assets-institute/core';
+import { DIDError, Publisher } from '@swiss-digital-assets-institute/core';
 import { Publisher as InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { Providers } from '../interfaces';
 
@@ -23,8 +23,9 @@ export function getPublisher(providers: Providers): Publisher {
   }
 
   if (!providers.clientOptions) {
-    throw new Error(
-      'Missing client options or client or publisher, but one of them is required',
+    throw new DIDError(
+      'invalidArgument',
+      'Providers must contain client options or client or publisher',
     );
   }
 

@@ -111,14 +111,14 @@ describe('Lifecycle builder class', () => {
   it('should throw an error if the step does not exist', () => {
     const builder = new LifecycleBuilder();
 
-    expect(() => builder.getByIndex(0)).toThrow('Step does not exist');
+    expect(() => builder.getByIndex(0)).toThrow('Step index out of bounds');
   });
 
   it('should throw an error if the step does not exist', () => {
     const builder = new LifecycleBuilder();
 
     expect(() => builder.getByLabel('s1')).toThrow(
-      `Step with label s1 does not exist`,
+      `Step with label 's1' does not exist`,
     );
   });
 
@@ -126,7 +126,7 @@ describe('Lifecycle builder class', () => {
     const builder = new LifecycleBuilder();
 
     expect(() => builder.getIndexByLabel('s1')).toThrow(
-      `Step with label s1 does not exist`,
+      `Step with label 's1' does not exist`,
     );
   });
 
@@ -136,7 +136,7 @@ describe('Lifecycle builder class', () => {
     builder.callback('s1', jest.fn());
 
     expect(() => builder.callback('s1', jest.fn())).toThrow(
-      `Step with label s1 already exists`,
+      `Step with label 's1' already exists`,
     );
   });
 

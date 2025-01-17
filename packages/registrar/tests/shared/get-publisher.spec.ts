@@ -48,8 +48,6 @@ describe('Get publisher from providers', () => {
       getPublisher({
         signer: new TestSigner(),
       }),
-    ).toThrow(
-      'Missing client options or client or publisher, but one of them is required',
-    );
+    ).toThrow('Providers must contain client options or client or publisher');
   });
 });

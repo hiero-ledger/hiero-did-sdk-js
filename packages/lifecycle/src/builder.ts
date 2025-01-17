@@ -1,4 +1,4 @@
-import { DIDMessage } from '@swiss-digital-assets-institute/core';
+import { DIDError, DIDMessage } from '@swiss-digital-assets-institute/core';
 import { Steps, CallbackStep, CatchStep } from './interfaces/steps';
 
 /**
@@ -25,7 +25,7 @@ export class LifecycleBuilder<Message extends DIDMessage> {
    */
   getByIndex(stepIndex: number): Steps<Message> {
     if (stepIndex >= this.pipeline.length) {
-      throw new Error('Step does not exist');
+      throw new DIDError('internalError', 'Step index out of bounds');
     }
     return this.pipeline[stepIndex];
   }
@@ -40,7 +40,10 @@ export class LifecycleBuilder<Message extends DIDMessage> {
     const stepOrUndefined = this.pipeline.find((s) => s.label === stepLabel);
 
     if (!stepOrUndefined) {
-      throw new Error(`Step with label ${stepLabel} does not exist`);
+      throw new DIDError(
+        'internalError',
+        `Step with label '${stepLabel}' does not exist`,
+      );
     }
 
     return stepOrUndefined;
@@ -58,7 +61,10 @@ export class LifecycleBuilder<Message extends DIDMessage> {
     );
 
     if (stepIndexOrUndefined < 0) {
-      throw new Error(`Step with label ${stepLabel} does not exist`);
+      throw new DIDError(
+        'internalError',
+        `Step with label '${stepLabel}' does not exist`,
+      );
     }
 
     return stepIndexOrUndefined;
@@ -135,7 +141,10 @@ export class LifecycleBuilder<Message extends DIDMessage> {
 
   private validateLabel(label: string): void {
     if (this.pipeline.some((s) => s.label === label)) {
-      throw new Error(`Step with label ${label} already exists`);
+      throw new DIDError(
+        'internalError',
+        `Step with label '${label}' already exists`,
+      );
     }
   }
 }

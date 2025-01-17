@@ -3,7 +3,7 @@ import {
   TopicMessageSubmitTransaction,
 } from '@hashgraph/sdk';
 import { LifecycleBuilder } from '@swiss-digital-assets-institute/lifecycle';
-import { Publisher } from '@swiss-digital-assets-institute/core';
+import { DIDError, Publisher } from '@swiss-digital-assets-institute/core';
 import { DIDOwnerMessage } from '../message';
 
 export const DIDOwnerMessageHederaDefaultLifeCycle =
@@ -30,7 +30,10 @@ export const DIDOwnerMessageHederaDefaultLifeCycle =
         const topicId = response.topicId?.toString();
 
         if (!topicId) {
-          throw new Error('Topic ID is missing');
+          throw new DIDError(
+            'internalError',
+            `Failed to create topic, transaction status: ${response.status.toString()}`,
+          );
         }
 
         message.setTopicId(topicId);

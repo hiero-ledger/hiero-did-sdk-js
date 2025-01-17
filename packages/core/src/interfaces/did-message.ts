@@ -1,3 +1,4 @@
+import { DIDError } from './did-error';
 import { Signer } from './signer';
 
 export type DIDMessageOperation = 'create' | 'update' | 'revoke' | 'delete';
@@ -55,7 +56,10 @@ export abstract class DIDMessage {
    */
   get payload(): string {
     if (!this.signature) {
-      throw new Error('Signature is missing');
+      throw new DIDError(
+        'invalidSignature',
+        'DID message is missing a signature. Signature is required to construct a DID message payload.',
+      );
     }
 
     return JSON.stringify({

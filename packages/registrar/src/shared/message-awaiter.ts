@@ -5,6 +5,7 @@ import {
   TopicMessage,
   TopicMessageQuery,
 } from '@hashgraph/sdk';
+import { DIDError } from '@swiss-digital-assets-institute/core';
 
 /**
  * Class implementing a message awaiter for Hedera Consensus Service.
@@ -47,7 +48,10 @@ export class MessageAwaiter {
    */
   withTimeout(ms: number): this {
     if (ms <= 0) {
-      throw new Error('Timeout must be greater than 0');
+      throw new DIDError(
+        'invalidArgument',
+        'Timeout must be greater than 0 ms',
+      );
     }
 
     this.msTimeout = ms;
@@ -77,7 +81,10 @@ export class MessageAwaiter {
    */
   async wait(): Promise<void> {
     if (this.messages.length === 0) {
-      throw new Error('No messages to wait for');
+      throw new DIDError(
+        'internalError',
+        'No messages to wait for, call forMessages() first',
+      );
     }
 
     this.clear();
@@ -86,7 +93,10 @@ export class MessageAwaiter {
       const timeoutHandler = setTimeout(() => {
         this.onFinish();
         reject(
-          new Error('Message awaiter timeout reached. Messages not found.'),
+          new DIDError(
+            'internalError',
+            'Message awaiter timeout reached. Messages not found.',
+          ),
         );
       }, this.msTimeout ?? MessageAwaiter.DEFAULT_TIMEOUT);
 

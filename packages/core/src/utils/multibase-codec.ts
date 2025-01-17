@@ -6,6 +6,7 @@ import {
   base64url as base64urlpad,
   base64urlnopad as base64url,
 } from '@scure/base';
+import { DIDError } from '../interfaces';
 
 export type MultibaseAlgorithm =
   | 'base16'
@@ -68,7 +69,10 @@ export class MultibaseCodec {
     const decoder = this.bases[algorithm];
 
     if (!decoder) {
-      throw new Error('String is not a valid multibase encoded string');
+      throw new DIDError(
+        'invalidMultibase',
+        'Could not decode multibase string, invalid code point',
+      );
     }
 
     return decoder.decode(data.slice(1));
@@ -90,7 +94,7 @@ export class MultibaseCodec {
     const encoder = this.bases[algorithm];
 
     if (!encoder) {
-      throw new Error('Invalid multibase algorithm');
+      throw new DIDError('invalidMultibase', 'Invalid multibase algorithm');
     }
 
     return `${identifier}${encoder.encode(data)}`;

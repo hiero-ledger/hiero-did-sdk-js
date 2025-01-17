@@ -6,6 +6,7 @@ import {
 import { AddServiceOperation } from '../interface';
 import { haveId } from '../helpers/have-id';
 import { ExecuteFunction, PrepareFunction } from './interfaces';
+import { DIDError } from '@swiss-digital-assets-institute/core';
 
 export const prepare: PrepareFunction<
   DIDAddServiceMessage,
@@ -18,7 +19,7 @@ export const prepare: PrepareFunction<
   publisher,
 ) => {
   if (haveId(options.id, currentDidDocument)) {
-    throw new Error('Service id already exists');
+    throw new DIDError('invalidArgument', 'Service id already exists');
   }
 
   const manager = new LifecycleRunner(

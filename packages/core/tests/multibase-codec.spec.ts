@@ -79,7 +79,7 @@ describe('Multibase format utilities', () => {
 
   it('should throw an error when decoding an invalid multibase string', () => {
     expect(() => MultibaseCodec.decode('invalid')).toThrow(
-      'String is not a valid multibase encoded string',
+      'Could not decode multibase string, invalid code point',
     );
   });
 

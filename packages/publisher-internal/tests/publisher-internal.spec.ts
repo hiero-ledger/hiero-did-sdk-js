@@ -84,7 +84,7 @@ describe('Internal publisher class', () => {
     );
     const publisher = new Publisher(client);
 
-    expect(() => publisher.network()).toThrow('Unknown network, ledgerId: 0a');
+    expect(() => publisher.network()).toThrow('Unknown network, ledger ID: 0a');
 
     client.close();
   });

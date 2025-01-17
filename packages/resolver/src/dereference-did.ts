@@ -6,6 +6,7 @@ import {
   JsonLdVerificationMethod,
   DIDDereferenceResolution,
   ServiceEndpoint,
+  DIDError,
 } from '@swiss-digital-assets-institute/core';
 import { DereferenceDIDOptions, ResolveDIDOptions, Accept } from './interfaces';
 import { parseDIDUrl } from './helpers';
@@ -55,7 +56,10 @@ export async function dereferenceDID(
   options: ResolveDIDOptions = {},
 ): Promise<DereferenceDIDResult> {
   if (!isHederaDIDUrl(didUrl)) {
-    throw new Error('Unsupported DID method or invalid DID URL');
+    throw new DIDError(
+      'invalidDidUrl',
+      'Unsupported DID method or invalid DID URL',
+    );
   }
 
   const { fragment, params, did } = parseDIDUrl(didUrl);
@@ -82,6 +86,9 @@ export async function dereferenceDID(
     case 'application/did+cbor':
       return didDereferenceBuilder.toCbor();
     default:
-      throw new Error('Unsupported `accept` value');
+      throw new DIDError(
+        'representationNotSupported',
+        'Unsupported representation format',
+      );
   }
 }

@@ -1,4 +1,4 @@
-import { CborCodec } from '../../core/src';
+import { CborCodec, DIDError } from '@swiss-digital-assets-institute/core';
 import { resolveDID } from '../src';
 import { getAddVerificationMethodMessage, getDIDOwnerMessage } from './helpers';
 
@@ -166,7 +166,7 @@ describe('DID Resolver', () => {
     messagesMock.mockReturnValue(messages);
 
     await expect(resolveDID(did, 'invalid' as never)).rejects.toThrow(
-      'Unsupported `accept` value',
+      'Unsupported representation format',
     );
   });
 
@@ -181,7 +181,9 @@ describe('DID Resolver', () => {
   it('should return empty document what when did not found', async () => {
     messagesMock.mockReturnValue([]);
 
-    await expect(resolveDID(did)).rejects.toThrow('DID not found');
+    await expect(resolveDID(did)).rejects.toThrow(
+      new DIDError('notFound', 'The DID document was not found'),
+    );
   });
 
   afterEach(() => {

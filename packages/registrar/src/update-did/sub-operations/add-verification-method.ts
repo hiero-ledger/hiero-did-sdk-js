@@ -3,6 +3,7 @@ import {
   DIDAddVerificationMethodMessage,
   DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
+import { DIDError } from '@swiss-digital-assets-institute/core';
 import { fragmentSearch } from '../helpers/fragment-search';
 import { AddVerificationMethodOperation } from '../interface';
 import { ExecuteFunction, PrepareFunction } from './interfaces';
@@ -23,12 +24,16 @@ export const prepare: PrepareFunction<
     options.property === 'verificationMethod' &&
     !options.publicKeyMultibase
   ) {
-    throw new Error('The public key is required for verification methods.');
+    throw new DIDError(
+      'invalidPublicKey',
+      'The public key is required for verification methods',
+    );
   }
 
   if (foundFragment.found && options.property === 'verificationMethod') {
-    throw new Error(
-      `The fragment ID ${options.id} is already in use for another verification method.`,
+    throw new DIDError(
+      'invalidArgument',
+      `The fragment ID '${options.id}' is already in use for another verification method`,
     );
   }
 
@@ -37,8 +42,9 @@ export const prepare: PrepareFunction<
     options.publicKeyMultibase &&
     options.publicKeyMultibase !== foundFragment.item['publicKeyMultibase']
   ) {
-    throw new Error(
-      `The fragment ID ${options.id} is already in use for another verification method.`,
+    throw new DIDError(
+      'invalidArgument',
+      `The fragment ID '${options.id}' is already in use for another verification method`,
     );
   }
 

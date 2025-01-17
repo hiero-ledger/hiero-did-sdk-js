@@ -1,4 +1,4 @@
-import { Signer } from '@swiss-digital-assets-institute/core';
+import { DIDError, Signer } from '@swiss-digital-assets-institute/core';
 import { Signer as InternalSigner } from '@swiss-digital-assets-institute/signer-internal';
 import { PrivateKey } from '@hashgraph/sdk';
 
@@ -26,7 +26,10 @@ export function getSigner(
   }
 
   if (!autoCreate) {
-    throw new Error('Missing signer or private key');
+    throw new DIDError(
+      'invalidArgument',
+      'Signer or private key is required to perform the operation',
+    );
   }
 
   return InternalSigner.generate();

@@ -8,7 +8,7 @@ import {
 } from '@swiss-digital-assets-institute/lifecycle';
 import { Signer } from '@swiss-digital-assets-institute/signer-internal';
 import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
-import { KeysUtility } from '@swiss-digital-assets-institute/core';
+import { DIDError, KeysUtility } from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
 import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';
@@ -66,11 +66,11 @@ export async function createDID(
   const firstState = await manager.process(didOwnerMessage, runnerOptions);
 
   if (firstState.status !== 'pause') {
-    throw new Error('Should not be thrown');
+    throw new DIDError('internalError', 'Should not be thrown');
   }
 
   if (await checkDIDExists(firstState.message.did)) {
-    throw new Error('DID already exists');
+    throw new DIDError('internalError', 'DID already exists on the network');
   }
 
   // Set up a message awaiter to wait for the message to be available in the topic
@@ -96,7 +96,7 @@ export async function createDID(
   }
 
   if (secondState.status !== 'success') {
-    throw new Error('DID creation failed');
+    throw new DIDError('internalError', 'Failed to create the DID');
   }
 
   // Wait for the message to be available in the topic

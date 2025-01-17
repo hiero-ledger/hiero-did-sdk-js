@@ -46,7 +46,9 @@ describe('DID Message', () => {
 
     message.messageMock.mockReturnValue(messagePayload);
 
-    expect(() => message.payload).toThrow('Signature is missing');
+    expect(() => message.payload).toThrow(
+      'DID message is missing a signature. Signature is required to construct a DID message payload.',
+    );
   });
 
   it('should set the signature of the message', () => {

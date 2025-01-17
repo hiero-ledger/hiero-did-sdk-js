@@ -508,7 +508,7 @@ describe('Update DID operation', () => {
           { signer, publisher },
         ),
       ).rejects.toThrow(
-        'Verification method id does not exist. Nothing to remove',
+        'Verification method ID does not exist. Nothing to remove',
       );
     });
 
@@ -537,7 +537,7 @@ describe('Update DID operation', () => {
           { signer, publisher },
         ),
       ).rejects.toThrow(
-        'Cannot remove service using remove-verification-method operation',
+        'Cannot remove a service using `remove-verification-method` operation',
       );
     });
 
@@ -566,7 +566,7 @@ describe('Update DID operation', () => {
           { signer, publisher },
         ),
       ).rejects.toThrow(
-        'Cannot remove service using remove-verification-method operation',
+        'Cannot remove a service using `remove-verification-method` operation',
       );
     });
 
@@ -590,7 +590,7 @@ describe('Update DID operation', () => {
           },
           { signer, publisher },
         ),
-      ).rejects.toThrow('The public key is required for verification methods.');
+      ).rejects.toThrow('The public key is required for verification methods');
     });
 
     it('should throw an error when a duplicate id with different key is being added', async () => {
@@ -621,7 +621,7 @@ describe('Update DID operation', () => {
           { signer, publisher },
         ),
       ).rejects.toThrow(
-        'The fragment ID #test is already in use for another verification method.',
+        `The fragment ID '#test' is already in use for another verification method`,
       );
     });
 
@@ -653,7 +653,7 @@ describe('Update DID operation', () => {
           { signer, publisher },
         ),
       ).rejects.toThrow(
-        'The fragment ID #test is already in use for another verification method.',
+        `The fragment ID '#test' is already in use for another verification method`,
       );
     });
 

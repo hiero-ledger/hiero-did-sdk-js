@@ -1,4 +1,4 @@
-import { Network } from '@swiss-digital-assets-institute/core';
+import { DIDError, Network } from '@swiss-digital-assets-institute/core';
 
 interface Output {
   /**
@@ -37,7 +37,7 @@ export function parseDID(did: string): Output {
 
   const match = did.match(didPattern);
   if (!match) {
-    throw new Error('Invalid DID format');
+    throw new DIDError('invalidDid', 'Invalid DID format');
   }
 
   const [, method, network, publicKey, topicId] = match;

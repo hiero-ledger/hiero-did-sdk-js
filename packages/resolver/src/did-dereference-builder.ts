@@ -8,6 +8,7 @@ import {
   ServiceEndpoint,
   VerificationMethod,
   CborCodec,
+  DIDError,
 } from '@swiss-digital-assets-institute/core';
 
 export class DIDDereferenceBuilder {
@@ -43,7 +44,7 @@ export class DIDDereferenceBuilder {
       const fragmentData = this.dereferenceFragment();
 
       if (!fragmentData) {
-        throw new Error('Fragment not found in DID document');
+        throw new DIDError('notFound', 'Fragment not found in DID document');
       }
 
       return fragmentData;
@@ -53,13 +54,13 @@ export class DIDDereferenceBuilder {
       const queryData = this.dereferenceQuery();
 
       if (!queryData) {
-        throw new Error('Query not found in DID document');
+        throw new DIDError('notFound', 'Query not found in DID document');
       }
 
       return queryData;
     }
 
-    throw new Error('Unsupported DID URL');
+    throw new DIDError('invalidDidUrl', 'Unsupported DID URL parameters');
   }
 
   toJsonLd(): JsonLdService | JsonLdVerificationMethod | ServiceEndpoint {
@@ -138,7 +139,8 @@ export class DIDDereferenceBuilder {
     const hl = this.params['hl'];
 
     if (hl || versionTime || versionId) {
-      throw new Error(
+      throw new DIDError(
+        'invalidDidUrl',
         'HL, versionTime, and versionId params are not supported',
       );
     }
@@ -155,13 +157,19 @@ export class DIDDereferenceBuilder {
       let serviceEndpoint: ServiceEndpoint;
 
       if (Array.isArray(service.serviceEndpoint)) {
-        throw new Error('Multiple service endpoints are not supported');
+        throw new DIDError(
+          'representationNotSupported',
+          'Multiple service endpoints are not supported',
+        );
       } else {
         serviceEndpoint = service.serviceEndpoint;
       }
 
       if (typeof serviceEndpoint !== 'string') {
-        throw new Error('This service endpoint type is not supported');
+        throw new DIDError(
+          'representationNotSupported',
+          'This service endpoint type is not supported',
+        );
       }
 
       const parsedUrl = serviceEndpoint.endsWith('/')

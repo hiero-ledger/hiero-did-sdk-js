@@ -102,7 +102,7 @@ describe('DID Add verification method or verification relationship message', () 
           publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
           id: '#key-1',
         });
-      }).toThrow('The DID must be a valid Hedera DID.');
+      }).toThrow('The DID must be a valid Hedera DID');
     });
 
     it('should throw error when invalid key is provided', () => {
@@ -114,7 +114,7 @@ describe('DID Add verification method or verification relationship message', () 
           publicKeyMultibase: 'invalid',
           id: '#key-1',
         });
-      }).toThrow('Invalid length for the public key.');
+      }).toThrow('Invalid length for the public key');
     });
 
     it('should throw error when invalid controller is provided', () => {
@@ -126,7 +126,7 @@ describe('DID Add verification method or verification relationship message', () 
           publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
           id: '#key-1',
         });
-      }).toThrow('The controller must be a valid Hedera DID.');
+      }).toThrow('The controller must be a valid Hedera DID');
     });
 
     it('should throw error when invalid ID is provided', () => {
@@ -138,7 +138,7 @@ describe('DID Add verification method or verification relationship message', () 
           publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
           id: 'key-1',
         });
-      }).toThrow('The ID must be a valid property ID.');
+      }).toThrow('The ID must be a valid property ID');
     });
   });
 

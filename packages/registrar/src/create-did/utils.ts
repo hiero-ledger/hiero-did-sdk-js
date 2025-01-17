@@ -1,4 +1,5 @@
 import { resolveDID } from '@swiss-digital-assets-institute/resolver';
+import { DIDError } from '@swiss-digital-assets-institute/core';
 import { Providers } from '../interfaces';
 import { CreateDIDOptions } from './interface';
 
@@ -19,7 +20,7 @@ export function extractProviders<Options extends object>(
     return providersOrOptions;
   }
 
-  throw new Error('Invalid providers');
+  throw new DIDError('invalidArgument', 'Required providers are missing');
 }
 
 /**
@@ -74,7 +75,6 @@ export async function checkDIDExists(did: string): Promise<boolean> {
  * @param error The object to check
  * @returns True if the error is a DID not found error
  */
-// TODO: fix that with custom errors classes
 const isDidNotFoundError = (error: unknown): error is Error => {
-  return error instanceof Error && error.message === 'DID not found';
+  return error instanceof DIDError && error.code === 'notFound';
 };

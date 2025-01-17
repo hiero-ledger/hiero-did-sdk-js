@@ -7,6 +7,7 @@ import {
 import {
   Network,
   Publisher as BasePublisher,
+  DIDError,
 } from '@swiss-digital-assets-institute/core';
 
 /**
@@ -20,15 +21,24 @@ export class Publisher implements BasePublisher {
    */
   constructor(public readonly client: Client) {
     if (!client) {
-      throw new Error('Client is required');
+      throw new DIDError(
+        'invalidArgument',
+        'Hashgraph SDK Client is required to create a Publisher',
+      );
     }
 
     if (!client.ledgerId) {
-      throw new Error('Client must be configured with a network');
+      throw new DIDError(
+        'invalidArgument',
+        'Hashgraph SDK Client must be configured with a network',
+      );
     }
 
     if (!client.operatorPublicKey) {
-      throw new Error('Client must be configured with an operator account');
+      throw new DIDError(
+        'invalidArgument',
+        'Hashgraph SDK Client must be configured with an operator account',
+      );
     }
   }
 
@@ -57,7 +67,10 @@ export class Publisher implements BasePublisher {
       return 'local-node';
     }
 
-    throw new Error(`Unknown network, ledgerId: ${ledgerId.toString()}`);
+    throw new DIDError(
+      'internalError',
+      `Unknown network, ledger ID: ${ledgerId.toString()}`,
+    );
   }
 
   /**

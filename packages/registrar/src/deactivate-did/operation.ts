@@ -7,6 +7,7 @@ import {
   DIDDeactivateMessage,
   DIDDeactivateMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
+import { DIDError } from '@swiss-digital-assets-institute/core';
 import { DeactivateDIDOptions, DeactivateDIDResult } from './interface';
 import { Providers } from '../interfaces';
 import { getPublisher } from '../shared/get-publisher';
@@ -64,7 +65,7 @@ export async function deactivateDID(
   }
 
   if (secondState.status !== 'success') {
-    throw new Error('DID deactivation failed');
+    throw new DIDError('internalError', 'Failed to deactivate the DID');
   }
 
   // Wait for the messages to be available in the topic before resolving the updated DID document

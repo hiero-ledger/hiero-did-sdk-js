@@ -111,10 +111,12 @@ describe('Default DID Owner Lifecycle', () => {
         publisher: {
           network: () => NETWORK,
           publicKey: () => privateKey.publicKey,
-          publish: jest.fn().mockResolvedValue({}),
+          publish: jest.fn().mockResolvedValue({
+            status: 'failed',
+          }),
         },
       }),
-    ).rejects.toThrow('Topic ID is missing');
+    ).rejects.toThrow('Failed to create topic, transaction status: failed');
   });
 
   it('should skip the topic creation if the topic ID is already set', async () => {

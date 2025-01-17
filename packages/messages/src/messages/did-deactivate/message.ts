@@ -1,4 +1,8 @@
-import { DIDMessage, isHederaDID } from '@swiss-digital-assets-institute/core';
+import {
+  DIDError,
+  DIDMessage,
+  isHederaDID,
+} from '@swiss-digital-assets-institute/core';
 import {
   DIDDeactivateMessageConstructor,
   MessageSerialized,
@@ -19,7 +23,7 @@ export class DIDDeactivateMessage extends DIDMessage {
     super();
 
     if (!isHederaDID(payload.did)) {
-      throw new Error('DID is not a valid Hedera DID');
+      throw new DIDError('invalidDid', 'The DID must be a valid Hedera DID');
     }
 
     this.did = payload.did;
