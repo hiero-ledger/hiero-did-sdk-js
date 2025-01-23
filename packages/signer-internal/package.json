@@ -1,6 +1,6 @@
 {
   "name": "@swiss-digital-assets-institute/signer-internal",
-  "version": "0.0.2-alpha.14",
+  "version": "0.0.2-alpha.15",
   "description": "This package provides the `Signer` class, a core component of the Hashgraph DID SDK. It enables secure key management and digital signature generation for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
   "author": {
     "name": "The Hashgraph Association",
@@ -45,6 +45,6 @@
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
-    "@swiss-digital-assets-institute/core": "0.0.2-alpha.14"
+    "@swiss-digital-assets-institute/core": "0.0.2-alpha.15"
   }
 }
