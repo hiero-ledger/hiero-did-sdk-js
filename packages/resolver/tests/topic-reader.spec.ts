@@ -122,6 +122,15 @@ describe('Topic Reader', () => {
     expect(Client['close']).toHaveBeenCalledTimes(1);
   });
 
+  it('should result with not messages when topic not found', async () => {
+    const topicReader = new TopicReader('0.0.123', 'testnet');
+
+    const awaitedPromise = topicReader.fetchAllToDate();
+    callErrorHandler(new Error('5 NOT_FOUND: 0.0.123 does not exist'));
+
+    expect((await awaitedPromise).getMessages()).toEqual([]);
+  });
+
   it('should unsubscribe when error occurred', async () => {
     const topicReader = new TopicReader('0.0.123', 'testnet');
 

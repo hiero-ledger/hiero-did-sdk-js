@@ -59,6 +59,14 @@ export class TopicReader {
           this.client,
           (_, error) => {
             this.onFinish();
+
+            if (
+              error instanceof Error &&
+              error.message.startsWith('5 NOT_FOUND:')
+            ) {
+              resolve(this);
+            }
+
             reject(error);
           },
           (message) => this.parseMessage(message),
