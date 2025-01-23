@@ -13,7 +13,7 @@ import {
   VALID_DID,
 } from './helpers';
 import { TopicDIDMessage } from '../src/interfaces/topic-did-message';
-import { DID_ROOT_KEY_ID } from '../src/consts';
+import { DID_ROOT_KEY_ID, notFoundError } from '../src/consts';
 
 describe('DID Document Builder', () => {
   it('should load messages', () => {
@@ -722,29 +722,18 @@ describe('DID Document Builder', () => {
       );
     });
 
-    it('should return empty DID document if no messages are provided', async () => {
-      const didDocumentBuilder = await DidDocumentBuilder.from([])
-        .forDID(VALID_DID)
-        .build();
-      expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
-        id: VALID_DID,
-        controller: VALID_DID,
-        verificationMethod: [],
-      });
+    it('should throw not found error when no messages are provided', async () => {
+      await expect(
+        DidDocumentBuilder.from([]).forDID(VALID_DID).build(),
+      ).rejects.toThrow(notFoundError);
     });
 
-    it('should return empty DID document if no valid DID messages are provided', async () => {
-      const didDocumentBuilder = await DidDocumentBuilder.from([
-        'invalid-message',
-        'invalid-message',
-      ])
-        .forDID(VALID_DID)
-        .build();
-      expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
-        id: VALID_DID,
-        controller: VALID_DID,
-        verificationMethod: [],
-      });
+    it('should throw not found error if no valid DID messages are provided', async () => {
+      await expect(
+        DidDocumentBuilder.from(['invalid-message', 'invalid-message'])
+          .forDID(VALID_DID)
+          .build(),
+      ).rejects.toThrow(notFoundError);
     });
 
     describe('given a DID Owner message', () => {
@@ -773,6 +762,14 @@ describe('DID Document Builder', () => {
             },
           ],
         });
+      });
+
+      it('should throw an error if DID owner message was not fo requested DID', async () => {
+        await expect(
+          DidDocumentBuilder.from([didOwnerMessage.message])
+            .forDID(VALID_DID)
+            .build(),
+        ).rejects.toThrow(notFoundError);
       });
 
       it('should return DID document with additional verification method', async () => {

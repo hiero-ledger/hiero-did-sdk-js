@@ -9,6 +9,7 @@ import { ResolveDIDOptions, Accept } from './interfaces';
 import { parseDID } from './helpers';
 import { TopicReader } from './topic-reader';
 import { DidDocumentBuilder } from './did-document-builder';
+import { notFoundError } from './consts';
 
 /**
  * Resolve a DID to a DID document.
@@ -53,7 +54,7 @@ export async function resolveDID(
   const topicMessages = topicReader.getMessages();
 
   if (topicMessages.length === 0) {
-    throw new DIDError('notFound', 'The DID document was not found');
+    throw notFoundError;
   }
 
   const didDocumentBuilder = await DidDocumentBuilder.from(topicMessages)

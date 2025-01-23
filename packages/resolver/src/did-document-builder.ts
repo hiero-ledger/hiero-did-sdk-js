@@ -29,7 +29,7 @@ import {
 import { isDIDMessageEvent } from './validators/is-did-message-event';
 import { isJsonString } from './validators/is-json';
 import { isDIDMessage } from './validators/is-did-message';
-import { DID_ROOT_KEY_ID } from './consts';
+import { DID_ROOT_KEY_ID, notFoundError } from './consts';
 
 /**
  * A class to build a DID Document from a list of messages
@@ -77,6 +77,8 @@ export class DidDocumentBuilder {
       );
     }
 
+    let exists = false;
+
     for (const rawMessage of this.messages) {
       const didMessage = this.parseTopicMessage(rawMessage);
 
@@ -114,6 +116,7 @@ export class DidDocumentBuilder {
 
       // Handling the event
       if ('DIDOwner' in event) {
+        exists = true;
         this.handleDIDOwner(event);
 
         if (!this.createdAt) {
@@ -148,6 +151,10 @@ export class DidDocumentBuilder {
       }
 
       this.updatedAt = new Date(message.timestamp);
+    }
+
+    if (!exists) {
+      throw notFoundError;
     }
 
     return this;
