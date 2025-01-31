@@ -1,0 +1,71 @@
+= Verifier Class
+
+The `Verifier` is a fundamental component of the Hashgraph DID SDK, responsible for verifying digital signatures. Proper signature verification is essential for ensuring the authenticity and integrity of data, especially in the context of decentralized identifiers (DIDs). The `Verifier` supports the Hedera DID method, adhering to the DID specification and integrating seamlessly with the Hedera ecosystem.
+
+
+This component provides a standardized way to verify the authenticity and integrity of data, ensuring that it has not been tampered with.
+
+== Features
+
+*   **Signature Verification:** Verifies digital signatures to validate the origin and integrity of data.
+*   **Compatibility:** Supports various key formats.
+*   **Error Handling:**  Includes robust error handling for invalid keys and other potential issues.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Using the Verifier
+
+=== Verifying a Signature
+
+This example demonstrates how to verify a signature using the `Verifier`:
+
+[source, typescript]
+----
+import { Verifier } from "@hashgraph-did-js-sdk/verifier-internal"; // Import from verifier-internal
+
+async function main() {
+  const verifier = new Verifier(publicKey);
+
+  const isValid = await verifier.verify(message, signature);
+  console.log(`Signature valid? ${isValid}`);
+}
+
+main();
+----
+
+=== Creating a Verifier from a multibase-encoded Public Key
+
+This example demonstrates how to create a `Verifier` instance from a multibase-encoded public key:
+
+[source, typescript]
+----
+import { Verifier } from "@hashgraph-did-js-sdk/verifier-internal"; // Import from verifier-internal
+
+async function main() {
+  const verifier = Verifier.fromMultibase(multibasePublicKey);
+
+  const publicKey = await verifier.publicKey();
+  console.log(`Verifier public key: ${publicKey}`);
+}
+
+main();
+----
+
+=== Creating a Verifier from a base58-encoded Public Key
+
+This example demonstrates how to create a `Verifier` instance from a base58-encoded public key:
+
+[source, typescript]
+----
+import { Verifier } from "@hashgraph-did-js-sdk/verifier-internal"; // Import from verifier-internal
+
+async function main() {
+  const verifier = Verifier.fromBase58(base58PublicKey);
+
+  const publicKey = await verifier.publicKey();
+  console.log(`Verifier public key: ${publicKey}`);
+}
+----
+
+== References
+
+* xref:04-implementation/components/verifier-api.adoc[`Verifier` API Reference]

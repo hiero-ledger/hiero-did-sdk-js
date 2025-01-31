@@ -6,3 +6,4 @@ export * from './did-message';
 export * from './did-document';
 export * from './verification-method-properties';
 export * from './did-error';
+export * from './verifier';

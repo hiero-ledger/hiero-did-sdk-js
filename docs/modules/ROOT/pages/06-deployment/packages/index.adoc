@@ -21,6 +21,9 @@ These packages provide the essential building blocks for working with DIDs on He
 
 | link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/publisher-internal[@hashgraph-did-sdk/publisher-internal]
 | Provides the functionality to submit and execute transactions related to DID operations on the Hedera network.
+
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/verifier-internal[@hashgraph-did-sdk/verifier-internal]
+| Provides the functionality for verifying signatures on DID messages.
 |===
 
 == Advanced Packages

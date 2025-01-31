@@ -32,6 +32,7 @@
     *** xref:04-implementation/components/did-update-builder-guide.adoc[DIDUpdateBuilder]
     *** xref:04-implementation/components/deactivateDID-guide.adoc[deactivateDID]
     *** xref:04-implementation/components/signer-guide.adoc[Signer]
+    *** xref:04-implementation/components/verifier-guide.adoc[Verifier]
     *** xref:04-implementation/components/publisher-guide.adoc[Publisher]
 
     *** Advanced
@@ -47,6 +48,7 @@
     *** xref:04-implementation/components/did-update-builder-api[DIDUpdateBuilder]
     *** xref:04-implementation/components/deactivateDID-api.adoc[deactivateDID]
     *** xref:04-implementation/components/signer-api.adoc[Signer]
+    *** xref:04-implementation/components/verifier-api.adoc[Verifier]
     *** xref:04-implementation/components/publisher-api.adoc[Publisher]
 
     *** Advanced

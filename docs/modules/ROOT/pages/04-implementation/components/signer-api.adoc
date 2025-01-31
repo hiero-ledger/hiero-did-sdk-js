@@ -13,13 +13,13 @@ image::signer-class-diagram.png[]
 === `constructor` 
 [source,ts]
 ----
-constructor(privateKey?: string)
+constructor(privateKeyOrDer: string | PrivateKey)
 ----
 
 Initializes a new `Signer` instance.
 
 Parameters::
-* `privateKey`: (Optional) A private key in DER format. If not provided, a new key pair is generated.
+* `privateKeyOrDer`: (Required) A private key class instance or a private key in DER format.
 
 == Static Methods
 

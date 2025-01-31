@@ -1,0 +1,91 @@
+= Verifier API Reference
+
+This document provides a concise API reference for the `Verifier` class within the Hedera DID SDK for JavaScript. This class is responsible for verifying signatures.
+
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `Verifier` interface for interacting with cryptographic keys.
+
+image::verifier-class-diagram.png[]
+
+== Constructor
+
+=== `constructor` 
+[source,ts]
+----
+constructor(publicKey: PublicKey)
+----
+
+Initializes a new `Verifier` instance.
+
+Parameters::
+* `publicKey`: (Required) A public key class instance.
+
+== Static Methods
+
+=== `fromMultibase` 
+[source,ts]
+----
+static fromMultibase(multibase: string): Verifier
+----
+
+Initializes a new `Verifier` instance from a multibase-encoded public key.
+
+Returns::
+The new `Verifier` instance.
+
+
+=== `fromBase58` 
+[source,ts]
+----
+static fromBase58(base58: string): Verifier
+----
+
+Initializes a new `Verifier` instance from a base58-encoded public key.
+
+Returns::
+The new `Verifier` instance.
+
+
+== Methods
+
+=== `publicKey` 
+[source,ts]
+----
+publicKey(): string
+----
+
+Returns the public key associated with the `Verifier` instance in DER format.
+
+Returns::
+The public key in DER format.
+
+=== `verify` 
+[source,ts]
+----
+verify(message: Uint8Array, signature: Uint8Array): boolean
+----
+
+Verifies the given signature against the message and public key.
+
+Parameters::
+* `message`: The message that was signed.
+* `signature`: The signature to be verified.
+
+Returns::
+`true` if the signature is valid, `false` otherwise.
+
+== Errors
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception Class
+|Description
+
+|`InvalidPublicKeyError`
+|Thrown if the provided public key is not a valid DER-encoded string.
+|===
+
+== Class Implementation
+
+The Hashgraph DID SDK provides the `Verifier` class within its `verifier-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/verifier-internal`] package documentation.

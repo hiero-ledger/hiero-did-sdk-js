@@ -31,6 +31,9 @@
       ],
       "@swiss-digital-assets-institute/signer-internal": [
         "packages/signer-internal/src/index.ts"
+      ],
+      "@swiss-digital-assets-institute/verifier-internal": [
+        "packages/verifier-internal/src/index.ts"
       ]
     }
   },

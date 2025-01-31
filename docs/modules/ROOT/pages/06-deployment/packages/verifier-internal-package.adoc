@@ -1,0 +1,25 @@
+== Verifier Internal Package
+
+This package provides an internal verifier for the Hashgraph DID SDK. It's enables the verification of signatures using the provided public key.
+
+*Installation*
+
+[source,bash]
+----
+npm install @hashgraph-did-js-sdk/verifier-internal
+----
+
+*Usage*
+
+The example below demonstrates how to use the `Verifier`:
+
+[source,typescript]
+----
+import { Verifier } from '@hashgraph-did-js-sdk/verifier-internal'; 
+
+// Instantiate a new Verifier with a public key class instance
+const verifier = new Verifier(publicKey); 
+
+const publicKey = await verifier.publicKey(); 
+const isValid = await verifier.verify(message, signature);
+----
