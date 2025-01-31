@@ -1,7 +1,7 @@
 import {
   Service,
   VerificationMethod,
-  Signer,
+  Verifier,
   DIDDocument,
   KeysUtility,
   RelationShipProperties,
@@ -36,7 +36,7 @@ import { DID_ROOT_KEY_ID, notFoundError } from './consts';
  */
 export class DidDocumentBuilder {
   private did: string;
-  private verifier?: Signer;
+  private verifier?: Verifier;
 
   private didPublicKey: PublicKey;
   private createdAt?: Date;
@@ -64,7 +64,7 @@ export class DidDocumentBuilder {
     return this;
   }
 
-  withVerifier(verifier: Signer): DidDocumentBuilder {
+  withVerifier(verifier: Verifier): DidDocumentBuilder {
     this.verifier = verifier;
     return this;
   }
