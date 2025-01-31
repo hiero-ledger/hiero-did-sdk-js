@@ -86,6 +86,9 @@ describe('Lifecycle runner class', () => {
 
       const setSignatureMock = jest.fn();
       const signature = Buffer.from('signature');
+      const verifier = {
+        verify: () => true,
+      } as never;
 
       const state = await runner.process(
         {
@@ -95,12 +98,13 @@ describe('Lifecycle runner class', () => {
           publisher,
           args: {
             signature,
+            verifier,
           },
         },
       );
 
       expect(setSignatureMock).toHaveBeenCalledTimes(1);
-      expect(setSignatureMock).toHaveBeenCalledWith(signature);
+      expect(setSignatureMock).toHaveBeenCalledWith(signature, verifier);
       expect(state).toBeDefined();
       expect(state.status).toBe('success');
     });
@@ -122,7 +126,9 @@ describe('Lifecycle runner class', () => {
             publisher,
           },
         ),
-      ).rejects.toThrow('Signature is missing, but required');
+      ).rejects.toThrow(
+        'Signature and verifier are required for the signature step',
+      );
     });
 
     it('should be able to process pause step', async () => {

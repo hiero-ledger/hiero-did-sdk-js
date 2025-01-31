@@ -1,5 +1,6 @@
 import { DIDError } from './did-error';
 import { Signer } from './signer';
+import { Verifier } from './verifier';
 
 export type DIDMessageOperation = 'create' | 'update' | 'revoke' | 'delete';
 
@@ -82,9 +83,19 @@ export abstract class DIDMessage {
   /**
    * Sets the signature of the message.
    *
-   * @param signature - The signature to set.
+   * @param signature The signature to set.
+   * @param verifier The verifier class instance to verify the signature.
    */
-  public setSignature(signature: Uint8Array): void {
+  public async setSignature(
+    signature: Uint8Array,
+    verifier: Verifier,
+  ): Promise<void> {
+    const isValid = await verifier.verify(this.messageBytes, signature);
+
+    if (!isValid) {
+      throw new DIDError('invalidSignature', 'The signature is invalid');
+    }
+
     this.signature = signature;
   }
 }

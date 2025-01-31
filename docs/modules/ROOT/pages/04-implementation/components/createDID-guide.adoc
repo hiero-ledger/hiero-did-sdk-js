@@ -67,7 +67,7 @@ To modify the `controller` of a newly created DID, you can specify the desired c
 ----
 const { did, didDocument } = await createDID({
   controller: "did:hedera:mainnet:...", // Replace with your desired DID controller
-});
+}, { client });
 ----
 
 In this example, the `controller` property is used to specify the desired controller for the newly created DID. 
@@ -83,13 +83,43 @@ In certain cases, it may be desirable to create a DID associated with a specific
 ----
 const { did, didDocument } = await createDID({
   topicId: "0.0.0...", // Replace with your desired topic ID
-  client,
-});
+}, { client });
 ----
 
 **See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-DID.ts[example] in the source code.**
 
+== Using Client Managed Secret Mode
+
+In certain instances, keys are managed in a fashion that does not allow direct or indirect access by the SDK. Or you prefer to manage your keys yourself. In such a scenario, Client Managed Secret Mode can be utilized. In this mode, the DID SDK generates a signing request for you, so you can handle the signing process yourself. From it's design, the process is divided into two steps: `generateCreateDIDRequest` and `submitCreateDIDRequest`.
+
+The signing request contains all the necessary information about the algorithm of the signing and data to be signed. The serialized payload of the request is signed by the client and submitted to the SDK. The SDK then processes the request and creates the DID Document.
+
+In order to create a DID using Client Managed Secret Mode, you need to provide a public key in multibase format to the `generateCreateDIDRequest` function. The public key is used as a DID root key.
+
+[source,js]
+----
+const { state, signingRequest } = await generateCreateDIDRequest(
+  {
+    multibasePublicKey: publicMultibaseRootKey,
+  },
+  {
+    client,
+  },
+);
+
+const signature = await wallet.sign(signingRequest.serializedPayload);
+
+const { did, didDocument } = await submitCreateDIDRequest(
+  { state, signature },
+  {
+    client,
+  },
+);
+----
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-using-client-secret-mode.ts[example] in the source code.**
 
 == References
 
 * xref:04-implementation/components/createDID-api.adoc[`createDID` API Reference]
+* xref:04-implementation/components/generateCreateDIDRequest-api.adoc[`generateCreateDIDRequest` API Reference]
+* xref:04-implementation/components/submitCreateDIDRequest-api.adoc[`submitCreateDIDRequest` API Reference]

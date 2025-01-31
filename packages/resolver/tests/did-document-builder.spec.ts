@@ -1,5 +1,8 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { KeysUtility } from '@swiss-digital-assets-institute/core';
+import {
+  KeysUtility,
+  DID_ROOT_KEY_ID,
+} from '@swiss-digital-assets-institute/core';
 import { DidDocumentBuilder } from '../src/did-document-builder';
 import {
   getAddServiceMessage,
@@ -13,7 +16,7 @@ import {
   VALID_DID,
 } from './helpers';
 import { TopicDIDMessage } from '../src/interfaces/topic-did-message';
-import { DID_ROOT_KEY_ID, notFoundError } from '../src/consts';
+import { notFoundError } from '../src/consts';
 
 describe('DID Document Builder', () => {
   it('should load messages', () => {
@@ -808,7 +811,7 @@ describe('DID Document Builder', () => {
       });
 
       it('should return DID document with additional service', async () => {
-        const service = getAddServiceMessage({
+        const service = await getAddServiceMessage({
           privateKey: didOwnerMessage.privateKey,
           did: didOwnerMessage.did,
           serviceId: 'service-1',
@@ -873,7 +876,7 @@ describe('DID Document Builder', () => {
       });
 
       it('should stop process messages after deactivation message', async () => {
-        const deactivateMessage = getDeactivateMessage({
+        const deactivateMessage = await getDeactivateMessage({
           did: didOwnerMessage.did,
           privateKey: didOwnerMessage.privateKey,
         });
@@ -902,7 +905,7 @@ describe('DID Document Builder', () => {
       });
 
       it('should not process deactivation message with invalid signature', async () => {
-        const deactivateMessage = getDeactivateMessage({
+        const deactivateMessage = await getDeactivateMessage({
           did: didOwnerMessage.did,
           privateKey: didOwnerMessage.privateKey,
           signature: didOwnerMessage.privateKey.sign(new Uint8Array([1, 2])),
@@ -1013,12 +1016,13 @@ describe('DID Document Builder', () => {
       });
 
       it('should not be able to remove did root key', async () => {
-        const removeVerificationMethod = getRemoveVerificationMethodMessage({
-          keyId: DID_ROOT_KEY_ID.slice(1),
-          did: didOwnerMessage.did,
-          privateKey: didOwnerMessage.privateKey,
-          property: 'verificationMethod',
-        });
+        const removeVerificationMethod =
+          await getRemoveVerificationMethodMessage({
+            keyId: DID_ROOT_KEY_ID.slice(1),
+            did: didOwnerMessage.did,
+            privateKey: didOwnerMessage.privateKey,
+            property: 'verificationMethod',
+          });
 
         const didDocumentBuilder = await DidDocumentBuilder.from([
           didOwnerMessage.message,
@@ -1336,7 +1340,7 @@ describe('DID Document Builder', () => {
 
     describe('resolving when DID document is deactivated', () => {
       beforeEach(async () => {
-        const deactivateMessage = getDeactivateMessage({
+        const deactivateMessage = await getDeactivateMessage({
           did,
           privateKey,
         });

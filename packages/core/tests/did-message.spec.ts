@@ -1,4 +1,4 @@
-import { TestDIDMessage } from './helpers';
+import { TestDIDMessage, TestVerifier } from './helpers';
 
 describe('DID Message', () => {
   let message: TestDIDMessage;
@@ -21,14 +21,16 @@ describe('DID Message', () => {
     );
   });
 
-  it('should return proper payload of the message', () => {
+  it('should return proper payload of the message', async () => {
     const messagePayload = {
       foo: 'bar',
     };
     const signature = new Uint8Array([1, 2, 3, 4]);
+    const verifier = new TestVerifier();
+    verifier.verifyMock.mockReturnValue(true);
 
     message.messageMock.mockReturnValue(messagePayload);
-    message.setSignature(signature);
+    await message.setSignature(signature, verifier);
 
     const payload = message.payload;
 
@@ -51,12 +53,26 @@ describe('DID Message', () => {
     );
   });
 
-  it('should set the signature of the message', () => {
+  it('should set the valid signature of the message', async () => {
     const signature = new Uint8Array([1, 2, 3, 4]);
+    const verifier = new TestVerifier();
+    verifier.verifyMock.mockReturnValue(true);
 
-    message.setSignature(signature);
+    await message.setSignature(signature, verifier);
 
     expect(message.signature).toEqual(signature);
+  });
+
+  it('should throw an error when invalid signature', async () => {
+    const signature = new Uint8Array([1, 2, 3, 4]);
+    const verifier = new TestVerifier();
+    verifier.verifyMock.mockReturnValue(false);
+
+    await expect(() =>
+      message.setSignature(signature, verifier),
+    ).rejects.toThrow('The signature is invalid');
+
+    expect(message.signature).toBeUndefined();
   });
 
   it('should sign the message with the given signer', async () => {

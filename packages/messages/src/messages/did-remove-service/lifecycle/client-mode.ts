@@ -5,8 +5,9 @@ import { DIDRemoveServiceMessage } from '../message';
 
 export const DIDRemoveServiceMessageHederaCSMLifeCycle =
   new LifecycleBuilder<DIDRemoveServiceMessage>()
-    .pause('pause')
+    .pause('pause-for-signature')
     .signature('signature')
+    .pause('pause')
     .callback(
       'publish-message',
       async (message: DIDRemoveServiceMessage, publisher: Publisher) => {

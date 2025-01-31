@@ -6,19 +6,19 @@ import {
   MessageAwaiterConstructorMock,
   MessageAwaiterWaitMock,
   MessageAwaiterWithTimeoutMock,
-} from './mocks';
+} from '../mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
 import { resolveDID } from '@swiss-digital-assets-institute/resolver';
 import { DIDError } from '@swiss-digital-assets-institute/core';
-import { createDID, CreateDIDResult } from '../src';
+import { createDID, CreateDIDResult } from '../../src';
 import {
   CREATED_TOPIC_ID,
   OPERATOR_PUBLIC_KEY,
   TestPublisher,
   TestSigner,
   VALID_DID,
-} from './helpers';
+} from '../helpers';
 
 const notFoundError = new DIDError('notFound', 'DID not found');
 jest.mock('@swiss-digital-assets-institute/resolver', () => {

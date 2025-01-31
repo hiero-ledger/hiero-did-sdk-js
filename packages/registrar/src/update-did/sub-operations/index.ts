@@ -2,10 +2,10 @@ import {
   DIDDocument,
   Publisher,
   Signer,
+  Verifier,
+  DIDMessage,
 } from '@swiss-digital-assets-institute/core';
 import { RunnerState } from '@swiss-digital-assets-institute/lifecycle';
-import { DIDMessage } from '@swiss-digital-assets-institute/core';
-
 import {
   DIDUpdateOperation,
   DIDUpdateOperationsKeys,
@@ -15,10 +15,15 @@ import * as AddVerificationMethod from './add-verification-method';
 import * as RemoveVerificationMethod from './remove-verification-method';
 import * as AddService from './add-service';
 import * as RemoveService from './remove-service';
-import { ExecuteFunction, PrepareFunction } from './interfaces';
+import {
+  ExecuteFunction,
+  PreExecuteFunction,
+  PrepareFunction,
+} from './interfaces';
 
 interface OperationMapValue {
   execute: ExecuteFunction;
+  preExecute: PreExecuteFunction;
   prepare: PrepareFunction;
 }
 
@@ -33,15 +38,34 @@ export async function prepareOperation<T extends DIDUpdateOperation>(
   data: T,
   options: UpdateDIDOptions,
   currentDidDocument: DIDDocument,
-  signer: Signer,
+  clientMode: boolean,
   publisher: Publisher,
+  signer?: Signer,
 ): Promise<RunnerState<DIDMessage>> {
   return await OPERATIONS_MAP[data.operation].prepare(
     data,
     options,
     currentDidDocument,
-    signer,
+    clientMode,
     publisher,
+    signer,
+  );
+}
+
+export async function preExecuteOperation<
+  Operation extends DIDUpdateOperationsKeys,
+>(
+  operation: Operation,
+  message: RunnerState<DIDMessage>,
+  publisher: Publisher,
+  signature: Uint8Array,
+  verifier: Verifier,
+): Promise<RunnerState<DIDMessage>> {
+  return await OPERATIONS_MAP[operation].preExecute(
+    message,
+    publisher,
+    signature,
+    verifier,
   );
 }
 
@@ -50,8 +74,14 @@ export async function executeOperation<
 >(
   operation: Operation,
   message: RunnerState<DIDMessage>,
-  signer: Signer,
+  clientMode: boolean,
   publisher: Publisher,
+  signer?: Signer,
 ): Promise<RunnerState<DIDMessage>> {
-  return await OPERATIONS_MAP[operation].execute(message, signer, publisher);
+  return await OPERATIONS_MAP[operation].execute(
+    message,
+    clientMode,
+    publisher,
+    signer,
+  );
 }

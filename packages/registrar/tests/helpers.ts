@@ -1,6 +1,6 @@
 import {
   Network,
-  PublicKeyInBase58,
+  PublicKeyInDer,
   Publisher,
   Signer,
 } from '@swiss-digital-assets-institute/core';
@@ -23,7 +23,7 @@ export class TestSigner implements Signer {
     return this.signMock(data) as never;
   }
 
-  publicKey(): PublicKeyInBase58 {
+  publicKey(): PublicKeyInDer {
     return this.publicKeyMock() as never;
   }
 

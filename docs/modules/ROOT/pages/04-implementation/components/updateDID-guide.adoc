@@ -213,7 +213,52 @@ Verification relationships express the relationship between a verification metho
 
 **See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-DID-update-builder.ts[example] in the source code.**
 
+== Using Client Managed Secret Mode
+
+In certain instances, keys are managed in a fashion that does not allow direct or indirect access by the SDK. Or you prefer to manage your keys yourself. In such a scenario, Client Managed Secret Mode can be utilized. In this mode, the DID SDK generates a signing request for you, so you can handle the signing process yourself. From it's design, the process is divided into two steps: `generateUpdateDIDRequest` and `submitUpdateDIDRequest`.
+
+The signing request contains all the necessary information about the algorithm of the signing and data to be signed. The serialized payload of the request is signed by the client and submitted to the SDK. The SDK then processes the request and update the DID Document.
+
+[source,js]
+----
+const { states, signingRequests } = await generateUpdateDIDRequest(
+  {
+    did,
+    updates: new DIDUpdateBuilder()
+      .addService({
+        id: '#service-1',
+        type: 'VerifiableCredentialService',
+        serviceEndpoint: 'https://example.com/vc/',
+      })
+      .build(),
+  },
+  {
+    client,
+  },
+);
+
+const signatures = Object.keys(signingRequests).reduce((acc, request) => {
+  const signingRequest = signingRequests[request];
+  const signature = await wallet.sign(signingRequest.serializedPayload);
+
+  return {
+    ...acc,
+    [request]: signature,
+  };
+}, {});
+
+const updatedDidDocument = await submitUpdateDIDRequest(
+  { states, signatures },
+  {
+    client,
+  },
+);
+----
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-using-client-secret-mode.ts[example] in the source code.**
+
 == References
 
 * xref:04-implementation/components/updateDID-api.adoc[`updateDID` API Reference]
 * xref:04-implementation/components/did-update-builder-api.adoc[`DIDUpdateBuilder` API Reference]
+* xref:04-implementation/components/generateUpdateDIDRequest-api.adoc[`generateUpdateDIDRequest` API Reference]
+* xref:04-implementation/components/submitUpdateDIDRequest-api.adoc[`submitUpdateDIDRequest` API Reference]

@@ -50,6 +50,7 @@
     "@swiss-digital-assets-institute/messages": "0.0.2-alpha.16",
     "@swiss-digital-assets-institute/publisher-internal": "0.0.2-alpha.16",
     "@swiss-digital-assets-institute/resolver": "0.0.2-alpha.16",
-    "@swiss-digital-assets-institute/signer-internal": "0.0.2-alpha.16"
+    "@swiss-digital-assets-institute/signer-internal": "0.0.2-alpha.16",
+    "@swiss-digital-assets-institute/verifier-internal": "0.0.2-alpha.16"
   }
 }

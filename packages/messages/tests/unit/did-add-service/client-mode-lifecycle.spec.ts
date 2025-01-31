@@ -1,14 +1,18 @@
-import { LifecycleRunner, RunnerState } from '@swiss-digital-assets-institute/lifecycle';
+import {
+  LifecycleRunner,
+  RunnerState,
+} from '@swiss-digital-assets-institute/lifecycle';
 import { Publisher } from '@swiss-digital-assets-institute/core';
 import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDAddServiceMessage,
   DIDAddServiceMessageHederaCSMLifeCycle,
 } from '../../../src';
-import { SIGNATURE, VALID_DID } from '../helpers';
+import { SIGNATURE, TestVerifier, VALID_DID } from '../helpers';
 
 describe('Client mode DIDAddServiceMessage Lifecycle', () => {
   describe('when processing a valid DIDAddServiceMessage', () => {
+    const verifier = new TestVerifier();
     let publishMock: jest.Mock;
     let message: DIDAddServiceMessage;
     let result: RunnerState<DIDAddServiceMessage>;
@@ -42,18 +46,36 @@ describe('Client mode DIDAddServiceMessage Lifecycle', () => {
 
       expect(pauseStep.status).toBe('pause');
 
+      verifier.verifyMock.mockReturnValue(true);
+
       result = await runner.resume(pauseStep, {
         publisher,
         args: {
           signature: SIGNATURE,
+          verifier,
         },
       });
     });
 
-    it('should publish the message to the topic', () => {
-      expect(publishMock).toHaveBeenCalledWith(
-        expect.any(TopicMessageSubmitTransaction),
-      );
+    describe('when resuming the lifecycle', () => {
+      beforeEach(async () => {
+        const runner = new LifecycleRunner(
+          DIDAddServiceMessageHederaCSMLifeCycle,
+        );
+        result = await runner.resume(result, {
+          publisher: {
+            network: jest.fn(),
+            publicKey: jest.fn(),
+            publish: publishMock,
+          },
+        });
+      });
+
+      it('should publish the message to the topic', () => {
+        expect(publishMock).toHaveBeenCalledWith(
+          expect.any(TopicMessageSubmitTransaction),
+        );
+      });
     });
 
     it('should set the given signature', () => {

@@ -2,16 +2,35 @@ import {
   LifecycleRunner,
   RunnerState,
 } from '@swiss-digital-assets-institute/lifecycle';
-import { Publisher } from '@swiss-digital-assets-institute/core';
+import { Publisher, DIDError } from '@swiss-digital-assets-institute/core';
+import { resolveDID } from '@swiss-digital-assets-institute/resolver';
 import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDOwnerMessage,
   DIDOwnerMessageHederaCSMLifeCycle,
 } from '../../../src';
-import { NETWORK, SIGNATURE, VALID_DID_TOPIC_ID } from '../helpers';
+import {
+  NETWORK,
+  SIGNATURE,
+  TestVerifier,
+  VALID_DID_TOPIC_ID,
+} from '../helpers';
+
+jest.mock('@swiss-digital-assets-institute/resolver', () => {
+  return {
+    resolveDID: jest.fn(),
+  };
+});
+
+const resolverMock = resolveDID as jest.Mock;
 
 describe('Client Mode DID Owner Lifecycle', () => {
+  beforeEach(() => {
+    resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
+  });
+
   describe('when processing a valid DIDOwnerMessage', () => {
+    const verifier = new TestVerifier();
     let publishMock: jest.Mock;
     let message: DIDOwnerMessage;
     let result: RunnerState<DIDOwnerMessage>;
@@ -39,10 +58,13 @@ describe('Client Mode DID Owner Lifecycle', () => {
 
       expect(pauseStep.status).toBe('pause');
 
+      verifier.verifyMock.mockReturnValue(true);
+
       result = await runner.resume(pauseStep, {
         publisher,
         args: {
           signature: SIGNATURE,
+          verifier,
         },
       });
     });
@@ -59,10 +81,23 @@ describe('Client Mode DID Owner Lifecycle', () => {
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
-    it('should publish the message to the topic', () => {
-      expect(publishMock).toHaveBeenCalledWith(
-        expect.any(TopicMessageSubmitTransaction),
-      );
+    describe('when resuming the lifecycle', () => {
+      beforeEach(async () => {
+        const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
+        result = await runner.resume(result, {
+          publisher: {
+            network: jest.fn(),
+            publicKey: jest.fn(),
+            publish: publishMock,
+          },
+        });
+      });
+
+      it('should publish the message to the topic', () => {
+        expect(publishMock).toHaveBeenCalledWith(
+          expect.any(TopicMessageSubmitTransaction),
+        );
+      });
     });
 
     afterEach(() => {
@@ -93,6 +128,34 @@ describe('Client Mode DID Owner Lifecycle', () => {
         },
       }),
     ).rejects.toThrow('Failed to create topic, transaction status: failed');
+  });
+
+  it('should throw an error if the DID existing', async () => {
+    resolverMock.mockResolvedValue({ id: 'did:testnet' });
+
+    const privateKey = await PrivateKey.generateED25519Async();
+    const message = new DIDOwnerMessage({
+      publicKey: privateKey.publicKey,
+    });
+
+    const publishMock = jest.fn().mockResolvedValue({
+      topicId: VALID_DID_TOPIC_ID,
+    });
+    const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
+    await expect(
+      runner.process(message, {
+        signer: {
+          publicKey: () => privateKey.publicKey.toStringDer(),
+          sign: jest.fn(),
+          verify: jest.fn(),
+        },
+        publisher: {
+          network: () => NETWORK,
+          publicKey: () => privateKey.publicKey,
+          publish: publishMock,
+        },
+      }),
+    ).rejects.toThrow('DID already exists on the network');
   });
 
   it('should skip the topic creation if the topic ID is already set', async () => {

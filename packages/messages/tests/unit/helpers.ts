@@ -1,3 +1,5 @@
+import { PublicKeyInDer, Verifier } from '@swiss-digital-assets-institute/core';
+
 export const BASE64_PATTERN = /^[A-Za-z0-9=]+$/;
 
 export const PUBLIC_KEY_ED25519 =
@@ -10,3 +12,18 @@ export const VALID_DID = `did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbz
 
 export const NETWORK = 'testnet';
 export const SIGNATURE = new Uint8Array([1, 2, 3, 4]);
+
+export class TestVerifier implements Verifier {
+  constructor(
+    public readonly publicKeyMock: jest.Mock = jest.fn(),
+    public readonly verifyMock: jest.Mock = jest.fn(),
+  ) {}
+
+  publicKey(): PublicKeyInDer {
+    return this.publicKeyMock() as never;
+  }
+
+  verify(message: Uint8Array, signature: Uint8Array): boolean {
+    return this.verifyMock(message, signature) as never;
+  }
+}

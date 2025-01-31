@@ -5,8 +5,9 @@ import { DIDDeactivateMessage } from '../message';
 
 export const DIDDeactivateMessageHederaCSMLifeCycle =
   new LifecycleBuilder<DIDDeactivateMessage>()
-    .pause('pause')
+    .pause('pause-for-signature')
     .signature('signature')
+    .pause('pause')
     .callback(
       'publish-message',
       async (message: DIDDeactivateMessage, publisher: Publisher) => {

@@ -6,18 +6,28 @@ import {
   MessageAwaiterConstructorMock,
   MessageAwaiterWaitMock,
   MessageAwaiterWithTimeoutMock,
-} from './mocks';
+} from '../mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
-import { updateDID, UpdateDIDResult } from '../src';
+import {
+  DID_ROOT_KEY_ID,
+  KeysUtility,
+  VerificationMethod,
+} from '@swiss-digital-assets-institute/core';
+import {
+  generateUpdateDIDRequest,
+  submitUpdateDIDRequest,
+  UpdateDIDRequest,
+  UpdateDIDResult,
+} from '../../src';
 import {
   VALID_DID_TOPIC_ID,
   TestPublisher,
   TestSigner,
   VALID_DID,
   PUBLIC_KEY_MULTIBASE,
-} from './helpers';
-import * as UpdateSubOperations from '../src/update-did/sub-operations';
+} from '../helpers';
+import * as UpdateSubOperations from '../../src/update-did/sub-operations';
 
 const didDocumentMock = jest.fn();
 jest.mock('@swiss-digital-assets-institute/resolver', () => {
@@ -41,29 +51,59 @@ describe('Update DID operation', () => {
     () => TopicMessageSubmitTransactionMockImplementation,
   );
 
-  beforeEach(() => {
+  let didPrivateKey: PrivateKey;
+  let rootVerificationMethod: VerificationMethod;
+
+  const executeSigningRequest = (
+    signingRequests: UpdateDIDRequest['signingRequests'],
+  ): Record<string, Uint8Array> => {
+    const signatures = Object.keys(signingRequests).reduce((acc, request) => {
+      const signingRequest = signingRequests[request];
+      const signature = didPrivateKey.sign(signingRequest.serializedPayload);
+
+      return {
+        ...acc,
+        [request]: signature,
+      };
+    }, {});
+
+    return signatures;
+  };
+
+  beforeEach(async () => {
     jest.clearAllMocks();
+
+    didPrivateKey = await PrivateKey.generateED25519Async();
+
+    rootVerificationMethod = {
+      id: DID_ROOT_KEY_ID,
+      type: 'Ed25519VerificationKey2020',
+      controller: VALID_DID,
+      publicKeyMultibase: KeysUtility.fromPublicKey(
+        didPrivateKey.publicKey,
+      ).toMultibase(),
+    };
+
     didDocumentMock.mockResolvedValue({
       id: VALID_DID,
       controller: VALID_DID,
       verificationMethod: [
         {
           id: '#test',
+          publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
         },
+        rootVerificationMethod,
       ],
     });
   });
 
   describe('Provider options', () => {
     let result: UpdateDIDResult;
-    const defaultSigner = new TestSigner(
-      jest.fn().mockResolvedValue('test-signature'),
-    );
 
     it('should update a DID using provided client options', async () => {
       const clientPrivateKey = await PrivateKey.generateED25519Async();
 
-      result = await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -74,7 +114,19 @@ describe('Update DID operation', () => {
           ],
         },
         {
-          signer: defaultSigner,
+          clientOptions: {
+            network: 'testnet',
+            privateKey: clientPrivateKey,
+            accountId: '0.0.12345',
+          },
+        },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      result = await submitUpdateDIDRequest(
+        { states, signatures },
+        {
           clientOptions: {
             network: 'testnet',
             privateKey: clientPrivateKey,
@@ -90,7 +142,8 @@ describe('Update DID operation', () => {
         '0.0.12345',
         clientPrivateKey,
       );
-      result = await updateDID(
+
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -101,7 +154,15 @@ describe('Update DID operation', () => {
           ],
         },
         {
-          signer: defaultSigner,
+          client,
+        },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      result = await submitUpdateDIDRequest(
+        { states, signatures },
+        {
           client,
         },
       );
@@ -110,7 +171,7 @@ describe('Update DID operation', () => {
     it('should update a DID using provided publisher', async () => {
       const publisher = new TestPublisher();
 
-      result = await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -121,66 +182,20 @@ describe('Update DID operation', () => {
           ],
         },
         {
-          signer: defaultSigner,
+          publisher,
+        },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      result = await submitUpdateDIDRequest(
+        { states, signatures },
+        {
           publisher,
         },
       );
 
       expect(publisher.publishMock).toHaveBeenCalledTimes(1);
-    });
-
-    it('should update a DID using provided signer', async () => {
-      const publisher = new TestPublisher();
-
-      const privateKey = await PrivateKey.generateED25519Async();
-      const signer = new TestSigner();
-      signer.publicKeyMock.mockResolvedValue(
-        privateKey.publicKey.toStringDer(),
-      );
-      signer.signMock.mockResolvedValue('test-signature');
-
-      result = await updateDID(
-        {
-          did: VALID_DID,
-          updates: [
-            {
-              operation: 'remove-verification-method',
-              id: '#test',
-            },
-          ],
-        },
-        {
-          signer,
-          publisher,
-        },
-      );
-
-      expect(signer.signMock).toHaveBeenCalledTimes(1);
-    });
-
-    it('should create a new DID using provided private key', async () => {
-      const publisher = new TestPublisher();
-
-      const privateKey = await PrivateKey.generateED25519Async();
-      const signSpy = jest.spyOn(privateKey, 'sign');
-
-      result = await updateDID(
-        {
-          did: VALID_DID,
-          privateKey,
-          updates: [
-            {
-              operation: 'remove-verification-method',
-              id: '#test',
-            },
-          ],
-        },
-        {
-          publisher,
-        },
-      );
-
-      expect(signSpy).toHaveBeenCalledTimes(1);
     });
 
     afterEach(() => {
@@ -209,7 +224,7 @@ describe('Update DID operation', () => {
     });
 
     it('should take a single update operation', async () => {
-      const result = await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: {
@@ -217,14 +232,23 @@ describe('Update DID operation', () => {
             id: '#test',
           },
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      const result = await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       expect(result.didDocument).toBeDefined();
     });
 
     it('should take a batch of update operations', async () => {
-      const result = await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -250,7 +274,16 @@ describe('Update DID operation', () => {
             },
           ],
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      const result = await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       expect(result.didDocument).toBeDefined();
@@ -275,12 +308,22 @@ describe('Update DID operation', () => {
         type: 'ServiceType',
         serviceEndpoint: 'http://example.com',
       } as const;
-      const result = await updateDID(
+
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [firstOperation, secondOperation],
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      const result = await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       expect(result).toBeDefined();
@@ -313,12 +356,22 @@ describe('Update DID operation', () => {
         type: 'ServiceType',
         serviceEndpoint: 'http://example.com',
       } as const;
-      const result = await updateDID(
+
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [firstOperation, secondOperation],
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      const result = await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       expect(result).toBeDefined();
@@ -338,7 +391,7 @@ describe('Update DID operation', () => {
         'executeOperation',
       );
 
-      const result = await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -347,8 +400,10 @@ describe('Update DID operation', () => {
               id: '#test',
             },
             {
-              operation: 'remove-verification-method',
-              id: '#test',
+              operation: 'add-verification-method',
+              id: '#test2',
+              property: 'verificationMethod',
+              publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
             },
             {
               operation: 'remove-service',
@@ -356,26 +411,24 @@ describe('Update DID operation', () => {
             },
           ],
         },
-        { signer, publisher },
+        { publisher },
       );
 
-      expect(result).toBeDefined();
+      const signatures = executeSigningRequest(signingRequests);
+
+      await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
+      );
+
       expect(updateOperationsMock).toHaveBeenCalledTimes(3);
     });
 
     it('should throw an error if verification method already exists', async () => {
-      didDocumentMock.mockReturnValue({
-        id: VALID_DID,
-        controller: VALID_DID,
-        verificationMethod: [
-          {
-            id: '#test',
-          },
-        ],
-      });
-
       await expect(
-        updateDID(
+        generateUpdateDIDRequest(
           {
             did: VALID_DID,
             updates: [
@@ -388,7 +441,6 @@ describe('Update DID operation', () => {
             ],
           },
           {
-            signer,
             publisher,
           },
         ),
@@ -403,7 +455,7 @@ describe('Update DID operation', () => {
       });
 
       await expect(
-        updateDID(
+        generateUpdateDIDRequest(
           {
             did: VALID_DID,
             updates: [
@@ -415,7 +467,7 @@ describe('Update DID operation', () => {
               },
             ],
           },
-          { signer, publisher },
+          { publisher },
         ),
       ).rejects.toThrow();
     });
@@ -431,12 +483,13 @@ describe('Update DID operation', () => {
           {
             id: '#test',
           },
+          rootVerificationMethod,
         ],
       };
 
       didDocumentMock.mockReturnValue(didDocument);
 
-      const result = await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -448,7 +501,16 @@ describe('Update DID operation', () => {
             },
           ],
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      const result = await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       expect(result.didDocument).toBeDefined();
@@ -458,18 +520,19 @@ describe('Update DID operation', () => {
     it('should not perform any updates when update array is empty', async () => {
       const updateOperationsMock = jest.spyOn(
         UpdateSubOperations,
-        'executeOperation',
+        'prepareOperation',
       );
 
-      const result = await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [],
         },
-        { signer, publisher },
+        { publisher },
       );
 
-      expect(result).toBeDefined();
+      expect(states).toHaveLength(0);
+      expect(signingRequests).toStrictEqual({});
       expect(updateOperationsMock).not.toHaveBeenCalled();
     });
 
@@ -481,6 +544,7 @@ describe('Update DID operation', () => {
           {
             id: '#test',
           },
+          rootVerificationMethod,
         ],
         authentication: [
           {
@@ -495,7 +559,7 @@ describe('Update DID operation', () => {
       });
 
       await expect(
-        updateDID(
+        generateUpdateDIDRequest(
           {
             did: VALID_DID,
             updates: [
@@ -505,7 +569,7 @@ describe('Update DID operation', () => {
               },
             ],
           },
-          { signer, publisher },
+          { publisher },
         ),
       ).rejects.toThrow(
         'Verification method ID does not exist. Nothing to remove',
@@ -516,6 +580,7 @@ describe('Update DID operation', () => {
       didDocumentMock.mockResolvedValue({
         id: VALID_DID,
         controller: VALID_DID,
+        verificationMethod: [rootVerificationMethod],
         service: [
           {
             id: '#srv',
@@ -524,7 +589,7 @@ describe('Update DID operation', () => {
       });
 
       await expect(
-        updateDID(
+        generateUpdateDIDRequest(
           {
             did: VALID_DID,
             updates: [
@@ -534,7 +599,7 @@ describe('Update DID operation', () => {
               },
             ],
           },
-          { signer, publisher },
+          { publisher },
         ),
       ).rejects.toThrow(
         'Cannot remove a service using `remove-verification-method` operation',
@@ -545,6 +610,7 @@ describe('Update DID operation', () => {
       didDocumentMock.mockResolvedValue({
         id: VALID_DID,
         controller: VALID_DID,
+        verificationMethod: [rootVerificationMethod],
         service: [
           {
             id: '#srv',
@@ -553,7 +619,7 @@ describe('Update DID operation', () => {
       });
 
       await expect(
-        updateDID(
+        generateUpdateDIDRequest(
           {
             did: VALID_DID,
             updates: [
@@ -563,7 +629,7 @@ describe('Update DID operation', () => {
               },
             ],
           },
-          { signer, publisher },
+          { publisher },
         ),
       ).rejects.toThrow(
         'Cannot remove a service using `remove-verification-method` operation',
@@ -574,10 +640,11 @@ describe('Update DID operation', () => {
       didDocumentMock.mockResolvedValue({
         id: VALID_DID,
         controller: VALID_DID,
+        verificationMethod: [rootVerificationMethod],
       });
 
       await expect(
-        updateDID(
+        generateUpdateDIDRequest(
           {
             did: VALID_DID,
             updates: [
@@ -588,7 +655,7 @@ describe('Update DID operation', () => {
               },
             ],
           },
-          { signer, publisher },
+          { publisher },
         ),
       ).rejects.toThrow('The public key is required for verification methods');
     });
@@ -602,11 +669,12 @@ describe('Update DID operation', () => {
             id: '#test',
             publicKeyMultibase: 'test',
           },
+          rootVerificationMethod,
         ],
       });
 
       await expect(
-        updateDID(
+        generateUpdateDIDRequest(
           {
             did: VALID_DID,
             updates: [
@@ -618,7 +686,7 @@ describe('Update DID operation', () => {
               },
             ],
           },
-          { signer, publisher },
+          { publisher },
         ),
       ).rejects.toThrow(
         `The fragment ID '#test' is already in use for another verification method`,
@@ -634,11 +702,12 @@ describe('Update DID operation', () => {
             id: '#test',
             publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
           },
+          rootVerificationMethod,
         ],
       });
 
       await expect(
-        updateDID(
+        generateUpdateDIDRequest(
           {
             did: VALID_DID,
             updates: [
@@ -650,7 +719,7 @@ describe('Update DID operation', () => {
               },
             ],
           },
-          { signer, publisher },
+          { publisher },
         ),
       ).rejects.toThrow(
         `The fragment ID '#test' is already in use for another verification method`,
@@ -666,10 +735,11 @@ describe('Update DID operation', () => {
             id: '#test',
             publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
           },
+          rootVerificationMethod,
         ],
       });
 
-      await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -681,7 +751,16 @@ describe('Update DID operation', () => {
             },
           ],
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       const submittedMessage = JSON.parse(
@@ -715,10 +794,11 @@ describe('Update DID operation', () => {
             id: '#test',
             publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
           },
+          rootVerificationMethod,
         ],
       });
 
-      await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -729,7 +809,16 @@ describe('Update DID operation', () => {
             },
           ],
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       const submittedMessage = JSON.parse(
@@ -753,6 +842,115 @@ describe('Update DID operation', () => {
         },
       });
     });
+
+    it('should throw an error when request state is empty', async () => {
+      await expect(
+        submitUpdateDIDRequest(
+          {
+            states: [],
+            signatures: {},
+          },
+          {
+            publisher,
+          },
+        ),
+      ).rejects.toThrow('No states provided');
+    });
+
+    it('should throw an error when signatures are empty', async () => {
+      const { states } = await generateUpdateDIDRequest(
+        {
+          did: VALID_DID,
+          updates: [
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'assertionMethod',
+            },
+          ],
+        },
+        { publisher },
+      );
+
+      await expect(
+        submitUpdateDIDRequest(
+          { states, signatures: {} },
+          {
+            publisher,
+          },
+        ),
+      ).rejects.toThrow('Number of states and signatures do not match');
+    });
+
+    it('should throw an error when signature is missing', async () => {
+      const { states, signingRequests } = await generateUpdateDIDRequest(
+        {
+          did: VALID_DID,
+          updates: [
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'assertionMethod',
+            },
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'authentication',
+            },
+          ],
+        },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      delete signatures[Object.keys(signatures)[1]];
+
+      signatures['test'] = Buffer.from('test-signature');
+
+      await expect(
+        submitUpdateDIDRequest(
+          { states, signatures },
+          {
+            publisher,
+          },
+        ),
+      ).rejects.toThrow('Signature for sr-2 not found');
+    });
+
+    it('should throw an error when signature is invalid', async () => {
+      const { states, signingRequests } = await generateUpdateDIDRequest(
+        {
+          did: VALID_DID,
+          updates: [
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'assertionMethod',
+            },
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'authentication',
+            },
+          ],
+        },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      signatures[Object.keys(signatures)[1]] = new Uint8Array(64);
+
+      await expect(
+        submitUpdateDIDRequest(
+          { states, signatures },
+          {
+            publisher,
+          },
+        ),
+      ).rejects.toThrow('The signature is invalid');
+    });
   });
 
   describe('Message awaiting', () => {
@@ -761,7 +959,7 @@ describe('Update DID operation', () => {
     signer.signMock.mockResolvedValue('test-signature');
 
     it('should set message awaiter with proper topic id and network', async () => {
-      await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: {
@@ -769,7 +967,16 @@ describe('Update DID operation', () => {
             id: '#test',
           },
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
@@ -779,7 +986,7 @@ describe('Update DID operation', () => {
     });
 
     it('should set message awaiter for a created messages', async () => {
-      await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
           updates: [
@@ -805,7 +1012,16 @@ describe('Update DID operation', () => {
             },
           ],
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
       );
 
       expect(
@@ -821,32 +1037,49 @@ describe('Update DID operation', () => {
     });
 
     it('should not call wait method when messageAwaiting is set to false', async () => {
-      await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
-          waitForDIDVisibility: false,
           updates: {
             operation: 'remove-verification-method',
             id: '#test',
           },
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      await submitUpdateDIDRequest(
+        { states, signatures, waitForDIDVisibility: false },
+        {
+          publisher,
+        },
       );
 
       expect(MessageAwaiterWaitMock).not.toHaveBeenCalled();
     });
 
     it('should set a message awaiter different timeout', async () => {
-      await updateDID(
+      const { states, signingRequests } = await generateUpdateDIDRequest(
         {
           did: VALID_DID,
-          visibilityTimeoutMs: 1,
+
           updates: {
             operation: 'remove-verification-method',
             id: '#test',
           },
         },
-        { signer, publisher },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      await submitUpdateDIDRequest(
+        { states, signatures, visibilityTimeoutMs: 1 },
+        {
+          publisher,
+        },
       );
 
       expect(MessageAwaiterWithTimeoutMock).toHaveBeenCalledWith(1);

@@ -46,6 +46,7 @@
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
     "@swiss-digital-assets-institute/core": "0.0.2-alpha.16",
-    "@swiss-digital-assets-institute/lifecycle": "0.0.2-alpha.16"
+    "@swiss-digital-assets-institute/lifecycle": "0.0.2-alpha.16",
+    "@swiss-digital-assets-institute/resolver": "0.0.2-alpha.16"
   }
 }

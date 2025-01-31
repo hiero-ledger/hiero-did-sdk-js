@@ -5,16 +5,16 @@ import {
   MessageAwaiterConstructorMock,
   MessageAwaiterWaitMock,
   MessageAwaiterWithTimeoutMock,
-} from './mocks';
+} from '../mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
-import { deactivateDID, DeactivateDIDResult } from '../src';
+import { deactivateDID, DeactivateDIDResult } from '../../src';
 import {
   VALID_DID_TOPIC_ID,
   TestPublisher,
   TestSigner,
   VALID_DID,
-} from './helpers';
+} from '../helpers';
 
 describe('Deactivate DID operation', () => {
   const TopicMessageSubmitTransactionMockImplementation = {

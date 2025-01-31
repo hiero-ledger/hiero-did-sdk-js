@@ -38,8 +38,9 @@ const { did, didDocument } = await createDID({
 
 [source,javascript]
 ----
-const updatedDidDocument = await updateDID(did, {
-  document: { ... },
+const updatedDidDocument = await updateDID({
+  did,
+  updates: [...],
   privateKey: "0x...", // Your private key
 }, { clientOptions });
 ----
@@ -48,10 +49,10 @@ const updatedDidDocument = await updateDID(did, {
 
 [source,javascript]
 ----
-await deactivateDID(did, {
-  privateKey: "0x...", // Your private key
-  clientOptions,
-});
+await deactivateDID({
+    did,
+    privateKey: "0x...", // Your private key
+}, { clientOptions });
 ----
 
 
@@ -67,6 +68,8 @@ This approach is recommended for production systems and applications handling se
 image::external-secret-mode-diagram.png[]
 
 The `Signer` object acts as an interface to your external key management system.  For example, to use a HashiCorp Vault for key storage, you would configure the `VaultSigner`:
+
+NOTE: `VaultSigner` is not a part of the current DID SDK.
 
 [source,javascript]
 ----
@@ -87,17 +90,20 @@ const { did, didDocument } = await createDID({
 
 [source,javascript]
 ----
-const updatedDidDocument = await updateDID(did, {
-  document: { ... },
-  signer: signer.forKey(keyId), 
-}, { clientOptions });
+const updatedDidDocument = await updateDID({
+  did,
+  updates: [...],
+}, { 
+  client,
+  signer: signer.forKey(keyId) 
+});
 ----
 
 === Deactivating a DID
 
 [source,javascript]
 ----
-await deactivateDID(did, {
+await deactivateDID({ did }, {
   signer: signer.forKey(keyId), 
   clientOptions,
 });
@@ -113,14 +119,14 @@ This mode delegates private key management to the client application, often with
 
 image::client-managed-secret-mode-diagram.png[]
 
-This mode uses a specific lifecycle flow (`CMSMLifecycle`) to facilitate secure signing by the client. 
+This mode uses a specific lifecycle flow to facilitate secure signing by the client. 
 
 Here's how it works:
 
 1. **Server initiates the operation:**  The server starts the DID creation, update, or deactivation process.
-2. **Server pauses for client signature:** The server generates a cryptographic challenge and sends it to the client.
-3. **Client signs the challenge:** The client application (e.g., a wallet) uses the user's private key to sign the challenge.
-4. **Client returns the signature:** The signed challenge is sent back to the server.
+2. **Server pauses for client signature:** The server generates a signing request and sends it to the client.
+3. **Client signs the request:** The client application (e.g., a wallet) uses the user's private key to sign the request.
+4. **Client returns the signature:** The signed request is sent back to the server.
 5. **Server completes the operation:** The server verifies the signature and completes the DID operation.
 
 === Creating a DID
@@ -128,71 +134,76 @@ Here's how it works:
 [source,javascript]
 ----
 // Server initiates lifecycle flow and pauses
-const pauseStep = await createDID({
-  lifecycle: CMSMLifecycle,
-});
+const { state, signingRequest } = await generateCreateDIDRequest(
+  { multibasePublicKey: 'zK24v8mQF...' }, // Public key of client's wallet, used for DID root key
+  { client }
+);
 
-// Server sends event bytes to client for signing
-const eventBytes = pauseStep.message.eventBytes;
+// Server sends signing request to client
+// Client signs request payload with wallet and returns signature
+const payload = signingRequest.serializedPayload;
+const clientSignature = await wallet.sign(payload);
 
-// Client signs event bytes with wallet and returns signature
-const clientSignature = await wallet.sign(eventBytes);
-
-// Server resumes lifecycle and creates final DID
-const did = await createDID({
-  lifecycle: CMSMLifecycle,
-  from: pauseStep,
-  to: { label: "signing", args: { signature: clientSignature } },
-});
+// Server resumes lifecycle and creates final DID on the network
+const { did, didDocument } = await submitCreateDIDRequest(
+  state,
+  clientSignature,
+  { client }
+);
 ----
 
 === Updating a DID
 
 [source,javascript]
 ----
-// Server initiates the update and pauses
-const pauseStep = await updateDID(did, {
-  document: { ... },
-  lifecycle: CMSMLifecycle, 
-});
+// Server initiates lifecycle flow and pauses
+const { states, signingRequests } = await generateUpdateDIDRequest(
+  { did, updates: [...] },
+  { client }
+);
 
-// Server sends the data to be signed to the client
-const eventBytes = pauseStep.message.eventBytes;
+// Server sends signing requests to client
+// Client signs each request payload with wallet and returns signatures
+// Each request corresponds to a specific update operation, and the client signs them sequentially
+const signatures = Object.keys(signingRequests).reduce(async (acc, request) => {
+  const signingRequest = signingRequests[request];
+  const signature = await wallet.sign(signingRequest.serializedPayload);
 
-// Client signs the data and returns the signature
-const clientSignature = await wallet.sign(eventBytes);
+  return {
+    ..acc,
+    [request]: signature,
+  };
+}, {});
 
-// Server resumes the update with the client's signature
-const updatedDidDocument = await updateDID(did, {
-  lifecycle: CMSMLifecycle,
-  from: pauseStep,
-  to: { label: "signing", args: { signature: clientSignature } },
-}, { clientOptions });
+// Server resumes lifecycle and updates DID on the network
+const { did, didDocument } = await submitUpdateDIDRequest(
+  states,
+  signatures,
+  { client }
+);
 ----
 
 === Deactivating a DID
 
 [source,javascript]
 ----
-// Server initiates the deactivation and pauses
-const pauseStep = await deactivateDID(did, {
-  lifecycle: CMSMLifecycle, 
-  clientOptions,
-});
+// Server initiates lifecycle flow and pauses
+const { state, signingRequest } = await generateDeactivateDIDRequest(
+  { did },
+  { client }
+);
 
-// Server sends the data to be signed to the client
-const eventBytes = pauseStep.message.eventBytes;
+// Server sends signing request to client
+// Client signs request payload with wallet and returns signature
+const payload = signingRequest.serializedPayload;
+const clientSignature = await wallet.sign(payload);
 
-// Client signs the data and returns the signature
-const clientSignature = await wallet.sign(eventBytes);
-
-// Server resumes the deactivation with the client's signature
-await deactivateDID(did, {
-  lifecycle: CMSMLifecycle,
-  from: pauseStep,
-  to: { label: "signing", args: { signature: clientSignature } },
-  clientOptions,
-});
+// Server resumes lifecycle and creates final DID on the network
+const { did, didDocument } = await submitDeactivateDIDRequest(
+  state,
+  clientSignature,
+  { client }
+);
 ----
 
 == Next Steps

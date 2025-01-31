@@ -2,7 +2,7 @@ import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
 import { Client } from '@hashgraph/sdk';
 import { ClientOptions } from './client-options';
 
-export interface Providers {
+export interface PublisherProviders {
   /**
    * The client options used to create the Hedera client.
    * Used to create a Internal Publisher if the publisher is not provided.
@@ -16,12 +16,16 @@ export interface Providers {
   client?: Client;
 
   /**
-   * The signer used to sign messages.
-   */
-  signer?: Signer;
-
-  /**
    * The publisher used to publish transactions to the Hedera network.
    */
   publisher?: Publisher;
 }
+
+export interface SignerProviders {
+  /**
+   * The signer used to sign messages.
+   */
+  signer?: Signer;
+}
+
+export type Providers = PublisherProviders & SignerProviders;

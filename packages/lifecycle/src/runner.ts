@@ -3,6 +3,7 @@ import {
   DIDMessage,
   Publisher,
   Signer,
+  Verifier,
 } from '@swiss-digital-assets-institute/core';
 import { LifecycleBuilder } from './builder';
 import { RunnerState } from './interfaces/runner-state';
@@ -20,6 +21,11 @@ export interface LifecycleRunnerOptions {
      * Signature to use for the message.
      */
     signature?: Uint8Array;
+
+    /**
+     * Verifier to use for verifying the signature.
+     */
+    verifier?: Verifier;
   };
 
   /**
@@ -116,14 +122,17 @@ export class LifecycleRunner<Message extends DIDMessage> {
         }
 
         if (step.type === 'signature') {
-          if (!options.args?.signature) {
+          if (!options.args?.signature || !options.args?.verifier) {
             throw new DIDError(
               'invalidArgument',
-              'Signature is missing, but required',
+              'Signature and verifier are required for the signature step',
             );
           }
 
-          message.setSignature(options.args.signature);
+          await message.setSignature(
+            options.args.signature,
+            options.args.verifier,
+          );
           await this.callHooks(step.label, message);
 
           continue;

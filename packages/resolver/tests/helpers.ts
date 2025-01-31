@@ -25,6 +25,12 @@ interface DIDOwnerOptions {
   controller?: string;
 }
 
+const fakeVerifier = {
+  verify() {
+    return true;
+  },
+} as never;
+
 export async function getDIDOwnerMessage(options: DIDOwnerOptions = {}) {
   const privateKey = await PrivateKey.generateED25519Async();
   const message = new DIDOwnerMessage({
@@ -35,7 +41,7 @@ export async function getDIDOwnerMessage(options: DIDOwnerOptions = {}) {
   });
 
   const signature = privateKey.sign(message.messageBytes);
-  message.setSignature(signature);
+  await message.setSignature(signature, fakeVerifier);
 
   const publicKeyMultibase = KeysUtility.fromPublicKey(
     privateKey.publicKey,
@@ -73,10 +79,10 @@ export async function getAddVerificationMethodMessage(
   });
 
   if (options.signature) {
-    message.setSignature(options.signature);
+    await message.setSignature(options.signature, fakeVerifier);
   } else {
     const signature = options.privateKey.sign(message.messageBytes);
-    message.setSignature(signature);
+    await message.setSignature(signature, fakeVerifier);
   }
 
   return {
@@ -92,7 +98,7 @@ interface RemoveVerificationMethodOptions {
   keyId: string;
 }
 
-export function getRemoveVerificationMethodMessage(
+export async function getRemoveVerificationMethodMessage(
   options: RemoveVerificationMethodOptions,
 ) {
   const message = new DIDRemoveVerificationMethodMessage({
@@ -102,7 +108,7 @@ export function getRemoveVerificationMethodMessage(
   });
 
   const signature = options.privateKey.sign(message.messageBytes);
-  message.setSignature(signature);
+  await message.setSignature(signature, fakeVerifier);
 
   return {
     message: message.payload,
@@ -115,7 +121,7 @@ interface AddServiceOptions {
   serviceId: string;
 }
 
-export function getAddServiceMessage(options: AddServiceOptions) {
+export async function getAddServiceMessage(options: AddServiceOptions) {
   const message = new DIDAddServiceMessage({
     id: `#${options.serviceId}`,
     did: options.did,
@@ -124,7 +130,7 @@ export function getAddServiceMessage(options: AddServiceOptions) {
   });
 
   const signature = options.privateKey.sign(message.messageBytes);
-  message.setSignature(signature);
+  await message.setSignature(signature, fakeVerifier);
 
   return {
     message: message.payload,
@@ -137,14 +143,14 @@ interface RemoveServiceOptions {
   serviceId: string;
 }
 
-export function getRemoveServiceMessage(options: RemoveServiceOptions) {
+export async function getRemoveServiceMessage(options: RemoveServiceOptions) {
   const message = new DIDRemoveServiceMessage({
     id: `#${options.serviceId}`,
     did: options.did,
   });
 
   const signature = options.privateKey.sign(message.messageBytes);
-  message.setSignature(signature);
+  await message.setSignature(signature, fakeVerifier);
 
   return {
     message: message.payload,
@@ -157,16 +163,16 @@ interface DeactivateOptions {
   signature?: Uint8Array;
 }
 
-export function getDeactivateMessage(options: DeactivateOptions) {
+export async function getDeactivateMessage(options: DeactivateOptions) {
   const message = new DIDDeactivateMessage({
     did: options.did,
   });
 
   if (options.signature) {
-    message.setSignature(options.signature);
+    await message.setSignature(options.signature, fakeVerifier);
   } else {
     const signature = options.privateKey.sign(message.messageBytes);
-    message.setSignature(signature);
+    await message.setSignature(signature, fakeVerifier);
   }
 
   return {

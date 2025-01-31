@@ -178,7 +178,7 @@ describe('DID Resolver', () => {
     );
   });
 
-  it('should return empty document what when did not found', async () => {
+  it('should throw an error when did not found', async () => {
     messagesMock.mockReturnValue([]);
 
     await expect(resolveDID(did)).rejects.toThrow(

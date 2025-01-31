@@ -1,4 +1,4 @@
-import { CborCodec } from '@swiss-digital-assets-institute/core';
+import { CborCodec, DIDError } from '@swiss-digital-assets-institute/core';
 import { resolveDID } from '../src';
 import { dereferenceDID } from '../src/dereference-did';
 import { DID_RESOLUTION, VALID_DID } from './helpers';
@@ -91,6 +91,13 @@ describe('DID Dereference', () => {
     await expect(
       dereferenceDID(`${VALID_DID}#srv-2`, 'application/json' as never),
     ).rejects.toThrow();
+  });
+
+  it('should throw an error when did not found', async () => {
+    const error = new DIDError('notFound', 'The DID document was not found');
+    didDocumentMock.mockRejectedValue(error);
+
+    await expect(resolveDID(VALID_DID)).rejects.toThrow(error);
   });
 
   afterEach(() => {

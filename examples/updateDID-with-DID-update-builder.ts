@@ -47,4 +47,4 @@ async function main() {
   }
 }
 
-main();
+main().finally(() => client.close());

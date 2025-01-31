@@ -12,6 +12,7 @@ import {
   isHederaDID,
   CborCodec,
   DIDError,
+  DID_ROOT_KEY_ID,
 } from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
 import {
@@ -29,7 +30,7 @@ import {
 import { isDIDMessageEvent } from './validators/is-did-message-event';
 import { isJsonString } from './validators/is-json';
 import { isDIDMessage } from './validators/is-did-message';
-import { DID_ROOT_KEY_ID, notFoundError } from './consts';
+import { notFoundError } from './consts';
 
 /**
  * A class to build a DID Document from a list of messages

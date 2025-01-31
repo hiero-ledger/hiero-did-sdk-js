@@ -1,17 +1,24 @@
 import {
   DIDRemoveServiceMessage,
   DIDRemoveServiceMessageHederaDefaultLifeCycle,
+  DIDRemoveServiceMessageHederaCSMLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
 import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
 import { RemoveServiceOperation } from '../interface';
-import { ExecuteFunction, PrepareFunction } from './interfaces';
+import {
+  ExecuteFunction,
+  PreExecuteFunction,
+  PrepareFunction,
+} from './interfaces';
 
 export const prepare: PrepareFunction<
   DIDRemoveServiceMessage,
   RemoveServiceOperation
-> = async (options, operationOptions, _, signer, publisher) => {
+> = async (options, operationOptions, _, clientMode, publisher, signer) => {
   const manager = new LifecycleRunner(
-    DIDRemoveServiceMessageHederaDefaultLifeCycle,
+    clientMode
+      ? DIDRemoveServiceMessageHederaCSMLifeCycle
+      : DIDRemoveServiceMessageHederaDefaultLifeCycle,
   );
 
   const message = new DIDRemoveServiceMessage({
@@ -27,13 +34,37 @@ export const prepare: PrepareFunction<
   return state;
 };
 
-export const execute: ExecuteFunction<DIDRemoveServiceMessage> = async (
+export const preExecute: PreExecuteFunction<DIDRemoveServiceMessage> = async (
   previousState,
-  signer,
   publisher,
+  signature,
+  verifier,
 ) => {
   const manager = new LifecycleRunner(
-    DIDRemoveServiceMessageHederaDefaultLifeCycle,
+    DIDRemoveServiceMessageHederaCSMLifeCycle,
+  );
+
+  const state = await manager.resume(previousState, {
+    publisher,
+    args: {
+      signature,
+      verifier,
+    },
+  });
+
+  return state;
+};
+
+export const execute: ExecuteFunction<DIDRemoveServiceMessage> = async (
+  previousState,
+  clientMode,
+  publisher,
+  signer,
+) => {
+  const manager = new LifecycleRunner(
+    clientMode
+      ? DIDRemoveServiceMessageHederaCSMLifeCycle
+      : DIDRemoveServiceMessageHederaDefaultLifeCycle,
   );
 
   const state = await manager.resume(previousState, {

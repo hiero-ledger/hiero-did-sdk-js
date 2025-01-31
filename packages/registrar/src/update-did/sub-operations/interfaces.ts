@@ -3,6 +3,7 @@ import {
   Publisher,
   Signer,
   DIDMessage,
+  Verifier,
 } from '@swiss-digital-assets-institute/core';
 import { RunnerState } from '@swiss-digital-assets-institute/lifecycle';
 import { DIDUpdateOperation, UpdateDIDOptions } from '../interface';
@@ -14,12 +15,21 @@ export type PrepareFunction<
   data: Operation,
   options: UpdateDIDOptions,
   currentDidDocument: DIDDocument,
-  signer: Signer,
+  clientMode: boolean,
   publisher: Publisher,
+  signer?: Signer,
+) => Promise<RunnerState<Message>>;
+
+export type PreExecuteFunction<Message extends DIDMessage = DIDMessage> = (
+  message: RunnerState<Message>,
+  publisher: Publisher,
+  signature: Uint8Array,
+  verifier: Verifier,
 ) => Promise<RunnerState<Message>>;
 
 export type ExecuteFunction<Message extends DIDMessage = DIDMessage> = (
   message: RunnerState<Message>,
-  signer: Signer,
+  clientMode: boolean,
   publisher: Publisher,
+  signer?: Signer,
 ) => Promise<RunnerState<Message>>;

@@ -11,10 +11,13 @@ import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { DIDError, KeysUtility } from '@swiss-digital-assets-institute/core';
 import { PublicKey } from '@hashgraph/sdk';
 import { Providers } from '../interfaces';
-import { getPublisher } from '../shared/get-publisher';
-import { getSigner } from '../shared/get-signer';
-import { MessageAwaiter } from '../shared/message-awaiter';
-import { checkDIDExists, extractOptions, extractProviders } from './utils';
+import {
+  getPublisher,
+  getSigner,
+  MessageAwaiter,
+  extractOptions,
+  extractProviders,
+} from '../shared';
 import { CreateDIDOptions, CreateDIDResult } from './interface';
 
 /**
@@ -67,10 +70,6 @@ export async function createDID(
 
   if (firstState.status !== 'pause') {
     throw new DIDError('internalError', 'Should not be thrown');
-  }
-
-  if (await checkDIDExists(firstState.message.did)) {
-    throw new DIDError('internalError', 'DID already exists on the network');
   }
 
   // Set up a message awaiter to wait for the message to be available in the topic

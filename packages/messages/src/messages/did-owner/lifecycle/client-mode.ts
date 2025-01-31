@@ -5,6 +5,7 @@ import {
 import { LifecycleBuilder } from '@swiss-digital-assets-institute/lifecycle';
 import { DIDError, Publisher } from '@swiss-digital-assets-institute/core';
 import { DIDOwnerMessage } from '../message';
+import { checkDIDExists } from '../utils';
 
 export const DIDOwnerMessageHederaCSMLifeCycle =
   new LifecycleBuilder<DIDOwnerMessage>()
@@ -39,8 +40,19 @@ export const DIDOwnerMessageHederaCSMLifeCycle =
         message.setTopicId(topicId);
       },
     )
-    .pause('pause')
+    .callback('check-did-existence', async (message: DIDOwnerMessage) => {
+      const isDIDExists = await checkDIDExists(message.did);
+
+      if (isDIDExists) {
+        throw new DIDError(
+          'internalError',
+          'DID already exists on the network',
+        );
+      }
+    })
+    .pause('pause-for-signature')
     .signature('signature')
+    .pause('pause')
     .callback(
       'publish-message',
       async (message: DIDOwnerMessage, publisher: Publisher) => {

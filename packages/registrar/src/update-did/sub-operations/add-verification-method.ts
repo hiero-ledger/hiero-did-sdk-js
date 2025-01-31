@@ -2,11 +2,16 @@ import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
 import {
   DIDAddVerificationMethodMessage,
   DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
+  DIDAddVerificationMethodMessageHederaCSMLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
 import { DIDError } from '@swiss-digital-assets-institute/core';
 import { fragmentSearch } from '../helpers/fragment-search';
 import { AddVerificationMethodOperation } from '../interface';
-import { ExecuteFunction, PrepareFunction } from './interfaces';
+import {
+  ExecuteFunction,
+  PreExecuteFunction,
+  PrepareFunction,
+} from './interfaces';
 
 export const prepare: PrepareFunction<
   DIDAddVerificationMethodMessage,
@@ -15,8 +20,9 @@ export const prepare: PrepareFunction<
   options,
   operationOptions,
   currentDidDocument,
-  signer,
+  clientMode,
   publisher,
+  signer,
 ) => {
   const foundFragment = fragmentSearch(options.id, currentDidDocument);
 
@@ -49,7 +55,9 @@ export const prepare: PrepareFunction<
   }
 
   const manager = new LifecycleRunner(
-    DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
+    clientMode
+      ? DIDAddVerificationMethodMessageHederaCSMLifeCycle
+      : DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
   );
 
   const message = new DIDAddVerificationMethodMessage({
@@ -70,13 +78,34 @@ export const prepare: PrepareFunction<
   return state;
 };
 
+export const preExecute: PreExecuteFunction<
+  DIDAddVerificationMethodMessage
+> = async (previousState, publisher, signature, verifier) => {
+  const manager = new LifecycleRunner(
+    DIDAddVerificationMethodMessageHederaCSMLifeCycle,
+  );
+
+  const state = await manager.resume(previousState, {
+    publisher,
+    args: {
+      signature,
+      verifier,
+    },
+  });
+
+  return state;
+};
+
 export const execute: ExecuteFunction<DIDAddVerificationMethodMessage> = async (
   previousState,
-  signer,
+  clientMode,
   publisher,
+  signer,
 ) => {
   const manager = new LifecycleRunner(
-    DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
+    clientMode
+      ? DIDAddVerificationMethodMessageHederaCSMLifeCycle
+      : DIDAddVerificationMethodMessageHederaDefaultLifeCycle,
   );
 
   const state = await manager.resume(previousState, {

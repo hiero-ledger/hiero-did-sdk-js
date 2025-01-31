@@ -52,20 +52,6 @@ if (isHederaDID(did)) {
 }
 ----
 
-=== Generating a Key Pair
-
-This example demonstrates how to use the `KeysUtility` class to generate a new ED25519 key pair:
-
-[source, typescript]
-----
-import { KeysUtility } from "@hashgraph-did-sdk/core";
-
-const keys = KeysUtility.generateEd25519KeyPair();
-
-console.log(`Private Key: ${keys.privateKey}`);
-console.log(`Public Key: ${keys.publicKey}`);
-----
-
 === Transforming Keys
 
 This example shows how to use the `KeysUtility` to transform keys between different formats:

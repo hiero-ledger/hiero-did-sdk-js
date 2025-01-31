@@ -49,8 +49,9 @@ export async function updateDID(
         update,
         operationOptions,
         currentDidDocument,
-        signer,
+        false,
         publisher,
+        signer,
       );
 
       return {
@@ -78,7 +79,7 @@ export async function updateDID(
   // Execute updates
   for (const { state, operation } of preparedStateMessages) {
     // TODO: Handle individual operation failures
-    await executeOperation(operation, state, signer, publisher);
+    await executeOperation(operation, state, false, publisher, signer);
   }
 
   if (
