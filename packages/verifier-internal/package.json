@@ -1,6 +1,6 @@
 {
   "name": "@swiss-digital-assets-institute/verifier-internal",
-  "version": "0.0.2-alpha.16",
+  "version": "0.0.2-alpha.17",
   "description": "This package provides the `verifier` class, a core component of the Hashgraph DID SDK. It enables digital signature verification for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
   "author": {
     "name": "The Hashgraph Association",
@@ -45,6 +45,6 @@
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
-    "@swiss-digital-assets-institute/core": "0.0.2-alpha.16"
+    "@swiss-digital-assets-institute/core": "0.0.2-alpha.17"
   }
 }
