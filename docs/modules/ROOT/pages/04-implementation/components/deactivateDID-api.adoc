@@ -123,20 +123,35 @@ The following table enumerates the exceptions that may arise during the executio
 
 [cols="1,1",options="header",frame="ends"]
 |===
-|Exception class
+|Exception code
 |Description 
 
-|`DIDNotFoundError`
-|Thrown when the DID is not found.
+|`invalidArgument`
+|Providers must contain client options or client or publisher.
 
-|`InvalidPrivateKeyError`
-|Thrown when the private key is not a valid DER string.
+|`invalidArgument`
+|Providers must contain client options or client or publisher.
 
-|`InvalidSignerError`
-|Thrown when the signer is not a valid Signer instance.
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with a network.
 
-|`InvalidPublisherError`
-|Thrown when the publisher is not a valid Publisher instance.
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with an operator account.
+
+|`invalidArgument`
+|Signer or private key is required to perform the operation.
+
+|`invalidDid`
+|The DID must be a valid Hedera DID.
+
+|`notFound`
+|The DID document was not found.
+
+|`internalError`
+|Failed to deactivate the DID.
+
+|`internalError`
+|Message awaiter timeout reached. Messages not found.
 |=== 
 
 == Function Implementation

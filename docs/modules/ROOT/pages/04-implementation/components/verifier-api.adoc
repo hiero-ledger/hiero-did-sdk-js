@@ -79,11 +79,11 @@ Returns::
 
 [cols="1,1",options="header",frame="ends"]
 |===
-|Exception Class
+|Exception code
 |Description
 
-|`InvalidPublicKeyError`
-|Thrown if the provided public key is not a valid DER-encoded string.
+|`invalidArgument`
+|Invalid public key type. Expected ED25519.
 |===
 
 == Class Implementation

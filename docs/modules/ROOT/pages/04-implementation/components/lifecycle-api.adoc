@@ -12,68 +12,177 @@ The `LifecycleBuilder` class provides a fluent interface for defining the steps 
 
 image::lifecycle-builder-class-diagram.png[]
 
-==== Methods
+==== Properties
 
-===== `callback`
+===== *`length`*
 [source,typescript]
 ----
-callback(callback: (context: LifecycleContext) => Promise<void> | void): LifecycleBuilder
+public length: number
+----
+
+Gets the number of steps in the lifecycle.
+
+===== *`catchStep`*
+[source,typescript]
+----
+public catchStep?: CatchStep
+----
+
+Gets the catch step in the lifecycle that handles errors. `undefined` if no catch step is defined.
+
+==== Methods
+
+===== [big]*`callback`*
+[source,typescript]
+----
+callback(label: string, callback: (message: Message, publisher: Publisher) => Promise<void> | void): LifecycleBuilder
 ----
 
 Adds a callback step to the lifecycle.
 
 Parameters::
-* `callback`:  A function that will be executed asynchronously. It receives a `LifecycleContext` object as a parameter, which provides access to data and utilities within the lifecycle.
+* `label`: A unique identifier for the callback step.
+* `callback`:  A function that will be executed asynchronously. It receives a `Message` object and a `Publisher` object as parameters, which provides access to data and utilities within the lifecycle.
 
 Returns::
 The `LifecycleBuilder` instance for method chaining.
 
-===== `signWithSigner`
+
+===== [big]*`signature`*
 [source,typescript]
 ----
-signWithSigner(): LifecycleBuilder
+signature(label: string): LifecycleBuilder
 ----
 
-Adds a signing step to the lifecycle. This step uses the `Signer` provided in the `LifecycleContext` to sign the data.
+Adds a signature step to the lifecycle. This step is used to add signature to the message using the provided `signature` as an option in lifecycle runner.
+
+Parameters::
+* `label`: A unique identifier for the signature step.
 
 Returns::
 The `LifecycleBuilder` instance for method chaining.
 
-===== `pause`
+
+===== [big]*`signWithSigner`*
 [source,typescript]
 ----
-pause(): LifecycleBuilder
+signWithSigner(label: string): LifecycleBuilder
+----
+
+Adds a signing step with a `Signer` class to the lifecycle. This step uses the `Signer` provided in the lifecycle runner to sign the data.
+
+Parameters::
+* `label`: A unique identifier for the sign with signer step.
+
+Returns::
+The `LifecycleBuilder` instance for method chaining.
+
+===== [big]*`pause`*
+[source,typescript]
+----
+pause(label: string): LifecycleBuilder
 ----
 
 Adds a pause step to the lifecycle. This allows for manual intervention or waiting for external events before continuing the execution.
 
+Parameters::
+* `label`: A unique identifier for the pause step.
+
 Returns::
 The `LifecycleBuilder` instance for method chaining.
 
-===== `catch`
+===== [big]*`catch`*
 [source,typescript]
 ----
-catch(callback: (error: unknown) => void): LifecycleBuilder
+catch(label: string, callback: (error: unknown) => void | Promise<void>): LifecycleBuilder
 ----
 
 Adds a catch step to the lifecycle. This step is used to handle errors that occur during the execution of previous steps.
 
 Parameters::
+* `label`: A unique identifier for the catch step.
 * `callback`: A function that will be executed if an error occurs. It receives the error object as a parameter.
 
 Returns::
 The `LifecycleBuilder` instance for method chaining.
 
-===== `build`
+===== [big]*`getByIndex`*
 [source,typescript]
 ----
-build(): Lifecycle
+getByIndex(stepIndex: number): Steps<Message>
 ----
 
-Builds the lifecycle definition.
+Gets the step at the specified index in the lifecycle.
+
+Parameters::
+* `stepIndex`: A number representing the index of the step to retrieve.
 
 Returns::
-A `Lifecycle` object representing the defined sequence of steps.
+A `Steps<Message>` object representing the step at the specified index.
+
+Errors::
+The following exceptions may arise during the execution of the `getByIndex` function:
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description 
+
+|`internalError`
+|Step index out of bounds.
+|===
+
+===== [big]*`getByLabel`*
+[source,typescript]
+----
+getByLabel(stepLabel: string): Steps<Message>
+----
+
+Gets the step with the specified label in the lifecycle.
+
+Parameters::
+* `stepLabel`: A string representing the label of the step to retrieve.
+
+Returns::
+A `Steps<Message>` object representing the step with the specified label.
+
+Errors::
+The following exceptions may arise during the execution of the `getByLabel` function:
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description 
+
+|`internalError`
+|Step with label # does not exist.
+|===
+
+===== [big]*`getIndexByLabel`*
+[source,typescript]
+----
+getIndexByLabel(stepLabel: string): number
+----
+
+Gets the index of the step with the specified label in the lifecycle.
+
+Parameters::
+* `stepLabel`: A string representing the label of the step to retrieve.
+
+Returns::
+A number representing the index of the step with the specified label.
+
+Errors::
+The following exceptions may arise during the execution of the `getByLabel` function:
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description 
+
+|`internalError`
+|Step with label # does not exist.
+|===
 
 === LifecycleRunner
 
@@ -85,35 +194,97 @@ image::lifecycle-runner-class-diagram.png[]
 
 ==== Methods
 
+===== `constructor`
+[source,typescript]
+----
+constructor(builder: LifecycleBuilder<Message>): LifecycleRunner
+----
+
+Initializes a new `LifecycleRunner` instance.
+
+Parameters::
+* `builder`:  A `LifecycleBuilder` object representing the lifecycle steps.
+
+Returns::
+A new `LifecycleRunner` instance.
+
 ===== `process`
 [source,typescript]
 ----
-process(message: any, context: LifecycleContext): Promise<LifecycleState>
+process(
+  message: Message,
+  options: LifecycleRunnerOptions,
+): Promise<RunnerState<Message>>
 ----
 
 Starts the execution of the lifecycle.
 
 Parameters::
-* `message`:  The initial message or data to be processed by the lifecycle.
-* `context`:  A `LifecycleContext` object providing access to data and utilities within the lifecycle.
+* `message`:  The initial message to be processed by the lifecycle.
+* `options`:  A `LifecycleRunnerOptions` object providing additional options for the lifecycle runner, like the `Publisher` and `Signer` instances.
 
 Returns::
-A `Promise` that resolves to a `LifecycleState` object, which contains information about the current state of the lifecycle.
+A `Promise` that resolves to a `LifecycleState` object, which contains information about the current state of the lifecycle and processed message.
+
+Errors::
+The following exceptions may arise during the execution of the `process` function:
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description 
+
+|`invalidArgument`
+|Signature and verifier are required for the signature step.
+
+|`invalidArgument`
+|Signer is missing, but required.
+|===
 
 ===== `resume`
 [source,typescript]
 ----
-resume(state: LifecycleState, context: LifecycleContext): Promise<LifecycleState>
+resume(
+  state: RunnerState<Message>,
+  options: LifecycleRunnerOptions,
+): Promise<RunnerState<Message>>
 ----
 
 Resumes the execution of a paused lifecycle.
 
 Parameters::
-* `state`: The `LifecycleState` object representing the paused state of the lifecycle.
-* `context`: A `LifecycleContext` object providing access to data and utilities within the lifecycle.
+* `state`: The `RunnerState` object representing the paused state of the lifecycle.
+* `context`: A `LifecycleRunnerOptions` object providing additional options for the lifecycle runner, like the `Publisher` and `Signer` instances.
 
 Returns::
-A `Promise` that resolves to a `LifecycleState` object, which contains information about the current state of the lifecycle.
+A `Promise` that resolves to a `RunnerState` object, which contains information about the current state of the lifecycle.
+
+Errors::
+The following exceptions may arise during the execution of the `resume` function:
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description 
+
+|`invalidArgument`
+|Signature and verifier are required for the signature step.
+
+|`invalidArgument`
+|Signer is missing, but required.
+|===
+
+===== `onComplete`
+[source,typescript]
+----
+onComplete(label: string, callback: (message: Message,) => void | Promise<void>): void
+----
+
+Registers a callback to be executed when the lifecycle step with the specified label is completed.
+
+Parameters::
+* `label`: The label of the lifecycle step.
+* `callback`: A function to be executed when the step is completed.
 
 == Component Implementation
 

@@ -11,18 +11,21 @@ The core component defines several key interfaces that are used throughout the H
 *   `DIDDocument`: Represents a DID Document, which contains information about a DID, such as its public keys and services.
 *   `Signer`:  Defines the methods for signing and verifying data using a DID's private key.
 *   `Publisher`: Defines the methods for submitting transactions to the Hedera network.
+*   `Verifier`: Defines the methods for verifying the signatures of DID operations.
 *   `DIDMessage`:  Represents a message used for DID operations, such as creating, updating, or deactivating a DID.
 *   `PublicKey`: An interface for representing public keys.
 *   `Network`: An interface for defining Hedera network configurations.
 *   `VerificationMethodProperties`: An interface for defining verification method properties.
+*   `DIDError`: A custom error class for all SDK-related errors.
 
 === Utilities
 
-The core component also provides the `KeysUtility` class with a wide range of functions for:
+The core component also provides a range of utility classes and functions for working with DIDs and keys:
 
 *   **Transforming keys:** Convert keys between different formats (bytes, base58, multibase, Hedera `PublicKey`).
-*   **Loading keys:** Load keys from various sources (bytes, base58, DER string, Hedera `PublicKey`).
-*   **Exporting keys:** Export keys in different formats for use in other applications or systems.
+*   **Multibase encoding:** Encode and decode data using the multibase encoding format.
+*   **CBOR encoding:** Encode and decode data using the Concise Binary Object Representation (CBOR) format.
+*   **Public key validation:** Validate Ed25519 public keys.
 
 === DID Validation
 
@@ -36,6 +39,8 @@ The core component exports the `isHederaDID` function, which uses regular expres
 == Usage Examples
 
 === Validating a Hedera DID
+
+The `isHederaDID` function is used to validate Hedera DIDs. It checks the format of the DID, including the network identifier, public key, and topic ID. You can use `isHederaDIDUrl` to validate a DID URL, which includes a fragment identifier.
 
 This example demonstrates how to use the `isHederaDID` function to validate a Hedera DID:
 
@@ -52,9 +57,52 @@ if (isHederaDID(did)) {
 }
 ----
 
+This example demonstrates how to use the `isHederaDIDUrl` function to validate a DID URL:
+
+[source, typescript]
+----
+import { isHederaDIDUrl } from "@hashgraph-did-sdk/core";
+
+const did = "did:hedera:testnet:z6Mkhj...#some-fragment"; // Replace with the DID URL you want to validate
+
+if (isHederaDIDUrl(did)) {
+  console.log(`${did} is a valid Hedera DID`);
+} else {
+  console.log(`${did} is not a valid Hedera DID`);
+}
+----
+
+=== Validating a Ed25519 Public Key
+
+The `isEd25519PublicKey` function is used to validate Ed25519 public keys. It only checks the length of the key. You can pass a multibase-encoded key or raw bytes to the function.
+
+This example demonstrates how to use the `isEd25519PublicKey` function to validate an Ed25519 public key:
+
+[source, typescript]
+----
+import { isEd25519PublicKey } from "@hashgraph-did-sdk/core";
+
+const publicKey = "z6Mkhj..."; // Replace with the public key you want to validate
+
+if (isEd25519PublicKey(publicKey)) {
+  console.log(`${publicKey} is a valid Ed25519 public key`);
+} else {
+  console.log(`${publicKey} is not a valid Ed25519 public key`);
+}
+----
+
+
 === Transforming Keys
 
-This example shows how to use the `KeysUtility` to transform keys between different formats:
+`KeysUtility` provides a range of functions for transforming keys between different formats. Currently, the utility supports the following key formats:
+
+*   **Bytes:** Raw bytes of the key.
+*   **Base58:** Base58-encoded key.
+*   **Multibase:** Multibase-encoded key.
+*   **Hedera `PublicKey`:** Hedera SDK `PublicKey` object.
+*   **DER String:** DER-encoded key.
+
+This example shows how to use the `KeysUtility` to transform keys from a Hedera `PublicKey` to different formats:
 
 [source, typescript]
 ----
@@ -68,6 +116,36 @@ const keyUtil = KeysUtility.fromPublicKey(publicKey);
 const publicKeyMultibase = keyUtil.toMultibase();
 const publicKeyBase58 = keyUtil.toBase58();  
 const publicKeyBytes = keyUtil.toBytes();
+----
+
+=== Multibase Encoding
+
+The core package provides a `MultibaseCodec` class for encoding and decoding multibase strings. Multibase is a self-describing encoding format that allows you to encode data in different base encodings (e.g., base58, base64, base32).
+
+This example demonstrates how to use the `MultibaseCodec` class to encode and decode multibase strings:
+
+[source, typescript]
+----
+import { MultibaseCodec } from "@hashgraph-did-sdk/core";
+
+const encodedString = MultibaseCodec.encode(Buffer.from("Hello, world!"), "base58btc");
+
+const decodedString = MultibaseCodec.decode(encodedString);
+----
+
+=== CBOR Encoding
+
+The `CborCodec` class is provided for encoding and decoding data using the Concise Binary Object Representation (CBOR) format. CBOR is a binary data serialization format that is more compact than JSON and is used to encode structured data.
+
+This example demonstrates how to use the `CborCodec` class to encode and decode data using the CBOR format:
+
+[source, typescript]
+----
+import { CborCodec } from "@hashgraph-did-sdk/core";
+
+const encodedBytes = CborCodec.encode(JSON.stringify({ id: 'did:hedera:...' }));
+
+const decodedObjectInBytes = CborCodec.decode(encodedBytes);
 ----
 
 == References

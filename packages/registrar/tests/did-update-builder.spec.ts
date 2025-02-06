@@ -62,6 +62,53 @@ describe('DID Update Builder', () => {
   });
 
   it.each([
+    [
+      'addAuthenticationMethod',
+      { operation: 'add-verification-method', property: 'authentication' },
+    ],
+    [
+      'addAssertionMethod',
+      { operation: 'add-verification-method', property: 'assertionMethod' },
+    ],
+    [
+      'addKeyAgreementMethod',
+      { operation: 'add-verification-method', property: 'keyAgreement' },
+    ],
+    [
+      'addCapabilityDelegationMethod',
+      {
+        operation: 'add-verification-method',
+        property: 'capabilityDelegation',
+      },
+    ],
+    [
+      'addCapabilityInvocationMethod',
+      {
+        operation: 'add-verification-method',
+        property: 'capabilityInvocation',
+      },
+    ],
+    [
+      'addVerificationMethod',
+      { operation: 'add-verification-method', property: 'verificationMethod' },
+    ],
+  ] as const)('should add an %s as an alias', (method, expected) => {
+    const builder = new DIDUpdateBuilder();
+    const verificationMethod = {
+      id: '#key-1',
+    };
+
+    builder[method](verificationMethod.id);
+
+    expect(builder.build()).toEqual([
+      {
+        ...expected,
+        ...verificationMethod,
+      },
+    ]);
+  });
+
+  it.each([
     ['removeAuthenticationMethod', { operation: 'remove-verification-method' }],
     ['removeAssertionMethod', { operation: 'remove-verification-method' }],
     ['removeKeyAgreementMethod', { operation: 'remove-verification-method' }],

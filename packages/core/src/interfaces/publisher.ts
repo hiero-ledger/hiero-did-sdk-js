@@ -16,7 +16,6 @@ export abstract class Publisher {
   /**
    * Get the public key of the publisher.
    * @returns The public key.
-   * @remarks The public key is in base58 format.
    * @remarks The public key is used for Topic Admin and Submit Key.
    */
   abstract publicKey(): PublicKey;

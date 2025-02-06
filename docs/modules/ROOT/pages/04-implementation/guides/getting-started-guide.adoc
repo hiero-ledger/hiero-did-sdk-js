@@ -116,3 +116,4 @@ This code demonstrates how to:
 *   **Manage DIDs:** Learn how to use link:04-implementation/components/createDID-guide.adoc[`createDID`], link:04-implementation/components/updateDID-guide.adoc[`updateDID`], and link:04-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
 *   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the link:04-implementation/components/signer-guide.adoc[`Signer`] class.
 *   **Utilize the `Publisher`:** Integrate the link:04-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.
+*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hashgraph DID SDK: xref::04-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].

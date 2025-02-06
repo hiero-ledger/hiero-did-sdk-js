@@ -9,7 +9,8 @@ import {
 import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { DIDError } from '@swiss-digital-assets-institute/core';
 import { resolveDID } from '@swiss-digital-assets-institute/resolver';
-import { PublisherProviders } from '../interfaces';
+import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
+import { OperationState, PublisherProviders } from '../interfaces';
 import { getPublisher, MessageAwaiter, getDIDRootKey } from '../shared';
 import {
   GenerateDeactivateDIDRequestOptions,
@@ -17,7 +18,6 @@ import {
   DeactivateDIDResult,
   SubmitDeactivateDIDRequestOptions,
 } from './interface';
-import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
 
 /**
  * Generate a request to deactivate a DID on the Hedera network.
@@ -62,8 +62,13 @@ export async function generateDeactivateDIDRequest(
     publisher.client.close();
   }
 
+  const serializedState: OperationState = {
+    ...state,
+    message: state.message.toBytes(),
+  };
+
   return {
-    state,
+    state: serializedState,
     signingRequest: {
       payload: state.message.message,
       serializedPayload: state.message.messageBytes,
@@ -88,7 +93,8 @@ export async function submitDeactivateDIDRequest(
   const publisher = getPublisher(providers);
 
   const { state, signature } = options;
-  const message = state.message;
+
+  const message = DIDDeactivateMessage.fromBytes(options.state.message);
 
   const resolvedDIDDocument = await resolveDID(
     message.did,
@@ -108,7 +114,13 @@ export async function submitDeactivateDIDRequest(
   };
 
   // Resume the lifecycle to set the signature
-  const firstState = await manager.resume(state, runnerOptions);
+  const firstState = await manager.resume(
+    {
+      ...state,
+      message,
+    },
+    runnerOptions,
+  );
 
   // Set up a message awaiter to wait for the message to be available in the topic
   const messageAwaiter = new MessageAwaiter(

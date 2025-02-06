@@ -27,7 +27,7 @@ const clientOptions = {
   network: "testnet",
 };
 
-await deactivateDID(did, { clientOptions });
+await deactivateDID({ did }, { clientOptions });
 ----
 
 In this example, `deactivateDID` takes the DID to be deactivated and an object containing the `clientOptions`. This configuration object should include the necessary information to interact with the Hedera network, such as the private key, account ID, and network.
@@ -43,7 +43,7 @@ You can provide a Hedera `Client` instance directly to the `deactivateDID` funct
 const client = Client.forTestnet();
 client.setOperator(accountId, privateKey);
 
-await deactivateDID(did, { client });
+await deactivateDID({ did }, { client });
 ----
 
 In this example, a pre-configured Hedera `Client` instance is passed to the `deactivateDID` function.
@@ -80,6 +80,8 @@ const deactivatedDidDocument = await submitDeactivateDIDRequest(
 );
 ----
 **See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/deactivateDID-using-client-secret-mode.ts[example] in the source code.**
+
+You can learn more about the Client Managed Secret Mode in the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
 
 == References
 

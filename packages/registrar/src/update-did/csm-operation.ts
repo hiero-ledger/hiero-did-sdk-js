@@ -15,7 +15,7 @@ import {
   preExecuteOperation,
   executeOperation,
 } from './sub-operations';
-import { extractOperation } from './helpers/extract-operation';
+import { deserializeState } from './helpers/deserialize-state';
 
 /**
  * Generate a request to deactivate a DID on the Hedera network.
@@ -75,7 +75,10 @@ export async function generateUpdateDIDRequest(
   }
 
   return {
-    states: preparedStateMessages,
+    states: preparedStateMessages.map((state) => ({
+      ...state,
+      message: state.message.toBytes(),
+    })),
     signingRequests: preparedStateMessages.reduce((acc, { message }, index) => {
       const operationID = `sr-${index + 1}`;
 
@@ -119,17 +122,18 @@ export async function submitUpdateDIDRequest(
     );
   }
 
+  const deserializedStates = deserializeState(states);
+
   const resolvedDIDDocument = await resolveDID(
-    states[0].message.did,
+    deserializedStates[0].message.did,
     'application/did+json',
   );
   const didRootKey = getDIDRootKey(resolvedDIDDocument);
   const verifier = Verifier.fromMultibase(didRootKey);
 
   const preExecutedStates = await Promise.all(
-    states.map(async (state, index) => {
+    deserializedStates.map(async (state, index) => {
       const operationID = `sr-${index + 1}`;
-      const operationType = extractOperation(state.message);
       const signature = signatures[operationID];
 
       if (!signature) {
@@ -140,7 +144,7 @@ export async function submitUpdateDIDRequest(
       }
 
       const preparedMessage = await preExecuteOperation(
-        operationType,
+        state.operation,
         state,
         publisher,
         signature,
@@ -149,7 +153,7 @@ export async function submitUpdateDIDRequest(
 
       return {
         state: preparedMessage,
-        operation: operationType,
+        operation: state.operation,
       };
     }),
   );

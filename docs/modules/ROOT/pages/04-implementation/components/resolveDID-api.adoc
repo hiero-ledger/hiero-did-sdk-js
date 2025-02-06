@@ -41,14 +41,14 @@ The function accepts the following parameters:
 |Description
 
 |accept?
-|`DIDResolutionAccept`
+|`Accept`
 |Specifies the desired format for the DID Document resolution. See <<accept-data-types>> for allowed values.
 |===
 
 == Data Types
 
 [[accept-data-types]]
-=== DIDResolutionAccept type
+=== Accept type
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -56,13 +56,14 @@ The function accepts the following parameters:
 |Type 
 |Description
 
-|DIDResolutionAccept
+|Accept
 |`string`
 |A string literal representing the desired format for DID Document resolution. It must be one of the following:
 
   * `application/did+ld+json`
   * `application/did+json`
   * `application/ld+json;profile="https://w3id.org/did-resolution"`
+  * `application/did+cbor`
 |===
 
 == Return Value
@@ -82,6 +83,10 @@ Upon successful execution, the function returns a Promise that resolves to eithe
 |DID Resolution Response
 |`DIDResolutionResponse`
 |Returned if `accept` is `application/ld+json;profile="https://w3id.org/did-resolution"`. Contains the resolved DID Document and additional metadata. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-with-full-metadata.ts[example] in the source code.
+
+|CBOR Response
+|`Uint8Array`
+|Returned if `accept` is `application/did+cbor`. Contains the resolved DID Document in CBOR format. See a full running link: link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-as-cbor.ts[example] in the source code.
 |===
 
 == Errors
@@ -90,20 +95,23 @@ The following exceptions may arise during the execution of the `resolveDID` func
 
 [cols="1,1",options="header",frame="ends"]
 |===
-|Exception class
+|Exception code
 |Description 
 
-|`DIDNotFoundError`
-|Thrown when the DID is not found.
+|`invalidDid`
+|Unsupported DID method or invalid DID.
 
-|`UnsupportedDIDMethodError`
-|Thrown when the DID method is not supported (only `did:hedera` is supported).
+|`notFound`
+|The DID document was not found.
 
-|`InvalidDIDUrlError`
-|Thrown when the DID URL is invalid.
+|`internalError`
+|Cannot verify signature without a public key or a verifier.
 
-|`UnsupportedAcceptValueError`
-|Thrown when an unsupported `accept` header value is provided.
+|`internalError`
+|No public key found in `DIDOwner` event.
+
+|`representationNotSupported`
+|Unsupported representation format.
 |===
 
 == Function Implementation

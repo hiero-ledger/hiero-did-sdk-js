@@ -19,6 +19,7 @@
     **** xref:04-implementation/guides/hedera-did-method-guide.adoc[Hedera DID Method]
     **** xref:04-implementation/guides/essential-components-guide.adoc[Essential Components]
     **** xref:04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes]
+    **** xref:04-implementation/guides/handling-exceptions.adoc[Handling Exceptions]
   *** Environment Setup
     **** xref:04-implementation/guides/getting-started-guide.adoc[Getting Started]
 // *** Advanced
@@ -46,7 +47,7 @@
     *** xref:04-implementation/components/generateCreateDIDRequest-api.adoc[generateCreateDIDRequest]
     *** xref:04-implementation/components/submitCreateDIDRequest-api.adoc[submitCreateDIDRequest]
     *** xref:04-implementation/components/updateDID-api.adoc[updateDID]
-    *** xref:04-implementation/components/did-update-builder-api[DIDUpdateBuilder]
+    *** xref:04-implementation/components/did-update-builder-api.adoc[DIDUpdateBuilder]
     *** xref:04-implementation/components/generateUpdateDIDRequest-api.adoc[generateUpdateDIDRequest]
     *** xref:04-implementation/components/deactivateDID-api.adoc[deactivateDID]
     *** xref:04-implementation/components/generateDeactivateDIDRequest-api.adoc[generateDeactivateDIDRequest]

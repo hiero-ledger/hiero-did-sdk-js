@@ -176,7 +176,7 @@ export class LifecycleRunner<Message extends DIDMessage> {
    * @param label Name of the label to hook into.
    * @param callback The hook function to call.
    */
-  onComplete(label: string, callback: HookFunction<Message>) {
+  onComplete(label: string, callback: HookFunction<Message>): void {
     this.hooks[label] = this.hooks[label] ?? [];
     this.hooks[label].push(callback);
   }

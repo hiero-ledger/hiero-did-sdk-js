@@ -63,14 +63,20 @@ The public key of the operator account.
 
 [cols="1,1",options="header",frame="ends"]
 |===
-|Exception Class
+|Exception code
 |Description
 
-|`HederaClientError`
-|Thrown if there is an error with the Hedera `Client` instance.
+|`invalidArgument`
+|Hashgraph SDK Client is required to create a Publisher.
 
-|`TransactionSubmissionError`
-|Thrown if there is an error submitting the transaction to the Hedera network.
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with a network.
+
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with an operator account.
+
+|`internalError`
+|Unknown network, ledger ID: #.
 |===
 
 == Class Implementation

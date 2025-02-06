@@ -1,6 +1,6 @@
 = Lifecycle
 
-The Lifecycle component is the foundation of the Hashgraph DID SDK. TIt provides a powerful and flexible system for orchestrating complex asynchronous operations related to Decentralized Identifiers (DIDs).
+The Lifecycle component is the foundation of the Hashgraph DID SDK. Tt provides a powerful and flexible system for orchestrating complex asynchronous operations related to Decentralized Identifiers (DIDs).
 
 == Overview
 
@@ -24,36 +24,122 @@ The core of the Lifecycle Management component is the `LifecycleBuilder` class. 
 import { LifecycleBuilder, LifecycleRunner } from "@hashgraph-did-js-sdk/lifecycle";
 
 const lifecycle = new LifecycleBuilder()
-  .callback(async (context) => {
-    // Perform an asynchronous operation
-    context.data = await fetchData();  
+  .callback('label1', async (message: Message, publisher: Publisher) => {
+    const topicId = await fetchTopicId();
+    message.setTopicId(topicId);
   })
-  .signWithSigner() // Sign the data
-  .callback(async (context) => {
-    // Continue with the next step
-    await submitData(context.data);
+  .signWithSigner('label2') // Sign the message
+  .callback('label3', async (message: Message, publisher: Publisher) => {
+    const payload = message.getPayload();
+    await publisher.submit(payload);
   })
-  .catch((error) => {
+  .catch('label3', (error) => {
     // Handle errors gracefully
     console.error("Lifecycle error:", error);
-  })
-  .build();
+  });
 
 const runner = new LifecycleRunner(lifecycle);
 const state = await runner.process(message, {
   // Provide necessary context (e.g., signer, publisher)
+  publisher,
+  signer,
 });
 ----
 
 This example demonstrates a simple lifecycle with three steps:
 
-1.  An asynchronous callback function that fetches some data.
+1.  An asynchronous callback function that fetches some data and sets it in the message.
 2.  A signing step using `signWithSigner`.
-3.  Another asynchronous callback function that submits the data.
+3.  Another asynchronous callback function that submits the data using a publisher.
 
 The `catch` method is used to handle any errors that occur during the lifecycle execution.
 
-The `LifecycleRunner` class is responsible for executing the lifecycle. The `process` method starts the execution and returns a `LifecycleState` object, which contains information about the current state of the lifecycle.
+The `LifecycleRunner` class is responsible for executing the lifecycle. The `process` method starts the execution and returns a `RunnerState` object, which contains information about the current state of the lifecycle.
+
+=== Pausing Execution
+
+You can introduce pauses in the lifecycle to allow for manual intervention or waiting for external events. Here's an example of how to add a pause step:
+
+[source,typescript]
+----
+const lifecycle = new LifecycleBuilder()
+  .callback('label1', async (message: Message, publisher: Publisher) => {
+    // Perform some asynchronous operation
+  })
+  .pause('pause1') // Pause execution
+  .callback('label2', async (message: Message, publisher: Publisher) => {
+    // Perform another operation after the pause
+  });
+
+const runner = new LifecycleRunner(lifecycle);
+const state = await runner.process(message, {
+  publisher,
+  signer,
+});
+
+// Do something before resuming execution
+
+// Resume execution
+const finalState = await runner.resume(state, {
+  publisher,
+  signer,
+});
+----
+
+In this example, the `pause` method is used to introduce a pause in the lifecycle. The `process` method starts the execution, and the `resume` method resumes the execution after the pause. The resume method requires the `RunnerState` object returned by the `process` method and the necessary context to continue the execution (eg. publisher, signer).
+
+=== Providing signature
+
+You can add a signature step to the lifecycle to sign the message by yourself. Signature must be provided as an option in lifecycle runner. Here's an example of how to add a signature step:
+
+[source,typescript]
+----
+const lifecycle = new LifecycleBuilder()
+  .callback('label1', async (message: Message, publisher: Publisher) => {
+    // Perform some asynchronous operation
+  })
+  .pause('pause1') // Pause execution
+  .signature('signature1') // Add signature to the message;
+
+const runner = new LifecycleRunner(lifecycle);
+const state = await runner.process(message, {
+  publisher,
+});
+
+// Extract bytes from the message and sign it
+
+// Resume execution with signature
+const finalState = await runner.resume(state, {
+  publisher,
+  args: {
+    signature: signatureBytes,
+  },
+});
+----
+
+The `signature` is provided as an option in the `resume` method. The `args` object contains the signature bytes that will be used to sign the message. In this case a `Signer` class is not required.
+
+== Error Handling
+
+The `catch` method is used to handle errors that occur during the lifecycle execution. You can define custom error handling logic to gracefully handle exceptions. Here's an example of how to use the `catch` method:
+
+[source,typescript]
+----
+const lifecycle = new LifecycleBuilder()
+  .callback('label1', async (message: Message, publisher: Publisher) => {
+    throw new Error("Something went wrong");
+  })
+  .catch('error-handler', (error) => {
+    // Handle errors gracefully
+    console.error("Lifecycle error:", error);
+  });
+
+const runner = new LifecycleRunner(lifecycle);
+const state = await runner.process(message, {
+  publisher,
+  signer,
+});
+----
 
 == References
 

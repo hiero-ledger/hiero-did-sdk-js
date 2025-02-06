@@ -234,21 +234,56 @@ The following table enumerates the exceptions that may arise during the executio
 
 [cols="1,1",options="header",frame="ends"]
 |===
-|Exception class
+|Exception code
 |Description
 
-|`DIDNotFoundError`
-|Thrown when the DID is not found.
+|`invalidArgument`
+|Providers must contain client options or client or publisher.
 
-|`InvalidPrivateKeyError`
-|Thrown when the private key is not a valid DER string.
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with a network.
 
-|`InvalidSignerError`
-|Thrown when the signer is not a valid `Signer` instance.
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with an operator account.
 
-|`InvalidPublisherError`
-|Thrown when the publisher is not a valid `Publisher` instance.
+|`invalidArgument`
+|Signer or private key is required to perform the operation.
 
+|`invalidArgument`
+|Verification method ID does not exist. Nothing to remove.
+
+|`invalidArgument`
+|Cannot remove a service using `remove-verification-method` operation.
+
+|`invalidArgument`
+|Service id already exists.
+
+|`invalidArgument`
+|The service endpoint must be a valid URI.
+
+|`invalidArgument`
+|The ID must be a valid property ID.
+
+|`invalidArgument`
+|The fragment ID # is already in use for another verification method.
+
+|`invalidDid`
+|The DID must be a valid Hedera DID.
+
+|`invalidDid`
+|The controller must be a valid Hedera DID.
+
+|`notFound`
+|The DID document was not found.
+
+|`invalidPublicKey`
+|The public key is required for verification methods
+
+|`invalidPublicKeyLength`
+|Invalid length for the public key.
+
+|`internalError`
+|Message awaiter timeout reached. Messages not found.
 |===
 
 == Function Implementation

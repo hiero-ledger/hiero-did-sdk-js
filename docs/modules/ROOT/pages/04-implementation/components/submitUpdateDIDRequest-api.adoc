@@ -142,23 +142,38 @@ The following table enumerates the exceptions that may arise during the executio
 
 [cols="1,1",options="header",frame="ends"]
 |===
-|Exception class
+|Exception code
 |Description
 
-|`InvalidControllerError`
-|Indicates that the provided `controller` DID string is invalid.
+|`invalidArgument`
+|Providers must contain client options or client or publisher.
 
-|`InvalidTopicIdError`
-|Indicates that the provided `topicId` is invalid.
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with a network.
 
-|`InvalidPrivateKeyError`
-|Indicates that the provided `privateKey` is invalid.
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with an operator account.
 
-|`InvalidSignerError`
-|Indicates that the provided `signer` is invalid.
+|`invalidArgument`
+|Signature and verifier are required for the signature step.
 
-|`InvalidPublisherError`
-|Indicates that the provided `publisher` is invalid.
+|`invalidArgument`
+|No states provided.
+
+|`invalidArgument`
+|Number of states and signatures do not match.
+
+|`invalidArgument`
+|Signature for # not found.
+
+|`notFound`
+|The DID document was not found.
+
+|`internalError`
+|Invalid state of the operation.
+
+|`internalError`
+|Message awaiter timeout reached. Messages not found.
 |===
 
 == Function Implementation

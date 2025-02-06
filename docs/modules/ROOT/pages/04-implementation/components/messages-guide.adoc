@@ -19,6 +19,8 @@ The following are the main DID Message classes provided by the component:
 *   `DIDOwnerMessage`:  Used for creating and managing DID ownership.
 *   `DIDAddVerificationMethodMessage`: Used for adding verification methods to a DID Document.
 *   `DIDRemoveVerificationMethodMessage`: Used for removing verification methods from a DID Document.
+*   `DIDAddServiceMessage`: Used for adding service endpoints to a DID Document.
+*   `DIDRemoveServiceMessage`: Used for removing service endpoints from a DID Document.
 *   `DIDDeactivateMessage`: Used for deactivating a DID.
 
 Each class has properties and methods specific to the DID operation it represents. For example, the `DIDOwnerMessage` class has properties for the DID's public key and initial DID Document.
@@ -69,6 +71,32 @@ const message = new DIDRemoveVerificationMethodMessage({
   did: "did:hedera:testnet:...",
   property: "verificationMethod",
   id: "#key-1",
+});
+----
+
+=== Adding a Service
+
+[source,typescript]
+----
+import { DIDAddServiceMessage } from "@hashgraph-did-js-sdk/messages";
+
+const message = new DIDAddServiceMessage({
+  did: "did:hedera:testnet:...",
+  id: "#service-1",
+  type: "ExampleService",
+  serviceEndpoint: "https://example.com/service",
+});
+----
+
+=== Removing a Service
+
+[source,typescript]
+----
+import { DIDRemoveServiceMessage } from "@hashgraph-did-js-sdk/messages";
+
+const message = new DIDRemoveServiceMessage({
+  did: "did:hedera:testnet:...",
+  id: "#service-1",
 });
 ----
 

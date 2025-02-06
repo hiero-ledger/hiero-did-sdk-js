@@ -146,6 +146,16 @@ Verification methods prove the authenticity of a DID Document.
       .build();
 ----
 
+*   **Adding as a reference:** You can also add a verification method by providing the ID of an existing method. This will create a reference to the existing method in the DID Document.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder()
+      .addVerificationMethod("#key-1")
+      .build();
+----
+
+
 *   **Removing:** Use `removeVerificationMethod(verificationMethodId)` to remove a verification method by its ID.
 
 [source,javascript]
@@ -154,6 +164,7 @@ Verification methods prove the authenticity of a DID Document.
       .removeVerificationMethod("#key-1")
       .build();
 ----
+
 
 ==== Managing Services
 
@@ -255,6 +266,8 @@ const updatedDidDocument = await submitUpdateDIDRequest(
 );
 ----
 **See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-using-client-secret-mode.ts[example] in the source code.**
+
+You can learn more about the Client Managed Secret Mode in the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
 
 == References
 

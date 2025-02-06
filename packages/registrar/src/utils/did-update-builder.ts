@@ -13,7 +13,16 @@ type Service = Omit<AddServiceOperation, 'operation'>;
 export class DIDUpdateBuilder {
   private operations: DIDUpdateOperation[] = [];
 
-  addAuthenticationMethod(method: VerificationMethod): DIDUpdateBuilder {
+  addAuthenticationMethod(
+    methodOrId: VerificationMethod | string,
+  ): DIDUpdateBuilder {
+    let method: VerificationMethod;
+    if (typeof methodOrId === 'string') {
+      method = { id: methodOrId };
+    } else {
+      method = methodOrId;
+    }
+
     this.operations.push({
       operation: 'add-verification-method',
       property: 'authentication',
@@ -30,7 +39,16 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addAssertionMethod(method: VerificationMethod): DIDUpdateBuilder {
+  addAssertionMethod(
+    methodOrId: VerificationMethod | string,
+  ): DIDUpdateBuilder {
+    let method: VerificationMethod;
+    if (typeof methodOrId === 'string') {
+      method = { id: methodOrId };
+    } else {
+      method = methodOrId;
+    }
+
     this.operations.push({
       operation: 'add-verification-method',
       property: 'assertionMethod',
@@ -47,7 +65,16 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addKeyAgreementMethod(method: VerificationMethod): DIDUpdateBuilder {
+  addKeyAgreementMethod(
+    methodOrId: VerificationMethod | string,
+  ): DIDUpdateBuilder {
+    let method: VerificationMethod;
+    if (typeof methodOrId === 'string') {
+      method = { id: methodOrId };
+    } else {
+      method = methodOrId;
+    }
+
     this.operations.push({
       operation: 'add-verification-method',
       property: 'keyAgreement',
@@ -64,7 +91,16 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addVerificationMethod(method: VerificationMethod): DIDUpdateBuilder {
+  addVerificationMethod(
+    methodOrId: VerificationMethod | string,
+  ): DIDUpdateBuilder {
+    let method: VerificationMethod;
+    if (typeof methodOrId === 'string') {
+      method = { id: methodOrId };
+    } else {
+      method = methodOrId;
+    }
+
     this.operations.push({
       operation: 'add-verification-method',
       property: 'verificationMethod',
@@ -81,7 +117,16 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addCapabilityInvocationMethod(method: VerificationMethod): DIDUpdateBuilder {
+  addCapabilityInvocationMethod(
+    methodOrId: VerificationMethod | string,
+  ): DIDUpdateBuilder {
+    let method: VerificationMethod;
+    if (typeof methodOrId === 'string') {
+      method = { id: methodOrId };
+    } else {
+      method = methodOrId;
+    }
+
     this.operations.push({
       operation: 'add-verification-method',
       property: 'capabilityInvocation',
@@ -98,7 +143,16 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addCapabilityDelegationMethod(method: VerificationMethod): DIDUpdateBuilder {
+  addCapabilityDelegationMethod(
+    methodOrId: VerificationMethod | string,
+  ): DIDUpdateBuilder {
+    let method: VerificationMethod;
+    if (typeof methodOrId === 'string') {
+      method = { id: methodOrId };
+    } else {
+      method = methodOrId;
+    }
+
     this.operations.push({
       operation: 'add-verification-method',
       property: 'capabilityDelegation',

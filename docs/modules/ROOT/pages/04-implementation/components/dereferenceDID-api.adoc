@@ -10,7 +10,15 @@ function dereferenceDID(
   didUrl: string,
   accept?: DIDResolutionAccept,
   options?: DereferenceDIDOptions,
-): Promise<Service | VerificationMethod | DIDDereferenceResolution>;
+): Promise<
+  | Service
+  | VerificationMethod
+  | ServiceEndpoint
+  | JsonLdVerificationMethod
+  | JsonLdService
+  | DIDDereferenceResolution
+  | Uint8Array
+>;
 ----
 
 == Parameters
@@ -43,7 +51,7 @@ The function accepts the following parameters:
 |Description
 
 |accept?
-|`DIDResolutionAccept`
+|`Accept`
 |Specifies the desired format for the DID fragment resolution. See <<accept-data-types>> for allowed values.
 |===
 
@@ -63,7 +71,7 @@ The function accepts the following parameters:
 == Data Types
 
 [[accept-data-types]]
-=== DIDResolutionAccept type
+=== Accept type
 
 [cols="1,1,3",options="header",frame="ends"]
 |===
@@ -71,13 +79,14 @@ The function accepts the following parameters:
 |Type 
 |Description
 
-|DIDResolutionAccept
+|Accept
 |`string`
 |A string literal representing the desired format for DID Document resolution. It must be one of the following:
 
   * `application/did+ld+json`
   * `application/did+json`
   * `application/ld+json;profile="https://w3id.org/did-resolution"`
+  * `application/did+cbor`
 |===
 
 == Return Value
@@ -98,9 +107,17 @@ Upon successful execution, the function returns a Promise that resolves to eithe
 |`VerificationMethod`
 |Returned if DID URL has a verificationMethod fragment.
 
+|ServiceEndpoint
+|`ServiceEndpoint`
+|Returned if DID URL has dereference to a service endpoint.
+
 |DIDDereferenceResolution
 |`DIDDereferenceResolution`
 |Returned if `accept` is `application/ld+json;profile="https://w3id.org/did-resolution"`. It contains the dereferenced fragment and additional metadata.
+
+|CBOR Response
+|`Uint8Array`
+|Returned if `accept` is `application/did+cbor`. It contains the CBOR-encoded dereferenced fragment.
 |===
 
 == Errors
@@ -109,20 +126,41 @@ The following exceptions may arise during the execution of the `dereferenceDID` 
 
 [cols="1,1",options="header",frame="ends"]
 |===
-|Exception class
+|Exception code
 |Description 
 
-|`DIDNotFoundError`
-|Thrown when the DID is not found.
+|`invalidDidUrl`
+|Unsupported DID method or invalid DID URL.
 
-|`UnsupportedDIDMethodError`
-|Thrown when the DID method is not supported (only `did:hedera` is supported).
+|`invalidDidUrl`
+|Unsupported DID URL parameters.
 
-|`InvalidDIDUrlError`
-|Thrown when the DID URL is invalid.
+|`invalidDidUrl`
+|HL, versionTime, and versionId params are not supported.
 
-|`UnsupportedAcceptValueError`
-|Thrown when an unsupported `accept` header value is provided.
+|`notFound`
+|The DID document was not found.
+
+|`notFound`
+|Fragment not found in DID document.
+
+|`notFound`
+|Query not found in DID document.
+
+|`internalError`
+|Cannot verify signature without a public key or a verifier.
+
+|`internalError`
+|No public key found in `DIDOwner` event.
+
+|`representationNotSupported`
+|Unsupported representation format.
+
+|`representationNotSupported`
+|Multiple service endpoints are not supported.
+
+|`representationNotSupported`
+|This service endpoint type is not supported.
 |===
 
 == Function Implementation

@@ -124,10 +124,12 @@ This mode uses a specific lifecycle flow to facilitate secure signing by the cli
 Here's how it works:
 
 1. **Server initiates the operation:**  The server starts the DID creation, update, or deactivation process.
-2. **Server pauses for client signature:** The server generates a signing request and sends it to the client.
+2. **Server pauses for client signature:** The server generates a signing request and a state. The state object contains the operation details, while the signing request includes the payload to be signed. The server then sends the signing request to the client and persists the state object for later use.
 3. **Client signs the request:** The client application (e.g., a wallet) uses the user's private key to sign the request.
 4. **Client returns the signature:** The signed request is sent back to the server.
-5. **Server completes the operation:** The server verifies the signature and completes the DID operation.
+5. **Server completes the operation:** The server verifies the signature and completes the DID operation using persisted state.
+
+image::client-managed-secret-mode-flow.png[]
 
 === Creating a DID
 
@@ -206,9 +208,30 @@ const { did, didDocument } = await submitDeactivateDIDRequest(
 );
 ----
 
+=== Persisting a state object
+
+The generated state object contains the operation details and is used to resume the DID operation. It should be persisted securely on the server side, ensuring that it is not tampered with or exposed to unauthorized parties. Once the client returns the signed request, the server can use the state object to complete the operation.
+
+States is a `OperationState` object, and have the following structure:
+
+[source,javascript]
+----
+type StateStatus = 'success' | 'error' | 'pause';
+
+interface OperationState {
+  message: string;
+  status: StateStatus;
+  index: number;
+  label: string;
+}
+----
+
+All of the properties are primitives, so they can be easily persisted in a database or file system. 
+
 == Next Steps
 
 *   **Explore `resolveDID`:**  Dive deeper into the xref::04-implementation/components/resolveDID-guide.adoc[resolveDID] function to understand its parameters, error handling, and advanced usage.
 *   **Manage DIDs:** Learn how to use xref::04-implementation/components/createDID-guide.adoc[createDID], xref::04-implementation/components/updateDID-guide.adoc[updateDID], and xref::04-implementation/components/deactivateDID-guide.adoc[deactivateDID] to effectively manage DIDs on Hedera.
 *   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::04-implementation/components/signer-guide.adoc[Signer] class.
 *   **Utilize the `Publisher`:** Integrate the xref::04-implementation/components/publisher-guide.adoc[Publisher] class into your application for seamless transaction submission.
+*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hashgraph DID SDK: xref::04-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].

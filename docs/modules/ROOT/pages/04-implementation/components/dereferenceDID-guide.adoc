@@ -62,7 +62,7 @@ main();
 
 === Different `accept` values
 
-`dereferenceDID` supports different `accept` values in the same way as `resolveDID`. Currently, the only supported `accept` value is `application/ld+json;profile="https://w3id.org/did-resolution"`, `application/did+json` and `application/did+ld+json`. Based on the `accept` value, the function will return the corresponding Verification Method, Verification Relationship, or Service Endpoint in the corresponding format. `application/did+json` and `application/did+ld+json` are the same format, but `application/did+ld+json` adds `@context` to the JSON-LD document. `application/ld+json;profile="https://w3id.org/did-resolution"` adds resolution and content metadata to the result. 
+`dereferenceDID` supports different `accept` values in the same way as `resolveDID`. Currently, the only supported `accept` value is `application/ld+json;profile="https://w3id.org/did-resolution"`, `application/did+json`, `application/did+ld+json` and `application/did+cbor`. Based on the `accept` value, the function will return the corresponding Verification Method, Verification Relationship, or Service Endpoint in the corresponding format. `application/did+json` and `application/did+ld+json` are the same format, but `application/did+ld+json` adds `@context` to the JSON-LD document. `application/ld+json;profile="https://w3id.org/did-resolution"` adds resolution and content metadata to the result. The `application/did+cbor` format is a binary format of the dereferenced fragment.
 
 In example below, the `accept` value is `application/ld+json;profile="https://w3id.org/did-resolution"`. As a result, the function will return the Verification Method in JSON-LD format with resolution and content metadata.
 
@@ -74,11 +74,11 @@ const didUrl = "did:hedera:testnet:z6Mkhj...#did-root-key"; // Replace with the 
 
 async function main() {
   try {
-    const didDocument = await dereferenceDID(
+    const verificationMethodResolution = await dereferenceDID(
       didUrl,
       'application/ld+json;profile="https://w3id.org/did-resolution"'
     ); 
-    console.log(didDocument);
+    console.log(verificationMethodResolution);
   } catch (error) {
     console.error("Error dereferencing DID:", error);
   }
@@ -86,6 +86,9 @@ async function main() {
 
 main();
 ----
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/dereferenceDID-with-full-metadata.ts[example] in the source code.**
+
 
 == References
 

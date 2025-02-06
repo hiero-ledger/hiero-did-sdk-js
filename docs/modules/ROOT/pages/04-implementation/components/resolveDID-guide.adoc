@@ -81,6 +81,33 @@ main();
 
 **See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-with-full-metadata.ts[example] in the source code.**
 
+=== As CBOR
+
+This example shows how to resolve a DID and retrieve its corresponding DID Document in CBOR format.
+
+[source, typescript]
+----
+import { resolveDID } from "@hashgraph-did-js-sdk/resolver";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+async function main() {
+  try {
+    const didDocumentUintArray = await resolveDID(
+      did,
+      'application/did+cbor'
+    ); 
+    console.log(didDocumentUintArray);
+  } catch (error) {
+    console.error("Error resolving DID:", error);
+  }
+}
+
+main();
+----
+
+**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-as-cbor.ts[example] in the source code.**
+
 == References
 
 * xref:04-implementation/components/resolveDID-api.adoc[`resolveDID` API Reference]

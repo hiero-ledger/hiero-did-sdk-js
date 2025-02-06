@@ -24,32 +24,32 @@ image::did-document-interface-diagram.png[]
 |`string`
 |The DID string of the Decentralized Identifier.
 
-|controller?
-|`string` or `string[]`
-|An optional DID or array of DIDs that control the DID.
+|controller
+|`string`
+|The DID that controls the DID document.
 
-|verificationMethod?
+|verificationMethod
 |`VerificationMethod[]`
-|An optional array of verification methods associated with the DID.
+|An array of verification methods associated with the DID. 
 
 |authentication?
-|`string[]` or `VerificationMethod[]`
+|`(VerificationMethod \| string)[]`
 |An optional array of verification method IDs or verification methods that can be used for authentication.
 
 |assertionMethod?
-|`string[]` or `VerificationMethod[]`
+|`(VerificationMethod \| string)[]`
 |An optional array of verification method IDs or verification methods that can be used for assertion.
 
 |keyAgreement?
-|`string[]` or `VerificationMethod[]`
+|`(VerificationMethod \| string)[]`
 |An optional array of verification method IDs or verification methods that can be used for key agreement.
 
 |capabilityInvocation?
-|`string[]` or `VerificationMethod[]`
+|`(VerificationMethod \| string)[]`
 |An optional array of verification method IDs or verification methods that can be used for capability invocation.
 
 |capabilityDelegation?
-|`string[]` or `VerificationMethod[]`
+|`(VerificationMethod \| string)[]`
 |An optional array of verification method IDs or verification methods that can be used for capability delegation.
 
 |service?
@@ -60,7 +60,7 @@ image::did-document-interface-diagram.png[]
 
 === Signer
 
-Defines the methods for signing and verifying data using a DID's private key.
+Defines the methods for signing and verifying data using a DID's private key. It supports only ED25519 signatures.
 
 ==== Interface Diagram
 
@@ -75,15 +75,41 @@ image::signer-interface-diagram.png[]
 |Description
 
 |sign
-|`(message: Uint8Array) => Promise<Uint8Array>`
+|`(message: Uint8Array) => Promise<Uint8Array> \| Uint8Array`
 |Asynchronously signs the provided message using the signer's private key and returns a `Promise` that resolves to the signature.
 
 |publicKey
-|`() => Promise<MultibasePublicKey>`
-|Asynchronously retrieves the public key associated with the signer.
+|`() => Promise<PublicKeyInDer> \| PublicKeyInDer`
+|Asynchronously retrieves the public key associated with the signer in DER format.
 
 |verify
-|`(message: Uint8Array, signature: Uint8Array) => Promise<boolean>`
+|`(message: Uint8Array, signature: Uint8Array) => Promise<boolean> \| boolean`
+|Asynchronously verifies the given signature against the provided message using the signer's public key, returning a `Promise` that resolves to `true` if the signature is valid, `false` otherwise.
+|===
+
+
+=== Verifier
+
+Defines the methods for verifying the signatures of DID operations. It supports only ED25519 signatures. Can be used to verify the signatures when having only the public key.
+
+==== Interface Diagram
+
+image::verifier-interface-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|publicKey
+|`() => Promise<PublicKeyInDer> \| PublicKeyInDer`
+|Asynchronously retrieves the public key associated with the signer in DER format.
+
+|verify
+|`(message: Uint8Array, signature: Uint8Array) => Promise<boolean> \| boolean`
 |Asynchronously verifies the given signature against the provided message using the signer's public key, returning a `Promise` that resolves to `true` if the signature is valid, `false` otherwise.
 |===
 
@@ -104,15 +130,23 @@ image::publisher-interface-diagram.png[]
 |Type
 |Description
 
+|network
+|`() => Network`
+|Returns the name of the Hedera network used by the publisher, eg. "mainnet" or "testnet".
+
+|publicKey
+|`() => PublicKey`
+|Returns the public key of the account used by the publisher.
+
 |publish
-|`(transaction: any) => Promise<any>`
+|`(transaction: Transaction) => Promise<TransactionReceipt> \| TransactionReceipt`
 |Asynchronously submits the provided transaction to the network, executes it, and returns a `Promise` that resolves to a result object containing the outcome of the transaction.
 |===
 
 
 === DIDMessage
 
-Represents a message used for DID operations, such as creating, updating, or deactivating a DID.
+Represents a message used for DID operations, such as creating, updating, or deactivating a DID. It's an abstract class that can be extended to create specific DID operation messages.
 
 ==== Interface Diagram
 
@@ -126,27 +160,67 @@ image::did-message-interface-diagram.png[]
 |Type
 |Description
 
-|type
-|`string`
-|The type of DID message.
+|signature?
+|`Uint8Array`
+|The signature of the DID message.
 
-|did?
+|operation?
+|`DIDMessageOperation`
+|The DID operation to be performed, eg. "create", "update", "revoke".
+
+|did
 |`string`
 |The DID string of the Decentralized Identifier.
 
-|operation?
-|`DIDOperation`
-|The DID operation to be performed.
+|message
+|`object`
+|The message object containing the data to be signed according to the DID operation and Hedera DID specification.
+
+|topicId
+|`string`
+|The topic ID where the DID message will be published.
+
+|messageBytes
+|`Uint8Array`
+|A byte array representation of the message object. This is used for signing the message.
+
+|payload
+|`string`
+|Gets the payload of the DID message that will be published to the Hedera network. it contains the message object and the signature.
 |===
 
+==== Methods
 
-=== PublicKey
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
 
-An interface for representing public keys.
+|signWith
+|`signWith(signer: Signer): Promise<void>`
+|Signs the DID message using the provided signer.
+
+|setSignature
+|`setSignature(signature: Uint8Array, verifier: Verifier): Promise<void>`
+|Sets the signature of the DID message and verifies it using the provided verifier.
+
+|toBytes
+|`toBytes(): string`
+|Converts the DID message to a byte array in a base64-encoded string format.
+
+|static fromBytes
+|`static fromBytes(bytes: string): DIDMessage`
+|A static method that creates a DID message from a byte array in a base64-encoded string format.
+|===
+
+=== DIDError
+
+A custom error class for all SDK-related errors. It extends the JavaScript `Error` class and provides additional properties for error handling.
 
 ==== Interface Diagram
 
-image::public-key-interface-diagram.png[]
+image::diderror-interface-diagram.png[]
 
 ==== Properties
 
@@ -156,90 +230,71 @@ image::public-key-interface-diagram.png[]
 |Type
 |Description
 
-|id
-|`string`
-|The identifier of the public key.
+|isDIDError
+|`boolean`
+|Always `true` to indicate that the error is a DID-related error.
 
-|type
-|`string`
-|The type of public key.
+|code
+|`ErrorCodes`
+|The error code that identifies the type of error.
 
-|controller
+|description
 |`string`
-|The DID that controls the public key.
-
-|publicKeyMultibase
-|`string`
-|The public key in multibase format.
+|A human-readable description of the error. Provides additional information about the error.
 |===
 
+==== ErrorCodes
+
+A enumerated type for defining error codes used by the `DIDError` class.
+
+[source, typescript]
+----
+type ErrorCodes =
+  | 'invalidDid'
+  | 'invalidDidUrl'
+  | 'methodNotSupported'
+  | 'representationNotSupported'
+  | 'invalidPublicKey'
+  | 'invalidPublicKeyLength'
+  | 'invalidPublicKeyType'
+  | 'unsupportedPublicKeyType'
+  | 'internalError'
+  | 'notFound'
+  | 'invalidSignature'
+  | 'invalidMultibase'
+  | 'invalidArgument';
+----
 
 === Network
 
-An interface for defining Hedera network configurations.
+A enumerated type for defining Hedera network configurations. It specifies the network of the Hedera DID document.
 
-==== Interface Diagram
+==== Interface
 
-image::network-interface-diagram.png[]
-
-==== Properties
-
-[cols="1,1,3",options="header",frame="ends"]
-|===
-|Name
-|Type
-|Description
-
-|name
-|`string`
-|The name of the Hedera network (e.g., "mainnet", "testnet").
-
-|chainId
-|`number`
-|The chain ID of the Hedera network.
-|===
+[source, typescript]
+----
+type Network = 'mainnet' | 'testnet' | 'previewnet' | 'local-node';
+----
 
 
 === VerificationMethodProperties
 
-An interface for defining verification method properties.
+A enumerated type for defining verification method properties. It specifies the properties of a verification method, such as `authentication`, `assertionMethod`, `keyAgreement`, `capabilityInvocation`, and `capabilityDelegation`.
 
-==== Interface Diagram
+==== Interface
 
-image::verification-method-properties-interface-diagram.png[]
+[source, typescript]
+----
+type VerificationMethodProperties =
+  | 'verificationMethod'
+  | 'authentication'
+  | 'assertionMethod'
+  | 'keyAgreement'
+  | 'capabilityInvocation'
+  | 'capabilityDelegation';
+----
 
-==== Properties
 
-[cols="1,1,3",options="header",frame="ends"]
-|===
-|Name
-|Type
-|Description
-
-|verificationMethod
-|`VerificationMethod[]`
-|An array of verification methods.
-
-|authentication?
-|`string[]` or `VerificationMethod[]`
-|An optional array of verification method IDs or verification methods that can be used for authentication.
-
-|assertionMethod?
-|`string[]` or `VerificationMethod[]`
-|An optional array of verification method IDs or verification methods that can be used for assertion.
-
-|keyAgreement?
-|`string[]` or `VerificationMethod[]`
-|An optional array of verification method IDs or verification methods that can be used for key agreement.
-
-|capabilityInvocation?
-|`string[]` or `VerificationMethod[]`
-|An optional array of verification method IDs or verification methods that can be used for capability invocation.
-
-|capabilityDelegation?
-|`string[]` or `VerificationMethod[]`
-|An optional array of verification method IDs or verification methods that can be used for capability delegation.
-|===
 
 == Utilities
 
@@ -259,32 +314,51 @@ image::keys-utility-class-diagram.png[]
 |Type
 |Description
 
-|generateEd25519KeyPair
-|`() => KeyPair`
-|Generates a new ED25519 key pair.
-
-|fromPublicKey
-|`(publicKey: PublicKey) => KeysUtility`
-|Creates a new `KeysUtility` instance from a Hedera `PublicKey`.
-
 |toMultibase
-|`() => string`
-|Converts the key to multibase format.
+|`(algorithm: MultibaseAlgorithm) => string`
+|Converts the key to multibase format using the specified algorithm.
 
 |toBase58
 |`() => string`
-|Converts the key to base58 format.
+|Converts the key to a base58-encoded string.
 
 |toBytes
 |`() => Uint8Array`
 |Converts the key to a byte array.
+
+|toPublicKey
+|`() => PublicKey`
+|Converts the key to a Hedera `PublicKey`.
+
+|fromPublicKey
+|`static (publicKey: PublicKey) => KeysUtility`
+|Creates a new `KeysUtility` instance from a Hedera `PublicKey`.
+
+|fromDerString
+|`static (der: string) => KeysUtility`
+|Creates a new `KeysUtility` instance from a DER-encoded public key.
+
+|fromBytes
+|`static (bytes: Uint8Array) => KeysUtility`
+|Creates a new `KeysUtility` instance from a byte array.
+
+|fromBase58
+|`static (base58String: string) => KeysUtility`
+|Creates a new `KeysUtility` instance from a base58-encoded public key.
+
+|fromMultibase
+|`static (multibase: string) => KeysUtility`
+|Creates a new `KeysUtility` instance from a multibase-encoded public key.
 |===
 
-== DID Validation
+=== MultibaseCodec
 
-=== isHederaDID
+Provides methods for encoding and decoding data using the multibase encoding format.
+Supported algorithms: `base16`, `base16upper`, `base32`, `base32upper`, `base58btc`, `base64`, `base64url`, `base64urlpad`.
 
-Checks if a given string is a valid Hedera DID.
+==== Class Diagram
+
+image::multibase-utility-class-diagram.png[]
 
 ==== Properties
 
@@ -294,10 +368,80 @@ Checks if a given string is a valid Hedera DID.
 |Type
 |Description
 
-|isHederaDID
-|`(did: string) => boolean`
-|Returns `true` if the given string is a valid Hedera DID, `false` otherwise.
+|decode
+|`static (data: string) => Uint8Array`
+|Decodes a multibase-encoded string to a byte array.
+
+|encode
+|`static (data: Uint8Array, algorithm: MultibaseAlgorithm) => string`
+|Encodes a byte array to a multibase-encoded string using the specified algorithm. Default algorithm is `base58btc`.
 |===
+
+=== CborCodec
+
+Provides methods for encoding and decoding data using the CBOR encoding format. It allows to encode data to bytes or hex strings and decode bytes or hex strings to data.
+
+==== Class Diagram
+
+image::cbor-utility-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|decode
+|`static (data: Uint8Array \| string) => Uint8Array`
+|Decodes a CBOR-encoded byte array or hex string to a byte array.
+
+|encode
+|`static (data: Uint8Array \| string \| object) => Uint8Array`
+|Encodes a byte array, hex string, or object to a CBOR-encoded byte array.
+
+|encodeHex
+|`static (data: Uint8Array \| string \| object) => string`
+|Encodes a byte array, hex string, or object to a CBOR-encoded hex string.
+|===
+
+== Validation
+
+=== isHederaDID
+
+Checks if a given string is a valid Hedera DID. Returns `true` if the string is a valid DID, `false` otherwise.
+
+==== Function Signature
+
+[source, typescript]
+----
+function isHederaDID(did: string): boolean;
+----
+
+=== isHederaDIDUrl
+
+Checks if a given string is a valid Hedera DID URL. Returns `true` if the string is a valid DID URL, `false` otherwise.
+
+==== Function Signature
+
+[source, typescript]
+----
+function isHederaDIDUrl(didUrl: string): boolean;
+----
+
+=== isEd25519PublicKey
+
+Checks if a given byte array or multibase string is a valid ED25519 public key. Returns `true` if the byte array or multibase string is a valid ED25519 public key, `false` otherwise. It only check the length of the key.
+
+==== Function Signature
+
+[source, typescript]
+----
+function isEd25519PublicKey(bytes: Uint8Array): boolean;
+
+function isEd25519PublicKey(multibase: string): boolean;
+----
 
 == Component Implementation
 

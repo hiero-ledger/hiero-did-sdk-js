@@ -9,7 +9,7 @@ import {
 import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
 import { DIDError, KeysUtility } from '@swiss-digital-assets-institute/core';
-import { PublisherProviders } from '../interfaces';
+import { OperationState, PublisherProviders } from '../interfaces';
 import { getPublisher, MessageAwaiter } from '../shared';
 import {
   GenerateCreateDIDRequestOptions,
@@ -58,8 +58,13 @@ export async function generateCreateDIDRequest(
     publisher.client.close();
   }
 
+  const serializedState: OperationState = {
+    ...state,
+    message: state.message.toBytes(),
+  };
+
   return {
-    state,
+    state: serializedState,
     signingRequest: {
       payload: state.message.message,
       serializedPayload: state.message.messageBytes,
@@ -84,7 +89,8 @@ export async function submitCreateDIDRequest(
   const publisher = getPublisher(providers);
 
   const { state, signature } = options;
-  const message = options.state.message;
+
+  const message = DIDOwnerMessage.fromBytes(options.state.message);
 
   const manager = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
   const runnerOptions: LifecycleRunnerOptions = {
@@ -96,7 +102,13 @@ export async function submitCreateDIDRequest(
   };
 
   // Resume the lifecycle to set the signature
-  const firstState = await manager.resume(state, runnerOptions);
+  const firstState = await manager.resume(
+    {
+      ...state,
+      message,
+    },
+    runnerOptions,
+  );
 
   // Set up a message awaiter to wait for the message to be available in the topic
   const messageAwaiter = new MessageAwaiter(

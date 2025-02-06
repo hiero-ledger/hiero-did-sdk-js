@@ -72,7 +72,7 @@ export class KeysUtility {
 
   /**
    * Loads a public key from a base58 string.
-   * @param base58 The base58 string representing the public key.
+   * @param base58String The base58 string representing the public key.
    * @returns The KeysUtility instance.
    */
   static fromBase58(base58String: string): KeysUtility {
