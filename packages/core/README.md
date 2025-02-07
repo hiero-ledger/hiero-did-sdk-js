@@ -4,10 +4,10 @@ This package forms the foundation of the Hashgraph DID SDK. It provides essentia
 
 ## Features
 
-*   **Interfaces:** Exports core interfaces for DID operations and Hedera interactions.
-*   **Key Management:** Provides utilities for handling and transforming cryptographic keys in various formats.
-*   **DID Validation:** Ensures DIDs comply with the specification using the `isHederaDID` function.
-*   **TypeScript Support:** Built with TypeScript to enhance developer experience and code maintainability.
+- **Interfaces:** Exports core interfaces for DID operations and Hedera interactions.
+- **Key Management:** Provides utilities for handling and transforming cryptographic keys in various formats.
+- **DID Validation:** Ensures DIDs comply with the specification using the `isHederaDID` function.
+- **TypeScript Support:** Built with TypeScript to enhance developer experience and code maintainability.
 
 ## Installation
 
@@ -19,11 +19,11 @@ npm install @hashgraph-did-sdk/core
 
 ## Usage
 
-Learn how to use the core interfaces and utilities for DID operations in the [Core Package Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/guides/core-guide.html).
+Learn how to use the core interfaces and utilities for DID operations in the [Core Package Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/core-guide.html).
 
 ## API Reference
 
-Learn more in the [Core API Reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components-api/core-api.html).
+Learn more in the [Core API Reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/core-api.html).
 
 ## Running Tests
 
@@ -39,5 +39,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-  * [Hashgraph DID SDK](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
-  * [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.
+- [Hashgraph DID SDK](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
+- [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.

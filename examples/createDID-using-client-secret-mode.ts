@@ -7,7 +7,7 @@ import {
   generateCreateDIDRequest,
   submitCreateDIDRequest,
 } from '@swiss-digital-assets-institute/registrar';
-import { KeysUtility } from '../packages/core/src';
+import { KeysUtility } from '@swiss-digital-assets-institute/core';
 
 const accountId = process.env.HEDERA_TESTNET_ACCOUNT_ID;
 const operatorPrivateKey = process.env.HEDERA_TESTNET_PRIVATE_KEY;

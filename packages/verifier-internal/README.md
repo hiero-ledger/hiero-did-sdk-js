@@ -18,11 +18,11 @@ npm install @hashgraph-did-sdk/verifier-internal
 
 ## Usage
 
-Learn how to use the `Verifier` class to verify signatures in the [Verifier Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/verifier-guide.html).
+Learn how to use the `Verifier` class to verify signatures in the [Verifier Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/verifier-guide.html).
 
 ## API Reference
 
-Learn more in the [`Verifier` API Reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.1/04-implementation/components/verifier-api.html).
+Learn more in the [`Verifier` API Reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/verifier-api.html).
 
 ## Running Tests
 
