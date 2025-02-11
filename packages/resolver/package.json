@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
-    "@swiss-digital-assets-institute/core": "0.0.2-alpha.18"
+    "@swiss-digital-assets-institute/core": "0.0.2-alpha.18",
+    "@swiss-digital-assets-institute/verifier-internal": "0.0.2-alpha.18"
   }
 }

@@ -153,7 +153,7 @@ describe('DID Document Builder', () => {
       ).toStrictEqual(validEvent);
     });
 
-    it('should set a public key from a DID Owner event for verification (multibase format)', async () => {
+    it('should set a verifier from a public key from a DID Owner event for verification (multibase format)', async () => {
       const didDocumentBuilder = DidDocumentBuilder.from([]);
 
       const privateKey = await PrivateKey.generateED25519Async();
@@ -174,11 +174,13 @@ describe('DID Document Builder', () => {
         Buffer.from(JSON.stringify(validEvent)).toString('base64'),
       );
 
-      expect(didDocumentBuilder['didPublicKey']).toBeDefined();
-      expect(didDocumentBuilder['didPublicKey']).toStrictEqual(publicKey);
+      expect(didDocumentBuilder['verifier']).toBeDefined();
+      expect(didDocumentBuilder['verifier'].publicKey()).toStrictEqual(
+        publicKey.toStringDer(),
+      );
     });
 
-    it('should set a public key from a DID Owner event for verification (base58 format)', async () => {
+    it('should set a verifier from a public key from a DID Owner event for verification (base58 format)', async () => {
       const didDocumentBuilder = DidDocumentBuilder.from([]);
 
       const privateKey = await PrivateKey.generateED25519Async();
@@ -198,8 +200,10 @@ describe('DID Document Builder', () => {
         Buffer.from(JSON.stringify(validEvent)).toString('base64'),
       );
 
-      expect(didDocumentBuilder['didPublicKey']).toBeDefined();
-      expect(didDocumentBuilder['didPublicKey']).toStrictEqual(publicKey);
+      expect(didDocumentBuilder['verifier']).toBeDefined();
+      expect(didDocumentBuilder['verifier'].publicKey()).toStrictEqual(
+        publicKey.toStringDer(),
+      );
     });
 
     it('should not try to set a public key from an event different then DID Owner event', () => {
@@ -276,52 +280,6 @@ describe('DID Document Builder', () => {
       ).toBe(false);
 
       expect(signer.verifyMock).toHaveBeenCalledTimes(1);
-    });
-
-    it('should verify the signature using the public key and return true for valid signature', async () => {
-      const privateKey = await PrivateKey.generateED25519Async();
-      const publicKey = privateKey.publicKey;
-
-      const didDocumentBuilder = DidDocumentBuilder.from([]);
-      didDocumentBuilder['didPublicKey'] = publicKey;
-
-      const message: TopicDIDMessage = {
-        timestamp: new Date().toISOString(),
-        operation: 'create',
-        did: VALID_DID,
-        event: 'ey...',
-      };
-      const signature = Buffer.from(
-        privateKey.sign(Buffer.from(JSON.stringify(message))),
-      ).toString('base64');
-
-      expect(
-        await didDocumentBuilder['verifySignature'](message, signature),
-      ).toBe(true);
-    });
-
-    it('should verify the signature using the public key and return false for invalid signature', async () => {
-      const privateKey = await PrivateKey.generateED25519Async();
-      const publicKey = privateKey.publicKey;
-
-      const didDocumentBuilder = DidDocumentBuilder.from([]);
-      didDocumentBuilder['didPublicKey'] = publicKey;
-
-      const message: TopicDIDMessage = {
-        timestamp: new Date().toISOString(),
-        operation: 'create',
-        did: VALID_DID,
-        event: 'ey...',
-      };
-      const signature = Buffer.from(
-        privateKey.sign(
-          Buffer.from(JSON.stringify({ operation: 'create', did: VALID_DID })),
-        ),
-      ).toString('base64');
-
-      expect(
-        await didDocumentBuilder['verifySignature'](message, signature),
-      ).toBe(false);
     });
   });
 

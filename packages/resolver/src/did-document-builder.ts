@@ -14,6 +14,7 @@ import {
   DIDError,
   DID_ROOT_KEY_ID,
 } from '@swiss-digital-assets-institute/core';
+import { Verifier as InternalVerifier } from '@swiss-digital-assets-institute/verifier-internal';
 import { PublicKey } from '@hashgraph/sdk';
 import {
   TopicDIDContent,
@@ -37,9 +38,8 @@ import { notFoundError } from './consts';
  */
 export class DidDocumentBuilder {
   private did: string;
-  private verifier?: Verifier;
+  private verifier: Verifier;
 
-  private didPublicKey: PublicKey;
   private createdAt?: Date;
   private updatedAt?: Date;
   private deactivated = false;
@@ -269,7 +269,7 @@ export class DidDocumentBuilder {
     message: TopicDIDMessage,
     signature: string,
   ): Promise<boolean> {
-    if (!this.didPublicKey && !this.verifier) {
+    if (!this.verifier) {
       throw new DIDError(
         'internalError',
         'Cannot verify signature without a public key or a verifier',
@@ -280,11 +280,7 @@ export class DidDocumentBuilder {
     const signatureBytes = Buffer.from(signature, 'base64');
 
     try {
-      if (this.verifier) {
-        return await this.verifier.verify(messageBytes, signatureBytes);
-      }
-
-      return this.didPublicKey.verify(messageBytes, signatureBytes);
+      return await this.verifier.verify(messageBytes, signatureBytes);
     } catch {
       return false;
     }
@@ -360,26 +356,27 @@ export class DidDocumentBuilder {
   }
 
   private setPublicKeyFromDIDOwner(event: DIDOwnerEvent): void {
+    let publicKey: PublicKey;
     if (event.DIDOwner.publicKeyMultibase) {
-      this.didPublicKey = KeysUtility.fromMultibase(
+      publicKey = KeysUtility.fromMultibase(
         event.DIDOwner.publicKeyMultibase,
       ).toPublicKey();
-
-      return;
     }
 
     if (event.DIDOwner.publicKeyBase58) {
-      this.didPublicKey = KeysUtility.fromBase58(
+      publicKey = KeysUtility.fromBase58(
         event.DIDOwner.publicKeyBase58,
       ).toPublicKey();
-
-      return;
     }
 
-    throw new DIDError(
-      'internalError',
-      'No public key found in `DIDOwner` event',
-    );
+    if (!publicKey) {
+      throw new DIDError(
+        'internalError',
+        'No public key found in `DIDOwner` event',
+      );
+    }
+
+    this.verifier = new InternalVerifier(publicKey);
   }
 
   static from(messages: string[]): DidDocumentBuilder {
