@@ -34,6 +34,15 @@ export class KeysUtility {
   }
 
   /**
+   * Transforms the public key into a der string.
+   * @returns The der string.
+   */
+  toDerString(): string {
+    const publicKey = this.toPublicKey();
+    return publicKey.toStringDer();
+  }
+
+  /**
    * Transforms the public key into a base58 string.
    * @returns The base58 string.
    */
@@ -77,6 +86,16 @@ export class KeysUtility {
    */
   static fromBase58(base58String: string): KeysUtility {
     const bytes = base58.decode(base58String);
+    return new KeysUtility(bytes);
+  }
+
+  /**
+   * Loads a public key from a base64 string.
+   * @param base64String The base64 string representing the public key.
+   * @returns The KeysUtility instance.
+   */
+  static fromBase64(base64String: string): KeysUtility {
+    const bytes = Uint8Array.from(Buffer.from(base64String, 'base64'));
     return new KeysUtility(bytes);
   }
 

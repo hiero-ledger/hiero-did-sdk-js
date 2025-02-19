@@ -32,6 +32,8 @@
     *** xref:04-implementation/components/updateDID-guide.adoc[updateDID]
     *** xref:04-implementation/components/deactivateDID-guide.adoc[deactivateDID]
     *** xref:04-implementation/components/signer-guide.adoc[Signer]
+    *** HashiCorp Vault
+      **** xref:04-implementation/components/hashicorp-vault-signer-guide.adoc[Vault Signer]
     *** xref:04-implementation/components/verifier-guide.adoc[Verifier]
     *** xref:04-implementation/components/publisher-guide.adoc[Publisher]
 
@@ -54,6 +56,9 @@
     *** xref:04-implementation/components/submitDeactivateDIDRequest-api.adoc[submitDeactivateDIDRequest]
     *** xref:04-implementation/components/signer-api.adoc[Signer]
     *** xref:04-implementation/components/verifier-api.adoc[Verifier]
+    *** HashiCorp Vault
+      **** xref:04-implementation/components/hashicorp-vault-signer-api.adoc[Vault Signer]
+      **** xref:04-implementation/components/hashicorp-vault-signer-factory-api.adoc[Vault Signer Factory]
     *** xref:04-implementation/components/publisher-api.adoc[Publisher]
 
     *** Advanced

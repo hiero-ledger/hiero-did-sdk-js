@@ -1,0 +1,49 @@
+{
+  "name": "@swiss-digital-assets-institute/signer-hashicorp-vault",
+  "version": "0.0.2-alpha.18",
+  "description": "This package provides a way to create a `Signer` class that allows HashiCorp Vault to be used for secure key management and digital signature generation for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
+  "author": {
+    "name": "The Hashgraph Association",
+    "url": "https://www.hashgraph.swiss/"
+  },
+  "bugs": {
+    "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/issues"
+  },
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.esm.js"
+    }
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js.git",
+    "directory": "packages/signer-hashicorp-vault"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsup"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com",
+    "scope": "@swiss-digital-assets-institute"
+  },
+  "dependencies": {
+    "@swiss-digital-assets-institute/core": "0.0.2-alpha.18"
+  }
+}

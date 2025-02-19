@@ -67,13 +67,15 @@ This approach is recommended for production systems and applications handling se
 
 image::external-secret-mode-diagram.png[]
 
-The `Signer` object acts as an interface to your external key management system.  For example, to use a HashiCorp Vault for key storage, you would configure the `VaultSigner`:
+The `Signer` object acts as an interface to your external key management system.  For example, to use a HashiCorp Vault for key storage, you would configure the Vault `Signer` using a `VaultSignerFactory`:
 
-NOTE: `VaultSigner` is not a part of the current DID SDK.
 
 [source,javascript]
 ----
-const signer = VaultSigner({ url: 'your-vault-url', credentials: 'your-vault-token' }); 
+const signerFactory = await VaultSignerFactory.loginWithToken({ 
+  token: 'your-vault-token',
+  url: 'your-vault-url',
+}); 
 ----
 
 === Creating a DID
@@ -81,7 +83,7 @@ const signer = VaultSigner({ url: 'your-vault-url', credentials: 'your-vault-tok
 [source,javascript]
 ----
 const { did, didDocument } = await createDID({
-  signer: signer.forKey(keyId), // 'keyId' identifies the key in your Vault
+  signer: await signerFactory.forKey('your-key-name'), // 'your-key-name' identifies the key in your Vault
   client,
 });
 ----
@@ -95,7 +97,7 @@ const updatedDidDocument = await updateDID({
   updates: [...],
 }, { 
   client,
-  signer: signer.forKey(keyId) 
+  signer: await signerFactory.forKey('your-key-name'), 
 });
 ----
 
@@ -104,7 +106,7 @@ const updatedDidDocument = await updateDID({
 [source,javascript]
 ----
 await deactivateDID({ did }, {
-  signer: signer.forKey(keyId), 
+  signer: await signerFactory.forKey('your-key-name'),
   clientOptions,
 });
 ----

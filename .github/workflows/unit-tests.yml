@@ -27,9 +27,9 @@ jobs:
         run: npm run packages:build
 
       - name: Run unit tests
-        timeout-minutes: 5
+        timeout-minutes: 8
         env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
+          NODE_OPTIONS: '--max_old_space_size=8192'
         run: npm run packages:test:ci
 
       - name: Report coverage
