@@ -1,0 +1,191 @@
+= HashiCorp Vault Verifier Factory API Reference
+
+This document provides a concise API reference for the `VaultVerifierFactory` class within the Hedera DID SDK for JavaScript. The `VaultVerifierFactory` class is responsible for creating Vault `Verifier` instances and authenticating with HashiCorp Vault to securely manage cryptographic keys.
+
+== Class Diagram
+
+The class diagram below illustrates the core methods of the Vault `VaultVerifierFactory` interface for interacting with HashiCorp Vault.
+
+image::vault-verifier-factory-class-diagram.png[]
+
+== Constructor
+
+=== `constructor` 
+[source,ts]
+----
+private constructor(vaultApi: VaultApi)
+----
+
+Initializes a new `VaultVerifierFactory` instance. It is a private constructor and should not be called directly.
+
+Parameters::
+* `vaultApi`: (Required) An internal API object that interacts with HashiCorp Vault.
+
+== Static Methods
+
+=== `loginWithToken` 
+[source,ts]
+----
+static loginWithToken(
+    options: VaultLoginWithTokenOptions,
+): Promise<VaultVerifierFactory>
+----
+
+Creates a new `VaultVerifierFactory` instance by authenticating with HashiCorp Vault using an access token.
+
+Parameters::
+* `options`: An object containing the necessary options to authenticate with HashiCorp Vault using an access token (refer to <<token-options-data-types>> for details).
+
+Returns::
+The new `VaultVerifierFactory` instance.
+
+=== `loginWithUsernameAndPassword` 
+[source,ts]
+----
+static loginWithUsernameAndPassword(
+  options: VaultLoginWithUsernameAndPasswordOptions,
+): Promise<VaultVerifierFactory>
+----
+
+Creates a new `VaultVerifierFactory` instance by authenticating with HashiCorp Vault using a username and password.
+
+Parameters::
+* `options`: An object containing the necessary options to authenticate with HashiCorp Vault using a username and password (refer to <<userpass-options-data-types>> for details).
+
+Returns::
+The new `VaultVerifierFactory` instance.
+
+=== `loginWithAppRole` 
+[source,ts]
+----
+static async loginWithAppRole(
+  options: VaultLoginWithAppRoleOptions,
+): Promise<VaultVerifierFactory>
+----
+
+Creates a new `VaultVerifierFactory` instance by authenticating with HashiCorp Vault using an AppRole.
+
+Parameters::
+* `options`: An object containing the necessary options to authenticate with HashiCorp Vault using an AppRole (refer to <<approle-options-data-types>> for details).
+
+Returns::
+The new `VaultVerifierFactory` instance.
+
+== Methods
+
+=== `forKey` 
+[source,ts]
+----
+forKey(keyName: string): Promise<Verifier>
+----
+
+Returns a Vault `Verifier` instance for the specified key stored in HashiCorp Vault.
+
+Parameters::
+* `keyName`: The unique identifier for the key stored in HashiCorp Vault.
+
+Returns::
+A `Verifier` instance for the specified key.
+
+
+== Data Types
+
+This section elaborates on the data types employed within the `VaultVerifierFactory` class.
+
+[[token-options-data-types]]
+=== VaultLoginWithTokenOptions Type
+
+The `VaultLoginWithTokenOptions` type is an object that contains the necessary options to authenticate with HashiCorp Vault using an access token.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|token
+|`string`
+|The access token used to authenticate with HashiCorp Vault.
+
+|url
+|`string \| URL`
+|The URL of the HashiCorp Vault server.
+
+|transitPath?
+|`string`
+|The path for the transit secret engine. Default is `transit`.
+|===
+
+[[userpass-options-data-types]]
+=== VaultLoginWithUsernameAndPasswordOptions Type
+
+The `VaultLoginWithUsernameAndPasswordOptions` type is an object that contains the necessary options to authenticate with HashiCorp Vault using a username and password.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|username
+|`string`
+|The username used to authenticate with HashiCorp Vault.
+
+|password
+|`string`
+|The password used to authenticate with HashiCorp Vault.
+
+|url
+|`string \| URL`
+|The URL of the HashiCorp Vault server.
+
+|transitPath?
+|`string`
+|The path for the transit secret engine. Default is `transit`.
+|===
+
+[[approle-options-data-types]]
+=== VaultLoginWithAppRoleOptions Type
+
+The `VaultLoginWithAppRoleOptions` type is an object that contains the necessary options to authenticate with HashiCorp Vault using an AppRole.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|roleId
+|`string`
+|The ID of the AppRole used to authenticate with HashiCorp Vault.
+
+|secretId
+|`string`
+|The secret ID of the AppRole used to authenticate with HashiCorp Vault.
+
+|url
+|`string \| URL`
+|The URL of the HashiCorp Vault server.
+
+|transitPath?
+|`string`
+|The path for the transit secret engine. Default is `transit`.
+|===
+
+== Errors
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description
+
+|`invalidArgument`
+|Specified key does not exist or cannot be accessed.
+
+|`internalError`
+|Vault authentication failed.
+|===
+
+== Class Implementation
+
+The Hashgraph DID SDK provides the `VaultVerifierFactory` class within its `verifier-hashicorp-vault` package. For further details, refer to the xref:06-deployment/packages/index.adoc[`@hashgraph-did-sdk-js/verifier-hashicorp-vault`] package documentation.

@@ -34,6 +34,7 @@
     *** xref:04-implementation/components/signer-guide.adoc[Signer]
     *** HashiCorp Vault
       **** xref:04-implementation/components/hashicorp-vault-signer-guide.adoc[Vault Signer]
+      **** xref:04-implementation/components/hashicorp-vault-verifier-guide.adoc[Vault Verifier]
     *** xref:04-implementation/components/verifier-guide.adoc[Verifier]
     *** xref:04-implementation/components/publisher-guide.adoc[Publisher]
 
@@ -59,6 +60,8 @@
     *** HashiCorp Vault
       **** xref:04-implementation/components/hashicorp-vault-signer-api.adoc[Vault Signer]
       **** xref:04-implementation/components/hashicorp-vault-signer-factory-api.adoc[Vault Signer Factory]
+      **** xref:04-implementation/components/hashicorp-vault-verifier-api.adoc[Vault Verifier]
+      **** xref:04-implementation/components/hashicorp-vault-verifier-factory-api.adoc[Vault Verifier Factory]
     *** xref:04-implementation/components/publisher-api.adoc[Publisher]
 
     *** Advanced

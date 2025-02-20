@@ -27,6 +27,9 @@ These packages provide the essential building blocks for working with DIDs on He
 
 | link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/signer-hashicorp-vault[@hashgraph-did-sdk/signer-hashicorp-vault]
 | Provides the functionality for secure key generation and signing operations using HashiCorp Vault.
+
+| link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/tree/main/packages/verifier-hashicorp-vault[@hashgraph-did-sdk/verifier-hashicorp-vault]
+| Provides the functionality for verifying signatures using HashiCorp Vault.
 |===
 
 == Advanced Packages
