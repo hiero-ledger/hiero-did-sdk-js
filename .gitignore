@@ -12,9 +12,6 @@ node_modules/
 # Ignore coverage
 coverage/
 
-# Ignore hedera local node network log files
-test-suites/config/hedera/local-node/network_logs
-
 # Ignore debug logs
 lerna-debug.log
 

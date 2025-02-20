@@ -11,3 +11,5 @@ include::adr-003-monorepo-project-structure.adoc[]
 include::adr-004-package-structure-and-conventions.adoc[]
 
 include::adr-005-sdk-packages-and-external-dependencies.adoc[]
+
+include::adr-006-relocation-of-the-DID-SDK-BDD-test-suite.adoc[]

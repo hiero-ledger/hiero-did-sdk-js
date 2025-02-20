@@ -34,9 +34,9 @@ Gain a comprehensive understanding of the SDK's architecture and underlying desi
 
 For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/guides/getting-started-guide.html" target="_blank">Getting Started Guide</a>.
 
-## Testing
+<!-- ## Testing
 
-Rigorous <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/05-testing/acceptance-tests/index.html" target="_blank">Acceptance Tests</a> have been implemented to validate the SDK's functionality against real-world scenarios and ensure it meets user requirements.
+Rigorous <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/05-testing/acceptance-tests/index.html" target="_blank">Acceptance Tests</a> have been implemented to validate the SDK's functionality against real-world scenarios and ensure it meets user requirements. -->
 
 ## Deployment
 

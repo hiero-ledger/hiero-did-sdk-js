@@ -69,8 +69,8 @@
       **** xref:04-implementation/components/messages-api.adoc[Messages]
       **** xref:04-implementation/components/lifecycle-api.adoc[Lifecycle]
 
-* Testing 
-  ** xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests]
+// * Testing 
+//   ** xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests]
 
 
 * Deployment

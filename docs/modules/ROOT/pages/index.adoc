@@ -28,9 +28,9 @@ Gain a comprehensive understanding of the SDK's architecture and underlying desi
 
 For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed xref:04-implementation/guides/getting-started-guide.adoc[Getting Started Guide].
 
-== Testing
+// == Testing
 
-Rigorous xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests] have been implemented to validate the SDK's functionality against real-world scenarios and ensure it meets user requirements.
+// Rigorous xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests] have been implemented to validate the SDK's functionality against real-world scenarios and ensure it meets user requirements.
 
 == Deployment
 
