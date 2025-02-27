@@ -13,12 +13,13 @@
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
+  "browser": "./dist/browser/index.esm.js",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs.js",
-      "import": "./dist/index.esm.js"
-    }
+    "types": "./dist/index.d.ts",
+    "browser": "./dist/browser/index.esm.js",
+    "require": "./dist/index.cjs.js",
+    "import": "./dist/index.esm.js",
+    "default": "./dist/index.esm.js"
   },
   "files": [
     "dist",
@@ -46,6 +47,6 @@
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
     "@scure/base": "^1.1.9",
-    "cbor": "^10.0.3"
+    "cbor2": "^1.12.0"
   }
 }

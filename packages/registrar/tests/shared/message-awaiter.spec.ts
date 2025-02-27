@@ -37,7 +37,7 @@ describe('Message Awaiter', () => {
       com.hedera.mirror.api.proto.ConsensusTopicResponse.encode({
         message: Uint8Array.from(Buffer.from(message)),
         consensusTimestamp: {
-          seconds: 1,
+          seconds: null,
           nanos: 0,
         },
       }).finish(),

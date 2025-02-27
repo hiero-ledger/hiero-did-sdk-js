@@ -1,4 +1,4 @@
-import { encodeOne, decode } from 'cbor';
+import { encode, decode } from 'cbor2';
 
 /**
  * `CborCodec` is a simple utility class for encoding and decoding CBOR data.
@@ -10,7 +10,7 @@ export class CborCodec {
    * @returns The Uint8Array.
    */
   static decode(data: Uint8Array | string): Uint8Array {
-    const result: Uint8Array = decode(data, { extendedResults: false });
+    const result: Uint8Array = decode(data);
     return result;
   }
 
@@ -20,7 +20,7 @@ export class CborCodec {
    * @returns The CBOR encoded Uint8Array.
    */
   static encode(data: Uint8Array | string | object): Uint8Array {
-    const encodedData = new Uint8Array(encodeOne(data));
+    const encodedData = encode(data);
     return encodedData;
   }
 

@@ -1,11 +1,8 @@
 import { Options } from 'tsup';
 
-const options: Options = {
+const commonOptions: Options = {
   splitting: false,
-  sourcemap: true,
-  clean: true,
   minify: true,
-  dts: true,
   tsconfig: 'tsconfig.build.json',
   outDir: 'dist',
   format: ['cjs', 'esm'],
@@ -18,4 +15,20 @@ const options: Options = {
   },
 };
 
-export default options;
+const nodeOptions: Options = {
+  ...commonOptions,
+  sourcemap: true,
+  clean: true,
+  dts: true,
+  platform: 'node',
+};
+
+const browserOptions: Options = {
+  ...commonOptions,
+  platform: 'browser',
+  outDir: 'dist/browser',
+  format: ['esm'],
+  inject: ['../../node_modules/node-stdlib-browser/helpers/esbuild/shim.js'],
+};
+
+export default [nodeOptions, browserOptions];

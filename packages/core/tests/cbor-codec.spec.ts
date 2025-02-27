@@ -33,8 +33,8 @@ describe('CBOR format utilities', () => {
     );
 
     it.each([
-      ['Uint8Array', 'encode', new Uint8Array([0xd8, 0x40, 0x42, 0xa1, 0xff])],
-      ['HEX', 'encodeHex', 'D84042A1FF'],
+      ['Uint8Array', 'encode', new Uint8Array([0x42, 0xa1, 0xff])],
+      ['HEX', 'encodeHex', '42A1FF'],
     ] as const)(
       'should encode a Uint8Array to cbor data [%s]',
       (_, methodName, expected) => {

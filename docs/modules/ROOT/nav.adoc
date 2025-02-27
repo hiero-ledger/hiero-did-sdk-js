@@ -22,6 +22,7 @@
     **** xref:04-implementation/guides/handling-exceptions.adoc[Handling Exceptions]
   *** Environment Setup
     **** xref:04-implementation/guides/getting-started-guide.adoc[Getting Started]
+    **** xref:04-implementation/guides/browser-environment-guide.adoc[Browser Environment]
 // *** Advanced
 //   **** xref:04-implementation/guides/advanced/setup-hedera-development-node-guide.adoc[Setup Hedera Development Node]
 

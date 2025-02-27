@@ -13,12 +13,13 @@
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
+  "browser": "./dist/browser/index.esm.js",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs.js",
-      "import": "./dist/index.esm.js"
-    }
+    "types": "./dist/index.d.ts",
+    "browser": "./dist/browser/index.esm.js",
+    "require": "./dist/index.cjs.js",
+    "import": "./dist/index.esm.js",
+    "default": "./dist/index.esm.js"
   },
   "files": [
     "dist",
