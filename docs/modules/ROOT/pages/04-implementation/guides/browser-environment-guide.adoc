@@ -24,23 +24,27 @@ IMPORTANT: Make sure that you module bundler is configured to resolve `browser` 
 
 == Usage
 
-Usage of the Hashgraph DID SDK in a browser environment is similar to the Node.js environment. The following example demonstrates how to resolve a DID in React Component:
+Usage of the Hashgraph DID SDK in a browser environment is similar to the Node.js environment. The following example demonstrates how to create a DID in React Component:
 
 [source,javascript]
 ----
-import { resolveDID } from '@hashgraph-did-js-sdk/resolver';
+import { createDID } from '@hashgraph-did-js-sdk/registrar';
 import { useState, useEffect } from 'react';
 
 export function App() {
-    const [did, setDid] = useState(null);
+    const [createDIDResponse, setCreateDIDResponse] = useState(null);
 
     useEffect(() => {
-        resolveDID('did:hashgraph:0.0.1234567890').then(setDid);
+        createDID({
+            publisher: CustomWalletConnectPublisher,
+        }).then(setCreateDIDResponse);
     }, []);
 
-    return <p>{did}</p>;
+    return <p>{createDIDResponse.did}</p>;
 }
 ----
+
+The `CustomWalletConnectPublisher` is a custom implementation of the xref::04-implementation/components/core-api.adoc#publisher[`Publisher`] interface that uses WalletConnect to connect to the Hedera network. You need to implement it yourself.
 
 === Limitations
 
