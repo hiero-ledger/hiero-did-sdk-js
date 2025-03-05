@@ -1,6 +1,6 @@
 {
   "name": "@swiss-digital-assets-institute/verifier-hashicorp-vault",
-  "version": "0.0.2-alpha.19",
+  "version": "0.0.2-alpha.20",
   "description": "This package provides a way to create a `Verifier` class that allows HashiCorp Vault to be used for secure key management and digital signature verification for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
   "author": {
     "name": "The Hashgraph Association",
@@ -45,6 +45,6 @@
     "scope": "@swiss-digital-assets-institute"
   },
   "dependencies": {
-    "@swiss-digital-assets-institute/core": "0.0.2-alpha.19"
+    "@swiss-digital-assets-institute/core": "0.0.2-alpha.20"
   }
 }
