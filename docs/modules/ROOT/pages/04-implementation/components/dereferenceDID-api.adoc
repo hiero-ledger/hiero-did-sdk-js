@@ -65,7 +65,7 @@ The function accepts the following parameters:
 
 |options?
 |`DereferenceDIDOptions`
-|The options to use when dereferencing the DID URL.
+|The options to use when dereferencing the DID URL. See <<options-data-types>> for more details.
 |===
 
 == Data Types
@@ -87,6 +87,24 @@ The function accepts the following parameters:
   * `application/did+json`
   * `application/ld+json;profile="https://w3id.org/did-resolution"`
   * `application/did+cbor`
+|===
+
+[[options-data-types]]
+=== DereferenceDIDOptions type
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|verifier?
+|`Verifier`
+|Specifies the verifier to use for verifying the DID Document signature. See xref:04-implementation/components/verifier-guide.adoc[Verifier] for more details.
+
+|topicReader?
+|`TopicReader`
+|Specifies the topic reader to use for reading messages from the Hedera network. Default is `HederaClientTopicReader`. See xref:06-deployment/packages/index.adoc#essential-packages[TopicReader] for more details.
 |===
 
 == Return Value

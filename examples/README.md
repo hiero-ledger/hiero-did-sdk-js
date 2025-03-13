@@ -20,12 +20,16 @@ The following examples are available in this directory:
 - **[`resolveDID-as-json-ld.ts`](./resolveDID-as-json-ld.ts)**: Demonstrates how to resolve a DID and retrieve its corresponding DID Document in JSON-LD format.
 - **[`resolveDID-as-json.ts`](./resolveDID-as-json.ts)**: Demonstrates how to resolve a DID and retrieve its corresponding DID Document in JSON format.
 - **[`resolveDID-with-full-metadata.ts`](./resolveDID-with-full-metadata.ts)**: Demonstrates how to resolve a DID and retrieve its corresponding DID Document with full DID Resolution metadata.
+- **[`resolveDID-with-topic-reader.ts`](./resolveDID-with-topic-reader.ts)**: Demonstrates how to resolve a DID using a custom topic reader.
+- **[`resolveDID-with-verifier.ts`](./resolveDID-with-verifier.ts)**: Demonstrates how to resolve a DID using a custom verifier.
 
 ### dereferenceDID
 
 - **[`dereferenceDID-fragment.ts`](./dereferenceDID-fragment.ts)**: Demonstrates how to dereference a fragment from a DID document.
 - **[`dereferenceDID-service-endpoint.ts`](./dereferenceDID-service-endpoint.ts)**: Demonstrates how to dereference a service endpoint from a DID document.
 - **[`dereferenceDID-with-full-metadata.ts`](./dereferenceDID-with-full-metadata.ts)**: Demonstrates how to dereference a DID fragment with full DID Resolution metadata.
+- **[`dereferenceDID-with-topic-reader.ts`](./dereferenceDID-with-topic-reader.ts)**: Demonstrates how to dereference a DID fragment using a custom topic reader.
+- - **[`dereferenceDID-with-verifier.ts`](./dereferenceDID-with-verifier.ts)**: Demonstrates how to dereference a DID fragment using a custom verifier.
 
 ### createDID
 

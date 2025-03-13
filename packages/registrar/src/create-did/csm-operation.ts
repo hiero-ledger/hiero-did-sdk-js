@@ -46,6 +46,9 @@ export async function generateCreateDIDRequest(
   const manager = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
   const runnerOptions: LifecycleRunnerOptions = {
     publisher,
+    context: {
+      topicReader: requestOperationOptions.topicReader,
+    },
   };
 
   // Start processing the lifecycle
@@ -99,6 +102,9 @@ export async function submitCreateDIDRequest(
       signature,
       verifier: new Verifier(message.publicKey),
     },
+    context: {
+      topicReader: options.topicReader,
+    },
   };
 
   // Resume the lifecycle to set the signature
@@ -114,10 +120,10 @@ export async function submitCreateDIDRequest(
   const messageAwaiter = new MessageAwaiter(
     message.topicId,
     publisher.network(),
+    options.topicReader,
   )
     .forMessages([message.payload])
     .setStartsAt(new Date())
-    .withWaitForTopic()
     .withTimeout(options.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT);
 
   // Resume the lifecycle to finish the process

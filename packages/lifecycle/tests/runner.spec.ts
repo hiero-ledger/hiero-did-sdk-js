@@ -34,7 +34,29 @@ describe('Lifecycle runner class', () => {
       });
 
       expect(callbackFunction).toHaveBeenCalledTimes(1);
-      expect(callbackFunction).toHaveBeenCalledWith({}, publisher);
+      expect(callbackFunction).toHaveBeenCalledWith({}, publisher, undefined);
+      expect(state).toBeDefined();
+      expect(state.status).toBe('success');
+    });
+
+    it('should be able to process callback step with context', async () => {
+      const builder = new LifecycleBuilder();
+      const runner = new LifecycleRunner(builder);
+
+      const callbackFunction = jest.fn();
+      builder.callback('s1', callbackFunction);
+
+      const context = {
+        foo: 'bar',
+      };
+
+      const state = await runner.process({} as never, {
+        publisher,
+        context,
+      });
+
+      expect(callbackFunction).toHaveBeenCalledTimes(1);
+      expect(callbackFunction).toHaveBeenCalledWith({}, publisher, context);
       expect(state).toBeDefined();
       expect(state.status).toBe('success');
     });
@@ -237,6 +259,48 @@ describe('Lifecycle runner class', () => {
 
     expect(step1Callback).toHaveBeenCalledTimes(1);
     expect(step2Callback).toHaveBeenCalledTimes(1);
+  });
+
+  it('should be able to resume a paused process with context', async () => {
+    const builder = new LifecycleBuilder();
+    const runner = new LifecycleRunner(builder);
+
+    const step1Callback = jest.fn();
+    const step2Callback = jest.fn();
+
+    builder
+      .callback('s1', step1Callback)
+      .pause('s2')
+      .callback('s3', step2Callback);
+
+    const context = {
+      foo: 'bar',
+    };
+
+    const state = await runner.process({} as never, {
+      publisher,
+      context,
+    });
+
+    expect(state).toBeDefined();
+    expect(state.status).toBe('pause');
+    expect(state.index).toBe(1);
+    expect(state.label).toBe('s2');
+    expect(step1Callback).toHaveBeenCalled();
+
+    const resumedState = await runner.resume(state, {
+      publisher,
+      context,
+    });
+
+    expect(resumedState).toBeDefined();
+    expect(resumedState.status).toBe('success');
+    expect(step2Callback).toHaveBeenCalled();
+
+    expect(step1Callback).toHaveBeenCalledTimes(1);
+    expect(step2Callback).toHaveBeenCalledTimes(1);
+
+    expect(step2Callback).toHaveBeenCalledWith({}, publisher, context);
   });
 
   it('should be able to resume a paused process from first step', async () => {

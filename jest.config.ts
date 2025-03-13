@@ -13,6 +13,7 @@ const config: JestConfigWithTsJest = {
     'packages/**/src/**/*.ts',
     '!packages/registrar/src/interfaces/index.ts',
     '!packages/resolver/src/interfaces/index.ts',
+    '!packages/resolver/src/topic-readers/topic-reader-hedera-rest-api.ts',
   ],
   coverageThreshold: {
     global: {

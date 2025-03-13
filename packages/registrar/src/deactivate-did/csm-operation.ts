@@ -39,6 +39,9 @@ export async function generateDeactivateDIDRequest(
   const resolvedDIDDocument = await resolveDID(
     requestOperationOptions.did,
     'application/did+json',
+    {
+      topicReader: requestOperationOptions.topicReader,
+    },
   );
 
   const didRootKey = getDIDRootKey(resolvedDIDDocument);
@@ -99,6 +102,9 @@ export async function submitDeactivateDIDRequest(
   const resolvedDIDDocument = await resolveDID(
     message.did,
     'application/did+json',
+    {
+      topicReader: options.topicReader,
+    },
   );
 
   const didRootKey = getDIDRootKey(resolvedDIDDocument);
@@ -126,10 +132,10 @@ export async function submitDeactivateDIDRequest(
   const messageAwaiter = new MessageAwaiter(
     message.topicId,
     publisher.network(),
+    options.topicReader,
   )
     .forMessages([message.payload])
     .setStartsAt(new Date())
-    .withWaitForTopic()
     .withTimeout(options.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT);
 
   // Resume the lifecycle to finish the process

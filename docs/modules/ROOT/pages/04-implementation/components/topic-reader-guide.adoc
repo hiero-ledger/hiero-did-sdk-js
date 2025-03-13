@@ -1,0 +1,60 @@
+= Topic Reader Class
+
+The `TopicReader` class is a core component of the resolver package. It allows to implement custom logic for reading messages from the Hedera network topic.
+
+== Overview
+
+The `TopicReader` class provides a flexible interface for reading messages from the Hedera network topic. It allows to implement custom logic for reading messages from the Hedera network topic. Hedera DID SDK provides most common implementations of the `TopicReader` class. You can use them as is or extend them to implement custom logic. You can also implement your own `TopicReader` implementation based on your specific requirements.
+
+Benefits of using the `TopicReader` class:
+
+* Flexible interface for reading messages from the Hedera network topic.
+* Implement custom logic for reading messages from the Hedera network topic.
+* Use Hedera DID SDK provided implementations of the `TopicReader` class.
+* Implement your own `TopicReader` implementation based on your specific requirements.
+
+Use cases:
+
+* Read messages from the Hedera network topic using gRPC client.
+* Read messages from the Hedera network topic using REST API.
+* Read messages with additional caching capabilities.
+* Read messages for testing or development purposes.
+
+== Implementations
+
+Hedera DID SDK provides the following implementations of the `TopicReader` class:
+
+* `TopicReaderHederaClient` - Read messages from the Hedera network topic using gRPC client.
+
+
+=== TopicReaderHederaClient
+
+The `TopicReaderHederaClient` class is a default implementation of the `TopicReader` class. It uses the Hedera gRPC client to read messages from the Hedera network topic.
+
+[source, typescript]
+----
+import { TopicReaderHederaClient } from '@swiss-digital-assets-institute/resolver';
+
+const topicReader = new TopicReaderHederaClient();
+const messages = await topicReader.fetchFrom('0.0.5217215', 'testnet', {
+  from: 0, // Read messages from the start of the topic
+  to: 1000, // Read messages to 1000 seconds from the start of the topic
+});
+
+console.log(messages);
+----
+
+
+[source, typescript]
+----
+import { TopicReaderHederaClient } from '@swiss-digital-assets-institute/resolver';
+
+const topicReader = new TopicReaderHederaClient();
+const messages = await topicReader.fetchAllToDate('0.0.5217215', 'testnet');
+
+console.log(messages);
+----
+
+== References
+
+* xref:04-implementation/components/topic-reader-api.adoc[`TopicReader` API Reference]

@@ -54,6 +54,15 @@ To use the `@hashgraph/sdk` in a browser environment, you need to manually set t
 
 When you have a custom `Publisher` implementation, you will need to pass it to all the DID SDK functions that require it, like `createDID` and `resolveDID`.
 
+=== Using Resolver and Registrar
+
+DID Resolver is a core component of the Hashgraph DID SDK. It is used to resolve DIDs and DID Documents. Registrar uses a resolver for various operations. 
+
+By default, Registrar and Resolver uses a xref::04-implementation/components/topic-reader-api.adoc[TopicReader] to read messages from the Hedera network topic. Default version of the TopicReader uses gRPC to connect to the Hedera network. This won't work in the browser environment.
+
+To fix that you can pass your own `TopicReader` implementation to the Registrar and Resolver. This will allow you to use a different transport protocol, like REST API to fetch messages from the Hedera network.
+
+
 == Next Steps
 
 *   **Getting Started:** Follow the steps in the xref::04-implementation/guides/getting-started-guide.adoc[Getting Started Guide] to set up your development environment.

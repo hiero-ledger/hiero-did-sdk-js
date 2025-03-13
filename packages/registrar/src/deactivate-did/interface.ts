@@ -5,6 +5,7 @@ import {
   SigningRequest,
   CommonRegistrarOptions,
 } from '../interfaces';
+import { TopicReader } from '@swiss-digital-assets-institute/resolver';
 
 export interface DeactivateDIDOptions extends CommonRegistrarOptions {
   /**
@@ -48,6 +49,11 @@ export interface GenerateDeactivateDIDRequestOptions {
    * The DID to deactivate
    */
   did: string;
+
+  /**
+   * The topic reader to use to read messages from the Hedera network topic.
+   */
+  topicReader?: TopicReader;
 }
 
 export interface SubmitDeactivateDIDRequestOptions

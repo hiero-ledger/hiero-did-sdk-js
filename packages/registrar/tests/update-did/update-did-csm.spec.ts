@@ -32,9 +32,10 @@ import * as UpdateSubOperations from '../../src/update-did/sub-operations';
 const didDocumentMock = jest.fn();
 jest.mock('@swiss-digital-assets-institute/resolver', () => {
   return {
-    resolveDID: jest
-      .fn()
-      .mockImplementation(() => Promise.resolve(didDocumentMock())),
+    resolveDID: jest.fn().mockImplementation((...args) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      Promise.resolve(didDocumentMock(...args)),
+    ),
   };
 });
 
@@ -841,6 +842,52 @@ describe('Update DID operation', () => {
           relationshipType: 'assertionMethod',
         },
       });
+    });
+
+    it('should pass the topic reader to the resolver', async () => {
+      const topicReader = {
+        fetchAllToDate: jest.fn().mockResolvedValue([]),
+        fetchFrom: jest.fn().mockResolvedValue([]),
+      };
+
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [rootVerificationMethod],
+      });
+
+      const { states, signingRequests } = await generateUpdateDIDRequest(
+        {
+          did: VALID_DID,
+          updates: [
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'assertionMethod',
+              publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+            },
+          ],
+          topicReader,
+        },
+        { publisher },
+      );
+
+      const signatures = executeSigningRequest(signingRequests);
+
+      await submitUpdateDIDRequest(
+        { states, signatures },
+        {
+          publisher,
+        },
+      );
+
+      expect(didDocumentMock).toHaveBeenCalledWith(
+        VALID_DID,
+        'application/did+json',
+        {
+          topicReader,
+        },
+      );
     });
 
     it('should throw an error when request state is empty', async () => {

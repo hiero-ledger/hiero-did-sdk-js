@@ -41,6 +41,9 @@ export async function generateUpdateDIDRequest(
   const resolvedDIDDocument = await resolveDID(
     requestOperationOptions.did,
     'application/did+json',
+    {
+      topicReader: requestOperationOptions.topicReader,
+    },
   );
 
   if (updates.length === 0) {
@@ -127,6 +130,9 @@ export async function submitUpdateDIDRequest(
   const resolvedDIDDocument = await resolveDID(
     deserializedStates[0].message.did,
     'application/did+json',
+    {
+      topicReader: options.topicReader,
+    },
   );
   const didRootKey = getDIDRootKey(resolvedDIDDocument);
   const verifier = Verifier.fromMultibase(didRootKey);
@@ -166,6 +172,7 @@ export async function submitUpdateDIDRequest(
   const messageAwaiter = new MessageAwaiter(
     preExecutedStates[0].state.message.topicId,
     publisher.network(),
+    options.topicReader,
   )
     .forMessages(messagesToWaitFor)
     .setStartsAt(new Date())
@@ -191,7 +198,9 @@ export async function submitUpdateDIDRequest(
 
   const did = preExecutedStates[0].state.message.did;
 
-  const updatedDidDocument = await resolveDID(did, 'application/did+json');
+  const updatedDidDocument = await resolveDID(did, 'application/did+json', {
+    topicReader: options.topicReader,
+  });
 
   return {
     did,

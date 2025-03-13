@@ -475,4 +475,38 @@ describe('Create DID operation in Client-Secret Mode', () => {
       ),
     ).rejects.toThrow('DID already exists');
   });
+
+  it('should pass the topic reader to the resolver', async () => {
+    const clientPrivateKey = await PrivateKey.generateED25519Async();
+    const didPrivateKey = await PrivateKey.generateED25519Async();
+    resolverMock.mockRejectedValue(notFoundError);
+    const topicReader = {
+      fetchAllToDate: jest.fn().mockResolvedValue([]),
+      fetchFrom: jest.fn().mockResolvedValue([]),
+    };
+
+    await generateCreateDIDRequest(
+      {
+        multibasePublicKey: KeysUtility.fromPublicKey(
+          didPrivateKey.publicKey,
+        ).toMultibase(),
+        topicReader,
+      },
+      {
+        clientOptions: {
+          network: 'testnet',
+          privateKey: clientPrivateKey,
+          accountId: '0.0.12345',
+        },
+      },
+    );
+
+    expect(resolverMock).toHaveBeenCalledWith(
+      expect.any(String),
+      'application/did+json',
+      {
+        topicReader,
+      },
+    );
+  });
 });

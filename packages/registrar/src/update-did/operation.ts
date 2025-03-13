@@ -1,10 +1,8 @@
 import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { resolveDID } from '@swiss-digital-assets-institute/resolver';
-import { UpdateDIDOptions, UpdateDIDResult } from './interface';
 import { Providers } from '../interfaces';
-import { getPublisher } from '../shared/get-publisher';
-import { getSigner } from '../shared/get-signer';
-import { MessageAwaiter } from '../shared/message-awaiter';
+import { MessageAwaiter, getSigner, getPublisher } from '../shared';
+import { UpdateDIDOptions, UpdateDIDResult } from './interface';
 import { prepareOperation, executeOperation } from './sub-operations';
 
 /**
@@ -33,6 +31,9 @@ export async function updateDID(
   const currentDidDocument = await resolveDID(
     operationOptions.did,
     'application/did+json',
+    {
+      topicReader: operationOptions.topicReader,
+    },
   );
 
   if (updates.length === 0) {
@@ -69,6 +70,7 @@ export async function updateDID(
   const messageAwaiter = new MessageAwaiter(
     preparedStateMessages[0].state.message.topicId,
     publisher.network(),
+    operationOptions.topicReader,
   )
     .forMessages(messagesToWaitFor)
     .setStartsAt(new Date())
@@ -97,6 +99,9 @@ export async function updateDID(
   const updatedDidDocument = await resolveDID(
     operationOptions.did,
     'application/did+json',
+    {
+      topicReader: operationOptions.topicReader,
+    },
   );
 
   return {

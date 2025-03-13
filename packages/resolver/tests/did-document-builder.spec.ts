@@ -16,7 +16,6 @@ import {
   VALID_DID,
 } from './helpers';
 import { TopicDIDMessage } from '../src/interfaces/topic-did-message';
-import { notFoundError } from '../src/consts';
 
 describe('DID Document Builder', () => {
   it('should load messages', () => {
@@ -686,7 +685,7 @@ describe('DID Document Builder', () => {
     it('should throw not found error when no messages are provided', async () => {
       await expect(
         DidDocumentBuilder.from([]).forDID(VALID_DID).build(),
-      ).rejects.toThrow(notFoundError);
+      ).rejects.toThrow('The DID document was not found');
     });
 
     it('should throw not found error if no valid DID messages are provided', async () => {
@@ -694,7 +693,7 @@ describe('DID Document Builder', () => {
         DidDocumentBuilder.from(['invalid-message', 'invalid-message'])
           .forDID(VALID_DID)
           .build(),
-      ).rejects.toThrow(notFoundError);
+      ).rejects.toThrow('The DID document was not found');
     });
 
     describe('given a DID Owner message', () => {
@@ -730,7 +729,7 @@ describe('DID Document Builder', () => {
           DidDocumentBuilder.from([didOwnerMessage.message])
             .forDID(VALID_DID)
             .build(),
-        ).rejects.toThrow(notFoundError);
+        ).rejects.toThrow('The DID document was not found');
       });
 
       it('should return DID document with additional verification method', async () => {

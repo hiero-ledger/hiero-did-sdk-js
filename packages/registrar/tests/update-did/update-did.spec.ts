@@ -22,9 +22,10 @@ import * as UpdateSubOperations from '../../src/update-did/sub-operations';
 const didDocumentMock = jest.fn();
 jest.mock('@swiss-digital-assets-institute/resolver', () => {
   return {
-    resolveDID: jest
-      .fn()
-      .mockImplementation(() => Promise.resolve(didDocumentMock())),
+    resolveDID: jest.fn().mockImplementation((...args) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      Promise.resolve(didDocumentMock(...args)),
+    ),
   };
 });
 
@@ -752,6 +753,47 @@ describe('Update DID operation', () => {
           relationshipType: 'assertionMethod',
         },
       });
+    });
+
+    it('should pass the topic reader to the resolver', async () => {
+      const topicReader = {
+        fetchAllToDate: jest.fn().mockResolvedValue([]),
+        fetchFrom: jest.fn().mockResolvedValue([]),
+      };
+
+      didDocumentMock.mockResolvedValue({
+        id: VALID_DID,
+        controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: '#test',
+            publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          },
+        ],
+      });
+
+      await updateDID(
+        {
+          did: VALID_DID,
+          topicReader,
+          updates: [
+            {
+              operation: 'add-verification-method',
+              id: '#test',
+              property: 'assertionMethod',
+            },
+          ],
+        },
+        { signer, publisher },
+      );
+
+      expect(didDocumentMock).toHaveBeenCalledWith(
+        VALID_DID,
+        'application/did+json',
+        {
+          topicReader,
+        },
+      );
     });
   });
 

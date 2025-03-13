@@ -9,3 +9,4 @@ export * from './remove-verification-method-event';
 export * from './remove-verification-relationship-method-event';
 export * from './resolve-did-options';
 export * from './topic-did-message';
+export * from './topic-reader';

@@ -6,9 +6,10 @@ import { LifecycleBuilder } from '@swiss-digital-assets-institute/lifecycle';
 import { DIDError, Publisher } from '@swiss-digital-assets-institute/core';
 import { DIDOwnerMessage } from '../message';
 import { checkDIDExists } from '../utils';
+import { DIDOwnerMessageContext } from './context';
 
 export const DIDOwnerMessageHederaDefaultLifeCycle =
-  new LifecycleBuilder<DIDOwnerMessage>()
+  new LifecycleBuilder<DIDOwnerMessage, DIDOwnerMessageContext>()
     .callback(
       'set-network',
       (message: DIDOwnerMessage, publisher: Publisher) => {
@@ -40,16 +41,22 @@ export const DIDOwnerMessageHederaDefaultLifeCycle =
         message.setTopicId(topicId);
       },
     )
-    .callback('check-did-existence', async (message: DIDOwnerMessage) => {
-      const isDIDExists = await checkDIDExists(message.did);
-
-      if (isDIDExists) {
-        throw new DIDError(
-          'internalError',
-          'DID already exists on the network',
+    .callback(
+      'check-did-existence',
+      async (message: DIDOwnerMessage, _, context: DIDOwnerMessageContext) => {
+        const isDIDExists = await checkDIDExists(
+          message.did,
+          context.topicReader,
         );
-      }
-    })
+
+        if (isDIDExists) {
+          throw new DIDError(
+            'internalError',
+            'DID already exists on the network',
+          );
+        }
+      },
+    )
     .signWithSigner('signature')
     .pause('pause')
     .callback(

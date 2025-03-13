@@ -29,6 +29,7 @@
   ** Components
     *** xref:04-implementation/components/resolveDID-guide.adoc[resolveDID]
     *** xref:04-implementation/components/dereferenceDID-guide.adoc[dereferenceDID]
+    *** xref:04-implementation/components/topic-reader-guide.adoc[Topic Reader]
     *** xref:04-implementation/components/createDID-guide.adoc[createDID]
     *** xref:04-implementation/components/updateDID-guide.adoc[updateDID]
     *** xref:04-implementation/components/deactivateDID-guide.adoc[deactivateDID]
@@ -47,6 +48,7 @@
   ** Components API
     *** xref:04-implementation/components/resolveDID-api.adoc[resolveDID]
     *** xref:04-implementation/components/dereferenceDID-api.adoc[dereferenceDID]
+    *** xref:04-implementation/components/topic-reader-api.adoc[Topic Reader]
     *** xref:04-implementation/components/createDID-api.adoc[createDID]
     *** xref:04-implementation/components/generateCreateDIDRequest-api.adoc[generateCreateDIDRequest]
     *** xref:04-implementation/components/submitCreateDIDRequest-api.adoc[submitCreateDIDRequest]

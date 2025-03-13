@@ -5,8 +5,11 @@ import { Steps, CallbackStep, CatchStep } from './interfaces/steps';
  * A builder for constructing a lifecycle pipeline.
  * A lifecycle pipeline is a series of steps that are executed in order.
  */
-export class LifecycleBuilder<Message extends DIDMessage> {
-  protected readonly pipeline: Steps<Message>[] = [];
+export class LifecycleBuilder<
+  Message extends DIDMessage,
+  Context extends object = object,
+> {
+  protected readonly pipeline: Steps<Message, Context>[] = [];
   public catchStep?: CatchStep;
 
   /**
@@ -23,7 +26,7 @@ export class LifecycleBuilder<Message extends DIDMessage> {
    * @returns The step at the specified index.
    * @throws If the step does not exist.
    */
-  getByIndex(stepIndex: number): Steps<Message> {
+  getByIndex(stepIndex: number): Steps<Message, Context> {
     if (stepIndex >= this.pipeline.length) {
       throw new DIDError('internalError', 'Step index out of bounds');
     }
@@ -36,7 +39,7 @@ export class LifecycleBuilder<Message extends DIDMessage> {
    * @returns The step with the specified label.
    * @throws If the step does not exist.
    */
-  getByLabel(stepLabel: string): Steps<Message> {
+  getByLabel(stepLabel: string): Steps<Message, Context> {
     const stepOrUndefined = this.pipeline.find((s) => s.label === stepLabel);
 
     if (!stepOrUndefined) {
@@ -78,7 +81,10 @@ export class LifecycleBuilder<Message extends DIDMessage> {
    * @param callback The callback function to be executed.
    * @returns The builder instance.
    */
-  callback(label: string, callback: CallbackStep<Message>['callback']): this {
+  callback(
+    label: string,
+    callback: CallbackStep<Message, Context>['callback'],
+  ): this {
     this.validateLabel(label);
 
     this.pipeline.push({ type: 'callback', label, callback });

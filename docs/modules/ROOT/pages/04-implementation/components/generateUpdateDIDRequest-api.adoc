@@ -123,6 +123,10 @@ The table below provides a detailed description of the `GenerateUpdateDIDRequest
 |updates
 |`DIDUpdateOperation \| DIDUpdateOperation[]`
 |A  `DIDUpdateOperation`  type or an array of  `DIDUpdateOperation`s (refer to <<didupdateoperation-type>> for details). Each `DIDUpdateOperation` represents a specific modification to the DID Document. If an array is provided, the operations will be executed in the order they are provided.
+
+|topicReader?
+|`TopicReader`
+|An instance of a xref:04-implementation/components/topic-reader-api.adoc[TopicReader] responsible for reading messages from the Hedera network topic.
 |===
 
 [[signing-request-data-types]]

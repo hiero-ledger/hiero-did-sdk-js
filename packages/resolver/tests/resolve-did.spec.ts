@@ -3,15 +3,13 @@ import { resolveDID } from '../src';
 import { getAddVerificationMethodMessage, getDIDOwnerMessage } from './helpers';
 
 const messagesMock = jest.fn();
-jest.mock('../src/topic-reader.ts', () => {
+jest.mock('../src/topic-readers/topic-reader-hedera-client.ts', () => {
   return {
-    TopicReader: jest.fn().mockImplementation(() => {
+    TopicReaderHederaClient: jest.fn().mockImplementation(() => {
       return {
-        fetchAllToDate: jest.fn().mockResolvedValue({
-          getMessages: jest
-            .fn()
-            .mockImplementation(() => messagesMock() as never),
-        }),
+        fetchAllToDate: jest
+          .fn()
+          .mockImplementation(() => messagesMock() as never),
       };
     }),
   };

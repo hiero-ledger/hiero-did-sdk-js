@@ -4,10 +4,17 @@ import { Publisher, DIDMessage } from '@swiss-digital-assets-institute/core';
  * A step in the lifecycle pipeline.
  * A step that calls a callback function with a message and a publisher.
  */
-export interface CallbackStep<Message extends DIDMessage> {
+export interface CallbackStep<
+  Message extends DIDMessage,
+  Context extends object = object,
+> {
   type: 'callback';
   label: string;
-  callback: (message: Message, publisher: Publisher) => void | Promise<void>;
+  callback: (
+    message: Message,
+    publisher: Publisher,
+    context: Context,
+  ) => void | Promise<void>;
 }
 
 /**
@@ -50,8 +57,7 @@ export interface CatchStep {
 /**
  * An aggregation of all possible steps in the lifecycle pipeline.
  */
-export type Steps<Message extends DIDMessage> =
-  | CallbackStep<Message>
-  | SignStep
-  | SignatureStep
-  | PauseStep;
+export type Steps<
+  Message extends DIDMessage,
+  Context extends object = object,
+> = CallbackStep<Message, Context> | SignStep | SignatureStep | PauseStep;

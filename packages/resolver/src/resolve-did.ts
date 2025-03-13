@@ -7,9 +7,8 @@ import {
 } from '@swiss-digital-assets-institute/core';
 import { ResolveDIDOptions, Accept } from './interfaces';
 import { parseDID } from './helpers';
-import { TopicReader } from './topic-reader';
+import { TopicReaderHederaClient } from './topic-readers';
 import { DidDocumentBuilder } from './did-document-builder';
-import { notFoundError } from './consts';
 
 /**
  * Resolve a DID to a DID document.
@@ -50,11 +49,11 @@ export async function resolveDID(
 
   const { topicId, network } = parseDID(did);
 
-  const topicReader = await new TopicReader(topicId, network).fetchAllToDate();
-  const topicMessages = topicReader.getMessages();
+  const topicReader = options.topicReader ?? new TopicReaderHederaClient();
+  const topicMessages = await topicReader.fetchAllToDate(topicId, network);
 
   if (topicMessages.length === 0) {
-    throw notFoundError;
+    new DIDError('notFound', 'The DID document was not found');
   }
 
   const didDocumentBuilder = await DidDocumentBuilder.from(topicMessages)

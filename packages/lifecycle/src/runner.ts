@@ -12,7 +12,7 @@ import { HookFunction } from './interfaces/hooks';
 /**
  * Options for the lifecycle runner.
  */
-export interface LifecycleRunnerOptions {
+export interface LifecycleRunnerOptions<Context extends object = object> {
   /**
    * Additional arguments to pass to the runner.
    */
@@ -42,13 +42,21 @@ export interface LifecycleRunnerOptions {
    * The publisher to use for publishing the message.
    */
   publisher: Publisher;
+
+  /**
+   * The context to use for the runner.
+   */
+  context?: Context;
 }
 
 /**
  * A runner for executing a lifecycle pipeline.
  * A lifecycle pipeline is a series of steps that are executed in order.
  */
-export class LifecycleRunner<Message extends DIDMessage> {
+export class LifecycleRunner<
+  Message extends DIDMessage,
+  Context extends object = object,
+> {
   private readonly hooks: Record<string, HookFunction<Message>[]> = {};
 
   /**
@@ -56,7 +64,7 @@ export class LifecycleRunner<Message extends DIDMessage> {
    * @param builder - The lifecycle builder to use.
    * @returns A new instance of the LifecycleRunner class.
    */
-  constructor(private readonly builder: LifecycleBuilder<Message>) {}
+  constructor(private readonly builder: LifecycleBuilder<Message, Context>) {}
 
   /**
    * Resumes the lifecycle pipeline from the specified state.
@@ -67,7 +75,7 @@ export class LifecycleRunner<Message extends DIDMessage> {
    */
   async resume(
     state: RunnerState<Message>,
-    options: LifecycleRunnerOptions,
+    options: LifecycleRunnerOptions<Context>,
   ): Promise<RunnerState<Message>> {
     return this.process(state.message, { ...options, label: state.label });
   }
@@ -81,7 +89,7 @@ export class LifecycleRunner<Message extends DIDMessage> {
    */
   async process(
     message: Message,
-    options: LifecycleRunnerOptions,
+    options: LifecycleRunnerOptions<Context>,
   ): Promise<RunnerState<Message>> {
     try {
       const initialStep = options.label
@@ -102,7 +110,7 @@ export class LifecycleRunner<Message extends DIDMessage> {
         }
 
         if (step.type === 'callback') {
-          await step.callback(message, options.publisher);
+          await step.callback(message, options.publisher, options.context);
           await this.callHooks(step.label, message);
 
           continue;

@@ -304,4 +304,32 @@ describe('Create DID operation', () => {
       }),
     ).rejects.toThrow('DID already exists');
   });
+
+  it('should pass the topic reader to the resolver', async () => {
+    const clientPrivateKey = await PrivateKey.generateED25519Async();
+    resolverMock.mockRejectedValue(notFoundError);
+    const topicReader = {
+      fetchAllToDate: jest.fn().mockResolvedValue([]),
+      fetchFrom: jest.fn().mockResolvedValue([]),
+    };
+
+    await createDID(
+      { topicReader },
+      {
+        clientOptions: {
+          network: 'testnet',
+          privateKey: clientPrivateKey,
+          accountId: '0.0.12345',
+        },
+      },
+    );
+
+    expect(resolverMock).toHaveBeenCalledWith(
+      expect.any(String),
+      'application/did+json',
+      {
+        topicReader,
+      },
+    );
+  });
 });

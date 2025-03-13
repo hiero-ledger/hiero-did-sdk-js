@@ -5,6 +5,7 @@ import {
   SigningRequest,
   CommonRegistrarOptions,
 } from '../interfaces';
+import { TopicReader } from '@swiss-digital-assets-institute/resolver';
 
 export interface CreateDIDOptions extends CommonRegistrarOptions {
   /**
@@ -60,6 +61,11 @@ export interface GenerateCreateDIDRequestOptions
    * The public key in multibase format. Used to create a DID and a `did-root-key` verification method.
    */
   multibasePublicKey: string;
+
+  /**
+   * The topic reader to use for the operation.
+   */
+  topicReader?: TopicReader;
 }
 
 export interface SubmitCreateDIDRequestOptions extends CommonRegistrarOptions {

@@ -8,6 +8,7 @@ import {
   SigningRequest,
   CommonRegistrarOptions,
 } from '../interfaces';
+import { TopicReader } from '@swiss-digital-assets-institute/resolver';
 
 export interface AddServiceOperation {
   /**
@@ -146,6 +147,14 @@ export interface GenerateUpdateDIDRequestOptions {
    * A single operation or an array of operations.
    */
   updates: DIDUpdateOperation | Array<DIDUpdateOperation>;
+
+  /**
+   * The topic reader to use for reading messages from the topic. It is used to wait for the DID
+   * to be visible on the network and resolve the final DID document.
+   *
+   * Defaults to `TopicReaderHederaClient`.
+   */
+  topicReader?: TopicReader;
 }
 
 export interface SubmitUpdateDIDRequestOptions extends CommonRegistrarOptions {

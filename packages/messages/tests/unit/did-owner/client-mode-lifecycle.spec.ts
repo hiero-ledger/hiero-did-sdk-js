@@ -54,6 +54,9 @@ describe('Client Mode DID Owner Lifecycle', () => {
       const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
       const pauseStep = await runner.process(message, {
         publisher,
+        context: {
+          topicReader: undefined,
+        },
       });
 
       expect(pauseStep.status).toBe('pause');
@@ -65,6 +68,9 @@ describe('Client Mode DID Owner Lifecycle', () => {
         args: {
           signature: SIGNATURE,
           verifier,
+        },
+        context: {
+          topicReader: undefined,
         },
       });
     });
@@ -90,6 +96,9 @@ describe('Client Mode DID Owner Lifecycle', () => {
             publicKey: jest.fn(),
             publish: publishMock,
           },
+          context: {
+            topicReader: undefined,
+          },
         });
       });
 
@@ -114,17 +123,15 @@ describe('Client Mode DID Owner Lifecycle', () => {
     const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
     await expect(
       runner.process(message, {
-        signer: {
-          publicKey: () => privateKey.publicKey.toStringDer(),
-          sign: jest.fn(),
-          verify: jest.fn(),
-        },
         publisher: {
           network: () => NETWORK,
           publicKey: () => privateKey.publicKey,
           publish: jest.fn().mockResolvedValue({
             status: 'failed',
           }),
+        },
+        context: {
+          topicReader: undefined,
         },
       }),
     ).rejects.toThrow('Failed to create topic, transaction status: failed');
@@ -144,18 +151,52 @@ describe('Client Mode DID Owner Lifecycle', () => {
     const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
     await expect(
       runner.process(message, {
-        signer: {
-          publicKey: () => privateKey.publicKey.toStringDer(),
-          sign: jest.fn(),
-          verify: jest.fn(),
-        },
         publisher: {
           network: () => NETWORK,
           publicKey: () => privateKey.publicKey,
           publish: publishMock,
         },
+        context: {
+          topicReader: undefined,
+        },
       }),
     ).rejects.toThrow('DID already exists on the network');
+  });
+
+  it('should pass the topic reader to the resolver', async () => {
+    const topicReader = {
+      fetchAllToDate: jest.fn().mockResolvedValue([]),
+      fetchFrom: jest.fn().mockResolvedValue([]),
+    };
+    resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
+
+    const privateKey = await PrivateKey.generateED25519Async();
+    const message = new DIDOwnerMessage({
+      publicKey: privateKey.publicKey,
+    });
+
+    const publishMock = jest.fn().mockResolvedValue({
+      topicId: VALID_DID_TOPIC_ID,
+    });
+    const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
+    await runner.process(message, {
+      publisher: {
+        network: () => NETWORK,
+        publicKey: () => privateKey.publicKey,
+        publish: publishMock,
+      },
+      context: {
+        topicReader: topicReader,
+      },
+    });
+
+    expect(resolverMock).toHaveBeenCalledWith(
+      message.did,
+      'application/did+json',
+      {
+        topicReader,
+      },
+    );
   });
 
   it('should skip the topic creation if the topic ID is already set', async () => {
@@ -173,6 +214,9 @@ describe('Client Mode DID Owner Lifecycle', () => {
         network: () => NETWORK,
         publicKey: () => privateKey.publicKey,
         publish: publishMock,
+      },
+      context: {
+        topicReader: undefined,
       },
     });
 

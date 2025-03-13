@@ -63,6 +63,9 @@ export async function createDID(
   const runnerOptions: LifecycleRunnerOptions = {
     signer,
     publisher,
+    context: {
+      topicReader: operationOptions.topicReader,
+    },
   };
 
   // Start processing the lifecycle
@@ -76,10 +79,10 @@ export async function createDID(
   const messageAwaiter = new MessageAwaiter(
     didOwnerMessage.topicId,
     publisher.network(),
+    operationOptions.topicReader,
   )
     .forMessages([didOwnerMessage.payload])
     .setStartsAt(new Date())
-    .withWaitForTopic()
     .withTimeout(
       operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT,
     );

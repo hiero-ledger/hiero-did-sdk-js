@@ -8,11 +8,9 @@ import {
   DIDDeactivateMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
 import { DIDError } from '@swiss-digital-assets-institute/core';
-import { DeactivateDIDOptions, DeactivateDIDResult } from './interface';
 import { Providers } from '../interfaces';
-import { getPublisher } from '../shared/get-publisher';
-import { getSigner } from '../shared/get-signer';
-import { MessageAwaiter } from '../shared/message-awaiter';
+import { MessageAwaiter, getSigner, getPublisher } from '../shared';
+import { DeactivateDIDOptions, DeactivateDIDResult } from './interface';
 
 /**
  * Deactivate a DID on the Hedera network
@@ -48,6 +46,7 @@ export async function deactivateDID(
   const messageAwaiter = new MessageAwaiter(
     didDeactivateMessage.topicId,
     publisher.network(),
+    operationOptions.topicReader,
   )
     .forMessages([didDeactivateMessage.payload])
     .setStartsAt(new Date())

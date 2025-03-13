@@ -1,3 +1,5 @@
+import { TopicReader } from '@swiss-digital-assets-institute/resolver';
+
 export interface CommonRegistrarOptions {
   /**
    * Whether to wait for the DID to be **visible** on the network.
@@ -23,4 +25,12 @@ export interface CommonRegistrarOptions {
    * Defaults to 120000 milliseconds (2 minutes).
    */
   visibilityTimeoutMs?: number;
+
+  /**
+   * The topic reader to use for reading messages from the topic. It is used to wait for the DID
+   * to be visible on the network and resolve the final DID document.
+   *
+   * Defaults to `TopicReaderHederaClient`.
+   */
+  topicReader?: TopicReader;
 }

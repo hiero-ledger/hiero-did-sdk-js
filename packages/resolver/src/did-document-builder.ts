@@ -31,7 +31,6 @@ import {
 import { isDIDMessageEvent } from './validators/is-did-message-event';
 import { isJsonString } from './validators/is-json';
 import { isDIDMessage } from './validators/is-did-message';
-import { notFoundError } from './consts';
 
 /**
  * A class to build a DID Document from a list of messages
@@ -155,7 +154,7 @@ export class DidDocumentBuilder {
     }
 
     if (!exists) {
-      throw notFoundError;
+      throw new DIDError('notFound', 'The DID document was not found');
     }
 
     return this;

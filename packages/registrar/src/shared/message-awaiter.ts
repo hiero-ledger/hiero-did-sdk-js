@@ -1,31 +1,31 @@
+import { DIDError, Network } from '@swiss-digital-assets-institute/core';
 import {
-  Client,
-  SubscriptionHandle,
-  Timestamp,
-  TopicMessage,
-  TopicMessageQuery,
-} from '@hashgraph/sdk';
-import { DIDError } from '@swiss-digital-assets-institute/core';
+  TopicReader,
+  TopicReaderHederaClient,
+} from '@swiss-digital-assets-institute/resolver';
 
 /**
  * Class implementing a message awaiter for Hedera Consensus Service.
  * It waits for messages to be published and available in the topic.
  */
 export class MessageAwaiter {
-  private client: Client;
   private messages: string[] = [];
   private msTimeout: number;
   private startsAt: Date;
-  private waitForTopic: boolean = false;
-  private subscriptionHandler: SubscriptionHandle | null;
+  private readonly topicReader: TopicReader;
 
   public static DEFAULT_TIMEOUT = 2 * 60 * 1000; // 2 minutes
 
+  // Constants for polling interval
+  private static BASE_POLLING_INTERVAL = 100; // Base polling interval in ms
+  private static MAX_POLLING_INTERVAL = 1000; // Maximum polling interval in ms
+
   constructor(
     private readonly topicId: string,
-    network: string,
+    private readonly network: Network,
+    topicReader?: TopicReader,
   ) {
-    this.client = Client.forName(network);
+    this.topicReader = topicReader ?? new TopicReaderHederaClient();
   }
 
   /**
@@ -69,9 +69,19 @@ export class MessageAwaiter {
     return this;
   }
 
-  withWaitForTopic(): this {
-    this.waitForTopic = true;
-    return this;
+  /**
+   * Calculates the polling interval based on the number of polls already performed.
+   * The interval increases linearly with each poll (pollCount * 100ms) up to a maximum of 1000ms.
+   * @param pollCount Number of polls already performed
+   * @returns The polling interval in milliseconds
+   */
+  private calculatePollingInterval(pollCount: number): number {
+    const baseInterval = MessageAwaiter.BASE_POLLING_INTERVAL;
+    const maxInterval = MessageAwaiter.MAX_POLLING_INTERVAL;
+
+    const interval = pollCount * baseInterval;
+
+    return Math.min(interval, maxInterval);
   }
 
   /**
@@ -80,67 +90,62 @@ export class MessageAwaiter {
    * @throws An error if the messages are not found before the timeout.
    */
   async wait(): Promise<void> {
-    if (this.messages.length === 0) {
+    if (!this.messages || this.messages.length === 0) {
       throw new DIDError(
-        'internalError',
-        'No messages to wait for, call forMessages() first',
+        'invalidArgument',
+        'No messages to wait for. Call forMessages() first.',
       );
     }
 
-    this.clear();
+    const timeout = this.msTimeout || MessageAwaiter.DEFAULT_TIMEOUT;
+    const now = Date.now();
+    const endTime = now + timeout;
+    const startsAt = this.startsAt || new Date();
 
-    return new Promise<void>((resolve, reject) => {
-      const timeoutHandler = setTimeout(() => {
-        this.onFinish();
-        reject(
-          new DIDError(
-            'internalError',
-            'Message awaiter timeout reached. Messages not found.',
-          ),
-        );
-      }, this.msTimeout ?? MessageAwaiter.DEFAULT_TIMEOUT);
+    const remainingMessages = new Set(this.messages);
+    let pollCount = 0;
 
-      this.subscriptionHandler = new TopicMessageQuery()
-        .setTopicId(this.topicId)
-        .setStartTime(Timestamp.fromDate(this.startsAt ?? new Date()))
-        .setMaxAttempts(this.waitForTopic ? 10 : 0)
-        .subscribe(
-          this.client,
-          (_, error) => {
-            this.onFinish();
-            reject(error);
-          },
-          (message) => {
-            this.handleNewMessage(message);
-
-            if (this.messages.length === 0) {
-              this.onFinish();
-              clearTimeout(timeoutHandler);
-              resolve();
-            }
+    // Keep trying until timeout
+    while (Date.now() < endTime) {
+      try {
+        const messages = await this.topicReader.fetchFrom(
+          this.topicId,
+          this.network,
+          {
+            from: startsAt.getTime(),
+            to: now,
           },
         );
-    });
-  }
 
-  private clear(): void {
-    this.subscriptionHandler = null;
-  }
+        for (const message of messages) {
+          if (remainingMessages.has(message)) {
+            remainingMessages.delete(message);
+          }
+        }
 
-  private handleNewMessage(message: TopicMessage): void {
-    const parsedMessage = Buffer.from(message.contents).toString('utf-8');
+        if (remainingMessages.size === 0) {
+          return;
+        }
 
-    const index = this.messages.indexOf(parsedMessage);
-
-    if (index === -1) {
-      return;
+        const pollingInterval = this.calculatePollingInterval(++pollCount);
+        await this.pollWait(pollingInterval);
+      } catch {
+        // If there's an error fetching messages, wait a bit and try again
+        // Use a slightly longer interval for error recovery
+        const pollingInterval =
+          this.calculatePollingInterval(++pollCount) * 1.5;
+        await this.pollWait(pollingInterval);
+      }
     }
 
-    this.messages.splice(index, 1);
+    // If we get here, the timeout was exceeded
+    throw new DIDError(
+      'internalError',
+      `Timeout of ${timeout}ms exceeded while waiting for DID update to be visible on the network`,
+    );
   }
 
-  private onFinish(): void {
-    this.subscriptionHandler?.unsubscribe();
-    this.client.close();
+  private async pollWait(pollingInterval: number): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, pollingInterval));
   }
 }

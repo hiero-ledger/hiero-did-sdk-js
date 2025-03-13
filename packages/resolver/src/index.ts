@@ -5,4 +5,8 @@ export {
   ResolveDIDOptions,
   GetResolveDIDOptions,
   DereferenceDIDOptions,
+  TopicReader,
+  TopicReaderOptions,
+  TopicReaderMessage,
 } from './interfaces';
+export * from './topic-readers';

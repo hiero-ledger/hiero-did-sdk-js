@@ -1,14 +1,22 @@
 import { DIDError } from '@swiss-digital-assets-institute/core';
-import { resolveDID } from '@swiss-digital-assets-institute/resolver';
+import {
+  resolveDID,
+  TopicReader,
+} from '@swiss-digital-assets-institute/resolver';
 
 /**
  * Check if a DID exists on the network
  * @param did The DID to check
  * @returns True if the DID exists
  */
-export async function checkDIDExists(did: string): Promise<boolean> {
+export async function checkDIDExists(
+  did: string,
+  topicReader?: TopicReader,
+): Promise<boolean> {
   try {
-    const resolvedDID = await resolveDID(did);
+    const resolvedDID = await resolveDID(did, 'application/did+json', {
+      topicReader,
+    });
     return !!resolvedDID;
   } catch (error) {
     if (isDidNotFoundError(error)) {

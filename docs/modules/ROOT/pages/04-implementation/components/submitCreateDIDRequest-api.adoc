@@ -134,6 +134,11 @@ Defaults to `true`.
 |visibilityTimeoutMs?
 |`number`
 |The maximum time (in milliseconds) to wait for the DID to be **visible** on the network. This option is only relevant if `waitForDIDVisibility` is set to `true`. If the DID is not visible within this timeout period, the function will throw an error. Defaults to 120000 milliseconds (2 minutes).
+
+
+|topicReader?
+|`TopicReader`
+|An instance of a xref:04-implementation/components/topic-reader-api.adoc[TopicReader] responsible for reading messages from the Hedera network topic.
 |===
 
 == Errors
