@@ -78,7 +78,7 @@ export async function createDID(
   // Set up a message awaiter to wait for the message to be available in the topic
   const messageAwaiter = new MessageAwaiter(
     didOwnerMessage.topicId,
-    publisher.network(),
+    await publisher.network(),
     operationOptions.topicReader,
   )
     .forMessages([didOwnerMessage.payload])

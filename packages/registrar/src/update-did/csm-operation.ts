@@ -171,7 +171,7 @@ export async function submitUpdateDIDRequest(
 
   const messageAwaiter = new MessageAwaiter(
     preExecutedStates[0].state.message.topicId,
-    publisher.network(),
+    await publisher.network(),
     options.topicReader,
   )
     .forMessages(messagesToWaitFor)

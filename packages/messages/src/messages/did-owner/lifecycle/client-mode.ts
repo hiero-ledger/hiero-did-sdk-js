@@ -12,9 +12,12 @@ export const DIDOwnerMessageHederaCSMLifeCycle = new LifecycleBuilder<
   DIDOwnerMessage,
   DIDOwnerMessageContext
 >()
-  .callback('set-network', (message: DIDOwnerMessage, publisher: Publisher) => {
-    message.setNetwork(publisher.network());
-  })
+  .callback(
+    'set-network',
+    async (message: DIDOwnerMessage, publisher: Publisher) => {
+      message.setNetwork(await publisher.network());
+    },
+  )
   .callback(
     'set-topic',
     async (message: DIDOwnerMessage, publisher: Publisher) => {
@@ -22,10 +25,11 @@ export const DIDOwnerMessageHederaCSMLifeCycle = new LifecycleBuilder<
         return;
       }
 
+      const publicKey = await publisher.publicKey();
       const response = await publisher.publish(
         new TopicCreateTransaction()
-          .setAdminKey(publisher.publicKey())
-          .setSubmitKey(publisher.publicKey()),
+          .setAdminKey(publicKey)
+          .setSubmitKey(publicKey),
       );
 
       const topicId = response.topicId?.toString();

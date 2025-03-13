@@ -11,14 +11,14 @@ export abstract class Publisher {
    * @returns The network name.
    * @remarks The network is used to publish transactions.
    */
-  abstract network(): Network;
+  abstract network(): Promise<Network> | Network;
 
   /**
    * Get the public key of the publisher.
    * @returns The public key.
    * @remarks The public key is used for Topic Admin and Submit Key.
    */
-  abstract publicKey(): PublicKey;
+  abstract publicKey(): Promise<PublicKey> | PublicKey;
 
   /**
    * Publish a transaction to the network.

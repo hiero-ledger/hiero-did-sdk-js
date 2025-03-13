@@ -69,7 +69,7 @@ export async function updateDID(
 
   const messageAwaiter = new MessageAwaiter(
     preparedStateMessages[0].state.message.topicId,
-    publisher.network(),
+    await publisher.network(),
     operationOptions.topicReader,
   )
     .forMessages(messagesToWaitFor)

@@ -119,7 +119,7 @@ export async function submitCreateDIDRequest(
   // Set up a message awaiter to wait for the message to be available in the topic
   const messageAwaiter = new MessageAwaiter(
     message.topicId,
-    publisher.network(),
+    await publisher.network(),
     options.topicReader,
   )
     .forMessages([message.payload])

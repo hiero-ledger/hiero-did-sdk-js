@@ -45,7 +45,7 @@ export async function deactivateDID(
   // Set up a message awaiter to wait for the message to be available in the topic
   const messageAwaiter = new MessageAwaiter(
     didDeactivateMessage.topicId,
-    publisher.network(),
+    await publisher.network(),
     operationOptions.topicReader,
   )
     .forMessages([didDeactivateMessage.payload])
