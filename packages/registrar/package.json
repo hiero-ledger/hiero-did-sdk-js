@@ -1,6 +1,6 @@
 {
   "name": "@swiss-digital-assets-institute/registrar",
-  "version": "0.0.2-alpha.20",
+  "version": "0.1.0",
   "description": "This package provides the core functions for registering and managing Decentralized Identifiers (DIDs) on the Hedera network within the Hashgraph DID SDK. It offers a streamlined interface for creating, updating, and deactivating DIDs, ensuring secure and verifiable DID operations.",
   "author": {
     "name": "The Hashgraph Association",
@@ -46,12 +46,12 @@
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
-    "@swiss-digital-assets-institute/core": "0.0.2-alpha.20",
-    "@swiss-digital-assets-institute/lifecycle": "0.0.2-alpha.20",
-    "@swiss-digital-assets-institute/messages": "0.0.2-alpha.20",
-    "@swiss-digital-assets-institute/publisher-internal": "0.0.2-alpha.20",
-    "@swiss-digital-assets-institute/resolver": "0.0.2-alpha.20",
-    "@swiss-digital-assets-institute/signer-internal": "0.0.2-alpha.20",
-    "@swiss-digital-assets-institute/verifier-internal": "0.0.2-alpha.20"
+    "@swiss-digital-assets-institute/core": "0.1.0",
+    "@swiss-digital-assets-institute/lifecycle": "0.1.0",
+    "@swiss-digital-assets-institute/messages": "0.1.0",
+    "@swiss-digital-assets-institute/publisher-internal": "0.1.0",
+    "@swiss-digital-assets-institute/resolver": "0.1.0",
+    "@swiss-digital-assets-institute/signer-internal": "0.1.0",
+    "@swiss-digital-assets-institute/verifier-internal": "0.1.0"
   }
 }
