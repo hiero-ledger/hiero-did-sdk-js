@@ -7,7 +7,12 @@ import {
   DIDRemoveVerificationMethodMessage,
   DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
 } from '../../../src';
-import { SIGNATURE, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
+import {
+  SIGNATURE,
+  TestVerifier,
+  VALID_DID,
+  VALID_DID_TOPIC_ID,
+} from '../helpers';
 
 describe('Default DIDRemoveVerificationMethodMessage Lifecycle', () => {
   describe('when processing a valid DIDRemoveVerificationMethodMessage', () => {
@@ -17,11 +22,14 @@ describe('Default DIDRemoveVerificationMethodMessage Lifecycle', () => {
     let result: RunnerState<DIDRemoveVerificationMethodMessage>;
 
     beforeEach(async () => {
+      const verifier = new TestVerifier();
       message = new DIDRemoveVerificationMethodMessage({
         property: 'verificationMethod',
         id: '#key-1',
         did: VALID_DID,
       });
+
+      verifier.verifyMock.mockResolvedValue(true);
 
       publishMock = jest.fn().mockResolvedValue({
         topicId: VALID_DID_TOPIC_ID,
@@ -44,6 +52,9 @@ describe('Default DIDRemoveVerificationMethodMessage Lifecycle', () => {
           network: jest.fn(),
           publicKey: jest.fn(),
           publish: publishMock,
+        },
+        args: {
+          verifier,
         },
       });
     });

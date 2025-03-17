@@ -10,6 +10,7 @@ import {
 import {
   PUBLIC_KEY_MULTIBASE,
   SIGNATURE,
+  TestVerifier,
   VALID_DID,
   VALID_DID_TOPIC_ID,
 } from '../helpers';
@@ -22,6 +23,7 @@ describe('Default DIDAddVerificationMethodMessage Lifecycle', () => {
     let result: RunnerState<DIDAddVerificationMethodMessage>;
 
     beforeEach(async () => {
+      const verifier = new TestVerifier();
       message = new DIDAddVerificationMethodMessage({
         publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
         controller: VALID_DID,
@@ -29,6 +31,8 @@ describe('Default DIDAddVerificationMethodMessage Lifecycle', () => {
         id: '#key-1',
         did: VALID_DID,
       });
+
+      verifier.verifyMock.mockResolvedValue(true);
 
       publishMock = jest.fn().mockResolvedValue({
         topicId: VALID_DID_TOPIC_ID,
@@ -51,6 +55,9 @@ describe('Default DIDAddVerificationMethodMessage Lifecycle', () => {
           network: jest.fn(),
           publicKey: jest.fn(),
           publish: publishMock,
+        },
+        args: {
+          verifier,
         },
       });
     });

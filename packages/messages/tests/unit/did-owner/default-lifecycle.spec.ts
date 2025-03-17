@@ -11,7 +11,12 @@ import {
   DIDOwnerMessageHederaDefaultLifeCycle,
 } from '../../../src';
 import { DIDOwnerMessageContext } from '../../../src/messages/did-owner/lifecycle/context';
-import { NETWORK, SIGNATURE, VALID_DID_TOPIC_ID } from '../helpers';
+import {
+  NETWORK,
+  SIGNATURE,
+  TestVerifier,
+  VALID_DID_TOPIC_ID,
+} from '../helpers';
 
 jest.mock('@swiss-digital-assets-institute/resolver', () => {
   return {
@@ -33,10 +38,13 @@ describe('Default DID Owner Lifecycle', () => {
     let result: RunnerState<DIDOwnerMessage>;
 
     beforeEach(async () => {
+      const verifier = new TestVerifier();
       const privateKey = await PrivateKey.generateED25519Async();
       message = new DIDOwnerMessage({
         publicKey: privateKey.publicKey,
       });
+
+      verifier.verifyMock.mockResolvedValue(true);
 
       publishMock = jest.fn().mockResolvedValue({
         topicId: VALID_DID_TOPIC_ID,
@@ -60,6 +68,9 @@ describe('Default DID Owner Lifecycle', () => {
         },
         context: {
           topicReader: undefined,
+        },
+        args: {
+          verifier,
         },
       });
     });
@@ -86,6 +97,9 @@ describe('Default DID Owner Lifecycle', () => {
         const runner = new LifecycleRunner(
           DIDOwnerMessageHederaDefaultLifeCycle,
         );
+        const verifier = new TestVerifier();
+        verifier.verifyMock.mockResolvedValue(true);
+
         result = await runner.resume(result, {
           signer: {
             publicKey: jest.fn(),
@@ -99,6 +113,9 @@ describe('Default DID Owner Lifecycle', () => {
           },
           context: {
             topicReader: undefined,
+          },
+          args: {
+            verifier,
           },
         });
       });
@@ -121,6 +138,9 @@ describe('Default DID Owner Lifecycle', () => {
       publicKey: privateKey.publicKey,
     });
 
+    const verifier = new TestVerifier();
+    verifier.verifyMock.mockResolvedValue(true);
+
     const runner = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
     await expect(
       runner.process(message, {
@@ -139,6 +159,9 @@ describe('Default DID Owner Lifecycle', () => {
         context: {
           topicReader: undefined,
         },
+        args: {
+          verifier,
+        },
       }),
     ).rejects.toThrow('Failed to create topic, transaction status: failed');
   });
@@ -150,6 +173,9 @@ describe('Default DID Owner Lifecycle', () => {
     const message = new DIDOwnerMessage({
       publicKey: privateKey.publicKey,
     });
+
+    const verifier = new TestVerifier();
+    verifier.verifyMock.mockResolvedValue(true);
 
     const publishMock = jest.fn().mockResolvedValue({
       topicId: VALID_DID_TOPIC_ID,
@@ -170,6 +196,9 @@ describe('Default DID Owner Lifecycle', () => {
         context: {
           topicReader: undefined,
         },
+        args: {
+          verifier,
+        },
       }),
     ).rejects.toThrow('DID already exists on the network');
   });
@@ -185,6 +214,9 @@ describe('Default DID Owner Lifecycle', () => {
     const message = new DIDOwnerMessage({
       publicKey: privateKey.publicKey,
     });
+
+    const verifier = new TestVerifier();
+    verifier.verifyMock.mockResolvedValue(true);
 
     const publishMock = jest.fn().mockResolvedValue({
       topicId: VALID_DID_TOPIC_ID,
@@ -203,6 +235,9 @@ describe('Default DID Owner Lifecycle', () => {
       },
       context: {
         topicReader: topicReader,
+      },
+      args: {
+        verifier,
       },
     });
 
@@ -224,6 +259,9 @@ describe('Default DID Owner Lifecycle', () => {
 
     const publishMock = jest.fn();
 
+    const verifier = new TestVerifier();
+    verifier.verifyMock.mockResolvedValue(true);
+
     const runner = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
     const runnerOptions: LifecycleRunnerOptions<DIDOwnerMessageContext> = {
       signer: {
@@ -238,6 +276,9 @@ describe('Default DID Owner Lifecycle', () => {
       },
       context: {
         topicReader: undefined,
+      },
+      args: {
+        verifier,
       },
     };
     const state = await runner.process(message, runnerOptions);

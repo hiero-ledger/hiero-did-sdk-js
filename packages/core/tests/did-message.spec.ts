@@ -82,11 +82,34 @@ describe('DID Message', () => {
       publicKey: jest.fn(),
       verify: jest.fn(),
     };
+    const verifier = {
+      publicKey: jest.fn(),
+      verify: jest.fn().mockResolvedValue(true),
+    };
 
-    await message.signWith(signer);
+    await message.signWith(signer, verifier);
 
     expect(signer.sign).toHaveBeenCalledWith(message.messageBytes);
     expect(message.signature).toEqual(signature);
+  });
+
+  it('should throw an error if the signer is invalid', async () => {
+    const signature = new Uint8Array([1, 2, 3, 4]);
+    const signer = {
+      sign: jest.fn().mockResolvedValue(signature),
+      publicKey: jest.fn(),
+      verify: jest.fn(),
+    };
+    const verifier = {
+      publicKey: jest.fn(),
+      verify: jest.fn().mockResolvedValue(false),
+    };
+
+    await expect(() => message.signWith(signer, verifier)).rejects.toThrow(
+      'The signature is invalid. Provided signer does not match the DID signer.',
+    );
+
+    expect(message.signature).toBeUndefined();
   });
 
   afterEach(() => {

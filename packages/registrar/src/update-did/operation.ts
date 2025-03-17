@@ -1,9 +1,15 @@
 import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
 import { resolveDID } from '@swiss-digital-assets-institute/resolver';
 import { Providers } from '../interfaces';
-import { MessageAwaiter, getSigner, getPublisher } from '../shared';
+import {
+  MessageAwaiter,
+  getSigner,
+  getPublisher,
+  getDIDRootKey,
+} from '../shared';
 import { UpdateDIDOptions, UpdateDIDResult } from './interface';
 import { prepareOperation, executeOperation } from './sub-operations';
+import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
 
 /**
  * Update a DID on the Hedera network.
@@ -43,6 +49,9 @@ export async function updateDID(
     };
   }
 
+  const didRootKey = getDIDRootKey(currentDidDocument);
+  const verifier = Verifier.fromMultibase(didRootKey);
+
   // Prepare updates for execution
   const preparedStateMessages = await Promise.all(
     updates.map(async (update) => {
@@ -53,6 +62,7 @@ export async function updateDID(
         false,
         publisher,
         signer,
+        verifier,
       );
 
       return {

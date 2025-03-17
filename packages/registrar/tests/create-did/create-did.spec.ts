@@ -113,7 +113,9 @@ describe('Create DID operation', () => {
       signer.publicKeyMock.mockResolvedValue(
         privateKey.publicKey.toStringDer(),
       );
-      signer.signMock.mockResolvedValue('test-signature');
+      signer.signMock.mockImplementation((data) => {
+        return privateKey.sign(data as never);
+      });
 
       result = await createDID({
         signer,
@@ -191,7 +193,9 @@ describe('Create DID operation', () => {
       signer.publicKeyMock.mockResolvedValue(
         privateKey.publicKey.toStringDer(),
       );
-      signer.signMock.mockResolvedValue('test-signature');
+      signer.signMock.mockImplementation((data) => {
+        return privateKey.sign(data as never);
+      });
     });
 
     it('should create a new DID using provided controller', async () => {

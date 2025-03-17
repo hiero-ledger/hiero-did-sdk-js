@@ -117,13 +117,14 @@ export class LifecycleRunner<
         }
 
         if (step.type === 'sign') {
-          if (!options.signer) {
+          if (!options.signer || !options.args?.verifier) {
             throw new DIDError(
               'invalidArgument',
-              'Signer is missing, but required',
+              'Signer and verifier are required for the sign step',
             );
           }
-          await message.signWith(options.signer);
+
+          await message.signWith(options.signer, options.args.verifier);
           await this.callHooks(step.label, message);
 
           continue;

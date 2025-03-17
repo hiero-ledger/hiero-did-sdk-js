@@ -7,7 +7,12 @@ import {
   DIDDeactivateMessage,
   DIDDeactivateMessageHederaDefaultLifeCycle,
 } from '../../../src';
-import { SIGNATURE, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
+import {
+  SIGNATURE,
+  TestVerifier,
+  VALID_DID,
+  VALID_DID_TOPIC_ID,
+} from '../helpers';
 
 describe('Default DIDDeactivateMessage Lifecycle', () => {
   describe('when processing a valid DIDDeactivateMessage', () => {
@@ -17,9 +22,12 @@ describe('Default DIDDeactivateMessage Lifecycle', () => {
     let result: RunnerState<DIDDeactivateMessage>;
 
     beforeEach(async () => {
+      const verifier = new TestVerifier();
       message = new DIDDeactivateMessage({
         did: VALID_DID,
       });
+
+      verifier.verifyMock.mockResolvedValue(true);
 
       publishMock = jest.fn().mockResolvedValue({
         topicId: VALID_DID_TOPIC_ID,
@@ -42,6 +50,9 @@ describe('Default DIDDeactivateMessage Lifecycle', () => {
           network: jest.fn(),
           publicKey: jest.fn(),
           publish: publishMock,
+        },
+        args: {
+          verifier,
         },
       });
     });

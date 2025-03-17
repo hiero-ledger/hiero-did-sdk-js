@@ -9,6 +9,10 @@ import {
 } from '../mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
+import {
+  DID_ROOT_KEY_ID,
+  KeysUtility,
+} from '@swiss-digital-assets-institute/core';
 import { updateDID, UpdateDIDResult } from '../../src';
 import {
   VALID_DID_TOPIC_ID,
@@ -37,19 +41,27 @@ describe('Update DID operation', () => {
       getReceipt: jest.fn(),
     }),
   };
+  let privateKey: PrivateKey;
 
   TopicMessageSubmitTransactionMock.mockImplementation(
     () => TopicMessageSubmitTransactionMockImplementation,
   );
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
+    privateKey = await PrivateKey.generateED25519Async();
     didDocumentMock.mockResolvedValue({
       id: VALID_DID,
       controller: VALID_DID,
       verificationMethod: [
         {
           id: '#test',
+        },
+        {
+          id: DID_ROOT_KEY_ID,
+          publicKeyMultibase: KeysUtility.fromPublicKey(
+            privateKey.publicKey,
+          ).toMultibase(),
         },
       ],
     });
@@ -58,7 +70,9 @@ describe('Update DID operation', () => {
   describe('Provider options', () => {
     let result: UpdateDIDResult;
     const defaultSigner = new TestSigner(
-      jest.fn().mockResolvedValue('test-signature'),
+      jest.fn().mockImplementation((data) => {
+        return privateKey.sign(data as never);
+      }),
     );
 
     it('should update a DID using provided client options', async () => {
@@ -133,12 +147,13 @@ describe('Update DID operation', () => {
     it('should update a DID using provided signer', async () => {
       const publisher = new TestPublisher();
 
-      const privateKey = await PrivateKey.generateED25519Async();
       const signer = new TestSigner();
       signer.publicKeyMock.mockResolvedValue(
         privateKey.publicKey.toStringDer(),
       );
-      signer.signMock.mockResolvedValue('test-signature');
+      signer.signMock.mockImplementation((data) => {
+        return privateKey.sign(data as never);
+      });
 
       result = await updateDID(
         {
@@ -162,7 +177,6 @@ describe('Update DID operation', () => {
     it('should create a new DID using provided private key', async () => {
       const publisher = new TestPublisher();
 
-      const privateKey = await PrivateKey.generateED25519Async();
       const signSpy = jest.spyOn(privateKey, 'sign');
 
       result = await updateDID(
@@ -206,7 +220,9 @@ describe('Update DID operation', () => {
       publisher = new TestPublisher();
 
       signer = new TestSigner();
-      signer.signMock.mockResolvedValue('test-signature');
+      signer.signMock.mockImplementation((data) => {
+        return privateKey.sign(data as never);
+      });
     });
 
     it('should take a single update operation', async () => {
@@ -364,6 +380,30 @@ describe('Update DID operation', () => {
       expect(updateOperationsMock).toHaveBeenCalledTimes(3);
     });
 
+    it('should throw an error if the wrong signer is provided', async () => {
+      const wrongSigner = new TestSigner();
+      const privateKey = await PrivateKey.generateED25519Async();
+      wrongSigner.signMock.mockResolvedValue(
+        privateKey.sign(new Uint8Array([1, 2, 3, 4])),
+      );
+      await expect(
+        updateDID(
+          {
+            did: VALID_DID,
+            updates: {
+              operation: 'add-service',
+              id: '#new-service',
+              type: 'ServiceType',
+              serviceEndpoint: 'http://example.com',
+            },
+          },
+          { signer: wrongSigner, publisher },
+        ),
+      ).rejects.toThrow(
+        'The signature is invalid. Provided signer does not match the DID signer.',
+      );
+    });
+
     it('should throw an error if verification method already exists', async () => {
       didDocumentMock.mockReturnValue({
         id: VALID_DID,
@@ -400,6 +440,14 @@ describe('Update DID operation', () => {
       didDocumentMock.mockReturnValue({
         id: VALID_DID,
         controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
+          },
+        ],
         service: [{ id: '#test' }],
       });
 
@@ -418,7 +466,7 @@ describe('Update DID operation', () => {
           },
           { signer, publisher },
         ),
-      ).rejects.toThrow();
+      ).rejects.toThrow('Service id already exists');
     });
 
     it('should return the updated DID document', async () => {
@@ -431,6 +479,12 @@ describe('Update DID operation', () => {
         verificationMethod: [
           {
             id: '#test',
+          },
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
           },
         ],
       };
@@ -482,6 +536,12 @@ describe('Update DID operation', () => {
           {
             id: '#test',
           },
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
+          },
         ],
         authentication: [
           {
@@ -517,6 +577,14 @@ describe('Update DID operation', () => {
       didDocumentMock.mockResolvedValue({
         id: VALID_DID,
         controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
+          },
+        ],
         service: [
           {
             id: '#srv',
@@ -551,6 +619,14 @@ describe('Update DID operation', () => {
             id: '#srv',
           },
         ],
+        verificationMethod: [
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
+          },
+        ],
       });
 
       await expect(
@@ -575,6 +651,14 @@ describe('Update DID operation', () => {
       didDocumentMock.mockResolvedValue({
         id: VALID_DID,
         controller: VALID_DID,
+        verificationMethod: [
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
+          },
+        ],
       });
 
       await expect(
@@ -602,6 +686,12 @@ describe('Update DID operation', () => {
           {
             id: '#test',
             publicKeyMultibase: 'test',
+          },
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
           },
         ],
       });
@@ -635,6 +725,12 @@ describe('Update DID operation', () => {
             id: '#test',
             publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
           },
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
+          },
         ],
       });
 
@@ -666,6 +762,12 @@ describe('Update DID operation', () => {
           {
             id: '#test',
             publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          },
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
           },
         ],
       });
@@ -715,6 +817,12 @@ describe('Update DID operation', () => {
           {
             id: '#test',
             publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
+          },
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
           },
         ],
       });
@@ -769,6 +877,12 @@ describe('Update DID operation', () => {
             id: '#test',
             publicKeyMultibase: PUBLIC_KEY_MULTIBASE,
           },
+          {
+            id: DID_ROOT_KEY_ID,
+            publicKeyMultibase: KeysUtility.fromPublicKey(
+              privateKey.publicKey,
+            ).toMultibase(),
+          },
         ],
       });
 
@@ -800,7 +914,9 @@ describe('Update DID operation', () => {
   describe('Message awaiting', () => {
     const publisher = new TestPublisher(jest.fn().mockReturnValue('testnet'));
     const signer = new TestSigner();
-    signer.signMock.mockResolvedValue('test-signature');
+    signer.signMock.mockImplementation((data) => {
+      return privateKey.sign(data as never);
+    });
 
     it('should set message awaiter with proper topic id and network', async () => {
       await updateDID(

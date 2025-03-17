@@ -73,10 +73,20 @@ export abstract class DIDMessage {
    * Signs the message with the given signer.
    *
    * @param signer - The signer to sign the message
+   * @param verifier - The verifier to verify the signature
    * @returns A promise that resolves when the message is signed.
    */
-  public async signWith(signer: Signer): Promise<void> {
+  public async signWith(signer: Signer, verifier: Verifier): Promise<void> {
     const signature = await signer.sign(this.messageBytes);
+    const isValid = await verifier.verify(this.messageBytes, signature);
+
+    if (!isValid) {
+      throw new DIDError(
+        'invalidSignature',
+        'The signature is invalid. Provided signer does not match the DID signer.',
+      );
+    }
+
     this.signature = signature;
   }
 

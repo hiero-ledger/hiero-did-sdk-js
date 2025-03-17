@@ -8,9 +8,16 @@ import {
   DIDDeactivateMessageHederaDefaultLifeCycle,
 } from '@swiss-digital-assets-institute/messages';
 import { DIDError } from '@swiss-digital-assets-institute/core';
+import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
 import { Providers } from '../interfaces';
-import { MessageAwaiter, getSigner, getPublisher } from '../shared';
+import {
+  MessageAwaiter,
+  getSigner,
+  getPublisher,
+  getDIDRootKey,
+} from '../shared';
 import { DeactivateDIDOptions, DeactivateDIDResult } from './interface';
+import { resolveDID } from '@swiss-digital-assets-institute/resolver';
 
 /**
  * Deactivate a DID on the Hedera network
@@ -28,6 +35,17 @@ export async function deactivateDID(
     operationOptions.privateKey,
   );
 
+  const resolvedDIDDocument = await resolveDID(
+    operationOptions.did,
+    'application/did+json',
+    {
+      topicReader: operationOptions.topicReader,
+    },
+  );
+
+  const didRootKey = getDIDRootKey(resolvedDIDDocument);
+  const verifier = Verifier.fromMultibase(didRootKey);
+
   const didDeactivateMessage = new DIDDeactivateMessage({
     did: operationOptions.did,
   });
@@ -38,6 +56,9 @@ export async function deactivateDID(
   const runnerOptions: LifecycleRunnerOptions = {
     signer,
     publisher,
+    args: {
+      verifier,
+    },
   };
 
   const firstState = await manager.process(didDeactivateMessage, runnerOptions);

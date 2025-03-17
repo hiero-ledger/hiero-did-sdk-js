@@ -18,6 +18,7 @@ export type PrepareFunction<
   clientMode: boolean,
   publisher: Publisher,
   signer?: Signer,
+  verifier?: Verifier,
 ) => Promise<RunnerState<Message>>;
 
 export type PreExecuteFunction<Message extends DIDMessage = DIDMessage> = (

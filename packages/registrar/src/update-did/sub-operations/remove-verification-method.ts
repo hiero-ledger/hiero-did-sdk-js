@@ -23,6 +23,7 @@ export const prepare: PrepareFunction<
   clientMode,
   publisher,
   signer,
+  verifier,
 ) => {
   const manager = new LifecycleRunner(
     clientMode
@@ -55,6 +56,9 @@ export const prepare: PrepareFunction<
   const state = await manager.process(message, {
     signer,
     publisher,
+    args: {
+      verifier,
+    },
   });
 
   return state;

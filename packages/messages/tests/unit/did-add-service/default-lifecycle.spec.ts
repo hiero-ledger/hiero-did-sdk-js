@@ -7,7 +7,12 @@ import {
   DIDAddServiceMessage,
   DIDAddServiceMessageHederaDefaultLifeCycle,
 } from '../../../src';
-import { SIGNATURE, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
+import {
+  SIGNATURE,
+  TestVerifier,
+  VALID_DID,
+  VALID_DID_TOPIC_ID,
+} from '../helpers';
 
 describe('Default DIDAddServiceMessage Lifecycle', () => {
   describe('when processing a valid DIDAddServiceMessage', () => {
@@ -17,12 +22,15 @@ describe('Default DIDAddServiceMessage Lifecycle', () => {
     let result: RunnerState<DIDAddServiceMessage>;
 
     beforeEach(async () => {
+      const verifier = new TestVerifier();
       message = new DIDAddServiceMessage({
         type: 'VerifiableCredentialService',
         serviceEndpoint: 'https://example.com/credentials',
         id: '#service-1',
         did: VALID_DID,
       });
+
+      verifier.verifyMock.mockResolvedValue(true);
 
       publishMock = jest.fn().mockResolvedValue({
         topicId: VALID_DID_TOPIC_ID,
@@ -45,6 +53,9 @@ describe('Default DIDAddServiceMessage Lifecycle', () => {
           network: jest.fn(),
           publicKey: jest.fn(),
           publish: publishMock,
+        },
+        args: {
+          verifier,
         },
       });
     });

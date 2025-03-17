@@ -23,6 +23,7 @@ export const prepare: PrepareFunction<
   clientMode,
   publisher,
   signer,
+  verifier,
 ) => {
   const foundFragment = fragmentSearch(options.id, currentDidDocument);
 
@@ -73,6 +74,9 @@ export const prepare: PrepareFunction<
   const state = await manager.process(message, {
     signer,
     publisher,
+    args: {
+      verifier,
+    },
   });
 
   return state;

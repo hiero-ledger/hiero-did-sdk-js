@@ -23,6 +23,7 @@ export const prepare: PrepareFunction<
   clientMode,
   publisher,
   signer,
+  verifier,
 ) => {
   if (haveId(options.id, currentDidDocument)) {
     throw new DIDError('invalidArgument', 'Service id already exists');
@@ -44,6 +45,9 @@ export const prepare: PrepareFunction<
   const state = await manager.process(message, {
     signer,
     publisher,
+    args: {
+      verifier,
+    },
   });
 
   return state;

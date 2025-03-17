@@ -19,6 +19,7 @@ import {
   extractProviders,
 } from '../shared';
 import { CreateDIDOptions, CreateDIDResult } from './interface';
+import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
 
 /**
  * Create a new DID on the Hedera network.
@@ -51,13 +52,16 @@ export async function createDID(
     true,
   );
 
-  const publicKey = await signer.publicKey();
+  const publicKeyString = await signer.publicKey();
+  const publicKeyObject = PublicKey.fromStringED25519(publicKeyString);
 
   const didOwnerMessage = new DIDOwnerMessage({
-    publicKey: PublicKey.fromStringED25519(publicKey),
+    publicKey: publicKeyObject,
     controller: operationOptions.controller,
     topicId: operationOptions.topicId,
   });
+
+  const verifier = new Verifier(publicKeyObject);
 
   const manager = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
   const runnerOptions: LifecycleRunnerOptions = {
@@ -65,6 +69,9 @@ export async function createDID(
     publisher,
     context: {
       topicReader: operationOptions.topicReader,
+    },
+    args: {
+      verifier,
     },
   };
 
@@ -118,7 +125,7 @@ export async function createDID(
           type: 'Ed25519VerificationKey2020',
           controller: didOwnerMessage.controllerDid,
           publicKeyMultibase:
-            KeysUtility.fromDerString(publicKey).toMultibase(),
+            KeysUtility.fromPublicKey(publicKeyObject).toMultibase(),
         },
       ],
     },

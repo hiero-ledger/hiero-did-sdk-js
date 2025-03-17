@@ -41,6 +41,7 @@ export async function prepareOperation<T extends DIDUpdateOperation>(
   clientMode: boolean,
   publisher: Publisher,
   signer?: Signer,
+  verifier?: Verifier,
 ): Promise<RunnerState<DIDMessage>> {
   return await OPERATIONS_MAP[data.operation].prepare(
     data,
@@ -49,6 +50,7 @@ export async function prepareOperation<T extends DIDUpdateOperation>(
     clientMode,
     publisher,
     signer,
+    verifier,
   );
 }
 

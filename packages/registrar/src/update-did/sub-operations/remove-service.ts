@@ -14,7 +14,15 @@ import {
 export const prepare: PrepareFunction<
   DIDRemoveServiceMessage,
   RemoveServiceOperation
-> = async (options, operationOptions, _, clientMode, publisher, signer) => {
+> = async (
+  options,
+  operationOptions,
+  _,
+  clientMode,
+  publisher,
+  signer,
+  verifier,
+) => {
   const manager = new LifecycleRunner(
     clientMode
       ? DIDRemoveServiceMessageHederaCSMLifeCycle
@@ -29,6 +37,9 @@ export const prepare: PrepareFunction<
   const state = await manager.process(message, {
     signer,
     publisher,
+    args: {
+      verifier,
+    },
   });
 
   return state;

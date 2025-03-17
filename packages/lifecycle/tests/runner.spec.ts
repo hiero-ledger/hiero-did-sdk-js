@@ -68,6 +68,9 @@ describe('Lifecycle runner class', () => {
       builder.signWithSigner('s1');
 
       const signer = Signer.generate();
+      const verifier = {
+        verify: () => true,
+      } as never;
 
       const signWithMock = jest.fn();
 
@@ -78,11 +81,14 @@ describe('Lifecycle runner class', () => {
         {
           publisher,
           signer: signer,
+          args: {
+            verifier,
+          },
         },
       );
 
       expect(signWithMock).toHaveBeenCalledTimes(1);
-      expect(signWithMock).toHaveBeenCalledWith(signer);
+      expect(signWithMock).toHaveBeenCalledWith(signer, verifier);
       expect(state).toBeDefined();
       expect(state.status).toBe('success');
     });
@@ -97,7 +103,7 @@ describe('Lifecycle runner class', () => {
         runner.process({} as never, {
           publisher,
         }),
-      ).rejects.toThrow('Signer is missing, but required');
+      ).rejects.toThrow('Signer and verifier are required for the sign step');
     });
 
     it('should be able to process signature step', async () => {
