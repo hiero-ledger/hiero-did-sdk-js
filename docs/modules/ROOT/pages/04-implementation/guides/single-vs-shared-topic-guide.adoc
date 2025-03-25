@@ -1,0 +1,166 @@
+= Hashgraph DID SDK: Single vs Shared Topic
+
+When creating Decentralized Identifiers (DIDs) on Hedera Hashgraph using the DID SDK, you have two fundamental approaches for storing DID Documents: using a single topic per DID or using a shared topic for multiple DIDs. This guide explains the differences, advantages, and disadvantages of each approach to help you choose the best solution for your use case.
+
+== Understanding Topics in Hedera
+
+A Hedera Consensus Service (HCS) topic is a channel for submitting and retrieving messages. In the context of DIDs:
+
+* *Single Topic*: Each DID has its own dedicated HCS topic
+* *Shared Topic*: Multiple DIDs share the same HCS topic
+
+== Single Topic Approach
+
+=== How It Works
+
+When using the single topic approach, each DID is created with its own dedicated HCS topic. All operations related to that specific DID (creation, updates, deactivation) are submitted as messages to that DID's unique topic.
+
+[source,typescript]
+----
+// Creating a DID with a single topic approach (default behavior)
+const didResult = await createDID({
+  privateKey: privateKey,
+  // No topicId specified, so a new topic will be created
+});
+----
+
+=== Advantages
+
+* *Isolation*: Each DID's operations are completely isolated from other DIDs
+* *Simplified Resolution*: When resolving a DID, there is no need to filter messages for the specific DID
+* *Clean Separation*: Easier to manage permissions and access control for each DID
+* *Reduced Message Volume*: Each topic contains only messages relevant to a single DID
+* *Independent Lifecycle*: Each DID can be managed independently without affecting others
+
+=== Disadvantages
+
+* *Cost*: Creating and maintaining separate topics for each DID incurs higher costs
+* *Resource Intensive*: More network resources are consumed with multiple topics
+* *Management Overhead*: Managing many topics can become complex at scale
+
+== Shared Topic Approach
+
+=== How It Works
+
+With the shared topic approach, multiple DIDs use the same HCS topic. All operations for these DIDs are submitted to this common topic, with each message containing information about which DID it pertains to.
+
+[source,typescript]
+----
+// Creating a DID using a shared topic
+const sharedTopicId = "0.0.1234567"; // Your existing topic ID
+
+const didResult = await createDID({
+  privateKey: privateKey,
+  topicId: sharedTopicId, // Specify the shared topic ID
+});
+----
+
+=== Advantages
+
+* *Cost-Effective*: Reduces the number of topics needed, lowering overall costs
+* *Resource Efficient*: Fewer topics consume fewer network resources
+* *Simplified Management*: Easier to manage a smaller number of topics
+* *Suitable for Organizations*: Ideal for organizations managing many DIDs
+
+=== Disadvantages
+
+* *Increased Complexity*: Resolution requires filtering messages for the specific DID
+* *Performance Impact*: As the topic grows with many DIDs, resolution may become slower
+* *Potential Bottlenecks*: High-volume topics might face throughput limitations
+* *Shared Fate*: Issues with the topic affect all DIDs stored within it
+
+== Choosing the Right Approach
+
+Consider these factors when deciding between single and shared topics:
+
+=== When to Use Single Topics
+
+* *High-Value DIDs*: For DIDs representing significant assets or identities
+* *Performance Priority*: When resolution speed for individual DIDs is critical
+* *Low Volume of DIDs*: When you're managing a small number of DIDs
+* *Independent Management*: When DIDs need to be managed by different entities
+
+=== When to Use Shared Topics
+
+* *Cost Sensitivity*: When minimizing costs is a priority
+* *High Volume of DIDs*: When creating and managing many DIDs
+* *Organizational DIDs*: For DIDs belonging to the same organization
+* *Related Identities*: For DIDs that are logically grouped
+* *Centralized Management*: When DIDs are managed by the same entity
+
+=== Hybrid Approach
+
+In some cases, a hybrid approach might be optimal:
+
+* Use shared topics for low-value, high-volume DIDs
+* Use single topics for high-value, critical DIDs
+* Group DIDs by category or purpose into different shared topics
+
+
+== Best Practices
+
+1. *Document Your Approach*: Clearly document which approach you're using
+2. *Consider Future Growth*: Plan for how your DID usage might scale
+3. *Monitor Costs*: Regularly review the costs associated with your approach
+4. *Performance Testing*: Test resolution performance under expected load
+
+== Example: Creating a DID with a Shared Topic
+
+[source,typescript]
+----
+import { createDID } from "@hashgraph/did-sdk-js";
+
+// Your existing topic ID
+const sharedTopicId = "0.0.1234567";
+
+async function createDidWithSharedTopic() {
+  try {
+    const result = await createDID({
+      privateKey: "your-private-key",
+      topicId: sharedTopicId,
+      // Other options as needed
+    });
+    
+    console.log("Created DID:", result.did);
+    console.log("Using shared topic:", sharedTopicId);
+    
+    return result;
+  } catch (error) {
+    console.error("Error creating DID:", error);
+    throw error;
+  }
+}
+----
+
+== Example: Creating a DID with a Single Topic
+
+[source,typescript]
+----
+import { createDID } from "@hashgraph/did-sdk-js";
+
+async function createDidWithSingleTopic() {
+  try {
+    // No topicId specified - a new topic will be created
+    const result = await createDID({
+      privateKey: "your-private-key",
+      // Other options as needed
+    });
+    
+    console.log("Created DID:", result.did);
+    console.log("Created new topic:", result.topicId);
+    
+    return result;
+  } catch (error) {
+    console.error("Error creating DID:", error);
+    throw error;
+  }
+}
+----
+
+== Next Steps
+
+*   **Explore `resolveDID`:**  Dive deeper into the xref::04-implementation/components/resolveDID-guide.adoc[resolveDID] function to understand its parameters, error handling, and advanced usage.
+*   **Manage DIDs:** Learn how to use xref::04-implementation/components/createDID-guide.adoc[createDID], xref::04-implementation/components/updateDID-guide.adoc[updateDID], and xref::04-implementation/components/deactivateDID-guide.adoc[deactivateDID] to effectively manage DIDs on Hedera.
+*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::04-implementation/components/signer-guide.adoc[Signer] class.
+*   **Utilize the `Publisher`:** Integrate the xref::04-implementation/components/publisher-guide.adoc[Publisher] class into your application for seamless transaction submission.
+*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hashgraph DID SDK: xref::04-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].
