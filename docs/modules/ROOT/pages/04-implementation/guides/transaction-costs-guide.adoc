@@ -1,0 +1,67 @@
+= Hashgraph DID SDK: Transaction Costs
+
+This guide provides estimated transaction costs for various DID operations when using the Hashgraph DID SDK. Understanding these costs can help you plan and budget for your DID-related activities on the Hedera network.
+
+[IMPORTANT]
+====
+All costs provided in this guide are estimates and may change based on Hedera network conditions, transaction complexity, and future fee adjustments. For the most up-to-date and detailed fee information, please refer to the official https://docs.hedera.com/hedera/networks/mainnet/fees[Hedera Transaction Fees documentation] or https://hedera.com/fees[Hedera Fee Estimator].
+====
+
+== DID Operation Cost Estimates
+
+The following table summarizes the estimated costs for common DID operations:
+
+[cols="1,2,1", options="header"]
+|===
+|Operation |Description |Estimated Cost (USD)
+|createDID |Creating a new DID document with new topic | $0,0101
+|createDID |Creating a new DID document on existing topic | $0.0001
+|updateDID |Updating an existing DID document (per update) | $0.0001
+|deactivateDID |Deactivating a DID document | $0.0001
+|resolveDID |Resolving a DID | Free
+|===
+
+== Detailed Cost Breakdown
+
+=== createDID
+
+Creating a DID document involves:
+
+* A Hedera Consensus Service (HCS) topic creation (optional)
+* A Hedera Consensus Service (HCS) message submission
+
+*Factors affecting cost:*
+
+* Message size
+* Network congestion
+
+=== updateDID
+
+Each update to a DID document incurs a cost:
+
+* A Hedera Consensus Service (HCS) message submission
+* Cost may vary based on the size of the update
+
+*Factors affecting cost:*
+
+* Size of the update payload
+* Network conditions
+
+=== deactivateDID
+
+Deactivating a DID is typically a lightweight operation:
+
+* A Hedera Consensus Service (HCS) message submission
+* Generally costs slightly less than creation or updates
+
+=== resolveDID
+
+Resolving a DID requires reading from the Hedera Consensus Service (HCS) topic. This operation is free.
+
+== Next Steps
+
+* **Explore `resolveDID`:**  Dive deeper into the xref::04-implementation/components/resolveDID-guide.adoc[resolveDID] function to understand its parameters, error handling, and advanced usage.
+* **Manage DIDs:** Learn how to use xref::04-implementation/components/createDID-guide.adoc[createDID], xref::04-implementation/components/updateDID-guide.adoc[updateDID], and xref::04-implementation/components/deactivateDID-guide.adoc[deactivateDID] to effectively manage DIDs on Hedera.
+* **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::04-implementation/components/signer-guide.adoc[Signer] class.
+* **Utilize the `Publisher`:** Integrate the xref::04-implementation/components/publisher-guide.adoc[Publisher] class into your application for seamless transaction submission.
+* **Key Management:** Explore different key management strategies in the xref::04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes Guide].

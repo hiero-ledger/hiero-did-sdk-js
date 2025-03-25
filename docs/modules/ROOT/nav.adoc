@@ -20,6 +20,7 @@
     **** xref:04-implementation/guides/essential-components-guide.adoc[Essential Components]
     **** xref:04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes]
     **** xref:04-implementation/guides/handling-exceptions.adoc[Handling Exceptions]
+    **** xref:04-implementation/guides/transaction-costs-guide.adoc[Transaction Costs]
   *** Environment Setup
     **** xref:04-implementation/guides/getting-started-guide.adoc[Getting Started]
     **** xref:04-implementation/guides/browser-environment-guide.adoc[Browser Environment]
