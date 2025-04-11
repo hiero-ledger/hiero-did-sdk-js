@@ -24,12 +24,12 @@ Use cases:
 
 Hedera DID SDK provides the following implementations of the `TopicReader` class:
 
-* `TopicReaderHederaClient` - Read messages from the Hedera network topic using gRPC client.
-
+* `TopicReaderHederaClient` - Read messages from the Hedera network topic using gRPC client (default implementation).
+* `TopicReaderHederaRestApi` - Read messages from the Hedera network topic using Mirror Node REST API (browser friendly).
 
 === TopicReaderHederaClient
 
-The `TopicReaderHederaClient` class is a default implementation of the `TopicReader` class. It uses the Hedera gRPC client to read messages from the Hedera network topic.
+The `TopicReaderHederaClient` class is a default implementation of the `TopicReader` class. It uses the Hedera gRPC client to read messages from the Hedera network topic. This implementation cannot be used in the browser environment.
 
 [source, typescript]
 ----
@@ -54,6 +54,51 @@ const messages = await topicReader.fetchAllToDate('0.0.5217215', 'testnet');
 
 console.log(messages);
 ----
+
+=== TopicReaderHederaRestApi
+
+The `TopicReaderHederaRestApi` class is a implementation of the `TopicReader` class that uses the Mirror Node REST API to read messages from the Hedera network topic.
+
+[source, typescript]
+----
+import { TopicReaderHederaRestApi } from '@swiss-digital-assets-institute/resolver';
+
+const topicReader = new TopicReaderHederaRestApi();
+const messages = await topicReader.fetchFrom('0.0.5217215', 'testnet', {
+  from: 0, // Read messages from the start of the topic
+  to: 1000, // Read messages to 1000 seconds from the start of the topic
+});
+console.log(messages);
+----
+
+
+[source, typescript]
+----
+import { TopicReaderHederaRestApi } from '@swiss-digital-assets-institute/resolver';
+
+const topicReader = new TopicReaderHederaRestApi();
+const messages = await topicReader.fetchAllToDate('0.0.5217215', 'testnet');
+
+console.log(messages);
+----
+
+==== Using Custom Rest API 
+By default, the `TopicReaderHederaRestApi` class uses the public Mirror Node REST API. You can use your own REST API endpoint by passing it to the constructor of the `TopicReaderHederaRestApi` class as a map of network names to REST API endpoints.
+
+[source, typescript]
+----
+import { TopicReaderHederaRestApi } from '@swiss-digital-assets-institute/resolver';
+
+const topicReader = new TopicReaderHederaRestApi({
+  mainnet: 'https://mainnet.example.com',
+  testnet: 'https://testnet.example.com',
+  previewnet: 'https://previewnet.example.com',
+  'local-node': 'http://local.example.com',
+});
+----
+
+Make sure that your API is compliant with the Hedera Mirror Node REST API specification.
+
 
 == References
 

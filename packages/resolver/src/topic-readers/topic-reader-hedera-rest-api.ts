@@ -19,7 +19,7 @@ interface RestAPIMessageResponse {
 }
 
 interface FetchResult {
-  messages: RestAPIMessage[];
+  messages: string[];
   nextPath: string | null;
 }
 
@@ -29,6 +29,10 @@ export type TopicReaderHederaRestApiNetworkMap = Record<Network, string>;
  * Implements a topic reader that uses the Hedera Mirror Node REST API to read messages from a topic.
  */
 export class TopicReaderHederaRestApi extends TopicReader {
+  /**
+   * The default network map to use for the Hedera Rest API.
+   * It contains the public Hedera Mirror Node REST API for mainnet, testnet, previewnet and local-node.
+   */
   static readonly DEFAULT_NETWORK_MAP: TopicReaderHederaRestApiNetworkMap = {
     mainnet: 'https://mainnet.mirrornode.hedera.com',
     testnet: 'https://testnet.mirrornode.hedera.com',
@@ -37,13 +41,21 @@ export class TopicReaderHederaRestApi extends TopicReader {
   } as const;
 
   /**
-   * Creates a new Hedera Rest API Topic Reader.
-   * @param restApiUrl - The URL of the Hedera Mirror Node REST API
+   * Constructor for the Rest API Topic Reader.
+   * @param map - The network map to use for the Hedera Rest API. If not provided, the default network map will be used.
    */
-  constructor(private readonly map: TopicReaderHederaRestApiNetworkMap) {
+  constructor(
+    private readonly map: TopicReaderHederaRestApiNetworkMap = TopicReaderHederaRestApi.DEFAULT_NETWORK_MAP,
+  ) {
     super();
   }
 
+  /**
+   * Fetches all messages from a topic from the start to the end of the topic.
+   * @param topicId - The ID of the topic to fetch messages from.
+   * @param network - The network to use for the Hedera Rest API.
+   * @returns A promise that resolves to an array of messages.
+   */
   async fetchAllToDate(
     topicId: string,
     network: Network,
@@ -51,42 +63,39 @@ export class TopicReaderHederaRestApi extends TopicReader {
     return this.fetchFrom(topicId, network, { from: 0, to: Date.now() });
   }
 
+  /**
+   * Fetches messages from a topic from a specific start time to an end time.
+   * @param topicId - The ID of the topic to fetch messages from.
+   * @param network - The network to use for the Hedera Rest API.
+   * @param options - The options for the fetch.
+   * @returns A promise that resolves to an array of messages.
+   */
   async fetchFrom(
     topicId: string,
     network: Network,
     options: TopicReaderOptions,
   ): Promise<TopicReaderMessage[]> {
-    const messages: TopicReaderMessage[] = [];
+    let topicReaderMessages: string[] = [];
     const toTimestamp = Timestamp.fromDate(new Date(options.to));
     const fromTimestamp = Timestamp.fromDate(new Date(options.from));
 
-    let nextPath = `api/v1/topics/${topicId}/messages?timestamp=${encodeURIComponent(
-      fromTimestamp.toString(),
-    )}`;
+    let nextPath = `/api/v1/topics/${topicId}/messages?timestamp=gte:${fromTimestamp.toString()}&timestamp=lte:${toTimestamp.toString()}`;
 
     while (nextPath) {
-      const url = this.getNextUrl(network, nextPath, 25, 'base64');
+      const url = this.getNextUrl(network, nextPath);
       const result = await this.fetchMessages(url);
 
-      for (const message of result.messages) {
-        const messageData = Timestamp.fromDate(
-          message.consensus_timestamp,
-        ).toDate();
-        const toDate = toTimestamp.toDate();
-
-        if (messageData.getTime() > toDate.getTime()) {
-          return messages;
-        }
-
-        messages.push(message.message);
-      }
-
-      nextPath = result.nextPath;
+      topicReaderMessages = topicReaderMessages.concat(result.messages);
+      nextPath = result.nextPath!;
     }
-
-    return messages;
+    return topicReaderMessages;
   }
 
+  /**
+   * Fetches messages from a topic using provided URL.
+   * @param url - The URL to fetch messages from.
+   * @returns A promise that resolves result of the fetch with messages and next path.
+   */
   private async fetchMessages(url: string): Promise<FetchResult> {
     const response = await fetch(url, {
       method: 'GET',
@@ -105,7 +114,7 @@ export class TopicReaderHederaRestApi extends TopicReader {
 
     const parsedMessages = messages.map(({ message }) => {
       const decodedMessage = Buffer.from(message, 'base64').toString('utf-8');
-      return JSON.parse(decodedMessage) as RestAPIMessage;
+      return decodedMessage;
     });
 
     return {
@@ -114,6 +123,14 @@ export class TopicReaderHederaRestApi extends TopicReader {
     };
   }
 
+  /**
+   * Constructs the next URL for the fetch.
+   * @param network - The network to use for the Hedera Rest API.
+   * @param nextPath - The path to fetch messages from.
+   * @param limit - The limit of messages to fetch.
+   * @param encoding - The encoding of the messages.
+   * @returns The next URL for the fetch.
+   */
   private getNextUrl(
     network: Network,
     nextPath: string,
@@ -136,12 +153,7 @@ export class TopicReaderHederaRestApi extends TopicReader {
     const url = new URL(`${apiUrl}${nextPath}`);
     url.searchParams.set('limit', limit.toString());
     url.searchParams.set('encoding', encoding);
-    return url.toString();
-  }
 
-  static forNetwork(
-    map: TopicReaderHederaRestApiNetworkMap = this.DEFAULT_NETWORK_MAP,
-  ): TopicReaderHederaRestApi {
-    return new TopicReaderHederaRestApi(map);
+    return url.toString();
   }
 }

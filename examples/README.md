@@ -21,6 +21,7 @@ The following examples are available in this directory:
 - **[`resolveDID-as-json.ts`](./resolveDID-as-json.ts)**: Demonstrates how to resolve a DID and retrieve its corresponding DID Document in JSON format.
 - **[`resolveDID-with-full-metadata.ts`](./resolveDID-with-full-metadata.ts)**: Demonstrates how to resolve a DID and retrieve its corresponding DID Document with full DID Resolution metadata.
 - **[`resolveDID-with-topic-reader.ts`](./resolveDID-with-topic-reader.ts)**: Demonstrates how to resolve a DID using a custom topic reader.
+- **[`resolveDID-with-rest-api-topic-reader.ts`](./resolveDID-with-rest-api-topic-reader.ts)**: Demonstrates how to resolve a DID using a Hedera REST API Topic Reader from resolver package.
 - **[`resolveDID-with-verifier.ts`](./resolveDID-with-verifier.ts)**: Demonstrates how to resolve a DID using a custom verifier.
 
 ### dereferenceDID

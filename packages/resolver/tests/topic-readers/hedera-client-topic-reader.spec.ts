@@ -47,7 +47,7 @@ jest.mock('@hashgraph/sdk', () => {
   };
 });
 
-describe('Topic Reader', () => {
+describe('Topic Reader Hedera Client', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
