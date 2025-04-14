@@ -45,7 +45,7 @@
     "scope": "@swiss-digital-assets-institute"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.53.0",
+    "@hashgraph/sdk": "^2.62.0",
     "@swiss-digital-assets-institute/core": "0.3.0"
   }
 }
