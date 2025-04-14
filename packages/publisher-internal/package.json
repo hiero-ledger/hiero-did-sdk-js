@@ -1,6 +1,6 @@
 {
   "name": "@swiss-digital-assets-institute/publisher-internal",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "This package provides the `Publisher` class, a core component of the Hashgraph DID SDK. It offers a standardized way to submit and execute transactions on the Hedera network, simplifying the process of interacting with the Hedera Consensus Service (HCS).",
   "author": {
     "name": "The Hashgraph Association",
@@ -46,6 +46,6 @@
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
-    "@swiss-digital-assets-institute/core": "0.2.0"
+    "@swiss-digital-assets-institute/core": "0.3.0"
   }
 }

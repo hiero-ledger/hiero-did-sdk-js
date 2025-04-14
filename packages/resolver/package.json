@@ -1,6 +1,6 @@
 {
   "name": "@swiss-digital-assets-institute/resolver",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "This package provides the `resolveDID` function, a core component of the Hashgraph DID SDK. It resolves Decentralized Identifiers (DIDs) registered on the Hedera network to their corresponding DID Documents.",
   "author": {
     "name": "The Hashgraph Association",
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.53.0",
-    "@swiss-digital-assets-institute/core": "0.2.0",
-    "@swiss-digital-assets-institute/verifier-internal": "0.2.0"
+    "@swiss-digital-assets-institute/core": "0.3.0",
+    "@swiss-digital-assets-institute/verifier-internal": "0.3.0"
   }
 }
