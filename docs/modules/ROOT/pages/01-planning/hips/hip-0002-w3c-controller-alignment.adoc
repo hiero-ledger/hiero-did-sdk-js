@@ -8,7 +8,7 @@
 |*Requested-by:* |THA
 |*Type:* |Standards Track
 |*Category:* |Application
-|*Needs-council-approval:* |Yes
+|*Needs-council-approval:* |No
 |*Status:* |Draft
 |*Created:* |2025-04-16
 |===
