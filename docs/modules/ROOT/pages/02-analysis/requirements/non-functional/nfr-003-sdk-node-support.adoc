@@ -2,7 +2,7 @@
 
 ==== Description
 
-The SDK should support Node.js version 18 and above. Support for older versions of Node.js is not required. The SDK should be tested with all the latest versions of Node.js to ensure compatibility. Support means that the SDK should work without any issues on the supported versions of Node.js. Major issues that prevent the SDK from working on the supported versions of Node.js should be fixed.
+The SDK should support Node.js version 20 and above. Support for older versions of Node.js is not required. The SDK should be tested with all the latest versions of Node.js to ensure compatibility. Support means that the SDK should work without any issues on the supported versions of Node.js. Major issues that prevent the SDK from working on the supported versions of Node.js should be fixed.
 
 ==== Status
 
@@ -10,7 +10,7 @@ Draft
 
 ==== Acceptance Criteria
 
-* The SDK should support Node.js version 18 and above.
+* The SDK should support Node.js version 20 and above.
 * The SDK should be tested with all the latest versions of Node.js to ensure compatibility.
 * The SDK should work without any issues on the supported versions of Node.js.
 

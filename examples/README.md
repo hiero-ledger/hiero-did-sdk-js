@@ -7,7 +7,7 @@ This directory contains example implementations demonstrating the usage of the H
 ## Prerequisites
 
 - Hashgraph DID SDK: Make sure you have the Hashgraph DID SDK installed in your project.
-- Node.js: Ensure you have Node.js (version 18 or higher) installed on your system.
+- Node.js: Ensure you have Node.js (version 20 or higher) installed on your system.
 - Hedera Testnet Account: You'll need a Hedera account on the testnet with some hbars to pay for transaction fees.
 
 ## Examples

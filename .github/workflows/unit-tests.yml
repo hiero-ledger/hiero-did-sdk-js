@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [18, 20, 22]
+        node: [20, 22, 24]
     name: Unit Tests [Node v${{ matrix.node }}]
     steps:
       - name: Checkout repository

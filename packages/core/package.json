@@ -33,7 +33,7 @@
     "directory": "packages/core"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "scripts": {
     "test": "jest",

@@ -33,7 +33,7 @@
     "directory": "packages/signer-hashicorp-vault"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "scripts": {
     "test": "jest",
