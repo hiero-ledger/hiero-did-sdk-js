@@ -4,7 +4,7 @@ This document provides a concise API reference for the `generateUpdateDIDRequest
 
 == Function Signature
 
-This function generates a request to create a new Decentralized Identifier (DID) on the Hedera network using the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Client Managed Secret Mode].
+This function generates a request to update a Decentralized Identifier (DID) on the Hedera network using the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Client Managed Secret Mode].
 
 The `generateUpdateDIDRequest` function is invoked with `providers` and `options` parameters. The `providers` parameter encapsulates configuration parameters for interacting with the Hedera network, while the `options` parameter enables customization of the DID update procedure and passing required public key.
 
