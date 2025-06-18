@@ -1,7 +1,7 @@
 * Planning
   ** HIPs
     **** xref:01-planning/hips/hip-0001-new-did-sdk.adoc[HIP-001 New Hashgraph DID-SDK]
-    **** xref:01-planning/hips/hip-0002-w3c-controller-alignment.adoc[HIP-002 W3C Controller Alignment]
+    **** xref:01-planning/hips/hip-1219-hedera-did-method-v2.adoc[HIP-1219 Hedera DID Method v2.0 - W3C Controller Alignment]
 
 * Analysis
   ** xref:02-analysis/requirements/index.adoc[Requirements]
