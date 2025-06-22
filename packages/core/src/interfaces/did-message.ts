@@ -103,7 +103,10 @@ export abstract class DIDMessage {
     const isValid = await verifier.verify(this.messageBytes, signature);
 
     if (!isValid) {
-      throw new DIDError('invalidSignature', 'The signature is invalid');
+      throw new DIDError(
+        'invalidSignature',
+        'The signature is invalid. Provided signature does not match the DID signer.',
+      );
     }
 
     this.signature = signature;

@@ -173,6 +173,10 @@ The following table enumerates the exceptions that may arise during the executio
 |`invalidDid`
 |Controller is not a valid Hedera DID.
 
+|`invalidSignature`
+|The signature is invalid. Provided signer does not match the DID signer.
+
+
 |`internalError`
 |DID already exists on the network
 

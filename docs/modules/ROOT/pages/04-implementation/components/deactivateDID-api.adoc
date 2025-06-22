@@ -151,6 +151,10 @@ The following table enumerates the exceptions that may arise during the executio
 |`notFound`
 |The DID document was not found.
 
+|`invalidSignature`
+|The signature is invalid. Provided signer does not match the DID signer.
+
+
 |`internalError`
 |Failed to deactivate the DID.
 

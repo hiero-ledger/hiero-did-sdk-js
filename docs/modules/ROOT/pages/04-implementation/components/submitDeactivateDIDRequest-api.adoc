@@ -162,6 +162,10 @@ The following table enumerates the exceptions that may arise during the executio
 |`invalidArgument`
 |Signature and verifier are required for the signature step.
 
+|`invalidSignature`
+|The signature is invalid. Provided signer does not match the DID signer.
+
+
 |`internalError`
 |Message awaiter timeout reached. Messages not found.
 

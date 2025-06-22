@@ -286,6 +286,10 @@ The following table enumerates the exceptions that may arise during the executio
 |`invalidPublicKeyLength`
 |Invalid length for the public key.
 
+|`invalidSignature`
+|The signature is invalid. Provided signer does not match the DID signer.
+
+
 |`internalError`
 |Message awaiter timeout reached. Messages not found.
 
