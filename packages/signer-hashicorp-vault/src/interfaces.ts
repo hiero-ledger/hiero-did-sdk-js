@@ -31,8 +31,7 @@ export interface VaultLoginWithTokenOptions extends VaultFactoryOptions {
   token: string;
 }
 
-export interface VaultLoginWithUsernameAndPasswordOptions
-  extends VaultFactoryOptions {
+export interface VaultLoginWithUsernameAndPasswordOptions extends VaultFactoryOptions {
   /**
    * The username to authenticate with.
    */

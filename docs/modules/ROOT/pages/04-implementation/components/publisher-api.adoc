@@ -81,4 +81,4 @@ The public key of the operator account.
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `Publisher` class within its `publisher-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/publisher-internal`] package documentation.
+The Hashgraph DID SDK provides the `Publisher` class within its `publisher-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/publisher-internal`] package documentation.

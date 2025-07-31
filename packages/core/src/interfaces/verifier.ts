@@ -21,8 +21,5 @@ export abstract class Verifier {
    * @param signature The signature to verify.
    * @returns True if the signature is valid, false otherwise.
    */
-  abstract verify(
-    message: Uint8Array,
-    signature: Uint8Array,
-  ): Promise<boolean> | boolean;
+  abstract verify(message: Uint8Array, signature: Uint8Array): Promise<boolean> | boolean;
 }

@@ -13,8 +13,8 @@ import {
   CborCodec,
   DIDError,
   DID_ROOT_KEY_ID,
-} from '@swiss-digital-assets-institute/core';
-import { Verifier as InternalVerifier } from '@swiss-digital-assets-institute/verifier-internal';
+} from '@hiero-did-sdk/core';
+import { Verifier as InternalVerifier } from '@hiero-did-sdk/verifier-internal';
 import { PublicKey } from '@hashgraph/sdk';
 import {
   TopicDIDContent,
@@ -31,6 +31,7 @@ import {
 import { isDIDMessageEvent } from './validators/is-did-message-event';
 import { isJsonString } from './validators/is-json';
 import { isDIDMessage } from './validators/is-did-message';
+import { Buffer } from 'buffer';
 
 /**
  * A class to build a DID Document from a list of messages
@@ -71,10 +72,7 @@ export class DidDocumentBuilder {
 
   async build(): Promise<DidDocumentBuilder> {
     if (!this.did) {
-      throw new DIDError(
-        'internalError',
-        'The DID is required to build a DID document, call forDID() first',
-      );
+      throw new DIDError('internalError', 'The DID is required to build a DID document, call forDID() first');
     }
 
     let exists = false;
@@ -140,9 +138,7 @@ export class DidDocumentBuilder {
         }
       } else if ('VerificationRelationship' in event) {
         if (message.operation === 'update') {
-          this.handleAddVerificationRelationship(
-            event as AddVerificationRelationshipMethodEvent,
-          );
+          this.handleAddVerificationRelationship(event as AddVerificationRelationshipMethodEvent);
         }
 
         if (message.operation === 'revoke') {
@@ -179,9 +175,7 @@ export class DidDocumentBuilder {
 
     if (!this.deactivated) {
       for (const property in propertyMap) {
-        const values = [
-          ...propertyMap[property as keyof typeof propertyMap].values(),
-        ];
+        const values = [...propertyMap[property as keyof typeof propertyMap].values()];
         if (values.length > 0) {
           didDocument[property] = [...values];
         }
@@ -212,8 +206,7 @@ export class DidDocumentBuilder {
     };
 
     const didResolutionMetadata: DIDResolutionMetadata = {
-      contentType:
-        'application/ld+json;profile="https://w3id.org/did-resolution"',
+      contentType: 'application/ld+json;profile="https://w3id.org/did-resolution"',
     };
 
     return { didDocument, didDocumentMetadata, didResolutionMetadata };
@@ -264,15 +257,9 @@ export class DidDocumentBuilder {
     return event;
   }
 
-  private async verifySignature(
-    message: TopicDIDMessage,
-    signature: string,
-  ): Promise<boolean> {
+  private async verifySignature(message: TopicDIDMessage, signature: string): Promise<boolean> {
     if (!this.verifier) {
-      throw new DIDError(
-        'internalError',
-        'Cannot verify signature without a public key or a verifier',
-      );
+      throw new DIDError('internalError', 'Cannot verify signature without a public key or a verifier');
     }
 
     const messageBytes = Buffer.from(JSON.stringify(message));
@@ -290,27 +277,18 @@ export class DidDocumentBuilder {
       id: `${DIDOwner.id}${DID_ROOT_KEY_ID}`,
       controller: DIDOwner.controller,
       type: 'Ed25519VerificationKey2020',
-      publicKeyMultibase:
-        DIDOwner.publicKeyMultibase ??
-        KeysUtility.fromBase58(DIDOwner.publicKeyBase58).toMultibase(),
+      publicKeyMultibase: DIDOwner.publicKeyMultibase ?? KeysUtility.fromBase58(DIDOwner.publicKeyBase58).toMultibase(),
     } as const;
     this.controller = DIDOwner.controller;
 
     this.verificationMethod.set(verificationMethod.id, verificationMethod);
   }
 
-  private handleAddVerificationMethod({
-    VerificationMethod,
-  }: AddVerificationMethodEvent): void {
-    this.verificationMethod.set(
-      VerificationMethod.id,
-      VerificationMethod as VerificationMethod,
-    );
+  private handleAddVerificationMethod({ VerificationMethod }: AddVerificationMethodEvent): void {
+    this.verificationMethod.set(VerificationMethod.id, VerificationMethod as VerificationMethod);
   }
 
-  private handleRemoveVerificationMethod({
-    VerificationMethod,
-  }: RemoveVerificationMethodEvent): void {
+  private handleRemoveVerificationMethod({ VerificationMethod }: RemoveVerificationMethodEvent): void {
     if (VerificationMethod.id.endsWith(DID_ROOT_KEY_ID)) {
       return;
     }
@@ -357,22 +335,15 @@ export class DidDocumentBuilder {
   private setPublicKeyFromDIDOwner(event: DIDOwnerEvent): void {
     let publicKey: PublicKey;
     if (event.DIDOwner.publicKeyMultibase) {
-      publicKey = KeysUtility.fromMultibase(
-        event.DIDOwner.publicKeyMultibase,
-      ).toPublicKey();
+      publicKey = KeysUtility.fromMultibase(event.DIDOwner.publicKeyMultibase).toPublicKey();
     }
 
     if (event.DIDOwner.publicKeyBase58) {
-      publicKey = KeysUtility.fromBase58(
-        event.DIDOwner.publicKeyBase58,
-      ).toPublicKey();
+      publicKey = KeysUtility.fromBase58(event.DIDOwner.publicKeyBase58).toPublicKey();
     }
 
     if (!publicKey) {
-      throw new DIDError(
-        'internalError',
-        'No public key found in `DIDOwner` event',
-      );
+      throw new DIDError('internalError', 'No public key found in `DIDOwner` event');
     }
 
     this.verifier = new InternalVerifier(publicKey);

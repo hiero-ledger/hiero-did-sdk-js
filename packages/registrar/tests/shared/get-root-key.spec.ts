@@ -1,11 +1,11 @@
 import {
   DID_ROOT_KEY_ID,
   DIDDocument,
-} from '@swiss-digital-assets-institute/core';
+} from '@hiero-did-sdk/core';
 import { getDIDRootKey } from '../../src/shared/get-root-key';
 import { VALID_DID } from '../helpers';
 import { PrivateKey } from '@hashgraph/sdk';
-import { KeysUtility } from '@swiss-digital-assets-institute/core';
+import { KeysUtility } from '@hiero-did-sdk/core';
 
 describe('Get Root Key operation', () => {
   let publicKeyBase58: string;

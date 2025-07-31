@@ -2,11 +2,7 @@
  * This example demonstrates how to update a DID document in Client Managed Secret Mode.
  */
 import { Client, PrivateKey } from '@hashgraph/sdk';
-import {
-  generateUpdateDIDRequest,
-  submitUpdateDIDRequest,
-  DIDUpdateBuilder,
-} from '@swiss-digital-assets-institute/registrar';
+import { generateUpdateDIDRequest, submitUpdateDIDRequest, DIDUpdateBuilder } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_ACCOUNT_ID;
 const operatorPrivateKey = process.env.HEDERA_TESTNET_PRIVATE_KEY;
@@ -35,7 +31,7 @@ async function main() {
       },
       {
         client,
-      },
+      }
     );
 
     const signatures = Object.keys(signingRequests).reduce((acc, request) => {
@@ -52,12 +48,10 @@ async function main() {
       { states, signatures },
       {
         client,
-      },
+      }
     );
 
-    console.log(
-      `Updated DID Document: ${JSON.stringify(updatedDidDocument, null, 2)}`,
-    );
+    console.log(`Updated DID Document: ${JSON.stringify(updatedDidDocument, null, 2)}`);
   } catch (error) {
     console.error('Error updating DID:', error);
   }

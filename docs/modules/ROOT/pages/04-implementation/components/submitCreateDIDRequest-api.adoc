@@ -6,7 +6,7 @@ This document provides a concise API reference for the `submitCreateDIDRequest` 
 
 This function resume the creation flow of a new Decentralized Identifier (DID) and publish it on the Hedera network using the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Client Managed Secret Mode].
 
-The `submitCreateDIDRequest` function is invoked with `options` and `providers`.` The `providers` parameter encapsulates configuration parameters for interacting with the Hedera network, while the `options` parameter takes current state of the DID creation process and the signature of the signing request. 
+The `submitCreateDIDRequest` function is invoked with `options` and `providers`.` The `providers` parameter encapsulates configuration parameters for interacting with the Hedera network, while the `options` parameter takes current state of the DID creation process and the signature of the signing request.
 
 [source,js]
 ----
@@ -95,11 +95,11 @@ The table below provides a detailed description of the `PublisherProviders` type
 
 |clientOptions?
 |`ClientOptions`
-|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
 
 |client?
 |`Client`
-|An instance of a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
+|An instance of a Hedera Client. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
 
 |publisher?
 |`Publisher`
@@ -127,7 +127,7 @@ The table below provides a detailed description of the `SubmitCreateDIDRequestOp
 
 |waitForDIDVisibility?
 |`boolean`
-|Whether to wait for the DID to be **visible** on the network. The DID registration transaction may be confirmed before the DID is actually accessible and usable on the network. This option ensures that the function waits until the DID is fully propagated and discoverable. If set to `false`, the function will return as soon as the registration transaction is confirmed, which may be faster but could lead to errors if you immediately try to use the DID. 
+|Whether to wait for the DID to be **visible** on the network. The DID registration transaction may be confirmed before the DID is actually accessible and usable on the network. This option ensures that the function waits until the DID is fully propagated and discoverable. If set to `false`, the function will return as soon as the registration transaction is confirmed, which may be faster but could lead to errors if you immediately try to use the DID.
 
 Defaults to `true`.
 
@@ -162,9 +162,6 @@ The following table enumerates the exceptions that may arise during the executio
 |`invalidArgument`
 |Signature and verifier are required for the signature step.
 
-|`invalidSignature`
-|The signature is invalid. Provided signer does not match the DID signer.
-
 |`internalError`
 |Message awaiter timeout reached. Messages not found.
 
@@ -174,4 +171,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hashgraph DID SDK provides a `submitCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/registrar`] package documentation.
+The Hashgraph DID SDK provides a `submitCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

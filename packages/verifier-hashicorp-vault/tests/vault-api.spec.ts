@@ -1,8 +1,9 @@
 import { randomUUID } from 'crypto';
 import { PublicKey } from '@hashgraph/sdk';
-import { DIDError } from '@swiss-digital-assets-institute/core';
+import { DIDError } from '@hiero-did-sdk/core';
 import { VaultApi } from '../src/vault-api';
 import { VaultTestContainer } from './helpers';
+import { Buffer } from 'buffer';
 
 describe('Vault API Client', () => {
   let vaultContainer: VaultTestContainer;
@@ -61,20 +62,14 @@ describe('Vault API Client', () => {
   });
 
   it('should ensure that the authentication token is valid and client is authenticated', async () => {
-    const vaultApi = new VaultApi(
-      vaultContainer.url,
-      vaultContainer.transitPath,
-    );
+    const vaultApi = new VaultApi(vaultContainer.url, vaultContainer.transitPath);
     vaultApi.setToken(vaultContainer.token);
 
     await expect(vaultApi.ensureAuthentication()).resolves.toBeUndefined();
   });
 
   it('should throw an error when authentication token is not valid', async () => {
-    const vaultApi = new VaultApi(
-      vaultContainer.url,
-      vaultContainer.transitPath,
-    );
+    const vaultApi = new VaultApi(vaultContainer.url, vaultContainer.transitPath);
     vaultApi.setToken('random-token');
 
     await expect(vaultApi.ensureAuthentication()).rejects.toThrow();
@@ -82,62 +77,38 @@ describe('Vault API Client', () => {
 
   describe('Login with username and password', () => {
     it('should login to the Vault using a username and password', async () => {
-      const vaultApi = new VaultApi(
-        vaultContainer.url,
-        vaultContainer.transitPath,
-      );
+      const vaultApi = new VaultApi(vaultContainer.url, vaultContainer.transitPath);
 
       await expect(
-        vaultApi.loginWithUsernameAndPassword(
-          vaultContainer.username,
-          vaultContainer.password,
-        ),
+        vaultApi.loginWithUsernameAndPassword(vaultContainer.username, vaultContainer.password)
       ).resolves.toBeUndefined();
       expect(vaultApi['token']).toBeDefined();
     });
 
     it('should throw an error when invalid credentials are used', async () => {
-      const vaultApi = new VaultApi(
-        vaultContainer.url,
-        vaultContainer.transitPath,
-      );
+      const vaultApi = new VaultApi(vaultContainer.url, vaultContainer.transitPath);
       const username = 'wrong';
       const password = 'wrong';
 
-      await expect(
-        vaultApi.loginWithUsernameAndPassword(username, password),
-      ).rejects.toThrow();
+      await expect(vaultApi.loginWithUsernameAndPassword(username, password)).rejects.toThrow();
       expect(vaultApi['token']).toBeUndefined();
     });
   });
 
   describe('Login with app role', () => {
     it('should login to the Vault using a role id and secret id', async () => {
-      const vaultApi = new VaultApi(
-        vaultContainer.url,
-        vaultContainer.transitPath,
-      );
+      const vaultApi = new VaultApi(vaultContainer.url, vaultContainer.transitPath);
 
-      await expect(
-        vaultApi.loginWithAppRole(
-          vaultContainer.roleId,
-          vaultContainer.secretId,
-        ),
-      ).resolves.toBeUndefined();
+      await expect(vaultApi.loginWithAppRole(vaultContainer.roleId, vaultContainer.secretId)).resolves.toBeUndefined();
       expect(vaultApi['token']).toBeDefined();
     });
 
     it('should throw an error when invalid credentials are used', async () => {
-      const vaultApi = new VaultApi(
-        vaultContainer.url,
-        vaultContainer.transitPath,
-      );
+      const vaultApi = new VaultApi(vaultContainer.url, vaultContainer.transitPath);
       const roleId = 'wrong';
       const secretId = 'wrong';
 
-      await expect(
-        vaultApi.loginWithAppRole(roleId, secretId),
-      ).rejects.toThrow();
+      await expect(vaultApi.loginWithAppRole(roleId, secretId)).rejects.toThrow();
       expect(vaultApi['token']).toBeUndefined();
     });
   });
@@ -224,9 +195,7 @@ describe('Vault API Client', () => {
     it('should throw an error when signing a message with a key that does not exist', async () => {
       const message = 'Hello, World!';
 
-      await expect(
-        vaultApi.sign('non-existent-key', message),
-      ).rejects.toThrow();
+      await expect(vaultApi.sign('non-existent-key', message)).rejects.toThrow();
     });
 
     it('should verify the signature of a message', async () => {
@@ -235,11 +204,7 @@ describe('Vault API Client', () => {
 
       const signature = await vaultApi.sign(existingKey, encodedMessage);
 
-      const isValid = await vaultApi.verify(
-        existingKey,
-        encodedMessage,
-        signature,
-      );
+      const isValid = await vaultApi.verify(existingKey, encodedMessage, signature);
 
       expect(isValid).toBe(true);
     });
@@ -249,9 +214,7 @@ describe('Vault API Client', () => {
       const encodedMessage = Buffer.from(message).toString('base64');
       const signature = 'random-signature';
 
-      await expect(
-        vaultApi.verify('non-existent-key', encodedMessage, signature),
-      ).rejects.toThrow();
+      await expect(vaultApi.verify('non-existent-key', encodedMessage, signature)).rejects.toThrow();
     });
 
     it('should result with false when verifying invalid signature', async () => {
@@ -259,11 +222,7 @@ describe('Vault API Client', () => {
       const encodedMessage = Buffer.from(message).toString('base64');
       const signature = Buffer.from('random-signature').toString('base64');
 
-      const isValid = await vaultApi.verify(
-        existingKey,
-        encodedMessage,
-        signature,
-      );
+      const isValid = await vaultApi.verify(existingKey, encodedMessage, signature);
 
       expect(isValid).toBe(false);
     });
@@ -276,10 +235,7 @@ describe('Vault API Client', () => {
       const publicKey = await vaultApi.getPublicKey(existingKey);
 
       const verifier = PublicKey.fromStringED25519(publicKey);
-      const isValid = verifier.verify(
-        Buffer.from(encodedMessage, 'base64'),
-        Buffer.from(signature, 'base64'),
-      );
+      const isValid = verifier.verify(Buffer.from(encodedMessage, 'base64'), Buffer.from(signature, 'base64'));
 
       expect(isValid).toBe(true);
     });
@@ -293,9 +249,7 @@ describe('Vault API Client', () => {
 
       const vaultApi = new VaultApi('http://vault.example');
 
-      await expect(
-        vaultApi['parseResponse'](response as Response),
-      ).resolves.toStrictEqual({
+      await expect(vaultApi['parseResponse'](response as Response)).resolves.toStrictEqual({
         data: 'test',
       });
     });
@@ -307,9 +261,7 @@ describe('Vault API Client', () => {
 
       const vaultApi = new VaultApi('http://vault.example');
 
-      await expect(
-        vaultApi['parseResponse'](response as Response),
-      ).rejects.toThrow();
+      await expect(vaultApi['parseResponse'](response as Response)).rejects.toThrow();
     });
   });
 
@@ -366,16 +318,13 @@ describe('Vault API Client', () => {
       const response = await vaultApi['_get']('transit/keys');
 
       expect(response).toStrictEqual({ data: 'test' });
-      expect(global.fetch).toHaveBeenCalledWith(
-        'http://vault.example/v1/transit/keys',
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Vault-Token': 'test-token',
-          },
+      expect(global.fetch).toHaveBeenCalledWith('http://vault.example/v1/transit/keys', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Vault-Token': 'test-token',
         },
-      );
+      });
     });
 
     it('should throw an error on error GET response', async () => {
@@ -402,17 +351,14 @@ describe('Vault API Client', () => {
       });
 
       expect(response).toStrictEqual({ data: 'test' });
-      expect(global.fetch).toHaveBeenCalledWith(
-        'http://vault.example/v1/transit/keys',
-        {
-          method: 'POST',
-          body: JSON.stringify({ property: 'test-body' }),
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Vault-Token': 'test-token',
-          },
+      expect(global.fetch).toHaveBeenCalledWith('http://vault.example/v1/transit/keys', {
+        method: 'POST',
+        body: JSON.stringify({ property: 'test-body' }),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Vault-Token': 'test-token',
         },
-      );
+      });
     });
 
     it('should throw an error on error POST response', async () => {
@@ -423,9 +369,7 @@ describe('Vault API Client', () => {
         json: () => Promise.resolve({ errors: ['test'] }),
       });
 
-      await expect(
-        vaultApi['_post']('transit/keys', { data: '' }),
-      ).rejects.toThrow();
+      await expect(vaultApi['_post']('transit/keys', { data: '' })).rejects.toThrow();
     });
   });
 });

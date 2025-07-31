@@ -32,7 +32,7 @@ export class TestDIDMessage extends DIDMessage {
 export class TestVerifier implements Verifier {
   constructor(
     public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly verifyMock: jest.Mock = jest.fn(),
+    public readonly verifyMock: jest.Mock = jest.fn()
   ) {}
 
   publicKey(): PublicKeyInDer {

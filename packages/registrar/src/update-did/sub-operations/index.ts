@@ -1,25 +1,11 @@
-import {
-  DIDDocument,
-  Publisher,
-  Signer,
-  Verifier,
-  DIDMessage,
-} from '@swiss-digital-assets-institute/core';
-import { RunnerState } from '@swiss-digital-assets-institute/lifecycle';
-import {
-  DIDUpdateOperation,
-  DIDUpdateOperationsKeys,
-  UpdateDIDOptions,
-} from '../interface';
+import { DIDDocument, Publisher, Signer, Verifier, DIDMessage } from '@hiero-did-sdk/core';
+import { RunnerState } from '@hiero-did-sdk/lifecycle';
+import { DIDUpdateOperation, DIDUpdateOperationsKeys, UpdateDIDOptions } from '../interface';
 import * as AddVerificationMethod from './add-verification-method';
 import * as RemoveVerificationMethod from './remove-verification-method';
 import * as AddService from './add-service';
 import * as RemoveService from './remove-service';
-import {
-  ExecuteFunction,
-  PreExecuteFunction,
-  PrepareFunction,
-} from './interfaces';
+import { ExecuteFunction, PreExecuteFunction, PrepareFunction } from './interfaces';
 
 interface OperationMapValue {
   execute: ExecuteFunction;
@@ -41,7 +27,7 @@ export async function prepareOperation<T extends DIDUpdateOperation>(
   clientMode: boolean,
   publisher: Publisher,
   signer?: Signer,
-  verifier?: Verifier,
+  verifier?: Verifier
 ): Promise<RunnerState<DIDMessage>> {
   return await OPERATIONS_MAP[data.operation].prepare(
     data,
@@ -50,40 +36,26 @@ export async function prepareOperation<T extends DIDUpdateOperation>(
     clientMode,
     publisher,
     signer,
-    verifier,
+    verifier
   );
 }
 
-export async function preExecuteOperation<
-  Operation extends DIDUpdateOperationsKeys,
->(
+export async function preExecuteOperation<Operation extends DIDUpdateOperationsKeys>(
   operation: Operation,
   message: RunnerState<DIDMessage>,
   publisher: Publisher,
   signature: Uint8Array,
-  verifier: Verifier,
+  verifier: Verifier
 ): Promise<RunnerState<DIDMessage>> {
-  return await OPERATIONS_MAP[operation].preExecute(
-    message,
-    publisher,
-    signature,
-    verifier,
-  );
+  return await OPERATIONS_MAP[operation].preExecute(message, publisher, signature, verifier);
 }
 
-export async function executeOperation<
-  Operation extends DIDUpdateOperationsKeys,
->(
+export async function executeOperation<Operation extends DIDUpdateOperationsKeys>(
   operation: Operation,
   message: RunnerState<DIDMessage>,
   clientMode: boolean,
   publisher: Publisher,
-  signer?: Signer,
+  signer?: Signer
 ): Promise<RunnerState<DIDMessage>> {
-  return await OPERATIONS_MAP[operation].execute(
-    message,
-    clientMode,
-    publisher,
-    signer,
-  );
+  return await OPERATIONS_MAP[operation].execute(message, clientMode, publisher, signer);
 }

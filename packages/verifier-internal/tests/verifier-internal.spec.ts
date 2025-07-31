@@ -1,6 +1,7 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { KeysUtility } from '@swiss-digital-assets-institute/core';
+import { KeysUtility } from '@hiero-did-sdk/core';
 import { Verifier } from '../src';
+import { Buffer } from 'buffer';
 
 describe('Internal Verifier class', () => {
   let privateKey: PrivateKey;
@@ -32,9 +33,7 @@ describe('Internal Verifier class', () => {
 
     it('should throw an error if the public key is not ED25519', async () => {
       const privateKey = await PrivateKey.generateECDSAAsync();
-      expect(() => new Verifier(privateKey.publicKey)).toThrow(
-        'Invalid public key type. Expected ED25519.',
-      );
+      expect(() => new Verifier(privateKey.publicKey)).toThrow('Invalid public key type. Expected ED25519.');
     });
   });
 

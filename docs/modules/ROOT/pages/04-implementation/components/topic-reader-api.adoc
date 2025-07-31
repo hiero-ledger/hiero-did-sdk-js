@@ -11,7 +11,7 @@ image::topic-reader-class-diagram.png[]
 
 == Methods
 
-=== `fetchAllToDate` 
+=== `fetchAllToDate`
 [source,ts]
 ----
 fetchAllToDate(topicId: string, network: Network): Promise<TopicReaderMessage[]>
@@ -26,7 +26,7 @@ Parameters::
 Returns::
 An array of messages from the topic.
 
-=== `fetchFrom` 
+=== `fetchFrom`
 [source,ts]
 ----
 fetchFrom(topicId: string, network: Network, options: TopicReaderOptions): Promise<TopicReaderMessage[]>
@@ -64,4 +64,4 @@ An array of messages from the topic.
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `TopicReader` class interface and implementations within its `resolver` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/resolver`] package documentation.
+The Hashgraph DID SDK provides the `TopicReader` class interface and implementations within its `resolver` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/resolver`] package documentation.

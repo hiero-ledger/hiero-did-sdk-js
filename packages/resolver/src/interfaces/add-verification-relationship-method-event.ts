@@ -1,4 +1,4 @@
-import { RelationShipProperties } from '@swiss-digital-assets-institute/core';
+import { RelationShipProperties } from '@hiero-did-sdk/core';
 
 export interface AddVerificationRelationshipMethodEvent {
   VerificationRelationship: {

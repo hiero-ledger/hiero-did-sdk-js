@@ -10,7 +10,7 @@ image::signer-class-diagram.png[]
 
 == Constructor
 
-=== `constructor` 
+=== `constructor`
 [source,ts]
 ----
 constructor(privateKeyOrDer: string | PrivateKey)
@@ -23,7 +23,7 @@ Parameters::
 
 == Static Methods
 
-=== `generate` 
+=== `generate`
 [source,ts]
 ----
 static generate(): Signer
@@ -37,7 +37,7 @@ The new `Signer` instance.
 
 == Methods
 
-=== `publicKey` 
+=== `publicKey`
 [source,ts]
 ----
 publicKey(): string
@@ -48,7 +48,7 @@ Returns the public key associated with the `Signer` instance in DER format.
 Returns::
 The public key in DER format.
 
-=== `sign` 
+=== `sign`
 [source,ts]
 ----
 sign(message: Uint8Array): Uint8Array
@@ -62,7 +62,7 @@ Parameters::
 Returns::
 The signature of the message.
 
-=== `verify` 
+=== `verify`
 [source,ts]
 ----
 verify(message: Uint8Array, signature: Uint8Array): boolean
@@ -93,4 +93,4 @@ Returns::
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `Signer` class within its `signer-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/signer-internal`] package documentation.
+The Hashgraph DID SDK provides the `Signer` class within its `signer-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/signer-internal`] package documentation.

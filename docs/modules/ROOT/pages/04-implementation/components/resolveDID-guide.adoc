@@ -18,8 +18,8 @@ const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to 
 
 async function main() {
   try {
-    const didDocument = await resolveDID(did); 
-    console.log(didDocument); 
+    const didDocument = await resolveDID(did);
+    console.log(didDocument);
   } catch (error) {
     console.error("Error resolving DID:", error);
   }
@@ -28,7 +28,7 @@ async function main() {
 main();
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-as-json-ld.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/resolveDID-as-json-ld.ts[example] in the source code.**
 
 === As JSON
 
@@ -52,7 +52,7 @@ async function main() {
 main();
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-as-json.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/resolveDID-as-json.ts[example] in the source code.**
 
 === With Full Metadata
 
@@ -69,7 +69,7 @@ async function main() {
     const didDocument = await resolveDID(
       did,
       'application/ld+json;profile="https://w3id.org/did-resolution"'
-    ); 
+    );
     console.log(didDocument);
   } catch (error) {
     console.error("Error resolving DID:", error);
@@ -79,7 +79,7 @@ async function main() {
 main();
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-with-full-metadata.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/resolveDID-with-full-metadata.ts[example] in the source code.**
 
 === As CBOR
 
@@ -96,7 +96,7 @@ async function main() {
     const didDocumentUintArray = await resolveDID(
       did,
       'application/did+cbor'
-    ); 
+    );
     console.log(didDocumentUintArray);
   } catch (error) {
     console.error("Error resolving DID:", error);
@@ -105,7 +105,7 @@ async function main() {
 
 main();
 ----
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-as-cbor.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/resolveDID-as-cbor.ts[example] in the source code.**
 
 
 == Using TopicReader
@@ -123,7 +123,7 @@ Example below shows how to use a custom `TopicReader` implementation to read mes
 import {
   resolveDID,
   TopicReaderHederaClient,
-} from '@swiss-digital-assets-institute/resolver';
+} from '@hiero-did-sdk/resolver';
 
 const did =
   'did:hedera:testnet:23g2MabDNq3KyB7oeH9yYZsJTRVeQ24DqX8o6scB98e3_0.0.5217215';
@@ -142,7 +142,7 @@ async function main() {
 
 main();
 ----
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-with-topic-reader.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/resolveDID-with-topic-reader.ts[example] in the source code.**
 
 
 == Using Verifier
@@ -153,8 +153,8 @@ Example below shows how to use a custom `Verifier` implementation to verify the 
 
 [source, typescript]
 ----
-import { resolveDID } from '@swiss-digital-assets-institute/resolver';
-import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
+import { resolveDID } from '@hiero-did-sdk/resolver';
+import { Verifier } from '@hiero-did-sdk/verifier-internal';
 
 const did =
   'did:hedera:testnet:23g2MabDNq3KyB7oeH9yYZsJTRVeQ24DqX8o6scB98e3_0.0.5217215';
@@ -175,7 +175,7 @@ async function main() {
 
 main();
 ----
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/resolveDID-with-verifier.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/resolveDID-with-verifier.ts[example] in the source code.**
 
 
 

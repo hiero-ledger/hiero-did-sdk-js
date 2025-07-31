@@ -1,4 +1,4 @@
-import { DIDError, KeysUtility } from '@swiss-digital-assets-institute/core';
+import { DIDError, KeysUtility } from '@hiero-did-sdk/core';
 import { parseTransitPath, parseUrl } from './utils';
 
 /**
@@ -68,10 +68,7 @@ export class VaultApi {
    * @param password Vault password
    * @returns A promise that resolves when the login is successful.
    */
-  async loginWithUsernameAndPassword(
-    username: string,
-    password: string,
-  ): Promise<void> {
+  async loginWithUsernameAndPassword(username: string, password: string): Promise<void> {
     const response = await this._post<{
       auth: {
         client_token: string;
@@ -150,9 +147,7 @@ export class VaultApi {
       };
     }>(`${this.transitPath}/export/public-key/${keyName}/1`);
 
-    const derKey = KeysUtility.fromBase64(
-      response.data.keys['1'],
-    ).toDerString();
+    const derKey = KeysUtility.fromBase64(response.data.keys['1']).toDerString();
 
     return derKey;
   }
@@ -183,11 +178,7 @@ export class VaultApi {
    * @param signature The signature to verify in base64 format.
    * @returns True if the signature is valid, false otherwise.
    */
-  async verify(
-    keyName: string,
-    message: string,
-    signature: string,
-  ): Promise<boolean> {
+  async verify(keyName: string, message: string, signature: string): Promise<boolean> {
     const response = await this._post<{
       data: {
         valid: boolean;
@@ -202,16 +193,13 @@ export class VaultApi {
 
   private async _get<T>(path: string): Promise<T> {
     try {
-      const response = await fetch(
-        `${this.vaultUrl.href}${this.API_VERSION}/${path}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Vault-Token': this.token,
-          },
+      const response = await fetch(`${this.vaultUrl.href}${this.API_VERSION}/${path}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Vault-Token': this.token,
         },
-      );
+      });
 
       const parsedResponse = await this.parseResponse<T>(response);
       return parsedResponse;
@@ -222,17 +210,14 @@ export class VaultApi {
 
   private async _post<T>(path: string, body: object): Promise<T> {
     try {
-      const response = await fetch(
-        `${this.vaultUrl.href}${this.API_VERSION}/${path}`,
-        {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Vault-Token': this.token,
-          },
+      const response = await fetch(`${this.vaultUrl.href}${this.API_VERSION}/${path}`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Vault-Token': this.token,
         },
-      );
+      });
 
       const parsedResponse = await this.parseResponse<T>(response);
       return parsedResponse;
@@ -247,10 +232,7 @@ export class VaultApi {
     }
 
     if (error instanceof Error) {
-      throw new DIDError(
-        'internalError',
-        `Vault API request failed: ${error.message}`,
-      );
+      throw new DIDError('internalError', `Vault API request failed: ${error.message}`);
     }
 
     throw new DIDError('internalError', 'Unknown error');
@@ -259,15 +241,8 @@ export class VaultApi {
   private async parseResponse<T>(response: Response): Promise<T> {
     const data: unknown = await response.json();
 
-    if (
-      typeof data === 'object' &&
-      'errors' in data &&
-      Array.isArray(data.errors)
-    ) {
-      throw new DIDError(
-        'internalError',
-        `Vault API request failed: ${data.errors[0]}`,
-      );
+    if (typeof data === 'object' && 'errors' in data && Array.isArray(data.errors)) {
+      throw new DIDError('internalError', `Vault API request failed: ${data.errors[0]}`);
     }
 
     return data as T;

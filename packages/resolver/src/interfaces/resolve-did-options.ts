@@ -1,4 +1,4 @@
-import { Verifier } from '@swiss-digital-assets-institute/core';
+import { Verifier } from '@hiero-did-sdk/core';
 import { TopicReader } from './topic-reader';
 
 export interface ResolveDIDOptions {

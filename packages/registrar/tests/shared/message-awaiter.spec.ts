@@ -1,5 +1,5 @@
 import { MessageAwaiter } from '../../src/shared/message-awaiter';
-import { TopicReaderHederaClient } from '@swiss-digital-assets-institute/resolver';
+import { TopicReaderHederaClient } from '@hiero-did-sdk/resolver';
 import { MockTopicReader } from './mock-topic-reader';
 
 describe('Message Awaiter', () => {

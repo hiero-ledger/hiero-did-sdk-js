@@ -43,12 +43,12 @@ const updatedDidDocument = await updateDID(
       }
     ],
     privateKey: "your-private-key" // Private key for signing the update
-  }, 
+  },
   { clientOptions }
 );
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-client-options.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-with-client-options.ts[example] in the source code.**
 
 
 === With a Hedera Client
@@ -75,12 +75,12 @@ const updatedDidDocument = await updateDID(
       }
     ],
     privateKey: "your-private-key" // Private key for signing the update
-  }, 
+  },
   { client }
 );
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-client.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-with-a-client.ts[example] in the source code.**
 
 
 === With Multiple Properties
@@ -107,12 +107,12 @@ const updatedDidDocument = await updateDID(
       }
     ],
     privateKey: "your-private-key" // Private key for signing the update
-  }, 
+  },
   { client }
 );
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-multiple-properties.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-with-multiple-properties.ts[example] in the source code.**
 
 
 === With the DIDUpdateBuilder Class
@@ -140,7 +140,7 @@ Verification methods prove the authenticity of a DID Document.
         controller: "did:hedera:mainnet:...",
         publicKeyMultibase: "z6Mk...",
       })
-      .addVerificationMethod({ 
+      .addVerificationMethod({
         // ... another verification method
       })
       .build();
@@ -180,7 +180,7 @@ Services provide additional information about a DID Document.
         type: "LinkedDomains",
         serviceEndpoint: "https://example.com",
       })
-      .addService({ 
+      .addService({
         // ... another service
       })
       .build();
@@ -222,7 +222,7 @@ Verification relationships express the relationship between a verification metho
       .build();
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-DID-update-builder.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-with-DID-update-builder.ts[example] in the source code.**
 
 == Using Client Managed Secret Mode
 
@@ -265,7 +265,7 @@ const updatedDidDocument = await submitUpdateDIDRequest(
   },
 );
 ----
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-using-client-secret-mode.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-using-client-secret-mode.ts[example] in the source code.**
 
 You can learn more about the Client Managed Secret Mode in the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
 

@@ -1,14 +1,5 @@
-import {
-  Client,
-  PublicKey,
-  Transaction,
-  TransactionReceipt,
-} from '@hashgraph/sdk';
-import {
-  Network,
-  Publisher as BasePublisher,
-  DIDError,
-} from '@swiss-digital-assets-institute/core';
+import { Client, PublicKey, Transaction, TransactionReceipt } from '@hashgraph/sdk';
+import { Network, Publisher as BasePublisher, DIDError } from '@hiero-did-sdk/core';
 
 /**
  * Internal Publisher is an implementation of the Publisher interface.
@@ -21,24 +12,15 @@ export class Publisher implements BasePublisher {
    */
   constructor(public readonly client: Client) {
     if (!client) {
-      throw new DIDError(
-        'invalidArgument',
-        'Hashgraph SDK Client is required to create a Publisher',
-      );
+      throw new DIDError('invalidArgument', 'Hedera SDK Client is required to create a Publisher');
     }
 
     if (!client.ledgerId) {
-      throw new DIDError(
-        'invalidArgument',
-        'Hashgraph SDK Client must be configured with a network',
-      );
+      throw new DIDError('invalidArgument', 'Hedera SDK Client must be configured with a network');
     }
 
     if (!client.operatorPublicKey) {
-      throw new DIDError(
-        'invalidArgument',
-        'Hashgraph SDK Client must be configured with an operator account',
-      );
+      throw new DIDError('invalidArgument', 'Hedera SDK Client must be configured with an operator account');
     }
   }
 
@@ -67,10 +49,7 @@ export class Publisher implements BasePublisher {
       return 'local-node';
     }
 
-    throw new DIDError(
-      'internalError',
-      `Unknown network, ledger ID: ${ledgerId.toString()}`,
-    );
+    throw new DIDError('internalError', `Unknown network, ledger ID: ${ledgerId.toString()}`);
   }
 
   /**

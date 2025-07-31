@@ -1,22 +1,11 @@
-import {
-  Network,
-  PublicKeyInDer,
-  Publisher,
-  Signer,
-} from '@swiss-digital-assets-institute/core';
-import {
-  Client,
-  PrivateKey,
-  PublicKey,
-  Transaction,
-  TransactionReceipt,
-} from '@hashgraph/sdk';
+import { Network, PublicKeyInDer, Publisher, Signer } from '@hiero-did-sdk/core';
+import { Client, PrivateKey, PublicKey, Transaction, TransactionReceipt } from '@hashgraph/sdk';
 
 export class TestSigner implements Signer {
   constructor(
     public readonly signMock: jest.Mock = jest.fn(),
     public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly verifyMock: jest.Mock = jest.fn(),
+    public readonly verifyMock: jest.Mock = jest.fn()
   ) {}
 
   sign(data: Uint8Array): Uint8Array {
@@ -36,7 +25,7 @@ export class TestPublisher implements Publisher {
   constructor(
     public readonly networkMock: jest.Mock = jest.fn(),
     public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly publishMock: jest.Mock = jest.fn(),
+    public readonly publishMock: jest.Mock = jest.fn()
   ) {}
 
   network(): Network {
@@ -47,18 +36,13 @@ export class TestPublisher implements Publisher {
     return this.publicKeyMock() as never;
   }
 
-  publish(
-    transaction: Transaction,
-  ): Promise<TransactionReceipt> | TransactionReceipt {
+  publish(transaction: Transaction): Promise<TransactionReceipt> | TransactionReceipt {
     return this.publishMock(transaction) as never;
   }
 }
 
 export function randomClient(network: Network = 'testnet'): Client {
-  return Client.forName(network).setOperator(
-    '0.0.12345',
-    PrivateKey.generate(),
-  );
+  return Client.forName(network).setOperator('0.0.12345', PrivateKey.generate());
 }
 
 export const CREATED_TOPIC_ID = '0.0.1';

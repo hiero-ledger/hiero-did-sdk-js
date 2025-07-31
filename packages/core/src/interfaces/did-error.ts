@@ -24,7 +24,7 @@ export class DIDError extends Error {
 
   constructor(
     public readonly code: ErrorCodes,
-    public readonly description: string,
+    public readonly description: string
   ) {
     super(description);
     this.name = 'DIDError';

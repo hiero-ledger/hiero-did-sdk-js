@@ -1,5 +1,6 @@
 import { Verifier } from '../src';
 import { TestVaultApi } from './helpers';
+import { Buffer } from 'buffer';
 
 describe('Vault Verifier', () => {
   it('should create a Verifier with key name', () => {
@@ -44,7 +45,7 @@ describe('Vault Verifier', () => {
     expect(clientApi.verifyMock).toHaveBeenCalledWith(
       'test-key',
       message.toString('base64'),
-      signature.toString('base64'),
+      signature.toString('base64')
     );
   });
 });

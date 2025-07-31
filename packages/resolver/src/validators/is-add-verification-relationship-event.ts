@@ -8,7 +8,7 @@ import { hasVerificationMethodProperties, isObject, isString } from './base';
  * @returns True if the object is a AddVerificationRelationshipMethodEvent, false otherwise
  */
 export function isAddVerificationRelationshipEvent(
-  eventObject: unknown,
+  eventObject: unknown
 ): eventObject is AddVerificationRelationshipMethodEvent {
   if (!isObject(eventObject)) {
     return false;
@@ -31,13 +31,9 @@ export function isAddVerificationRelationshipEvent(
   if (
     !('relationshipType' in VerificationRelationship) ||
     !isString(VerificationRelationship.relationshipType) ||
-    ![
-      'authentication',
-      'assertionMethod',
-      'keyAgreement',
-      'capabilityInvocation',
-      'capabilityDelegation',
-    ].includes(VerificationRelationship.relationshipType)
+    !['authentication', 'assertionMethod', 'keyAgreement', 'capabilityInvocation', 'capabilityDelegation'].includes(
+      VerificationRelationship.relationshipType
+    )
   ) {
     return false;
   }

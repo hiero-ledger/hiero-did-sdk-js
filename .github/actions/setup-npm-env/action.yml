@@ -1,0 +1,26 @@
+name: "setup-npm-env"
+description: "Composite action to set up Node and install npm dependencies."
+
+inputs:
+  node-version:
+    required: false
+    description: "Node version to use"
+    default: "22"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'pnpm'
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      shell: bash

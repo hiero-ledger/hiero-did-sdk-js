@@ -1,7 +1,7 @@
 import {
   LifecycleRunner,
   RunnerState,
-} from '@swiss-digital-assets-institute/lifecycle';
+} from '@hiero-did-sdk/lifecycle';
 import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDAddVerificationMethodMessage,

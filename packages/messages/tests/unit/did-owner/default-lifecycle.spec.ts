@@ -2,9 +2,9 @@ import {
   LifecycleRunner,
   LifecycleRunnerOptions,
   RunnerState,
-} from '@swiss-digital-assets-institute/lifecycle';
-import { resolveDID } from '@swiss-digital-assets-institute/resolver';
-import { DIDError } from '@swiss-digital-assets-institute/core';
+} from '@hiero-did-sdk/lifecycle';
+import { resolveDID } from '@hiero-did-sdk/resolver';
+import { DIDError } from '@hiero-did-sdk/core';
 import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDOwnerMessage,
@@ -18,7 +18,7 @@ import {
   VALID_DID_TOPIC_ID,
 } from '../helpers';
 
-jest.mock('@swiss-digital-assets-institute/resolver', () => {
+jest.mock('@hiero-did-sdk/resolver', () => {
   return {
     resolveDID: jest.fn(),
   };

@@ -1,0 +1,63 @@
+{
+  "name": "@hiero-did-sdk/hcs",
+  "version": "0.0.16",
+  "description": "This package provides a comprehensive interface for interacting with Hedera Consensus Service (HCS) within the Hiero DID SDK JS.",
+  "author": {
+    "name": "DSR Corporation",
+    "url": "https://en.dsr-corporation.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/DSRCorporation/hiero-did-sdk-js/issues"
+  },
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "browser": "./dist/browser/index.esm.js",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "browser": "./dist/browser/index.esm.js",
+    "require": "./dist/index.cjs.js",
+    "import": "./dist/index.esm.js",
+    "default": "./dist/index.esm.js"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DSRCorporation/hiero-did-sdk-js.git",
+    "directory": "packages/hcs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "compile": "tsup",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "build": "pnpm clean && pnpm compile",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/*.ts\"",
+    "format-check": "prettier --check \"src/*.ts\" \"tests/*.ts\""
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "scope": "@hiero-did-sdk"
+  },
+  "dependencies": {
+    "@hashgraph/sdk": "^2.66.0",
+    "@hiero-did-sdk/cache": "workspace:*",
+    "@hiero-did-sdk/client": "workspace:*",
+    "@hiero-did-sdk/core": "workspace:*",
+    "@hiero-did-sdk/crypto": "workspace:*",
+    "@hiero-did-sdk/zstd": "workspace:*",
+    "buffer": "^6.0.3"
+  },
+  "devDependencies": {
+    "uuid": "^11.1.0"
+  }
+}

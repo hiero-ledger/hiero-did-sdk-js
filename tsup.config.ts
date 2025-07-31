@@ -2,7 +2,8 @@ import { Options } from 'tsup';
 
 const commonOptions: Options = {
   splitting: false,
-  minify: true,
+  minify: false,
+  keepNames: true,
   tsconfig: 'tsconfig.build.json',
   outDir: 'dist',
   format: ['cjs', 'esm'],
@@ -18,7 +19,7 @@ const commonOptions: Options = {
 const nodeOptions: Options = {
   ...commonOptions,
   sourcemap: true,
-  clean: true,
+  clean: false,//true,
   dts: true,
   platform: 'node',
 };

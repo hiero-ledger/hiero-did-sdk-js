@@ -30,7 +30,7 @@ image::did-document-interface-diagram.png[]
 
 |verificationMethod
 |`VerificationMethod[]`
-|An array of verification methods associated with the DID. 
+|An array of verification methods associated with the DID.
 
 |authentication?
 |`(VerificationMethod \| string)[]`
@@ -445,4 +445,4 @@ function isEd25519PublicKey(multibase: string): boolean;
 
 == Component Implementation
 
-The Hashgraph DID SDK provides the core interfaces, utilities, and validation tools within its `core` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hashgraph-did-sdk-js/core`] package documentation.
+The Hashgraph DID SDK provides the core interfaces, utilities, and validation tools within its `core` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/core`] package documentation.

@@ -1,6 +1,7 @@
 import { PublicKey } from '@hashgraph/sdk';
 import { base58 } from '@scure/base';
 import { MultibaseCodec, MultibaseAlgorithm } from './multibase-codec';
+import { Buffer } from 'buffer';
 
 /**
  * `KeysUtility` is a simple utility class for working with public keys transformed into different formats.

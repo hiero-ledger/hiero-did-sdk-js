@@ -1,0 +1,6 @@
+@startuml
+interface Network {
+  + name: string
+  + chainId: number
+}
+@enduml

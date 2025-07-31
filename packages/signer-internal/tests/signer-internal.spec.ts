@@ -1,5 +1,6 @@
 import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '../src';
+import { Buffer } from 'buffer';
 
 describe('Internal signer class', () => {
   describe('initializing a signer', () => {
@@ -28,16 +29,12 @@ describe('Internal signer class', () => {
 
     it('should throw an error if the private key is not ED25519', () => {
       const privateKey = PrivateKey.generateECDSA();
-      expect(() => new Signer(privateKey)).toThrow(
-        'Invalid private key type. Expected ED25519.',
-      );
+      expect(() => new Signer(privateKey)).toThrow('Invalid private key type. Expected ED25519.');
     });
 
     it('should throw an error if the private key is not in DER format', () => {
       const privateKey = PrivateKey.generateED25519().toStringRaw();
-      expect(() => new Signer(privateKey)).toThrow(
-        'Invalid private key format. Expected DER.',
-      );
+      expect(() => new Signer(privateKey)).toThrow('Invalid private key format. Expected DER.');
     });
   });
 

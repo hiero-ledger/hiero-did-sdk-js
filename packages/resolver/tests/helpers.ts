@@ -1,9 +1,4 @@
-import {
-  KeysUtility,
-  PublicKeyInBase58,
-  Signer,
-  VerificationMethodProperties,
-} from '@swiss-digital-assets-institute/core';
+import { KeysUtility, PublicKeyInBase58, Signer, VerificationMethodProperties } from '@hiero-did-sdk/core';
 import {
   DIDAddServiceMessage,
   DIDAddVerificationMethodMessage,
@@ -11,13 +6,12 @@ import {
   DIDOwnerMessage,
   DIDRemoveServiceMessage,
   DIDRemoveVerificationMethodMessage,
-} from '@swiss-digital-assets-institute/messages';
+} from '@hiero-did-sdk/messages';
 import { PrivateKey } from '@hashgraph/sdk';
-import { DIDResolution } from '@swiss-digital-assets-institute/core';
+import { DIDResolution } from '@hiero-did-sdk/core';
 
 export const VALID_DID_TOPIC_ID = '0.0.2';
-export const VALID_DID_PUBLIC_KEY =
-  'J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4';
+export const VALID_DID_PUBLIC_KEY = 'J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4';
 export const VALID_DID = `did:hedera:mainnet:${VALID_DID_PUBLIC_KEY}_${VALID_DID_TOPIC_ID}`;
 export const VALID_ANOTHER_DID = `did:hedera:mainnet:EEzEMBWymV2cWziV4mVrgW9oFzJ31MteGu25ddMPNTR7_${VALID_DID_TOPIC_ID}`;
 
@@ -43,9 +37,7 @@ export async function getDIDOwnerMessage(options: DIDOwnerOptions = {}) {
   const signature = privateKey.sign(message.messageBytes);
   await message.setSignature(signature, fakeVerifier);
 
-  const publicKeyMultibase = KeysUtility.fromPublicKey(
-    privateKey.publicKey,
-  ).toMultibase();
+  const publicKeyMultibase = KeysUtility.fromPublicKey(privateKey.publicKey).toMultibase();
 
   return {
     message: message.payload,
@@ -63,13 +55,9 @@ interface AddVerificationMethodOptions {
   signature?: Uint8Array;
 }
 
-export async function getAddVerificationMethodMessage(
-  options: AddVerificationMethodOptions,
-) {
+export async function getAddVerificationMethodMessage(options: AddVerificationMethodOptions) {
   const newPrivateKey = await PrivateKey.generateED25519Async();
-  const publicKeyMultibase = KeysUtility.fromPublicKey(
-    newPrivateKey.publicKey,
-  ).toMultibase();
+  const publicKeyMultibase = KeysUtility.fromPublicKey(newPrivateKey.publicKey).toMultibase();
   const message = new DIDAddVerificationMethodMessage({
     publicKeyMultibase,
     controller: options.did,
@@ -98,9 +86,7 @@ interface RemoveVerificationMethodOptions {
   keyId: string;
 }
 
-export async function getRemoveVerificationMethodMessage(
-  options: RemoveVerificationMethodOptions,
-) {
+export async function getRemoveVerificationMethodMessage(options: RemoveVerificationMethodOptions) {
   const message = new DIDRemoveVerificationMethodMessage({
     property: options.property,
     id: `#${options.keyId}`,
@@ -184,7 +170,7 @@ export class TestSigner implements Signer {
   constructor(
     public readonly signMock: jest.Mock = jest.fn(),
     public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly verifyMock: jest.Mock = jest.fn(),
+    public readonly verifyMock: jest.Mock = jest.fn()
   ) {}
 
   sign(data: Uint8Array): Uint8Array {
@@ -244,10 +230,7 @@ export const DID_RESOLUTION: DIDResolution = {
       {
         id: `${VALID_DID}#srv-multiple`,
         type: 'LinkedResource',
-        serviceEndpoint: [
-          'https://example.com/3/',
-          'https://example.com/4/',
-        ] as never,
+        serviceEndpoint: ['https://example.com/3/', 'https://example.com/4/'] as never,
       },
     ],
   },
@@ -257,8 +240,7 @@ export const DID_RESOLUTION: DIDResolution = {
     deactivated: false,
   },
   didResolutionMetadata: {
-    contentType:
-      'application/ld+json;profile="https://w3id.org/did-resolution"',
+    contentType: 'application/ld+json;profile="https://w3id.org/did-resolution"',
     retrieved: new Date().toISOString(),
   },
 };

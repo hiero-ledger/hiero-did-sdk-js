@@ -1,5 +1,5 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { KeysUtility } from '@swiss-digital-assets-institute/core';
+import { KeysUtility } from '@hiero-did-sdk/core';
 import { isHederaDID, isHederaDIDUrl } from '../src';
 
 describe('Hedera DID validator', () => {

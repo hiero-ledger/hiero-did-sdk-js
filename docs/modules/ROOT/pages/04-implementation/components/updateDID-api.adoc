@@ -60,7 +60,7 @@ The table below details the structure of the `options` parameter.
 
 |waitForDIDVisibility?
 |`boolean`
-|Whether to wait for the DID to be **visible** on the network. The DID registration transaction may be confirmed before the DID is actually accessible and usable on the network. This option ensures that the function waits until the DID is fully propagated and discoverable. If set to `false`, the function will return as soon as the registration transaction is confirmed, which may be faster but could lead to errors if you immediately try to use the DID. 
+|Whether to wait for the DID to be **visible** on the network. The DID registration transaction may be confirmed before the DID is actually accessible and usable on the network. This option ensures that the function waits until the DID is fully propagated and discoverable. If set to `false`, the function will return as soon as the registration transaction is confirmed, which may be faster but could lead to errors if you immediately try to use the DID.
 
 Defaults to `true`.
 
@@ -92,11 +92,11 @@ The table below provides a detailed description of the `Providers` type.
 
 |clientOptions?
 |`ClientOptions`
-|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-client-options.ts[example] in the source code.
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-with-client-options.ts[example] in the source code.
 
 |client?
 |`Client`
-|An instance of a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-client.ts[example] in the source code.
+|An instance of a Hedera Client. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-with-a-client.ts[example] in the source code.
 
 |signer?
 |`Signer`
@@ -140,7 +140,7 @@ Adds a new verification method to the DID Document.
 
 |publicKeyMultibase?
 |`string`
-|The public key in multibase format to add. Optional when adding verification relationship as an alias to an existing verification method. In that case `id` must be the same as the existing verification method. Otherwise is required. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-private-key.ts[example] in the source code.
+|The public key in multibase format to add. Optional when adding verification relationship as an alias to an existing verification method. In that case `id` must be the same as the existing verification method. Otherwise is required. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-with-a-private-key.ts[example] in the source code.
 
 |===
 
@@ -286,10 +286,6 @@ The following table enumerates the exceptions that may arise during the executio
 |`invalidPublicKeyLength`
 |Invalid length for the public key.
 
-|`invalidSignature`
-|The signature is invalid. Provided signer does not match the DID signer.
-
-
 |`internalError`
 |Message awaiter timeout reached. Messages not found.
 
@@ -299,4 +295,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hashgraph DID SDK provides a `updateDID` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/registrar`] package documentation.
+The Hashgraph DID SDK provides a `updateDID` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

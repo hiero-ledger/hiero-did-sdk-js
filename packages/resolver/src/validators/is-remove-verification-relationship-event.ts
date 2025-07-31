@@ -1,4 +1,4 @@
-import { isHederaDIDUrl } from '@swiss-digital-assets-institute/core';
+import { isHederaDIDUrl } from '@hiero-did-sdk/core';
 import { RemoveVerificationRelationshipMethodEvent } from '../interfaces/remove-verification-relationship-method-event';
 import { isObject, isString } from './base';
 
@@ -9,7 +9,7 @@ import { isObject, isString } from './base';
  * @returns True if the object is a RemoveVerificationRelationshipMethodEvent, false otherwise
  */
 export function isRemoveVerificationRelationshipEvent(
-  eventObject: unknown,
+  eventObject: unknown
 ): eventObject is RemoveVerificationRelationshipMethodEvent {
   if (!isObject(eventObject)) {
     return false;

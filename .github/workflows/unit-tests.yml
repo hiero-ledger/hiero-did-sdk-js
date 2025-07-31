@@ -14,23 +14,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+#      - name: Prepare Hiero Solo
+#        id: solo
+#        uses: hiero-ledger/hiero-solo-action@71219540ac7f578e6ea4fc3c17575c0295e56163
+#        with:
+#          installMirrorNode: true
+
+      - name: Set up Node and install dependencies
+        uses: ./.github/actions/setup-npm-env
         with:
           node-version: ${{ matrix.node }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --workspaces --include-workspace-root
 
       - name: Build packages
-        run: npm run packages:build
+        run: pnpm build
 
       - name: Run unit tests
-        timeout-minutes: 8
+        timeout-minutes: 15
         env:
+          HEDERA_OPERATOR_ID: ${{ secrets.HEDERA_OPERATOR_ID }}
+          HEDERA_OPERATOR_KEY: ${{ secrets.HEDERA_OPERATOR_KEY }}
           NODE_OPTIONS: '--max_old_space_size=8192'
-        run: npm run packages:test:ci
+        run: pnpm test:ci
 
       - name: Report coverage
         if: always()

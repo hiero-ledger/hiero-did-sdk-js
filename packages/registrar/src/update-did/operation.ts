@@ -1,15 +1,10 @@
-import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
-import { resolveDID } from '@swiss-digital-assets-institute/resolver';
+import { Publisher } from '@hiero-did-sdk/publisher-internal';
+import { resolveDID } from '@hiero-did-sdk/resolver';
 import { Providers } from '../interfaces';
-import {
-  MessageAwaiter,
-  getSigner,
-  getPublisher,
-  getDIDRootKey,
-} from '../shared';
+import { MessageAwaiter, getSigner, getPublisher, getDIDRootKey } from '../shared';
 import { UpdateDIDOptions, UpdateDIDResult } from './interface';
 import { prepareOperation, executeOperation } from './sub-operations';
-import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
+import { Verifier } from '@hiero-did-sdk/verifier-internal';
 
 /**
  * Update a DID on the Hedera network.
@@ -22,25 +17,16 @@ import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
  */
 export async function updateDID(
   operationOptions: UpdateDIDOptions,
-  operationProviders: Providers,
+  operationProviders: Providers
 ): Promise<UpdateDIDResult> {
   const publisher = getPublisher(operationProviders);
-  const signer = getSigner(
-    operationProviders.signer,
-    operationOptions.privateKey,
-  );
+  const signer = getSigner(operationProviders.signer, operationOptions.privateKey);
 
-  const updates = Array.isArray(operationOptions.updates)
-    ? operationOptions.updates
-    : [operationOptions.updates];
+  const updates = Array.isArray(operationOptions.updates) ? operationOptions.updates : [operationOptions.updates];
 
-  const currentDidDocument = await resolveDID(
-    operationOptions.did,
-    'application/did+json',
-    {
-      topicReader: operationOptions.topicReader,
-    },
-  );
+  const currentDidDocument = await resolveDID(operationOptions.did, 'application/did+json', {
+    topicReader: operationOptions.topicReader,
+  });
 
   if (updates.length === 0) {
     return {
@@ -62,31 +48,27 @@ export async function updateDID(
         false,
         publisher,
         signer,
-        verifier,
+        verifier
       );
 
       return {
         state: preparedMessage,
         operation: update.operation,
       };
-    }),
+    })
   );
 
   // Set up a message awaiter to wait for the message to be available in the topic
-  const messagesToWaitFor = preparedStateMessages.map(
-    ({ state }) => state.message.payload,
-  );
+  const messagesToWaitFor = preparedStateMessages.map(({ state }) => state.message.payload);
 
   const messageAwaiter = new MessageAwaiter(
     preparedStateMessages[0].state.message.topicId,
     await publisher.network(),
-    operationOptions.topicReader,
+    operationOptions.topicReader
   )
     .forMessages(messagesToWaitFor)
     .setStartsAt(new Date())
-    .withTimeout(
-      operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT,
-    );
+    .withTimeout(operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT);
 
   // Execute updates
   for (const { state, operation } of preparedStateMessages) {
@@ -94,10 +76,7 @@ export async function updateDID(
     await executeOperation(operation, state, false, publisher, signer);
   }
 
-  if (
-    operationProviders.client instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (operationProviders.client instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 
@@ -106,13 +85,9 @@ export async function updateDID(
     await messageAwaiter.wait();
   }
 
-  const updatedDidDocument = await resolveDID(
-    operationOptions.did,
-    'application/did+json',
-    {
-      topicReader: operationOptions.topicReader,
-    },
-  );
+  const updatedDidDocument = await resolveDID(operationOptions.did, 'application/did+json', {
+    topicReader: operationOptions.topicReader,
+  });
 
   return {
     did: operationOptions.did,

@@ -2,10 +2,7 @@
  * This example demonstrates how to deactivate a DID in Client Managed Secret Mode.
  */
 import { Client, PrivateKey } from '@hashgraph/sdk';
-import {
-  generateDeactivateDIDRequest,
-  submitDeactivateDIDRequest,
-} from '@swiss-digital-assets-institute/registrar';
+import { generateDeactivateDIDRequest, submitDeactivateDIDRequest } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_ACCOUNT_ID;
 const operatorPrivateKey = process.env.HEDERA_TESTNET_PRIVATE_KEY;
@@ -23,7 +20,7 @@ async function main() {
       },
       {
         client,
-      },
+      }
     );
 
     const signature = rootKey.sign(signingRequest.serializedPayload);
@@ -32,12 +29,10 @@ async function main() {
       { state, signature },
       {
         client,
-      },
+      }
     );
 
-    console.log(
-      `Deactivated DID Document: ${JSON.stringify(deactivatedDidDocument, null, 2)}`,
-    );
+    console.log(`Deactivated DID Document: ${JSON.stringify(deactivatedDidDocument, null, 2)}`);
   } catch (error) {
     console.error('Error deactivating DID:', error);
   }

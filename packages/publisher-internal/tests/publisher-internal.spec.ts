@@ -1,10 +1,4 @@
-import {
-  Client,
-  PrivateKey,
-  Transaction,
-  Status,
-  LedgerId,
-} from '@hashgraph/sdk';
+import { Client, PrivateKey, Transaction, Status, LedgerId } from '@hashgraph/sdk';
 import { Publisher } from '../src';
 import { randomClient } from './helpers';
 
@@ -20,25 +14,19 @@ describe('Internal publisher class', () => {
     });
 
     it('should throw an error if the client is not provided', () => {
-      expect(() => new Publisher(undefined as never)).toThrow(
-        'Client is required',
-      );
+      expect(() => new Publisher(undefined as never)).toThrow('Client is required');
     });
 
     it('should throw an error if the client is not configured with a network', () => {
       const client = new Client();
-      expect(() => new Publisher(client)).toThrow(
-        'Client must be configured with a network',
-      );
+      expect(() => new Publisher(client)).toThrow('Client must be configured with a network');
 
       client.close();
     });
 
     it('should throw an error if the client is not configured with an operator account', () => {
       const client = Client.forTestnet();
-      expect(() => new Publisher(client)).toThrow(
-        'Client must be configured with an operator account',
-      );
+      expect(() => new Publisher(client)).toThrow('Client must be configured with an operator account');
 
       client.close();
     });
@@ -54,9 +42,7 @@ describe('Internal publisher class', () => {
       receiptMock.mockReturnValueOnce({
         status: Status.Success,
       });
-      jest
-        .spyOn(transaction, 'execute')
-        .mockResolvedValueOnce({ getReceipt: receiptMock } as never);
+      jest.spyOn(transaction, 'execute').mockResolvedValueOnce({ getReceipt: receiptMock } as never);
 
       const receipt = await publisher.publish(transaction);
 
@@ -75,13 +61,11 @@ describe('Internal publisher class', () => {
       expect(publisher.network()).toBe(expectedNetwork);
 
       client.close();
-    },
+    }
   );
 
   it('should throw an error if the network is unknown', () => {
-    const client = randomClient('testnet').setLedgerId(
-      new LedgerId(new Uint8Array([10])),
-    );
+    const client = randomClient('testnet').setLedgerId(new LedgerId(new Uint8Array([10])));
     const publisher = new Publisher(client);
 
     expect(() => publisher.network()).toThrow('Unknown network, ledger ID: 0a');
@@ -94,9 +78,7 @@ describe('Internal publisher class', () => {
     const client = Client.forTestnet().setOperator('0.0.12345', privateKey);
     const publisher = new Publisher(client);
 
-    expect(publisher.publicKey().toStringDer()).toBe(
-      privateKey.publicKey.toStringDer(),
-    );
+    expect(publisher.publicKey().toStringDer()).toBe(privateKey.publicKey.toStringDer());
 
     client.close();
   });

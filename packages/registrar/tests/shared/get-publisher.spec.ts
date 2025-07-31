@@ -1,4 +1,4 @@
-import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { Publisher } from '@hiero-did-sdk/publisher-internal';
 import { PrivateKey } from '@hashgraph/sdk';
 import { getPublisher } from '../../src/shared/get-publisher';
 import { randomClient, TestPublisher, TestSigner } from '../helpers';

@@ -1,4 +1,4 @@
-import { DIDError } from '@swiss-digital-assets-institute/core';
+import { DIDError } from '@hiero-did-sdk/core';
 
 /**
  * Parse a URL string into a URL object.

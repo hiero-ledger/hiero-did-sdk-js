@@ -1,12 +1,6 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import {
-  Signer as BaseSigner,
-  DIDError,
-} from '@swiss-digital-assets-institute/core';
-import {
-  isEd25519DerPrivateKeyString,
-  isEd25519PrivateKey,
-} from './validators';
+import { Signer as BaseSigner, DIDError } from '@hiero-did-sdk/core';
+import { isEd25519DerPrivateKeyString, isEd25519PrivateKey } from './validators';
 
 /**
  * An internal implementation of the Signer interface.
@@ -25,10 +19,7 @@ export class Signer implements BaseSigner {
   constructor(privateKeyOrDer: string | PrivateKey) {
     if (typeof privateKeyOrDer === 'string') {
       if (!isEd25519DerPrivateKeyString(privateKeyOrDer)) {
-        throw new DIDError(
-          'invalidArgument',
-          'Invalid private key format. Expected DER.',
-        );
+        throw new DIDError('invalidArgument', 'Invalid private key format. Expected DER.');
       }
 
       this.privateKey = PrivateKey.fromStringDer(privateKeyOrDer);
@@ -37,10 +28,7 @@ export class Signer implements BaseSigner {
     }
 
     if (!isEd25519PrivateKey(this.privateKey)) {
-      throw new DIDError(
-        'invalidArgument',
-        'Invalid private key type. Expected ED25519.',
-      );
+      throw new DIDError('invalidArgument', 'Invalid private key type. Expected ED25519.');
     }
   }
 

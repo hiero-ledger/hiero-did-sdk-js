@@ -10,7 +10,7 @@ image::vault-verifier-class-diagram.png[]
 
 == Constructor
 
-=== `constructor` 
+=== `constructor`
 [source,ts]
 ----
 constructor(options: VerifierOptions)
@@ -23,7 +23,7 @@ Parameters::
 
 == Methods
 
-=== `publicKey` 
+=== `publicKey`
 [source,ts]
 ----
 publicKey(): string
@@ -34,7 +34,7 @@ Returns the public key associated with the `Verifier` instance in DER format.
 Returns::
 The public key in DER format.
 
-=== `verify` 
+=== `verify`
 [source,ts]
 ----
 verify(message: Uint8Array, signature: Uint8Array): boolean
@@ -86,4 +86,4 @@ The `VerifierOptions` type is an object that contains the necessary options to c
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the Vault `Verifier` class within its `verifier-hashicorp-vault` package. For further details, refer to the xref:06-deployment/packages/index.adoc[`@hashgraph-did-sdk-js/verifier-hashicorp-vault`] package documentation.
+The Hashgraph DID SDK provides the Vault `Verifier` class within its `verifier-hashicorp-vault` package. For further details, refer to the xref:06-deployment/packages/index.adoc[`@hiero-did-sdk-js/verifier-hashicorp-vault`] package documentation.

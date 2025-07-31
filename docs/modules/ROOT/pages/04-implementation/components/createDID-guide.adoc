@@ -34,7 +34,7 @@ const { did, didDocument, privateKey } = await createDID({
 
 In this example, a Hedera `Client` instance is configured with essential parameters, including the Hedera account private key, account ID, and network. The function then returns the generated private key, the newly created DID, and its corresponding DID document.
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.**
 
 
 === With a Hedera Client
@@ -47,7 +47,7 @@ const privateKey = "0x..."; // Replace with your Hedera account private key
 const accountId = "0.0.0...."; // Replace with your Hedera account ID
 
 const client = Client.forTestnet();
-client.setOperator(accountId, privateKey); 
+client.setOperator(accountId, privateKey);
 
 const { did, didDocument } = await createDID({
   client,
@@ -56,7 +56,7 @@ const { did, didDocument } = await createDID({
 
 In this example, a pre-configured Hedera `Client` instance is passed to the `createDID` function.
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.**
 
 
 === With a Custom Controller
@@ -70,9 +70,9 @@ const { did, didDocument } = await createDID({
 }, { client });
 ----
 
-In this example, the `controller` property is used to specify the desired controller for the newly created DID. 
+In this example, the `controller` property is used to specify the desired controller for the newly created DID.
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-custom-controller.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-a-custom-controller.ts[example] in the source code.**
 
 
 === With a Topic-Specific DID
@@ -86,7 +86,7 @@ const { did, didDocument } = await createDID({
 }, { client });
 ----
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-DID.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-DID.ts[example] in the source code.**
 
 == Using Client Managed Secret Mode
 
@@ -116,7 +116,7 @@ const { did, didDocument } = await submitCreateDIDRequest(
   },
 );
 ----
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-using-client-secret-mode.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-using-client-secret-mode.ts[example] in the source code.**
 
 You can learn more about the Client Managed Secret Mode in the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
 

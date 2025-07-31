@@ -81,7 +81,7 @@ The following exceptions may arise during the execution of the `setSignature` fu
 [cols="1,1",options="header",frame="ends"]
 |===
 |Exception code
-|Description 
+|Description
 
 |`invalidSignature`
 |The signature is invalid.
@@ -282,4 +282,4 @@ image::did-deactivate-message-class-diagram.png[]
 
 == Component Implementation
 
-The Hashgraph DID SDK provides the DID Message classes within its `messages` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hashgraph-did-sdk-js/messages`] package documentation.
+The Hashgraph DID SDK provides the DID Message classes within its `messages` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/messages`] package documentation.

@@ -1,38 +1,29 @@
-import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
+import { LifecycleRunner } from '@hiero-did-sdk/lifecycle';
 import {
   DIDAddServiceMessage,
   DIDAddServiceMessageHederaDefaultLifeCycle,
   DIDAddServiceMessageHederaCSMLifeCycle,
-} from '@swiss-digital-assets-institute/messages';
+} from '@hiero-did-sdk/messages';
 import { AddServiceOperation } from '../interface';
 import { haveId } from '../helpers/have-id';
-import {
-  ExecuteFunction,
-  PreExecuteFunction,
-  PrepareFunction,
-} from './interfaces';
-import { DIDError } from '@swiss-digital-assets-institute/core';
+import { ExecuteFunction, PreExecuteFunction, PrepareFunction } from './interfaces';
+import { DIDError } from '@hiero-did-sdk/core';
 
-export const prepare: PrepareFunction<
-  DIDAddServiceMessage,
-  AddServiceOperation
-> = async (
+export const prepare: PrepareFunction<DIDAddServiceMessage, AddServiceOperation> = async (
   options,
   operationOptions,
   currentDidDocument,
   clientMode,
   publisher,
   signer,
-  verifier,
+  verifier
 ) => {
   if (haveId(options.id, currentDidDocument)) {
     throw new DIDError('invalidArgument', 'Service id already exists');
   }
 
   const manager = new LifecycleRunner(
-    clientMode
-      ? DIDAddServiceMessageHederaCSMLifeCycle
-      : DIDAddServiceMessageHederaDefaultLifeCycle,
+    clientMode ? DIDAddServiceMessageHederaCSMLifeCycle : DIDAddServiceMessageHederaDefaultLifeCycle
   );
 
   const message = new DIDAddServiceMessage({
@@ -57,7 +48,7 @@ export const preExecute: PreExecuteFunction<DIDAddServiceMessage> = async (
   previousState,
   publisher,
   signature,
-  verifier,
+  verifier
 ) => {
   const manager = new LifecycleRunner(DIDAddServiceMessageHederaCSMLifeCycle);
 
@@ -72,16 +63,9 @@ export const preExecute: PreExecuteFunction<DIDAddServiceMessage> = async (
   return state;
 };
 
-export const execute: ExecuteFunction<DIDAddServiceMessage> = async (
-  previousState,
-  clientMode,
-  publisher,
-  signer,
-) => {
+export const execute: ExecuteFunction<DIDAddServiceMessage> = async (previousState, clientMode, publisher, signer) => {
   const manager = new LifecycleRunner(
-    clientMode
-      ? DIDAddServiceMessageHederaCSMLifeCycle
-      : DIDAddServiceMessageHederaDefaultLifeCycle,
+    clientMode ? DIDAddServiceMessageHederaCSMLifeCycle : DIDAddServiceMessageHederaDefaultLifeCycle
   );
 
   const state = await manager.resume(previousState, {

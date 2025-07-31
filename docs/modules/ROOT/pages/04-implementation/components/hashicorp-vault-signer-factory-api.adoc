@@ -10,7 +10,7 @@ image::vault-signer-factory-class-diagram.png[]
 
 == Constructor
 
-=== `constructor` 
+=== `constructor`
 [source,ts]
 ----
 private constructor(vaultApi: VaultApi)
@@ -23,7 +23,7 @@ Parameters::
 
 == Static Methods
 
-=== `loginWithToken` 
+=== `loginWithToken`
 [source,ts]
 ----
 static loginWithToken(
@@ -39,7 +39,7 @@ Parameters::
 Returns::
 The new `VaultSignerFactory` instance.
 
-=== `loginWithUsernameAndPassword` 
+=== `loginWithUsernameAndPassword`
 [source,ts]
 ----
 static loginWithUsernameAndPassword(
@@ -55,7 +55,7 @@ Parameters::
 Returns::
 The new `VaultSignerFactory` instance.
 
-=== `loginWithAppRole` 
+=== `loginWithAppRole`
 [source,ts]
 ----
 static async loginWithAppRole(
@@ -73,7 +73,7 @@ The new `VaultSignerFactory` instance.
 
 == Methods
 
-=== `forKey` 
+=== `forKey`
 [source,ts]
 ----
 forKey(keyName: string): Promise<Signer>
@@ -87,7 +87,7 @@ Parameters::
 Returns::
 A `Signer` instance for the specified key.
 
-=== `forNewKey` 
+=== `forNewKey`
 [source,ts]
 ----
 forNewKey(keyName: string): Promise<Signer>
@@ -201,4 +201,4 @@ The `VaultLoginWithAppRoleOptions` type is an object that contains the necessary
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `VaultSignerFactory` class within its `signer-hashicorp-vault` package. For further details, refer to the xref:06-deployment/packages/index.adoc[`@hashgraph-did-sdk-js/signer-hashicorp-vault`] package documentation.
+The Hashgraph DID SDK provides the `VaultSignerFactory` class within its `signer-hashicorp-vault` package. For further details, refer to the xref:06-deployment/packages/index.adoc[`@hiero-did-sdk-js/signer-hashicorp-vault`] package documentation.

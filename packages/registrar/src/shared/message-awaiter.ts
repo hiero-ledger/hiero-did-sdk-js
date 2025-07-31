@@ -1,8 +1,5 @@
-import { DIDError, Network } from '@swiss-digital-assets-institute/core';
-import {
-  TopicReader,
-  TopicReaderHederaClient,
-} from '@swiss-digital-assets-institute/resolver';
+import { DIDError, Network } from '@hiero-did-sdk/core';
+import { TopicReader, TopicReaderHederaClient } from '@hiero-did-sdk/resolver';
 
 /**
  * Class implementing a message awaiter for Hedera Consensus Service.
@@ -23,7 +20,7 @@ export class MessageAwaiter {
   constructor(
     private readonly topicId: string,
     private readonly network: Network,
-    topicReader?: TopicReader,
+    topicReader?: TopicReader
   ) {
     this.topicReader = topicReader ?? new TopicReaderHederaClient();
   }
@@ -48,10 +45,7 @@ export class MessageAwaiter {
    */
   withTimeout(ms: number): this {
     if (ms <= 0) {
-      throw new DIDError(
-        'invalidArgument',
-        'Timeout must be greater than 0 ms',
-      );
+      throw new DIDError('invalidArgument', 'Timeout must be greater than 0 ms');
     }
 
     this.msTimeout = ms;
@@ -91,10 +85,7 @@ export class MessageAwaiter {
    */
   async wait(): Promise<void> {
     if (!this.messages || this.messages.length === 0) {
-      throw new DIDError(
-        'invalidArgument',
-        'No messages to wait for. Call forMessages() first.',
-      );
+      throw new DIDError('invalidArgument', 'No messages to wait for. Call forMessages() first.');
     }
 
     const timeout = this.msTimeout || MessageAwaiter.DEFAULT_TIMEOUT;
@@ -108,14 +99,10 @@ export class MessageAwaiter {
     // Keep trying until timeout
     while (Date.now() < endTime) {
       try {
-        const messages = await this.topicReader.fetchFrom(
-          this.topicId,
-          this.network,
-          {
-            from: startsAt.getTime(),
-            to: now,
-          },
-        );
+        const messages = await this.topicReader.fetchFrom(this.topicId, this.network, {
+          from: startsAt.getTime(),
+          to: now,
+        });
 
         for (const message of messages) {
           if (remainingMessages.has(message)) {
@@ -132,8 +119,7 @@ export class MessageAwaiter {
       } catch {
         // If there's an error fetching messages, wait a bit and try again
         // Use a slightly longer interval for error recovery
-        const pollingInterval =
-          this.calculatePollingInterval(++pollCount) * 1.5;
+        const pollingInterval = this.calculatePollingInterval(++pollCount) * 1.5;
         await this.pollWait(pollingInterval);
       }
     }
@@ -141,7 +127,7 @@ export class MessageAwaiter {
     // If we get here, the timeout was exceeded
     throw new DIDError(
       'internalError',
-      `Timeout of ${timeout}ms exceeded while waiting for DID update to be visible on the network`,
+      `Timeout of ${timeout}ms exceeded while waiting for DID update to be visible on the network`
     );
   }
 

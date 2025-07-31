@@ -1,21 +1,12 @@
-import {
-  AddServiceOperation,
-  AddVerificationMethodOperation,
-  DIDUpdateOperation,
-} from '../update-did';
+import { AddServiceOperation, AddVerificationMethodOperation, DIDUpdateOperation } from '../update-did';
 
-type VerificationMethod = Omit<
-  AddVerificationMethodOperation,
-  'operation' | 'property'
->;
+type VerificationMethod = Omit<AddVerificationMethodOperation, 'operation' | 'property'>;
 type Service = Omit<AddServiceOperation, 'operation'>;
 
 export class DIDUpdateBuilder {
   private operations: DIDUpdateOperation[] = [];
 
-  addAuthenticationMethod(
-    methodOrId: VerificationMethod | string,
-  ): DIDUpdateBuilder {
+  addAuthenticationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {
     let method: VerificationMethod;
     if (typeof methodOrId === 'string') {
       method = { id: methodOrId };
@@ -39,9 +30,7 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addAssertionMethod(
-    methodOrId: VerificationMethod | string,
-  ): DIDUpdateBuilder {
+  addAssertionMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {
     let method: VerificationMethod;
     if (typeof methodOrId === 'string') {
       method = { id: methodOrId };
@@ -65,9 +54,7 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addKeyAgreementMethod(
-    methodOrId: VerificationMethod | string,
-  ): DIDUpdateBuilder {
+  addKeyAgreementMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {
     let method: VerificationMethod;
     if (typeof methodOrId === 'string') {
       method = { id: methodOrId };
@@ -91,9 +78,7 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addVerificationMethod(
-    methodOrId: VerificationMethod | string,
-  ): DIDUpdateBuilder {
+  addVerificationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {
     let method: VerificationMethod;
     if (typeof methodOrId === 'string') {
       method = { id: methodOrId };
@@ -117,9 +102,7 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addCapabilityInvocationMethod(
-    methodOrId: VerificationMethod | string,
-  ): DIDUpdateBuilder {
+  addCapabilityInvocationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {
     let method: VerificationMethod;
     if (typeof methodOrId === 'string') {
       method = { id: methodOrId };
@@ -143,9 +126,7 @@ export class DIDUpdateBuilder {
     return this;
   }
 
-  addCapabilityDelegationMethod(
-    methodOrId: VerificationMethod | string,
-  ): DIDUpdateBuilder {
+  addCapabilityDelegationMethod(methodOrId: VerificationMethod | string): DIDUpdateBuilder {
     let method: VerificationMethod;
     if (typeof methodOrId === 'string') {
       method = { id: methodOrId };

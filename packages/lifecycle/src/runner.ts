@@ -1,10 +1,4 @@
-import {
-  DIDError,
-  DIDMessage,
-  Publisher,
-  Signer,
-  Verifier,
-} from '@swiss-digital-assets-institute/core';
+import { DIDError, DIDMessage, Publisher, Signer, Verifier } from '@hiero-did-sdk/core';
 import { LifecycleBuilder } from './builder';
 import { RunnerState } from './interfaces/runner-state';
 import { HookFunction } from './interfaces/hooks';
@@ -53,10 +47,7 @@ export interface LifecycleRunnerOptions<Context extends object = object> {
  * A runner for executing a lifecycle pipeline.
  * A lifecycle pipeline is a series of steps that are executed in order.
  */
-export class LifecycleRunner<
-  Message extends DIDMessage,
-  Context extends object = object,
-> {
+export class LifecycleRunner<Message extends DIDMessage, Context extends object = object> {
   private readonly hooks: Record<string, HookFunction<Message>[]> = {};
 
   /**
@@ -73,10 +64,7 @@ export class LifecycleRunner<
    * @returns The state of the lifecycle pipeline after resuming.
    * @throws If an error occurs during the process.
    */
-  async resume(
-    state: RunnerState<Message>,
-    options: LifecycleRunnerOptions<Context>,
-  ): Promise<RunnerState<Message>> {
+  async resume(state: RunnerState<Message>, options: LifecycleRunnerOptions<Context>): Promise<RunnerState<Message>> {
     return this.process(state.message, { ...options, label: state.label });
   }
 
@@ -87,23 +75,13 @@ export class LifecycleRunner<
    * @returns The state of the lifecycle pipeline after processing.
    * @throws If an error occurs during the process. If a catch step is not provided, the error is rethrown.
    */
-  async process(
-    message: Message,
-    options: LifecycleRunnerOptions<Context>,
-  ): Promise<RunnerState<Message>> {
+  async process(message: Message, options: LifecycleRunnerOptions<Context>): Promise<RunnerState<Message>> {
     try {
-      const initialStep = options.label
-        ? (this.builder.getIndexByLabel(options.label) ?? -1) + 1
-        : 0;
+      const initialStep = options.label ? (this.builder.getIndexByLabel(options.label) ?? -1) + 1 : 0;
 
-      for (
-        let stepIndex = initialStep;
-        stepIndex < this.builder.length;
-        stepIndex++
-      ) {
+      for (let stepIndex = initialStep; stepIndex < this.builder.length; stepIndex++) {
         const step = this.builder.getByIndex(stepIndex);
-        const prevStep =
-          stepIndex > 0 ? this.builder.getByIndex(stepIndex - 1) : undefined;
+        const prevStep = stepIndex > 0 ? this.builder.getByIndex(stepIndex - 1) : undefined;
 
         if (prevStep?.type === 'pause') {
           await this.callHooks(prevStep.label, message);
@@ -118,10 +96,7 @@ export class LifecycleRunner<
 
         if (step.type === 'sign') {
           if (!options.signer || !options.args?.verifier) {
-            throw new DIDError(
-              'invalidArgument',
-              'Signer and verifier are required for the sign step',
-            );
+            throw new DIDError('invalidArgument', 'Signer and verifier are required for the sign step');
           }
 
           await message.signWith(options.signer, options.args.verifier);
@@ -132,16 +107,10 @@ export class LifecycleRunner<
 
         if (step.type === 'signature') {
           if (!options.args?.signature || !options.args?.verifier) {
-            throw new DIDError(
-              'invalidArgument',
-              'Signature and verifier are required for the signature step',
-            );
+            throw new DIDError('invalidArgument', 'Signature and verifier are required for the signature step');
           }
 
-          await message.setSignature(
-            options.args.signature,
-            options.args.verifier,
-          );
+          await message.setSignature(options.args.signature, options.args.verifier);
           await this.callHooks(step.label, message);
 
           continue;

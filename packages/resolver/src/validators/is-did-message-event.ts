@@ -13,9 +13,7 @@ import { isRemoveServiceEvent } from './is-remove-service-event';
  * @param eventObject The event object to check
  * @returns True if the event is a valid Hedera DID message event, false otherwise
  */
-export function isDIDMessageEvent(
-  eventObject: unknown,
-): eventObject is DIDEvent {
+export function isDIDMessageEvent(eventObject: unknown): eventObject is DIDEvent {
   if (!isObject(eventObject)) {
     return false;
   }

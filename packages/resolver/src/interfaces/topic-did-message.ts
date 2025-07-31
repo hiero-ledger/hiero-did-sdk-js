@@ -1,4 +1,4 @@
-import { DIDMessageOperation } from '@swiss-digital-assets-institute/core';
+import { DIDMessageOperation } from '@hiero-did-sdk/core';
 
 export interface TopicDIDMessage {
   timestamp: string;

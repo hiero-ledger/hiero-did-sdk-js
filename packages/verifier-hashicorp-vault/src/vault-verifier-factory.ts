@@ -1,4 +1,4 @@
-import { DIDError } from '@swiss-digital-assets-institute/core';
+import { DIDError } from '@hiero-did-sdk/core';
 import { Verifier } from './verifier';
 import {
   VaultLoginWithAppRoleOptions,
@@ -35,10 +35,7 @@ export class VaultVerifierFactory {
     const isValidKey = await this.vaultApi.validateKey(keyName);
 
     if (!isValidKey) {
-      throw new DIDError(
-        'invalidArgument',
-        'Specified key does not exist or cannot be accessed.',
-      );
+      throw new DIDError('invalidArgument', 'Specified key does not exist or cannot be accessed.');
     }
 
     return new Verifier({
@@ -62,9 +59,7 @@ export class VaultVerifierFactory {
    * const verifier = await factory.forKey('my-key');
    * ```
    */
-  static async loginWithToken(
-    options: VaultLoginWithTokenOptions,
-  ): Promise<VaultVerifierFactory> {
+  static async loginWithToken(options: VaultLoginWithTokenOptions): Promise<VaultVerifierFactory> {
     const vaultApi = new VaultApi(options.url, options.transitPath);
     vaultApi.setToken(options.token);
 
@@ -90,14 +85,11 @@ export class VaultVerifierFactory {
    * ```
    */
   static async loginWithUsernameAndPassword(
-    options: VaultLoginWithUsernameAndPasswordOptions,
+    options: VaultLoginWithUsernameAndPasswordOptions
   ): Promise<VaultVerifierFactory> {
     const vaultApi = new VaultApi(options.url, options.transitPath);
 
-    await vaultApi.loginWithUsernameAndPassword(
-      options.username,
-      options.password,
-    );
+    await vaultApi.loginWithUsernameAndPassword(options.username, options.password);
 
     return new VaultVerifierFactory(vaultApi);
   }
@@ -118,9 +110,7 @@ export class VaultVerifierFactory {
    * const verifier = await factory.forKey('my-key');
    * ```
    */
-  static async loginWithAppRole(
-    options: VaultLoginWithAppRoleOptions,
-  ): Promise<VaultVerifierFactory> {
+  static async loginWithAppRole(options: VaultLoginWithAppRoleOptions): Promise<VaultVerifierFactory> {
     const vaultApi = new VaultApi(options.url, options.transitPath);
 
     await vaultApi.loginWithAppRole(options.roleId, options.secretId);

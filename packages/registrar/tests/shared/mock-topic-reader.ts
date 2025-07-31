@@ -1,4 +1,4 @@
-import { TopicReader } from '@swiss-digital-assets-institute/resolver';
+import { TopicReader } from '@hiero-did-sdk/resolver';
 
 export class MockTopicReader implements TopicReader {
   public fetchFrom = jest.fn();

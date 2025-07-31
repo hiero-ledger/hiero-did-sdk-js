@@ -1,6 +1,7 @@
-# @hashgraph-did-sdk/registrar
+# @hiero-did-sdk/registrar
 
-This package provides the core functions for registering and managing Decentralized Identifiers (DIDs) on the Hedera network within the [Hashgraph DID SDK](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js). It offers a streamlined interface for creating, updating, and deactivating DIDs, ensuring secure and verifiable DID operations.
+This package provides the core functions for registering and managing Decentralized Identifiers (DIDs) on the Hedera network within the Hiero DID SDK.
+It offers a streamlined interface for creating, updating, and deactivating DIDs, ensuring secure and verifiable DID operations.
 
 Specifically, this package provides the `createDID`, `updateDID`, and `deactivateDID` functions. These functions allow you to:
 
@@ -26,26 +27,26 @@ These functions interact with the Hedera Consensus Service (HCS) to ensure that 
 Install the package via npm:
 
 ```bash
-npm install @hashgraph-did-sdk/registrar
+npm install @hiero-did-sdk/registrar
 ```
 
 ## Usage
 
 This package provides three main functions for managing DIDs: `createDID`, `updateDID`, and `deactivateDID`.
 
-Learn how to use the `createDID` function to create a new DID in the [`createDID` Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/createDID-guide.html).
+Learn how to use the `createDID` function to create a new DID in the [`createDID` Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/createDID-guide.html).
 
-Learn how to use the `updateDID` function to update an existing DID in the [`updateDID` Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/updateDID-guide.html).
+Learn how to use the `updateDID` function to update an existing DID in the [`updateDID` Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/updateDID-guide.html).
 
-Learn how to use the `deactivateDID` function to deactivate a DID in the [`deactivateDID` Guide](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/deactivateDID-guide.html).
+Learn how to use the `deactivateDID` function to deactivate a DID in the [`deactivateDID` Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/deactivateDID-guide.html).
 
 ## API Reference
 
-Learn more in the [`createDID` API reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/createDID-api.html).
+Learn more in the [`createDID` API reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/createDID-api.html).
 
-Learn more in the [`updateDID` API reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/updateDID-api.html).
+Learn more in the [`updateDID` API reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/updateDID-api.html).
 
-Learn more in the [`deactivateDID` API reference](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/deactivateDID-api.html).
+Learn more in the [`deactivateDID` API reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/deactivateDID-api.html).
 
 ## Running Tests
 
@@ -61,5 +62,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hashgraph DID SDK](https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
+- [Hiero DID SDK](https://github.com/DSRCorporation/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
 - [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.

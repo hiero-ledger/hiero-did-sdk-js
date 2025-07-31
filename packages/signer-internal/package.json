@@ -1,13 +1,13 @@
 {
-  "name": "@swiss-digital-assets-institute/signer-internal",
-  "version": "0.4.0",
-  "description": "This package provides the `Signer` class, a core component of the Hashgraph DID SDK. It enables secure key management and digital signature generation for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
+  "name": "@hiero-did-sdk/signer-internal",
+  "version": "0.0.6",
+  "description": "This package provides the `Signer` class, a core component of the Hiero DID SDK. It enables secure key management and digital signature generation for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
   "author": {
     "name": "The Hashgraph Association",
     "url": "https://www.hashgraph.swiss/"
   },
   "bugs": {
-    "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/issues"
+    "url": "https://github.com/DSRCorporation/hiero-did-sdk-js/issues"
   },
   "license": "Apache-2.0",
   "main": "./dist/index.cjs.js",
@@ -29,23 +29,29 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js.git",
+    "url": "https://github.com/DSRCorporation/hiero-did-sdk-js.git",
     "directory": "packages/signer-internal"
   },
   "engines": {
     "node": ">=20"
   },
   "scripts": {
+    "clean": "rimraf ./dist",
+    "compile": "tsup",
     "test": "jest",
-    "build": "tsup"
+    "test:coverage": "jest --coverage",
+    "build": "pnpm clean && pnpm compile",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/*.ts\"",
+    "format-check": "prettier --check \"src/*.ts\" \"tests/*.ts\""
   },
   "publishConfig": {
     "access": "restricted",
     "registry": "https://npm.pkg.github.com",
-    "scope": "@swiss-digital-assets-institute"
+    "scope": "@hiero-did-sdk"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.62.0",
-    "@swiss-digital-assets-institute/core": "0.4.0"
+    "@hashgraph/sdk": "^2.66.0",
+    "@hiero-did-sdk/core": "workspace:*",
+    "buffer": "^6.0.3"
   }
 }

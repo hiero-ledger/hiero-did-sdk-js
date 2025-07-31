@@ -94,11 +94,11 @@ The table below provides a detailed description of the `PublisherProviders` type
 
 |clientOptions?
 |`ClientOptions`
-|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
 
 |client?
 |`Client`
-|An instance of a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
+|An instance of a Hedera Client. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
 
 |publisher?
 |`Publisher`
@@ -190,7 +190,7 @@ Adds a new verification method to the DID Document.
 
 |publicKeyMultibase?
 |`string`
-|The public key in multibase format to add. Optional when adding verification relationship as an alias to an existing verification method. In that case `id` must be the same as the existing verification method. Otherwise is required. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/updateDID-with-a-private-key.ts[example] in the source code.
+|The public key in multibase format to add. Optional when adding verification relationship as an alias to an existing verification method. In that case `id` must be the same as the existing verification method. Otherwise is required. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/updateDID-with-a-private-key.ts[example] in the source code.
 |===
 
 ==== AddServiceOperation Type
@@ -315,4 +315,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hashgraph DID SDK provides a `generateUpdateDIDRequest` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/registrar`] package documentation.
+The Hashgraph DID SDK provides a `generateUpdateDIDRequest` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

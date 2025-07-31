@@ -32,7 +32,7 @@ await deactivateDID({ did }, { clientOptions });
 
 In this example, `deactivateDID` takes the DID to be deactivated and an object containing the `clientOptions`. This configuration object should include the necessary information to interact with the Hedera network, such as the private key, account ID, and network.
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/deactivateDID-with-client-options.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/deactivateDID-with-client-options.ts[example] in the source code.**
 
 === With a Hedera Client
 
@@ -48,7 +48,7 @@ await deactivateDID({ did }, { client });
 
 In this example, a pre-configured Hedera `Client` instance is passed to the `deactivateDID` function.
 
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/deactivateDID-with-a-client.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/deactivateDID-with-a-client.ts[example] in the source code.**
 
 == Using Client Managed Secret Mode
 
@@ -70,7 +70,7 @@ const { state, signingRequest } = await generateDeactivateDIDRequest(
 const signature = await wallet.sign(signingRequest.serializedPayload);
 
 const deactivatedDidDocument = await submitDeactivateDIDRequest(
-  { 
+  {
     state,
     signature,
   },
@@ -79,7 +79,7 @@ const deactivatedDidDocument = await submitDeactivateDIDRequest(
   },
 );
 ----
-**See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/deactivateDID-using-client-secret-mode.ts[example] in the source code.**
+**See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/deactivateDID-using-client-secret-mode.ts[example] in the source code.**
 
 You can learn more about the Client Managed Secret Mode in the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
 

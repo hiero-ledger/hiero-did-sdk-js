@@ -23,7 +23,7 @@ jest.mock('@hashgraph/sdk', () => {
     TopicCreateTransaction: jest.fn(() => TopicCreateTransactionMock()),
     TopicMessageSubmitTransaction: jest.fn(() =>
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      TopicMessageSubmitTransactionMock(),
+      TopicMessageSubmitTransactionMock()
     ),
   };
 });

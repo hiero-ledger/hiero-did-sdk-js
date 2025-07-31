@@ -1,4 +1,4 @@
-import { TopicReader } from '@swiss-digital-assets-institute/resolver';
+import { TopicReader } from '@hiero-did-sdk/resolver';
 
 export interface DIDOwnerMessageContext {
   topicReader?: TopicReader;

@@ -1,4 +1,4 @@
-import { DIDError } from '@swiss-digital-assets-institute/core';
+import { DIDError } from '@hiero-did-sdk/core';
 import { Providers, PublisherProviders } from '../interfaces';
 
 /**
@@ -10,7 +10,7 @@ import { Providers, PublisherProviders } from '../interfaces';
  */
 export function extractProviders<Options extends object>(
   providersOrOptions: Providers | Options,
-  providers?: Providers,
+  providers?: Providers
 ): Providers {
   if (providers) return providers;
 
@@ -27,7 +27,7 @@ export function extractProviders<Options extends object>(
  * @returns Options object
  */
 export function extractOptions<Options extends object>(
-  providersOrOptions: PublisherProviders | Providers | Options,
+  providersOrOptions: PublisherProviders | Providers | Options
 ): Options {
   if (isProviders(providersOrOptions)) {
     return {} as Options;
@@ -41,14 +41,7 @@ export function extractOptions<Options extends object>(
  * @param value Value to check
  * @returns True if the value is a Providers object
  */
-const isProviders = (
-  value: unknown,
-): value is Providers | PublisherProviders => {
+const isProviders = (value: unknown): value is Providers | PublisherProviders => {
   if (!value || !(value instanceof Object)) return false;
-  return (
-    'client' in value ||
-    'clientOptions' in value ||
-    'signer' in value ||
-    'publisher' in value
-  );
+  return 'client' in value || 'clientOptions' in value || 'signer' in value || 'publisher' in value;
 };

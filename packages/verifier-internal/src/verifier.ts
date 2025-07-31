@@ -1,10 +1,5 @@
 import { PublicKey } from '@hashgraph/sdk';
-import {
-  Verifier as BaseVerifier,
-  DIDError,
-  isEd25519PublicKey,
-  KeysUtility,
-} from '@swiss-digital-assets-institute/core';
+import { Verifier as BaseVerifier, DIDError, isEd25519PublicKey, KeysUtility } from '@hiero-did-sdk/core';
 
 /**
  * An internal implementation of the Verifier interface.
@@ -24,10 +19,7 @@ export class Verifier implements BaseVerifier {
   constructor(publicKey: PublicKey) {
     const keyUtil = KeysUtility.fromPublicKey(publicKey);
     if (!isEd25519PublicKey(keyUtil.toMultibase())) {
-      throw new DIDError(
-        'invalidArgument',
-        'Invalid public key type. Expected ED25519.',
-      );
+      throw new DIDError('invalidArgument', 'Invalid public key type. Expected ED25519.');
     }
 
     this.verifierKey = publicKey;

@@ -1,4 +1,4 @@
-import { DIDMessage, DIDError } from '@swiss-digital-assets-institute/core';
+import { DIDMessage, DIDError } from '@hiero-did-sdk/core';
 import { DIDUpdateOperationsKeys } from '../interface';
 import { OperationState } from '../../interfaces';
 import {
@@ -6,8 +6,9 @@ import {
   DIDAddVerificationMethodMessage,
   DIDRemoveServiceMessage,
   DIDRemoveVerificationMethodMessage,
-} from '@swiss-digital-assets-institute/messages';
-import { RunnerState } from '@swiss-digital-assets-institute/lifecycle';
+} from '@hiero-did-sdk/messages';
+import { RunnerState } from '@hiero-did-sdk/lifecycle';
+import { Buffer } from 'buffer';
 
 interface DeserializedState extends RunnerState<DIDMessage> {
   operation: DIDUpdateOperationsKeys;
@@ -16,23 +17,15 @@ interface DeserializedState extends RunnerState<DIDMessage> {
 /**
  * Deserializes the array of state messages to the operation state.
  */
-export function deserializeState(
-  states: OperationState[],
-): DeserializedState[] {
+export function deserializeState(states: OperationState[]): DeserializedState[] {
   try {
     return states.map((state) => {
       const encodedMessage = state.message;
-      const messageObject = JSON.parse(
-        Buffer.from(encodedMessage, 'base64').toString('utf8'),
-      );
+      const messageObject = JSON.parse(Buffer.from(encodedMessage, 'base64').toString('utf8'));
 
       let message: DIDMessage;
       let operation: DIDUpdateOperationsKeys;
-      if (
-        'property' in messageObject &&
-        'id' in messageObject &&
-        'publicKeyMultibase' in messageObject
-      ) {
+      if ('property' in messageObject && 'id' in messageObject && 'publicKeyMultibase' in messageObject) {
         message = DIDAddVerificationMethodMessage.fromBytes(encodedMessage);
         operation = 'add-verification-method';
       }

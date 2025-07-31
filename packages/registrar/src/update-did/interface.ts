@@ -1,14 +1,7 @@
-import {
-  DIDDocument,
-  VerificationMethodProperties,
-} from '@swiss-digital-assets-institute/core';
+import { DIDDocument, VerificationMethodProperties } from '@hiero-did-sdk/core';
 import { PrivateKey } from '@hashgraph/sdk';
-import {
-  OperationState,
-  SigningRequest,
-  CommonRegistrarOptions,
-} from '../interfaces';
-import { TopicReader } from '@swiss-digital-assets-institute/resolver';
+import { OperationState, SigningRequest, CommonRegistrarOptions } from '../interfaces';
+import { TopicReader } from '@hiero-did-sdk/resolver';
 
 export interface AddServiceOperation {
   /**

@@ -1,14 +1,8 @@
-import {
-  DIDOwnerMessage,
-  DIDOwnerMessageHederaCSMLifeCycle,
-} from '@swiss-digital-assets-institute/messages';
-import {
-  LifecycleRunner,
-  LifecycleRunnerOptions,
-} from '@swiss-digital-assets-institute/lifecycle';
-import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
-import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
-import { DIDError, KeysUtility } from '@swiss-digital-assets-institute/core';
+import { DIDOwnerMessage, DIDOwnerMessageHederaCSMLifeCycle } from '@hiero-did-sdk/messages';
+import { LifecycleRunner, LifecycleRunnerOptions } from '@hiero-did-sdk/lifecycle';
+import { Publisher } from '@hiero-did-sdk/publisher-internal';
+import { Verifier } from '@hiero-did-sdk/verifier-internal';
+import { DIDError, KeysUtility } from '@hiero-did-sdk/core';
 import { OperationState, PublisherProviders } from '../interfaces';
 import { getPublisher, MessageAwaiter } from '../shared';
 import {
@@ -28,7 +22,7 @@ import {
  */
 export async function generateCreateDIDRequest(
   options: GenerateCreateDIDRequestOptions,
-  providers: PublisherProviders,
+  providers: PublisherProviders
 ): Promise<CreateDIDRequest> {
   const operationProviders = providers;
   const requestOperationOptions = options;
@@ -36,9 +30,7 @@ export async function generateCreateDIDRequest(
   const publisher = getPublisher(operationProviders);
 
   const didOwnerMessage = new DIDOwnerMessage({
-    publicKey: KeysUtility.fromMultibase(
-      options.multibasePublicKey,
-    ).toPublicKey(),
+    publicKey: KeysUtility.fromMultibase(options.multibasePublicKey).toPublicKey(),
     controller: requestOperationOptions.controller,
     topicId: requestOperationOptions.topicId,
   });
@@ -54,10 +46,7 @@ export async function generateCreateDIDRequest(
   // Start processing the lifecycle
   const state = await manager.process(didOwnerMessage, runnerOptions);
 
-  if (
-    operationProviders.clientOptions instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (operationProviders.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 
@@ -87,7 +76,7 @@ export async function generateCreateDIDRequest(
  */
 export async function submitCreateDIDRequest(
   options: SubmitCreateDIDRequestOptions,
-  providers: PublisherProviders,
+  providers: PublisherProviders
 ): Promise<CreateDIDResult> {
   const publisher = getPublisher(providers);
 
@@ -113,15 +102,11 @@ export async function submitCreateDIDRequest(
       ...state,
       message,
     },
-    runnerOptions,
+    runnerOptions
   );
 
   // Set up a message awaiter to wait for the message to be available in the topic
-  const messageAwaiter = new MessageAwaiter(
-    message.topicId,
-    await publisher.network(),
-    options.topicReader,
-  )
+  const messageAwaiter = new MessageAwaiter(message.topicId, await publisher.network(), options.topicReader)
     .forMessages([message.payload])
     .setStartsAt(new Date())
     .withTimeout(options.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT);
@@ -129,10 +114,7 @@ export async function submitCreateDIDRequest(
   // Resume the lifecycle to finish the process
   const finalState = await manager.resume(firstState, runnerOptions);
 
-  if (
-    providers.clientOptions instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (providers.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 
@@ -155,9 +137,7 @@ export async function submitCreateDIDRequest(
           id: `${message.did}#did-root-key`,
           type: 'Ed25519VerificationKey2020',
           controller: message.controllerDid,
-          publicKeyMultibase: KeysUtility.fromPublicKey(
-            message.publicKey,
-          ).toMultibase(),
+          publicKeyMultibase: KeysUtility.fromPublicKey(message.publicKey).toMultibase(),
         },
       ],
     },

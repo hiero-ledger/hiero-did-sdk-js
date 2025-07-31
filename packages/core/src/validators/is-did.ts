@@ -3,8 +3,7 @@ import { Network } from '../interfaces';
 // Constants
 const VALID_NETWORKS: Network[] = ['mainnet', 'testnet', 'local-node'];
 
-const BASE58_CHARS =
-  '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const BASE58_CHARS = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 const BASE58_PUBLIC_KEY_PATTERN = `[${BASE58_CHARS}]{43,44}`; // 44 base58 chars
 
 // Regex patterns
@@ -19,9 +18,7 @@ const PARAMS = `((${PARAM})*)`;
 const PATH = `(/[^#?]*)?`;
 const QUERY = `([?][^#]*)?`;
 const FRAGMENT = `(#.*)?`;
-const HEDERA_DID_URL_PATTERN = new RegExp(
-  `^${HEDERA_DID_PATTERN_BASE}${PARAMS}${PATH}${QUERY}${FRAGMENT}$`,
-);
+const HEDERA_DID_URL_PATTERN = new RegExp(`^${HEDERA_DID_PATTERN_BASE}${PARAMS}${PATH}${QUERY}${FRAGMENT}$`);
 
 /**
  * Validates if a string is a valid Hedera DID according to the specification:

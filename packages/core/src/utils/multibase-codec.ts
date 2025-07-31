@@ -69,10 +69,7 @@ export class MultibaseCodec {
     const decoder = this.bases[algorithm];
 
     if (!decoder) {
-      throw new DIDError(
-        'invalidMultibase',
-        'Could not decode multibase string, invalid code point',
-      );
+      throw new DIDError('invalidMultibase', 'Could not decode multibase string, invalid code point');
     }
 
     return decoder.decode(data.slice(1));
@@ -84,13 +81,8 @@ export class MultibaseCodec {
    * @param algorithm The multibase algorithm to use. Default is 'base58btc'.
    * @returns The multibase string.
    */
-  static encode(
-    data: Uint8Array,
-    algorithm: MultibaseAlgorithm = 'base58btc',
-  ): string {
-    const identifier = Object.keys(this.algorithmMap).find(
-      (key: Identifier) => this.algorithmMap[key] === algorithm,
-    );
+  static encode(data: Uint8Array, algorithm: MultibaseAlgorithm = 'base58btc'): string {
+    const identifier = Object.keys(this.algorithmMap).find((key: Identifier) => this.algorithmMap[key] === algorithm);
     const encoder = this.bases[algorithm];
 
     if (!encoder) {

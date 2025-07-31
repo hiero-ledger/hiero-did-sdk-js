@@ -21,9 +21,6 @@ describe('DID get resolver function', () => {
 
     await resolver.hedera(did);
 
-    expect(resolveDID).toHaveBeenCalledWith(
-      did,
-      'application/ld+json;profile="https://w3id.org/did-resolution"',
-    );
+    expect(resolveDID).toHaveBeenCalledWith(did, 'application/ld+json;profile="https://w3id.org/did-resolution"');
   });
 });

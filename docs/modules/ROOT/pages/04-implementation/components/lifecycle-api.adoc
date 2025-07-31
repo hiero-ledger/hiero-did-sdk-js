@@ -126,7 +126,7 @@ The following exceptions may arise during the execution of the `getByIndex` func
 [cols="1,1",options="header",frame="ends"]
 |===
 |Exception code
-|Description 
+|Description
 
 |`internalError`
 |Step index out of bounds.
@@ -152,7 +152,7 @@ The following exceptions may arise during the execution of the `getByLabel` func
 [cols="1,1",options="header",frame="ends"]
 |===
 |Exception code
-|Description 
+|Description
 
 |`internalError`
 |Step with label # does not exist.
@@ -178,7 +178,7 @@ The following exceptions may arise during the execution of the `getByLabel` func
 [cols="1,1",options="header",frame="ends"]
 |===
 |Exception code
-|Description 
+|Description
 
 |`internalError`
 |Step with label # does not exist.
@@ -232,7 +232,7 @@ The following exceptions may arise during the execution of the `process` functio
 [cols="1,1",options="header",frame="ends"]
 |===
 |Exception code
-|Description 
+|Description
 
 |`invalidArgument`
 |Signature and verifier are required for the signature step.
@@ -265,7 +265,7 @@ The following exceptions may arise during the execution of the `resume` function
 [cols="1,1",options="header",frame="ends"]
 |===
 |Exception code
-|Description 
+|Description
 
 |`invalidArgument`
 |Signature and verifier are required for the signature step.
@@ -288,4 +288,4 @@ Parameters::
 
 == Component Implementation
 
-The Hashgraph DID SDK provides the Lifecycle Management classes and interfaces within its `lifecycle` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hashgraph-did-sdk-js/lifecycle`] package documentation.
+The Hashgraph DID SDK provides the Lifecycle Management classes and interfaces within its `lifecycle` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/lifecycle`] package documentation.

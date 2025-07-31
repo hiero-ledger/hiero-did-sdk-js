@@ -6,6 +6,7 @@ import {
   VALID_DID,
   VALID_DID_TOPIC_ID,
 } from '../helpers';
+import { Buffer } from 'buffer';
 
 const randomMessage = async () => {
   const privateKey = await PrivateKey.generateED25519Async();

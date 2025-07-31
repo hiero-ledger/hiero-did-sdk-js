@@ -1,4 +1,4 @@
-import { PublicKeyInDer, Verifier } from '@swiss-digital-assets-institute/core';
+import { PublicKeyInDer, Verifier } from '@hiero-did-sdk/core';
 
 export const BASE64_PATTERN = /^[A-Za-z0-9=]+$/;
 

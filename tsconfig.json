@@ -13,31 +13,23 @@
     "declaration": true,
     "declarationMap": true,
     "paths": {
-      "@swiss-digital-assets-institute/core": ["packages/core/src/index.ts"],
-      "@swiss-digital-assets-institute/lifecycle": [
-        "packages/lifecycle/src/index.ts"
-      ],
-      "@swiss-digital-assets-institute/messages": [
-        "packages/messages/src/index.ts"
-      ],
-      "@swiss-digital-assets-institute/publisher-internal": [
-        "packages/publisher-internal/src/index.ts"
-      ],
-      "@swiss-digital-assets-institute/registrar": [
-        "packages/registrar/src/index.ts"
-      ],
-      "@swiss-digital-assets-institute/resolver": [
-        "packages/resolver/src/index.ts"
-      ],
-      "@swiss-digital-assets-institute/signer-internal": [
-        "packages/signer-internal/src/index.ts"
-      ],
-      "@swiss-digital-assets-institute/verifier-internal": [
-        "packages/verifier-internal/src/index.ts"
-      ]
+      "@hiero-did-sdk/core": ["packages/core/src/index.ts"],
+      "@hiero-did-sdk/lifecycle": ["packages/lifecycle/src/index.ts"],
+      "@hiero-did-sdk/messages": ["packages/messages/src/index.ts"],
+      "@hiero-did-sdk/publisher-internal": ["packages/publisher-internal/src/index.ts"],
+      "@hiero-did-sdk/registrar": ["packages/registrar/src/index.ts"],
+      "@hiero-did-sdk/resolver": ["packages/resolver/src/index.ts"],
+      "@hiero-did-sdk/signer-internal": ["packages/signer-internal/src/index.ts"],
+      "@hiero-did-sdk/verifier-internal": ["packages/verifier-internal/src/index.ts"],
+      "@hiero-did-sdk/anoncreds": ["packages/anoncreds/src/index.ts"],
+      "@hiero-did-sdk/cache": ["packages/cache/src/index.ts"],
+      "@hiero-did-sdk/client": ["packages/client/src/index.ts"],
+      "@hiero-did-sdk/crypto": ["packages/crypto/src/index.ts"],
+      "@hiero-did-sdk/hcs": ["packages/hcs/src/index.ts"],
+      "@hiero-did-sdk/zstd": ["packages/zstd/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "**/*.spec.ts", "tests/**/*.ts", "dist"],
+  "exclude": ["node_modules", "coverage", "**/*.spec.ts", "**/*.e2e.ts", "tests/**/*.ts", "dist"],
   "ts-node": {
     "moduleTypes": {
       "jest.config.ts": "cjs"

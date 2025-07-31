@@ -1,50 +1,44 @@
-<p align="center">
-  <img src="docs/modules/ROOT/images/THA-logo.png" alt="THA Logo">  
-</p>
+# Hiero DID SDK JavaScript
 
-<h1 align="center">Hashgraph DID SDK for JavaScript</h1>
+[![Release](https://img.shields.io/github/v/release/hiero-ledger/hiero-did-sdk-js)](https://github.com/hiero-ledger/hiero-did-sdk-js/releases)
+[![Build status](https://img.shields.io/github/actions/workflow/status/hiero-ledger/hiero-did-sdk-js/main.yml?branch=main)](https://github.com/hiero-ledger/hiero-did-sdk-js/actions/workflows/main.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/hiero-ledger/hiero-did-sdk-js/branch/main/graph/badge.svg)](https://codecov.io/gh/hiero-ledger/hiero-did-sdk-js)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/hiero-ledger/hiero-did-sdk-js)](https://github.com/hiero-ledger/hiero-did-sdk-js/commits/main)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hiero-ledger/hiero-did-sdk-js/badge)](https://scorecard.dev/viewer/?uri=github.com/hiero-ledger/hiero-did-sdk-js)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/10697/badge)](https://bestpractices.coreinfrastructure.org/projects/10697)
+[![License](https://img.shields.io/github/license/hiero-ledger/hiero-did-sdk-js)](https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/LICENSE)
 
-<p style="text-align: justify;">
-This repository houses a robust JavaScript SDK designed to streamline the integration of Decentralized Identifiers (DIDs) within your applications on the Hedera Hashgraph network. By adhering to the Hedera DID Method specification, this SDK empowers developers with a comprehensive suite of tools to effortlessly create, manage, and resolve DIDs.
-</p>
+This repository houses a robust JavaScript SDK designed to streamline the integration of Decentralized Identity within your applications on the Hedera ledger.
+By adhering to the Hedera DID Method and Hedera AnonCreds Method specification, this SDK empowers developers with a comprehensive suite of tools to effortlessly create, manage, and resolve DIDs and AnonCreds objects using Hedera Consensus Service (HCS.
 
 ## Features
 
-- **Complete DID Lifecycle Management:** Create, update, deactivate, and resolve DIDs seamlessly.
-- **Secure Key Management:** Safeguard your DIDs through robust key management capabilities.
-- **Effortless DID Document Publishing:** Publish and update DID documents to the Hedera network with ease.
+- **Complete Hedera DID Lifecycle Management:** Create, update, deactivate, and resolve Hedera DIDs seamlessly.
+- **Secure Key Management:** Safeguard your Hedera DIDs through robust key management capabilities.
+- **Effortless Hedera DID Document Publishing:** Publish and update Hedera DID documents to the Hedera network with ease.
 - **Standards Compliant:** Built in accordance with the W3C DID specification and the Hedera DID Method.
+- **AnonCreds Support:** Create and resolve AnonCreds resources leveraging Hedera as a storage layer, enabling comprehensive support for AnonCreds Verifiable Credentials (VC) in accordance with Hedera AnonCreds Method.
 - **Enhanced Developer Experience:** Leverages TypeScript for improved type safety and code maintainability.
-
-## HIPs
-
-This SDK implements the following Hedera Improvement Proposals (HIPs):
-
-- [HIP-0001](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/01-planning/hips/hip-0001-new-did-sdk.html): This HIP proposes the creation of a new JavaScript SDK for managing Decentralized Identifiers (DIDs) on the Hedera network. The SDK aims to provide a comprehensive and user-friendly interface for developers to integrate DIDs into their applications.
 
 ## Requirements
 
-This SDK was developed to fulfill a set of specific requirements outlined in the [Requirements Document](https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/02-analysis/requirements/index.html). These requirements encompass various aspects of DID management, security, and developer experience, ensuring that the SDK meets the needs of its users effectively.
+This SDK was developed to fulfill a set of specific requirements outlined in the [Requirements Document](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/02-analysis/requirements/index.html). These requirements encompass various aspects of DID management, security, and developer experience, ensuring that the SDK meets the needs of its users effectively.
 
 ## Design
 
-Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/03-design/01_introduction_and_goals/index.html" target="_blank">Architecture Overview</a>.
+Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the [Architecture Overview](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/03-design/01_introduction_and_goals/index.html).
 
 ## Implementation
 
-For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/04-implementation/guides/getting-started-guide.html" target="_blank">Getting Started Guide</a>.
-
-<!-- ## Testing
-
-Rigorous <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/05-testing/acceptance-tests/index.html" target="_blank">Acceptance Tests</a> have been implemented to validate the SDK's functionality against real-world scenarios and ensure it meets user requirements. -->
+For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed [Getting Started Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/guides/getting-started-guide.html).
 
 ## Deployment
 
-This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/06-deployment/packages/index.html" target="_blank">Packages Guide</a> section.
+This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the [Packages Guide section](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/06-deployment/packages/index.html).
 
 ## Maintenance
 
-Should you encounter any issues or require assistance, please refer to the comprehensive <a href="https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js/documentation/0.0.2-alpha/07-maintenance/support/getting-support-guide.html" target="_blank">Getting Support Guide</a>.
+Should you encounter any issues or require assistance, please refer to the [Getting Support Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/07-maintenance/support/getting-support-guide.html).
 
 ## License
 

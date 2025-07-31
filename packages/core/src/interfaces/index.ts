@@ -1,3 +1,4 @@
+export * from './cache';
 export * from './signer';
 export * from './public-key';
 export * from './network';

@@ -25,7 +25,5 @@ export abstract class Publisher {
    * @param transaction The transaction to publish.
    * @returns The transaction receipt.
    */
-  abstract publish(
-    transaction: Transaction,
-  ): Promise<TransactionReceipt> | TransactionReceipt;
+  abstract publish(transaction: Transaction): Promise<TransactionReceipt> | TransactionReceipt;
 }

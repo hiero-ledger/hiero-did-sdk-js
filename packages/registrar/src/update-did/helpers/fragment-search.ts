@@ -1,8 +1,4 @@
-import {
-  DIDDocument,
-  Service,
-  VerificationMethod,
-} from '@swiss-digital-assets-institute/core';
+import { DIDDocument, Service, VerificationMethod } from '@hiero-did-sdk/core';
 
 /**
  * The result of a fragment search
@@ -32,13 +28,8 @@ export interface FragmentSearchResult {
  * @param didDocument The current DID document
  * @returns The result of the search
  */
-export function fragmentSearch(
-  fragment: string,
-  didDocument: DIDDocument,
-): FragmentSearchResult {
-  const documentPropertyKeys = Object.keys(
-    didDocument,
-  ) as (keyof DIDDocument)[];
+export function fragmentSearch(fragment: string, didDocument: DIDDocument): FragmentSearchResult {
+  const documentPropertyKeys = Object.keys(didDocument) as (keyof DIDDocument)[];
 
   for (const key of documentPropertyKeys) {
     if (key === 'id' || key === 'controller') {

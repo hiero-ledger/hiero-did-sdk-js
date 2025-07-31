@@ -1,6 +1,6 @@
 import { Client } from '@hashgraph/sdk';
-import { DIDError, Publisher } from '@swiss-digital-assets-institute/core';
-import { Publisher as InternalPublisher } from '@swiss-digital-assets-institute/publisher-internal';
+import { DIDError, Publisher } from '@hiero-did-sdk/core';
+import { Publisher as InternalPublisher } from '@hiero-did-sdk/publisher-internal';
 import { Providers } from '../interfaces';
 
 /**
@@ -23,17 +23,14 @@ export function getPublisher(providers: Providers): Publisher {
   }
 
   if (!providers.clientOptions) {
-    throw new DIDError(
-      'invalidArgument',
-      'Providers must contain client options or client or publisher',
-    );
+    throw new DIDError('invalidArgument', 'Providers must contain client options or client or publisher');
   }
 
   const clientOptions = providers.clientOptions;
 
   const client = Client.forName(providers.clientOptions.network).setOperator(
     clientOptions.accountId,
-    clientOptions.privateKey,
+    clientOptions.privateKey
   );
 
   return new InternalPublisher(client);

@@ -1,4 +1,5 @@
 import { TestDIDMessage, TestVerifier } from './helpers';
+import { Buffer } from 'buffer';
 
 describe('DID Message', () => {
   let message: TestDIDMessage;
@@ -16,9 +17,7 @@ describe('DID Message', () => {
     const messageBytes = message.messageBytes;
 
     expect(messageBytes).toBeInstanceOf(Uint8Array);
-    expect(messageBytes).toEqual(
-      new TextEncoder().encode(JSON.stringify(messagePayload)),
-    );
+    expect(messageBytes).toEqual(new TextEncoder().encode(JSON.stringify(messagePayload)));
   });
 
   it('should return proper payload of the message', async () => {
@@ -49,7 +48,7 @@ describe('DID Message', () => {
     message.messageMock.mockReturnValue(messagePayload);
 
     expect(() => message.payload).toThrow(
-      'DID message is missing a signature. Signature is required to construct a DID message payload.',
+      'DID message is missing a signature. Signature is required to construct a DID message payload.'
     );
   });
 
@@ -68,9 +67,7 @@ describe('DID Message', () => {
     const verifier = new TestVerifier();
     verifier.verifyMock.mockReturnValue(false);
 
-    await expect(() =>
-      message.setSignature(signature, verifier),
-    ).rejects.toThrow('The signature is invalid');
+    await expect(() => message.setSignature(signature, verifier)).rejects.toThrow('The signature is invalid');
 
     expect(message.signature).toBeUndefined();
   });
@@ -106,7 +103,7 @@ describe('DID Message', () => {
     };
 
     await expect(() => message.signWith(signer, verifier)).rejects.toThrow(
-      'The signature is invalid. Provided signer does not match the DID signer.',
+      'The signature is invalid. Provided signer does not match the DID signer.'
     );
 
     expect(message.signature).toBeUndefined();

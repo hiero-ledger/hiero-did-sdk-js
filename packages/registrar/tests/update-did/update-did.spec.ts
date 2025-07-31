@@ -7,12 +7,12 @@ import {
   MessageAwaiterWaitMock,
   MessageAwaiterWithTimeoutMock,
 } from '../mocks';
-
+import { Buffer } from 'buffer';
 import { Client, PrivateKey } from '@hashgraph/sdk';
 import {
   DID_ROOT_KEY_ID,
   KeysUtility,
-} from '@swiss-digital-assets-institute/core';
+} from '@hiero-did-sdk/core';
 import { updateDID, UpdateDIDResult } from '../../src';
 import {
   VALID_DID_TOPIC_ID,
@@ -24,7 +24,7 @@ import {
 import * as UpdateSubOperations from '../../src/update-did/sub-operations';
 
 const didDocumentMock = jest.fn();
-jest.mock('@swiss-digital-assets-institute/resolver', () => {
+jest.mock('@hiero-did-sdk/resolver', () => {
   return {
     resolveDID: jest.fn().mockImplementation((...args) =>
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

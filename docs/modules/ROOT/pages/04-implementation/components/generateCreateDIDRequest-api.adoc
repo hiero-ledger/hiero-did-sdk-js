@@ -71,7 +71,7 @@ The table below describes the structure of the `CreateDIDRequest` type.
 
 |signingRequest
 |`SigningRequest`
-|The request to be signed by the client. Contains the serialized payload of the DID creation transaction and metadata (refer to <<signing-request-data-types>> for details). 
+|The request to be signed by the client. Contains the serialized payload of the DID creation transaction and metadata (refer to <<signing-request-data-types>> for details).
 |===
 
 == Data Types
@@ -93,11 +93,11 @@ The table below provides a detailed description of the `PublisherProviders` type
 
 |clientOptions?
 |`ClientOptions`
-|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
 
 |client?
 |`Client`
-|An instance of a Hedera Client. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
+|An instance of a Hedera Client. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
 
 |publisher?
 |`Publisher`
@@ -117,15 +117,15 @@ The table below provides a detailed description of the `GenerateCreateDIDRequest
 
 |multibasePublicKey
 |`string`
-|A public key encoded in multibase format. This key is used as the root key for the newly created DID. 
+|A public key encoded in multibase format. This key is used as the root key for the newly created DID.
 
 |controller?
 |`string`
-|A DID string representing the entity controlling the newly created DID. If not specified, the generated DID will be self-managed. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-custom-controller.ts[example] in the source code.
+|A DID string representing the entity controlling the newly created DID. If not specified, the generated DID will be self-managed. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-a-custom-controller.ts[example] in the source code.
 
 |topicId?
 |`string`
-|The ID of the Hedera Topic associated with the DID. If omitted, a new topic will be automatically created. See a full running link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-did.ts[example] in the source code.
+|The ID of the Hedera Topic associated with the DID. If omitted, a new topic will be automatically created. See a full running link:https://github.com/DSRCorporation/hiero-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-did.ts[example] in the source code.
 
 |topicReader?
 |`TopicReader`
@@ -190,4 +190,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hashgraph DID SDK provides a `generateCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/registrar`] package documentation.
+The Hashgraph DID SDK provides a `generateCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

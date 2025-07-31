@@ -7,9 +7,7 @@ import { hasVerificationMethodProperties, isObject } from './base';
  * @param eventObject The object to check
  * @returns True if the object is a AddVerificationMethodEvent, false otherwise
  */
-export function isAddVerificationMethodEvent(
-  eventObject: unknown,
-): eventObject is AddVerificationMethodEvent {
+export function isAddVerificationMethodEvent(eventObject: unknown): eventObject is AddVerificationMethodEvent {
   if (!isObject(eventObject)) {
     return false;
   }

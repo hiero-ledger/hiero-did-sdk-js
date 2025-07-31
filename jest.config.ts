@@ -6,6 +6,7 @@ const config: JestConfigWithTsJest = {
   coverageReporters: ['json', 'text'],
   coveragePathIgnorePatterns: [
     '(tests/.*.mock).(js|ts)$',
+    '(tests.e2e/.*.mock).(js|ts)$',
     'dist',
     'node_modules',
   ],

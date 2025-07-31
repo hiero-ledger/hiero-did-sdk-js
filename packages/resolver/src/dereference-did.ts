@@ -7,9 +7,9 @@ import {
   DIDDereferenceResolution,
   ServiceEndpoint,
   DIDError,
-} from '@swiss-digital-assets-institute/core';
+  parseDIDUrl,
+} from '@hiero-did-sdk/core';
 import { DereferenceDIDOptions, ResolveDIDOptions, Accept } from './interfaces';
-import { parseDIDUrl } from './helpers';
 import { DIDDereferenceBuilder } from './did-dereference-builder';
 import { resolveDID } from './resolve-did';
 
@@ -33,46 +33,37 @@ export type DereferenceDIDResult =
 export async function dereferenceDID(
   didUrl: string,
   accept: 'application/did+json',
-  options?: DereferenceDIDOptions,
+  options?: DereferenceDIDOptions
 ): Promise<Service | VerificationMethod | ServiceEndpoint>;
 export async function dereferenceDID(
   didUrl: string,
   accept?: 'application/did+ld+json',
-  options?: DereferenceDIDOptions,
+  options?: DereferenceDIDOptions
 ): Promise<JsonLdVerificationMethod | JsonLdService | ServiceEndpoint>;
 export async function dereferenceDID(
   didUrl: string,
   accept: 'application/ld+json;profile="https://w3id.org/did-resolution"',
-  options?: DereferenceDIDOptions,
+  options?: DereferenceDIDOptions
 ): Promise<DIDDereferenceResolution>;
 export async function dereferenceDID(
   didUrl: string,
   accept: 'application/did+cbor',
-  options?: DereferenceDIDOptions,
+  options?: DereferenceDIDOptions
 ): Promise<Uint8Array>;
 export async function dereferenceDID(
   didUrl: string,
   accept: Accept = 'application/did+ld+json',
-  options: ResolveDIDOptions = {},
+  options: ResolveDIDOptions = {}
 ): Promise<DereferenceDIDResult> {
   if (!isHederaDIDUrl(didUrl)) {
-    throw new DIDError(
-      'invalidDidUrl',
-      'Unsupported DID method or invalid DID URL',
-    );
+    throw new DIDError('invalidDidUrl', 'Unsupported DID method or invalid DID URL');
   }
 
   const { fragment, params, did } = parseDIDUrl(didUrl);
 
-  const didDocument = await resolveDID(
-    did,
-    'application/ld+json;profile="https://w3id.org/did-resolution"',
-    options,
-  );
+  const didDocument = await resolveDID(did, 'application/ld+json;profile="https://w3id.org/did-resolution"', options);
 
-  const didDereferenceBuilder = DIDDereferenceBuilder.fromResolution(
-    didDocument,
-  )
+  const didDereferenceBuilder = DIDDereferenceBuilder.fromResolution(didDocument)
     .withFragment(fragment)
     .withParams(params);
 
@@ -86,9 +77,6 @@ export async function dereferenceDID(
     case 'application/did+cbor':
       return didDereferenceBuilder.toCbor();
     default:
-      throw new DIDError(
-        'representationNotSupported',
-        'Unsupported representation format',
-      );
+      throw new DIDError('representationNotSupported', 'Unsupported representation format');
   }
 }

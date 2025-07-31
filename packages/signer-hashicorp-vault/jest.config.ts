@@ -3,7 +3,7 @@ import base from '../../jest.config.base';
 
 const config: Config = {
   ...base,
-  displayName: '@hashgraph-did-sdk/signer-hashicorp-vault',
+  displayName: '@hiero-did-sdk/signer-hashicorp-vault',
   rootDir: '../..',
   testMatch: [`<rootDir>/packages/signer-hashicorp-vault/**/*.spec.ts`],
 };

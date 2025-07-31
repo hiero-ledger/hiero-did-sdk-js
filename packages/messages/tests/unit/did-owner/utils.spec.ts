@@ -1,8 +1,8 @@
-import { resolveDID } from '@swiss-digital-assets-institute/resolver';
-import { DIDError } from '@swiss-digital-assets-institute/core';
+import { resolveDID } from '@hiero-did-sdk/resolver';
+import { DIDError } from '@hiero-did-sdk/core';
 import { checkDIDExists } from '../../../src/messages/did-owner/utils';
 
-jest.mock('@swiss-digital-assets-institute/resolver', () => {
+jest.mock('@hiero-did-sdk/resolver', () => {
   return {
     resolveDID: jest.fn(),
   };

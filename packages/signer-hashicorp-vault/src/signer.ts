@@ -1,5 +1,6 @@
-import { Signer as BaseSigner } from '@swiss-digital-assets-institute/core';
+import { Signer as BaseSigner } from '@hiero-did-sdk/core';
 import { SignerOptions } from './interfaces';
+import { Buffer } from 'buffer';
 
 /**
  * An implementation of the Signer interface that signs messages using Hashicorp Vault.
@@ -25,10 +26,7 @@ export class Signer implements BaseSigner {
    */
   async sign(message: Uint8Array): Promise<Uint8Array> {
     const base64Message = Buffer.from(message).toString('base64');
-    const signature = await this.options.clientApi.sign(
-      this.options.keyName,
-      base64Message,
-    );
+    const signature = await this.options.clientApi.sign(this.options.keyName, base64Message);
     return Buffer.from(signature, 'base64');
   }
 
@@ -42,11 +40,7 @@ export class Signer implements BaseSigner {
     const base64Message = Buffer.from(message).toString('base64');
     const base64Signature = Buffer.from(signature).toString('base64');
 
-    const isValid = await this.options.clientApi.verify(
-      this.options.keyName,
-      base64Message,
-      base64Signature,
-    );
+    const isValid = await this.options.clientApi.verify(this.options.keyName, base64Message, base64Signature);
 
     return isValid;
   }

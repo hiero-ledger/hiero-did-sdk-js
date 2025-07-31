@@ -1,18 +1,12 @@
-import { DIDError } from '@swiss-digital-assets-institute/core';
-import {
-  resolveDID,
-  TopicReader,
-} from '@swiss-digital-assets-institute/resolver';
+import { DIDError } from '@hiero-did-sdk/core';
+import { resolveDID, TopicReader } from '@hiero-did-sdk/resolver';
 
 /**
  * Check if a DID exists on the network
  * @param did The DID to check
  * @returns True if the DID exists
  */
-export async function checkDIDExists(
-  did: string,
-  topicReader?: TopicReader,
-): Promise<boolean> {
+export async function checkDIDExists(did: string, topicReader?: TopicReader): Promise<boolean> {
   try {
     const resolvedDID = await resolveDID(did, 'application/did+json', {
       topicReader,

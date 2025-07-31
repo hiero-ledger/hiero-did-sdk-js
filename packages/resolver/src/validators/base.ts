@@ -1,4 +1,4 @@
-import { isHederaDID, isHederaDIDUrl } from '@swiss-digital-assets-institute/core';
+import { isHederaDID, isHederaDIDUrl } from '@hiero-did-sdk/core';
 
 export function isString(value: unknown): value is string {
   if (!value) return false;
@@ -20,11 +20,7 @@ export function hasVerificationMethodProperties(eventObject: unknown): boolean {
     return false;
   }
 
-  if (
-    !('id' in eventObject) ||
-    !isString(eventObject.id) ||
-    !isHederaDIDUrl(eventObject.id)
-  ) {
+  if (!('id' in eventObject) || !isString(eventObject.id) || !isHederaDIDUrl(eventObject.id)) {
     return false;
   }
 
@@ -32,11 +28,7 @@ export function hasVerificationMethodProperties(eventObject: unknown): boolean {
     return false;
   }
 
-  if (
-    !('controller' in eventObject) ||
-    !isString(eventObject.controller) ||
-    !isHederaDID(eventObject.controller)
-  ) {
+  if (!('controller' in eventObject) || !isString(eventObject.controller) || !isHederaDID(eventObject.controller)) {
     return false;
   }
 
@@ -52,10 +44,7 @@ export function hasVerificationMethodProperties(eventObject: unknown): boolean {
     }
   }
 
-  if (
-    !('publicKeyMultibase' in eventObject) &&
-    !('publicKeyBase58' in eventObject)
-  ) {
+  if (!('publicKeyMultibase' in eventObject) && !('publicKeyBase58' in eventObject)) {
     return false;
   }
 

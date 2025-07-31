@@ -1,11 +1,7 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import { DIDDocument } from '@swiss-digital-assets-institute/core';
-import {
-  OperationState,
-  SigningRequest,
-  CommonRegistrarOptions,
-} from '../interfaces';
-import { TopicReader } from '@swiss-digital-assets-institute/resolver';
+import { DIDDocument } from '@hiero-did-sdk/core';
+import { OperationState, SigningRequest, CommonRegistrarOptions } from '../interfaces';
+import { TopicReader } from '@hiero-did-sdk/resolver';
 
 export interface CreateDIDOptions extends CommonRegistrarOptions {
   /**
@@ -55,8 +51,7 @@ export interface CreateDIDRequest {
   signingRequest: SigningRequest;
 }
 
-export interface GenerateCreateDIDRequestOptions
-  extends Pick<CreateDIDOptions, 'controller' | 'topicId'> {
+export interface GenerateCreateDIDRequestOptions extends Pick<CreateDIDOptions, 'controller' | 'topicId'> {
   /**
    * The public key in multibase format. Used to create a DID and a `did-root-key` verification method.
    */

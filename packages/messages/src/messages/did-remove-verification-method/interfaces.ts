@@ -1,4 +1,4 @@
-import { VerificationMethodProperties } from '@swiss-digital-assets-institute/core';
+import { VerificationMethodProperties } from '@hiero-did-sdk/core';
 
 export interface DIDRemoveVerificationMethodMessageConstructor {
   /**

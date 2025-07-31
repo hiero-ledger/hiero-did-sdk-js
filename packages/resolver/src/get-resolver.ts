@@ -1,18 +1,8 @@
-import {
-  DIDDocument,
-  DIDDocumentCbor,
-  DIDResolution,
-  JsonLdDIDDocument,
-} from '@swiss-digital-assets-institute/core';
+import { DIDDocument, DIDDocumentCbor, DIDResolution, JsonLdDIDDocument } from '@hiero-did-sdk/core';
 import { resolveDID } from './resolve-did';
 
-async function resolveWrapper(
-  did: string,
-): Promise<DIDDocument | JsonLdDIDDocument | DIDDocumentCbor | DIDResolution> {
-  return await resolveDID(
-    did,
-    'application/ld+json;profile="https://w3id.org/did-resolution"',
-  );
+async function resolveWrapper(did: string): Promise<DIDDocument | JsonLdDIDDocument | DIDDocumentCbor | DIDResolution> {
+  return await resolveDID(did, 'application/ld+json;profile="https://w3id.org/did-resolution"');
 }
 
 /**

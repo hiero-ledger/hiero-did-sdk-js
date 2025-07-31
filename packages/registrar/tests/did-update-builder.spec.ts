@@ -13,18 +13,9 @@ describe('DID Update Builder', () => {
   });
 
   it.each([
-    [
-      'addAuthenticationMethod',
-      { operation: 'add-verification-method', property: 'authentication' },
-    ],
-    [
-      'addAssertionMethod',
-      { operation: 'add-verification-method', property: 'assertionMethod' },
-    ],
-    [
-      'addKeyAgreementMethod',
-      { operation: 'add-verification-method', property: 'keyAgreement' },
-    ],
+    ['addAuthenticationMethod', { operation: 'add-verification-method', property: 'authentication' }],
+    ['addAssertionMethod', { operation: 'add-verification-method', property: 'assertionMethod' }],
+    ['addKeyAgreementMethod', { operation: 'add-verification-method', property: 'keyAgreement' }],
     [
       'addCapabilityDelegationMethod',
       {
@@ -39,10 +30,7 @@ describe('DID Update Builder', () => {
         property: 'capabilityInvocation',
       },
     ],
-    [
-      'addVerificationMethod',
-      { operation: 'add-verification-method', property: 'verificationMethod' },
-    ],
+    ['addVerificationMethod', { operation: 'add-verification-method', property: 'verificationMethod' }],
   ] as const)('should add an %s', (method, expected) => {
     const builder = new DIDUpdateBuilder();
     const verificationMethod = {
@@ -62,18 +50,9 @@ describe('DID Update Builder', () => {
   });
 
   it.each([
-    [
-      'addAuthenticationMethod',
-      { operation: 'add-verification-method', property: 'authentication' },
-    ],
-    [
-      'addAssertionMethod',
-      { operation: 'add-verification-method', property: 'assertionMethod' },
-    ],
-    [
-      'addKeyAgreementMethod',
-      { operation: 'add-verification-method', property: 'keyAgreement' },
-    ],
+    ['addAuthenticationMethod', { operation: 'add-verification-method', property: 'authentication' }],
+    ['addAssertionMethod', { operation: 'add-verification-method', property: 'assertionMethod' }],
+    ['addKeyAgreementMethod', { operation: 'add-verification-method', property: 'keyAgreement' }],
     [
       'addCapabilityDelegationMethod',
       {
@@ -88,10 +67,7 @@ describe('DID Update Builder', () => {
         property: 'capabilityInvocation',
       },
     ],
-    [
-      'addVerificationMethod',
-      { operation: 'add-verification-method', property: 'verificationMethod' },
-    ],
+    ['addVerificationMethod', { operation: 'add-verification-method', property: 'verificationMethod' }],
   ] as const)('should add an %s as an alias', (method, expected) => {
     const builder = new DIDUpdateBuilder();
     const verificationMethod = {
@@ -159,9 +135,7 @@ describe('DID Update Builder', () => {
   it('should add a remove service operation', () => {
     const builder = new DIDUpdateBuilder();
     builder.removeService('#service-1');
-    expect(builder.build()).toEqual([
-      { operation: 'remove-service', id: '#service-1' },
-    ]);
+    expect(builder.build()).toEqual([{ operation: 'remove-service', id: '#service-1' }]);
   });
 
   it('should handle multiple operations', () => {

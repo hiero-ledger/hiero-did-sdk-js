@@ -1,4 +1,4 @@
-import { isHederaDID } from '@swiss-digital-assets-institute/core';
+import { isHederaDID } from '@hiero-did-sdk/core';
 import { TopicDIDContent } from '../interfaces/topic-did-message';
 import { isObject, isString } from './base';
 
@@ -7,9 +7,7 @@ import { isObject, isString } from './base';
  * @param messageObject The message object to check
  * @returns True if the message object is a DID message, false otherwise
  */
-export function isDIDMessage(
-  messageObject: unknown,
-): messageObject is TopicDIDContent {
+export function isDIDMessage(messageObject: unknown): messageObject is TopicDIDContent {
   if (!isObject(messageObject)) {
     return false;
   }
@@ -44,25 +42,15 @@ export function isDIDMessage(
     return false;
   }
 
-  if (
-    !('did' in message) ||
-    !isString(message.did) ||
-    !isHederaDID(message.did)
-  ) {
+  if (!('did' in message) || !isString(message.did) || !isHederaDID(message.did)) {
     return false;
   }
 
-  if (
-    message.operation !== 'delete' &&
-    (!('event' in message) || !isString(message.event))
-  ) {
+  if (message.operation !== 'delete' && (!('event' in message) || !isString(message.event))) {
     return false;
   }
 
-  if (
-    message.operation === 'delete' &&
-    (!('event' in message) || message.event !== null)
-  ) {
+  if (message.operation === 'delete' && (!('event' in message) || message.event !== null)) {
     return false;
   }
 

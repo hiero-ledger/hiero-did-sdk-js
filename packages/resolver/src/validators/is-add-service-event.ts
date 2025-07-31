@@ -1,4 +1,4 @@
-import { isHederaDIDUrl } from '@swiss-digital-assets-institute/core';
+import { isHederaDIDUrl } from '@hiero-did-sdk/core';
 import { isObject, isString } from './base';
 import { AddServiceEvent } from '../interfaces/add-service-event';
 
@@ -8,9 +8,7 @@ import { AddServiceEvent } from '../interfaces/add-service-event';
  * @param eventObject The object to check
  * @returns True if the object is a AddServiceEvent, false otherwise
  */
-export function isAddServiceEvent(
-  eventObject: unknown,
-): eventObject is AddServiceEvent {
+export function isAddServiceEvent(eventObject: unknown): eventObject is AddServiceEvent {
   if (!isObject(eventObject)) {
     return false;
   }
@@ -25,11 +23,7 @@ export function isAddServiceEvent(
     return false;
   }
 
-  if (
-    !('id' in Service) ||
-    !isString(Service.id) ||
-    !isHederaDIDUrl(Service.id)
-  ) {
+  if (!('id' in Service) || !isString(Service.id) || !isHederaDIDUrl(Service.id)) {
     return false;
   }
 

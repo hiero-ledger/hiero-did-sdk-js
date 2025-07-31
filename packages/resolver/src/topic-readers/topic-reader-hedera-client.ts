@@ -1,15 +1,7 @@
-import {
-  Client,
-  Timestamp,
-  TopicMessage,
-  TopicMessageQuery,
-} from '@hashgraph/sdk';
-import { Network } from '@swiss-digital-assets-institute/core';
-import {
-  TopicReader,
-  TopicReaderMessage,
-  TopicReaderOptions,
-} from '../interfaces';
+import { Client, Timestamp, TopicMessage, TopicMessageQuery } from '@hashgraph/sdk';
+import { Network } from '@hiero-did-sdk/core';
+import { TopicReader, TopicReaderMessage, TopicReaderOptions } from '../interfaces';
+import { Buffer } from 'buffer';
 
 /**
  * Implements a topic reader that uses a Hedera Client to read messages from a topic.
@@ -21,10 +13,7 @@ export class TopicReaderHederaClient extends TopicReader {
    * @param topicId - The ID of the topic to fetch messages from.
    * @returns A promise that resolves to an array of messages.
    */
-  async fetchAllToDate(
-    topicId: string,
-    network: Network,
-  ): Promise<TopicReaderMessage[]> {
+  async fetchAllToDate(topicId: string, network: Network): Promise<TopicReaderMessage[]> {
     return this.fetchFrom(topicId, network, { from: 0, to: Date.now() });
   }
 
@@ -34,11 +23,7 @@ export class TopicReaderHederaClient extends TopicReader {
    * @param options - The options for the fetch.
    * @returns A promise that resolves to an array of messages.
    */
-  async fetchFrom(
-    topicId: string,
-    network: Network,
-    options: TopicReaderOptions,
-  ): Promise<TopicReaderMessage[]> {
+  async fetchFrom(topicId: string, network: Network, options: TopicReaderOptions): Promise<TopicReaderMessage[]> {
     const client = Client.forName(network);
     const messages: TopicReaderMessage[] = [];
 
@@ -62,10 +47,7 @@ export class TopicReaderHederaClient extends TopicReader {
             client.close();
             subscriptionHandler.unsubscribe();
 
-            if (
-              error instanceof Error &&
-              error.message.startsWith('5 NOT_FOUND:')
-            ) {
+            if (error instanceof Error && error.message.startsWith('5 NOT_FOUND:')) {
               resolve(messages);
               return;
             }
@@ -75,7 +57,7 @@ export class TopicReaderHederaClient extends TopicReader {
           (message) => {
             const parsedMessage = this.parseMessage(message);
             messages.push(parsedMessage);
-          },
+          }
         );
     });
   }

@@ -14,7 +14,7 @@ export class VaultTestContainer {
 
   constructor(
     public readonly token: string = randomUUID(),
-    public readonly transitPath: string = 'transit',
+    public readonly transitPath: string = 'transit'
   ) {}
 
   get url() {
@@ -56,12 +56,8 @@ export class VaultTestContainer {
       `);
 
     // // Generate role-id and secret-id
-    const roleIdOutput = await this.execCommand(
-      `vault read auth/approle/role/${appRole}/role-id`,
-    );
-    const secretIdOutput = await this.execCommand(
-      `vault write -f auth/approle/role/${appRole}/secret-id`,
-    );
+    const roleIdOutput = await this.execCommand(`vault read auth/approle/role/${appRole}/role-id`);
+    const secretIdOutput = await this.execCommand(`vault write -f auth/approle/role/${appRole}/secret-id`);
 
     this.roleId = roleIdOutput.match(/role_id\s+(.+)/)[1];
     this.secretId = secretIdOutput.match(/secret_id\s+(.+)/)[1];
@@ -129,10 +125,7 @@ export class TestVaultApi extends VaultApi {
     (await this.ensureAuthenticationMock()) as never;
   }
 
-  async loginWithUsernameAndPassword(
-    username: string,
-    password: string,
-  ): Promise<void> {
+  async loginWithUsernameAndPassword(username: string, password: string): Promise<void> {
     (await this.loginWithUsernameAndPasswordMock(username, password)) as never;
   }
 
@@ -156,11 +149,7 @@ export class TestVaultApi extends VaultApi {
     return (await this.signMock(keyName, message)) as never;
   }
 
-  async verify(
-    keyName: string,
-    message: string,
-    signature: string,
-  ): Promise<boolean> {
+  async verify(keyName: string, message: string, signature: string): Promise<boolean> {
     return (await this.verifyMock(keyName, message, signature)) as never;
   }
 }

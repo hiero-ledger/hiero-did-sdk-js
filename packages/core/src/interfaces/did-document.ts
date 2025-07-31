@@ -12,9 +12,7 @@ export interface VerificationMethodMultibase {
   publicKeyMultibase: string;
 }
 
-export type VerificationMethod =
-  | VerificationMethodBase58
-  | VerificationMethodMultibase;
+export type VerificationMethod = VerificationMethodBase58 | VerificationMethodMultibase;
 
 export type JsonLdVerificationMethod = VerificationMethod & {
   '@context'?: string | string[];

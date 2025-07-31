@@ -33,7 +33,7 @@ The `TopicReaderHederaClient` class is a default implementation of the `TopicRea
 
 [source, typescript]
 ----
-import { TopicReaderHederaClient } from '@swiss-digital-assets-institute/resolver';
+import { TopicReaderHederaClient } from '@hiero-did-sdk/resolver';
 
 const topicReader = new TopicReaderHederaClient();
 const messages = await topicReader.fetchFrom('0.0.5217215', 'testnet', {
@@ -47,7 +47,7 @@ console.log(messages);
 
 [source, typescript]
 ----
-import { TopicReaderHederaClient } from '@swiss-digital-assets-institute/resolver';
+import { TopicReaderHederaClient } from '@hiero-did-sdk/resolver';
 
 const topicReader = new TopicReaderHederaClient();
 const messages = await topicReader.fetchAllToDate('0.0.5217215', 'testnet');
@@ -61,7 +61,7 @@ The `TopicReaderHederaRestApi` class is a implementation of the `TopicReader` cl
 
 [source, typescript]
 ----
-import { TopicReaderHederaRestApi } from '@swiss-digital-assets-institute/resolver';
+import { TopicReaderHederaRestApi } from '@hiero-did-sdk/resolver';
 
 const topicReader = new TopicReaderHederaRestApi();
 const messages = await topicReader.fetchFrom('0.0.5217215', 'testnet', {
@@ -74,7 +74,7 @@ console.log(messages);
 
 [source, typescript]
 ----
-import { TopicReaderHederaRestApi } from '@swiss-digital-assets-institute/resolver';
+import { TopicReaderHederaRestApi } from '@hiero-did-sdk/resolver';
 
 const topicReader = new TopicReaderHederaRestApi();
 const messages = await topicReader.fetchAllToDate('0.0.5217215', 'testnet');
@@ -82,12 +82,12 @@ const messages = await topicReader.fetchAllToDate('0.0.5217215', 'testnet');
 console.log(messages);
 ----
 
-==== Using Custom Rest API 
+==== Using Custom Rest API
 By default, the `TopicReaderHederaRestApi` class uses the public Mirror Node REST API. You can use your own REST API endpoint by passing it to the constructor of the `TopicReaderHederaRestApi` class as a map of network names to REST API endpoints.
 
 [source, typescript]
 ----
-import { TopicReaderHederaRestApi } from '@swiss-digital-assets-institute/resolver';
+import { TopicReaderHederaRestApi } from '@hiero-did-sdk/resolver';
 
 const topicReader = new TopicReaderHederaRestApi({
   mainnet: 'https://mainnet.example.com',

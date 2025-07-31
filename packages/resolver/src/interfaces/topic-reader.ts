@@ -1,4 +1,4 @@
-import { Network } from '@swiss-digital-assets-institute/core';
+import { Network } from '@hiero-did-sdk/core';
 
 export interface TopicReaderOptions {
   /**
@@ -26,10 +26,7 @@ export abstract class TopicReader {
    * @param topicId - The ID of the topic to fetch messages from.
    * @returns A promise that resolves to an array of messages.
    */
-  abstract fetchAllToDate(
-    topicId: string,
-    network: Network,
-  ): Promise<TopicReaderMessage[]>;
+  abstract fetchAllToDate(topicId: string, network: Network): Promise<TopicReaderMessage[]>;
 
   /**
    * Fetches messages from a topic from a specific start time to an end time.
@@ -37,9 +34,5 @@ export abstract class TopicReader {
    * @param options - The options for the fetch.
    * @returns A promise that resolves to an array of messages.
    */
-  abstract fetchFrom(
-    topicId: string,
-    network: Network,
-    options: TopicReaderOptions,
-  ): Promise<TopicReaderMessage[]>;
+  abstract fetchFrom(topicId: string, network: Network, options: TopicReaderOptions): Promise<TopicReaderMessage[]>;
 }

@@ -1,50 +1,37 @@
-import { LifecycleRunner } from '@swiss-digital-assets-institute/lifecycle';
+import { LifecycleRunner } from '@hiero-did-sdk/lifecycle';
 import {
   DIDRemoveVerificationMethodMessage,
   DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
   DIDRemoveVerificationMethodMessageHederaCSMLifeCycle,
-} from '@swiss-digital-assets-institute/messages';
-import { DIDError } from '@swiss-digital-assets-institute/core';
+} from '@hiero-did-sdk/messages';
+import { DIDError } from '@hiero-did-sdk/core';
 import { RemoveVerificationMethodOperation } from '../interface';
 import { fragmentSearch } from '../helpers/fragment-search';
-import {
-  ExecuteFunction,
-  PreExecuteFunction,
-  PrepareFunction,
-} from './interfaces';
+import { ExecuteFunction, PreExecuteFunction, PrepareFunction } from './interfaces';
 
-export const prepare: PrepareFunction<
-  DIDRemoveVerificationMethodMessage,
-  RemoveVerificationMethodOperation
-> = async (
+export const prepare: PrepareFunction<DIDRemoveVerificationMethodMessage, RemoveVerificationMethodOperation> = async (
   options,
   operationOptions,
   didDocument,
   clientMode,
   publisher,
   signer,
-  verifier,
+  verifier
 ) => {
   const manager = new LifecycleRunner(
     clientMode
       ? DIDRemoveVerificationMethodMessageHederaCSMLifeCycle
-      : DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
+      : DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle
   );
 
   const foundedFragment = fragmentSearch(options.id, didDocument);
 
   if (!foundedFragment.found) {
-    throw new DIDError(
-      'invalidArgument',
-      'Verification method ID does not exist. Nothing to remove',
-    );
+    throw new DIDError('invalidArgument', 'Verification method ID does not exist. Nothing to remove');
   }
 
   if (foundedFragment.property === 'service') {
-    throw new DIDError(
-      'invalidArgument',
-      'Cannot remove a service using `remove-verification-method` operation',
-    );
+    throw new DIDError('invalidArgument', 'Cannot remove a service using `remove-verification-method` operation');
   }
 
   const message = new DIDRemoveVerificationMethodMessage({
@@ -64,12 +51,13 @@ export const prepare: PrepareFunction<
   return state;
 };
 
-export const preExecute: PreExecuteFunction<
-  DIDRemoveVerificationMethodMessage
-> = async (previousState, publisher, signature, verifier) => {
-  const manager = new LifecycleRunner(
-    DIDRemoveVerificationMethodMessageHederaCSMLifeCycle,
-  );
+export const preExecute: PreExecuteFunction<DIDRemoveVerificationMethodMessage> = async (
+  previousState,
+  publisher,
+  signature,
+  verifier
+) => {
+  const manager = new LifecycleRunner(DIDRemoveVerificationMethodMessageHederaCSMLifeCycle);
 
   const state = await manager.resume(previousState, {
     publisher,
@@ -82,13 +70,16 @@ export const preExecute: PreExecuteFunction<
   return state;
 };
 
-export const execute: ExecuteFunction<
-  DIDRemoveVerificationMethodMessage
-> = async (previousState, clientMode, publisher, signer) => {
+export const execute: ExecuteFunction<DIDRemoveVerificationMethodMessage> = async (
+  previousState,
+  clientMode,
+  publisher,
+  signer
+) => {
   const manager = new LifecycleRunner(
     clientMode
       ? DIDRemoveVerificationMethodMessageHederaCSMLifeCycle
-      : DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,
+      : DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle
   );
 
   const state = await manager.resume(previousState, {

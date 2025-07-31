@@ -3,7 +3,7 @@ import {
   DIDAddVerificationMethodMessage,
   DIDRemoveServiceMessage,
   DIDRemoveVerificationMethodMessage,
-} from '@swiss-digital-assets-institute/messages';
+} from '@hiero-did-sdk/messages';
 import { PUBLIC_KEY_MULTIBASE, VALID_DID } from '../helpers';
 import { OperationState } from '../../src/interfaces';
 import { deserializeState } from '../../src/update-did/helpers/deserialize-state';

@@ -1,15 +1,9 @@
-import {
-  DIDDeactivateMessage,
-  DIDDeactivateMessageHederaCSMLifeCycle,
-} from '@swiss-digital-assets-institute/messages';
-import {
-  LifecycleRunner,
-  LifecycleRunnerOptions,
-} from '@swiss-digital-assets-institute/lifecycle';
-import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
-import { DIDError } from '@swiss-digital-assets-institute/core';
-import { resolveDID } from '@swiss-digital-assets-institute/resolver';
-import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
+import { DIDDeactivateMessage, DIDDeactivateMessageHederaCSMLifeCycle } from '@hiero-did-sdk/messages';
+import { LifecycleRunner, LifecycleRunnerOptions } from '@hiero-did-sdk/lifecycle';
+import { Publisher } from '@hiero-did-sdk/publisher-internal';
+import { DIDError } from '@hiero-did-sdk/core';
+import { resolveDID } from '@hiero-did-sdk/resolver';
+import { Verifier } from '@hiero-did-sdk/verifier-internal';
 import { OperationState, PublisherProviders } from '../interfaces';
 import { getPublisher, MessageAwaiter, getDIDRootKey } from '../shared';
 import {
@@ -29,20 +23,16 @@ import {
  */
 export async function generateDeactivateDIDRequest(
   options: GenerateDeactivateDIDRequestOptions,
-  providers: PublisherProviders,
+  providers: PublisherProviders
 ): Promise<DeactivateDIDRequest> {
   const operationProviders = providers;
   const requestOperationOptions = options;
 
   const publisher = getPublisher(operationProviders);
 
-  const resolvedDIDDocument = await resolveDID(
-    requestOperationOptions.did,
-    'application/did+json',
-    {
-      topicReader: requestOperationOptions.topicReader,
-    },
-  );
+  const resolvedDIDDocument = await resolveDID(requestOperationOptions.did, 'application/did+json', {
+    topicReader: requestOperationOptions.topicReader,
+  });
 
   const didRootKey = getDIDRootKey(resolvedDIDDocument);
 
@@ -58,10 +48,7 @@ export async function generateDeactivateDIDRequest(
   // Start processing the lifecycle
   const state = await manager.process(didDeactivateMessage, runnerOptions);
 
-  if (
-    operationProviders.clientOptions instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (operationProviders.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 
@@ -91,7 +78,7 @@ export async function generateDeactivateDIDRequest(
  */
 export async function submitDeactivateDIDRequest(
   options: SubmitDeactivateDIDRequestOptions,
-  providers: PublisherProviders,
+  providers: PublisherProviders
 ): Promise<DeactivateDIDResult> {
   const publisher = getPublisher(providers);
 
@@ -99,13 +86,9 @@ export async function submitDeactivateDIDRequest(
 
   const message = DIDDeactivateMessage.fromBytes(options.state.message);
 
-  const resolvedDIDDocument = await resolveDID(
-    message.did,
-    'application/did+json',
-    {
-      topicReader: options.topicReader,
-    },
-  );
+  const resolvedDIDDocument = await resolveDID(message.did, 'application/did+json', {
+    topicReader: options.topicReader,
+  });
 
   const didRootKey = getDIDRootKey(resolvedDIDDocument);
   const verifier = Verifier.fromMultibase(didRootKey);
@@ -125,15 +108,11 @@ export async function submitDeactivateDIDRequest(
       ...state,
       message,
     },
-    runnerOptions,
+    runnerOptions
   );
 
   // Set up a message awaiter to wait for the message to be available in the topic
-  const messageAwaiter = new MessageAwaiter(
-    message.topicId,
-    await publisher.network(),
-    options.topicReader,
-  )
+  const messageAwaiter = new MessageAwaiter(message.topicId, await publisher.network(), options.topicReader)
     .forMessages([message.payload])
     .setStartsAt(new Date())
     .withTimeout(options.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT);
@@ -141,10 +120,7 @@ export async function submitDeactivateDIDRequest(
   // Resume the lifecycle to finish the process
   const finalState = await manager.resume(firstState, runnerOptions);
 
-  if (
-    providers.clientOptions instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (providers.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 

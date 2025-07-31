@@ -3,7 +3,7 @@ import base from '../../jest.config.base';
 
 const config: Config = {
   ...base,
-  displayName: '@hashgraph-did-sdk/publisher-internal',
+  displayName: '@hiero-did-sdk/publisher-internal',
   rootDir: '../..',
   testMatch: [`<rootDir>/packages/publisher-internal/**/*.spec.ts`],
 };

@@ -1,4 +1,4 @@
-import { Network } from '@swiss-digital-assets-institute/core';
+import { Network } from '@hiero-did-sdk/core';
 import { PrivateKey } from '@hashgraph/sdk';
 
 export interface ClientOptions {

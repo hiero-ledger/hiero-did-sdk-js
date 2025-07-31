@@ -3,8 +3,8 @@
   Hedera `Client` instance. This allows for more control over the 
   client's configuration and network interaction.
 */
-import { Client } from "@hashgraph/sdk";
-import { createDID } from '@swiss-digital-assets-institute/registrar';
+import { Client } from '@hashgraph/sdk';
+import { createDID } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_ACCOUNT_ID;
 const operatorPrivateKey = process.env.HEDERA_TESTNET_PRIVATE_KEY;
@@ -21,7 +21,7 @@ async function main() {
     console.log(`DID: ${did}`);
     console.log(`DID Document: ${JSON.stringify(didDocument, null, 2)}`);
   } catch (error) {
-    console.error("Error creating DID:", error);
+    console.error('Error creating DID:', error);
   }
 }
 

@@ -1,12 +1,5 @@
-import {
-  DIDDocument,
-  DIDError,
-  DIDResolution,
-  isHederaDID,
-  JsonLdDIDDocument,
-} from '@swiss-digital-assets-institute/core';
+import { DIDDocument, DIDError, DIDResolution, isHederaDID, JsonLdDIDDocument, parseDID } from '@hiero-did-sdk/core';
 import { ResolveDIDOptions, Accept } from './interfaces';
-import { parseDID } from './helpers';
 import { TopicReaderHederaClient } from './topic-readers';
 import { DidDocumentBuilder } from './did-document-builder';
 
@@ -21,27 +14,27 @@ import { DidDocumentBuilder } from './did-document-builder';
 export async function resolveDID(
   did: string,
   accept: 'application/did+json',
-  options?: ResolveDIDOptions,
+  options?: ResolveDIDOptions
 ): Promise<DIDDocument>;
 export async function resolveDID(
   did: string,
   accept?: 'application/did+ld+json',
-  options?: ResolveDIDOptions,
+  options?: ResolveDIDOptions
 ): Promise<JsonLdDIDDocument>;
 export async function resolveDID(
   did: string,
   accept: 'application/ld+json;profile="https://w3id.org/did-resolution"',
-  options?: ResolveDIDOptions,
+  options?: ResolveDIDOptions
 ): Promise<DIDResolution>;
 export async function resolveDID(
   did: string,
   accept: 'application/did+cbor',
-  options?: ResolveDIDOptions,
+  options?: ResolveDIDOptions
 ): Promise<Uint8Array>;
 export async function resolveDID(
   did: string,
   accept: Accept = 'application/did+ld+json',
-  options: ResolveDIDOptions = {},
+  options: ResolveDIDOptions = {}
 ): Promise<DIDDocument | JsonLdDIDDocument | DIDResolution | Uint8Array> {
   if (!isHederaDID(did)) {
     throw new DIDError('invalidDid', 'Unsupported DID method or invalid DID');
@@ -71,9 +64,6 @@ export async function resolveDID(
     case 'application/did+cbor':
       return didDocumentBuilder.toDidDocumentCbor();
     default:
-      throw new DIDError(
-        'representationNotSupported',
-        'Unsupported representation format',
-      );
+      throw new DIDError('representationNotSupported', 'Unsupported representation format');
   }
 }

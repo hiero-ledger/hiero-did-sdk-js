@@ -1,4 +1,4 @@
-import { isHederaDID } from '@swiss-digital-assets-institute/core';
+import { isHederaDID } from '@hiero-did-sdk/core';
 import { DIDOwnerEvent } from '../interfaces/did-owner-event';
 import { hasVerificationMethodProperties, isObject, isString } from './base';
 
@@ -8,9 +8,7 @@ import { hasVerificationMethodProperties, isObject, isString } from './base';
  * @param eventObject The object to check
  * @returns True if the object is a DIDOwnerEvent, false otherwise
  */
-export function isDIDOwnerEvent(
-  eventObject: unknown,
-): eventObject is DIDOwnerEvent {
+export function isDIDOwnerEvent(eventObject: unknown): eventObject is DIDOwnerEvent {
   if (!isObject(eventObject)) {
     return false;
   }
@@ -25,11 +23,7 @@ export function isDIDOwnerEvent(
     return false;
   }
 
-  if (
-    !('id' in DIDOwner) ||
-    !isString(DIDOwner.id) ||
-    !isHederaDID(DIDOwner.id)
-  ) {
+  if (!('id' in DIDOwner) || !isString(DIDOwner.id) || !isHederaDID(DIDOwner.id)) {
     return false;
   }
 

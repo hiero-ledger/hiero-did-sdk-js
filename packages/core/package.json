@@ -1,15 +1,6 @@
 {
-  "name": "@swiss-digital-assets-institute/core",
-  "version": "0.4.0",
-  "description": "This package forms the foundation of the Hashgraph DID SDK. It provides essential interfaces, utilities, and validation tools for working with Decentralized Identifiers (DIDs) on the Hedera network.",
-  "author": {
-    "name": "The Hashgraph Association",
-    "url": "https://www.hashgraph.swiss/"
-  },
-  "bugs": {
-    "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/issues"
-  },
-  "license": "Apache-2.0",
+  "name": "@hiero-did-sdk/core",
+  "version": "0.0.7",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
@@ -21,6 +12,15 @@
     "import": "./dist/index.esm.js",
     "default": "./dist/index.esm.js"
   },
+  "description": "This package forms the foundation of the Hiero DID SDK. It provides essential interfaces, utilities, and validation tools for working with Decentralized Identifiers (DIDs) on the Hedera network.",
+  "author": {
+    "name": "The Hashgraph Association",
+    "url": "https://www.hashgraph.swiss/"
+  },
+  "bugs": {
+    "url": "https://github.com/DSRCorporation/hiero-did-sdk-js/issues"
+  },
+  "license": "Apache-2.0",
   "files": [
     "dist",
     "package.json",
@@ -29,24 +29,30 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js.git",
+    "url": "https://github.com/DSRCorporation/hiero-did-sdk-js.git",
     "directory": "packages/core"
   },
   "engines": {
     "node": ">=20"
   },
   "scripts": {
+    "clean": "rimraf ./dist",
+    "compile": "tsup",
     "test": "jest",
-    "build": "tsup"
+    "test:coverage": "jest --coverage",
+    "build": "pnpm clean && pnpm compile",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/*.ts\"",
+    "format-check": "prettier --check \"src/*.ts\" \"tests/*.ts\""
   },
   "publishConfig": {
     "access": "restricted",
     "registry": "https://npm.pkg.github.com",
-    "scope": "@swiss-digital-assets-institute"
+    "scope": "@hiero-did-sdk"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.62.0",
+    "@hashgraph/sdk": "^2.66.0",
     "@scure/base": "^1.2.4",
-    "cbor2": "^1.12.0"
+    "buffer": "^6.0.3",
+    "cbor-x": "^1.6.0"
   }
 }

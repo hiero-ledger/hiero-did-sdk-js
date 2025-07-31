@@ -1,4 +1,4 @@
-import { CborCodec, DIDError } from '@swiss-digital-assets-institute/core';
+import { CborCodec, DIDError } from '@hiero-did-sdk/core';
 import { resolveDID } from '../src';
 import { getAddVerificationMethodMessage, getDIDOwnerMessage } from './helpers';
 
@@ -7,9 +7,7 @@ jest.mock('../src/topic-readers/topic-reader-hedera-client.ts', () => {
   return {
     TopicReaderHederaClient: jest.fn().mockImplementation(() => {
       return {
-        fetchAllToDate: jest
-          .fn()
-          .mockImplementation(() => messagesMock() as never),
+        fetchAllToDate: jest.fn().mockImplementation(() => messagesMock() as never),
       };
     }),
   };
@@ -94,10 +92,7 @@ describe('DID Resolver', () => {
   it('should resolve a did document to full resolution format', async () => {
     messagesMock.mockReturnValue(messages);
 
-    const didDocument = await resolveDID(
-      did,
-      'application/ld+json;profile="https://w3id.org/did-resolution"',
-    );
+    const didDocument = await resolveDID(did, 'application/ld+json;profile="https://w3id.org/did-resolution"');
 
     expect(didDocument).toBeDefined();
     expect(didDocument).toStrictEqual({
@@ -107,8 +102,7 @@ describe('DID Resolver', () => {
         deactivated: false,
       },
       didResolutionMetadata: {
-        contentType:
-          'application/ld+json;profile="https://w3id.org/did-resolution"',
+        contentType: 'application/ld+json;profile="https://w3id.org/did-resolution"',
       },
       didDocument: {
         '@context': expect.arrayContaining([expect.any(String)]),
@@ -156,32 +150,26 @@ describe('DID Resolver', () => {
             publicKeyMultibase: vmPublicKey,
           },
         ],
-      }),
+      })
     );
   });
 
   it('should throw an error for invalid accept option', async () => {
     messagesMock.mockReturnValue(messages);
 
-    await expect(resolveDID(did, 'invalid' as never)).rejects.toThrow(
-      'Unsupported representation format',
-    );
+    await expect(resolveDID(did, 'invalid' as never)).rejects.toThrow('Unsupported representation format');
   });
 
   it('should throw an error for invalid did', async () => {
     messagesMock.mockReturnValue(messages);
 
-    await expect(resolveDID('did:hedera:testnet:zguayisd')).rejects.toThrow(
-      'Unsupported DID method or invalid DID',
-    );
+    await expect(resolveDID('did:hedera:testnet:zguayisd')).rejects.toThrow('Unsupported DID method or invalid DID');
   });
 
   it('should throw an error when did not found', async () => {
     messagesMock.mockReturnValue([]);
 
-    await expect(resolveDID(did)).rejects.toThrow(
-      new DIDError('notFound', 'The DID document was not found'),
-    );
+    await expect(resolveDID(did)).rejects.toThrow(new DIDError('notFound', 'The DID document was not found'));
   });
 
   afterEach(() => {

@@ -5,8 +5,8 @@
 
 |*Author:*     |Jakub Sydor <@Harasz>, Pablo Buitrago <@ChangoBuitrago>
 |*Working-group:* |Micha Roon <@drgorb>, Pablo Buitrago <@ChangoBuitrago>, Jakub Stasiak <@js-hg>, Jakub Sydor <@Harasz>, Waldemar Trawnicki
-@wtrawnicki, Gabriele Morelli <@gabomorelli> 
-|*Discussions-to:* | https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js/pull/666
+@wtrawnicki, Gabriele Morelli <@gabomorelli>
+|*Discussions-to:* | https://github.com/DSRCorporation/hiero-did-sdk-js/pull/666
 |*Status:*     |Draft
 |*Needs-council-approval:* |No
 |*Type:*       |Informational
@@ -66,7 +66,7 @@ The technical specifications for the new Hashgraph DID-SDK will be detailed in t
 * **Code Examples:** Practical usage examples and sample code.
 * **Testing Details:** Coverage of unit, integration, and security tests.
 
-These details will be available in the reference implementation on the link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js[Hashgraph DID-SDK's GitHub repository], ensuring transparency and community collaboration.
+These details will be available in the reference implementation on the link:https://github.com/DSRCorporation/hiero-did-sdk-js[Hashgraph DID-SDK's GitHub repository], ensuring transparency and community collaboration.
 
 == Backwards Compatibility
 
@@ -82,7 +82,7 @@ A complete reference implementation will be developed, including:
 
 * **Robust Test Coverage:** Extensive test coverage with a target of 80%, including unit, integration, security, and performance tests.
 * **Comprehensive Documentation:** Detailed documentation to help developers understand and use the SDK effectively.
-- **Open Source and Collaborative**: The implementation will be publicly accessible at link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-js[Hashgraph DID-SDK's GitHub repository], allowing for community review and collaboration.
+- **Open Source and Collaborative**: The implementation will be publicly accessible at link:https://github.com/DSRCorporation/hiero-did-sdk-js[Hashgraph DID-SDK's GitHub repository], allowing for community review and collaboration.
 
 == Rejected Ideas
 

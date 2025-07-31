@@ -1,10 +1,7 @@
-import { Network, DIDError } from '@swiss-digital-assets-institute/core';
-import {
-  TopicReader,
-  TopicReaderMessage,
-  TopicReaderOptions,
-} from '../interfaces';
+import { Network, DIDError } from '@hiero-did-sdk/core';
+import { TopicReader, TopicReaderMessage, TopicReaderOptions } from '../interfaces';
 import { Timestamp } from '@hashgraph/sdk';
+import { Buffer } from 'buffer';
 
 interface RestAPIMessage {
   consensus_timestamp: string;
@@ -44,9 +41,7 @@ export class TopicReaderHederaRestApi extends TopicReader {
    * Constructor for the Rest API Topic Reader.
    * @param map - The network map to use for the Hedera Rest API. If not provided, the default network map will be used.
    */
-  constructor(
-    private readonly map: TopicReaderHederaRestApiNetworkMap = TopicReaderHederaRestApi.DEFAULT_NETWORK_MAP,
-  ) {
+  constructor(private readonly map: TopicReaderHederaRestApiNetworkMap = TopicReaderHederaRestApi.DEFAULT_NETWORK_MAP) {
     super();
   }
 
@@ -56,10 +51,7 @@ export class TopicReaderHederaRestApi extends TopicReader {
    * @param network - The network to use for the Hedera Rest API.
    * @returns A promise that resolves to an array of messages.
    */
-  async fetchAllToDate(
-    topicId: string,
-    network: Network,
-  ): Promise<TopicReaderMessage[]> {
+  async fetchAllToDate(topicId: string, network: Network): Promise<TopicReaderMessage[]> {
     return this.fetchFrom(topicId, network, { from: 0, to: Date.now() });
   }
 
@@ -70,11 +62,7 @@ export class TopicReaderHederaRestApi extends TopicReader {
    * @param options - The options for the fetch.
    * @returns A promise that resolves to an array of messages.
    */
-  async fetchFrom(
-    topicId: string,
-    network: Network,
-    options: TopicReaderOptions,
-  ): Promise<TopicReaderMessage[]> {
+  async fetchFrom(topicId: string, network: Network, options: TopicReaderOptions): Promise<TopicReaderMessage[]> {
     let topicReaderMessages: string[] = [];
     const toTimestamp = Timestamp.fromDate(new Date(options.to));
     const fromTimestamp = Timestamp.fromDate(new Date(options.from));
@@ -131,19 +119,11 @@ export class TopicReaderHederaRestApi extends TopicReader {
    * @param encoding - The encoding of the messages.
    * @returns The next URL for the fetch.
    */
-  private getNextUrl(
-    network: Network,
-    nextPath: string,
-    limit = 25,
-    encoding = 'base64',
-  ) {
+  private getNextUrl(network: Network, nextPath: string, limit = 25, encoding = 'base64') {
     let apiUrl = this.map[network];
 
     if (!apiUrl) {
-      throw new DIDError(
-        'invalidArgument',
-        `Trying to fetch messages from unsupported network: ${network}.`,
-      );
+      throw new DIDError('invalidArgument', `Trying to fetch messages from unsupported network: ${network}.`);
     }
 
     if (apiUrl.endsWith('/')) {

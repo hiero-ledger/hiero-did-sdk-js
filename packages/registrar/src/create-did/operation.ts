@@ -1,25 +1,13 @@
-import {
-  DIDOwnerMessage,
-  DIDOwnerMessageHederaDefaultLifeCycle,
-} from '@swiss-digital-assets-institute/messages';
-import {
-  LifecycleRunner,
-  LifecycleRunnerOptions,
-} from '@swiss-digital-assets-institute/lifecycle';
-import { Signer } from '@swiss-digital-assets-institute/signer-internal';
-import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
-import { DIDError, KeysUtility } from '@swiss-digital-assets-institute/core';
+import { DIDOwnerMessage, DIDOwnerMessageHederaDefaultLifeCycle } from '@hiero-did-sdk/messages';
+import { LifecycleRunner, LifecycleRunnerOptions } from '@hiero-did-sdk/lifecycle';
+import { Signer } from '@hiero-did-sdk/signer-internal';
+import { Publisher } from '@hiero-did-sdk/publisher-internal';
+import { DIDError, KeysUtility } from '@hiero-did-sdk/core';
 import { PublicKey } from '@hashgraph/sdk';
 import { Providers } from '../interfaces';
-import {
-  getPublisher,
-  getSigner,
-  MessageAwaiter,
-  extractOptions,
-  extractProviders,
-} from '../shared';
+import { getPublisher, getSigner, MessageAwaiter, extractOptions, extractProviders } from '../shared';
 import { CreateDIDOptions, CreateDIDResult } from './interface';
-import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
+import { Verifier } from '@hiero-did-sdk/verifier-internal';
 
 /**
  * Create a new DID on the Hedera network.
@@ -34,23 +22,16 @@ export function createDID(providers: Providers): Promise<CreateDIDResult>;
  * @param providers The providers used to create the DID.
  * @returns The DID and DID document, along with the private key if it was generated.
  */
-export function createDID(
-  options: CreateDIDOptions,
-  providers: Providers,
-): Promise<CreateDIDResult>;
+export function createDID(options: CreateDIDOptions, providers: Providers): Promise<CreateDIDResult>;
 export async function createDID(
   providersOrOptions: Providers | CreateDIDOptions,
-  providers?: Providers,
+  providers?: Providers
 ): Promise<CreateDIDResult> {
   const operationProviders = extractProviders(providersOrOptions, providers);
   const operationOptions = extractOptions(providersOrOptions);
 
   const publisher = getPublisher(operationProviders);
-  const signer = getSigner(
-    operationProviders.signer,
-    operationOptions.privateKey,
-    true,
-  );
+  const signer = getSigner(operationProviders.signer, operationOptions.privateKey, true);
 
   const publicKeyString = await signer.publicKey();
   const publicKeyObject = PublicKey.fromStringED25519(publicKeyString);
@@ -86,21 +67,16 @@ export async function createDID(
   const messageAwaiter = new MessageAwaiter(
     didOwnerMessage.topicId,
     await publisher.network(),
-    operationOptions.topicReader,
+    operationOptions.topicReader
   )
     .forMessages([didOwnerMessage.payload])
     .setStartsAt(new Date())
-    .withTimeout(
-      operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT,
-    );
+    .withTimeout(operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT);
 
   // Resume the lifecycle
   const secondState = await manager.resume(firstState, runnerOptions);
 
-  if (
-    operationProviders.clientOptions instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (operationProviders.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 
@@ -124,8 +100,7 @@ export async function createDID(
           id: `${didOwnerMessage.did}#did-root-key`,
           type: 'Ed25519VerificationKey2020',
           controller: didOwnerMessage.controllerDid,
-          publicKeyMultibase:
-            KeysUtility.fromPublicKey(publicKeyObject).toMultibase(),
+          publicKeyMultibase: KeysUtility.fromPublicKey(publicKeyObject).toMultibase(),
         },
       ],
     },

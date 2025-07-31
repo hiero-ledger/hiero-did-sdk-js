@@ -1,12 +1,6 @@
-import {
-  DIDError,
-  DIDMessage,
-  isHederaDID,
-} from '@swiss-digital-assets-institute/core';
-import {
-  DIDDeactivateMessageConstructor,
-  MessageSerialized,
-} from './interfaces';
+import { DIDError, DIDMessage, isHederaDID } from '@hiero-did-sdk/core';
+import { DIDDeactivateMessageConstructor, MessageSerialized } from './interfaces';
+import { Buffer } from 'buffer';
 
 /**
  * A message to deactivate a DID.
@@ -67,9 +61,7 @@ export class DIDDeactivateMessage extends DIDMessage {
     const data: MessageSerialized = {
       did: this.did,
       timestamp: this.timestamp.toISOString(),
-      signature: this.signature
-        ? Buffer.from(this.signature).toString('base64')
-        : undefined,
+      signature: this.signature ? Buffer.from(this.signature).toString('base64') : undefined,
     };
 
     return Buffer.from(JSON.stringify(data)).toString('base64');
@@ -81,16 +73,12 @@ export class DIDDeactivateMessage extends DIDMessage {
    * @returns The deserialized message instance.
    */
   static fromBytes(bytes: string): DIDDeactivateMessage {
-    const data = JSON.parse(
-      Buffer.from(bytes, 'base64').toString('utf8'),
-    ) as MessageSerialized;
+    const data = JSON.parse(Buffer.from(bytes, 'base64').toString('utf8')) as MessageSerialized;
 
     return new DIDDeactivateMessage({
       did: data.did,
       timestamp: new Date(data.timestamp),
-      signature: data.signature
-        ? Buffer.from(data.signature, 'base64')
-        : undefined,
+      signature: data.signature ? Buffer.from(data.signature, 'base64') : undefined,
     });
   }
 }

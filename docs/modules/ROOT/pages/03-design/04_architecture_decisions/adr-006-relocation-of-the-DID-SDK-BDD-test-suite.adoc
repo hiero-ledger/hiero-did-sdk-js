@@ -64,4 +64,4 @@ Relocate the BDD test suite to a separate repository (Option 2).
 ==== References
 
 * link:https://hashgraph.atlassian.net/wiki/spaces/HIP/pages/246939656/Assessment+Result+DID-SDK+BDD+Test+Suite[Assessment Result: DID-SDK BDD Test Suite]
-* link:https://github.com/Swiss-Digital-Assets-Institute/hashgraph-did-sdk-test-suite[DID-SDK Test Suite Repository]
+* link:https://github.com/DSRCorporation/hiero-did-sdk-test-suite[DID-SDK Test Suite Repository]

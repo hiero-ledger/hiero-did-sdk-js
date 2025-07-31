@@ -11,7 +11,7 @@ import { Client, PrivateKey } from '@hashgraph/sdk';
 import {
   KeysUtility,
   DID_ROOT_KEY_ID,
-} from '@swiss-digital-assets-institute/core';
+} from '@hiero-did-sdk/core';
 import {
   generateDeactivateDIDRequest,
   submitDeactivateDIDRequest,
@@ -20,7 +20,7 @@ import {
 import { VALID_DID_TOPIC_ID, TestPublisher, VALID_DID } from '../helpers';
 
 const didDocumentMock = jest.fn();
-jest.mock('@swiss-digital-assets-institute/resolver', () => {
+jest.mock('@hiero-did-sdk/resolver', () => {
   return {
     resolveDID: jest
       .fn()

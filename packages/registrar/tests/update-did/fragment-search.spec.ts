@@ -1,4 +1,4 @@
-import { DIDDocument } from '@swiss-digital-assets-institute/core';
+import { DIDDocument } from '@hiero-did-sdk/core';
 import { fragmentSearch } from '../../src/update-did/helpers/fragment-search';
 
 describe('Fragment Search', () => {

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { TopicReaderHederaClient } from '../../src/topic-readers';
 import { Client, TopicMessage, Timestamp } from '@hashgraph/sdk';
+import { Buffer } from 'buffer';
 
 const subscribeMock = jest.fn();
 const completionHandlerMock = jest.fn();

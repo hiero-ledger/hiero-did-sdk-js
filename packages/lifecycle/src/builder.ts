@@ -1,14 +1,11 @@
-import { DIDError, DIDMessage } from '@swiss-digital-assets-institute/core';
+import { DIDError, DIDMessage } from '@hiero-did-sdk/core';
 import { Steps, CallbackStep, CatchStep } from './interfaces/steps';
 
 /**
  * A builder for constructing a lifecycle pipeline.
  * A lifecycle pipeline is a series of steps that are executed in order.
  */
-export class LifecycleBuilder<
-  Message extends DIDMessage,
-  Context extends object = object,
-> {
+export class LifecycleBuilder<Message extends DIDMessage, Context extends object = object> {
   protected readonly pipeline: Steps<Message, Context>[] = [];
   public catchStep?: CatchStep;
 
@@ -43,10 +40,7 @@ export class LifecycleBuilder<
     const stepOrUndefined = this.pipeline.find((s) => s.label === stepLabel);
 
     if (!stepOrUndefined) {
-      throw new DIDError(
-        'internalError',
-        `Step with label '${stepLabel}' does not exist`,
-      );
+      throw new DIDError('internalError', `Step with label '${stepLabel}' does not exist`);
     }
 
     return stepOrUndefined;
@@ -59,15 +53,10 @@ export class LifecycleBuilder<
    * @throws If the step does not exist.
    */
   getIndexByLabel(stepLabel: string): number {
-    const stepIndexOrUndefined = this.pipeline.findIndex(
-      (s) => s.label === stepLabel,
-    );
+    const stepIndexOrUndefined = this.pipeline.findIndex((s) => s.label === stepLabel);
 
     if (stepIndexOrUndefined < 0) {
-      throw new DIDError(
-        'internalError',
-        `Step with label '${stepLabel}' does not exist`,
-      );
+      throw new DIDError('internalError', `Step with label '${stepLabel}' does not exist`);
     }
 
     return stepIndexOrUndefined;
@@ -81,10 +70,7 @@ export class LifecycleBuilder<
    * @param callback The callback function to be executed.
    * @returns The builder instance.
    */
-  callback(
-    label: string,
-    callback: CallbackStep<Message, Context>['callback'],
-  ): this {
+  callback(label: string, callback: CallbackStep<Message, Context>['callback']): this {
     this.validateLabel(label);
 
     this.pipeline.push({ type: 'callback', label, callback });
@@ -147,10 +133,7 @@ export class LifecycleBuilder<
 
   private validateLabel(label: string): void {
     if (this.pipeline.some((s) => s.label === label)) {
-      throw new DIDError(
-        'internalError',
-        `Step with label '${label}' already exists`,
-      );
+      throw new DIDError('internalError', `Step with label '${label}' already exists`);
     }
   }
 }

@@ -1,13 +1,8 @@
 import { PublicKey } from '@hashgraph/sdk';
-import {
-  DIDMessage,
-  Network,
-  isHederaDID,
-  KeysUtility,
-  DIDError,
-} from '@swiss-digital-assets-institute/core';
+import { DIDMessage, Network, isHederaDID, KeysUtility, DIDError } from '@hiero-did-sdk/core';
 import { isTopicId } from '../../validators/is-topic-id';
 import { DIDOwnerMessageConstructor, MessageSerialized } from './interfaces';
+import { Buffer } from 'buffer';
 
 /**
  * DIDOwnerMessage is a message that represents the creation of a DID Document.
@@ -72,9 +67,7 @@ export class DIDOwnerMessage extends DIDMessage {
       throw new DIDError('internalError', 'Network is missing');
     }
 
-    const publicKeyBase58 = KeysUtility.fromPublicKey(
-      this.publicKey,
-    ).toBase58();
+    const publicKeyBase58 = KeysUtility.fromPublicKey(this.publicKey).toBase58();
     return `did:hedera:${this.network}:${publicKeyBase58}_${this.topicId}`;
   }
 
@@ -94,9 +87,7 @@ export class DIDOwnerMessage extends DIDMessage {
         id: `${this.did}`,
         type: 'Ed25519VerificationKey2020',
         controller: this.controllerDid,
-        publicKeyMultibase: KeysUtility.fromPublicKey(
-          this.publicKey,
-        ).toMultibase(),
+        publicKeyMultibase: KeysUtility.fromPublicKey(this.publicKey).toMultibase(),
       },
     };
 
@@ -114,10 +105,7 @@ export class DIDOwnerMessage extends DIDMessage {
    */
   setTopicId(topicId: string): void {
     if (!isTopicId(topicId)) {
-      throw new DIDError(
-        'invalidArgument',
-        'Topic ID is not a valid Hedera topic ID',
-      );
+      throw new DIDError('invalidArgument', 'Topic ID is not a valid Hedera topic ID');
     }
     this._topicId = topicId;
   }
@@ -153,9 +141,7 @@ export class DIDOwnerMessage extends DIDMessage {
       publicKey: this.publicKey.toStringRaw(),
       timestamp: this.timestamp.toISOString(),
       topicId: this._topicId,
-      signature: this.signature
-        ? Buffer.from(this.signature).toString('base64')
-        : undefined,
+      signature: this.signature ? Buffer.from(this.signature).toString('base64') : undefined,
     };
 
     return Buffer.from(JSON.stringify(data)).toString('base64');
@@ -167,9 +153,7 @@ export class DIDOwnerMessage extends DIDMessage {
    * @returns The deserialized message.
    */
   static fromBytes(bytes: string): DIDOwnerMessage {
-    const data = JSON.parse(
-      Buffer.from(bytes, 'base64').toString('utf8'),
-    ) as MessageSerialized;
+    const data = JSON.parse(Buffer.from(bytes, 'base64').toString('utf8')) as MessageSerialized;
 
     return new DIDOwnerMessage({
       controller: data.controller,
@@ -177,9 +161,7 @@ export class DIDOwnerMessage extends DIDMessage {
       publicKey: PublicKey.fromStringED25519(data.publicKey),
       timestamp: new Date(data.timestamp),
       topicId: data.topicId,
-      signature: data.signature
-        ? Buffer.from(data.signature, 'base64')
-        : undefined,
+      signature: data.signature ? Buffer.from(data.signature, 'base64') : undefined,
     });
   }
 }

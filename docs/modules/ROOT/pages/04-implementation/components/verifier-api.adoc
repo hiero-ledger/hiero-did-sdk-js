@@ -10,7 +10,7 @@ image::verifier-class-diagram.png[]
 
 == Constructor
 
-=== `constructor` 
+=== `constructor`
 [source,ts]
 ----
 constructor(publicKey: PublicKey)
@@ -23,7 +23,7 @@ Parameters::
 
 == Static Methods
 
-=== `fromMultibase` 
+=== `fromMultibase`
 [source,ts]
 ----
 static fromMultibase(multibase: string): Verifier
@@ -35,7 +35,7 @@ Returns::
 The new `Verifier` instance.
 
 
-=== `fromBase58` 
+=== `fromBase58`
 [source,ts]
 ----
 static fromBase58(base58: string): Verifier
@@ -49,7 +49,7 @@ The new `Verifier` instance.
 
 == Methods
 
-=== `publicKey` 
+=== `publicKey`
 [source,ts]
 ----
 publicKey(): string
@@ -60,7 +60,7 @@ Returns the public key associated with the `Verifier` instance in DER format.
 Returns::
 The public key in DER format.
 
-=== `verify` 
+=== `verify`
 [source,ts]
 ----
 verify(message: Uint8Array, signature: Uint8Array): boolean
@@ -88,4 +88,4 @@ Returns::
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `Verifier` class within its `verifier-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hashgraph-did-sdk-js/verifier-internal`] package documentation.
+The Hashgraph DID SDK provides the `Verifier` class within its `verifier-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/verifier-internal`] package documentation.

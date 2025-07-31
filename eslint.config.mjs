@@ -17,7 +17,9 @@ export default tseslint.config(
   {
     ignores: [
       'node_modules',
+      'coverage',
       '**/dist/*',
+      '**/build/*',
       '**/jest.config.ts',
       '**/tsup.config.ts',
       '**/eslint.config.mjs',
@@ -28,6 +30,10 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
       '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', destructuredArrayIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
   {
@@ -36,4 +42,19 @@ export default tseslint.config(
       '@typescript-eslint/no-floating-promises': 'off',
     },
   },
+  {
+    files: ['packages/zstd/**/zstd.ts', 'packages/crypto/**/crypto.ts'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+    },
+  },
+  {
+    files: ['**/tests/**/*.ts'],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off',
+    },
+  }
 );

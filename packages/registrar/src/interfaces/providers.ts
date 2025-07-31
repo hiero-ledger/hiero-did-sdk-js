@@ -1,4 +1,4 @@
-import { Publisher, Signer } from '@swiss-digital-assets-institute/core';
+import { Publisher, Signer } from '@hiero-did-sdk/core';
 import { Client } from '@hashgraph/sdk';
 import { ClientOptions } from './client-options';
 

@@ -1,4 +1,4 @@
-import { CborCodec, DIDError } from '@swiss-digital-assets-institute/core';
+import { CborCodec, DIDError } from '@hiero-did-sdk/core';
 import { resolveDID } from '../src';
 import { dereferenceDID } from '../src/dereference-did';
 import { DID_RESOLUTION, VALID_DID } from './helpers';
@@ -6,9 +6,7 @@ import { DID_RESOLUTION, VALID_DID } from './helpers';
 const didDocumentMock = jest.fn();
 jest.mock('../src/resolve-did.ts', () => {
   return {
-    resolveDID: jest
-      .fn()
-      .mockImplementation(() => Promise.resolve(didDocumentMock())),
+    resolveDID: jest.fn().mockImplementation(() => Promise.resolve(didDocumentMock())),
   };
 });
 
@@ -25,7 +23,7 @@ describe('DID Dereference', () => {
     expect(resolveDID).toHaveBeenCalledWith(
       VALID_DID,
       'application/ld+json;profile="https://w3id.org/did-resolution"',
-      {},
+      {}
     );
   });
 
@@ -34,7 +32,7 @@ describe('DID Dereference', () => {
 
     const result = await dereferenceDID(
       `${VALID_DID}#srv-2`,
-      'application/ld+json;profile="https://w3id.org/did-resolution"',
+      'application/ld+json;profile="https://w3id.org/did-resolution"'
     );
 
     expect(result).toEqual({
@@ -50,10 +48,7 @@ describe('DID Dereference', () => {
   it('should return dereferenced service in JSON format', async () => {
     didDocumentMock.mockReturnValue(DID_RESOLUTION);
 
-    const result = await dereferenceDID(
-      `${VALID_DID}#srv-2`,
-      'application/did+json',
-    );
+    const result = await dereferenceDID(`${VALID_DID}#srv-2`, 'application/did+json');
 
     expect(result).toEqual(DID_RESOLUTION.didDocument.service[1]);
   });
@@ -61,10 +56,7 @@ describe('DID Dereference', () => {
   it('should return dereferenced service in JSON-LD format', async () => {
     didDocumentMock.mockReturnValue(DID_RESOLUTION);
 
-    const result = await dereferenceDID(
-      `${VALID_DID}#srv-2`,
-      'application/did+ld+json',
-    );
+    const result = await dereferenceDID(`${VALID_DID}#srv-2`, 'application/did+ld+json');
 
     expect(result).toEqual({
       ...DID_RESOLUTION.didDocument.service[1],
@@ -75,22 +67,15 @@ describe('DID Dereference', () => {
   it('should return dereferenced service in CBOR format', async () => {
     didDocumentMock.mockReturnValue(DID_RESOLUTION);
 
-    const result = await dereferenceDID(
-      `${VALID_DID}#srv-2`,
-      'application/did+cbor',
-    );
+    const result = await dereferenceDID(`${VALID_DID}#srv-2`, 'application/did+cbor');
 
-    expect(result).toEqual(
-      CborCodec.encode(DID_RESOLUTION.didDocument.service[1]),
-    );
+    expect(result).toEqual(CborCodec.encode(DID_RESOLUTION.didDocument.service[1]));
   });
 
   it('should throw an error if the accept header is not supported', async () => {
     didDocumentMock.mockReturnValue(DID_RESOLUTION);
 
-    await expect(
-      dereferenceDID(`${VALID_DID}#srv-2`, 'application/json' as never),
-    ).rejects.toThrow();
+    await expect(dereferenceDID(`${VALID_DID}#srv-2`, 'application/json' as never)).rejects.toThrow();
   });
 
   it('should throw an error when did not found', async () => {

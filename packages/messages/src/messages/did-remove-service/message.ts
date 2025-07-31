@@ -1,13 +1,7 @@
-import {
-  DIDError,
-  DIDMessage,
-  isHederaDID,
-} from '@swiss-digital-assets-institute/core';
-import {
-  DIDRemoveServiceMessageConstructor,
-  MessageSerialized,
-} from './interfaces';
+import { DIDError, DIDMessage, isHederaDID } from '@hiero-did-sdk/core';
+import { DIDRemoveServiceMessageConstructor, MessageSerialized } from './interfaces';
 import { isPropertyID } from '../../validators/id-property-id';
+import { Buffer } from 'buffer';
 
 /**
  * A message to remove a service from a DID Document.
@@ -29,10 +23,7 @@ export class DIDRemoveServiceMessage extends DIDMessage {
     }
 
     if (!isPropertyID(payload.id)) {
-      throw new DIDError(
-        'invalidArgument',
-        'The ID must be a valid property ID',
-      );
+      throw new DIDError('invalidArgument', 'The ID must be a valid property ID');
     }
 
     this.timestamp = payload.timestamp || new Date();
@@ -83,9 +74,7 @@ export class DIDRemoveServiceMessage extends DIDMessage {
       id: this.id,
       did: this.did,
       timestamp: this.timestamp.toISOString(),
-      signature: this.signature
-        ? Buffer.from(this.signature).toString('base64')
-        : undefined,
+      signature: this.signature ? Buffer.from(this.signature).toString('base64') : undefined,
     };
 
     return Buffer.from(JSON.stringify(data)).toString('base64');
@@ -97,17 +86,13 @@ export class DIDRemoveServiceMessage extends DIDMessage {
    * @returns The deserialized message.
    */
   static fromBytes(bytes: string): DIDRemoveServiceMessage {
-    const data = JSON.parse(
-      Buffer.from(bytes, 'base64').toString('utf8'),
-    ) as MessageSerialized;
+    const data = JSON.parse(Buffer.from(bytes, 'base64').toString('utf8')) as MessageSerialized;
 
     return new DIDRemoveServiceMessage({
       id: data.id,
       did: data.did,
       timestamp: new Date(data.timestamp),
-      signature: data.signature
-        ? Buffer.from(data.signature, 'base64')
-        : undefined,
+      signature: data.signature ? Buffer.from(data.signature, 'base64') : undefined,
     });
   }
 }

@@ -1,23 +1,12 @@
-import {
-  LifecycleRunner,
-  LifecycleRunnerOptions,
-} from '@swiss-digital-assets-institute/lifecycle';
-import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
-import {
-  DIDDeactivateMessage,
-  DIDDeactivateMessageHederaDefaultLifeCycle,
-} from '@swiss-digital-assets-institute/messages';
-import { DIDError } from '@swiss-digital-assets-institute/core';
-import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
+import { LifecycleRunner, LifecycleRunnerOptions } from '@hiero-did-sdk/lifecycle';
+import { Publisher } from '@hiero-did-sdk/publisher-internal';
+import { DIDDeactivateMessage, DIDDeactivateMessageHederaDefaultLifeCycle } from '@hiero-did-sdk/messages';
+import { DIDError } from '@hiero-did-sdk/core';
+import { Verifier } from '@hiero-did-sdk/verifier-internal';
 import { Providers } from '../interfaces';
-import {
-  MessageAwaiter,
-  getSigner,
-  getPublisher,
-  getDIDRootKey,
-} from '../shared';
+import { MessageAwaiter, getSigner, getPublisher, getDIDRootKey } from '../shared';
 import { DeactivateDIDOptions, DeactivateDIDResult } from './interface';
-import { resolveDID } from '@swiss-digital-assets-institute/resolver';
+import { resolveDID } from '@hiero-did-sdk/resolver';
 
 /**
  * Deactivate a DID on the Hedera network
@@ -27,21 +16,14 @@ import { resolveDID } from '@swiss-digital-assets-institute/resolver';
  */
 export async function deactivateDID(
   operationOptions: DeactivateDIDOptions,
-  operationProviders: Providers,
+  operationProviders: Providers
 ): Promise<DeactivateDIDResult> {
   const publisher = getPublisher(operationProviders);
-  const signer = getSigner(
-    operationProviders.signer,
-    operationOptions.privateKey,
-  );
+  const signer = getSigner(operationProviders.signer, operationOptions.privateKey);
 
-  const resolvedDIDDocument = await resolveDID(
-    operationOptions.did,
-    'application/did+json',
-    {
-      topicReader: operationOptions.topicReader,
-    },
-  );
+  const resolvedDIDDocument = await resolveDID(operationOptions.did, 'application/did+json', {
+    topicReader: operationOptions.topicReader,
+  });
 
   const didRootKey = getDIDRootKey(resolvedDIDDocument);
   const verifier = Verifier.fromMultibase(didRootKey);
@@ -50,9 +32,7 @@ export async function deactivateDID(
     did: operationOptions.did,
   });
 
-  const manager = new LifecycleRunner(
-    DIDDeactivateMessageHederaDefaultLifeCycle,
-  );
+  const manager = new LifecycleRunner(DIDDeactivateMessageHederaDefaultLifeCycle);
   const runnerOptions: LifecycleRunnerOptions = {
     signer,
     publisher,
@@ -67,20 +47,15 @@ export async function deactivateDID(
   const messageAwaiter = new MessageAwaiter(
     didDeactivateMessage.topicId,
     await publisher.network(),
-    operationOptions.topicReader,
+    operationOptions.topicReader
   )
     .forMessages([didDeactivateMessage.payload])
     .setStartsAt(new Date())
-    .withTimeout(
-      operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT,
-    );
+    .withTimeout(operationOptions.visibilityTimeoutMs ?? MessageAwaiter.DEFAULT_TIMEOUT);
 
   const secondState = await manager.resume(firstState, runnerOptions);
 
-  if (
-    operationProviders.client instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (operationProviders.client instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 

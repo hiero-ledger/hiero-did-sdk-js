@@ -1,5 +1,6 @@
-import { Verifier as BaseVerifier } from '@swiss-digital-assets-institute/core';
+import { Verifier as BaseVerifier } from '@hiero-did-sdk/core';
 import { VerifierOptions } from './interfaces';
+import { Buffer } from 'buffer';
 
 /**
  * An implementation of the Verifier interface that verifies signatures using Hashicorp Vault.
@@ -27,11 +28,7 @@ export class Verifier implements BaseVerifier {
     const base64Message = Buffer.from(message).toString('base64');
     const base64Signature = Buffer.from(signature).toString('base64');
 
-    const isValid = await this.options.clientApi.verify(
-      this.options.keyName,
-      base64Message,
-      base64Signature,
-    );
+    const isValid = await this.options.clientApi.verify(this.options.keyName, base64Message, base64Signature);
 
     return isValid;
   }

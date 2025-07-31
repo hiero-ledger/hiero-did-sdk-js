@@ -1,0 +1,9 @@
+@startuml
+class KeysUtility {
+  + generateEd25519KeyPair() => KeyPair
+  + fromPublicKey(publicKey: PublicKey) => KeysUtility
+  + toMultibase() => string
+  + toBase58() => string
+  + toBytes() => Uint8Array
+}
+@enduml

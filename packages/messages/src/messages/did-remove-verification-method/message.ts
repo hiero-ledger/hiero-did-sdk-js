@@ -1,14 +1,7 @@
-import {
-  VerificationMethodProperties,
-  DIDMessage,
-  isHederaDID,
-  DIDError,
-} from '@swiss-digital-assets-institute/core';
-import {
-  DIDRemoveVerificationMethodMessageConstructor,
-  MessageSerialized,
-} from './interfaces';
+import { VerificationMethodProperties, DIDMessage, isHederaDID, DIDError } from '@hiero-did-sdk/core';
+import { DIDRemoveVerificationMethodMessageConstructor, MessageSerialized } from './interfaces';
 import { isPropertyID } from '../../validators/id-property-id';
+import { Buffer } from 'buffer';
 
 /**
  * A message to remove a verification method or relationship from a DID Document.
@@ -31,10 +24,7 @@ export class DIDRemoveVerificationMethodMessage extends DIDMessage {
     }
 
     if (!isPropertyID(payload.id)) {
-      throw new DIDError(
-        'invalidArgument',
-        'The ID must be a valid property ID',
-      );
+      throw new DIDError('invalidArgument', 'The ID must be a valid property ID');
     }
 
     this.timestamp = payload.timestamp || new Date();
@@ -101,9 +91,7 @@ export class DIDRemoveVerificationMethodMessage extends DIDMessage {
       id: this.id,
       did: this.did,
       timestamp: this.timestamp.toISOString(),
-      signature: this.signature
-        ? Buffer.from(this.signature).toString('base64')
-        : undefined,
+      signature: this.signature ? Buffer.from(this.signature).toString('base64') : undefined,
     };
 
     return Buffer.from(JSON.stringify(data)).toString('base64');
@@ -115,18 +103,14 @@ export class DIDRemoveVerificationMethodMessage extends DIDMessage {
    * @returns The deserialized message.
    */
   static fromBytes(bytes: string): DIDRemoveVerificationMethodMessage {
-    const data = JSON.parse(
-      Buffer.from(bytes, 'base64').toString('utf8'),
-    ) as MessageSerialized;
+    const data = JSON.parse(Buffer.from(bytes, 'base64').toString('utf8')) as MessageSerialized;
 
     return new DIDRemoveVerificationMethodMessage({
       property: data.property,
       id: data.id,
       did: data.did,
       timestamp: new Date(data.timestamp),
-      signature: data.signature
-        ? Buffer.from(data.signature, 'base64')
-        : undefined,
+      signature: data.signature ? Buffer.from(data.signature, 'base64') : undefined,
     });
   }
 }

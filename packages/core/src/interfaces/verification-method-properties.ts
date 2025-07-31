@@ -5,6 +5,4 @@ export type RelationShipProperties =
   | 'capabilityInvocation'
   | 'capabilityDelegation';
 
-export type VerificationMethodProperties =
-  | 'verificationMethod'
-  | RelationShipProperties;
+export type VerificationMethodProperties = 'verificationMethod' | RelationShipProperties;

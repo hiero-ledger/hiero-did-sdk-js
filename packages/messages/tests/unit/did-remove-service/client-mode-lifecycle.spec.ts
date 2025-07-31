@@ -1,8 +1,8 @@
 import {
   LifecycleRunner,
   RunnerState,
-} from '@swiss-digital-assets-institute/lifecycle';
-import { Publisher } from '@swiss-digital-assets-institute/core';
+} from '@hiero-did-sdk/lifecycle';
+import { Publisher } from '@hiero-did-sdk/core';
 import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import {
   DIDRemoveServiceMessage,

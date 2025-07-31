@@ -1,8 +1,5 @@
 import { PrivateKey } from '@hashgraph/sdk';
-import {
-  KeysUtility,
-  DID_ROOT_KEY_ID,
-} from '@swiss-digital-assets-institute/core';
+import { KeysUtility, DID_ROOT_KEY_ID } from '@hiero-did-sdk/core';
 import { DidDocumentBuilder } from '../src/did-document-builder';
 import {
   getAddServiceMessage,
@@ -16,6 +13,7 @@ import {
   VALID_DID,
 } from './helpers';
 import { TopicDIDMessage } from '../src/interfaces/topic-did-message';
+import { Buffer } from 'buffer';
 
 describe('DID Document Builder', () => {
   it('should load messages', () => {
@@ -32,9 +30,7 @@ describe('DID Document Builder', () => {
 
   it('should throw an error if DID is invalid', () => {
     const didDocumentBuilder = DidDocumentBuilder.from([]);
-    expect(() => didDocumentBuilder.forDID('invalid')).toThrow(
-      'The DID must be a valid Hedera DID',
-    );
+    expect(() => didDocumentBuilder.forDID('invalid')).toThrow('The DID must be a valid Hedera DID');
   });
 
   it('should set verifier', () => {
@@ -51,18 +47,12 @@ describe('DID Document Builder', () => {
 
     it('should result with undefined when the message is not a valid json string', () => {
       const didDocumentBuilder = DidDocumentBuilder.from([]);
-      expect(
-        didDocumentBuilder['parseTopicMessage']('{key: value}'),
-      ).toBeUndefined();
+      expect(didDocumentBuilder['parseTopicMessage']('{key: value}')).toBeUndefined();
     });
 
     it('should result with undefined when the message is not a valid DID message', () => {
       const didDocumentBuilder = DidDocumentBuilder.from([]);
-      expect(
-        didDocumentBuilder['parseTopicMessage'](
-          JSON.stringify({ key: 'value' }),
-        ),
-      ).toBeUndefined();
+      expect(didDocumentBuilder['parseTopicMessage'](JSON.stringify({ key: 'value' }))).toBeUndefined();
     });
 
     it('should result with undefined when the message does not apply to the specified DID', () => {
@@ -77,8 +67,8 @@ describe('DID Document Builder', () => {
               event: 'ey...',
             },
             signature: '0x...',
-          }),
-        ),
+          })
+        )
       ).toBeUndefined();
     });
 
@@ -98,8 +88,8 @@ describe('DID Document Builder', () => {
           JSON.stringify({
             message,
             signature,
-          }),
-        ),
+          })
+        )
       ).toStrictEqual({
         message,
         signature,
@@ -110,11 +100,7 @@ describe('DID Document Builder', () => {
   describe('parsing event string', () => {
     it('should result with undefined when the event is not a valid json string', () => {
       const didDocumentBuilder = DidDocumentBuilder.from([]);
-      expect(
-        didDocumentBuilder['parseEventString'](
-          Buffer.from('{key: value}').toString('base64'),
-        ),
-      ).toBeUndefined();
+      expect(didDocumentBuilder['parseEventString'](Buffer.from('{key: value}').toString('base64'))).toBeUndefined();
     });
 
     it('should result with undefined when the event is not a valid DID event', () => {
@@ -128,9 +114,7 @@ describe('DID Document Builder', () => {
       };
 
       expect(
-        didDocumentBuilder['parseEventString'](
-          Buffer.from(JSON.stringify(invalidEvent)).toString('base64'),
-        ),
+        didDocumentBuilder['parseEventString'](Buffer.from(JSON.stringify(invalidEvent)).toString('base64'))
       ).toBeUndefined();
     });
 
@@ -146,9 +130,7 @@ describe('DID Document Builder', () => {
       };
 
       expect(
-        didDocumentBuilder['parseEventString'](
-          Buffer.from(JSON.stringify(validEvent)).toString('base64'),
-        ),
+        didDocumentBuilder['parseEventString'](Buffer.from(JSON.stringify(validEvent)).toString('base64'))
       ).toStrictEqual(validEvent);
     });
 
@@ -157,8 +139,7 @@ describe('DID Document Builder', () => {
 
       const privateKey = await PrivateKey.generateED25519Async();
       const publicKey = privateKey.publicKey;
-      const publicKeyMultibase =
-        KeysUtility.fromPublicKey(publicKey).toMultibase();
+      const publicKeyMultibase = KeysUtility.fromPublicKey(publicKey).toMultibase();
 
       const validEvent = {
         DIDOwner: {
@@ -169,14 +150,10 @@ describe('DID Document Builder', () => {
         },
       };
 
-      didDocumentBuilder['parseEventString'](
-        Buffer.from(JSON.stringify(validEvent)).toString('base64'),
-      );
+      didDocumentBuilder['parseEventString'](Buffer.from(JSON.stringify(validEvent)).toString('base64'));
 
       expect(didDocumentBuilder['verifier']).toBeDefined();
-      expect(didDocumentBuilder['verifier'].publicKey()).toStrictEqual(
-        publicKey.toStringDer(),
-      );
+      expect(didDocumentBuilder['verifier'].publicKey()).toStrictEqual(publicKey.toStringDer());
     });
 
     it('should set a verifier from a public key from a DID Owner event for verification (base58 format)', async () => {
@@ -195,14 +172,10 @@ describe('DID Document Builder', () => {
         },
       };
 
-      didDocumentBuilder['parseEventString'](
-        Buffer.from(JSON.stringify(validEvent)).toString('base64'),
-      );
+      didDocumentBuilder['parseEventString'](Buffer.from(JSON.stringify(validEvent)).toString('base64'));
 
       expect(didDocumentBuilder['verifier']).toBeDefined();
-      expect(didDocumentBuilder['verifier'].publicKey()).toStrictEqual(
-        publicKey.toStringDer(),
-      );
+      expect(didDocumentBuilder['verifier'].publicKey()).toStrictEqual(publicKey.toStringDer());
     });
 
     it('should not try to set a public key from an event different then DID Owner event', () => {
@@ -216,9 +189,7 @@ describe('DID Document Builder', () => {
         },
       };
 
-      didDocumentBuilder['parseEventString'](
-        Buffer.from(JSON.stringify(validEvent)).toString('base64'),
-      );
+      didDocumentBuilder['parseEventString'](Buffer.from(JSON.stringify(validEvent)).toString('base64'));
       expect(didDocumentBuilder['didPublicKey']).toBeUndefined();
     });
   });
@@ -226,10 +197,8 @@ describe('DID Document Builder', () => {
   describe('verifying the message signature', () => {
     it('should throw an error if both verifier and public key are not set', async () => {
       const didDocumentBuilder = DidDocumentBuilder.from([]);
-      await expect(
-        didDocumentBuilder['verifySignature']({} as never, ''),
-      ).rejects.toThrow(
-        'Cannot verify signature without a public key or a verifier',
+      await expect(didDocumentBuilder['verifySignature']({} as never, '')).rejects.toThrow(
+        'Cannot verify signature without a public key or a verifier'
       );
     });
 
@@ -238,9 +207,7 @@ describe('DID Document Builder', () => {
 
       signer.verifyMock.mockReturnValue(true);
 
-      const didDocumentBuilder = DidDocumentBuilder.from([]).withVerifier(
-        signer,
-      );
+      const didDocumentBuilder = DidDocumentBuilder.from([]).withVerifier(signer);
 
       const message: TopicDIDMessage = {
         timestamp: new Date().toISOString(),
@@ -250,9 +217,7 @@ describe('DID Document Builder', () => {
       };
       const signature = 'valid-signature';
 
-      expect(
-        await didDocumentBuilder['verifySignature'](message, signature),
-      ).toBe(true);
+      expect(await didDocumentBuilder['verifySignature'](message, signature)).toBe(true);
 
       expect(signer.verifyMock).toHaveBeenCalledTimes(1);
     });
@@ -262,9 +227,7 @@ describe('DID Document Builder', () => {
 
       signer.verifyMock.mockReturnValue(false);
 
-      const didDocumentBuilder = DidDocumentBuilder.from([]).withVerifier(
-        signer,
-      );
+      const didDocumentBuilder = DidDocumentBuilder.from([]).withVerifier(signer);
 
       const message: TopicDIDMessage = {
         timestamp: new Date().toISOString(),
@@ -274,9 +237,7 @@ describe('DID Document Builder', () => {
       };
       const signature = 'invalid-signature';
 
-      expect(
-        await didDocumentBuilder['verifySignature'](message, signature),
-      ).toBe(false);
+      expect(await didDocumentBuilder['verifySignature'](message, signature)).toBe(false);
 
       expect(signer.verifyMock).toHaveBeenCalledTimes(1);
     });
@@ -301,21 +262,12 @@ describe('DID Document Builder', () => {
 
       didDocumentBuilder['handleDIDOwner'](validEvent);
 
-      expect(
-        didDocumentBuilder['verificationMethod'].has(
-          `${VALID_DID}${DID_ROOT_KEY_ID}`,
-        ),
-      ).toBe(true);
-      expect(
-        didDocumentBuilder['verificationMethod'].get(
-          `${VALID_DID}${DID_ROOT_KEY_ID}`,
-        ),
-      ).toStrictEqual({
+      expect(didDocumentBuilder['verificationMethod'].has(`${VALID_DID}${DID_ROOT_KEY_ID}`)).toBe(true);
+      expect(didDocumentBuilder['verificationMethod'].get(`${VALID_DID}${DID_ROOT_KEY_ID}`)).toStrictEqual({
         id: `${VALID_DID}${DID_ROOT_KEY_ID}`,
         controller: VALID_DID,
         type: 'Ed25519VerificationKey2020',
-        publicKeyMultibase:
-          KeysUtility.fromBase58(publicKeyBase58).toMultibase(),
+        publicKeyMultibase: KeysUtility.fromBase58(publicKeyBase58).toMultibase(),
       });
     });
 
@@ -324,8 +276,7 @@ describe('DID Document Builder', () => {
 
       const privateKey = await PrivateKey.generateED25519Async();
       const publicKey = privateKey.publicKey;
-      const publicKeyMultibase =
-        KeysUtility.fromPublicKey(publicKey).toMultibase();
+      const publicKeyMultibase = KeysUtility.fromPublicKey(publicKey).toMultibase();
 
       const validEvent = {
         DIDOwner: {
@@ -338,16 +289,8 @@ describe('DID Document Builder', () => {
 
       didDocumentBuilder['handleDIDOwner'](validEvent);
 
-      expect(
-        didDocumentBuilder['verificationMethod'].has(
-          `${VALID_DID}${DID_ROOT_KEY_ID}`,
-        ),
-      ).toBe(true);
-      expect(
-        didDocumentBuilder['verificationMethod'].get(
-          `${VALID_DID}${DID_ROOT_KEY_ID}`,
-        ),
-      ).toStrictEqual({
+      expect(didDocumentBuilder['verificationMethod'].has(`${VALID_DID}${DID_ROOT_KEY_ID}`)).toBe(true);
+      expect(didDocumentBuilder['verificationMethod'].get(`${VALID_DID}${DID_ROOT_KEY_ID}`)).toStrictEqual({
         id: `${VALID_DID}${DID_ROOT_KEY_ID}`,
         controller: VALID_DID,
         type: 'Ed25519VerificationKey2020',
@@ -373,16 +316,10 @@ describe('DID Document Builder', () => {
 
       didDocumentBuilder['handleAddVerificationMethod'](validEvent);
 
-      expect(
-        didDocumentBuilder['verificationMethod'].has(
-          validEvent.VerificationMethod.id,
-        ),
-      ).toBe(true);
-      expect(
-        didDocumentBuilder['verificationMethod'].get(
-          validEvent.VerificationMethod.id,
-        ),
-      ).toStrictEqual(validEvent.VerificationMethod);
+      expect(didDocumentBuilder['verificationMethod'].has(validEvent.VerificationMethod.id)).toBe(true);
+      expect(didDocumentBuilder['verificationMethod'].get(validEvent.VerificationMethod.id)).toStrictEqual(
+        validEvent.VerificationMethod
+      );
     });
 
     it('should add verification method from VerificationMethod event (multibase)', async () => {
@@ -390,8 +327,7 @@ describe('DID Document Builder', () => {
 
       const privateKey = await PrivateKey.generateED25519Async();
       const publicKey = privateKey.publicKey;
-      const publicKeyMultibase =
-        KeysUtility.fromPublicKey(publicKey).toMultibase();
+      const publicKeyMultibase = KeysUtility.fromPublicKey(publicKey).toMultibase();
 
       const validEvent = {
         VerificationMethod: {
@@ -404,16 +340,10 @@ describe('DID Document Builder', () => {
 
       didDocumentBuilder['handleAddVerificationMethod'](validEvent);
 
-      expect(
-        didDocumentBuilder['verificationMethod'].has(
-          validEvent.VerificationMethod.id,
-        ),
-      ).toBe(true);
-      expect(
-        didDocumentBuilder['verificationMethod'].get(
-          validEvent.VerificationMethod.id,
-        ),
-      ).toStrictEqual(validEvent.VerificationMethod);
+      expect(didDocumentBuilder['verificationMethod'].has(validEvent.VerificationMethod.id)).toBe(true);
+      expect(didDocumentBuilder['verificationMethod'].get(validEvent.VerificationMethod.id)).toStrictEqual(
+        validEvent.VerificationMethod
+      );
     });
 
     it('should remove verification method from VerificationMethod event', async () => {
@@ -421,8 +351,7 @@ describe('DID Document Builder', () => {
 
       const privateKey = await PrivateKey.generateED25519Async();
       const publicKey = privateKey.publicKey;
-      const publicKeyMultibase =
-        KeysUtility.fromPublicKey(publicKey).toMultibase();
+      const publicKeyMultibase = KeysUtility.fromPublicKey(publicKey).toMultibase();
 
       const validAddEvent = {
         VerificationMethod: {
@@ -443,11 +372,7 @@ describe('DID Document Builder', () => {
 
       didDocumentBuilder['handleRemoveVerificationMethod'](validRemoveEvent);
 
-      expect(
-        didDocumentBuilder['verificationMethod'].has(
-          validAddEvent.VerificationMethod.id,
-        ),
-      ).toBe(false);
+      expect(didDocumentBuilder['verificationMethod'].has(validAddEvent.VerificationMethod.id)).toBe(false);
     });
 
     it('should add service from Service event', () => {
@@ -463,12 +388,8 @@ describe('DID Document Builder', () => {
 
       didDocumentBuilder['handleAddService'](validEvent);
 
-      expect(didDocumentBuilder['service'].has(validEvent.Service.id)).toBe(
-        true,
-      );
-      expect(
-        didDocumentBuilder['service'].get(validEvent.Service.id),
-      ).toStrictEqual(validEvent.Service);
+      expect(didDocumentBuilder['service'].has(validEvent.Service.id)).toBe(true);
+      expect(didDocumentBuilder['service'].get(validEvent.Service.id)).toStrictEqual(validEvent.Service);
     });
 
     it('should remove service from Service event', () => {
@@ -492,9 +413,7 @@ describe('DID Document Builder', () => {
 
       didDocumentBuilder['handleRemoveService'](validRemoveEvent);
 
-      expect(didDocumentBuilder['service'].has(validAddEvent.Service.id)).toBe(
-        false,
-      );
+      expect(didDocumentBuilder['service'].has(validAddEvent.Service.id)).toBe(false);
     });
 
     it.each([
@@ -503,143 +422,120 @@ describe('DID Document Builder', () => {
       'keyAgreement',
       'capabilityInvocation',
       'capabilityDelegation',
-    ] as const)(
-      'should add %s from VerificationRelationship event (base58)',
-      async (relationshipType) => {
-        const didDocumentBuilder = DidDocumentBuilder.from([]);
+    ] as const)('should add %s from VerificationRelationship event (base58)', async (relationshipType) => {
+      const didDocumentBuilder = DidDocumentBuilder.from([]);
 
-        const privateKey = await PrivateKey.generateED25519Async();
-        const publicKey = privateKey.publicKey;
-        const publicKeyBase58 = KeysUtility.fromPublicKey(publicKey).toBase58();
+      const privateKey = await PrivateKey.generateED25519Async();
+      const publicKey = privateKey.publicKey;
+      const publicKeyBase58 = KeysUtility.fromPublicKey(publicKey).toBase58();
 
-        const expectedVerificationMethod = {
+      const expectedVerificationMethod = {
+        id: `${VALID_DID}#test-key`,
+        type: 'Ed25519VerificationKey2018',
+        controller: VALID_DID,
+        publicKeyBase58,
+      };
+
+      const validEvent = {
+        VerificationRelationship: {
+          relationshipType,
+          ...expectedVerificationMethod,
+        },
+      };
+
+      didDocumentBuilder['handleAddVerificationRelationship'](validEvent);
+
+      expect(
+        didDocumentBuilder['verificationRelationships'][relationshipType].has(validEvent.VerificationRelationship.id)
+      ).toBe(true);
+
+      expect(
+        didDocumentBuilder['verificationRelationships'][relationshipType].get(validEvent.VerificationRelationship.id)
+      ).toStrictEqual(expectedVerificationMethod);
+    });
+
+    it.each([
+      'authentication',
+      'assertionMethod',
+      'keyAgreement',
+      'capabilityInvocation',
+      'capabilityDelegation',
+    ] as const)('should add %s from VerificationRelationship event (multibase)', async (relationshipType) => {
+      const didDocumentBuilder = DidDocumentBuilder.from([]);
+
+      const privateKey = await PrivateKey.generateED25519Async();
+      const publicKey = privateKey.publicKey;
+      const publicKeyMultibase = KeysUtility.fromPublicKey(publicKey).toMultibase();
+
+      const expectedVerificationMethod = {
+        id: `${VALID_DID}#test-key`,
+        type: 'Ed25519VerificationKey2018',
+        controller: VALID_DID,
+        publicKeyMultibase,
+      };
+
+      const validEvent = {
+        VerificationRelationship: {
+          relationshipType,
+          ...expectedVerificationMethod,
+        },
+      };
+
+      didDocumentBuilder['handleAddVerificationRelationship'](validEvent);
+
+      expect(
+        didDocumentBuilder['verificationRelationships'][relationshipType].has(validEvent.VerificationRelationship.id)
+      ).toBe(true);
+
+      expect(
+        didDocumentBuilder['verificationRelationships'][relationshipType].get(validEvent.VerificationRelationship.id)
+      ).toStrictEqual(expectedVerificationMethod);
+    });
+
+    it.each([
+      'authentication',
+      'assertionMethod',
+      'keyAgreement',
+      'capabilityInvocation',
+      'capabilityDelegation',
+    ] as const)('should remove %s from VerificationRelationship event (base58)', async (relationshipType) => {
+      const didDocumentBuilder = DidDocumentBuilder.from([]);
+
+      const privateKey = await PrivateKey.generateED25519Async();
+      const publicKey = privateKey.publicKey;
+      const publicKeyBase58 = KeysUtility.fromPublicKey(publicKey).toBase58();
+
+      const validAddEvent = {
+        VerificationRelationship: {
           id: `${VALID_DID}#test-key`,
           type: 'Ed25519VerificationKey2018',
           controller: VALID_DID,
           publicKeyBase58,
-        };
+          relationshipType,
+        },
+      };
 
-        const validEvent = {
-          VerificationRelationship: {
-            relationshipType,
-            ...expectedVerificationMethod,
-          },
-        };
+      didDocumentBuilder['handleAddVerificationRelationship'](validAddEvent);
 
-        didDocumentBuilder['handleAddVerificationRelationship'](validEvent);
+      const validRemoveEvent = {
+        VerificationRelationship: {
+          id: validAddEvent.VerificationRelationship.id,
+        },
+      };
 
-        expect(
-          didDocumentBuilder['verificationRelationships'][relationshipType].has(
-            validEvent.VerificationRelationship.id,
-          ),
-        ).toBe(true);
+      didDocumentBuilder['handleRemoveVerificationRelationship'](validRemoveEvent);
 
-        expect(
-          didDocumentBuilder['verificationRelationships'][relationshipType].get(
-            validEvent.VerificationRelationship.id,
-          ),
-        ).toStrictEqual(expectedVerificationMethod);
-      },
-    );
-
-    it.each([
-      'authentication',
-      'assertionMethod',
-      'keyAgreement',
-      'capabilityInvocation',
-      'capabilityDelegation',
-    ] as const)(
-      'should add %s from VerificationRelationship event (multibase)',
-      async (relationshipType) => {
-        const didDocumentBuilder = DidDocumentBuilder.from([]);
-
-        const privateKey = await PrivateKey.generateED25519Async();
-        const publicKey = privateKey.publicKey;
-        const publicKeyMultibase =
-          KeysUtility.fromPublicKey(publicKey).toMultibase();
-
-        const expectedVerificationMethod = {
-          id: `${VALID_DID}#test-key`,
-          type: 'Ed25519VerificationKey2018',
-          controller: VALID_DID,
-          publicKeyMultibase,
-        };
-
-        const validEvent = {
-          VerificationRelationship: {
-            relationshipType,
-            ...expectedVerificationMethod,
-          },
-        };
-
-        didDocumentBuilder['handleAddVerificationRelationship'](validEvent);
-
-        expect(
-          didDocumentBuilder['verificationRelationships'][relationshipType].has(
-            validEvent.VerificationRelationship.id,
-          ),
-        ).toBe(true);
-
-        expect(
-          didDocumentBuilder['verificationRelationships'][relationshipType].get(
-            validEvent.VerificationRelationship.id,
-          ),
-        ).toStrictEqual(expectedVerificationMethod);
-      },
-    );
-
-    it.each([
-      'authentication',
-      'assertionMethod',
-      'keyAgreement',
-      'capabilityInvocation',
-      'capabilityDelegation',
-    ] as const)(
-      'should remove %s from VerificationRelationship event (base58)',
-      async (relationshipType) => {
-        const didDocumentBuilder = DidDocumentBuilder.from([]);
-
-        const privateKey = await PrivateKey.generateED25519Async();
-        const publicKey = privateKey.publicKey;
-        const publicKeyBase58 = KeysUtility.fromPublicKey(publicKey).toBase58();
-
-        const validAddEvent = {
-          VerificationRelationship: {
-            id: `${VALID_DID}#test-key`,
-            type: 'Ed25519VerificationKey2018',
-            controller: VALID_DID,
-            publicKeyBase58,
-            relationshipType,
-          },
-        };
-
-        didDocumentBuilder['handleAddVerificationRelationship'](validAddEvent);
-
-        const validRemoveEvent = {
-          VerificationRelationship: {
-            id: validAddEvent.VerificationRelationship.id,
-          },
-        };
-
-        didDocumentBuilder['handleRemoveVerificationRelationship'](
-          validRemoveEvent,
-        );
-
-        expect(
-          didDocumentBuilder['verificationRelationships'][relationshipType].has(
-            validAddEvent.VerificationRelationship.id,
-          ),
-        ).toBe(false);
-      },
-    );
+      expect(
+        didDocumentBuilder['verificationRelationships'][relationshipType].has(validAddEvent.VerificationRelationship.id)
+      ).toBe(false);
+    });
 
     it('should add only ID from VerificationRelationship event when verification method with the same ID exists', async () => {
       const didDocumentBuilder = DidDocumentBuilder.from([]);
 
       const privateKey = await PrivateKey.generateED25519Async();
       const publicKey = privateKey.publicKey;
-      const publicKeyMultibase =
-        KeysUtility.fromPublicKey(publicKey).toMultibase();
+      const publicKeyMultibase = KeysUtility.fromPublicKey(publicKey).toMultibase();
 
       const validVMEvent = {
         VerificationMethod: {
@@ -662,14 +558,10 @@ describe('DID Document Builder', () => {
       didDocumentBuilder['handleAddVerificationRelationship'](validVRMEvent);
 
       expect(
-        didDocumentBuilder['verificationRelationships']['authentication'].has(
-          validVRMEvent.VerificationRelationship.id,
-        ),
+        didDocumentBuilder['verificationRelationships']['authentication'].has(validVRMEvent.VerificationRelationship.id)
       ).toBe(true);
       expect(
-        didDocumentBuilder['verificationRelationships']['authentication'].get(
-          validVRMEvent.VerificationRelationship.id,
-        ),
+        didDocumentBuilder['verificationRelationships']['authentication'].get(validVRMEvent.VerificationRelationship.id)
       ).toBe(validVRMEvent.VerificationRelationship.id);
     });
   });
@@ -677,22 +569,18 @@ describe('DID Document Builder', () => {
   describe('building the DID document', () => {
     it('should throw an error if the DID is not set', async () => {
       const didDocumentBuilder = DidDocumentBuilder.from([]);
-      await expect(didDocumentBuilder.build()).rejects.toThrow(
-        'DID is required to build a DID document',
-      );
+      await expect(didDocumentBuilder.build()).rejects.toThrow('DID is required to build a DID document');
     });
 
     it('should throw not found error when no messages are provided', async () => {
-      await expect(
-        DidDocumentBuilder.from([]).forDID(VALID_DID).build(),
-      ).rejects.toThrow('The DID document was not found');
+      await expect(DidDocumentBuilder.from([]).forDID(VALID_DID).build()).rejects.toThrow(
+        'The DID document was not found'
+      );
     });
 
     it('should throw not found error if no valid DID messages are provided', async () => {
       await expect(
-        DidDocumentBuilder.from(['invalid-message', 'invalid-message'])
-          .forDID(VALID_DID)
-          .build(),
+        DidDocumentBuilder.from(['invalid-message', 'invalid-message']).forDID(VALID_DID).build()
       ).rejects.toThrow('The DID document was not found');
     });
 
@@ -704,9 +592,7 @@ describe('DID Document Builder', () => {
       });
 
       it('should return DID document with verification method from DID Owner event', async () => {
-        const didDocumentBuilder = await DidDocumentBuilder.from([
-          didOwnerMessage.message,
-        ])
+        const didDocumentBuilder = await DidDocumentBuilder.from([didOwnerMessage.message])
           .forDID(didOwnerMessage.did)
           .build();
 
@@ -725,11 +611,9 @@ describe('DID Document Builder', () => {
       });
 
       it('should throw an error if DID owner message was not fo requested DID', async () => {
-        await expect(
-          DidDocumentBuilder.from([didOwnerMessage.message])
-            .forDID(VALID_DID)
-            .build(),
-        ).rejects.toThrow('The DID document was not found');
+        await expect(DidDocumentBuilder.from([didOwnerMessage.message]).forDID(VALID_DID).build()).rejects.toThrow(
+          'The DID document was not found'
+        );
       });
 
       it('should return DID document with additional verification method', async () => {
@@ -740,10 +624,7 @@ describe('DID Document Builder', () => {
           keyId: 'key-1',
         });
 
-        const didDocumentBuilder = await DidDocumentBuilder.from([
-          didOwnerMessage.message,
-          verificationMethod.message,
-        ])
+        const didDocumentBuilder = await DidDocumentBuilder.from([didOwnerMessage.message, verificationMethod.message])
           .forDID(didOwnerMessage.did)
           .build();
 
@@ -774,10 +655,7 @@ describe('DID Document Builder', () => {
           serviceId: 'service-1',
         });
 
-        const didDocumentBuilder = await DidDocumentBuilder.from([
-          didOwnerMessage.message,
-          service.message,
-        ])
+        const didDocumentBuilder = await DidDocumentBuilder.from([didOwnerMessage.message, service.message])
           .forDID(didOwnerMessage.did)
           .build();
 
@@ -810,10 +688,7 @@ describe('DID Document Builder', () => {
           keyId: 'did-root-key',
         });
 
-        const didDocumentBuilder = await DidDocumentBuilder.from([
-          didOwnerMessage.message,
-          verificationMethod.message,
-        ])
+        const didDocumentBuilder = await DidDocumentBuilder.from([didOwnerMessage.message, verificationMethod.message])
           .forDID(didOwnerMessage.did)
           .build();
 
@@ -837,14 +712,12 @@ describe('DID Document Builder', () => {
           did: didOwnerMessage.did,
           privateKey: didOwnerMessage.privateKey,
         });
-        const verificationMethodMessage = await getAddVerificationMethodMessage(
-          {
-            privateKey: didOwnerMessage.privateKey,
-            did: didOwnerMessage.did,
-            property: 'verificationMethod',
-            keyId: 'key-1',
-          },
-        );
+        const verificationMethodMessage = await getAddVerificationMethodMessage({
+          privateKey: didOwnerMessage.privateKey,
+          did: didOwnerMessage.did,
+          property: 'verificationMethod',
+          keyId: 'key-1',
+        });
 
         const didDocumentBuilder = await DidDocumentBuilder.from([
           didOwnerMessage.message,
@@ -867,14 +740,12 @@ describe('DID Document Builder', () => {
           privateKey: didOwnerMessage.privateKey,
           signature: didOwnerMessage.privateKey.sign(new Uint8Array([1, 2])),
         });
-        const verificationMethodMessage = await getAddVerificationMethodMessage(
-          {
-            privateKey: didOwnerMessage.privateKey,
-            did: didOwnerMessage.did,
-            property: 'verificationMethod',
-            keyId: 'key-1',
-          },
-        );
+        const verificationMethodMessage = await getAddVerificationMethodMessage({
+          privateKey: didOwnerMessage.privateKey,
+          did: didOwnerMessage.did,
+          property: 'verificationMethod',
+          keyId: 'key-1',
+        });
 
         const didDocumentBuilder = await DidDocumentBuilder.from([
           didOwnerMessage.message,
@@ -905,15 +776,13 @@ describe('DID Document Builder', () => {
       });
 
       it('should not add message with invalid signature', async () => {
-        const verificationMethodMessage = await getAddVerificationMethodMessage(
-          {
-            privateKey: didOwnerMessage.privateKey,
-            did: didOwnerMessage.did,
-            property: 'verificationMethod',
-            keyId: 'key-1',
-            signature: didOwnerMessage.privateKey.sign(new Uint8Array([1, 2])),
-          },
-        );
+        const verificationMethodMessage = await getAddVerificationMethodMessage({
+          privateKey: didOwnerMessage.privateKey,
+          did: didOwnerMessage.did,
+          property: 'verificationMethod',
+          keyId: 'key-1',
+          signature: didOwnerMessage.privateKey.sign(new Uint8Array([1, 2])),
+        });
 
         const didDocumentBuilder = await DidDocumentBuilder.from([
           didOwnerMessage.message,
@@ -922,9 +791,7 @@ describe('DID Document Builder', () => {
           .forDID(didOwnerMessage.did)
           .build();
 
-        expect(
-          didDocumentBuilder.toDidDocument().verificationMethod,
-        ).toHaveLength(1);
+        expect(didDocumentBuilder.toDidDocument().verificationMethod).toHaveLength(1);
       });
 
       it('should not process message with invalid event data', async () => {
@@ -942,9 +809,7 @@ describe('DID Document Builder', () => {
           did: didOwnerMessage.did,
           event: Buffer.from(JSON.stringify(invalidEvent)).toString('base64'),
         };
-        const signature = didOwnerMessage.privateKey.sign(
-          Buffer.from(JSON.stringify(messageData)),
-        );
+        const signature = didOwnerMessage.privateKey.sign(Buffer.from(JSON.stringify(messageData)));
 
         const validMessage = {
           message: messageData,
@@ -973,13 +838,12 @@ describe('DID Document Builder', () => {
       });
 
       it('should not be able to remove did root key', async () => {
-        const removeVerificationMethod =
-          await getRemoveVerificationMethodMessage({
-            keyId: DID_ROOT_KEY_ID.slice(1),
-            did: didOwnerMessage.did,
-            privateKey: didOwnerMessage.privateKey,
-            property: 'verificationMethod',
-          });
+        const removeVerificationMethod = await getRemoveVerificationMethodMessage({
+          keyId: DID_ROOT_KEY_ID.slice(1),
+          did: didOwnerMessage.did,
+          privateKey: didOwnerMessage.privateKey,
+          property: 'verificationMethod',
+        });
 
         const didDocumentBuilder = await DidDocumentBuilder.from([
           didOwnerMessage.message,
@@ -1255,9 +1119,7 @@ describe('DID Document Builder', () => {
         ],
       };
 
-      builder = await DidDocumentBuilder.from(messages)
-        .forDID(didOwnerMessage.did)
-        .build();
+      builder = await DidDocumentBuilder.from(messages).forDID(didOwnerMessage.did).build();
     });
 
     it('should resolve simple did document', () => {
@@ -1285,8 +1147,7 @@ describe('DID Document Builder', () => {
           deactivated: false,
         },
         didResolutionMetadata: {
-          contentType:
-            'application/ld+json;profile="https://w3id.org/did-resolution"',
+          contentType: 'application/ld+json;profile="https://w3id.org/did-resolution"',
         },
         didDocument: {
           '@context': expect.arrayContaining([expect.any(String)]),
@@ -1302,10 +1163,7 @@ describe('DID Document Builder', () => {
           privateKey,
         });
 
-        builder = await DidDocumentBuilder.from([
-          ...messages,
-          deactivateMessage.message,
-        ])
+        builder = await DidDocumentBuilder.from([...messages, deactivateMessage.message])
           .forDID(did)
           .build();
       });
@@ -1320,8 +1178,7 @@ describe('DID Document Builder', () => {
             deactivated: true,
           },
           didResolutionMetadata: {
-            contentType:
-              'application/ld+json;profile="https://w3id.org/did-resolution"',
+            contentType: 'application/ld+json;profile="https://w3id.org/did-resolution"',
           },
           didDocument: {
             '@context': expect.arrayContaining([expect.any(String)]),

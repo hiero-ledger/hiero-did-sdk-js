@@ -46,7 +46,7 @@ This example demonstrates how to use the `isHederaDID` function to validate a He
 
 [source, typescript]
 ----
-import { isHederaDID } from "@hashgraph-did-sdk/core";
+import { isHederaDID } from "@hiero-did-sdk/core";
 
 const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to validate
 
@@ -61,7 +61,7 @@ This example demonstrates how to use the `isHederaDIDUrl` function to validate a
 
 [source, typescript]
 ----
-import { isHederaDIDUrl } from "@hashgraph-did-sdk/core";
+import { isHederaDIDUrl } from "@hiero-did-sdk/core";
 
 const did = "did:hedera:testnet:z6Mkhj...#some-fragment"; // Replace with the DID URL you want to validate
 
@@ -80,7 +80,7 @@ This example demonstrates how to use the `isEd25519PublicKey` function to valida
 
 [source, typescript]
 ----
-import { isEd25519PublicKey } from "@hashgraph-did-sdk/core";
+import { isEd25519PublicKey } from "@hiero-did-sdk/core";
 
 const publicKey = "z6Mkhj..."; // Replace with the public key you want to validate
 
@@ -106,15 +106,15 @@ This example shows how to use the `KeysUtility` to transform keys from a Hedera 
 
 [source, typescript]
 ----
-import { KeysUtility } from "@hashgraph-did-sdk/core";
+import { KeysUtility } from "@hiero-did-sdk/core";
 import { PublicKey } from "@hashgraph/sdk";
 
 // Load a key from a Hedera PublicKey
-const keyUtil = KeysUtility.fromPublicKey(publicKey); 
+const keyUtil = KeysUtility.fromPublicKey(publicKey);
 
 // Transform the key to different formats
 const publicKeyMultibase = keyUtil.toMultibase();
-const publicKeyBase58 = keyUtil.toBase58();  
+const publicKeyBase58 = keyUtil.toBase58();
 const publicKeyBytes = keyUtil.toBytes();
 ----
 
@@ -126,7 +126,7 @@ This example demonstrates how to use the `MultibaseCodec` class to encode and de
 
 [source, typescript]
 ----
-import { MultibaseCodec } from "@hashgraph-did-sdk/core";
+import { MultibaseCodec } from "@hiero-did-sdk/core";
 
 const encodedString = MultibaseCodec.encode(Buffer.from("Hello, world!"), "base58btc");
 
@@ -141,7 +141,7 @@ This example demonstrates how to use the `CborCodec` class to encode and decode 
 
 [source, typescript]
 ----
-import { CborCodec } from "@hashgraph-did-sdk/core";
+import { CborCodec } from "@hiero-did-sdk/core";
 
 const encodedBytes = CborCodec.encode(JSON.stringify({ id: 'did:hedera:...' }));
 

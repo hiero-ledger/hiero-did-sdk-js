@@ -88,9 +88,7 @@ describe('DID Dereference Builder', () => {
 
       builder.withFragment('srv-1');
 
-      expect(builder['dereferenceFragment']()).toEqual(
-        DID_RESOLUTION.didDocument.service[0],
-      );
+      expect(builder['dereferenceFragment']()).toEqual(DID_RESOLUTION.didDocument.service[0]);
     });
 
     it('should return the proper fragment if the fragment is a verification method', () => {
@@ -98,9 +96,7 @@ describe('DID Dereference Builder', () => {
 
       builder.withFragment('did-root-key');
 
-      expect(builder['dereferenceFragment']()).toEqual(
-        DID_RESOLUTION.didDocument.verificationMethod[0],
-      );
+      expect(builder['dereferenceFragment']()).toEqual(DID_RESOLUTION.didDocument.verificationMethod[0]);
     });
 
     it('should return null if the fragment is not found', () => {
@@ -113,18 +109,13 @@ describe('DID Dereference Builder', () => {
   });
 
   describe('query dereference', () => {
-    it.each(['hl', 'versionTime', 'versionId'])(
-      'should throw an error if the query is not supported [%s]',
-      (param) => {
-        const builder = DIDDereferenceBuilder.fromResolution(DID_RESOLUTION);
+    it.each(['hl', 'versionTime', 'versionId'])('should throw an error if the query is not supported [%s]', (param) => {
+      const builder = DIDDereferenceBuilder.fromResolution(DID_RESOLUTION);
 
-        builder.withParams({ [param]: 'bar' });
+      builder.withParams({ [param]: 'bar' });
 
-        expect(() => builder['dereferenceQuery']()).toThrow(
-          'HL, versionTime, and versionId params are not supported',
-        );
-      },
-    );
+      expect(() => builder['dereferenceQuery']()).toThrow('HL, versionTime, and versionId params are not supported');
+    });
 
     it('should not dereference a verification method', () => {
       const builder = DIDDereferenceBuilder.fromResolution(DID_RESOLUTION);
@@ -155,9 +146,7 @@ describe('DID Dereference Builder', () => {
 
       builder.withParams({ service: 'srv-1', relativeRef: '/foo' });
 
-      expect(builder['dereferenceQuery']()).toEqual(
-        'https://example.com/1/foo',
-      );
+      expect(builder['dereferenceQuery']()).toEqual('https://example.com/1/foo');
     });
 
     it('should throw an error if the service endpoint is not a string', () => {
@@ -165,9 +154,7 @@ describe('DID Dereference Builder', () => {
 
       builder.withParams({ service: 'srv-invalid' });
 
-      expect(() => builder['dereferenceQuery']()).toThrow(
-        'This service endpoint type is not supported',
-      );
+      expect(() => builder['dereferenceQuery']()).toThrow('This service endpoint type is not supported');
     });
 
     it('should throw an error if the service endpoint is an array', () => {
@@ -175,9 +162,7 @@ describe('DID Dereference Builder', () => {
 
       builder.withParams({ service: 'srv-multiple' });
 
-      expect(() => builder['dereferenceQuery']()).toThrow(
-        'Multiple service endpoints are not supported',
-      );
+      expect(() => builder['dereferenceQuery']()).toThrow('Multiple service endpoints are not supported');
     });
 
     it('should return null if did document does not have any services', () => {
@@ -198,21 +183,13 @@ describe('DID Dereference Builder', () => {
 
   describe('resolution format', () => {
     it('should return the json format', () => {
-      const builder =
-        DIDDereferenceBuilder.fromResolution(DID_RESOLUTION).withFragment(
-          'did-root-key',
-        );
+      const builder = DIDDereferenceBuilder.fromResolution(DID_RESOLUTION).withFragment('did-root-key');
 
-      expect(builder.toJson()).toEqual(
-        DID_RESOLUTION.didDocument.verificationMethod[0],
-      );
+      expect(builder.toJson()).toEqual(DID_RESOLUTION.didDocument.verificationMethod[0]);
     });
 
     it('should return the json-ld format', () => {
-      const builder =
-        DIDDereferenceBuilder.fromResolution(DID_RESOLUTION).withFragment(
-          'did-root-key',
-        );
+      const builder = DIDDereferenceBuilder.fromResolution(DID_RESOLUTION).withFragment('did-root-key');
 
       expect(builder.toJsonLd()).toEqual({
         '@context': DID_RESOLUTION.didDocument['@context'],
@@ -221,10 +198,7 @@ describe('DID Dereference Builder', () => {
     });
 
     it('should return the resolution format', () => {
-      const builder =
-        DIDDereferenceBuilder.fromResolution(DID_RESOLUTION).withFragment(
-          'did-root-key',
-        );
+      const builder = DIDDereferenceBuilder.fromResolution(DID_RESOLUTION).withFragment('did-root-key');
 
       expect(builder.toResolution()).toEqual({
         contentStream: builder.toJsonLd(),
@@ -234,27 +208,19 @@ describe('DID Dereference Builder', () => {
     });
 
     it('should return string if the content stream is a string [json]', () => {
-      const builder = DIDDereferenceBuilder.fromResolution(
-        DID_RESOLUTION,
-      ).withParams({
+      const builder = DIDDereferenceBuilder.fromResolution(DID_RESOLUTION).withParams({
         service: 'srv-2',
       });
 
-      expect(builder.toJson()).toEqual(
-        DID_RESOLUTION.didDocument.service[1].serviceEndpoint,
-      );
+      expect(builder.toJson()).toEqual(DID_RESOLUTION.didDocument.service[1].serviceEndpoint);
     });
 
     it('should return string if the content stream is a string [json-ld]', () => {
-      const builder = DIDDereferenceBuilder.fromResolution(
-        DID_RESOLUTION,
-      ).withParams({
+      const builder = DIDDereferenceBuilder.fromResolution(DID_RESOLUTION).withParams({
         service: 'srv-2',
       });
 
-      expect(builder.toJsonLd()).toEqual(
-        DID_RESOLUTION.didDocument.service[1].serviceEndpoint,
-      );
+      expect(builder.toJsonLd()).toEqual(DID_RESOLUTION.didDocument.service[1].serviceEndpoint);
     });
   });
 
@@ -263,9 +229,7 @@ describe('DID Dereference Builder', () => {
 
     builder.withFragment('foo');
 
-    expect(() => builder.toJson()).toThrow(
-      'Fragment not found in DID document',
-    );
+    expect(() => builder.toJson()).toThrow('Fragment not found in DID document');
   });
 
   it('should throw an error if query is not found', () => {

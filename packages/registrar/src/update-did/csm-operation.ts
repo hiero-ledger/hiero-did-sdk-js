@@ -1,7 +1,7 @@
-import { Publisher } from '@swiss-digital-assets-institute/publisher-internal';
-import { DIDError } from '@swiss-digital-assets-institute/core';
-import { resolveDID } from '@swiss-digital-assets-institute/resolver';
-import { Verifier } from '@swiss-digital-assets-institute/verifier-internal';
+import { Publisher } from '@hiero-did-sdk/publisher-internal';
+import { DIDError } from '@hiero-did-sdk/core';
+import { resolveDID } from '@hiero-did-sdk/resolver';
+import { Verifier } from '@hiero-did-sdk/verifier-internal';
 import { PublisherProviders } from '../interfaces';
 import { getPublisher, MessageAwaiter, getDIDRootKey } from '../shared';
 import {
@@ -10,11 +10,7 @@ import {
   UpdateDIDRequest,
   UpdateDIDResult,
 } from './interface';
-import {
-  prepareOperation,
-  preExecuteOperation,
-  executeOperation,
-} from './sub-operations';
+import { prepareOperation, preExecuteOperation, executeOperation } from './sub-operations';
 import { deserializeState } from './helpers/deserialize-state';
 
 /**
@@ -27,7 +23,7 @@ import { deserializeState } from './helpers/deserialize-state';
  */
 export async function generateUpdateDIDRequest(
   options: GenerateUpdateDIDRequestOptions,
-  providers: PublisherProviders,
+  providers: PublisherProviders
 ): Promise<UpdateDIDRequest> {
   const operationProviders = providers;
   const requestOperationOptions = options;
@@ -38,13 +34,9 @@ export async function generateUpdateDIDRequest(
     ? requestOperationOptions.updates
     : [requestOperationOptions.updates];
 
-  const resolvedDIDDocument = await resolveDID(
-    requestOperationOptions.did,
-    'application/did+json',
-    {
-      topicReader: requestOperationOptions.topicReader,
-    },
-  );
+  const resolvedDIDDocument = await resolveDID(requestOperationOptions.did, 'application/did+json', {
+    topicReader: requestOperationOptions.topicReader,
+  });
 
   if (updates.length === 0) {
     return {
@@ -63,17 +55,14 @@ export async function generateUpdateDIDRequest(
         requestOperationOptions,
         resolvedDIDDocument,
         true,
-        publisher,
+        publisher
       );
 
       return preparedMessage;
-    }),
+    })
   );
 
-  if (
-    operationProviders.clientOptions instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (operationProviders.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 
@@ -108,7 +97,7 @@ export async function generateUpdateDIDRequest(
  */
 export async function submitUpdateDIDRequest(
   options: SubmitUpdateDIDRequestOptions,
-  providers: PublisherProviders,
+  providers: PublisherProviders
 ): Promise<UpdateDIDResult> {
   const publisher = getPublisher(providers);
 
@@ -119,21 +108,14 @@ export async function submitUpdateDIDRequest(
   }
 
   if (states.length !== Object.keys(signatures).length) {
-    throw new DIDError(
-      'invalidArgument',
-      'Number of states and signatures do not match',
-    );
+    throw new DIDError('invalidArgument', 'Number of states and signatures do not match');
   }
 
   const deserializedStates = deserializeState(states);
 
-  const resolvedDIDDocument = await resolveDID(
-    deserializedStates[0].message.did,
-    'application/did+json',
-    {
-      topicReader: options.topicReader,
-    },
-  );
+  const resolvedDIDDocument = await resolveDID(deserializedStates[0].message.did, 'application/did+json', {
+    topicReader: options.topicReader,
+  });
   const didRootKey = getDIDRootKey(resolvedDIDDocument);
   const verifier = Verifier.fromMultibase(didRootKey);
 
@@ -143,36 +125,25 @@ export async function submitUpdateDIDRequest(
       const signature = signatures[operationID];
 
       if (!signature) {
-        throw new DIDError(
-          'invalidArgument',
-          `Signature for ${operationID} not found`,
-        );
+        throw new DIDError('invalidArgument', `Signature for ${operationID} not found`);
       }
 
-      const preparedMessage = await preExecuteOperation(
-        state.operation,
-        state,
-        publisher,
-        signature,
-        verifier,
-      );
+      const preparedMessage = await preExecuteOperation(state.operation, state, publisher, signature, verifier);
 
       return {
         state: preparedMessage,
         operation: state.operation,
       };
-    }),
+    })
   );
 
   // Set up a message awaiter to wait for the message to be available in the topic
-  const messagesToWaitFor = preExecutedStates.map(
-    ({ state }) => state.message.payload,
-  );
+  const messagesToWaitFor = preExecutedStates.map(({ state }) => state.message.payload);
 
   const messageAwaiter = new MessageAwaiter(
     preExecutedStates[0].state.message.topicId,
     await publisher.network(),
-    options.topicReader,
+    options.topicReader
   )
     .forMessages(messagesToWaitFor)
     .setStartsAt(new Date())
@@ -184,10 +155,7 @@ export async function submitUpdateDIDRequest(
     await executeOperation(operation, state, true, publisher);
   }
 
-  if (
-    providers.clientOptions instanceof Object &&
-    publisher instanceof Publisher
-  ) {
+  if (providers.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 

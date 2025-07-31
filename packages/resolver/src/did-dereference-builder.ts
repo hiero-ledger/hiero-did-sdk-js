@@ -9,7 +9,7 @@ import {
   VerificationMethod,
   CborCodec,
   DIDError,
-} from '@swiss-digital-assets-institute/core';
+} from '@hiero-did-sdk/core';
 
 export class DIDDereferenceBuilder {
   private fragment?: string;
@@ -95,9 +95,7 @@ export class DIDDereferenceBuilder {
    * @returns The dereferenced fragment or null if not found.
    */
   private dereferenceFragment(): Service | VerificationMethod | null {
-    const documentPropertyKeys = Object.keys(
-      this.didResolution.didDocument,
-    ) as (keyof DIDDocument)[];
+    const documentPropertyKeys = Object.keys(this.didResolution.didDocument) as (keyof DIDDocument)[];
 
     for (const key of documentPropertyKeys) {
       const service = this.didResolution.didDocument[key];
@@ -111,10 +109,7 @@ export class DIDDereferenceBuilder {
           continue;
         }
 
-        if (
-          item.id === `#${this.fragment}` ||
-          item.id === `${this.didResolution.didDocument.id}#${this.fragment}`
-        ) {
+        if (item.id === `#${this.fragment}` || item.id === `${this.didResolution.didDocument.id}#${this.fragment}`) {
           return item;
         }
       }
@@ -139,10 +134,7 @@ export class DIDDereferenceBuilder {
     const hl = this.params['hl'];
 
     if (hl || versionTime || versionId) {
-      throw new DIDError(
-        'invalidDidUrl',
-        'HL, versionTime, and versionId params are not supported',
-      );
+      throw new DIDError('invalidDidUrl', 'HL, versionTime, and versionId params are not supported');
     }
 
     if (!services) {
@@ -157,32 +149,22 @@ export class DIDDereferenceBuilder {
       let serviceEndpoint: ServiceEndpoint;
 
       if (Array.isArray(service.serviceEndpoint)) {
-        throw new DIDError(
-          'representationNotSupported',
-          'Multiple service endpoints are not supported',
-        );
+        throw new DIDError('representationNotSupported', 'Multiple service endpoints are not supported');
       } else {
         serviceEndpoint = service.serviceEndpoint;
       }
 
       if (typeof serviceEndpoint !== 'string') {
-        throw new DIDError(
-          'representationNotSupported',
-          'This service endpoint type is not supported',
-        );
+        throw new DIDError('representationNotSupported', 'This service endpoint type is not supported');
       }
 
-      const parsedUrl = serviceEndpoint.endsWith('/')
-        ? serviceEndpoint
-        : `${serviceEndpoint}/`;
+      const parsedUrl = serviceEndpoint.endsWith('/') ? serviceEndpoint : `${serviceEndpoint}/`;
 
       if (!relativeRef) {
         return parsedUrl;
       }
 
-      return relativeRef.startsWith('/')
-        ? `${parsedUrl}${relativeRef.slice(1)}`
-        : `${parsedUrl}${relativeRef}`;
+      return relativeRef.startsWith('/') ? `${parsedUrl}${relativeRef.slice(1)}` : `${parsedUrl}${relativeRef}`;
     }
 
     return null;

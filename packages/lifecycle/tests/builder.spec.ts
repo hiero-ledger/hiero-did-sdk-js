@@ -59,10 +59,7 @@ describe('Lifecycle builder class', () => {
 
       const callbackFunction = jest.fn();
 
-      builder
-        .callback('s1', callbackFunction)
-        .signature('s2')
-        .signWithSigner('s3');
+      builder.callback('s1', callbackFunction).signature('s2').signWithSigner('s3');
 
       expect(builder.length).toBe(3);
       expect(builder.getByIndex(0)).toEqual({
@@ -117,17 +114,13 @@ describe('Lifecycle builder class', () => {
   it('should throw an error if the step does not exist', () => {
     const builder = new LifecycleBuilder();
 
-    expect(() => builder.getByLabel('s1')).toThrow(
-      `Step with label 's1' does not exist`,
-    );
+    expect(() => builder.getByLabel('s1')).toThrow(`Step with label 's1' does not exist`);
   });
 
   it('should throw an error if the step does not exist', () => {
     const builder = new LifecycleBuilder();
 
-    expect(() => builder.getIndexByLabel('s1')).toThrow(
-      `Step with label 's1' does not exist`,
-    );
+    expect(() => builder.getIndexByLabel('s1')).toThrow(`Step with label 's1' does not exist`);
   });
 
   it('should throw an error when same label is used', () => {
@@ -135,18 +128,13 @@ describe('Lifecycle builder class', () => {
 
     builder.callback('s1', jest.fn());
 
-    expect(() => builder.callback('s1', jest.fn())).toThrow(
-      `Step with label 's1' already exists`,
-    );
+    expect(() => builder.callback('s1', jest.fn())).toThrow(`Step with label 's1' already exists`);
   });
 
   it('should get an index of step by a label', () => {
     const builder = new LifecycleBuilder();
 
-    builder
-      .callback('s1', jest.fn())
-      .callback('s2', jest.fn())
-      .callback('s3', jest.fn());
+    builder.callback('s1', jest.fn()).callback('s2', jest.fn()).callback('s3', jest.fn());
 
     expect(builder.getIndexByLabel('s1')).toBe(0);
     expect(builder.getIndexByLabel('s2')).toBe(1);

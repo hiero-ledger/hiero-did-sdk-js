@@ -1,4 +1,4 @@
-import { isHederaDIDUrl } from '@swiss-digital-assets-institute/core';
+import { isHederaDIDUrl } from '@hiero-did-sdk/core';
 import { RemoveVerificationMethodEvent } from '../interfaces/remove-verification-method-event';
 import { isObject, isString } from './base';
 
@@ -8,9 +8,7 @@ import { isObject, isString } from './base';
  * @param eventObject The object to check
  * @returns True if the object is a RemoveVerificationMethodEvent, false otherwise
  */
-export function isRemoveVerificationMethodEvent(
-  eventObject: unknown,
-): eventObject is RemoveVerificationMethodEvent {
+export function isRemoveVerificationMethodEvent(eventObject: unknown): eventObject is RemoveVerificationMethodEvent {
   if (!isObject(eventObject)) {
     return false;
   }
@@ -25,11 +23,7 @@ export function isRemoveVerificationMethodEvent(
     return false;
   }
 
-  if (
-    !('id' in VerificationMethod) ||
-    !isString(VerificationMethod.id) ||
-    !isHederaDIDUrl(VerificationMethod.id)
-  ) {
+  if (!('id' in VerificationMethod) || !isString(VerificationMethod.id) || !isHederaDIDUrl(VerificationMethod.id)) {
     return false;
   }
 

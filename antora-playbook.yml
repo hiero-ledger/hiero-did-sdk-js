@@ -1,6 +1,6 @@
 site:
-  title: Hashgraph DID-SDK
-  url: https://swiss-digital-assets-institute.github.io/hashgraph-did-sdk-js
+  title: Hiero DID-SDK JS
+  url: https://github.com/DSRCorporation/hiero-did-sdk-js
   start_page: documentation::index.adoc
 content:
   sources:

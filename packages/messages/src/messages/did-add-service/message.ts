@@ -1,14 +1,8 @@
-import {
-  DIDError,
-  DIDMessage,
-  isHederaDID,
-} from '@swiss-digital-assets-institute/core';
-import {
-  DIDAddServiceMessageConstructor,
-  MessageSerialized,
-} from './interfaces';
+import { DIDError, DIDMessage, isHederaDID } from '@hiero-did-sdk/core';
+import { DIDAddServiceMessageConstructor, MessageSerialized } from './interfaces';
 import { isPropertyID } from '../../validators/id-property-id';
 import { isURI } from '../../validators/is-uri';
+import { Buffer } from 'buffer';
 
 /**
  * A message to add a service to a DID Document.
@@ -32,17 +26,11 @@ export class DIDAddServiceMessage extends DIDMessage {
     }
 
     if (!isPropertyID(payload.id)) {
-      throw new DIDError(
-        'invalidArgument',
-        'The ID must be a valid property ID',
-      );
+      throw new DIDError('invalidArgument', 'The ID must be a valid property ID');
     }
 
     if (!isURI(payload.serviceEndpoint)) {
-      throw new DIDError(
-        'invalidArgument',
-        'The service endpoint must be a valid URI',
-      );
+      throw new DIDError('invalidArgument', 'The service endpoint must be a valid URI');
     }
 
     // Validate the service endpoint.
@@ -101,9 +89,7 @@ export class DIDAddServiceMessage extends DIDMessage {
       id: this.id,
       did: this.did,
       timestamp: this.timestamp.toISOString(),
-      signature: this.signature
-        ? Buffer.from(this.signature).toString('base64')
-        : undefined,
+      signature: this.signature ? Buffer.from(this.signature).toString('base64') : undefined,
     };
 
     return Buffer.from(JSON.stringify(data)).toString('base64');
@@ -116,9 +102,7 @@ export class DIDAddServiceMessage extends DIDMessage {
    * @returns The deserialized message instance.
    */
   static fromBytes(bytes: string): DIDAddServiceMessage {
-    const data = JSON.parse(
-      Buffer.from(bytes, 'base64').toString('utf8'),
-    ) as MessageSerialized;
+    const data = JSON.parse(Buffer.from(bytes, 'base64').toString('utf8')) as MessageSerialized;
 
     return new DIDAddServiceMessage({
       serviceEndpoint: data.serviceEndpoint,
@@ -126,9 +110,7 @@ export class DIDAddServiceMessage extends DIDMessage {
       id: data.id,
       did: data.did,
       timestamp: new Date(data.timestamp),
-      signature: data.signature
-        ? Buffer.from(data.signature, 'base64')
-        : undefined,
+      signature: data.signature ? Buffer.from(data.signature, 'base64') : undefined,
     });
   }
 }

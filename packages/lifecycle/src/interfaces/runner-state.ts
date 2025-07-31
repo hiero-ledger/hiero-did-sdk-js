@@ -1,4 +1,4 @@
-import { DIDMessage } from '@swiss-digital-assets-institute/core';
+import { DIDMessage } from '@hiero-did-sdk/core';
 
 export type StateStatus = 'success' | 'error' | 'pause';
 

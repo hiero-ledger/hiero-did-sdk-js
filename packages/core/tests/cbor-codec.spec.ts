@@ -3,45 +3,28 @@ import { CborCodec } from '../src';
 describe('CBOR format utilities', () => {
   describe('encoding', () => {
     it.each([
-      [
-        'Uint8Array',
-        'encode',
-        new Uint8Array([0x65, 0x68, 0x65, 0x6c, 0x6c, 0x6f]),
-      ],
+      ['Uint8Array', 'encode', new Uint8Array([0x65, 0x68, 0x65, 0x6c, 0x6c, 0x6f])],
       ['HEX', 'encodeHex', '6568656C6C6F'],
-    ] as const)(
-      'should encode a string to cbor data [%s]',
-      (_, methodName, expected) => {
-        const encoded = CborCodec[methodName]('hello');
-        expect(encoded).toEqual(expected);
-      },
-    );
+    ] as const)('should encode a string to cbor data [%s]', (_, methodName, expected) => {
+      const encoded = CborCodec[methodName]('hello');
+      expect(encoded).toEqual(expected);
+    });
 
     it.each([
-      [
-        'Uint8Array',
-        'encode',
-        new Uint8Array([0xa1, 0x63, 0x66, 0x6f, 0x6f, 0x63, 0x62, 0x61, 0x72]),
-      ],
+      ['Uint8Array', 'encode', new Uint8Array([0xa1, 0x63, 0x66, 0x6f, 0x6f, 0x63, 0x62, 0x61, 0x72])],
       ['HEX', 'encodeHex', 'A163666F6F63626172'],
-    ] as const)(
-      'should encode an object to cbor data [%s]',
-      (_, methodName, expected) => {
-        const encoded = CborCodec[methodName]({ foo: 'bar' });
-        expect(encoded).toEqual(expected);
-      },
-    );
+    ] as const)('should encode an object to cbor data [%s]', (_, methodName, expected) => {
+      const encoded = CborCodec[methodName]({ foo: 'bar' });
+      expect(encoded).toEqual(expected);
+    });
 
     it.each([
       ['Uint8Array', 'encode', new Uint8Array([0x42, 0xa1, 0xff])],
       ['HEX', 'encodeHex', '42A1FF'],
-    ] as const)(
-      'should encode a Uint8Array to cbor data [%s]',
-      (_, methodName, expected) => {
-        const encoded = CborCodec[methodName](new Uint8Array([0xa1, 0xff]));
-        expect(encoded).toEqual(expected);
-      },
-    );
+    ] as const)('should encode a Uint8Array to cbor data [%s]', (_, methodName, expected) => {
+      const encoded = CborCodec[methodName](new Uint8Array([0xa1, 0xff]));
+      expect(encoded).toEqual(expected);
+    });
 
     it('should return a Uint8Array', () => {
       const encoded = CborCodec.encode('hello');
@@ -64,10 +47,7 @@ describe('CBOR format utilities', () => {
     });
 
     it.each([
-      [
-        'Uint8Array',
-        new Uint8Array([0xa1, 0x63, 0x66, 0x6f, 0x6f, 0x63, 0x62, 0x61, 0x72]),
-      ],
+      ['Uint8Array', new Uint8Array([0xa1, 0x63, 0x66, 0x6f, 0x6f, 0x63, 0x62, 0x61, 0x72])],
       ['HEX', 'A163666F6F63626172'],
     ] as const)('should decode cbor data to an object [%s]', (_, data) => {
       const decoded = CborCodec.decode(data);

@@ -1,6 +1,7 @@
 import { DIDError } from './did-error';
 import { Signer } from './signer';
 import { Verifier } from './verifier';
+import { Buffer } from 'buffer';
 
 export type DIDMessageOperation = 'create' | 'update' | 'revoke' | 'delete';
 
@@ -59,7 +60,7 @@ export abstract class DIDMessage {
     if (!this.signature) {
       throw new DIDError(
         'invalidSignature',
-        'DID message is missing a signature. Signature is required to construct a DID message payload.',
+        'DID message is missing a signature. Signature is required to construct a DID message payload.'
       );
     }
 
@@ -83,7 +84,7 @@ export abstract class DIDMessage {
     if (!isValid) {
       throw new DIDError(
         'invalidSignature',
-        'The signature is invalid. Provided signer does not match the DID signer.',
+        'The signature is invalid. Provided signer does not match the DID signer.'
       );
     }
 
@@ -96,17 +97,11 @@ export abstract class DIDMessage {
    * @param signature The signature to set.
    * @param verifier The verifier class instance to verify the signature.
    */
-  public async setSignature(
-    signature: Uint8Array,
-    verifier: Verifier,
-  ): Promise<void> {
+  public async setSignature(signature: Uint8Array, verifier: Verifier): Promise<void> {
     const isValid = await verifier.verify(this.messageBytes, signature);
 
     if (!isValid) {
-      throw new DIDError(
-        'invalidSignature',
-        'The signature is invalid. Provided signature does not match the DID signer.',
-      );
+      throw new DIDError('invalidSignature', 'The signature is invalid');
     }
 
     this.signature = signature;
