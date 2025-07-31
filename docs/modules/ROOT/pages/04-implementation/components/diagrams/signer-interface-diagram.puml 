@@ -1,7 +1,0 @@
-@startuml
-interface Signer {
-  + sign(message: Uint8Array) => Promise<Uint8Array>
-  + publicKey() => Promise<MultibasePublicKey>
-  + verify(message: Uint8Array, signature: Uint8Array) => Promise<boolean>
-}
-@enduml
