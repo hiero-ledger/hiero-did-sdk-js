@@ -8,10 +8,8 @@ import {
   AnonCredsRevocationRegistryDefinition,
   AnonCredsSchema,
 } from '../src/specification';
-import { ConsoleLogger, FakeCache, LogLevel } from './utils';
 import { v4 as uuidv4 } from 'uuid';
 
-const LOG_DEBUG_MASSAGES = false;
 const TEST_WITH_CACHE = true;
 
 const GET_DATA_TIMEOUT = 50;
@@ -88,13 +86,12 @@ describe('Hedera AnonCreds Registry', () => {
 
   let anoncredsRegistry: HederaAnoncredsRegistry;
 
-  const issuerDid: string = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419';
-
-  const logger = new ConsoleLogger(LOG_DEBUG_MASSAGES ? LogLevel.debug : LogLevel.off);
-  const cache = TEST_WITH_CACHE ? new LRUMemoryCache() : new FakeCache();
+  const issuerDid = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419';
+  
+  const cache = TEST_WITH_CACHE ? new LRUMemoryCache() : undefined;
 
   beforeEach(async () => {
-    await cache.clear();
+    await cache?.clear();
     anoncredsRegistry = new HederaAnoncredsRegistry({
       networks: networkConfigs,
       cache,
@@ -112,12 +109,12 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       options: {},
     });
-    logger.debug('=== SchemaResult ===', { schemaResult });
+    console.log('=== SchemaResult ===', { schemaResult });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     // Resolve
     const resolvedSchema = await anoncredsRegistry.getSchema(schemaResult.schemaState.schemaId ?? '');
-    logger.debug('=== ResolvedSchema ===', { resolvedSchema });
+    console.log('=== ResolvedSchema ===', { resolvedSchema });
     expect(resolvedSchema.schemaId).toEqual(schemaResult.schemaState.schemaId);
 
     // Resolve with cache
@@ -126,7 +123,7 @@ describe('Hedera AnonCreds Registry', () => {
       const cachedResolvedSchema = await anoncredsRegistry.getSchema(schemaResult.schemaState.schemaId ?? '');
       const duration = performance.now() - start;
 
-      logger.debug('=== CachedResolvedSchema ===', { cachedResolvedSchema });
+      console.log('=== CachedResolvedSchema ===', { cachedResolvedSchema });
       expect(cachedResolvedSchema.schemaId).toEqual(schemaResult.schemaState.schemaId);
       expect(duration).toBeLessThan(GET_CACHED_DATA_TIMEOUT);
     }
@@ -138,7 +135,7 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       options: {},
     });
-    logger.debug('=== SchemaResult ===', { schemaResult });
+    console.log('=== SchemaResult ===', { schemaResult });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     const schemaId = schemaResult.schemaState.schemaId;
@@ -154,13 +151,13 @@ describe('Hedera AnonCreds Registry', () => {
         supportRevocation: true,
       },
     });
-    logger.debug('=== CredDefResult ===', { credDefResult });
+    console.log('=== CredDefResult ===', { credDefResult });
     expect(credDefResult?.credentialDefinitionState?.state).toEqual('finished');
     const credentialDefinitionId = credDefResult.credentialDefinitionState.credentialDefinitionId ?? '';
 
     // Resolve a credential definition
     const resolvedCredDef = await anoncredsRegistry.getCredentialDefinition(credentialDefinitionId);
-    logger.debug('=== ResolvedCredDef ===', { resolvedCredDef });
+    console.log('=== ResolvedCredDef ===', { resolvedCredDef });
     expect(resolvedCredDef.credentialDefinitionId).toEqual(credentialDefinitionId);
 
     // Resolve with cache
@@ -169,7 +166,7 @@ describe('Hedera AnonCreds Registry', () => {
       const cachedResolvedCredDef = await anoncredsRegistry.getCredentialDefinition(credentialDefinitionId);
       const duration = performance.now() - start;
 
-      logger.debug('=== cachedResolvedCredDef ===', { cachedResolvedCredDef });
+      console.log('=== cachedResolvedCredDef ===', { cachedResolvedCredDef });
       expect(cachedResolvedCredDef.credentialDefinitionId).toEqual(credentialDefinitionId);
       expect(duration).toBeLessThan(GET_CACHED_DATA_TIMEOUT);
     }
@@ -180,7 +177,7 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       options: {},
     });
-    logger.debug('=== SchemaResult ===', { schemaResult });
+    console.log('=== SchemaResult ===', { schemaResult });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     const schemaId = schemaResult.schemaState.schemaId;
@@ -195,7 +192,7 @@ describe('Hedera AnonCreds Registry', () => {
         supportRevocation: true,
       },
     });
-    logger.debug('=== CredDefResult ===', { credDefResult });
+    console.log('=== CredDefResult ===', { credDefResult });
     expect(credDefResult?.credentialDefinitionState?.state).toEqual('finished');
 
     const credDefId = credDefResult.credentialDefinitionState.credentialDefinitionId ?? '';
@@ -208,13 +205,13 @@ describe('Hedera AnonCreds Registry', () => {
       },
       options: {},
     });
-    logger.debug('=== RevRegDefRegResult ===', { revRegDefRegResult });
+    console.log('=== RevRegDefRegResult ===', { revRegDefRegResult });
     expect(revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId).toBeDefined();
 
     const resolvedRevRegDef = await anoncredsRegistry.getRevocationRegistryDefinition(
       revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId ?? ''
     );
-    logger.debug('=== ResolvedRevRegDef ===', { resolvedRevRegDef });
+    console.log('=== ResolvedRevRegDef ===', { resolvedRevRegDef });
     expect(resolvedRevRegDef.revocationRegistryDefinitionId).toEqual(
       revRegDefRegResult.revocationRegistryDefinitionState.revocationRegistryDefinitionId
     );
@@ -227,7 +224,7 @@ describe('Hedera AnonCreds Registry', () => {
       );
       const duration = performance.now() - start;
 
-      logger.debug('=== cachedResolvedRevRegDef ===', {
+      console.log('=== cachedResolvedRevRegDef ===', {
         cachedResolvedRevRegDef,
       });
       expect(cachedResolvedRevRegDef.revocationRegistryDefinitionId).toEqual(
@@ -242,7 +239,7 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       options: {},
     });
-    logger.debug('=== SchemaResult ===', { schemaResult });
+    console.log('=== SchemaResult ===', { schemaResult });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     const schemaId = schemaResult.schemaState.schemaId;
@@ -257,7 +254,7 @@ describe('Hedera AnonCreds Registry', () => {
         supportRevocation: true,
       },
     });
-    logger.debug('=== CredDefResult ===', { credDefResult });
+    console.log('=== CredDefResult ===', { credDefResult });
     expect(credDefResult?.credentialDefinitionState?.state).toEqual('finished');
 
     const credDefId = credDefResult.credentialDefinitionState.credentialDefinitionId ?? '';
@@ -270,13 +267,13 @@ describe('Hedera AnonCreds Registry', () => {
       },
       options: {},
     });
-    logger.debug('=== RevRegDefRegResult ===', { revRegDefRegResult });
+    console.log('=== RevRegDefRegResult ===', { revRegDefRegResult });
     expect(revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId).toBeDefined();
 
     const resolvedRevRegDef = await anoncredsRegistry.getRevocationRegistryDefinition(
       revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId ?? ''
     );
-    logger.debug('=== ResolvedRevRegDef ===', { resolvedRevRegDef });
+    console.log('=== ResolvedRevRegDef ===', { resolvedRevRegDef });
     expect(resolvedRevRegDef.revocationRegistryDefinitionId).toEqual(
       revRegDefRegResult.revocationRegistryDefinitionState.revocationRegistryDefinitionId
     );
@@ -290,7 +287,7 @@ describe('Hedera AnonCreds Registry', () => {
       },
       options: {},
     });
-    logger.debug('=== RegisterRevocationStatusListResponse ===', {
+    console.log('=== RegisterRevocationStatusListResponse ===', {
       registerRevocationStatusListResponse,
     });
     expect(registerRevocationStatusListResponse?.revocationStatusListState.state).toEqual('finished');
@@ -300,7 +297,7 @@ describe('Hedera AnonCreds Registry', () => {
       revRegDefId,
       Math.floor(Date.now() / 1000)
     );
-    logger.debug('=== RevocationStatusListResponse ===', {
+    console.log('=== RevocationStatusListResponse ===', {
       revocationStatusListResponse,
     });
     expect(revocationStatusListResponse.revocationStatusList).toMatchObject({
@@ -444,7 +441,7 @@ describe('Hedera AnonCreds Registry', () => {
 
     it('test the cache using', async () => {
       if (!TEST_WITH_CACHE) {
-        logger.info('The test skipped because the cache is not used');
+        console.log('The test skipped because the cache is not used');
         return;
       }
 

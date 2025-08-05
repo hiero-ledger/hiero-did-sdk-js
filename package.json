@@ -1,5 +1,5 @@
 {
-  "name": "hiero-did-sdk",
+  "name": "@hiero-did-sdk/root",
   "private": true,
   "scripts": {
     "docs:build": "antora antora-playbook.yml",

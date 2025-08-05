@@ -1,4 +1,4 @@
-import { DIDError, Network } from '@swiss-digital-assets-institute/core';
+import { DIDError, Network } from '@hiero-did-sdk/core';
 
 interface Output {
   /**
@@ -32,8 +32,7 @@ interface Output {
  * @returns DID components.
  */
 export function parseDID(did: string): Output {
-  const didPattern =
-    /^did:([a-zA-Z0-9]+):([a-zA-Z0-9-]+):([a-zA-Z0-9]+)_([0-9]+\.[0-9]+\.[0-9]+)$/;
+  const didPattern = /^did:([a-zA-Z0-9]+):([a-zA-Z0-9-]+):([a-zA-Z0-9]+)_([0-9]+\.[0-9]+\.[0-9]+)$/;
 
   const match = did.match(didPattern);
   if (!match) {

@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/github/license/hiero-ledger/hiero-did-sdk-js)](https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/LICENSE)
 
 This repository houses a robust JavaScript SDK designed to streamline the integration of Decentralized Identity within your applications on the Hedera ledger.
-By adhering to the Hedera DID Method and Hedera AnonCreds Method specification, this SDK empowers developers with a comprehensive suite of tools to effortlessly create, manage, and resolve DIDs and AnonCreds objects using Hedera Consensus Service (HCS.
+By adhering to the Hedera DID Method and Hedera AnonCreds Method specification, this SDK empowers developers with a comprehensive suite of tools to effortlessly create, manage, and resolve DIDs and AnonCreds objects using Hedera Consensus Service (HCS).
 
 ## Features
 

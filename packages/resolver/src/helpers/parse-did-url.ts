@@ -1,4 +1,4 @@
-import { DIDError, Network } from '@swiss-digital-assets-institute/core';
+import { DIDError, Network } from '@hiero-did-sdk/core';
 
 interface Output {
   /**
@@ -60,16 +60,7 @@ export function parseDIDUrl(didUrl: string): Output {
     throw new DIDError('invalidDidUrl', 'Invalid DID URL format');
   }
 
-  const [
-    ,
-    method,
-    network,
-    publicKey,
-    topicId,
-    path = undefined,
-    query = {},
-    fragment = undefined,
-  ] = match;
+  const [, method, network, publicKey, topicId, path = undefined, query = {}, fragment = undefined] = match;
 
   // Parse query parameters
   const params = {};
