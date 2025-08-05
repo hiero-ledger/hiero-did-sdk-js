@@ -11,8 +11,13 @@ jobs:
         node: [20, 22, 24]
     name: Unit Tests [Node v${{ matrix.node }}]
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
 #      - name: Prepare Hiero Solo
 #        id: solo
@@ -38,7 +43,7 @@ jobs:
 
       - name: Report coverage
         if: always()
-        uses: ArtiomTr/jest-coverage-report-action@v2
+        uses: ArtiomTr/jest-coverage-report-action@7f750dd50f5585533321eb7ebc482b936b49a5d4 # v2
         with:
           coverage-file: ./coverage/report.json
           base-coverage-file: ./coverage/report.json
