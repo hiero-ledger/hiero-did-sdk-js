@@ -94,10 +94,9 @@ export class HederaAnoncredsRegistry {
   async registerCredentialDefinition(
     options: RegisterCredentialDefinitionOptions & NetworkName
   ): Promise<RegisterCredentialDefinitionReturn> {
-    const { networkName, credentialDefinition } = options;
+    const { networkName, credentialDefinition, options: metadata } = options;
     try {
       const payload = Buffer.from(JSON.stringify(credentialDefinition));
-      const metadata = { ...options.options };
       const credentialDefinitionTopicId = await this.hcsService.submitFile({
         payload,
         networkName,
@@ -234,7 +233,7 @@ export class HederaAnoncredsRegistry {
   ): Promise<RegisterRevocationStatusListReturn> {
     const { networkName, revocationStatusList } = options;
     try {
-      const timestamp = Date.now() / 1000;
+      const timestamp = Date.now();
       const { entriesTopicId, statusList } = await this.resolveRevocationStatusList(
         options.revocationStatusList.revRegDefId,
         timestamp
@@ -358,12 +357,11 @@ export class HederaAnoncredsRegistry {
 
   private resolveRevocationStatusList = async (
     revocationRegistryDefinitionId: string,
-    onTimestamp?: number
+    timestamp: number = Date.now()
   ): Promise<{
     entriesTopicId: string;
     statusList?: AnonCredsRevocationStatusList;
   }> => {
-    const timestamp = onTimestamp ? 1000 * onTimestamp : Date.now();
     const revRegDefResult = await this.getRevocationRegistryDefinition(revocationRegistryDefinitionId);
 
     const revocationRegistryDefinition = revRegDefResult.revocationRegistryDefinition;
@@ -432,7 +430,7 @@ export class HederaAnoncredsRegistry {
       statusList: {
         issuerId: revocationRegistryDefinition.issuerId,
         revRegDefId: revocationRegistryDefinitionId,
-        timestamp: Math.floor(Date.now() / 1000),
+        timestamp,
         revocationList: statusList,
         currentAccumulator: entries.length ? (entries[entries.length - 1].entry?.value?.accum ?? '') : '',
       },

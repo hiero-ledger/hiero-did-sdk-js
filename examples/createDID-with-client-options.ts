@@ -5,8 +5,8 @@
 */
 import { createDID } from '@hiero-did-sdk/registrar';
 
-const accountId = process.env.HEDERA_TESTNET_ACCOUNT_ID;
-const operatorPrivateKey = process.env.HEDERA_TESTNET_PRIVATE_KEY;
+const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;
+const operatorPrivateKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
 
 async function main() {
   try {

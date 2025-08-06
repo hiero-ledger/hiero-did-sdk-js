@@ -17,7 +17,7 @@ export interface GetCredentialDefinitionReturn {
 
 export interface RegisterCredentialDefinitionOptions {
   credentialDefinition: AnonCredsCredentialDefinition;
-  options: Extensible;
+  options?: { supportRevocation: boolean };
 }
 
 export interface RegisterCredentialDefinitionReturnStateFailed extends AnonCredsOperationStateFailed {

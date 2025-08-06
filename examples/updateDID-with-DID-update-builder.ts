@@ -6,8 +6,8 @@ import { updateDID } from '@hiero-did-sdk/registrar';
 import { DIDUpdateBuilder } from '@hiero-did-sdk/registrar';
 import { Client } from '@hashgraph/sdk';
 
-const accountId = process.env.HEDERA_TESTNET_ACCOUNT_ID;
-const privateKey = process.env.HEDERA_TESTNET_PRIVATE_KEY;
+const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;
+const privateKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
 
 const client = Client.forTestnet();
 client.setOperator(accountId, privateKey);
