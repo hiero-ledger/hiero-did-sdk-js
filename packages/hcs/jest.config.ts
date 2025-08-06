@@ -6,11 +6,14 @@ const config: Config = {
   displayName: '@hiero-did-sdk/hcs',
   rootDir: '../..',
   testMatch: [`<rootDir>/packages/hcs/**/*.spec.ts`, `<rootDir>/packages/hcs/**/*.e2e.ts`],
-  collectCoverageFrom: [
-    'packages/hcs/src/**/*.ts',
-    '!packages/cache/src/**/*.ts',
-    '!packages/crypto/src/**/*.ts',
-  ],
+  coveragePathIgnorePatterns: [
+    "../packages/cache",
+    "../packages/client",
+    "../packages/core",
+    "../packages/crypto",
+    "../packages/zstd",
+    "../tests",
+  ]
 }
 
 export default config

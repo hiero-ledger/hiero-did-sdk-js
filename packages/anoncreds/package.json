@@ -41,8 +41,8 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "build": "pnpm clean && pnpm compile",
-    "format": "prettier --write \"src/**/*.ts\" \"tests/*.ts\"",
-    "format-check": "prettier --check \"src/*.ts\" \"tests/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "format-check": "prettier --check \"src/*.ts\" \"tests/**/*.ts\""
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",

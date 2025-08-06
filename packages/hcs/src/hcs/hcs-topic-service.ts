@@ -105,9 +105,9 @@ export class HcsTopicService {
    * @param props.topicMemo - Optional memo or description for the topic
    * @param props.submitKey - Optional private key that must sign any message submitted to the topic
    * @param props.adminKey - Optional private key that must sign any transaction updating the topic
-   * @param props.autoRenewPeriod - Optional auto renewal period for the topic
+   * @param props.autoRenewPeriod - Optional auto-renewal period for the topic
    * @param props.autoRenewAccountId - Optional account ID to be charged for auto-renewal fees
-   * @param props.autoRenewAccountKey - Optional private key for the auto-renew account (required if autoRenewAccountId is provided)
+   * @param props.autoRenewAccountKey - Optional private key for the auto-renewal account (required if autoRenewAccountId is provided)
    * @param props.waitForChangesVisibility - Optional flag to wait until the topic is visible in the mirror node
    * @param props.waitForChangesVisibilityTimeoutMs - Optional timeout in milliseconds for waiting for changes visibility
    * @returns Promise resolving to the created topic ID as a string

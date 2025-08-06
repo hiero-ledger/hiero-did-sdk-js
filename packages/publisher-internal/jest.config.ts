@@ -6,6 +6,9 @@ const config: Config = {
   displayName: '@hiero-did-sdk/publisher-internal',
   rootDir: '../..',
   testMatch: [`<rootDir>/packages/publisher-internal/**/*.spec.ts`],
+  coveragePathIgnorePatterns: [
+    "../packages/core",
+  ]
 };
 
 export default config;
