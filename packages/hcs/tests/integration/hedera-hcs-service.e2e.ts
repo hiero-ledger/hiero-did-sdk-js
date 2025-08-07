@@ -138,8 +138,7 @@ describe('Hedera HCS Service', () => {
       expect(topicInfo.adminKey).toEqual(admin1Key.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(newAutoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(renewAccountId);
-      if (topicInfo.expirationTime)
-        expect(topicInfo.expirationTime).toEqual(Math.floor(newExpirationTime.getTime() / 1000));
+      if (topicInfo.expirationTime) expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
 
       // Change memo, renew period, admin and submit keys
       const nextNewTopicMemo = 'the new memo';
@@ -160,8 +159,7 @@ describe('Hedera HCS Service', () => {
       expect(topicInfo.adminKey).toEqual(admin1Key.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(nextNewAutoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(renewAccountId);
-      if (topicInfo.expirationTime)
-        expect(topicInfo.expirationTime).toEqual(Math.floor(newExpirationTime.getTime() / 1000));
+      if (topicInfo.expirationTime) expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
 
       // Clear auto re-new account
       await ledgerService.updateTopic({
@@ -178,8 +176,7 @@ describe('Hedera HCS Service', () => {
       expect(topicInfo.adminKey).toEqual(admin1Key.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(nextNewAutoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(operatorId);
-      if (topicInfo.expirationTime)
-        expect(topicInfo.expirationTime).toEqual(Math.floor(newExpirationTime.getTime() / 1000));
+      if (topicInfo.expirationTime) expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
 
       // Set admin and submit keys to be the same
       await ledgerService.updateTopic({
@@ -196,8 +193,7 @@ describe('Hedera HCS Service', () => {
       expect(topicInfo.adminKey).toEqual(admin2Key.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(nextNewAutoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(operatorId);
-      if (topicInfo.expirationTime)
-        expect(topicInfo.expirationTime).toEqual(Math.floor(newExpirationTime.getTime() / 1000));
+      if (topicInfo.expirationTime) expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
     });
 
     it('Delete topic', async () => {

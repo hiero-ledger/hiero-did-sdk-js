@@ -6,8 +6,8 @@ import { Client, PrivateKey } from '@hashgraph/sdk';
 import { generateCreateDIDRequest, submitCreateDIDRequest } from '@hiero-did-sdk/registrar';
 import { KeysUtility } from '@hiero-did-sdk/core';
 
-const accountId = process.env.HEDERA_TESTNET_ACCOUNT_ID;
-const operatorPrivateKey = process.env.HEDERA_TESTNET_PRIVATE_KEY;
+const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;
+const operatorPrivateKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
 
 const client = Client.forTestnet();
 client.setOperator(accountId, operatorPrivateKey);
