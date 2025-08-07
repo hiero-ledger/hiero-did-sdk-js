@@ -92,13 +92,13 @@ describe('HcsTopicService', () => {
   });
 
   describe('createTopic', () => {
-    it('throws if autoRenewAccountId is provided without autoRenewAccountKey', async () => {
+    it('should throw if autoRenewAccountId is provided without autoRenewAccountKey', async () => {
       await expect(service.createTopic({ autoRenewAccountId: '0.0.1' })).rejects.toThrow(
         'The autoRenewAccountKey is required for set the autoRenewAccountId'
       );
     });
 
-    it('creates topic with minimal props', async () => {
+    it('should create topic with minimal props', async () => {
       transactionMock.execute.mockResolvedValueOnce({
         getReceipt: jest.fn().mockResolvedValue({ status: Status.Success, topicId: { toString: () => '1.2.3' } }),
       });
@@ -109,7 +109,7 @@ describe('HcsTopicService', () => {
       expect(transactionMock.execute).toHaveBeenCalledWith(client);
     });
 
-    it('sets all properties and signs if keys provided', async () => {
+    it('should set all properties and sign if keys provided', async () => {
       const adminKey = PrivateKey.generateED25519();
       const submitKey = PrivateKey.generateED25519();
       const autoRenewAccountKey = PrivateKey.generateED25519();
@@ -149,14 +149,14 @@ describe('HcsTopicService', () => {
       expect(waitForChangesVisibility).toHaveBeenCalled();
     });
 
-    it('throws error if receipt.status !== Success', async () => {
+    it('should throw error if receipt.status !== Success', async () => {
       transactionMock.execute.mockResolvedValueOnce({
         getReceipt: jest.fn().mockResolvedValue({ status: Status.FailInvalid, topicId: { toString: () => '1.1.1' } }),
       });
       await expect(service.createTopic({})).rejects.toThrow(/Topic Create transaction failed/);
     });
 
-    it('throws error if receipt.topicId missing', async () => {
+    it('should throw error if receipt.topicId missing', async () => {
       transactionMock.execute.mockResolvedValueOnce({
         getReceipt: jest.fn().mockResolvedValue({ status: Status.Success }),
       });
@@ -170,13 +170,13 @@ describe('HcsTopicService', () => {
       currentAdminKey: PrivateKey.generateED25519(),
     };
 
-    it('throws if autoRenewAccountId set without autoRenewAccountKey', async () => {
+    it('should throw if autoRenewAccountId set without autoRenewAccountKey', async () => {
       await expect(service.updateTopic({ ...baseProps, autoRenewAccountId: '0.0.101' })).rejects.toThrow(
         'The autoRenewAccountKey is required for set the autoRenewAccountId'
       );
     });
 
-    it('does update with default values and signs correctly', async () => {
+    it('should update with default values and sign correctly', async () => {
       transactionMock.execute.mockResolvedValueOnce({
         getReceipt: jest.fn().mockResolvedValue({ status: Status.Success }),
       });
@@ -190,7 +190,6 @@ describe('HcsTopicService', () => {
         autoRenewAccountKey: PrivateKey.generateED25519(),
       };
 
-      // Мок waitForChangesVisibility
       (waitForChangesVisibility as jest.Mock).mockResolvedValueOnce(undefined);
       jest.spyOn(service as any, 'fetchTopicInfo').mockResolvedValue({
         topicId: props.topicId,
@@ -220,7 +219,7 @@ describe('HcsTopicService', () => {
       expect(waitForChangesVisibility).toHaveBeenCalled();
     });
 
-    it('throws error if receipt.status !== Success', async () => {
+    it('should throw error if receipt.status !== Success', async () => {
       transactionMock.execute.mockResolvedValueOnce({
         getReceipt: jest.fn().mockResolvedValue({ status: Status.FailInvalid }),
       });
@@ -235,7 +234,7 @@ describe('HcsTopicService', () => {
       currentAdminKey: PrivateKey.generateED25519(),
     };
 
-    it('deletes the topic and waits for changes visibility', async () => {
+    it('should delete the topic and wait for changes visibility', async () => {
       transactionMock.freezeWith.mockReturnValueOnce(transactionMock);
       transactionMock.sign.mockResolvedValueOnce(transactionMock);
 
@@ -266,11 +265,11 @@ describe('HcsTopicService', () => {
       expect(transactionMock.sign).toHaveBeenCalledWith(props.currentAdminKey);
       expect(transactionMock.execute).toHaveBeenCalledWith(client);
 
-      // expect(cacheServiceMock.removeTopicInfo).toHaveBeenCalledWith(client, props.topicId);
-      // expect(waitForChangesVisibility).toHaveBeenCalled();
+      expect(cacheServiceMock.removeTopicInfo).toHaveBeenCalledWith(client, props.topicId);
+      expect(waitForChangesVisibility).toHaveBeenCalled();
     });
 
-    it('throws error if receipt.status !== Success', async () => {
+    it('should throw error if receipt.status !== Success', async () => {
       transactionMock.execute.mockResolvedValueOnce({
         getReceipt: jest.fn().mockResolvedValue({ status: Status.FailInvalid }),
       });
@@ -282,7 +281,7 @@ describe('HcsTopicService', () => {
   describe('getTopicInfo', () => {
     const props: GetTopicInfoProps = { topicId: '0.0.200' };
 
-    it('returns cached info if present', async () => {
+    it('should return cached info if present', async () => {
       const cached = { topicId: '0.0.200', topicMemo: 'Cached memo' };
 
       cacheServiceMock.getTopicInfo.mockResolvedValueOnce(cached);
@@ -294,7 +293,7 @@ describe('HcsTopicService', () => {
       expect(cacheServiceMock.setTopicInfo).not.toHaveBeenCalled();
     });
 
-    it('fetches info if no cache, then sets cache', async () => {
+    it('should fetch info if no cache, then set cache', async () => {
       cacheServiceMock.getTopicInfo.mockResolvedValueOnce(undefined);
       const fetched = { topicId: TopicId.fromString('0.0.200'), topicMemo: 'Fetched memo' };
       jest.spyOn(service as any, 'fetchTopicInfo').mockResolvedValueOnce(fetched);
@@ -308,7 +307,7 @@ describe('HcsTopicService', () => {
   });
 
   describe('fetchTopicInfo', () => {
-    it('calls fetchTopicInfoWithClient if mirror supported', async () => {
+    it('should call fetchTopicInfoWithClient if mirror supported', async () => {
       (isMirrorQuerySupported as jest.Mock).mockReturnValue(true);
       const spy = jest
         .spyOn(service as any, 'fetchTopicInfoWithClient')
@@ -321,7 +320,7 @@ describe('HcsTopicService', () => {
       expect(res.topicId).toBe('topic123');
     });
 
-    it('calls fetchTopicInfoWithRest if mirror not supported', async () => {
+    it('should call fetchTopicInfoWithRest if mirror not supported', async () => {
       (isMirrorQuerySupported as jest.Mock).mockReturnValue(false);
       const spy = jest
         .spyOn(service as any, 'fetchTopicInfoWithRest')
@@ -337,7 +336,7 @@ describe('HcsTopicService', () => {
   });
 
   describe('fetchTopicInfoWithClient', () => {
-    it('correctly transforms info from SDK', async () => {
+    it('should correctly transform info from SDK', async () => {
       const mockInfo = {
         topicId: { toString: () => '0.0.10' },
         topicMemo: 'testMemo',
@@ -349,7 +348,11 @@ describe('HcsTopicService', () => {
         },
         autoRenewPeriod: { seconds: { low: 12345 } },
         autoRenewAccountId: { toString: () => '0.0.5' },
-        expirationTime: { seconds: { low: 67890 } },
+        expirationTime: {
+          toDate: () => ({
+            getTime: () => 67890,
+          }),
+        },
       };
 
       (TopicInfoQuery as unknown as jest.Mock).mockImplementation(() => ({
@@ -382,7 +385,7 @@ describe('HcsTopicService', () => {
       jest.resetAllMocks();
     });
 
-    it('fetches info from REST and transforms data', async () => {
+    it('should fetch info from REST and transform data', async () => {
       const fetchedData = {
         deleted: false,
         topic_id: '0.0.15',
@@ -417,7 +420,7 @@ describe('HcsTopicService', () => {
       });
     });
 
-    it('throws error if fetch response is not ok', async () => {
+    it('should throw error if fetch response is not ok', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: false,
         statusText: 'Not Found',
@@ -429,7 +432,7 @@ describe('HcsTopicService', () => {
       );
     });
 
-    it('throws StatusError with InvalidTopicId if topic marked deleted', async () => {
+    it('should throw StatusError with InvalidTopicId if topic marked deleted', async () => {
       const deletedData = {
         deleted: true,
         topic_id: '0.0.100',
@@ -446,24 +449,24 @@ describe('HcsTopicService', () => {
   });
 
   describe('convertExpirationTimeToSeconds', () => {
-    it('converts Timestamp instance', () => {
+    it('should convert Timestamp instance correctly', () => {
       const date = new Date(1600000000000);
       const timestamp = new Timestamp(date.getTime() / 1000, 0);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       const result = (service as any).convertExpirationTimeToSeconds(timestamp);
-      expect(result).toBe(Math.floor(date.getTime() / 1000));
+      expect(result).toBe(Math.floor(date.getTime()));
     });
 
-    it('converts Date instance', () => {
+    it('should convert Date instance correctly', () => {
       const date = new Date(1600000000000);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       const result = (service as any).convertExpirationTimeToSeconds(date);
-      expect(result).toBe(Math.floor(date.getTime() / 1000));
+      expect(result).toBe(Math.floor(date.getTime()));
     });
 
-    it('throws error on unsupported type', () => {
+    it('should throw error on unsupported type', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
       expect(() => (service as any).convertExpirationTimeToSeconds(undefined)).toThrow(
         'Unsupported expirationTime type'

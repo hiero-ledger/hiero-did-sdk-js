@@ -19,17 +19,15 @@ describe('Anoncreds Identifier Utils', () => {
 
   describe('buildAnonCredsIdentifier', () => {
     it('should build the identifier correctly', () => {
+      const id = 'did:hedera:testnet:abc123/anoncreds/v0/SCHEMA/0.0.12345'
+
       const publisherDid = 'did:hedera:testnet:abc123';
       const topicId = '0.0.12345';
       const objectType = AnonCredsObjectType.SCHEMA;
 
       const result = buildAnonCredsIdentifier(publisherDid, topicId, objectType);
 
-      expect(result).toBe(
-        [publisherDid, ANONCREDS_OBJECT_FAMILY, ANONCREDS_VERSION, objectType, topicId].join(
-          ANONCREDS_IDENTIFIER_SEPARATOR
-        )
-      );
+      expect(result).toBe(id);
     });
   });
 
@@ -47,7 +45,6 @@ describe('Anoncreds Identifier Utils', () => {
 
     it('should parse a valid anoncreds identifier', () => {
       const did = 'did:hedera:testnet:abc123';
-      // Формируем идентификатор согласно формату
       const identifier = [
         did,
         ANONCREDS_OBJECT_FAMILY,
@@ -73,8 +70,7 @@ describe('Anoncreds Identifier Utils', () => {
     });
 
     it('should handle identifiers with unexpected format by returning correct split parts', () => {
-      // Случай с не полным id (например, без некоторых частей)
-      const id = 'did-sample/anoncreds/v0'; // Недостаточно элементов
+      const id = 'did-sample/anoncreds/v0';
       (parseDID as jest.Mock).mockReturnValue({
         method: 'sample',
         network: 'net',
@@ -87,7 +83,6 @@ describe('Anoncreds Identifier Utils', () => {
       expect(result.issuerDid).toBe('did-sample');
       expect(result.objectFamilyName).toBe('anoncreds');
       expect(result.version).toBe('v0');
-      // objectTypeName и topicId будут undefined, так как элементов не хватает
       expect(result.objectTypeName).toBeUndefined();
       expect(result.topicId).toBeUndefined();
     });

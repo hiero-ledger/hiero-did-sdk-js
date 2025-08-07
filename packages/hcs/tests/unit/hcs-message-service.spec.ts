@@ -20,7 +20,7 @@ jest.mock('@hashgraph/sdk', () => {
       sign: jest.fn().mockResolvedValue(undefined),
       execute: jest.fn(),
     })),
-    TopicMessageQuery: jest.fn(), // если нужно, тоже мокать
+    TopicMessageQuery: jest.fn(),
   };
 });
 
