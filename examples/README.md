@@ -2,7 +2,8 @@
 
 ## Overview
 
-This directory contains example implementations demonstrating the usage of the Hedera Decentralized Identifier (DID) SDK. These examples showcase various functionalities of the SDK, such as creating DIDs, updating DID documents, resolving DIDs, and managing keys.
+This directory contains example implementations demonstrating the usage of the SDK. These examples showcase various functionalities of the SDK, such as creating DIDs, updating DID documents, resolving DIDs, and managing keys.
+Additionally, there is an E2E demo for recently added Hedera AnonCreds support.
 
 ## Prerequisites
 
@@ -70,8 +71,8 @@ To run the examples, follow these steps:
     - Store your Hedera testnet account ID and private key in the `.env` file:
 
       ```bash
-      HEDERA_TESTNET_ACCOUNT_ID=0.0.your-account-id
-      HEDERA_TESTNET_PRIVATE_KEY=your-private-key
+      HEDERA_TESTNET_OPERATOR_ID=0.0.your-account-id
+      HEDERA_TESTNET_OPERATOR_KEY=your-private-key
       ```
 
 3.  **Run an example:**

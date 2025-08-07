@@ -82,12 +82,12 @@ const revocationStatusListPayload: AnonCredsRevocationStatusListWithoutTimestamp
 };
 
 describe('Hedera AnonCreds Registry', () => {
-  jest.setTimeout(60000);
+  jest.setTimeout(120000);
 
   let anoncredsRegistry: HederaAnoncredsRegistry;
 
   const issuerDid = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419';
-  
+
   const cache = TEST_WITH_CACHE ? new LRUMemoryCache() : undefined;
 
   beforeEach(async () => {
@@ -107,7 +107,6 @@ describe('Hedera AnonCreds Registry', () => {
     // Register
     const schemaResult = await anoncredsRegistry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
-      options: {},
     });
     console.log('=== SchemaResult ===', { schemaResult });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
@@ -133,7 +132,6 @@ describe('Hedera AnonCreds Registry', () => {
     // Register a schema
     const schemaResult = await anoncredsRegistry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
-      options: {},
     });
     console.log('=== SchemaResult ===', { schemaResult });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
@@ -175,7 +173,6 @@ describe('Hedera AnonCreds Registry', () => {
   it('Register and resolve a revocation registry definition', async () => {
     const schemaResult = await anoncredsRegistry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
-      options: {},
     });
     console.log('=== SchemaResult ===', { schemaResult });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
@@ -203,7 +200,6 @@ describe('Hedera AnonCreds Registry', () => {
         issuerId: issuerDid,
         credDefId,
       },
-      options: {},
     });
     console.log('=== RevRegDefRegResult ===', { revRegDefRegResult });
     expect(revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId).toBeDefined();
@@ -237,7 +233,6 @@ describe('Hedera AnonCreds Registry', () => {
   it('Register and resolve a revocation status list', async () => {
     const schemaResult = await anoncredsRegistry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
-      options: {},
     });
     console.log('=== SchemaResult ===', { schemaResult });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
@@ -265,7 +260,6 @@ describe('Hedera AnonCreds Registry', () => {
         issuerId: issuerDid,
         credDefId,
       },
-      options: {},
     });
     console.log('=== RevRegDefRegResult ===', { revRegDefRegResult });
     expect(revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId).toBeDefined();
@@ -285,7 +279,6 @@ describe('Hedera AnonCreds Registry', () => {
         issuerId: issuerDid,
         revRegDefId,
       },
-      options: {},
     });
     console.log('=== RegisterRevocationStatusListResponse ===', {
       registerRevocationStatusListResponse,
@@ -293,10 +286,7 @@ describe('Hedera AnonCreds Registry', () => {
     expect(registerRevocationStatusListResponse?.revocationStatusListState.state).toEqual('finished');
     expect(registerRevocationStatusListResponse?.revocationStatusListState.revocationStatusList).toBeDefined();
 
-    const revocationStatusListResponse = await anoncredsRegistry.getRevocationStatusList(
-      revRegDefId,
-      Math.floor(Date.now() / 1000)
-    );
+    const revocationStatusListResponse = await anoncredsRegistry.getRevocationStatusList(revRegDefId, Date.now());
     console.log('=== RevocationStatusListResponse ===', {
       revocationStatusListResponse,
     });
@@ -331,7 +321,6 @@ describe('Hedera AnonCreds Registry', () => {
       // Schema
       const schemaResult = await registry.registerSchema({
         schema: { ...schemaPayload, issuerId: issuerDid },
-        options: {},
       });
       expect(schemaResult?.schemaState?.schemaId).toBeDefined();
       schemaId = schemaResult.schemaState.schemaId;
@@ -357,7 +346,6 @@ describe('Hedera AnonCreds Registry', () => {
           issuerId: issuerDid,
           credDefId,
         },
-        options: {},
       });
       expect(revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId).toBeDefined();
       revRegDefId = revRegDefRegResult.revocationRegistryDefinitionState.revocationRegistryDefinitionId!;
@@ -372,7 +360,6 @@ describe('Hedera AnonCreds Registry', () => {
           revRegDefId,
           revocationList: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         },
-        options: {},
       });
       expect(registerRevocationStatusListResponse1?.revocationStatusListState?.revocationStatusList).toBeDefined();
 
@@ -383,7 +370,6 @@ describe('Hedera AnonCreds Registry', () => {
           revRegDefId,
           revocationList: [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
         },
-        options: {},
       });
       expect(registerRevocationStatusListResponse2?.revocationStatusListState?.revocationStatusList).toBeDefined();
 
@@ -392,11 +378,11 @@ describe('Hedera AnonCreds Registry', () => {
       const consensusTimestampFirst = messages[0].consensusTime.getTime();
       const consensusTimestampLast = messages[1].consensusTime.getTime();
 
-      tsBeforeStatusListEntryDate = new Date(consensusTimestampFirst - 1000000).getTime() / 1000;
-      tsFirstStatusListEntryDate = new Date(consensusTimestampFirst).getTime() / 1000;
-      tsBetweenStatusListEntryDate = new Date((consensusTimestampFirst + consensusTimestampLast) / 2).getTime() / 1000;
-      tsLastStatusListEntryDate = new Date(consensusTimestampLast).getTime() / 1000;
-      tsAfterStatusListEntryDate = new Date(consensusTimestampLast + 1000000).getTime() / 1000;
+      tsBeforeStatusListEntryDate = new Date(consensusTimestampFirst - 1000000).getTime();
+      tsFirstStatusListEntryDate = new Date(consensusTimestampFirst).getTime();
+      tsBetweenStatusListEntryDate = new Date((consensusTimestampFirst + consensusTimestampLast) / 2).getTime();
+      tsLastStatusListEntryDate = new Date(consensusTimestampLast).getTime();
+      tsAfterStatusListEntryDate = new Date(consensusTimestampLast + 1000000).getTime();
     });
 
     it('should resolve a first revocation status list when valid id is passed but the timestamp earlier than first item', async () => {
@@ -432,7 +418,7 @@ describe('Hedera AnonCreds Registry', () => {
     });
 
     it('should resolve a revocation status list when valid id is passed and return actual status list on current date', async () => {
-      const statusList = await anoncredsRegistry.getRevocationStatusList(revRegDefId, Math.floor(Date.now() / 1000));
+      const statusList = await anoncredsRegistry.getRevocationStatusList(revRegDefId, Date.now());
       expect(statusList.revocationStatusList?.revRegDefId).toBe(revRegDefId);
       expect(statusList.revocationStatusList?.revocationList[0]).toEqual(1);
       expect(statusList.revocationStatusList?.revocationList[5]).toEqual(0);

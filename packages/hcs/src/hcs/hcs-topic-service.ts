@@ -404,11 +404,11 @@ export class HcsTopicService {
    */
   private convertExpirationTimeToSeconds = (expirationTime: Timestamp | Date): number | undefined => {
     if (expirationTime instanceof Timestamp) {
-      return Math.floor(expirationTime.toDate().getTime() / 1000);
+      return expirationTime.toDate().getTime();
     }
 
     if (expirationTime instanceof Date) {
-      return Math.floor(expirationTime.getTime() / 1000);
+      return expirationTime.getTime();
     }
 
     throw new Error('Unsupported expirationTime type');
