@@ -1,13 +1,15 @@
-name: Lint Check Workflow
+name: Build and Lint
 
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  lint-pacakges:
+  build-and-lint:
     runs-on: ubuntu-latest
-    name: Lint Check
-    timeout-minutes: 5
+    name: Build and lint check
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
