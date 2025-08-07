@@ -50,7 +50,7 @@ await clientService.withClient({ networkName: 'testnet' }, async (client: Client
 
 ## API Reference
 
-Learn more in the [Client API Reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/client-api.html).
+Learn more in the [Client API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/client-api.html).
 
 ## Running Tests
 
@@ -66,5 +66,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hiero DID SDK](https://github.com/DSRCorporation/hiero-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
+- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
 - [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.

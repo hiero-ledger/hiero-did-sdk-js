@@ -20,11 +20,11 @@ npm install @hiero-did-sdk/signer-hashicorp-vault
 
 ## Usage
 
-Learn how to use the `Signer` and `VaultSignerFactory` class to sign messages, and verify signatures in the [Vault Signer Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-guide.html).
+Learn how to use the `Signer` and `VaultSignerFactory` class to sign messages, and verify signatures in the [Vault Signer Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-guide.html).
 
 ## API Reference
 
-Learn more in the [`Signer` API Reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-api.html) and [`VaultSignerFactory` API Reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-factory-api.html).
+Learn more in the [`Signer` API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-api.html) and [`VaultSignerFactory` API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-factory-api.html).
 
 ## Running Tests
 
@@ -40,5 +40,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hiero DID SDK](https://github.com/DSRCorporation/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
+- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
 - [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.

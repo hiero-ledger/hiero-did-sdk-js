@@ -1,0 +1,54 @@
+= Publisher Class
+
+The `Publisher` is a core component within the Hiero DID SDK. It streamlines interactions with the distributed ledger by providing a standardized way to submit, execute, and pay for transactions. This ensures that DID-related operations are reliably processed and recorded on the network. The `Publisher` interface promotes interoperability and simplifies the development of DID applications, abstracting away the complexities of direct ledger interactions.
+
+== Features
+
+*   **Transaction Submission:**  Submits transactions to the Hedera network for DID operations.
+*   **Transaction Execution:**  Executes transactions on the Hedera network, ensuring reliable processing.
+*   **Network Interaction:** Provides a streamlined interface for interacting with the Hedera network.
+*   **Network Detection:** Automatically detects the Hedera network environment (mainnet, testnet).
+*   **Error Handling:**  Includes robust error handling for transaction failures and network issues.
+*   **Extensibility:** Designed for extensibility to support future Hedera network features.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Using the Publisher
+
+=== Submitting a Transaction
+
+This example demonstrates how to submit a simple transaction using the `Publisher`:
+
+[source, typescript]
+----
+import { Publisher } from "@hiero-did-sdk/publisher-internal";
+import { Client, PrivateKey, TransferTransaction } from "@hashgraph/sdk";
+
+async function main() {
+  // Configure the Hedera client
+  const client = Client.forTestnet();
+  const privateKey = PrivateKey.fromString("your-private-key-here");
+  client.setOperator("your-account-id-here", privateKey);
+
+  // Create a new Publisher instance
+  const publisher = new Publisher(client);
+
+  // Create a simple transfer transaction (replace with your actual transaction)
+  const transaction = new TransferTransaction()
+    .addHbarTransfer("your-account-id-here", -1) // Sending 1 HBAR
+    .addHbarTransfer("0.0.3", 1); // To account 0.0.3
+
+  // Submit the transaction
+  try {
+    const receipt = await publisher.publish(transaction);
+    console.log(`Transaction Receipt: ${JSON.stringify(receipt, null, 2)}`);
+  } catch (error) {
+    console.error("Error submitting transaction:", error);
+  }
+}
+
+main();
+----
+
+== References
+
+* xref:04-implementation/components/publisher-api.adoc[`Publisher` API Reference]

@@ -1,0 +1,298 @@
+= updateDID API Reference
+
+This document provides a concise API reference for the `updateDID` function within the Hedera DID SDK for JavaScript.
+
+== Function Signature
+
+The `updateDID` function allows you to update an existing DID document by providing the DID and an object specifying the desired modifications.
+
+[source,js]
+----
+function updateDID(
+  options: UpdateDIDOptions,
+  providers: Providers
+): Promise<UpdateDIDResult>;
+----
+
+== Parameters
+
+The function accepts the following parameters:
+
+*   **`providers`:** (Required) An object encapsulating configuration parameters for interacting with the Hedera network.
+*   **`options`:** (Required) An object containing the DID to update and the update operations to apply.
+
+=== providers Parameter
+
+The table below details the structure of the `providers` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|providers
+|`Providers`
+|An object containing a Hedera Client, a cryptographic Signer, and a transaction Publisher (refer to <<providers-data-types>> for details).
+|===
+
+=== options Parameter
+
+The table below details the structure of the `options` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|did
+|`string`
+|The DID string of the Decentralized Identifier to update.
+
+|updates
+|`DIDUpdateOperation \| DIDUpdateOperation[]`
+|A  `DIDUpdateOperation`  type or an array of  `DIDUpdateOperation`s (refer to <<didupdateoperation-type>> for details). Each `DIDUpdateOperation` represents a specific modification to the DID Document. If an array is provided, the operations will be executed in the order they are provided.
+
+|privateKey?
+|`string` \| PrivateKey`
+|A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for signing the DID update message.
+
+|waitForDIDVisibility?
+|`boolean`
+|Whether to wait for the DID to be **visible** on the network. The DID registration transaction may be confirmed before the DID is actually accessible and usable on the network. This option ensures that the function waits until the DID is fully propagated and discoverable. If set to `false`, the function will return as soon as the registration transaction is confirmed, which may be faster but could lead to errors if you immediately try to use the DID.
+
+Defaults to `true`.
+
+|visibilityTimeoutMs?
+|`number`
+|The maximum time (in milliseconds) to wait for the DID to be **visible** on the network. This option is only relevant if `waitForDIDVisibility` is set to `true`. If the DID is not visible within this timeout period, the function will throw an error. Defaults to 120000 milliseconds (2 minutes).
+
+|topicReader?
+|`TopicReader`
+|An instance of a xref:04-implementation/components/topic-reader-api.adoc[TopicReader] responsible for reading messages from the Hedera network topic.
+|===
+
+== Data Types
+
+This section elaborates on the data types employed within the `providers` parameter.
+
+[[providers-data-types]]
+=== Providers Type
+
+To utilize this type, at least one of the following must be defined: `client` or `publisher`. If both are provided, `publisher` takes precedence.
+
+The table below provides a detailed description of the `Providers` type.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|clientOptions?
+|`ClientOptions`
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-with-client-options.ts[example] in the source code.
+
+|client?
+|`Client`
+|An instance of a Hedera Client. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-with-a-client.ts[example] in the source code.
+
+|signer?
+|`Signer`
+|An instance of a xref:04-implementation/components/signer-guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
+
+|publisher?
+|`Publisher`
+|An instance of a xref:04-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|===
+
+[[didupdateoperation-type]]
+=== DIDUpdateOperation Type
+
+This type represents the different operations you can perform to update a DID Document. Each operation modifies the DID Document in a specific way, such as adding a verification method, removing a service, etc.
+
+==== AddVerificationMethodOperation Type
+
+Adds a new verification method to the DID Document.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|operation
+|`'add-verification-method'`
+|A constant string representing the operation type.
+
+|id
+|`string`
+|A unique identifier for the verification method. Must start with `#` and be unique within the DID Document, e.g., `#key-1`.
+
+|property
+|`VerificationMethodProperties`
+|A string representing the verification method or relationship property to add. Possible values are:  `verificationMethod`, `authentication`, `assertionMethod`, `keyAgreement`, `capabilityInvocation`, `capabilityDelegation`.
+
+|controller?
+|`string`
+|The DID that controls the verification method. If not provided, the DID of the DID Document is used.
+
+|publicKeyMultibase?
+|`string`
+|The public key in multibase format to add. Optional when adding verification relationship as an alias to an existing verification method. In that case `id` must be the same as the existing verification method. Otherwise is required. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-with-a-private-key.ts[example] in the source code.
+
+|===
+
+==== AddServiceOperation Type
+
+Adds a new service endpoint to the DID Document.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|operation
+|`'add-service'`
+|A constant string representing the operation type.
+
+|id
+|`string`
+|A unique identifier for the service. Must start with `#` and be unique within the DID Document, e.g., `#service-1`.
+
+|type
+|`string`
+|The type of service to add.
+
+|serviceEndpoint
+|`string`
+|The service endpoint to add.
+
+|===
+
+==== RemoveVerificationMethodOperation Type
+
+Removes an existing verification method from the DID Document.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|operation
+|`'remove-verification-method'`
+|A constant string representing the operation type.
+
+|id
+|`string`
+|A unique identifier for the verification method or relationship to remove. Must start with `#`, e.g., `#key-1`.
+
+|===
+
+==== RemoveServiceOperation Type
+
+Removes an existing service endpoint from the DID Document.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|operation
+|`'remove-service'`
+|A constant string representing the operation type.
+
+|id
+|`string`
+|A unique identifier for the service to remove. Must start with `#`, e.g., `#service-1`.
+
+|===
+
+== Return Value
+
+Upon successful execution, the function returns a Promise that resolves to a `UpdateDIDResult` object.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|did
+|`string`
+|The updated DID string of the Decentralized Identifier.
+
+|didDocument
+|`DIDDocument`
+|The updated DID Document associated with the Decentralized Identifier.
+
+|===
+
+== Errors
+
+The following table enumerates the exceptions that may arise during the execution of the `updateDID` function.
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description
+
+|`invalidArgument`
+|Providers must contain client options or client or publisher.
+
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with a network.
+
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with an operator account.
+
+|`invalidArgument`
+|Signer or private key is required to perform the operation.
+
+|`invalidArgument`
+|Verification method ID does not exist. Nothing to remove.
+
+|`invalidArgument`
+|Cannot remove a service using `remove-verification-method` operation.
+
+|`invalidArgument`
+|Service id already exists.
+
+|`invalidArgument`
+|The service endpoint must be a valid URI.
+
+|`invalidArgument`
+|The ID must be a valid property ID.
+
+|`invalidArgument`
+|The fragment ID # is already in use for another verification method.
+
+|`invalidDid`
+|The DID must be a valid Hedera DID.
+
+|`invalidDid`
+|The controller must be a valid Hedera DID.
+
+|`notFound`
+|The DID document was not found.
+
+|`invalidPublicKey`
+|The public key is required for verification methods
+
+|`invalidPublicKeyLength`
+|Invalid length for the public key.
+
+|`internalError`
+|Message awaiter timeout reached. Messages not found.
+
+|`invalidSignature`
+|The signature is invalid. Provided signer does not match the DID signer.
+|===
+
+== Function Implementation
+
+The Hiero DID SDK provides a `updateDID` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

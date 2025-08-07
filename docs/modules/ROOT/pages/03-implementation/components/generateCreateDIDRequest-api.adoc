@@ -1,0 +1,193 @@
+= generateCreateDIDRequest API Reference
+
+This document provides a concise API reference for the `generateCreateDIDRequest` function within the Hedera DID SDK for JavaScript.
+
+== Function Signature
+
+This function generates a request to create a new Decentralized Identifier (DID) on the Hedera network using the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Client Managed Secret Mode].
+
+The `generateCreateDIDRequest` function is invoked with `providers` and `options` parameters. The `providers` parameter encapsulates configuration parameters for interacting with the Hedera network, while the `options` parameter enables customization of the DID creation procedure and passing required public key.
+
+[source,js]
+----
+function generateCreateDIDRequest(
+  options: GenerateCreateDIDRequestOptions,
+  providers: PublisherProviders,
+): Promise<CreateDIDRequest>;
+----
+
+== Parameters
+
+The function accepts the following parameters:
+
+*   **`providers`**:  (Required) An object encapsulating configuration parameters for interacting with the Hedera network.
+*   **`options`**: (Required) An object containing a public key for DID root key and enabling customization of the DID creation procedure.
+
+=== providers Parameter
+
+The table below details the structure of the `providers` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|providers
+|`PublisherProviders`
+|An object containing a Hedera Client or a transaction Publisher (refer to <<providers-data-types>> for details).
+|===
+
+=== options Parameter
+
+The table below details the structure of the `options` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|options
+|`GenerateCreateDIDRequestOptions`
+|An object specifying configuration options for DID creation request (refer to <<options-data-types>> for details).
+|===
+
+== Return Value
+
+Upon successful execution, the function returns a Promise that resolves to a `CreateDIDRequest` object.
+
+The table below describes the structure of the `CreateDIDRequest` type.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|state
+|`RunnerState<DIDOwnerMessage>`
+|The current state of the DID creation process. Enables resuming the process after signing the request.
+
+|signingRequest
+|`SigningRequest`
+|The request to be signed by the client. Contains the serialized payload of the DID creation transaction and metadata (refer to <<signing-request-data-types>> for details).
+|===
+
+== Data Types
+
+This section elaborates on the data types employed within the `providers` and `options` parameters.
+
+[[providers-data-types]]
+=== PublisherProviders Type
+
+To utilize this type, at least one of the following must be defined: `client` or `publisher`. If both are provided, `publisher` takes precedence.
+
+The table below provides a detailed description of the `PublisherProviders` type.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|clientOptions?
+|`ClientOptions`
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
+
+|client?
+|`Client`
+|An instance of a Hedera Client. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
+
+|publisher?
+|`Publisher`
+|An instance of a xref:04-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|===
+
+[[options-data-types]]
+=== GenerateCreateDIDRequestOptions Type
+
+The table below provides a detailed description of the `GenerateCreateDIDRequestOptions` type.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|multibasePublicKey
+|`string`
+|A public key encoded in multibase format. This key is used as the root key for the newly created DID.
+
+|controller?
+|`string`
+|A DID string representing the entity controlling the newly created DID. If not specified, the generated DID will be self-managed. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-with-a-custom-controller.ts[example] in the source code.
+
+|topicId?
+|`string`
+|The ID of the Hedera Topic associated with the DID. If omitted, a new topic will be automatically created. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-did.ts[example] in the source code.
+
+|topicReader?
+|`TopicReader`
+|An instance of a xref:04-implementation/components/topic-reader-api.adoc[TopicReader] responsible for reading messages from the Hedera network topic.
+|===
+
+[[signing-request-data-types]]
+=== SigningRequest Type
+
+The table below provides a detailed description of the `SigningRequest` type.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|payload
+|`object`
+|An object containing the payload of the DID message to be signed.
+
+|serializedPayload
+|`Uint8Array`
+|A serialized bytes representation of the DID message payload. Actual bytes to be signed.
+
+|multibasePublicKey
+|`string`
+|The public key of the corresponding private key required to sign the request.
+
+|alg
+|`string`
+|The algorithm used for signing the request. Currently, only `Ed25519` is supported.
+|===
+
+== Errors
+
+The following table enumerates the exceptions that may arise during the execution of the `generateCreateDIDRequest` function.
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description
+
+|`invalidArgument`
+|Providers must contain client options or client or publisher.
+
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with a network.
+
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with an operator account.
+
+|`invalidDid`
+|Controller is not a valid Hedera DID.
+
+|`internalError`
+|DID already exists on the network.
+
+|`internalError`
+|Failed to create topic.
+|===
+
+== Function Implementation
+
+The Hashgraph DID SDK provides a `generateCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

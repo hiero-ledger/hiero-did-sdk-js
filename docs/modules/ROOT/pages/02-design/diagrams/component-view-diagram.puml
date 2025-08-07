@@ -1,0 +1,26 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Hiero DID SDK Component View
+
+Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identities")
+
+System_Boundary(c1, "Hiero DID SDK") {
+  Component(registrar, "Registrar", "DID create, update, and deactivate operations")
+  Component(resolver, "Resolver", "Resolves DID Document")
+  Component(signer, "Signer", "Signs DID Message")
+  Component(publisher, "Publisher", "Signs & Publishes Transaction")
+}
+
+System_Ext(topic, "Hedera Topic Service", "Provides publish/subscribe mechanism for DID communication")
+System_Ext(hedera, "Hedera Node", "Gateway to the Hedera network")
+
+Rel(developer, registrar, "Uses")
+Rel(developer, resolver, "Uses")
+Rel(registrar, signer, "Uses")
+Rel(registrar, publisher, "Uses")
+Rel(publisher, topic, "Publishes", "Signed Transaction")
+Rel(resolver, topic, "Retrieves", "DID Document")
+Rel(topic, hedera, "Communicates with")
+
+@enduml

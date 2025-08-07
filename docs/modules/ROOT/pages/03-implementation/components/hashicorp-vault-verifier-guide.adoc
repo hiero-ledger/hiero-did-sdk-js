@@ -1,0 +1,153 @@
+= HashiCorp Vault Verifier Class
+
+The `Verifier` class in the Hashgraph DID SDK allows you to verify digital signatures using Ed25519 keys stored in HashiCorp Vault. This guide provides an overview of the `Verifier` class and demonstrates how to use it to verify signatures securely.
+
+== Features
+
+*   **Key Management:** Use Ed25519 keys stored in HashiCorp Vault for flexible key handling.
+*   **Verification:** Verify DID operations securely using Vault-managed Ed25519 keys.
+*   **Authentication:** Supports authentication via Vault tokens, user/password, and AppRole for secure access.
+*   **Security:** Keeps private keys inside Vault, ensuring strong protection and controlled access.
+*   **Vault Integration:** Seamlessly interacts with HashiCorp Vault for key storage, retrieval, and verification operations.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Authentication with HashiCorp Vault
+
+Refer to the following sections to learn how to authenticate the `VaultVerifierFactory` with HashiCorp Vault using different methods. Remember to configure the HashiCorp Vault server and create the necessary roles and policies before proceeding.
+
+=== Using a Vault Token
+
+This example demonstrates how to authenticate `VaultVerifierFactory` with HashiCorp Vault using an access token:
+
+[source, typescript]
+----
+import { VaultVerifierFactory } from "@hiero-did-sdk/verifier-hashicorp-vault";
+
+
+const factory = VaultVerifierFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-vault-token",
+});
+----
+
+=== Using a Username and Password
+
+The `VaultVerifierFactory` can also authenticate with HashiCorp Vault using a username and password:
+
+[source, typescript]
+----
+import { VaultVerifierFactory } from "@hiero-did-sdk/verifier-hashicorp-vault";
+
+
+const factory = VaultVerifierFactory.loginWithUsernameAndPassword({
+  url: "http://localhost:8200",
+  username: "your-username",
+  password: "your-password",
+});
+----
+
+=== Using AppRole
+
+Another way to authenticate with HashiCorp Vault is by using the AppRole method:
+
+[source, typescript]
+----
+import { VaultVerifierFactory } from "@hiero-did-sdk/verifier-hashicorp-vault";
+
+
+const factory = VaultVerifierFactory.loginWithUsernameAndPassword({
+  url: "http://localhost:8200",
+  roleId: "your-role-id",
+  secretId: "your-role-secret-id",
+});
+----
+
+=== Using a secrets engine different path
+
+If you are using a secrets engine with a different path then `transit`, you can specify the path when authenticating with the `VaultVerifierFactory`. For example, if you are using the transit secrets engine with the path `did`, you can authenticate as follows:
+
+[source, typescript]
+----
+import { VaultVerifierFactory } from "@hiero-did-sdk/verifier-hashicorp-vault";
+
+
+const factory = VaultVerifierFactory.loginWithToken({
+  url: "http://localhost:8200",
+  transitPath: "did", // Specify the path of the secrets engine
+  token: "your-token",
+});
+----
+
+== Creating a Vault Verifier
+
+After authenticating with HashiCorp Vault, you can create a `Verifier` instance using the `VaultVerifierFactory`. It will enable use an existing key stored in HashiCorp Vault.
+
+
+=== Using an Existing Key
+
+This example demonstrates how to create a `Verifier` instance using an existing Ed25519 key stored in HashiCorp Vault:
+
+[source, typescript]
+----
+import { VaultVerifierFactory } from "@hiero-did-sdk/verifier-hashicorp-vault";
+
+
+const factory = VaultVerifierFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-token",
+});
+
+const verifier = await factory.forKey('existing-key-name');
+----
+
+The `forKey` method will validate if a key with the given name exists in the Vault and if it is an Ed25519 key. If the key does not exist or is not an Ed25519 key, an error will be thrown.
+
+== Verifying a Signature
+
+Once you have created a `Verifier` instance using the `VaultVerifierFactory`, you can use it to verify digital signatures. The `verify` method takes the message and signature as input and returns a boolean value indicating whether the signature is valid.
+
+[source, typescript]
+----
+import { VaultVerifierFactory } from "@hiero-did-sdk/verifier-hashicorp-vault";
+
+
+const factory = VaultVerifierFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-token",
+});
+
+const verifier = await factory.forKey('existing-key-name');
+
+const message = new Uint8Array([1, 2, 3, 4, 5]);
+const signature = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
+
+const isValid = await verifier.verify(message, signature);
+console.log(`Signature valid? ${isValid}`);
+----
+
+
+=== Getting the Public Key
+
+You can also retrieve the public key associated with the `Verifier` instance using the `publicKey` method. This method returns the public key in the DER format.
+
+This example demonstrates how to retrieve the public key using the Vault `Verifier`:
+
+[source, typescript]
+----
+import { VaultVerifierFactory } from "@hiero-did-sdk/verifier-hashicorp-vault";
+
+
+const factory = VaultVerifierFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-token",
+});
+
+const verifier = await factory.forKey('existing-key-name');
+
+const publicKey = await verifier.publicKey();
+----
+
+== References
+
+* xref:04-implementation/components/hashicorp-vault-verifier-api.adoc[Vault `Verifier` API Reference]
+* xref:04-implementation/components/hashicorp-vault-verifier-factory-api.adoc[`VaultVerifierFactory` API Reference]

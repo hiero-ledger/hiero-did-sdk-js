@@ -1,0 +1,191 @@
+= createDID API Reference
+
+This document provides a concise API reference for the `createDID` function within the Hedera DID SDK for JavaScript.
+
+== Function Signature
+
+The `createDID` function can be invoked with `providers` alone to generate a DID with default settings, or with both `providers` and `options` to customize the DID creation process.
+
+[source,js]
+----
+function createDID(providers: Providers): Promise<CreateDIDResult>;
+function createDID(
+  options: CreateDIDOptions,
+  providers: Providers
+): Promise<CreateDIDResult>;
+----
+
+== Parameters
+
+The function accepts the following parameters:
+
+*   **`providers`**:  (Required) An object encapsulating configuration parameters for interacting with the Hedera network.
+*   **`options`**: (Optional) An object enabling customization of the DID creation procedure.
+
+=== providers Parameter
+
+The table below details the structure of the `providers` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|providers
+|`Providers`
+|An object containing a Hedera Client, a cryptographic Signer, and a transaction Publisher (refer to <<providers-data-types>> for details).
+|===
+
+=== options Parameter
+
+The table below details the structure of the `options` parameter.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|options
+|`CreateDIDOptions`
+|An object specifying configuration options for DID creation (refer to <<options-data-types>> for details).
+|===
+
+== Data Types
+
+This section elaborates on the data types employed within the `providers` and `options` parameters.
+
+[[providers-data-types]]
+=== Providers Type
+
+To utilize this type, at least one of the following must be defined: `client` or `publisher`. If both are provided, `publisher` takes precedence.
+
+The table below provides a detailed description of the `Providers` type.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|clientOptions?
+|`ClientOptions`
+|Configuration options for instantiating a Hedera Client. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-with-client-options.ts[example] in the source code.
+
+|client?
+|`Client`
+|An instance of a Hedera Client. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-with-a-client.ts[example] in the source code.
+
+|signer?
+|`Signer`
+|An instance of a xref:04-implementation/components/signer-guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
+
+|publisher?
+|`Publisher`
+|An instance of a xref:04-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|===
+
+[[options-data-types]]
+=== CreateDIDOptions Type
+
+The table below provides a detailed description of the `CreateDIDOptions` type.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|controller?
+|`string`
+|A DID string representing the entity controlling the newly created DID. If not specified, the generated DID will be self-managed. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-with-a-custom-controller.ts[example] in the source code.
+
+|topicId?
+|`string`
+|The ID of the Hedera Topic associated with the DID. If omitted, a new topic will be automatically created. See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-with-a-topic-specific-did.ts[example] in the source code.
+
+|privateKey?
+|`string` \| `PrivateKey`
+|A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for signing the DID creation message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated and the corresponding private key is returned.
+
+|waitForDIDVisibility?
+|`boolean`
+|Whether to wait for the DID to be **visible** on the network. The DID registration transaction may be confirmed before the DID is actually accessible and usable on the network. This option ensures that the function waits until the DID is fully propagated and discoverable. If set to `false`, the function will return as soon as the registration transaction is confirmed, which may be faster but could lead to errors if you immediately try to use the DID.
+
+Defaults to `true`.
+
+|visibilityTimeoutMs?
+|`number`
+|The maximum time (in milliseconds) to wait for the DID to be **visible** on the network. This option is only relevant if `waitForDIDVisibility` is set to `true`. If the DID is not visible within this timeout period, the function will throw an error. Defaults to 120000 milliseconds (2 minutes).
+
+|topicReader?
+|`TopicReader`
+|An instance of a xref:04-implementation/components/topic-reader-guide.adoc[TopicReader]. If not provided, a default `TopicReaderHederaClient` will be used.
+|===
+
+== Return Value
+
+Upon successful execution, the function returns a Promise that resolves to a `CreateDIDResult` object.
+
+The table below describes the structure of the `CreateDIDResult` type.
+
+[cols="1,1,3",options="header",frame="ends"]
+|===
+|Name
+|Type
+|Description
+
+|did
+|`string`
+|The DID string of the newly created Decentralized Identifier.
+
+|didDocument
+|`DIDDocument`
+|The DID Document associated with the newly created DID.
+
+|privateKey?
+|`PrivateKey`
+|A `PrivateKey` object. This key is used internally to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for the DID creation process. It is returned only if neither a `signer` (in the `providers` parameter) nor this `privateKey` was explicitly provided.
+|===
+
+== Errors
+
+The following table enumerates the exceptions that may arise during the execution of the `createDID` function.
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description
+
+|`invalidArgument`
+|Required providers are missing.
+
+|`invalidArgument`
+|Providers must contain client options or client or publisher.
+
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with a network.
+
+|`invalidArgument`
+|Hashgraph SDK Client must be configured with an operator account.
+
+|`invalidDid`
+|Controller is not a valid Hedera DID.
+
+|`internalError`
+|DID already exists on the network
+
+|`internalError`
+|Failed to create topic.
+
+|`internalError`
+|Failed to create the DID.
+
+|`internalError`
+|Message awaiter timeout reached. Messages not found.
+|===
+
+== Function Implementation
+
+The Hiero DID SDK provides a `createDID` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

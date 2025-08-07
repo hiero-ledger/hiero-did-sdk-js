@@ -1,0 +1,116 @@
+= Messages
+
+The Messages component is the foundation of the Hiero DID SDK. It provides a comprehensive set of classes for constructing and handling DID Messages, which facilitate various DID operations on the Hedera network.
+
+== Overview
+
+DID Messages are a standardized format for exchanging information about Decentralized Identifiers (DIDs). They are used to perform various DID operations, such as:
+
+*   **DID Creation:**  Registering a new DID on the Hedera network.
+*   **DID Update:** Modifying an existing DID document.
+*   **DID Deactivation:** Revoking a DID.
+
+The DID Messages component provides a set of classes that represent these different DID operations. These classes make it easy to construct and process DID Messages, ensuring that they are correctly formatted and comply with the DID specification.
+
+== DID Message Classes
+
+The following are the main DID Message classes provided by the component:
+
+*   `DIDOwnerMessage`:  Used for creating and managing DID ownership.
+*   `DIDAddVerificationMethodMessage`: Used for adding verification methods to a DID Document.
+*   `DIDRemoveVerificationMethodMessage`: Used for removing verification methods from a DID Document.
+*   `DIDAddServiceMessage`: Used for adding service endpoints to a DID Document.
+*   `DIDRemoveServiceMessage`: Used for removing service endpoints from a DID Document.
+*   `DIDDeactivateMessage`: Used for deactivating a DID.
+
+Each class has properties and methods specific to the DID operation it represents. For example, the `DIDOwnerMessage` class has properties for the DID's public key and initial DID Document.
+
+== Usage Examples
+
+=== Creating a DID Owner Message
+
+[source,typescript]
+----
+import { DIDOwnerMessage } from "@hiero-did-sdk/messages";
+
+const message = new DIDOwnerMessage({
+  publicKey: "your-public-key-multibase",
+  network: "testnet",
+  topicId: "0.0.12345",
+});
+
+// Serialize the message to a byte array
+const messageBytes = message.toBytes();
+
+// ... later, deserialize the message
+const deserializedMessage = DIDOwnerMessage.fromBytes(messageBytes);
+----
+
+=== Adding a Verification Method
+
+[source,typescript]
+----
+import { DIDAddVerificationMethodMessage } from "@hiero-did-sdk/messages";
+
+const message = new DIDAddVerificationMethodMessage({
+  did: "did:hedera:testnet:...",
+  controller: "did:hedera:testnet:...",
+  property: "verificationMethod",  
+  publicKeyMultibase: "z...",
+  id: "#key-1",
+});
+----
+
+=== Removing a Verification Method
+
+[source,typescript]
+----
+import { DIDRemoveVerificationMethodMessage } from "@hiero-did-sdk/messages";
+
+const message = new DIDRemoveVerificationMethodMessage({
+  did: "did:hedera:testnet:...",
+  property: "verificationMethod",
+  id: "#key-1",
+});
+----
+
+=== Adding a Service
+
+[source,typescript]
+----
+import { DIDAddServiceMessage } from "@hiero-did-sdk/messages";
+
+const message = new DIDAddServiceMessage({
+  did: "did:hedera:testnet:...",
+  id: "#service-1",
+  type: "ExampleService",
+  serviceEndpoint: "https://example.com/service",
+});
+----
+
+=== Removing a Service
+
+[source,typescript]
+----
+import { DIDRemoveServiceMessage } from "@hiero-did-sdk/messages";
+
+const message = new DIDRemoveServiceMessage({
+  did: "did:hedera:testnet:...",
+  id: "#service-1",
+});
+----
+
+=== Deactivating a DID
+
+[source,typescript]
+----
+import { DIDDeactivateMessage } from "@hiero-did-sdk/messages";
+
+const message = new DIDDeactivateMessage({
+  did: "did:hedera:testnet:..."
+});
+----
+
+== References
+
+* xref:04-implementation/components/messages-api.adoc[messages API Reference]

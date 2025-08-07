@@ -23,11 +23,11 @@ npm install @hiero-did-sdk/lifecycle
 
 ## Usage
 
-Learn how to use the lifecycle management system to orchestrate complex asynchronous operations for DID management in the [Lifecycle Management Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/lifecycle-guide.html).
+Learn how to use the lifecycle management system to orchestrate complex asynchronous operations for DID management in the [Lifecycle Management Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/lifecycle-guide.html).
 
 ## API Reference
 
-Learn more in the [Lifecycle Management API Reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/lifecycle-api.html).
+Learn more in the [Lifecycle Management API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/lifecycle-api.html).
 
 ## Running Tests
 
@@ -43,5 +43,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hiero DID SDK](https://github.com/DSRCorporation/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
+- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
 - [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.

@@ -1,0 +1,285 @@
+= Messages API Reference
+
+This document provides a concise API reference for the Messages component within the Hedera DID SDK for JavaScript.
+
+== Message Classes
+
+=== DIDMessage
+
+Represents an abstract DID Message. All other DID Message classes inherit from this class. It streamlines common functionality for DID Messages, such as signing and verifying messages.
+
+==== Class Diagram
+
+image::did-message-class-diagram.png[]
+
+==== Properties
+
+|===
+| Name | Type | Description
+
+|signature
+|`Uint8Array`
+|The signature of the DID Message.
+
+|operation
+|`DIDMessageOperation`
+|The operation of the DID Message, such as "create", "update", or "revoke".
+
+|did
+|`string`
+|The DID string of the Decentralized Identifier.
+
+|message
+|`object`
+|The message object. It varies depending on the operation and message type. Includes the encoded event and other message-specific data.
+
+|topicId
+|`string`
+|The ID of the Hedera topic associated with the DID.
+
+|messageBytes
+|`Uint8Array`
+|The byte array of the message. It is used for signing and verifying the message.
+
+|payload
+|`string`
+|The actual content of the message that is published to the Hedera topic. It contains the message and the signature in a base64-encoded string. It may throw an error if the message is not signed.
+|===
+
+==== Methods
+
+===== *`signWith`*
+[source,typescript]
+----
+signWith(signer: Signer): Promise<void>
+----
+
+Signs the DID Message with the provided signer.
+
+Parameters::
+* `signer`: The signer object used to sign the DID Message.
+
+
+===== *`setSignature`*
+[source,typescript]
+----
+setSignature(
+  signature: Uint8Array,
+  verifier: Verifier,
+): Promise<void>
+----
+
+Sets the signature of the DID Message and verifies the signature with the provided verifier.
+
+Parameters::
+* `signature`: The signature to set.
+* `verifier`: The verifier object used to verify the signature.
+
+Errors::
+The following exceptions may arise during the execution of the `setSignature` function:
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description
+
+|`invalidSignature`
+|The signature is invalid.
+|===
+
+
+===== *`toBytes`*
+[source,typescript]
+----
+abstract toBytes(): string
+----
+
+Serializes the DID Message into a byte array in base64 format.
+
+Returns::
+The serialized DID Message as a base64-encoded string.
+
+===== *`fromBytes`*
+[source,typescript]
+----
+static abstract fromBytes(bytes: string): DIDMessage
+----
+
+Deserializes a DID Message from a byte array in base64 format.
+
+Parameters::
+* `bytes`: The byte array containing the serialized DID Message.
+
+Returns::
+The deserialized DID Message object.
+
+
+
+=== DIDOwnerMessage
+
+Represents a DID Owner message, used for creating and managing DID ownership.
+
+This class encapsulate the `DIDOwner` event payload from Hiero DID Method Specification.
+
+==== Class Diagram
+
+image::did-owner-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| publicKey | `PublicKey` | The public key of the DID owner, in the form of a PublicKey object.
+| timestamp | `Date` | The timestamp of the DID Owner message creation.
+| network | `Network` | The network on which the DID Owner message is created.
+| controller | `string` | The DID that controls the DID owner.
+|===
+
+==== Methods
+
+===== *`setTopicId`*
+[source,typescript]
+----
+setTopicId(topicId: string): void;
+----
+
+Sets the topic ID of the Hedera topic associated with the DID Owner message. It also performs the verification of the topic ID.
+
+Parameters::
+* `topicId`: The ID of the Hedera topic associated with the DID Owner message.
+
+
+===== *`setController`*
+[source,typescript]
+----
+setController(controller: string): void;
+----
+
+Sets the controller of the DID Owner message. It also performs the verification of the format of the provided DID.
+
+Parameters::
+* `controller`: The DID that controls the DID owner.
+
+
+===== *`setNetwork`*
+[source,typescript]
+----
+setNetwork(network: Network): void;
+----
+
+Sets the network on which the DID Owner message is created.
+
+Parameters::
+* `network`: The network on which the DID Owner message is created.
+
+
+
+=== DIDAddVerificationMethodMessage
+
+Represents a DID Add Verification Method message, used for adding verification methods or a verification relationship to a DID Document.
+
+Verification relationships are used to associate a verification method with a specific property in the DID Document, such as "assertionMethod" or "authentication".
+
+This class encapsulate the `VerificationMethod` and `VerificationRelationship` event payload from Hedera DID Method Specification.
+
+==== Class Diagram
+
+image::did-add-verification-method-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| controller | `string` | The DID that controls the verification method.
+| property | `VerificationMethodProperties` | The property to which the verification method will be added (e.g., "verificationMethod", "authentication").
+| publicKeyMultibase | `string` | The multibase-encoded public key of the verification method.
+| id | `string` | The identifier of the verification method (e.g., "#key-1").
+| timestamp | `string` | The timestamp of the DID Add Verification Method message creation.
+|===
+
+
+=== DIDRemoveVerificationMethodMessage
+
+Represents a DID Remove Verification Method message, used for removing verification methods or a verification relationship from a DID Document.
+
+This class encapsulate the `VerificationMethod` and `VerificationRelationship` event payload from Hedera DID Method Specification.
+
+==== Class Diagram
+
+image::did-remove-verification-method-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| property | `string` | The property from which the verification method will be removed (e.g., "verificationMethod", "authentication").
+| id | `string` | The identifier of the verification method to be removed (e.g., "#key-1").
+| timestamp | `Date` | The timestamp of the DID Remove Verification Method message creation.
+|===
+
+
+=== DIDAddServiceMessage
+
+Represents a DID Add Service message, used for adding a service to a DID Document.
+
+This class encapsulate the `Service` event payload from Hedera DID Method Specification.
+
+==== Class Diagram
+
+image::did-add-service-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| type | `string` | The type of the service.
+| serviceEndpoint | `string` | The service endpoint URL.
+| id | `string` | The identifier of the service (e.g., "#srv-1").
+| timestamp | `string` | The timestamp of the DID Add Service message creation.
+|===
+
+
+=== DIDRemoveServiceMessage
+
+Represents a DID Remove Service message, used for removing a service from a DID Document.
+
+This class encapsulate the `Service` event payload from Hedera DID Method Specification.
+
+==== Class Diagram
+
+image::did-remove-service-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| id | `string` | The identifier of the service (e.g., "#srv-1") to be removed.
+| timestamp | `string` | The timestamp of the DID Remove Service message creation.
+|===
+
+
+=== DIDDeactivateMessage
+
+Represents a DID Deactivate message, used for deactivating a DID.
+
+==== Class Diagram
+
+image::did-deactivate-message-class-diagram.png[]
+
+==== Properties
+
+[cols="1,1,3", options="header", frame="ends"]
+|===
+| Name | Type | Description
+| did | `string` | The DID string of the Decentralized Identifier to deactivate.
+| timestamp | `Date` | The timestamp of the DID Deactivate message creation.
+|===
+
+== Component Implementation
+
+The Hiero DID SDK provides the DID Message classes within its `messages` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/messages`] package documentation.

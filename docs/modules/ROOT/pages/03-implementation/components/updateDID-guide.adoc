@@ -1,0 +1,277 @@
+= updateDID Function
+
+The `updateDID` function, a core component of the Hiero DID SDK's xref:04-implementation/components/updateDID-api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
+
+== Features
+
+*   **DID Updating:** Updates existing DIDs on the Hedera network, allowing modifications to DID Documents.
+*   **Flexible Updates:** Supports various update operations, such as adding or removing verification methods, services, and other properties.
+*   **Secure Updates:** Ensures secure and verifiable updates by leveraging the Hedera Consensus Service (HCS).
+*   **DID Document Versioning:**  Maintains a history of DID Document updates for auditability and transparency.
+*   **Hedera Network Support:** Supports DID updates on the Hedera mainnet and testnet.
+*   **Error Handling:** Provides robust error handling for invalid input, network issues, and other potential problems.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Updating a DID Document
+
+The following examples demonstrate how to update a DID document using the `updateDID` function in different scenarios.
+
+=== With Client Options
+
+You can customize the Hedera network and account used for updating the DID by providing `clientOptions` to the `updateDID` function.
+
+[source,javascript]
+----
+// Define client options with your Hedera account ID and private key
+const clientOptions = {
+  network: "testnet",
+  accountId: "your-account-id",
+  privateKey: "your-private-key"
+};
+
+const updatedDidDocument = await updateDID(
+  "did:hedera:testnet:...", // Replace with the DID you want to update
+  {
+    updates: [
+      {
+        operation: "add-verification-method",
+        // ... other properties
+      },
+      {
+        operation: "add-service",
+        // ... other properties
+      }
+    ],
+    privateKey: "your-private-key" // Private key for signing the update
+  },
+  { clientOptions }
+);
+----
+
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-with-client-options.ts[example] in the source code.**
+
+
+=== With a Hedera Client
+
+You can provide a Hedera `Client` instance directly to the `updateDID` function.
+
+[source,javascript]
+----
+// Create a Hedera Client instance
+const client = Client.forTestnet();
+client.setOperator("your-account-id", "your-private-key");
+
+const updatedDidDocument = await updateDID(
+  "did:hedera:testnet:...", // Replace with the DID you want to update
+  {
+    updates: [
+      {
+        operation: "add-verification-method",
+        // ... other properties
+      },
+      {
+        operation: "add-service",
+        // ... other properties
+      }
+    ],
+    privateKey: "your-private-key" // Private key for signing the update
+  },
+  { client }
+);
+----
+
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-with-a-client.ts[example] in the source code.**
+
+
+=== With Multiple Properties
+
+You can update multiple properties of a DID document simultaneously by providing an array of `updates`.
+
+[source,javascript]
+----
+const updatedDidDocument = await updateDID(
+  "did:hedera:testnet:...", // Replace with the DID you want to update
+  {
+    updates: [
+      {
+        operation: "add-verification-method",
+        // ... other properties
+      },
+      {
+        operation: "add-verification-method",
+        // ... other properties
+      },
+      {
+        operation: "remove-service",
+        // ... other properties
+      }
+    ],
+    privateKey: "your-private-key" // Private key for signing the update
+  },
+  { client }
+);
+----
+
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-with-multiple-properties.ts[example] in the source code.**
+
+
+=== With the DIDUpdateBuilder Class
+
+The `DIDUpdateBuilder` class provides a convenient way to construct and execute DID update operations. It offers methods for adding, removing, or modifying various components of a DID document, such as verification methods, services, and other properties. This builder simplifies the creation of complex DID updates while ensuring compliance with the Hedera DID method specification.
+
+To use the `DIDUpdateBuilder`:
+
+1.  **Create an instance:** Using `new DIDUpdateBuilder()` create new builder instance.
+2.  **Specify modifications:** Use the builder's methods (e.g., `addVerificationMethod`, `removeService`).
+3.  **Build operations:** Call `build()` to generate the update operations.
+4.  **Execute the update:** Pass the generated operations to the `updateDID` function.
+
+==== Managing Verification Methods
+
+Verification methods prove the authenticity of a DID Document.
+
+*   **Adding:** Use `addVerificationMethod(verificationMethod)` to add a `VerificationMethod` object. You can call this method multiple times to add multiple verification methods.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder()
+      .addVerificationMethod({
+        id: "#key-1",
+        controller: "did:hedera:mainnet:...",
+        publicKeyMultibase: "z6Mk...",
+      })
+      .addVerificationMethod({
+        // ... another verification method
+      })
+      .build();
+----
+
+*   **Adding as a reference:** You can also add a verification method by providing the ID of an existing method. This will create a reference to the existing method in the DID Document.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder()
+      .addVerificationMethod("#key-1")
+      .build();
+----
+
+
+*   **Removing:** Use `removeVerificationMethod(verificationMethodId)` to remove a verification method by its ID.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder()
+      .removeVerificationMethod("#key-1")
+      .build();
+----
+
+
+==== Managing Services
+
+Services provide additional information about a DID Document.
+
+*   **Adding:** Use `addService(service)` to add a `Service` object. You can call this method multiple times.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder()
+      .addService({
+        id: "#service-1",
+        type: "LinkedDomains",
+        serviceEndpoint: "https://example.com",
+      })
+      .addService({
+        // ... another service
+      })
+      .build();
+----
+
+*   **Removing:** Use `removeService(serviceId)` to remove a service by its ID.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder()
+      .removeService("#service-1")
+      .build();
+----
+
+==== Managing Verification Relationships
+
+Verification relationships express the relationship between a verification method and a DID subject (e.g., authentication, assertion).
+
+*   **Adding:** Use specific methods for each relationship type (see the `DIDUpdateBuilder` API Reference). You can add a relationship by providing a `VerificationMethod` object or using the ID of an existing verification method.
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder()
+      .addCapabilityInvocationMethod({
+        id: "#key-1",
+        controller: "did:hedera:mainnet:...",
+        publicKeyMultibase: "z6Mk...",
+      })
+      .addAuthenticationMethod("#key-2") // Using an existing method's ID
+      .build();
+----
+
+*   **Removing:** Use the corresponding removal method for the relationship type (e.g., `removeCapabilityInvocationMethod(verificationMethodId)`).
+
+[source,javascript]
+----
+    const builder = new DIDUpdateBuilder()
+      .removeCapabilityInvocationMethod("#key-1")
+      .build();
+----
+
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-with-DID-update-builder.ts[example] in the source code.**
+
+== Using Client Managed Secret Mode
+
+In certain instances, keys are managed in a fashion that does not allow direct or indirect access by the SDK. Or you prefer to manage your keys yourself. In such a scenario, Client Managed Secret Mode can be utilized. In this mode, the DID SDK generates a signing request for you, so you can handle the signing process yourself. From it's design, the process is divided into two steps: `generateUpdateDIDRequest` and `submitUpdateDIDRequest`.
+
+The signing request contains all the necessary information about the algorithm of the signing and data to be signed. The serialized payload of the request is signed by the client and submitted to the SDK. The SDK then processes the request and update the DID Document.
+
+[source,js]
+----
+const { states, signingRequests } = await generateUpdateDIDRequest(
+  {
+    did,
+    updates: new DIDUpdateBuilder()
+      .addService({
+        id: '#service-1',
+        type: 'VerifiableCredentialService',
+        serviceEndpoint: 'https://example.com/vc/',
+      })
+      .build(),
+  },
+  {
+    client,
+  },
+);
+
+const signatures = Object.keys(signingRequests).reduce((acc, request) => {
+  const signingRequest = signingRequests[request];
+  const signature = await wallet.sign(signingRequest.serializedPayload);
+
+  return {
+    ...acc,
+    [request]: signature,
+  };
+}, {});
+
+const updatedDidDocument = await submitUpdateDIDRequest(
+  { states, signatures },
+  {
+    client,
+  },
+);
+----
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-using-client-secret-mode.ts[example] in the source code.**
+
+You can learn more about the Client Managed Secret Mode in the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
+
+== References
+
+* xref:04-implementation/components/updateDID-api.adoc[`updateDID` API Reference]
+* xref:04-implementation/components/did-update-builder-api.adoc[`DIDUpdateBuilder` API Reference]
+* xref:04-implementation/components/generateUpdateDIDRequest-api.adoc[`generateUpdateDIDRequest` API Reference]
+* xref:04-implementation/components/submitUpdateDIDRequest-api.adoc[`submitUpdateDIDRequest` API Reference]
