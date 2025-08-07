@@ -134,8 +134,6 @@ describe('Hedera HCS Service', () => {
         waitForChangesVisibility: true,
       });
 
-      //const newExpirationTimeInSec =
-
       let topicInfo = await ledgerService.getTopicInfo({ topicId });
       expect(topicInfo.topicMemo).toEqual(newTopicMemo);
       expect(topicInfo.submitKey).toEqual(submit1Key.publicKey.toStringRaw());
