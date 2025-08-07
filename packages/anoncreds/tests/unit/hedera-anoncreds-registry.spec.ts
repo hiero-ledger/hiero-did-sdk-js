@@ -38,12 +38,17 @@ describe('HederaAnoncredsRegistry', () => {
 
     (HederaHcsService as jest.Mock).mockImplementation(() => serviceMock);
 
+    // id example: "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.5896422"
     (buildAnonCredsIdentifier as jest.Mock).mockImplementation(
-      (issuerId: string, topicId: string, type: string) => `${issuerId}|${topicId}|${type}`
+      (issuerId: string, topicId: string, type: string) => `did:hedera:testnet:${issuerId}/anoncreds/v0/${type}/${topicId}`
     );
     (parseAnonCredsIdentifier as jest.Mock).mockImplementation((id: string) => {
-      const parts = id.split('|');
-      return { topicId: parts[1] || 'topicId', networkName: 'testnet' };
+      const sections = id.split('/');
+      const parts = sections[0].split(':');
+      return {
+        networkName: parts[2] || 'testnet',
+        topicId: sections[4] || 'topicId',
+      };
     });
 
     (Zstd.compress as jest.Mock).mockImplementation((buf: Buffer) => buf);
@@ -99,12 +104,12 @@ describe('HederaAnoncredsRegistry', () => {
       const schemaObj = { data: 'schema-data' };
       serviceMock.resolveFile.mockResolvedValue(Buffer.from(JSON.stringify(schemaObj)));
 
-      const id = 'issuer|topic|SCHEMA';
+      const id = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.5896422'
       const result = await registry.getSchema(id);
 
       expect(result.schemaId).toBe(id);
       expect(result.schema).toEqual(schemaObj);
-      expect(serviceMock.resolveFile).toHaveBeenCalledWith({networkName: "testnet", topicId: "topic"});
+      expect(serviceMock.resolveFile).toHaveBeenCalledWith({networkName: "testnet", topicId: "0.0.5896422"});
     });
   });
 
@@ -433,12 +438,14 @@ describe('HederaAnoncredsRegistry', () => {
     it('should throw error if revocation registry payload is not found', async () => {
       serviceMock.resolveFile.mockResolvedValue(null);
 
+      const revRegId = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.5896422'
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-      await expect((registry as any).resolveRevocationRegistryDefinition('issuer|topic|REV_REG')).rejects.toThrowError(
-        'AnonCreds revocation registry with id issuer|topic|REV_REG not found'
+      await expect((registry as any).resolveRevocationRegistryDefinition(revRegId)).rejects.toThrowError(
+        `AnonCreds revocation registry with id ${revRegId} not found`
       );
 
-      expect(serviceMock.resolveFile).toHaveBeenCalledWith({networkName: "testnet", "topicId": "topic" } );
+      expect(serviceMock.resolveFile).toHaveBeenCalledWith({networkName: "testnet", "topicId": "0.0.5896422" } );
     });
   });
 
