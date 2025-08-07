@@ -19,11 +19,11 @@ npm install @hiero-did-sdk/core
 
 ## Usage
 
-Learn how to use the core interfaces and utilities for DID operations in the [Core Package Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/core-guide.html).
+Learn how to use the core interfaces and utilities for DID operations in the [Core Package Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/core-guide.html).
 
 ## API Reference
 
-Learn more in the [Core API Reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/core-api.html).
+Learn more in the [Core API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/core-api.html).
 
 ## Running Tests
 
@@ -39,5 +39,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hiero DID SDK](https://github.com/DSRCorporation/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
+- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
 - [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.

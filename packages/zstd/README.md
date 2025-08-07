@@ -33,7 +33,7 @@ const decompressedData = Zstd.decompress(compressedData);
 
 ## API Reference
 
-Learn more in the [Zstd API Reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/zstd-api.html).
+Learn more in the [Zstd API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/zstd-api.html).
 
 ## Running Tests
 
@@ -49,5 +49,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hiero DID SDK](https://github.com/DSRCorporation/hiero-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
+- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
 - [Zstandard](https://facebook.github.io/zstd/) - The official Zstandard website, providing information about the compression algorithm used in this package.

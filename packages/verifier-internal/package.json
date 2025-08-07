@@ -7,7 +7,7 @@
     "url": "https://www.hashgraph.swiss/"
   },
   "bugs": {
-    "url": "https://github.com/DSRCorporation/hiero-did-sdk-js/issues"
+    "url": "https://github.com/hiero-ledger/hiero-did-sdk-js/issues"
   },
   "license": "Apache-2.0",
   "main": "./dist/index.cjs.js",
@@ -29,7 +29,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/DSRCorporation/hiero-did-sdk-js.git",
+    "url": "https://github.com/hiero-ledger/hiero-did-sdk-js.git",
     "directory": "packages/verifier-internal"
   },
   "engines": {

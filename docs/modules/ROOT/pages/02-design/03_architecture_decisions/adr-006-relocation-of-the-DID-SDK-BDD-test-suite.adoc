@@ -1,0 +1,67 @@
+=== ADR 006: Relocation of the DID SDK BDD Test Suite
+
+==== Status
+
+Accepted
+
+==== Date
+
+2025-02-19
+
+==== Context
+
+The DID SDK BDD test suite, designed for language-agnostic validation of the DID SDK, is currently non-functional and tightly coupled with the main SDK repository. This coupling hinders independent development, dedicated maintenance, and efficient resource allocation, necessitating a strategic decision on its future.
+
+==== Decision Drivers
+
+* **Independent Development & Release:** Enable separate development and release cycles, decoupled from the main SDK.
+* **Focused Resource Allocation:** Allow dedicated resources with specialized BDD and testing expertise.
+* **Maintainability & Scalability:** Significantly improve the test suite's maintainability and long-term scalability.
+* **Clarity of Purpose:** Establish the test suite as a well-defined, standalone tool.
+
+==== Considered Options
+
+===== **Option 1: Maintain within Current Repository**
+
+* **Description:** Continue maintaining the BDD test suite within the existing DID SDK repository.
+* **Pros:** Code proximity; no new repository setup required.
+* **Cons:** Competition for resources; unclear separation of concerns; impedes independent maintenance; tightly coupled CI/CD; necessitates mixed skillsets.
+
+===== **Option 2: Relocate to Separate Repository**
+
+* **Description:** Migrate the BDD test suite to a dedicated, independent repository.
+* **Pros:** Enables independent development and release cycles; facilitates dedicated resource allocation; promotes improved maintainability and organization; establishes clear ownership; increases potential for reuse by other projects; allows for an independent, optimized CI/CD pipeline.
+* **Cons:** Introduces repository management overhead; requires careful synchronization with SDK changes; necessitates an initial migration effort.
+
+===== **Option 3: Discard the Test Suite**
+
+* **Description:** Abandon the current BDD test suite and explore alternative testing approaches.
+* **Pros:** Avoids further investment in the current, flawed implementation; allows exclusive focus on core SDK development.
+* **Cons:** Loss of the potential benefits of a language-agnostic BDD test suite; increased risk of regressions without a comprehensive alternative; forfeits the initial investment in the BDD suite.
+
+==== Decision
+
+Relocate the BDD test suite to a separate repository (Option 2).
+
+==== Rationale
+
+* **Strategic Alignment:** Directly supports the original goal of a language-agnostic testing tool by enabling focused, independent development.
+* **Enhanced Maintainability:** A separate repository fosters better code organization, reducing complexity and facilitating ongoing maintenance.
+* **Optimized Resource Utilization:** Enables the allocation of specialized resources with the necessary BDD and testing expertise.
+* **Long-Term Viability:** Establishes a sustainable foundation for the test suite's long-term growth and scalability.
+* **Expanded Utility:** Positions the test suite as a standalone tool, potentially usable for testing other components or projects.
+
+==== Follow-Ups
+
+* **Create New Repository:** Establish the new repository with appropriate access controls.
+* **Migration Plan:** Develop a detailed plan for migrating code, configurations, and associated resources, minimizing disruption.
+* **Documentation:** Prioritize creating comprehensive documentation, including setup, contribution guidelines, and test execution instructions.
+* **Roadmap:** Define a clear roadmap for addressing identified weaknesses, implementing improvements, and expanding test coverage.
+* **Resource Allocation:** Assign dedicated resources with the required expertise to the new repository.
+* **Communication:** Communicate the decision, relocation plan, and rationale to all relevant stakeholders.
+* **Review and Adjust:** Review the effectiveness of this ADR and the relocated test suite three months post-implementation.
+
+==== References
+
+* link:https://hashgraph.atlassian.net/wiki/spaces/HIP/pages/246939656/Assessment+Result+DID SDK+BDD+Test+Suite[Assessment Result: DID SDK BDD Test Suite]
+* link:https://github.com/hiero-ledger/hiero-did-sdk-test-suite[DID SDK Test Suite Repository]

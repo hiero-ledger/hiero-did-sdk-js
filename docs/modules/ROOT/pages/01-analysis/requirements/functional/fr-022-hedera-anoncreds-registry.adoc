@@ -1,0 +1,24 @@
+=== FR 021: Hedera AnonCreds Registry
+
+==== Description
+
+The SDK should provide an implementation of Hedera AnonCreds Registry according to Hedera AnonCreds Method specification.
+
+==== Status
+
+Draft
+
+==== Acceptance Criteria
+
+* The SDK should provide an implementation of Hedera AnonCreds Registry
+* Registry implementation should be compatible with Hedera AnonCreds Method specification
+* The registry should provide an API for registering and resolving AnonCreds Schema objects
+* The registry should provide an API for registering and resolving AnonCreds Credential Definition objects
+* The registry should provide an API for registering and resolving AnonCreds Revocation Registry Definition objects
+* The registry should provide an API for publishing and resolving AnonCreds Revocation Registry Entry objects associated with AnonCreds Revocation Registry Definitions
+* The SDK should provide utilities to build and parse AnonCreds objects identifiers according to Hedera AnonCreds Method specification
+
+==== References
+
+* https://hyperledger.github.io/anoncreds-spec/
+* https://dsrcorporation.github.io/hedera-anoncreds-method/

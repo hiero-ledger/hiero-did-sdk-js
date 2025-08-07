@@ -1,0 +1,96 @@
+= Signer API Reference
+
+This document provides a concise API reference for the `Signer` class within the Hedera DID SDK for JavaScript. This class is responsible for generating key pairs, signing data, and verifying signatures.
+
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `Signer` interface for interacting with cryptographic keys.
+
+image::signer-class-diagram.png[]
+
+== Constructor
+
+=== `constructor`
+[source,ts]
+----
+constructor(privateKeyOrDer: string | PrivateKey)
+----
+
+Initializes a new `Signer` instance.
+
+Parameters::
+* `privateKeyOrDer`: (Required) A private key class instance or a private key in DER format.
+
+== Static Methods
+
+=== `generate`
+[source,ts]
+----
+static generate(): Signer
+----
+
+Generates a new key pair and returns a `Signer` instance with the new private key.
+
+Returns::
+The new `Signer` instance.
+
+
+== Methods
+
+=== `publicKey`
+[source,ts]
+----
+publicKey(): string
+----
+
+Returns the public key associated with the `Signer` instance in DER format.
+
+Returns::
+The public key in DER format.
+
+=== `sign`
+[source,ts]
+----
+sign(message: Uint8Array): Uint8Array
+----
+
+Signs the given message using the private key and returns the signature.
+
+Parameters::
+* `message`: The message to be signed.
+
+Returns::
+The signature of the message.
+
+=== `verify`
+[source,ts]
+----
+verify(message: Uint8Array, signature: Uint8Array): boolean
+----
+
+Verifies the given signature against the message and public key.
+
+Parameters::
+* `message`: The message that was signed.
+* `signature`: The signature to be verified.
+
+Returns::
+`true` if the signature is valid, `false` otherwise.
+
+== Errors
+
+[cols="1,1",options="header",frame="ends"]
+|===
+|Exception code
+|Description
+
+|`invalidArgument`
+|Invalid private key format. Expected DER.
+
+|`invalidArgument`
+|Invalid private key type. Expected ED25519.
+|===
+
+== Class Implementation
+
+The Hiero DID SDK provides the `Signer` class within its `signer-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/signer-internal`] package documentation.

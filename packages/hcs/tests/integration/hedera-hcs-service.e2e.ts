@@ -119,8 +119,11 @@ describe('Hedera HCS Service', () => {
       // Set full set of the properties to the topic
       const newTopicMemo = '0987654321';
       const newAutoRenewPeriod = 60 * 24 * 60 * 60; // sec
-      const newExpirationTime = new Date(new Date().setMonth(new Date().getMonth() + 3));
-      newExpirationTime.setSeconds(0, 0);
+
+      const newExpirationTime = new Date();
+      newExpirationTime.setMonth(newExpirationTime.getMonth() + 3);
+      // HCS do not use millisecond precision for Topic expiration time
+      newExpirationTime.setMilliseconds(0);
 
       await ledgerService.updateTopic({
         topicId,

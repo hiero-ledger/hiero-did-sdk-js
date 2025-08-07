@@ -1,6 +1,6 @@
 # @hiero-did-sdk/anoncreds
 
-This package provides implementation of Hedera AnonCreds Registry, following [Hedera AnonCreds Method specification](https://dsrcorporation.github.io/hedera-anoncreds-method/).
+This package provides implementation of Hedera AnonCreds Registry, following [Hedera AnonCreds Method specification](https://hiero-ledger.github.io/hedera-anoncreds-method/).
 It enables the management of AnonCreds resources using Hedera Consensus Service (HCS) as Verifiable Data Registry (VDR) with support for revocation.
 
 ## Features
@@ -57,11 +57,11 @@ const revRegDefResult = await registry.registerRevocationRegistryDefinition({
 });
 ```
 
-For more detailed examples and usage scenarios, refer to the [AnonCreds Package Guide](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/anoncreds-guide.html).
+For more detailed examples and usage scenarios, refer to the [AnonCreds Package Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/anoncreds-guide.html).
 
 ## API Reference
 
-Learn more in the [AnonCreds API Reference](https://github.com/DSRCorporation/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/anoncreds-api.html).
+Learn more in the [AnonCreds API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/anoncreds-api.html).
 
 ## Running Tests
 
@@ -77,7 +77,7 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hiero DID SDK](https://github.com/DSRCorporation/hiero-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
+- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
 - [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.
-- [Hedera AnonCreds Method](https://dsrcorporation.github.io/hedera-anoncreds-method/) - The specification for Hedera AnonCreds Method implemented in thus package.
+- [Hedera AnonCreds Method](https://hiero-ledger.github.io/hedera-anoncreds-method/) - The specification for Hedera AnonCreds Method implemented in thus package.
 - [Hedera Consensus Service](https://docs.hedera.com/hedera/sdks-and-apis/sdks/consensus-service) - Documentation for the Hedera Consensus Service used by this package.

@@ -1,0 +1,185 @@
+= resolveDID Function
+
+The `resolveDID` function is a core component of the Hiero DID SDK. It allows you to resolve a Decentralized Identifier (DID) registered on the Hedera network and retrieve its corresponding DID Document. This function handles the retrieval and cryptographic verification of the DID Document, ensuring its authenticity and integrity.
+
+== Resolving a DID Document
+
+The following examples demonstrate how to use the `resolveDID` function to retrieve a DID Document in different formats.
+
+=== As JSON-LD (Default)
+
+This example shows how to resolve a DID and retrieve its corresponding DID Document in JSON-LD format.
+
+[source, typescript]
+----
+import { resolveDID } from "@hiero-did-sdk/resolver";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+async function main() {
+  try {
+    const didDocument = await resolveDID(did);
+    console.log(didDocument);
+  } catch (error) {
+    console.error("Error resolving DID:", error);
+  }
+}
+
+main();
+----
+
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/resolveDID-as-json-ld.ts[example] in the source code.**
+
+=== As JSON
+
+This example shows how to resolve a DID and retrieve its corresponding DID Document in JSON format.
+
+[source, typescript]
+----
+import { resolveDID } from "@hiero-did-sdk/resolver";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+async function main() {
+  try {
+    const didDocument = await resolveDID(did, "application/did+json");
+    console.log(didDocument);
+  } catch (error) {
+    console.error("Error resolving DID:", error);
+  }
+}
+
+main();
+----
+
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/resolveDID-as-json.ts[example] in the source code.**
+
+=== With Full Metadata
+
+This example shows how to resolve a DID and retrieve its corresponding DID Document with full DID Resolution metadata.
+
+[source, typescript]
+----
+import { resolveDID } from "@hiero-did-sdk/resolver";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+async function main() {
+  try {
+    const didDocument = await resolveDID(
+      did,
+      'application/ld+json;profile="https://w3id.org/did-resolution"'
+    );
+    console.log(didDocument);
+  } catch (error) {
+    console.error("Error resolving DID:", error);
+  }
+}
+
+main();
+----
+
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/resolveDID-with-full-metadata.ts[example] in the source code.**
+
+=== As CBOR
+
+This example shows how to resolve a DID and retrieve its corresponding DID Document in CBOR format.
+
+[source, typescript]
+----
+import { resolveDID } from "@hiero-did-sdk/resolver";
+
+const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+async function main() {
+  try {
+    const didDocumentUintArray = await resolveDID(
+      did,
+      'application/did+cbor'
+    );
+    console.log(didDocumentUintArray);
+  } catch (error) {
+    console.error("Error resolving DID:", error);
+  }
+}
+
+main();
+----
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/resolveDID-as-cbor.ts[example] in the source code.**
+
+
+== Using TopicReader
+
+The `resolveDID` function accepts an optional `options` parameter that allows you to specify a custom `TopicReader` implementation. This is useful if you need to read messages not using a default gRPC Hedera client. It has many use cases, such as:
+
+*   Reading messages from a Hedera network using a REST API.
+*   Reading messages with additional caching capabilities.
+*   Reading messages for testing or development purposes.
+
+Example below shows how to use a custom `TopicReader` implementation to read messages from a Hedera network using a default gRPC Hedera client.
+
+[source, typescript]
+----
+import {
+  resolveDID,
+  TopicReaderHederaClient,
+} from '@hiero-did-sdk/resolver';
+
+const did =
+  'did:hedera:testnet:23g2MabDNq3KyB7oeH9yYZsJTRVeQ24DqX8o6scB98e3_0.0.5217215';
+
+async function main() {
+  try {
+    const topicReader = new TopicReaderHederaClient();
+    const didDocument = await resolveDID(did, 'application/did+ld+json', {
+      topicReader,
+    });
+    console.log(didDocument);
+  } catch (error) {
+    console.error('Error resolving DID:', error);
+  }
+}
+
+main();
+----
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/resolveDID-with-topic-reader.ts[example] in the source code.**
+
+
+== Using Verifier
+
+The `resolveDID` function accepts an optional `options` parameter that allows you to specify a custom `Verifier` implementation. This is useful if you need to verify the DID Document signature using a custom verifier.
+
+Example below shows how to use a custom `Verifier` implementation to verify the DID Document signature using a default internal verifier.
+
+[source, typescript]
+----
+import { resolveDID } from '@hiero-did-sdk/resolver';
+import { Verifier } from '@hiero-did-sdk/verifier-internal';
+
+const did =
+  'did:hedera:testnet:23g2MabDNq3KyB7oeH9yYZsJTRVeQ24DqX8o6scB98e3_0.0.5217215';
+
+async function main() {
+  try {
+    const verifier = Verifier.fromBase58(
+      '23g2MabDNq3KyB7oeH9yYZsJTRVeQ24DqX8o6scB98e3',
+    );
+    const didDocument = await resolveDID(did, 'application/did+ld+json', {
+      verifier,
+    });
+    console.log(didDocument);
+  } catch (error) {
+    console.error('Error resolving DID:', error);
+  }
+}
+
+main();
+----
+**See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/resolveDID-with-verifier.ts[example] in the source code.**
+
+
+
+== References
+
+* xref:04-implementation/components/resolveDID-api.adoc[`resolveDID` API Reference]
+* xref:04-implementation/components/topic-reader-api.adoc[`TopicReader` API Reference]

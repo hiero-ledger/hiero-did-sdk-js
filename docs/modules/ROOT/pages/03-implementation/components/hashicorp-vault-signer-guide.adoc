@@ -1,0 +1,201 @@
+= HashiCorp Vault Signer Class
+
+The `Signer` is a fundamental component of the Hashgraph DID SDK, responsible for securely managing cryptographic keys and generating digital signatures for DID operations. The HashiCorp Vault Signer is a specialized implementation of the `Signer` that integrates with HashiCorp Vault to securely store and manage cryptographic keys. This guide provides an overview of the HashiCorp Vault Signer and demonstrates how to use it within the SDK.
+
+This component provides a `VaultSignerFactory` class that allows you to create a `Signer` instance that uses HashiCorp Vault as the key store. The `VaultSignerFactory` class requires authentication credentials to access the HashiCorp Vault server.
+
+== Features
+
+*   **Key Management:** Create new Ed25519 keys or use existing ones stored in HashiCorp Vault for flexible key handling.
+*   **Signing and Verification:** Sign DID operations securely using Vault-managed Ed25519 keys.
+*   **Authentication:** Supports authentication via Vault tokens, user/password, and AppRole for secure access.
+*   **Security:** Keeps private keys inside Vault, ensuring strong protection and controlled access.
+*   **Vault Integration:** Seamlessly interacts with HashiCorp Vault for key storage, retrieval, and signing operations.
+*   **TypeScript Support:** Built with TypeScript to enhance developer experience and type safety.
+
+== Authentication with HashiCorp Vault
+
+Refer to the following sections to learn how to authenticate the `VaultSignerFactory` with HashiCorp Vault using different methods. Remember to configure the HashiCorp Vault server and create the necessary roles and policies before proceeding.
+
+=== Using a Vault Token
+
+This example demonstrates how to authenticate `VaultSignerFactory` with HashiCorp Vault using an access token:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-vault-token",
+});
+----
+
+=== Using a Username and Password
+
+The `VaultSignerFactory` can also authenticate with HashiCorp Vault using a username and password:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithUsernameAndPassword({
+  url: "http://localhost:8200",
+  username: "your-username",
+  password: "your-password",
+});
+----
+
+=== Using AppRole
+
+Another way to authenticate with HashiCorp Vault is by using the AppRole method:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithUsernameAndPassword({
+  url: "http://localhost:8200",
+  roleId: "your-role-id",
+  secretId: "your-role-secret-id",
+});
+----
+
+=== Using a secrets engine different path
+
+If you are using a secrets engine with a different path then `transit`, you can specify the path when authenticating with the `VaultSignerFactory`. For example, if you are using the transit secrets engine with the path `did`, you can authenticate as follows:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithToken({
+  url: "http://localhost:8200",
+  transitPath: "did", // Specify the path of the secrets engine
+  token: "your-token",
+});
+----
+
+== Creating a Vault Signer
+
+After authenticating with HashiCorp Vault, you can create a `Signer` instance using the `VaultSignerFactory`. You can either create a new Ed25519 key pair or use an existing key stored in HashiCorp Vault.
+
+=== Creating a New Key Pair
+
+This example demonstrates how to create a new Ed25519 key pair in HashiCorp Vault and create a `Signer` instance:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-token",
+});
+
+const signer = await factory.forNewKey('new-key-name');
+----
+
+=== Using an Existing Key
+
+You can also use an existing Ed25519 key stored in HashiCorp Vault to create a `Signer` instance:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-token",
+});
+
+const signer = await factory.forKey('existing-key-name');
+----
+
+The `forKey` method will validate if a key with the given name exists in the Vault and if it is an Ed25519 key. If the key does not exist or is not an Ed25519 key, an error will be thrown.
+
+== Signing with Vault Signer
+
+Once you have created a `Signer` instance using the `VaultSignerFactory`, you can use it to sign DID operations securely. The `Signer` provides a `sign` method that takes a message as input and returns a digital signature.
+
+This example demonstrates how to sign a message using the Vault `Signer`:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-token",
+});
+
+const signer = await factory.forKey('existing-key-name');
+
+const message = new Uint8Array([1, 2, 3, 4, 5]);
+const signature = await signer.sign(message);
+----
+
+This will generate a digital signature for the given message using the Ed25519 key stored in HashiCorp Vault.
+
+=== Verifying a Signature
+
+You can also verify a digital signature using the `Signer` instance. The `verify` method takes the original message and the signature as input and returns a boolean indicating whether the signature is valid.
+
+This example demonstrates how to verify a signature using the Vault `Signer`:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-token",
+});
+
+const signer = await factory.forKey('existing-key-name');
+
+const message = new Uint8Array([1, 2, 3, 4, 5]);
+const signature = await signer.sign(message);
+
+const isValid = await signer.verify(message, signature);
+console.log(`Signature valid? ${isValid}`);
+----
+
+
+=== Getting the Public Key
+
+You can also retrieve the public key associated with the `Signer` instance using the `publicKey` method. This method returns the public key in the DER format.
+
+This example demonstrates how to retrieve the public key using the Vault `Signer`:
+
+[source, typescript]
+----
+import { VaultSignerFactory } from "@hiero-did-sdk/signer-hashicorp-vault";
+
+
+const factory = VaultSignerFactory.loginWithToken({
+  url: "http://localhost:8200",
+  token: "your-token",
+});
+
+const signer = await factory.forKey('existing-key-name');
+
+const publicKey = await signer.publicKey();
+----
+
+== Rotating Vault Keys
+
+HashiCorp Vault provides a key rotation mechanism that allows you to rotate keys periodically for enhanced security. Unfortunately, the Hashgraph DID SDK does not currently support key rotation for Vault-managed keys both manually and automatically. Because of this, if a key has multiple versions in Vault, the SDK will always use the first version.
+
+== References
+
+* xref:04-implementation/components/hashicorp-vault-signer-api.adoc[Vault `Signer` API Reference]
+* xref:04-implementation/components/hashicorp-vault-signer-factory-api.adoc[`VaultSignerFactory` API Reference]

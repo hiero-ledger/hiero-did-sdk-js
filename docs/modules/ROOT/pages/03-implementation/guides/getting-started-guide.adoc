@@ -1,0 +1,119 @@
+= Hiero DID SDK: Getting Started
+
+== Introduction
+
+Welcome to the Hedera DID SDK! This guide provides a quick and practical introduction to creating and managing Decentralized Identifiers (DIDs) on the Hedera network.
+
+Decentralized Identifiers (DIDs) are a new type of identifier that enables verifiable, decentralized digital identity.  The Hedera DID SDK empowers you to leverage this technology for your applications, providing:
+
+* **Enhanced Security:** DIDs give users greater control over their digital identities and reduce the reliance on centralized authorities.
+* **Improved Privacy:**  DIDs can be used to selectively disclose information, minimizing the data shared with third parties.
+* **Increased Trust:**  DIDs are anchored to the Hedera blockchain, providing a tamper-proof and auditable record of identity information.
+
+This guide will walk you through the essential steps to get you started with the Hedera DID SDK. You'll learn how to install the SDK, create your first DID, and resolve its DID document.
+
+**Prerequisites:**
+
+* **Node.js and npm:** Ensure you have Node.js and npm (or yarn) installed on your system.
+* **Hedera Account:** You'll need a Hedera account with some hbars to pay for transaction fees. You can create one on the Hedera Portal: https://portal.hedera.com/
+* **(Optional) Basic understanding of DIDs:** Familiarity with the concept of DIDs is helpful but not required. If you're new to DIDs, you can learn more here: https://www.w3.org/TR/did-core/
+
+
+**Let's get started!**
+
+=== 1. Install the SDK
+
+Use npm to install the necessary packages:
+
+[source,bash]
+----
+npm install @hashgraph/sdk @hiero-did-sdk/registrar @hiero-did-sdk/resolver
+----
+
+=== 2.  Set up your environment
+
+* **Create a `.env` file:**  Store your Hedera account ID and private key securely in a `.env` file in your project directory.
+
+[source,bash]
+----
+# .env
+HEDERA_ACCOUNT_ID=0.0.12345 
+HEDERA_PRIVATE_KEY=your_private_key_here
+----
+
+* **Import and configure the SDK:**
+
+[source,javascript]
+----
+import { Client, PrivateKey } from "@hashgraph/sdk";
+
+require("dotenv").config();
+
+const myAccountId = process.env.HEDERA_ACCOUNT_ID;
+const myPrivateKey = PrivateKey.fromString(process.env.HEDERA_PRIVATE_KEY);
+
+const client = Client.forTestnet(); // Use Client.forMainnet() for mainnet
+client.setOperator(myAccountId, myPrivateKey); 
+----
+
+=== 3. Create your first DID
+
+[source,javascript]
+----
+import { createDID } from "@hiero-did-sdk/registrar";
+
+async function main() {
+  try {
+    const { did, didDocument } = await createDID({
+      client,
+    });
+
+    console.log(`DID: ${did}`);
+    console.log(`DID Document: ${JSON.stringify(didDocument, null, 2)}`);
+  } catch (error) {
+    console.error("Error creating DID:", error);
+  }
+}
+
+main().finally(() => client.close());
+----
+
+This code will:
+
+* Import the `createDID` function from the `@hiero-did-sdk/registrar` package.
+* Invoke the `createDID` function with a `providers` object containing your configured Hedera client.
+* Generate a new DID with default settings.
+* Output the generated DID string (e.g., `did:hedera:testnet:z6Mkhj...`) and its associated DID document, which contains important information about the DID.
+
+=== 4. Resolve a DID Document
+
+[source,javascript]
+----
+import { resolveDID } from "@hiero-did-sdk/resolver";
+
+async function main() {
+  const did = "did:hedera:testnet:z6Mkhj..."; // Replace with the DID you want to resolve
+
+  try {
+    const didDocument = await resolveDID(did);
+    console.log(`DID Document: ${JSON.stringify(didDocument, null, 2)}`);
+  } catch (error) {
+    console.error("Error resolving DID:", error);
+  }
+}
+
+main().finally(() => client.close());
+----
+
+This code demonstrates how to:
+
+* Use the `resolveDID` function from the resolver package.
+* Fetch and display the DID document associated with a given DID string. This allows you to verify the authenticity and retrieve information linked to the DID.
+
+== Next Steps
+
+*   **Explore `resolveDID`:**  Dive deeper into the link:04-implementation/components/resolveDID-guide.adoc[`resolveDID`] function to understand its parameters, error handling, and advanced usage.
+*   **Manage DIDs:** Learn how to use link:04-implementation/components/createDID-guide.adoc[`createDID`], link:04-implementation/components/updateDID-guide.adoc[`updateDID`], and link:04-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
+*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the link:04-implementation/components/signer-guide.adoc[`Signer`] class.
+*   **Utilize the `Publisher`:** Integrate the link:04-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.
+*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::04-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].

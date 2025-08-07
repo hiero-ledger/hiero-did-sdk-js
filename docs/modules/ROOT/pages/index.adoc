@@ -1,20 +1,16 @@
-= Hashgraph DID SDK for JavaScript
+= Hiero DID SDK for JavaScript
 
-This repository houses a robust JavaScript SDK designed to streamline the integration of Decentralized Identifiers (DIDs) within your applications on the Hedera Hashgraph network. By adhering to the Hedera DID Method specification, this SDK empowers developers with a comprehensive suite of tools to effortlessly create, manage, and resolve DIDs.
+This repository houses a robust JavaScript SDK designed to streamline the integration of Decentralized Identity within your applications on the Hedera ledger.
+By adhering to the Hedera DID Method and Hedera AnonCreds Method specification, this SDK empowers developers with a comprehensive suite of tools to effortlessly create, manage, and resolve DIDs and AnonCreds objects using Hedera Consensus Service (HCS).
 
 == Features
 
-* **Complete DID Lifecycle Management:** Create, update, deactivate, and resolve DIDs seamlessly.
-* **Secure Key Management:** Safeguard your DIDs through robust key management capabilities.
-* **Effortless DID Document Publishing:** Publish and update DID documents to the Hedera network with ease.
+* **Complete Hedera DID Lifecycle Management:** Create, update, deactivate, and resolve Hedera DIDs seamlessly.
+* **Secure Key Management:** Safeguard your Hedera DIDs through robust key management capabilities.
+* **Effortless Hedera DID Document Publishing:** Publish and update Hedera DID documents to the Hedera network with ease.
 * **Standards Compliant:** Built in accordance with the W3C DID specification and the Hedera DID Method.
+* **AnonCreds Support:** Create and resolve AnonCreds resources leveraging Hedera as a storage layer, enabling comprehensive support for AnonCreds Verifiable Credentials (VC) in accordance with Hedera AnonCreds Method.
 * **Enhanced Developer Experience:** Leverages TypeScript for improved type safety and code maintainability.
-
-== HIPs
-
-This SDK implements the following Hedera Improvement Proposals (HIPs):
-
-* xref:01-planning/hips/hip-0001-new-did-sdk.adoc[HIP-0001]: This HIP proposes the creation of a new JavaScript SDK for managing Decentralized Identifiers (DIDs) on the Hedera network. The SDK aims to provide a comprehensive and user-friendly interface for developers to integrate DIDs into their applications.
 
 == Requirements
 
@@ -28,17 +24,13 @@ Gain a comprehensive understanding of the SDK's architecture and underlying desi
 
 For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed xref:04-implementation/guides/getting-started-guide.adoc[Getting Started Guide].
 
-// == Testing
-
-// Rigorous xref:05-testing/acceptance-tests/index.adoc[Acceptance Tests] have been implemented to validate the SDK's functionality against real-world scenarios and ensure it meets user requirements.
-
 == Deployment
 
-This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the xref:06-deployment/packages/index.adoc[Packages Guide] section.
+This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the xref:06-deployment/packages/index.adoc[Packages Guide].
 
 == Maintenance
 
-Should you encounter any issues or require assistance, please refer to the comprehensive xref:07-maintenance/support/getting-support-guide.adoc[Getting Support Guide].
+Should you encounter any issues or require assistance, please refer to the xref:07-maintenance/support/getting-support-guide.adoc[Getting Support Guide].
 
 == License
 
