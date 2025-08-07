@@ -143,7 +143,8 @@ describe('Hedera HCS Service', () => {
       expect(topicInfo.adminKey).toEqual(admin1Key.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(newAutoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(renewAccountId);
-      if (topicInfo.expirationTime) expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
+      if (topicInfo.expirationTime)
+        expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
 
       // Change memo, renew period, admin and submit keys
       const nextNewTopicMemo = 'the new memo';
