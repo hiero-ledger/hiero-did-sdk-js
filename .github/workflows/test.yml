@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       checks: write
+      pull-requests: write
+      contents: write
     strategy:
       matrix:
         node: [20, 22, 24]
@@ -40,7 +42,7 @@ jobs:
         run: pnpm test:ci
 
       - name: Report coverage
-        uses: ArtiomTr/jest-coverage-report-action@7f750dd50f5585533321eb7ebc482b936b49a5d4 # v2
+        uses: ArtiomTr/jest-coverage-report-action@262a7bb0b20c4d1d6b6b026af0f008f78da72788 # v2.3.1
         with:
           coverage-file: ./coverage/report.json
           base-coverage-file: ./coverage/report.json
