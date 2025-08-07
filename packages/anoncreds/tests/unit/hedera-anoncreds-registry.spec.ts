@@ -238,7 +238,7 @@ describe('HederaAnoncredsRegistry', () => {
       expect(result.revocationRegistryDefinitionState.state).toBe('failed');
       const failedState =
         result.revocationRegistryDefinitionState as RegisterRevocationRegistryDefinitionReturnStateFailed;
-      expect(failedState.reason).toContain('fail');
+      expect(failedState.reason).toBe('fail');
     });
   });
 
@@ -267,7 +267,7 @@ describe('HederaAnoncredsRegistry', () => {
       const result = await registry.getRevocationRegistryDefinition(id);
 
       expect(result.resolutionMetadata.error).toBe('invalid');
-      expect(result.resolutionMetadata.message).toContain('fail');
+      expect(result.resolutionMetadata.message).toBe('fail');
     });
   });
 
@@ -318,7 +318,7 @@ describe('HederaAnoncredsRegistry', () => {
 
       expect(result.revocationStatusListState.state).toBe('failed');
       const failedState = result.revocationStatusListState as RegisterRevocationStatusListReturnStateFailed;
-      expect(failedState.reason).toContain('fail');
+      expect(failedState.reason).toBe('fail');
     });
   });
 
@@ -359,7 +359,7 @@ describe('HederaAnoncredsRegistry', () => {
 
       expect(result.revocationStatusList).toBeUndefined();
       expect(result.resolutionMetadata.error).toBe('invalid');
-      expect(result.resolutionMetadata.message).toContain('fail');
+      expect(result.resolutionMetadata.message).toBe('fail');
     });
   });
 
