@@ -120,6 +120,8 @@ describe('Hedera HCS Service', () => {
       const newTopicMemo = '0987654321';
       const newAutoRenewPeriod = 60 * 24 * 60 * 60; // sec
       const newExpirationTime = new Date(new Date().setMonth(new Date().getMonth() + 3));
+      newExpirationTime.setSeconds(0, 0);
+
       await ledgerService.updateTopic({
         topicId,
         currentAdminKey: admin1Key,
@@ -138,7 +140,8 @@ describe('Hedera HCS Service', () => {
       expect(topicInfo.adminKey).toEqual(admin1Key.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(newAutoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(renewAccountId);
-      if (topicInfo.expirationTime) expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
+      if (topicInfo.expirationTime)
+        expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
 
       // Change memo, renew period, admin and submit keys
       const nextNewTopicMemo = 'the new memo';

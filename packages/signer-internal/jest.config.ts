@@ -6,6 +6,10 @@ const config: Config = {
   displayName: '@hiero-did-sdk/signer-internal',
   rootDir: '../..',
   testMatch: [`<rootDir>/packages/signer-internal/**/*.spec.ts`],
+  coveragePathIgnorePatterns: [
+    "../packages/core",
+    "../tests",
+  ]
 };
 
 export default config;
