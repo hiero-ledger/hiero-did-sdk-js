@@ -1,0 +1,32 @@
+= Client API Reference
+
+This document describes the API for the `@hiero-did-sdk/client` package, which manages Hedera Client connectivity and operations.
+
+== Classes
+
+=== HederaClientService
+
+Central service for supplying Hedera Client instances and managing operational context.
+
+==== Methods
+
+- `getClient(networkName?: string): Client`
+  * Instantiate or retrieve a Hedera Client for a given network.
+- `withClient(props: NetworkName, operation: (client: Client) => Promise<T>): Promise<T>`
+  * Run an operation in the context of a managed client, closing the client automatically after completion.
+
+==== Usage Example
+
+See xref:03-implementation/components/client-guide.adoc[Client Guide].
+
+== Types
+
+- `ClientOptions` - Options for client configuration (accountId, privateKey, network, etc.).
+- `NetworkName`
+- `Client` - The Hedera SDK client instance.
+
+== Implementation Notes
+
+- Ensures client reliability and safe connection lifecycles.
+- Automatically manages resource cleanup when using `withClient`.
+- All connections require proper setup of account IDs, private keys, and valid networks.

@@ -1,0 +1,50 @@
+= Client Guide
+
+The `@hiero-did-sdk/client` package simplifies configuration and management of Hedera Client connections for DID operations.
+
+== Overview
+
+Use `@hiero-did-sdk/client` to:
+- Configure and instantiate Hedera network clients with various authentication and network options.
+- Manage network connections for mainnet, testnet, previewnet, or custom Hedera nodes.
+- Provide reusable client instances for transaction signing, publishing, and registry operations throughout the SDK and user applications.
+
+== Basic Usage
+
+=== Creating a Client
+
+[source,typescript]
+----
+import { HederaClientService } from '@hiero-did-sdk/client';
+
+const config = {
+  accountId: '0.0.xxxx',
+  privateKey: '302e0...xxx',
+  network: 'testnet',
+};
+
+const clientService = new HederaClientService(config);
+const client = clientService.getClient('testnet');
+----
+
+=== Using withClient Utility
+
+[source,typescript]
+----
+await clientService.withClient(
+  { networkName: 'testnet' },
+  async (client) => {
+    // Use the client for transactions, queries, etc.
+  }
+);
+----
+
+== Recommendations
+
+- Always close the client after usage if using low-level SDK instance directly.
+- Prefer `withClient` for automatic resource management.
+- Store client configuration securely and never commit secrets to source control.
+
+== See Also
+
+xref:03-implementation/components/client-api.adoc[Client API Reference]

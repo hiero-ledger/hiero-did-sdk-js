@@ -1,0 +1,55 @@
+= Crypto API Reference
+
+This document describes the API for the `@hiero-did-sdk/crypto` package, providing cryptographic primitives for the Hiero DID SDK.
+
+== Platform Compatibility
+
+- The package is **cross-platform** and supports Node.js, all major browsers, and **React Native**.
+- Works out of the box—no additional dependencies or polyfills are required for use in React Native or browsers.
+- Consistent API and predictable behavior across all environments.
+
+== Classes
+
+=== Crypto
+
+A static utility class that provides cryptographic operations.
+
+==== Methods
+
+===== sha256
+
+[source,typescript]
+----
+static sha256(data: HashInput): string
+----
+
+Computes the SHA-256 hash of the given data and returns a hexadecimal string representation.
+
+Parameters::
+* `data` — Input to hash. Can be a `Uint8Array`, `ArrayBuffer`, `Buffer`, or `string`.
+
+Returns::
+* `string` — The SHA-256 hash as a hexadecimal string.
+
+Throws::
+* Throws if the input data is null, undefined, or not a supported type.
+
+== Types
+
+=== HashInput
+
+The input type accepted by the `sha256` method. Can be one of:
+- `Uint8Array`
+- `ArrayBuffer`
+- `Buffer`
+- `string`
+
+== Usage Example
+
+See xref:03-implementation/components/crypto-guide.adoc[Crypto Guide] for common usage patterns and recommendations.
+
+== Implementation Notes
+
+- All cryptographic routines use secure, widely-accepted libraries under the hood per environment.
+- The API is synchronous for SHA-256 as it is typically performant and available natively.
+- Full support and compatibility ensured for React Native, Node.js, and browser environments.

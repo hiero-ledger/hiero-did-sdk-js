@@ -1,0 +1,64 @@
+= HCS API Reference
+
+This document describes the API for the `@hiero-did-sdk/hcs` package, providing utilities for interacting with Hedera Consensus Service (HCS) topics, files, and messages.
+
+== Classes
+
+=== HcsTopicService
+
+Manages the lifecycle and metadata of Hedera Consensus Service topics.
+
+==== Methods
+
+- `createTopic(props?: CreateTopicProps): Promise<string>`
+  * Create a new topic with optional configuration (memo, keys, auto-renew, etc).
+- `updateTopic(props: UpdateTopicProps): Promise<void>`
+  * Update topic parameters (memo, keys, auto-renew, and others).
+- `deleteTopic(props: DeleteTopicProps): Promise<void>`
+  * Delete a topic.
+- `getTopicInfo(props: GetTopicInfoProps): Promise<TopicInfo>`
+  * Load topic info (fetches and caches details where supported).
+
+==== Usage Example
+
+See xref:03-implementation/components/hcs-guide.adoc[HCS Guide].
+
+=== HcsFileService
+
+Enables storage and retrieval of arbitrary files (including chunked upload/download) via Hedera Consensus Service.
+
+==== Methods
+
+- `submitFile(props: SubmitFileProps): Promise<string>`
+  * Store a binary payload as a file on a topic, using chunked messages if required.
+- `resolveFile(props: ResolveFileProps): Promise<Buffer>`
+  * Fetch and assemble a file payload from HCS topic messages.
+
+=== HcsMessageService
+
+Provides additional higher-level message sending/receiving functionality and utilities.
+
+==== Methods
+
+- See source for advanced messaging scenarios.
+
+=== HcsCacheService
+
+Optionally used to improve performance when reading topic metadata and reduce network load.
+
+==== Overview
+
+- Works transparently with `HcsTopicService`.
+- Can be configured on initialization or injected.
+
+== Types
+
+- `CreateTopicProps`, `UpdateTopicProps`, `DeleteTopicProps`, `GetTopicInfoProps`
+- `SubmitFileProps`, `ResolveFileProps`
+- `HcsFileChunkMessage`, `TopicInfo`
+
+== Implementation Notes
+
+- Chunking and async retrieval are automatic for large file operations.
+- Robust error handling is built in for all lifecycle and file/message operations.
+- Topic and file APIs are designed to work directly with the Hedera SDK clients.

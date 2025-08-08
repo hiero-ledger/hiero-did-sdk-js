@@ -1,0 +1,69 @@
+= HCS Guide
+
+The `@hiero-did-sdk/hcs` package provides powerful tools and services for interacting with Hedera Consensus Service (HCS) topics, files, and messages.
+
+== Overview
+
+Use `@hiero-did-sdk/hcs` to:
+- Create, update, and delete HCS topics.
+- Publish, retrieve, and manage messages in HCS topics.
+- Store and retrieve files (including chunked files) using Hedera Consensus Service file abstraction.
+- Integrate caching and efficient retrieval for topic metadata and info.
+
+== Basic Usage
+
+=== Creating a Topic
+
+[source,typescript]
+----
+import { HcsTopicService } from '@hiero-did-sdk/hcs';
+
+const service = new HcsTopicService(client);
+const topicId = await service.createTopic({ topicMemo: "Demo Topic" });
+console.log(topicId);
+----
+
+=== Publishing Messages
+
+Publishing is typically handled directly with the Hedera SDK, but HCS topic info management and optimizations are handled by this package.
+
+=== Fetching Topic Info
+
+[source,typescript]
+----
+const topicInfo = await service.getTopicInfo({ topicId });
+console.log(topicInfo);
+----
+
+=== Storing Files
+
+[source,typescript]
+----
+import { HcsFileService } from '@hiero-did-sdk/hcs';
+
+const fileService = new HcsFileService(client);
+await fileService.submitFile({
+  topicId,
+  payload: Buffer.from("important data"),
+  networkName: "testnet",
+});
+// Additional chunking is handled automatically for large payloads.
+----
+
+=== Reading Files
+
+[source,typescript]
+----
+const file = await fileService.resolveFile({ topicId, networkName: "testnet" });
+console.log(file.toString());
+----
+
+== Recommendations
+
+- Use automatic chunking for large files to ensure reliable data delivery.
+- Cache topic info for performance in long-lived apps.
+- Always handle possible errors on creation, update, and deletion operations for proper error flows.
+
+== See Also
+
+xref:03-implementation/components/hcs-api.adoc[HCS API Reference]

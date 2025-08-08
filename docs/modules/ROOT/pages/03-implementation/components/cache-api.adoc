@@ -1,0 +1,65 @@
+= Cache API Reference
+
+This document describes the API for the `@hiero-did-sdk/cache` package, providing caching primitives and utilities for the Hiero DID SDK.
+
+== Interfaces
+
+=== Cache
+
+A generic asynchronous cache interface.
+
+==== Methods
+
+* get<CacheValue>(key: string): Promise<CacheValue | null>
+* set<CacheValue>(key: string, value: CacheValue, expiresInSeconds?: number): Promise<void>
+* remove(key: string): Promise<void>
+* clear(): Promise<void>
+* cleanupExpired(): Promise<void>
+
+[source,typescript]
+----
+interface Cache {
+  get<CacheValue>(key: string): Promise<CacheValue | null>;
+  set<CacheValue>(key: string, value: CacheValue, expiresInSeconds?: number): Promise<void>;
+  remove(key: string): Promise<void>;
+  clear(): Promise<void>;
+  cleanupExpired(): Promise<void>;
+}
+----
+
+== Classes
+
+=== LRUMemoryCache
+
+An in-memory, least recently used cache implementation.
+
+==== Constructor
+
+[source,typescript]
+----
+constructor(maxSize?: number);
+----
+
+Parameters::
+* `maxSize` — Maximum number of items to retain. Defaults to an internal value (e.g., 100).
+
+==== Methods
+
+Implements all `Cache` interface methods, plus:
+
+* getAll<CacheValue>(): Promise<Array<{ key: string; value: CacheValue }>>
+
+==== Behavior
+
+- Most recently accessed items remain in cache as long as possible.
+- When maxSize is exceeded, the least recently used items are evicted.
+- Automatic expiry management based on the `expiresInSeconds` option.
+
+== Usage Example
+
+See xref:03-implementation/components/cache-guide.adoc[Cache Guide] for usage patterns and best practices.
+
+== Implementation Notes
+
+- All cache operations are asynchronous and return Promises for ease of integration.
+- Designed for use as a utility in DID resolution, message queueing, and other SDK components.
