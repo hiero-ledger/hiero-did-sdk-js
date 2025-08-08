@@ -113,4 +113,4 @@ const message = new DIDDeactivateMessage({
 
 == References
 
-* xref:04-implementation/components/messages-api.adoc[messages API Reference]
+* xref:03-implementation/components/messages-api.adoc[messages API Reference]

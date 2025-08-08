@@ -288,4 +288,4 @@ Parameters::
 
 == Component Implementation
 
-The Hiero DID SDK provides the Lifecycle Management classes and interfaces within its `lifecycle` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/lifecycle`] package documentation.
+The Hiero DID SDK provides the Lifecycle Management classes and interfaces within its `lifecycle` package. For further details, refer to the xref:04-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/lifecycle`] package documentation.

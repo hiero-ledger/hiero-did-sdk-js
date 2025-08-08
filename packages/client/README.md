@@ -50,7 +50,7 @@ await clientService.withClient({ networkName: 'testnet' }, async (client: Client
 
 ## API Reference
 
-Learn more in the [Client API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/client-api.html).
+Learn more in the [Client API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/client-api.html).
 
 ## Running Tests
 

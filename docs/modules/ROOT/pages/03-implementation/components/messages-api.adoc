@@ -282,4 +282,4 @@ image::did-deactivate-message-class-diagram.png[]
 
 == Component Implementation
 
-The Hiero DID SDK provides the DID Message classes within its `messages` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/messages`] package documentation.
+The Hiero DID SDK provides the DID Message classes within its `messages` package. For further details, refer to the xref:04-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/messages`] package documentation.

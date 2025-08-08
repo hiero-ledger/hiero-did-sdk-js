@@ -33,7 +33,7 @@ const decompressedData = Zstd.decompress(compressedData);
 
 ## API Reference
 
-Learn more in the [Zstd API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/zstd-api.html).
+Learn more in the [Zstd API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/zstd-api.html).
 
 ## Running Tests
 

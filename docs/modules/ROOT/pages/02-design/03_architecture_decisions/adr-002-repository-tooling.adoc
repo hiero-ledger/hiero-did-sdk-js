@@ -10,7 +10,7 @@ Accepted
 
 ==== Context
 
-he project is structured as a monorepo, managing multiple libraries for decentralized identity (DID) functionality on the Hedera network. The monorepo includes various packages, such as libraries for cryptographic operations, and DID document management. To effectively manage the monorepo, we need a tool that can handle versioning, package management, building, and testing across multiple JavaScript and TypeScript packages. The decision is to choose the appropriate tooling to support the development and maintenance of this monorepo, with options including Lerna, Nx, Turborepo and Yarn Workspaces.
+The project is structured as a monorepo, managing multiple libraries for decentralized identity (DID) functionality on the Hedera network. The monorepo includes various packages, such as libraries for cryptographic operations, and DID document management. To effectively manage the monorepo, we need a tool that can handle versioning, package management, building, and testing across multiple JavaScript and TypeScript packages. The decision is to choose the appropriate tooling to support the development and maintenance of this monorepo, with options including Lerna, Nx, Turborepo and Yarn Workspaces.
 
 ==== Decision Drivers
 

@@ -22,23 +22,23 @@ By adhering to the Hedera DID Method and Hedera AnonCreds Method specification, 
 
 ## Requirements
 
-This SDK was developed to fulfill a set of specific requirements outlined in the [Requirements Document](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/02-analysis/requirements/index.html). These requirements encompass various aspects of DID management, security, and developer experience, ensuring that the SDK meets the needs of its users effectively.
+This SDK was developed to fulfill a set of specific requirements outlined in the [Requirements Document](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/01-analysis/requirements/index.html). These requirements encompass various aspects of DID management, security, and developer experience, ensuring that the SDK meets the needs of its users effectively.
 
 ## Design
 
-Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the [Architecture Overview](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/03-design/01_introduction_and_goals/index.html).
+Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the [Architecture Overview](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/02-design/01_introduction_and_goals/index.html).
 
 ## Implementation
 
-For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed [Getting Started Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/guides/getting-started-guide.html).
+For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed [Getting Started Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/guides/getting-started-guide.html).
 
 ## Deployment
 
-This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the [Packages Guide section](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/06-deployment/packages/index.html).
+This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the [Packages Guide section](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/04-deployment/packages/index.html).
 
 ## Maintenance
 
-Should you encounter any issues or require assistance, please refer to the [Getting Support Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/07-maintenance/support/getting-support-guide.html).
+Should you encounter any issues or require assistance, please refer to the [Getting Support Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/05-maintenance/support/getting-support-guide.html).
 
 ## License
 

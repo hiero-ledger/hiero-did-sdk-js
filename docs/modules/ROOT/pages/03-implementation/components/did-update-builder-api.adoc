@@ -202,7 +202,7 @@ public build(): Array<DIDUpdateOperation> {}
 Builds the DID update operation based on the added verification methods, services, and other changes.
 
 Returns::
-A list of xref:04-implementation/components/updateDID-api.adoc#didupdateoperation-type[DIDUpdateOperation] objects representing the changes to the DID document.
+A list of xref:03-implementation/components/updateDID-api.adoc#didupdateoperation-type[DIDUpdateOperation] objects representing the changes to the DID document.
 
 
 == Related Types
@@ -256,4 +256,4 @@ These types are used as parameters or return values in the `DIDUpdateBuilder` me
 
 == Class Implementation
 
-The Hashgraph DID SDK provides a `DIDUpdateBuilder` class within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.
+The Hashgraph DID SDK provides a `DIDUpdateBuilder` class within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

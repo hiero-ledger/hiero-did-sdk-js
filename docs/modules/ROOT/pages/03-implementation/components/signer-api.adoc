@@ -93,4 +93,4 @@ Returns::
 
 == Class Implementation
 
-The Hiero DID SDK provides the `Signer` class within its `signer-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/signer-internal`] package documentation.
+The Hiero DID SDK provides the `Signer` class within its `signer-internal` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/signer-internal`] package documentation.

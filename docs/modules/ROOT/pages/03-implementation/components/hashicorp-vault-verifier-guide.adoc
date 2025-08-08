@@ -149,5 +149,5 @@ const publicKey = await verifier.publicKey();
 
 == References
 
-* xref:04-implementation/components/hashicorp-vault-verifier-api.adoc[Vault `Verifier` API Reference]
-* xref:04-implementation/components/hashicorp-vault-verifier-factory-api.adoc[`VaultVerifierFactory` API Reference]
+* xref:03-implementation/components/hashicorp-vault-verifier-api.adoc[Vault `Verifier` API Reference]
+* xref:03-implementation/components/hashicorp-vault-verifier-factory-api.adoc[`VaultVerifierFactory` API Reference]

@@ -18,11 +18,11 @@ npm install @hiero-did-sdk/verifier-internal
 
 ## Usage
 
-Learn how to use the `Verifier` class to verify signatures in the [Verifier Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/verifier-guide.html).
+Learn how to use the `Verifier` class to verify signatures in the [Verifier Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/verifier-guide.html).
 
 ## API Reference
 
-Learn more in the [`Verifier` API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/verifier-api.html).
+Learn more in the [`Verifier` API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/verifier-api.html).
 
 ## Running Tests
 

@@ -171,5 +171,5 @@ main();
 
 == References
 
-* xref:04-implementation/components/dereferenceDID-api.adoc[`dereferenceDID` API Reference]
-* xref:04-implementation/components/topic-reader-api.adoc[`TopicReader` API Reference]
+* xref:03-implementation/components/dereferenceDID-api.adoc[`dereferenceDID` API Reference]
+* xref:03-implementation/components/topic-reader-api.adoc[`TopicReader` API Reference]

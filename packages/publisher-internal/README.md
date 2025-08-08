@@ -23,11 +23,11 @@ npm install @hiero-did-sdk/publisher-internal
 
 ## Usage
 
-Learn how to use the `Publisher` class to submit transactions to the Hedera network in the [Publisher Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/publisher-guide.html).
+Learn how to use the `Publisher` class to submit transactions to the Hedera network in the [Publisher Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/publisher-guide.html).
 
 ## API Reference
 
-Learn more in the [`Publisher` API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/publisher-api.html).
+Learn more in the [`Publisher` API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/publisher-api.html).
 
 ## Running Tests
 

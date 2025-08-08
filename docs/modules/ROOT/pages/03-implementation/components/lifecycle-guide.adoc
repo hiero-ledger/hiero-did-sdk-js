@@ -144,7 +144,7 @@ const state = await runner.process(message, {
 == References
 
 <<<<<<< HEAD
-* xref:04-implementation/components/lifecycle-api.adoc[lifecycle API Reference]
+* xref:03-implementation/components/lifecycle-api.adoc[lifecycle API Reference]
 =======
-* xref:04-implementation/components/lifecycle-api.adoc[lifecycle API Reference]
+* xref:03-implementation/components/lifecycle-api.adoc[lifecycle API Reference]
 >>>>>>> 9ef57c8 (Hotfix: Conflict issue.)

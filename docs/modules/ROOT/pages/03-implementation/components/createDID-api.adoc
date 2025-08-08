@@ -79,11 +79,11 @@ The table below provides a detailed description of the `Providers` type.
 
 |signer?
 |`Signer`
-|An instance of a xref:04-implementation/components/signer-guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
+|An instance of a xref:03-implementation/components/signer-guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
 
 |publisher?
 |`Publisher`
-|An instance of a xref:04-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|An instance of a xref:03-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
 |===
 
 [[options-data-types]]
@@ -107,7 +107,7 @@ The table below provides a detailed description of the `CreateDIDOptions` type.
 
 |privateKey?
 |`string` \| `PrivateKey`
-|A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for signing the DID creation message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated and the corresponding private key is returned.
+|A private key (in DER format) or a `PrivateKey` object used to generate a xref:03-implementation/components/signer-guide.adoc[Signer] for signing the DID creation message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated and the corresponding private key is returned.
 
 |waitForDIDVisibility?
 |`boolean`
@@ -121,7 +121,7 @@ Defaults to `true`.
 
 |topicReader?
 |`TopicReader`
-|An instance of a xref:04-implementation/components/topic-reader-guide.adoc[TopicReader]. If not provided, a default `TopicReaderHederaClient` will be used.
+|An instance of a xref:03-implementation/components/topic-reader-guide.adoc[TopicReader]. If not provided, a default `TopicReaderHederaClient` will be used.
 |===
 
 == Return Value
@@ -146,7 +146,7 @@ The table below describes the structure of the `CreateDIDResult` type.
 
 |privateKey?
 |`PrivateKey`
-|A `PrivateKey` object. This key is used internally to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for the DID creation process. It is returned only if neither a `signer` (in the `providers` parameter) nor this `privateKey` was explicitly provided.
+|A `PrivateKey` object. This key is used internally to generate a xref:03-implementation/components/signer-guide.adoc[Signer] for the DID creation process. It is returned only if neither a `signer` (in the `providers` parameter) nor this `privateKey` was explicitly provided.
 |===
 
 == Errors
@@ -188,4 +188,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hiero DID SDK provides a `createDID` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.
+The Hiero DID SDK provides a `createDID` function within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

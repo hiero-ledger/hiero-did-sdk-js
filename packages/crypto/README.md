@@ -38,7 +38,7 @@ const hashFromUint8Array = Crypto.sha256(uint8Array);
 
 ## API Reference
 
-Learn more in the [Crypto API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/crypto-api.html).
+Learn more in the [Crypto API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/crypto-api.html).
 
 ## Running Tests
 

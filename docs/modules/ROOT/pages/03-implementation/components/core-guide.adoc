@@ -150,4 +150,4 @@ const decodedObjectInBytes = CborCodec.decode(encodedBytes);
 
 == References
 
-* xref:04-implementation/components/core-api.adoc[Core API Reference]
+* xref:03-implementation/components/core-api.adoc[Core API Reference]

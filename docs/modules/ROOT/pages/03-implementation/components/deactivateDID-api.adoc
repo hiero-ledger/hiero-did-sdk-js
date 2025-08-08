@@ -51,7 +51,7 @@ The table below details the structure of the `providers` parameter.
 
 |privateKey?
 |`string` \| PrivateKey`
-|A private key (in DER format) or a `PrivateKey` object used to generate a xref:04-implementation/components/signer-guide.adoc[Signer] for signing the DID deactivate message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated.
+|A private key (in DER format) or a `PrivateKey` object used to generate a xref:03-implementation/components/signer-guide.adoc[Signer] for signing the DID deactivate message. If neither this parameter nor `signer` (in the `providers` parameter) is specified, a new key pair is generated.
 
 |waitForDIDVisibility?
 |`boolean`
@@ -65,7 +65,7 @@ Defaults to `true`.
 
 |topicReader?
 |`TopicReader`
-|An instance of a xref:04-implementation/components/topic-reader-api.adoc[TopicReader] responsible for reading messages from the Hedera network topic.
+|An instance of a xref:03-implementation/components/topic-reader-api.adoc[TopicReader] responsible for reading messages from the Hedera network topic.
 |===
 
 == Data Types
@@ -95,11 +95,11 @@ The table below provides a detailed description of the `Providers` type.
 
 |signer?
 |`Signer`
-|An instance of a xref:04-implementation/components/signer-guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
+|An instance of a xref:03-implementation/components/signer-guide.adoc[Signer]. If not provided, a private key must be specified in the `options` parameter to sign the DID creation message; otherwise, an exception will be thrown.
 
 |publisher?
 |`Publisher`
-|An instance of a xref:04-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|An instance of a xref:03-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
 |===
 
 == Return Value
@@ -163,4 +163,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hiero DID SDK provides a `deactivateDID` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.
+The Hiero DID SDK provides a `deactivateDID` function within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.
