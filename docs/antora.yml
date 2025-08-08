@@ -1,6 +1,6 @@
 name: documentation
 title: Documentation
-version: 0.0.2-alpha
+version: 0.1.0
 start_page: index.adoc
 nav:
   - modules/ROOT/nav.adoc

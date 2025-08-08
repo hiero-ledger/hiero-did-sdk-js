@@ -20,11 +20,11 @@ npm install @hiero-did-sdk/signer-hashicorp-vault
 
 ## Usage
 
-Learn how to use the `Signer` and `VaultSignerFactory` class to sign messages, and verify signatures in the [Vault Signer Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-guide.html).
+Learn how to use the `Signer` and `VaultSignerFactory` class to sign messages, and verify signatures in the [Vault Signer Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hashicorp-vault-signer-guide.html).
 
 ## API Reference
 
-Learn more in the [`Signer` API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-api.html) and [`VaultSignerFactory` API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hashicorp-vault-signer-factory-api.html).
+Learn more in the [`Signer` API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hashicorp-vault-signer-api.html) and [`VaultSignerFactory` API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hashicorp-vault-signer-factory-api.html).
 
 ## Running Tests
 

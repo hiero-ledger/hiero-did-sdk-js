@@ -30,6 +30,12 @@ These packages provide the essential building blocks for working with DIDs on He
 
 | link:https://github.com/hiero-ledger/hiero-did-sdk-js/tree/main/packages/verifier-hashicorp-vault[@hiero-did-sdk/verifier-hashicorp-vault]
 | Provides the functionality for verifying signatures using HashiCorp Vault.
+
+| link:https://github.com/hiero-ledger/hiero-did-sdk-js/tree/main/packages/hcs[@hiero-did-sdk/hcs]
+| Provides a comprehensive interface for interacting with Hedera Consensus Service (HCS) within the Hiero DID SDK JS.
+
+| link:https://github.com/hiero-ledger/hiero-did-sdk-js/tree/main/packages/anoncreds[@hiero-did-sdk/anoncreds]
+| Provides implementation of Hedera AnonCreds Registry, following Hedera AnonCreds Method specification.
 |===
 
 == Advanced Packages
@@ -48,4 +54,16 @@ These packages offer more specialized functionalities for advanced use cases.
 
 | link:https://github.com/hiero-ledger/hiero-did-sdk-js/tree/main/packages/lifecycle[@hiero-did-sdk/lifecycle]
 | Enables management of complex asynchronous operations within DID-related applications.
+
+| link:https://github.com/hiero-ledger/hiero-did-sdk-js/tree/main/packages/cache[@hiero-did-sdk/cache]
+| Provides caching utilities for the Hiero DID SDK JS.
+
+| link:https://github.com/hiero-ledger/hiero-did-sdk-js/tree/main/packages/client[@hiero-did-sdk/client]
+| Provides a flexible and configurable approach to managing Hedera SDK Clients with different network configurations.
+
+| link:https://github.com/hiero-ledger/hiero-did-sdk-js/tree/main/packages/crypto[@hiero-did-sdk/crypto]
+| Provides cryptographic utilities for the Hiero DID SDK JS.
+
+| link:https://github.com/hiero-ledger/hiero-did-sdk-js/tree/main/packages/zstd[@hiero-did-sdk/zstd]
+| Provides Zstandard (Zstd) compression utilities for the Hiero DID SDK JS.
 |===

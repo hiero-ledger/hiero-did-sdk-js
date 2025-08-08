@@ -51,4 +51,4 @@ main();
 
 == References
 
-* xref:04-implementation/components/publisher-api.adoc[`Publisher` API Reference]
+* xref:03-implementation/components/publisher-api.adoc[`Publisher` API Reference]

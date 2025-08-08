@@ -57,11 +57,11 @@ const revRegDefResult = await registry.registerRevocationRegistryDefinition({
 });
 ```
 
-For more detailed examples and usage scenarios, refer to the [AnonCreds Package Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/anoncreds-guide.html).
+For more detailed examples and usage scenarios, refer to the [AnonCreds Package Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-guide.html).
 
 ## API Reference
 
-Learn more in the [AnonCreds API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/anoncreds-api.html).
+Learn more in the [AnonCreds API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-api.html).
 
 ## Running Tests
 

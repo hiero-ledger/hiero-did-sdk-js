@@ -68,4 +68,4 @@ async function main() {
 
 == References
 
-* xref:04-implementation/components/verifier-api.adoc[`Verifier` API Reference]
+* xref:03-implementation/components/verifier-api.adoc[`Verifier` API Reference]

@@ -445,4 +445,4 @@ function isEd25519PublicKey(multibase: string): boolean;
 
 == Component Implementation
 
-The Hiero DID SDK provides the core interfaces, utilities, and validation tools within its `core` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/core`] package documentation.
+The Hiero DID SDK provides the core interfaces, utilities, and validation tools within its `core` package. For further details, refer to the xref:04-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/core`] package documentation.

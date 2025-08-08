@@ -197,5 +197,5 @@ HashiCorp Vault provides a key rotation mechanism that allows you to rotate keys
 
 == References
 
-* xref:04-implementation/components/hashicorp-vault-signer-api.adoc[Vault `Signer` API Reference]
-* xref:04-implementation/components/hashicorp-vault-signer-factory-api.adoc[`VaultSignerFactory` API Reference]
+* xref:03-implementation/components/hashicorp-vault-signer-api.adoc[Vault `Signer` API Reference]
+* xref:03-implementation/components/hashicorp-vault-signer-factory-api.adoc[`VaultSignerFactory` API Reference]

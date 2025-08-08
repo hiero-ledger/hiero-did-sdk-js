@@ -4,8 +4,6 @@ This proposal outlines the development of an enhanced Hiero DID SDK (Decentraliz
 
 ==== Achievements:
 
-* **In-Depth Analysis of Existing SDK**: A thorough review of the current Hiero DID SDK, as detailed in xref:01-planning/hips/hip-0001-new-did-sdk.adoc[HIP-0001], has identified key limitations in performance, security, and interoperability, which have been addressed in the new design.
-
 * **Community-Driven Design:**  The new SDK has been shaped by active engagement with the Hedera developer community, ensuring it aligns with the needs and expectations of the ecosystem.
 
 * **Comprehensive Solution Design:** The new SDK offers a robust solution that incorporates essential features to address the limitations of the current SDK and significantly improve performance, security, and flexibility.

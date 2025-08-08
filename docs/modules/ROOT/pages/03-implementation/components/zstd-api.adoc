@@ -1,0 +1,74 @@
+= Zstd API Reference
+
+This document covers the API for the `@hiero-did-sdk/zstd` package, which implements data compression and decompression with the Zstandard algorithm.
+
+== Platform Compatibility
+
+- The package is **cross-platform** and supports **Node.js**, all major browsers, and **React Native**.
+- No additional dependencies or polyfills are required for React Native usage.
+- Consistent API and behavior across all environments.
+
+== Functions
+
+=== compress
+
+[source,typescript]
+----
+function compress(
+  input: Uint8Array,
+  options?: ZstdCompressOptions
+): Promise<Uint8Array>;
+----
+
+Compresses a given byte array using ZSTD.
+
+Parameters::
+* `input` — The data to compress.
+* `options` — (Optional) Compression options, such as compression level.
+
+Returns::
+* `Promise<Uint8Array>` — The compressed data as a byte array.
+
+Throws::
+* Throws if the input is empty or invalid.
+
+=== decompress
+
+[source,typescript]
+----
+function decompress(
+  input: Uint8Array
+): Promise<Uint8Array>;
+----
+
+Decompresses data previously compressed with ZSTD.
+
+Parameters::
+* `input` — The compressed data.
+
+Returns::
+* `Promise<Uint8Array>` — The original uncompressed data.
+
+Throws::
+* Throws if the data is corrupt or in an invalid format.
+
+== Types
+
+=== ZstdCompressOptions
+
+[source,typescript]
+----
+interface ZstdCompressOptions {
+  level?: number; // Optional compression level (implementation-dependent default)
+}
+----
+
+== Usage Example
+
+See the xref:03-implementation/components/zstd-guide.adoc[Zstd Guide] for real-world usage patterns.
+
+== Implementation Notes
+
+- All functions are asynchronous and return Promise-wrapped results.
+- Performance and compatibility depend on the runtime environment.
+- Fully tested and supported on React Native as well as desktop and browser runtimes.

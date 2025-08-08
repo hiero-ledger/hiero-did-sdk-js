@@ -22,5 +22,5 @@ The `Publisher` class acts as a bridge between your DID operations and the Heder
 
 
 == Next Steps
-*   **Key Management Modes:**  Learn about the different key management strategies supported by the DID SDK and choose the best one for your needs: xref::04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes Guide].
-*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::04-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].
+*   **Key Management Modes:**  Learn about the different key management strategies supported by the DID SDK and choose the best one for your needs: xref::03-implementation/guides/key-management-modes-guide.adoc[Key Management Modes Guide].
+*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::03-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].

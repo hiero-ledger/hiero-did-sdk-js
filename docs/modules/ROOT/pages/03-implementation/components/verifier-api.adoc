@@ -88,4 +88,4 @@ Returns::
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `Verifier` class within its `verifier-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/verifier-internal`] package documentation.
+The Hashgraph DID SDK provides the `Verifier` class within its `verifier-internal` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/verifier-internal`] package documentation.

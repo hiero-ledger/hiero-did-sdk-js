@@ -1,0 +1,39 @@
+= Crypto Guide
+
+The `@hiero-did-sdk/crypto` package provides essential cryptographic utilities for the Hiero DID SDK, including hashing and data integrity features.
+
+== Overview
+
+This package is **cross-platform** and fully supports Node.js, browsers, and React Native environments. You can use it confidently in server-side, web, or mobile (React Native) projects.
+
+`@hiero-did-sdk/crypto` enables secure and consistent cryptographic operations required for DID communications, signature verification, data hashing and integrity checking across all supported platforms.
+
+== Platform Compatibility
+
+* **Cross-platform:** Works in Node.js, browsers, and React Native without extra dependencies.
+* **React Native:** Thoroughly tested to ensure full compatibility with React Native runtime.
+
+== Basic Usage
+
+=== Hashing Data (SHA-256)
+
+[source,typescript]
+----
+import { Crypto } from '@hiero-did-sdk/crypto';
+
+const data = new Uint8Array([/* ...data... */]);
+const hashHex = Crypto.sha256(data);
+console.log(hashHex); // Prints SHA-256 hash as a hexadecimal string
+----
+
+You can provide the input as `Uint8Array`, `ArrayBuffer`, `Buffer`, or a standard string.
+
+== Recommendations
+
+- Use SHA-256 hashing to ensure the integrity of critical data and messages.
+- Always compare cryptographic hashes using secure equality checks, especially for authentication or signature validation.
+- Avoid exposing raw cryptographic material to client-side code when not required by your flow.
+
+== See Also
+
+xref:03-implementation/components/crypto-api.adoc[Crypto API Reference]

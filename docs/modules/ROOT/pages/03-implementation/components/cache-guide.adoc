@@ -1,0 +1,38 @@
+= Cache Guide
+
+The `@hiero-did-sdk/cache` package provides flexible, simple, and efficient in-memory caching utilities for the Hiero DID SDK.
+
+== Overview
+
+Use `@hiero-did-sdk/cache` to:
+- Minimize redundant network and storage operations.
+- Speed up repetitive DID lookups and message processing.
+- Transparently manage expiry and memory consumption.
+
+== Basic Usage
+
+=== Using an LRU Memory Cache
+
+[source,typescript]
+----
+import { LRUMemoryCache } from '@hiero-did-sdk/cache';
+
+const cache = new LRUMemoryCache(100); // max 100 items
+
+await cache.set('user.did', 'did:hedera:testnet:...');
+const did = await cache.get<string>('user.did');
+console.log(did);
+
+await cache.remove('user.did');
+await cache.clear();
+----
+
+== Recommendations
+
+- Adjust cache size (max items) depending on your app’s memory usage and expected access patterns.
+- Use expiration for items you know will quickly become outdated.
+- Clean expired entries regularly for long-lived apps (see `cleanupExpired` method).
+
+== See Also
+
+xref:03-implementation/components/cache-api.adoc[Cache API Reference]

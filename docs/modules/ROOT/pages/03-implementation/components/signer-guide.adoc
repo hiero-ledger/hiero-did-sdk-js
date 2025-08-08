@@ -67,4 +67,4 @@ main();
 
 == References
 
-* xref:04-implementation/components/signer-api.adoc[`Signer` API Reference]
+* xref:03-implementation/components/signer-api.adoc[`Signer` API Reference]

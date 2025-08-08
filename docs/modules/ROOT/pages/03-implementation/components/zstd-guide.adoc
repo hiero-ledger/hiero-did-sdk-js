@@ -1,0 +1,48 @@
+= Zstd Guide
+
+The `@hiero-did-sdk/zstd` package provides utilities for efficient data compression and decompression using the Zstandard (ZSTD) algorithm.
+
+== Overview
+
+This package is **cross-platform** and fully supports both Node.js, browsers, and React Native environments. You can safely use it in web, server, or mobile (React Native) projects.
+
+You can use Zstd in your application to:
+- Reduce the size of messages before network transmission.
+- Optimize DID data storage.
+- Enable other scenarios where data compression improves efficiency.
+
+== Platform Compatibility
+
+* **Cross-platform:** Works in Node.js, browsers, and React Native out of the box.
+* **React Native:** Fully compatible and tested with the React Native runtime.
+
+== Basic Usage
+
+=== Compressing Data
+
+[source,typescript]
+----
+import { compress } from '@hiero-did-sdk/zstd';
+
+const data = new Uint8Array([/* ...raw bytes... */]);
+const compressed = await compress(data);
+----
+
+=== Decompressing Data
+
+[source,typescript]
+----
+import { decompress } from '@hiero-did-sdk/zstd';
+
+const original = await decompress(compressed);
+----
+
+== Recommendations
+
+* Use compression when sending large DID messages or saving data where space is limited.
+* For small payloads, check if compression actually saves space.
+* Always validate decompressed data for integrity after decompression.
+
+== See Also
+
+xref:03-implementation/components/zstd-api.adoc[ZSTD API Reference]

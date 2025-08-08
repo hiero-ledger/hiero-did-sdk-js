@@ -64,4 +64,4 @@ An array of messages from the topic.
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `TopicReader` class interface and implementations within its `resolver` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/resolver`] package documentation.
+The Hashgraph DID SDK provides the `TopicReader` class interface and implementations within its `resolver` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/resolver`] package documentation.

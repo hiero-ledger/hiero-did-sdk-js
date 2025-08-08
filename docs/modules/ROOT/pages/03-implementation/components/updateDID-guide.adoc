@@ -1,6 +1,6 @@
 = updateDID Function
 
-The `updateDID` function, a core component of the Hiero DID SDK's xref:04-implementation/components/updateDID-api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
+The `updateDID` function, a core component of the Hiero DID SDK's xref:03-implementation/components/updateDID-api.adoc[Registrar] package, provides a flexible and user-friendly way to update existing DIDs for the Hedera DID method. It allows you to modify various aspects of a DID document, such as verification methods, relationships, and services, by submitting an `update` operation to the DID's Hedera Topic. Each modification requires a separate message and potentially multiple signatures.
 
 == Features
 
@@ -267,11 +267,11 @@ const updatedDidDocument = await submitUpdateDIDRequest(
 ----
 **See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/updateDID-using-client-secret-mode.ts[example] in the source code.**
 
-You can learn more about the Client Managed Secret Mode in the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
+You can learn more about the Client Managed Secret Mode in the xref:03-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
 
 == References
 
-* xref:04-implementation/components/updateDID-api.adoc[`updateDID` API Reference]
-* xref:04-implementation/components/did-update-builder-api.adoc[`DIDUpdateBuilder` API Reference]
-* xref:04-implementation/components/generateUpdateDIDRequest-api.adoc[`generateUpdateDIDRequest` API Reference]
-* xref:04-implementation/components/submitUpdateDIDRequest-api.adoc[`submitUpdateDIDRequest` API Reference]
+* xref:03-implementation/components/updateDID-api.adoc[`updateDID` API Reference]
+* xref:03-implementation/components/did-update-builder-api.adoc[`DIDUpdateBuilder` API Reference]
+* xref:03-implementation/components/generateUpdateDIDRequest-api.adoc[`generateUpdateDIDRequest` API Reference]
+* xref:03-implementation/components/submitUpdateDIDRequest-api.adoc[`submitUpdateDIDRequest` API Reference]

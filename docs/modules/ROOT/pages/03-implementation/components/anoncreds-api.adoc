@@ -1,0 +1,150 @@
+= AnonCreds API Reference
+
+This document describes the API for the `@hiero-did-sdk/anoncreds` package, which is for storage and lookup of AnonCreds objects in the Hedera Anoncreds Registry.
+
+== Interfaces
+
+=== HederaAnoncredsRegistry
+
+Provides access to the Hedera Anoncreds Registry for storing and resolving AnonCreds schemas, credential definitions, and revocation registries.
+
+==== Methods
+
+===== registerSchema
+
+[source,typescript]
+----
+registerSchema(options: RegisterSchemaOptions & NetworkName): Promise<RegisterSchemaReturn>
+----
+
+Registers a new schema in the Hedera Anoncreds Registry.
+
+Parameters::
+* `options` — Schema registration parameters (network and schema content).
+
+Returns::
+* `Promise<RegisterSchemaReturn>` — Registration result, including state and metadata.
+
+===== getSchema
+
+[source,typescript]
+----
+getSchema(schemaId: string): Promise<GetSchemaReturn>
+----
+
+Resolves a schema by its identifier.
+
+Parameters::
+* `schemaId` — The identifier of the schema to resolve.
+
+Returns::
+* `Promise<GetSchemaReturn>` — The resolved schema and metadata.
+
+===== registerCredentialDefinition
+
+[source,typescript]
+----
+registerCredentialDefinition(options: RegisterCredentialDefinitionOptions & NetworkName): Promise<RegisterCredentialDefinitionReturn>
+----
+
+Registers a new credential definition in the registry.
+
+Parameters::
+* `options` — Credential definition registration parameters.
+
+Returns::
+* `Promise<RegisterCredentialDefinitionReturn>` — Registration result with state and metadata.
+
+===== getCredentialDefinition
+
+[source,typescript]
+----
+getCredentialDefinition(credentialDefinitionId: string): Promise<GetCredentialDefinitionReturn>
+----
+
+Resolves a credential definition by its identifier.
+
+Parameters::
+* `credentialDefinitionId` — The credential definition identifier.
+
+Returns::
+* `Promise<GetCredentialDefinitionReturn>` — The resolved credential definition and metadata.
+
+===== registerRevocationRegistryDefinition
+
+[source,typescript]
+----
+registerRevocationRegistryDefinition(options: RegisterRevocationRegistryDefinitionOptions & NetworkName): Promise<RegisterRevocationRegistryDefinitionReturn>
+----
+
+Registers a revocation registry definition in the registry.
+
+Parameters::
+* `options` — Revocation registry definition registration parameters.
+
+Returns::
+* `Promise<RegisterRevocationRegistryDefinitionReturn>` — Registration result.
+
+===== getRevocationRegistryDefinition
+
+[source,typescript]
+----
+getRevocationRegistryDefinition(revocationRegistryDefinitionId: string): Promise<GetRevocationRegistryDefinitionReturn>
+----
+
+Resolves a revocation registry definition by its identifier.
+
+Parameters::
+* `revocationRegistryDefinitionId` — The identifier of the revocation registry definition.
+
+Returns::
+* `Promise<GetRevocationRegistryDefinitionReturn>` — The result object and metadata.
+
+===== registerRevocationStatusList
+
+[source,typescript]
+----
+registerRevocationStatusList(options: RegisterRevocationStatusListOptions & NetworkName): Promise<RegisterRevocationStatusListReturn>
+----
+
+Registers a revocation list with the registry.
+
+Parameters::
+* `options` — Revocation status list registration parameters.
+
+Returns::
+* `Promise<RegisterRevocationStatusListReturn>` — Registration state and metadata.
+
+===== getRevocationStatusList
+
+[source,typescript]
+----
+getRevocationStatusList(revocationRegistryId: string, timestamp: number): Promise<GetRevocationStatusListReturn>
+----
+
+Resolves a revocation status list by registry ID and timestamp.
+
+Parameters::
+* `revocationRegistryId` — The registry ID.
+* `timestamp` — The point in time to resolve the list for.
+
+Returns::
+* `Promise<GetRevocationStatusListReturn>` — Resolved status list, state, and metadata.
+
+== Types
+
+Includes:
+- RegisterSchemaOptions, RegisterSchemaReturn, GetSchemaReturn
+- RegisterCredentialDefinitionOptions, RegisterCredentialDefinitionReturn, GetCredentialDefinitionReturn
+- RegisterRevocationRegistryDefinitionOptions, RegisterRevocationRegistryDefinitionReturn, GetRevocationRegistryDefinitionReturn
+- RegisterRevocationStatusListOptions, RegisterRevocationStatusListReturn, GetRevocationStatusListReturn
+- NetworkName, metadata and state types
+
+== Usage Example
+
+See the xref:03-implementation/components/anoncreds-guide.adoc[AnonCreds Guide] for practical scenarios.
+
+== Implementation Notes
+
+- All API methods are asynchronous and return Promises.
+- This package is intended only for registration and lookup in Hedera Anoncreds Registry—not for AnonCreds credential issuance or zero-knowledge proof operations.

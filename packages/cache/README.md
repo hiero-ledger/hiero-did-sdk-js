@@ -53,7 +53,7 @@ const allEntries = await cache.getAll();
 
 ## API Reference
 
-Learn more in the [Cache API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/cache-api.html).
+Learn more in the [Cache API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/cache-api.html).
 
 ## Running Tests
 

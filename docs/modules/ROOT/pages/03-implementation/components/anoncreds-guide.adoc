@@ -1,0 +1,78 @@
+= AnonCreds Guide
+
+The `@hiero-did-sdk/anoncreds` package provides storage and management of AnonCreds schemas and credential definitions specifically in the Hedera Anoncreds Registry.
+
+== Overview
+
+This package is intended **only** for working with the Hedera Anoncreds Registry.
+Use `@hiero-did-sdk/anoncreds` to:
+- Register new schemas and credential definitions in the Hedera Anoncreds Registry.
+- Resolve (fetch) schema and credential definition objects by their identifiers from the registry.
+- Manage revocation registries and revocation lists stored in the Hedera Anoncreds Registry.
+
+Other use cases (such as credential issuance or zero-knowledge operations) are not supported; this package is designed solely for persistent storage and retrieval of AnonCreds-related resources from the network registry.
+
+== Basic Usage
+
+=== Registering a Schema
+
+[source,typescript]
+----
+import { HederaAnoncredsRegistry } from '@hiero-did-sdk/anoncreds';
+
+const registry = new HederaAnoncredsRegistry({/* configuration */});
+
+const result = await registry.registerSchema({
+  networkName: 'testnet',
+  schema: {
+    issuerId: 'did:hedera:testnet:xyz...',
+    name: 'ExampleSchema',
+    version: '1.0.0',
+    attrNames: ['name', 'age', 'email'],
+  },
+});
+console.log(result.schemaState);
+----
+
+=== Resolving a Schema
+
+[source,typescript]
+----
+const schemaInfo = await registry.getSchema('schema-id-string');
+console.log(schemaInfo.schema);
+----
+
+=== Registering a Credential Definition
+
+[source,typescript]
+----
+const credDefResult = await registry.registerCredentialDefinition({
+  networkName: 'testnet',
+  credentialDefinition: {
+    issuerId: 'did:hedera:testnet:xyz...',
+    schemaId: 'schema-id-string',
+    type: 'CL',
+    tag: 'default',
+    value: { /* ...public keys... */ },
+  },
+});
+console.log(credDefResult.credentialDefinitionState);
+----
+
+=== Resolving a Credential Definition
+
+[source,typescript]
+----
+const credDef = await registry.getCredentialDefinition('cred-def-id-string');
+console.log(credDef.credentialDefinition);
+----
+
+== Recommendations
+
+- Always persist the returned schema/credential definition IDs for future reference.
+- Check registration and resolution metadata for operation status and error handling.
+- Interpret operation states (`finished`, `failed`, etc.) explicitly for robust workflows.
+
+== See Also
+
+xref:03-implementation/components/anoncreds-api.adoc[AnonCreds API Reference]
