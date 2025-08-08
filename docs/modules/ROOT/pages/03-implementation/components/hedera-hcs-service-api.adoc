@@ -19,9 +19,6 @@ Manages the lifecycle and metadata of Hedera Consensus Service topics.
 - `getTopicInfo(props: GetTopicInfoProps): Promise<TopicInfo>`
   * Load topic info (fetches and caches details where supported).
 
-==== Usage Example
-
-See xref:03-implementation/components/hcs-guide.adoc[HCS Guide].
 
 === HcsFileService
 

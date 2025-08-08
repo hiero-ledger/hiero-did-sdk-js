@@ -102,4 +102,6 @@ Make sure that your API is compliant with the Hedera Mirror Node REST API specif
 
 == References
 
-* xref:03-implementation/components/topic-reader-api.adoc[`TopicReader` API Reference]
+* xref:03-implementation/components/topic-reader-client-api.adoc[Client Topic Reader API Reference]
+* xref:03-implementation/components/topic-reader-hcs-api.adoc[HCS Topic Reader API Reference]
+* xref:03-implementation/components/topic-reader-rest-api.adoc[RestApi Topic Reader API Reference]

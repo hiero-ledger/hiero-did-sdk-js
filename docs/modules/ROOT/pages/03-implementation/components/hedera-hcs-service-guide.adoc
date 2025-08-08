@@ -66,4 +66,4 @@ console.log(file.toString());
 
 == See Also
 
-xref:03-implementation/components/hcs-api.adoc[HCS API Reference]
+xref:03-implementation/components/hedera-hcs-service-api.adoc[HCS API Reference]

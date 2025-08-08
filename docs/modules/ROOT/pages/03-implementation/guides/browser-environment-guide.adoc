@@ -58,7 +58,7 @@ When you have a custom `Publisher` implementation, you will need to pass it to a
 
 DID Resolver is a core component of the Hashgraph DID SDK. It is used to resolve DIDs and DID Documents. Registrar uses a resolver for various operations.
 
-By default, Registrar and Resolver uses a xref::03-implementation/components/topic-reader-api.adoc[TopicReader] to read messages from the Hedera network topic. Default version of the TopicReader uses gRPC to connect to the Hedera network. This won't work in the browser environment.
+By default, Registrar and Resolver uses a TopicReader to read messages from the Hedera network topic. Default version of the TopicReader uses gRPC to connect to the Hedera network. This won't work in the browser environment.
 
 To fix that you can use Hedera Rest API TopicReader. It uses Mirror Node REST API to fetch messages from the Hedera network. This can be imported from `@hiero-did-sdk/resolver` package.
 
