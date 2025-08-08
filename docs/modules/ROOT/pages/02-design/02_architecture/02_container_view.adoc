@@ -12,7 +12,7 @@ image::container-view-diagram.png[]
 
     * **Core Module:**  Provides the core functionalities for managing DIDs, including creating, updating, and deactivating DIDs, signing and verifying DID messages, and handling transaction signing and execution.
 
-* **Hedera Topic Service:** A service on the Hedera network that enables publish/subscribe communication. The DID SDK uses this service for DID-related communication.
+* **Hedera Consensus Service:** A service on the Hedera network that enables publish/subscribe communication. The DID SDK uses this service for DID-related communication.
 
 * **Hedera Node:** A node in the Hedera network that acts as a gateway for submitting transactions and interacting with the network.
 
