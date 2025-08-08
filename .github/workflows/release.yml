@@ -29,7 +29,7 @@ jobs:
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
         with:
           title: 'chore(release): new version'
           commit: 'chore(release): new version'
@@ -45,6 +45,6 @@ jobs:
 
       - name: Create Github Release
         if: "startsWith(github.event.head_commit.message, 'chore(release): new version')"
-        uses: softprops/action-gh-release@v2
+        uses: step-security/action-gh-release@2677a32b1ab8b24324ede3be9da4e1d8c3f686ee # v2.3.2
         with:
           tag_name: v${{ env.CURRENT_PACKAGE_VERSION }}
