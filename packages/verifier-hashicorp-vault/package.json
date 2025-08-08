@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/verifier-hashicorp-vault",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "This package provides a way to create a `Verifier` class that allows HashiCorp Vault to be used for secure key management and digital signature verification for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
   "author": {
     "name": "The Hashgraph Association",

@@ -19,7 +19,7 @@ const commonOptions: Options = {
 const nodeOptions: Options = {
   ...commonOptions,
   sourcemap: true,
-  clean: false,//true,
+  clean: false,
   dts: true,
   platform: 'node',
 };
