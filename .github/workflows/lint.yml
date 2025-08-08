@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   build-and-lint:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     name: Build and lint check
     steps:
