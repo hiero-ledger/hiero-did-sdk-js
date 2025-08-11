@@ -58,7 +58,7 @@ Throws:
 
 * Compression is performed as a single zstd frame in memory.
 * The underlying native or polyfill module handles the actual compression logic.
-* For React Native, data format conversion (e.g. base64, buffers) is applied internally to match differing APIs.[1][3]
+* For React Native, data format conversion (e.g. base64, buffers) is applied internally to match differing APIs.
 
 == See Also
 
