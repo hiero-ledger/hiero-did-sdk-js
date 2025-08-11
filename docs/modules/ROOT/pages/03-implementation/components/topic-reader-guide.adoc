@@ -16,6 +16,7 @@ Benefits of using the `TopicReader` class:
 Use cases:
 
 * Read messages from the Hedera network topic using gRPC client.
+* Read messages from the Hedera network topic using HCS service.
 * Read messages from the Hedera network topic using REST API.
 * Read messages with additional caching capabilities.
 * Read messages for testing or development purposes.
@@ -25,6 +26,7 @@ Use cases:
 Hedera DID SDK provides the following implementations of the `TopicReader` class:
 
 * `TopicReaderHederaClient` - Read messages from the Hedera network topic using gRPC client (default implementation).
+* `TopicReaderHederaHcs` - Read messages from the Hedera network topic using gRPC client (using the new HCS service).
 * `TopicReaderHederaRestApi` - Read messages from the Hedera network topic using Mirror Node REST API (browser friendly).
 
 === TopicReaderHederaClient
@@ -54,6 +56,48 @@ const messages = await topicReader.fetchAllToDate('0.0.5217215', 'testnet');
 
 console.log(messages);
 ----
+
+
+=== TopicReaderHederaHcs
+
+The `TopicReaderHederaHcs` class is a implementation of the `TopicReader` class using the HCS service.
+The `TopicReaderHederaHcs` class can be initialized with a set of required for using networks and with a xref:03-implementation/components/cache-guide.adoc[Cache].
+It uses the Hedera gRPC client to read messages from the Hedera network topic. This implementation cannot be used in the browser environment.
+
+[source, typescript]
+----
+import { TopicReaderHederaHcs } from '@hiero-did-sdk/resolver';
+
+const topicReader = new TopicReaderHederaHcs({
+    networks: [
+        { network: 'testnet', operatorId, operatorKey  },
+        { network: 'local-node', operatorId, operatorKey  },
+        {
+          network: {
+            name: 'custom-network',
+            nodes: {
+              'https://testnet-node00-00-grpc.hedera.com:443': new AccountId(3),
+            },
+          },
+          operatorId,
+          operatorKey,
+        },
+    ],
+    cache: { maxSize: 100 }
+},
+);
+const messages = await topicReader.fetchFrom('0.0.5217215', 'testnet', {
+  from: 0, // Read messages from the start of the topic
+  to: 1000, // Read messages to 1000 seconds from the start of the topic
+});
+
+console.log(messages);
+
+const messages = await topicReader.fetchAllToDate('0.0.5217215', 'testnet');
+
+console.log(messages);
+----
+
 
 === TopicReaderHederaRestApi
 
@@ -102,6 +146,5 @@ Make sure that your API is compliant with the Hedera Mirror Node REST API specif
 
 == References
 
-* xref:03-implementation/components/topic-reader-client-api.adoc[Client Topic Reader API Reference]
-* xref:03-implementation/components/topic-reader-hcs-api.adoc[HCS Topic Reader API Reference]
-* xref:03-implementation/components/topic-reader-rest-api.adoc[RestApi Topic Reader API Reference]
+* xref:03-implementation/components/topic-reader-api.adoc[Topic Reader API Reference]
+

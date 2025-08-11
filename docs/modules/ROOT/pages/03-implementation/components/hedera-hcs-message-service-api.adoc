@@ -1,2 +1,184 @@
-= Under construction
+= HcsMessageService API Reference
 
+This document provides a detailed API reference for the `HcsMessageService` class — a service for submitting and querying messages in Hedera Consensus Service (HCS) topics.
+
+== Constructor
+
+=== `constructor`
+[source,ts]
+----
+constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+----
+
+Creates a new instance of `HcsMessageService`.
+
+.Parameters
+* `client` (required): Hedera SDK client instance used for HCS operations.
+* `cache` (optional): Cache configuration, cache instance, or an existing `HcsCacheService`.
+
+== Methods
+
+=== `submitMessage`
+[source,ts]
+----
+async submitMessage(props: SubmitMessageProps): Promise<SubmitMessageResult>
+----
+
+Submits a message to an HCS topic.
+
+.Parameters
+* `props` (required): Properties for submitting the message.
+
+==== `SubmitMessageProps` fields:
+* `topicId` (string, required): The ID of the topic to which the message will be submitted.
+* `message` (string, required): The message content to submit.
+* `submitKey` (PrivateKey, optional): Private key used to sign the submission transaction.
+* `waitForChangesVisibility` (boolean, optional): If true, waits until the message becomes visible/confirmed in the topic.
+* `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait for visibility confirmation.
+
+.Returns
+A promise resolving to a `SubmitMessageResult` object.
+
+==== `SubmitMessageResult` fields:
+* `nodeId` (string): The ID of the node that processed the transaction.
+* `transactionId` (string): The ID of the transaction.
+* `transactionHash` (Uint8Array): The cryptographic hash of the transaction.
+
+.Throws
+Error if the message submission transaction fails.
+
+=== `getTopicMessages`
+[source,ts]
+----
+async getTopicMessages(props: GetTopicMessagesProps): Promise<TopicMessageData[]>
+----
+
+Retrieves messages from an HCS topic.
+
+.Parameters
+* `props` (required): Properties to configure the message retrieval.
+
+==== `GetTopicMessagesProps` fields:
+* `topicId` (string, required): The ID of the topic to fetch messages from.
+* `maxWaitSeconds` (number, optional): Maximum number of seconds to wait for new messages during polling.
+* `toDate` (Date, optional): Upper time bound (inclusive) for message retrieval.
+* `limit` (number, optional): Maximum number of messages to retrieve.
+
+.Returns
+A promise resolving to an array of `TopicMessageData`.
+
+==== `TopicMessageData` fields:
+* `consensusTime` (Date): The consensus timestamp when the message was agreed upon.
+* `contents` (Uint8Array): The raw content of the message.
+
+=== `deduplicateAndSortMessages`
+[source,ts]
+----
+private deduplicateAndSortMessages(...messages: TopicMessageData[]): TopicMessageData[]
+----
+
+Removes duplicate messages and sorts them in chronological order by consensus time.
+
+.Parameters
+* `messages` (TopicMessageData[]): One or more arrays of messages to deduplicate and sort.
+
+.Returns
+An array of unique and chronologically sorted `TopicMessageData`.
+
+=== `getNewMessagesContent`
+[source,ts]
+----
+private async getNewMessagesContent(options: { topicId: string; startFrom: Date }): Promise<string[]>
+----
+
+Retrieves string contents of messages submitted after a specific date.
+
+.Parameters
+* `options` (required):
+  * `topicId` (string): The topic ID to get messages from.
+  * `startFrom` (Date): The earliest consensus time from which to fetch messages.
+
+.Returns
+A promise resolving to an array of message contents as UTF-8 strings.
+
+=== `fetchTopicMessages`
+[source,ts]
+----
+private async fetchTopicMessages(props: FetchTopicMessagesProps): Promise<TopicMessageData[]>
+----
+
+Fetches topic messages by using either Hedera SDK Client or REST API depending on client support.
+
+.Parameters
+* `props` (required):
+  * `topicId` (string): The topic ID to fetch messages from.
+  * `maxWaitSeconds` (number, optional): Maximum wait time in seconds for polling (default applied inside).
+  * `fromDate` (Date, optional): Start date for filtering messages.
+  * `toDate` (Date, optional): End date for filtering messages.
+  * `limit` (number, optional): Maximum number of messages to fetch.
+
+.Returns
+A promise resolving to an array of `TopicMessageData`.
+
+=== `fetchTopicMessagesWithClient`
+[source,ts]
+----
+private async fetchTopicMessagesWithClient(props: FetchTopicMessagesProps): Promise<TopicMessageData[]>
+----
+
+Fetches topic messages using the Hedera SDK client (gRPC).
+
+.Parameters
+* `props` (required):
+  * `topicId` (string): The topic ID to fetch messages.
+  * `maxWaitSeconds` (number, optional): Maximum wait time in seconds for polling.
+  * `fromDate` (Date, optional): Starting date filter.
+  * `toDate` (Date, optional): Ending date filter.
+  * `limit` (number, optional): Maximum number of messages to retrieve.
+
+.Returns
+A promise resolving to an array of `TopicMessageData`.
+
+.Throws
+Error on network or query failure.
+
+=== `fetchTopicMessagesWithRest`
+[source,ts]
+----
+private async fetchTopicMessagesWithRest(props: FetchTopicMessagesProps): Promise<TopicMessageData[]>
+----
+
+Fetches topic messages using the mirror node REST API.
+
+.Parameters
+* `props` (required):
+  * `topicId` (string): The topic ID to fetch messages.
+  * `fromDate` (Date, optional): Starting date filter.
+  * `toDate` (Date, optional): Ending date filter.
+  * `limit` (number, optional): Maximum number of messages to retrieve.
+
+.Returns
+A promise resolving to an array of `TopicMessageData`.
+
+.Throws
+Error if the fetch request fails.
+
+=== `getNextUrl`
+[source,ts]
+----
+private getNextUrl(nextPath: string, limit = 25, encoding = 'base64'): string
+----
+
+Constructs the next URL to fetch messages via the mirror node REST API.
+
+.Parameters
+* `nextPath` (string): Path part of the URL with query parameters.
+* `limit` (number, optional): Maximum number of messages (default 25).
+* `encoding` (string, optional): Encoding type for message contents (default `base64`).
+
+.Returns
+A string representing the full URL for the API request.
+
+== See Also
+
+xref:03-implementation/components/hedera-hcs-message-service-guide.adoc[HcsMessageService Developer Guide]

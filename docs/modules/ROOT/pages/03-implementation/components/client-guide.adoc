@@ -1,50 +1,102 @@
-= Client Guide
+= HederaClientService Guide
 
-The `@hiero-did-sdk/client` package simplifies configuration and management of Hedera Client connections for DID operations.
+The `@hiero-did-sdk/client` package provides the `HederaClientService` — a flexible service to manage Hedera SDK clients across multiple Hedera networks (mainnet, testnet, previewnet, local-node, and custom networks), simplifying client creation and operation execution with proper lifecycle management.
 
 == Overview
 
-Use `@hiero-did-sdk/client` to:
-- Configure and instantiate Hedera network clients with various authentication and network options.
-- Manage network connections for mainnet, testnet, previewnet, or custom Hedera nodes.
-- Provide reusable client instances for transaction signing, publishing, and registry operations throughout the SDK and user applications.
+Use the `HederaClientService` to:
 
-== Basic Usage
+* Manage connections to one or more Hedera networks with unique configurations.
+* Obtain configured Hedera SDK `Client` instances associated with a specific network.
+* Perform operations on the Hedera network using the client with automatic connection management.
+* Ensure operator credentials are correctly set per network.
+* Consistently apply transaction fee limits on clients.
 
-=== Creating a Client
+== Initialization
+
+Create an instance of `HederaClientService` by providing configuration describing one or more Hedera networks:
 
 [source,typescript]
 ----
-import { HederaClientService } from '@hiero-did-sdk/client';
-
 const config = {
-  accountId: '0.0.xxxx',
-  privateKey: '302e0...xxx',
-  network: 'testnet',
+  networks: [
+    {
+      network: 'testnet',          // Hedera public network or a custom network object
+      operatorId: '0.0.1234',      // Operator account ID as string
+      operatorKey: 'privateKeyString', // Operator private key as string
+    },
+    {
+      network: {
+        name: 'custom-network',
+        nodes: {
+          '0.testnet.hedera.com:50211': '0.0.3',
+        },
+        mirrorNodes: ['https://mirror.customnet.com'],
+      },
+      operatorId: '0.0.5678',
+      operatorKey: 'privateKeyString2',
+    },
+  ],
 };
 
 const clientService = new HederaClientService(config);
-const client = clientService.getClient('testnet');
 ----
 
-=== Using withClient Utility
+Parameters:
+
+* `networks` (array of objects): Array of network configurations.
+  Each network must have a unique name (for custom networks, this is the `name` property).
+  Each config must specify `operatorId` and `operatorKey` strings.
+
+Throws an error if:
+
+* No networks are provided.
+* Network names are not unique.
+
+== Basic Usage
+
+=== Obtaining a Client
 
 [source,typescript]
 ----
-await clientService.withClient(
-  { networkName: 'testnet' },
-  async (client) => {
-    // Use the client for transactions, queries, etc.
-  }
-);
+const client = clientService.getClient('testnet');
 ----
 
-== Recommendations
+Parameters:
 
-- Always close the client after usage if using low-level SDK instance directly.
-- Prefer `withClient` for automatic resource management.
-- Store client configuration securely and never commit secrets to source control.
+* `networkName` (optional string): Name of the network for which to get the client.
+  If omitted and only one network is configured, returns that client.
+  Throws if multiple networks are configured and no network name is provided.
+
+Returns a Hedera SDK `Client` instance configured with operator keys and settings.
+
+=== Running Operations with a Client
+
+[source,typescript]
+----
+await clientService.withClient({ networkName: 'custom-network' }, async (client) => {
+  // Use the client instance for queries or transactions here
+  const accountInfo = await client.getAccountInfo('0.0.1234');
+  console.log(accountInfo);
+});
+----
+
+Parameters:
+
+* `props`: An object optionally containing `networkName` to specify which client to use.
+* `operation`: An async callback function accepting the `Client` instance.
+
+Returns:
+
+* The result of the asynchronous operation.
+
+Behavior:
+
+* Acquires client for the given network.
+* Executes the operation.
+* Closes the client connection automatically after the operation completes.
 
 == See Also
 
 xref:03-implementation/components/client-api.adoc[Client API Reference]
+

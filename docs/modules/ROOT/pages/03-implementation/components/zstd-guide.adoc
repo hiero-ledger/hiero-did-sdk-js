@@ -1,48 +1,65 @@
-= Zstd Guide
+= Zstd Library Guide
 
-The `@hiero-did-sdk/zstd` package provides utilities for efficient data compression and decompression using the Zstandard (ZSTD) algorithm.
+The `@hiero-did-sdk/zstd` package provides the `Zstd` class — a simple and efficient interface for compressing and decompressing data using the Zstandard (zstd) compression algorithm, with runtime adaptability for Node.js and React Native environments.
 
 == Overview
 
-This package is **cross-platform** and fully supports both Node.js, browsers, and React Native environments. You can safely use it in web, server, or mobile (React Native) projects.
+Use the `Zstd` library to:
 
-You can use Zstd in your application to:
-- Reduce the size of messages before network transmission.
-- Optimize DID data storage.
-- Enable other scenarios where data compression improves efficiency.
+* Compress binary data into smaller size using the fast and powerful Zstandard algorithm.
+* Decompress previously compressed zstd data back to original form.
+* Automatically select a compatible compression module depending on runtime environment (Node.js native or React Native polyfill).
+* Support Uint8Array binary inputs and outputs for seamless integration with modern JavaScript/TypeScript applications.
 
-== Platform Compatibility
+Zstandard is a lossless compression algorithm known for offering excellent compression ratios at high speed. It supports a wide range of compression levels and is suitable for real-time compression scenarios.[1][3][5]
 
-* **Cross-platform:** Works in Node.js, browsers, and React Native out of the box.
-* **React Native:** Fully compatible and tested with the React Native runtime.
+== Initialization
+
+No explicit initialization is required. At runtime, `Zstd` attempts to load:
+
+* The Node.js `zstd-napi` native add-on module for high-performance compression/decompression.
+* If unavailable, a React Native compatible package `react-native-zstd` with internal data conversions to reconcile differences.
+
+If no compatible module is found, an error is thrown prompting installation of one of these dependencies.
 
 == Basic Usage
 
-=== Compressing Data
-
 [source,typescript]
 ----
-import { compress } from '@hiero-did-sdk/zstd';
+import { Zstd } from '@hiero-did-sdk/zstd';
 
-const data = new Uint8Array([/* ...raw bytes... */]);
-const compressed = await compress(data);
+const inputData = new Uint8Array([/* binary data */]);
+
+// Compress data
+const compressedData = Zstd.compress(inputData);
+
+// Decompress data
+const originalData = Zstd.decompress(compressedData);
+
+console.log('Original and decompressed data are equal:',
+  inputData.length === originalData.length && inputData.every((val, i) => val === originalData[i])
+);
 ----
 
-=== Decompressing Data
+Parameters:
 
-[source,typescript]
-----
-import { decompress } from '@hiero-did-sdk/zstd';
+* `inputData` (Uint8Array, required): The raw binary data to compress or the compressed data to decompress.
 
-const original = await decompress(compressed);
-----
+Returns:
 
-== Recommendations
+* `Uint8Array` containing compressed bytes for `compress`.
+* `Uint8Array` containing decompressed original data for `decompress`.
 
-* Use compression when sending large DID messages or saving data where space is limited.
-* For small payloads, check if compression actually saves space.
-* Always validate decompressed data for integrity after decompression.
+Throws:
+
+* Error if no compatible zstd module is found.
+
+== Details
+
+* Compression is performed as a single zstd frame in memory.
+* The underlying native or polyfill module handles the actual compression logic.
+* For React Native, data format conversion (e.g. base64, buffers) is applied internally to match differing APIs.[1][3]
 
 == See Also
 
-xref:03-implementation/components/zstd-api.adoc[ZSTD API Reference]
+xref:03-implementation/components/zstd-api.adoc[Zstd API Reference]

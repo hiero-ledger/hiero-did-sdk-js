@@ -1,32 +1,128 @@
-= Client API Reference
+= HederaClientService API Reference
 
-This document describes the API for the `@hiero-did-sdk/client` package, which manages Hedera Client connectivity and operations.
+This document provides a detailed API reference for the `HederaClientService` class — a service to manage Hedera SDK clients with support for multiple Hedera networks (mainnet, testnet, previewnet, local-node, and custom networks).
 
-== Classes
+== Constants
 
-=== HederaClientService
+=== `HEDERA_NETWORKS`
+[source,ts]
+----
+export const HEDERA_NETWORKS = ['mainnet', 'testnet', 'previewnet', 'local-node'] as const;
+----
+List of predefined Hedera public network names supported by the SDK.
 
-Central service for supplying Hedera Client instances and managing operational context.
+== Types and Interfaces
 
-==== Methods
+=== `NetworkName`
+An object to optionally specify a network name when performing operations.
 
-- `getClient(networkName?: string): Client`
-  * Instantiate or retrieve a Hedera Client for a given network.
-- `withClient(props: NetworkName, operation: (client: Client) => Promise<T>): Promise<T>`
-  * Run an operation in the context of a managed client, closing the client automatically after completion.
+.Parameters
+* `networkName` (optional, string): The name of the Hedera network to use for the operation.
+  If omitted and there is only one configured network, that network will be used by default.
 
-==== Usage Example
+=== `HederaNetwork`
+A union type representing the allowed Hedera public networks.
 
-See xref:03-implementation/components/client-guide.adoc[Client Guide].
+.Values
+* `'mainnet'`: The main Hedera public network.
+* `'testnet'`: The Hedera test network for testing and development.
+* `'previewnet'`: A preview network for early access features.
+* `'local-node'`: A local Hedera node network, typically used for local testing.
 
-== Types
+=== `HederaCustomNetwork`
+Defines a configuration for a custom Hedera network.
 
-- `ClientOptions` - Options for client configuration (accountId, privateKey, network, etc.).
-- `NetworkName`
-- `Client` - The Hedera SDK client instance.
+.Parameters
+* `name` (string): Unique identifier for the custom network.
+* `nodes` (object): A map where keys are node account IDs or names and values are node addresses (string or `AccountId`).
+* `mirrorNodes` (optional, string | string[]): One or more mirror node URLs for the custom network.
 
-== Implementation Notes
+=== `NetworkConfig`
+Configuration for connecting to a Hedera network.
 
-- Ensures client reliability and safe connection lifecycles.
-- Automatically manages resource cleanup when using `withClient`.
-- All connections require proper setup of account IDs, private keys, and valid networks.
+.Parameters
+* `network` (HederaNetwork | HederaCustomNetwork): Either a predefined Hedera public network name or a custom network configuration.
+* `operatorId` (string): The account ID of the operator (payer of transactions) on the Hedera network.
+* `operatorKey` (string): The private key corresponding to the operator account, used for signing transactions.
+
+=== `HederaClientConfiguration`
+Top-level configuration for initializing `HederaClientService`.
+
+.Parameters
+* `networks` (array of `NetworkConfig`): Array of network configurations supported by the client service.
+  This array must contain at least one network, and each network must have a unique name.
+
+.Note
+* The uniqueness of network names is validated during initialization.
+* Each network config defines important credentials and endpoints for connecting and signing on Hedera.
+
+== Class: HederaClientService
+
+Manages Hedera SDK clients for one or more networks, providing convenience methods to obtain clients and run operations with automatic lifecycle management.
+
+=== `constructor`
+[source,ts]
+----
+constructor(config: HederaClientConfiguration)
+----
+
+Creates a new instance of `HederaClientService` with the specified configuration.
+
+.Parameters
+* `config` (required): Configuration object specifying one or more Hedera networks via an array of `NetworkConfig`.
+  - Must contain at least one network configuration.
+  - Network names must be unique across all entries.
+
+.Throws
+* Throws an error if no networks are provided.
+* Throws an error if there are duplicate network names.
+
+=== `getClient`
+[source,ts]
+----
+public getClient(networkName?: string): Client
+----
+
+Retrieves a Hedera `Client` instance for the specified network.
+
+.Parameters
+* `networkName` (optional, string): The name of the network to get the client for.
+  - If omitted and only one network is configured, the single configured network is used.
+  - If omitted but multiple networks are configured, an error is thrown.
+  - The network name must match either a known public Hedera network or a custom network name.
+
+.Returns
+A configured Hedera `Client` instance for the network.
+
+.Throws
+* Throws an error if the specified network name is unknown.
+
+.Details
+* For known public networks (`mainnet`, `testnet`, `previewnet`, `local-node`), a preconfigured client is created via `Client.forName`.
+* For custom networks, the client is created from the custom configuration including nodes, mirror nodes, and operator credentials.
+* The default max transaction fee is set to 2 HBAR for all clients.
+
+=== `withClient`
+[source,ts]
+----
+public async withClient<T>(props: NetworkName, operation: (client: Client) => Promise<T>): Promise<T>
+----
+
+Convenience method to execute an asynchronous operation that requires a Hedera client.
+
+.Parameters
+* `props` (required): An object optionally including `networkName` specifying which network client to use.
+
+* `operation` (required): A callback function that receives the Hedera `Client` instance and returns a `Promise<T>`.
+
+.Returns
+A promise resolving to the result of the `operation`.
+
+.Behavior
+* Obtains a client with `getClient` using the provided `networkName`.
+* Executes the `operation` callback with the client.
+* Ensures the client connection is properly closed after the operation completes.
+
+== See Also
+
+xref:03-implementation/components/client-guide.adoc[Client Developer Guide]

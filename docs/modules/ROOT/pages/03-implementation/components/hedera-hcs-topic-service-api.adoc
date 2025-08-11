@@ -1,2 +1,188 @@
-= Under construction
+= HcsTopicService API Reference
 
+This document provides a detailed API reference for the `HcsTopicService` class — a service for managing Hedera Consensus Service (HCS) topics, including creating, updating, deleting topics, and retrieving topic info.
+
+== Сonstructor
+
+=== `constructor`
+[source,ts]
+----
+constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+----
+
+Creates a new instance of `HcsTopicService`.
+
+.Parameters
+* `client` (required): Hedera SDK client instance used for HCS operations.
+* `cache` (optional): Cache configuration, cache instance, or an existing `HcsCacheService`.
+
+== Methods
+
+=== `createTopic`
+[source,ts]
+----
+async createTopic(props?: CreateTopicProps): Promise<string>
+----
+
+Creates a new HCS topic.
+
+.Parameters
+* `props` (optional): Properties to configure topic creation.
+
+==== `CreateTopicProps` fields:
+* `topicMemo` (optional, string): Memo or description for the topic.
+* `submitKey` (optional, PrivateKey): Private key required to submit messages.
+* `adminKey` (optional, PrivateKey): Private key required for administrative actions on the topic.
+* `autoRenewPeriod` (optional, Duration | Long | number): Duration for auto-renewal.
+* `autoRenewAccountId` (optional, AccountId | string): Account ID responsible for auto-renew payments.
+* `autoRenewAccountKey` (optional, PrivateKey): Private key of the auto-renew account (required if `autoRenewAccountId` is set).
+* `waitForChangesVisibility` (optional, boolean): If true, waits until the topic is visible in the mirror node.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for changes visibility.
+
+.Returns
+A promise resolving to the created topic ID as a string.
+
+.Throws
+* Error if `autoRenewAccountId` is provided without `autoRenewAccountKey`.
+* Error if the topic creation transaction fails.
+
+=== `updateTopic`
+[source,ts]
+----
+async updateTopic(props: UpdateTopicProps): Promise<void>
+----
+
+Updates an existing HCS topic.
+
+.Parameters
+* `props` (required): Properties for updating the topic.
+
+==== `UpdateTopicProps` fields:
+* `topicId` (required, string): The ID of the topic to update.
+* `currentAdminKey` (required, PrivateKey): Current admin key authorizing the update.
+* `topicMemo` (optional, string): New memo for the topic (set empty string to clear).
+* `submitKey` (optional, PrivateKey): New submit key.
+* `adminKey` (optional, PrivateKey): New admin key.
+* `autoRenewPeriod` (optional, Duration | Long | number): New auto-renewal period (default fallback to 90 days if null).
+* `autoRenewAccountId` (optional, AccountId | string): New auto-renew account ID.
+* `autoRenewAccountKey` (optional, PrivateKey): Private key of the auto-renew account (required if `autoRenewAccountId` is provided).
+* `expirationTime` (optional, Timestamp | Date): New expiration time.
+* `waitForChangesVisibility` (optional, boolean): If true, wait until updated topic info is visible in mirror node.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds for visibility wait.
+
+.Returns
+A promise resolving when the topic update completes.
+
+.Throws
+* Error if `autoRenewAccountId` is set without `autoRenewAccountKey`.
+* Error if the update transaction fails.
+
+=== `deleteTopic`
+[source,ts]
+----
+async deleteTopic(props: DeleteTopicProps): Promise<void>
+----
+
+Deletes an HCS topic.
+
+.Parameters
+* `props` (required): Properties for deleting the topic.
+
+==== `DeleteTopicProps` fields:
+* `topicId` (required, string): ID of the topic to delete.
+* `currentAdminKey` (required, PrivateKey): Current admin key authorizing the deletion.
+* `waitForChangesVisibility` (optional, boolean): Wait until deletion is confirmed visible in mirror node.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
+
+.Returns
+A promise resolving when deletion is complete.
+
+.Throws
+* Error if the deletion transaction fails.
+
+=== `getTopicInfo`
+[source,ts]
+----
+async getTopicInfo(props: GetTopicInfoProps): Promise<TopicInfo>
+----
+
+Retrieves information about a topic, utilizing cache if available.
+
+.Parameters
+* `props` (required): Properties to specify the topic info to retrieve.
+
+==== `GetTopicInfoProps` fields:
+* `topicId` (required, string): ID of the topic.
+
+.Returns
+A promise resolving to `TopicInfo`.
+
+.Throws
+* Error if topic info retrieval fails.
+
+=== `fetchTopicInfo`
+[source,ts]
+----
+private fetchTopicInfo(props: GetTopicInfoProps): Promise<TopicInfo>
+----
+
+Fetches topic info using the SDK client or REST API depending on availability.
+
+.Parameters
+* `props` (required): Properties specifying the topic ID.
+
+.Returns
+A promise resolving to `TopicInfo`.
+
+=== `fetchTopicInfoWithClient`
+[source,ts]
+----
+private async fetchTopicInfoWithClient(props: GetTopicInfoProps): Promise<TopicInfo>
+----
+
+Fetches topic info through the Hedera SDK client (gRPC call).
+
+.Parameters
+* `props` (required): Properties specifying the topic ID.
+
+.Returns
+A promise resolving to `TopicInfo`.
+
+=== `fetchTopicInfoWithRest`
+[source,ts]
+----
+private async fetchTopicInfoWithRest(props: GetTopicInfoProps): Promise<TopicInfo>
+----
+
+Fetches topic info from the mirror node REST API.
+
+.Parameters
+* `props` (required): Properties specifying the topic ID.
+
+.Returns
+A promise resolving to `TopicInfo`.
+
+.Throws
+* Error if the fetch request fails.
+* `StatusError` with status `InvalidTopicId` if the topic has been deleted.
+
+=== `convertExpirationTimeToSeconds`
+[source,ts]
+----
+private convertExpirationTimeToSeconds(expirationTime: Timestamp | Date): number | undefined
+----
+
+Converts expiration time to milliseconds since epoch.
+
+.Parameters
+* `expirationTime` (required): Expiration time as `Timestamp` or `Date`.
+
+.Returns
+Milliseconds since epoch or undefined.
+
+.Throws
+* Error if the input type is unsupported.
+
+== See Also
+
+xref:03-implementation/components/hedera-hcs-topic-service-guide.adoc[HcsTopicService Developer Guide]

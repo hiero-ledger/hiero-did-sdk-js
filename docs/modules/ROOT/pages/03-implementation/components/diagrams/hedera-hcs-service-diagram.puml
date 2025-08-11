@@ -1,0 +1,18 @@
+@startuml
+
+rectangle HederaHcsService
+rectangle HcsCacheService
+rectangle HcsFileService
+rectangle HcsTopicService
+rectangle HcsMessageService
+
+HederaHcsService --> HcsCacheService : creates
+HederaHcsService ..> HcsFileService : uses
+HederaHcsService ..> HcsTopicService : uses
+HederaHcsService ..> HcsMessageService : uses
+
+HcsFileService --> HcsCacheService : uses
+HcsTopicService --> HcsCacheService : uses
+HcsMessageService --> HcsCacheService : uses
+
+@enduml

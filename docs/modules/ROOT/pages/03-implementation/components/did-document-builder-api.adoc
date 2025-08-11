@@ -1,2 +1,266 @@
-= Under construction
+= DidDocumentBuilder API Reference
 
+This document provides a detailed API reference for the `DidDocumentBuilder` class — a builder for creating, updating, and resolving DID Documents from raw DID-related messages, typically consumed from Hedera Consensus Service topics.
+
+== Class: DidDocumentBuilder
+
+A builder class to construct Decentralized Identifier (DID) Documents by parsing, verifying, and managing DID-related events from a series of messages.
+
+=== `constructor`
+[source,ts]
+----
+constructor(messages: string[])
+----
+
+Creates a new instance of `DidDocumentBuilder`.
+
+.Parameters
+* `messages` (string[], required): Array of raw topic messages containing DID content, typically JSON strings representing DID events.
+
+=== `forDID`
+[source,ts]
+----
+forDID(did: string): DidDocumentBuilder
+----
+
+Specifies the DID identifier for which the Document will be built.
+
+.Parameters
+* `did` (string, required): The DID string (must be a valid Hedera DID).
+
+.Throws
+* Throws `DIDError` if the given DID is not a valid Hedera DID.
+
+.Returns
+The current `DidDocumentBuilder` instance for chaining.
+
+=== `withVerifier`
+[source,ts]
+----
+withVerifier(verifier: Verifier): DidDocumentBuilder
+----
+
+Associates a verifier instance for cryptographic verification of DID messages.
+
+.Parameters
+* `verifier` (Verifier, required): An instance capable of verifying message signatures.
+
+.Returns
+The current `DidDocumentBuilder` instance for chaining.
+
+=== `build`
+[source,ts]
+----
+async build(): Promise<DidDocumentBuilder>
+----
+
+Processes all stored DID-related messages, verifying signatures and handling DID operations (create, update, revoke), building internal DID Document state.
+
+.Throws
+* Throws `DIDError` if no DID is specified before building (i.e., `forDID` was not called).
+* Throws `DIDError` if the DID document does not exist (no valid DIDOwner creation event found).
+
+.Returns
+A promise that resolves to the current `DidDocumentBuilder` instance after building.
+
+=== `toDidDocument`
+[source,ts]
+----
+toDidDocument(): DIDDocument
+----
+
+Generates the resolved DID Document JSON object according to the internal state built from messages.
+
+.Returns
+A `DIDDocument` object representing the constructed DID Document.
+If the DID is deactivated, returns a minimal document without verification or service entries.
+
+=== `toJsonLdDIDDocument`
+[source,ts]
+----
+toJsonLdDIDDocument(): JsonLdDIDDocument
+----
+
+Returns the DID Document in JSON-LD format compliant with W3C DID specifications, including standard @context fields.
+
+.Returns
+A `JsonLdDIDDocument` including @context and the resolved DID Document properties.
+
+=== `toResolution`
+[source,ts]
+----
+toResolution(): DIDResolution
+----
+
+Returns a full DID Resolution result, including the DID Document, document metadata, and resolution metadata.
+
+.Returns
+A `DIDResolution` object with the following properties:
+* `didDocument`: The DID Document in JSON-LD format.
+* `didDocumentMetadata`: Metadata about creation, update times, and deactivation status.
+* `didResolutionMetadata`: Metadata describing content type and resolution profile.
+
+=== `toDidDocumentCbor`
+[source,ts]
+----
+toDidDocumentCbor(): Uint8Array
+----
+
+Encodes the resolved DID Document as CBOR bytes using the CBOR codec.
+
+.Returns
+A `Uint8Array` containing the CBOR-encoded DID Document.
+
+=== `parseTopicMessage`
+[source,ts]
+----
+private parseTopicMessage(topicMessage: string): TopicDIDContent | undefined
+----
+
+Parses a raw topic message string into a DID message with message content and signature.
+
+.Parameters
+* `topicMessage` (string, required): Raw JSON string from a topic message.
+
+.Returns
+A parsed `TopicDIDContent` object containing message and signature if the message is valid and matches the current DID; otherwise, `undefined`.
+
+=== `parseEventString`
+[source,ts]
+----
+private parseEventString(eventString: string): DIDEvent | undefined
+----
+
+Decodes and parses a base64-encoded event string into a DID event object.
+
+.Parameters
+* `eventString` (string, required): Base64-encoded JSON string representing a DID event.
+
+.Returns
+A parsed DID event object if valid, otherwise `undefined`.
+Also sets the public key verifier if a DIDOwner event is encountered.
+
+=== `verifySignature`
+[source,ts]
+----
+private async verifySignature(message: TopicDIDMessage, signature: string): Promise<boolean>
+----
+
+Verifies the cryptographic signature of a DID message using the configured verifier.
+
+.Parameters
+* `message` (TopicDIDMessage, required): The DID message object.
+* `signature` (string, required): The base64-encoded signature to verify.
+
+.Throws
+* Throws `DIDError` if no verifier is configured.
+
+.Returns
+A promise resolving to `true` if the signature is valid; `false` otherwise.
+
+=== `handleDIDOwner`
+[source,ts]
+----
+private handleDIDOwner(event: DIDOwnerEvent): void
+----
+
+Handles a DIDOwner event by setting the controller, verification method, and public key.
+
+.Parameters
+* `event` (DIDOwnerEvent, required): Event containing DID owner information.
+
+=== `handleAddVerificationMethod`
+[source,ts]
+----
+private handleAddVerificationMethod(event: AddVerificationMethodEvent): void
+----
+
+Adds a Verification Method to the internal collection based on an add event.
+
+.Parameters
+* `event` (AddVerificationMethodEvent, required): Event describing the verification method to add.
+
+=== `handleRemoveVerificationMethod`
+[source,ts]
+----
+private handleRemoveVerificationMethod(event: RemoveVerificationMethodEvent): void
+----
+
+Removes a Verification Method from internal state, ignoring the root DID key.
+
+.Parameters
+* `event` (RemoveVerificationMethodEvent, required): Event describing the verification method to remove.
+
+=== `handleAddService`
+[source,ts]
+----
+private handleAddService(event: AddServiceEvent): void
+----
+
+Adds a Service entry to the DID Document.
+
+.Parameters
+* `event` (AddServiceEvent, required): The service addition event.
+
+=== `handleRemoveService`
+[source,ts]
+----
+private handleRemoveService(event: RemoveServiceEvent): void
+----
+
+Removes a Service entry from the DID Document.
+
+.Parameters
+* `event` (RemoveServiceEvent, required): The service removal event.
+
+=== `handleAddVerificationRelationship`
+[source,ts]
+----
+private handleAddVerificationRelationship(event: AddVerificationRelationshipMethodEvent): void
+----
+
+Adds a verification relationship reference (e.g., authentication, assertionMethod) to the DID Document.
+
+.Parameters
+* `event` (AddVerificationRelationshipMethodEvent, required): Event describing the verification relationship to add.
+
+=== `handleRemoveVerificationRelationship`
+[source,ts]
+----
+private handleRemoveVerificationRelationship(event: RemoveVerificationRelationshipMethodEvent): void
+----
+
+Removes a verification relationship reference from the DID Document.
+
+.Parameters
+* `event` (RemoveVerificationRelationshipMethodEvent, required): Event describing the verification relationship to remove.
+
+=== `setPublicKeyFromDIDOwner`
+[source,ts]
+----
+private setPublicKeyFromDIDOwner(event: DIDOwnerEvent): void
+----
+
+Extracts the public key from a DIDOwner event and initializes the verifier.
+
+.Parameters
+* `event` (DIDOwnerEvent, required): The DIDOwner event containing public key information.
+
+.Throws
+* Throws `DIDError` if no valid public key is found in the event.
+
+=== `from`
+[source,ts]
+----
+static from(messages: string[]): DidDocumentBuilder
+----
+
+Static factory method to create a new `DidDocumentBuilder` instance from an array of topic messages.
+
+.Parameters
+* `messages` (string[], required): Array of raw DID-related messages to initialize the builder.
+
+.Returns
+A new instance of `DidDocumentBuilder`.
+
+---

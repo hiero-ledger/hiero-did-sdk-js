@@ -1,74 +1,86 @@
 = Zstd API Reference
 
-This document covers the API for the `@hiero-did-sdk/zstd` package, which implements data compression and decompression with the Zstandard algorithm.
+This document provides a concise API reference for the `Zstd` class and the related `ZstdModule` interface, which provide compression and decompression functionality using the Zstandard (zstd) algorithm, with support for both Node.js and React Native environments.
 
-== Platform Compatibility
+== Interfaces
 
-- The package is **cross-platform** and supports **Node.js**, all major browsers, and **React Native**.
-- No additional dependencies or polyfills are required for React Native usage.
-- Consistent API and behavior across all environments.
+=== `ZstdModule`
+Interface representing a Zstandard compression module.
 
-== Functions
+.Methods
+* `compress(data: Uint8Array): Uint8Array`
+  Compresses the given data and returns the compressed bytes.
 
-=== compress
+* `decompress(data: Uint8Array): Uint8Array`
+  Decompresses the given compressed data and returns the original bytes.
 
-[source,typescript]
+== Class: Zstd
+
+Provides static methods for compressing and decompressing binary data using zstd compression, automatically selecting an appropriate implementation based on the runtime environment.
+
+=== `compress`
+[source,ts]
 ----
-function compress(
-  input: Uint8Array,
-  options?: ZstdCompressOptions
-): Promise<Uint8Array>;
-----
-
-Compresses a given byte array using ZSTD.
-
-Parameters::
-* `input` — The data to compress.
-* `options` — (Optional) Compression options, such as compression level.
-
-Returns::
-* `Promise<Uint8Array>` — The compressed data as a byte array.
-
-Throws::
-* Throws if the input is empty or invalid.
-
-=== decompress
-
-[source,typescript]
-----
-function decompress(
-  input: Uint8Array
-): Promise<Uint8Array>;
+public static compress(data: Uint8Array): Uint8Array
 ----
 
-Decompresses data previously compressed with ZSTD.
+Compresses input data using Zstandard compression.
 
-Parameters::
-* `input` — The compressed data.
+.Parameters
+* `data` (required, Uint8Array): The raw input data to compress.
 
-Returns::
-* `Promise<Uint8Array>` — The original uncompressed data.
+.Returns
+A `Uint8Array` containing the compressed data.
 
-Throws::
-* Throws if the data is corrupt or in an invalid format.
+.Throws
+Throws an error if no compatible zstd module is available in the environment.
 
-== Types
+.Details
+* Internally selects either the native Node.js `zstd-napi` module or the React Native `react-native-zstd` module.
+* For React Native, performs necessary data conversions to align the APIs.
 
-=== ZstdCompressOptions
-
-[source,typescript]
+=== `decompress`
+[source,ts]
 ----
-interface ZstdCompressOptions {
-  level?: number; // Optional compression level (implementation-dependent default)
-}
+public static decompress(data: Uint8Array): Uint8Array
 ----
 
-== Usage Example
+Decompresses input data previously compressed with Zstandard.
 
-See the xref:03-implementation/components/zstd-guide.adoc[Zstd Guide] for real-world usage patterns.
+.Parameters
+* `data` (required, Uint8Array): The compressed input data to decompress.
 
-== Implementation Notes
+.Returns
+A `Uint8Array` containing the decompressed original data.
 
-- All functions are asynchronous and return Promise-wrapped results.
-- Performance and compatibility depend on the runtime environment.
-- Fully tested and supported on React Native as well as desktop and browser runtimes.
+.Throws
+Throws an error if no compatible zstd module is available in the environment.
+
+.Details
+* Uses the first available zstd module in the environment as with `compress`.
+* Handles required data conversions for React Native implementations.
+
+== Internal Functions (not part of public API)
+
+=== `getAvailableZstdModule`
+[source,ts]
+----
+function getAvailableZstdModule(): ZstdModule
+----
+
+Determines and returns a compatible Zstandard compression module available in the current runtime.
+
+.Returns
+A `ZstdModule` instance capable of compressing and decompressing data.
+
+.Throws
+Throws an error if neither the Node.js `zstd-napi` package nor the React Native `react-native-zstd` package is found, with instructions for installation.
+
+.Details
+* Tries Node.js native binding `zstd-napi` first.
+* If unavailable, tries React Native binding `react-native-zstd`, adapting API usage with data conversion.
+
+== See Also
+
+xref:03-implementation/components/zstd-guide.adoc[Zstd Developer Guide]
+

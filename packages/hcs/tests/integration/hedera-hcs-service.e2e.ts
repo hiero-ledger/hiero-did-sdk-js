@@ -197,6 +197,7 @@ describe('Hedera HCS Service', () => {
       expect(topicInfo.topicMemo).toEqual(nextNewTopicMemo);
       expect(topicInfo.submitKey).toEqual(admin2Key.publicKey.toStringRaw());
       expect(topicInfo.adminKey).toEqual(admin2Key.publicKey.toStringRaw());
+      expect(topicInfo.adminKey).toEqual(admin2Key.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(nextNewAutoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(operatorId);
       if (topicInfo.expirationTime) expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());

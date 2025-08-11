@@ -1,2 +1,88 @@
-= Under construction
+= HcsMessageService Guide
+
+The `@hiero-did-sdk/hcs` package provides the `HcsMessageService` — a dedicated service for submitting messages to and retrieving messages from Hedera Consensus Service (HCS) topics.
+
+== Overview
+
+`HcsMessageService` enables developers to:
+
+* Submit messages to HCS topics with optional signing and visibility confirmation.
+* Retrieve and stream messages from topics efficiently, with cache support.
+* Handle chunked messages and maintain message ordering and uniqueness.
+* Use underlying Hedera SDK client or mirror node REST API for fetching messages.
+
+== Initialization
+
+[source,typescript]
+----
+constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+----
+
+Create a new `HcsMessageService` instance.
+
+* `client`: Hedera SDK client instance for HCS operations.
+* `cache`: Optional cache configuration or cache service instance to improve message retrieval efficiency.
+
+== Basic Usage
+
+=== Submitting a Message
+
+[source,typescript]
+----
+const messageService = new HcsMessageService(client, cache);
+
+const result = await messageService.submitMessage({
+  topicId: '0.0.1234',
+  message: 'Hello Hedera Consensus Service!',
+  submitKey: submitPrivateKey,              // Optional signing key
+  waitForChangesVisibility: true,           // Wait until message visible on mirror node
+  waitForChangesVisibilityTimeoutMs: 60000, // Wait timeout in milliseconds
+});
+
+console.log("Message submitted:", result);
+----
+
+Parameters:
+
+* `topicId` (string, required): The identifier of the topic to submit the message to.
+* `message` (string, required): The message content.
+* `submitKey` (PrivateKey, optional): Private key to sign the submission transaction.
+* `waitForChangesVisibility` (boolean, optional): Whether to wait until the message is confirmed visible on the mirror node.
+* `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait for visibility confirmation.
+
+Returns an object containing:
+
+* `nodeId`: ID of the node that processed the transaction.
+* `transactionId`: The transaction ID.
+* `transactionHash`: Cryptographic hash of the transaction.
+
+=== Retrieving Topic Messages
+
+[source,typescript]
+----
+const messages = await messageService.getTopicMessages({
+  topicId: '0.0.1234',
+  maxWaitSeconds: 10,         // Optional max wait time while polling for new messages
+  toDate: new Date(),         // Optional upper bound for messages
+  limit: 100,                 // Optional limit on number of messages returned
+});
+
+console.log("Retrieved messages:", messages);
+----
+
+Parameters:
+
+* `topicId` (string, required): The topic ID to retrieve messages from.
+* `maxWaitSeconds` (number, optional): Maximum wait time in seconds when polling.
+* `toDate` (Date, optional): Retrieve messages up to this timestamp.
+* `limit` (number, optional): Maximum number of messages to retrieve.
+
+Returns an array of objects each containing:
+
+* `consensusTime` (Date): The consensus timestamp of the message.
+* `contents` (Uint8Array): The raw message content as bytes.
+
+== See Also
+
+xref:03-implementation/components/hedera-hcs-service-api.adoc[HcsMessageService API Reference]
 
