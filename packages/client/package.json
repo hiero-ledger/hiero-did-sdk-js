@@ -45,8 +45,7 @@
     "format-check": "prettier --check \"src/*.ts\""
   },
   "publishConfig": {
-    "access": "public",
-    "scope": "@hiero-did-sdk"
+    "access": "public"
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.66.0"
