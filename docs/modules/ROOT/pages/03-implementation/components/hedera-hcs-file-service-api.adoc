@@ -129,7 +129,7 @@ Creates an HCS-1 compliant topic memo string from a SHA-256 hash.
 * `hash` (string, required): The SHA-256 hash of the file payload.
 
 .Returns
-The topic memo string in the format `{hash}:zstd:base64`.
+The topic memo string in the format `hash:zstd:base64`.
 
 === `isValidHCS1Memo`
 [source,ts]

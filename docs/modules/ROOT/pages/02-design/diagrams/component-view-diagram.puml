@@ -1,26 +1,73 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Hiero DID SDK Component View
+title Hiero DID SDK Component View (Updated)
 
 Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identities")
 
 System_Boundary(c1, "Hiero DID SDK") {
+
   Component(registrar, "Registrar", "DID create, update, and deactivate operations")
   Component(resolver, "Resolver", "Resolves DID Document")
+  Component(hcsService, "HcsService", "Manages Hedera Consensus Service objects")
+  Component(anoncredsRegistry, "AnoncredsRegistry", "Manages AnonCreds schemas, credential defs, revocation registries")
+
   Component(signer, "Signer", "Signs DID Message")
   Component(publisher, "Publisher", "Signs & Publishes Transaction")
+
+  Component(hederaClientService, "HederaClientService", "Manages Hedera SDK clients for multiple networks")
+
+  Component(hcsTopicService, "HcsTopicService", "Manages Hedera Consensus Service topics")
+  Component(hcsMessageService, "HcsMessageService", "Sends and retrieves messages from topics")
+  Component(hcsFileService, "HcsFileService", "Stores and resolves files using HCS-1 protocol")
+
+
+  Component(cache, "Cache Service", "Caches data to improve performance")
+
+  Component(crypto, "Crypto Library", "Provides SHA-256 hashing")
+  Component(zstd, "Zstd Compression", "Compresses/Decompresses data using Zstandard")
 }
 
-System_Ext(topic, "Hedera Topic Service", "Provides publish/subscribe mechanism for DID communication")
+System_Ext(topic, "Hedera Consensus Service", "Gateway to the Hedera Consensus Service")
 System_Ext(hedera, "Hedera Node", "Gateway to the Hedera network")
 
 Rel(developer, registrar, "Uses")
 Rel(developer, resolver, "Uses")
+Rel(developer, hcsService, "Uses")
+Rel(developer, anoncredsRegistry, "Uses")
+
 Rel(registrar, signer, "Uses")
 Rel(registrar, publisher, "Uses")
+
 Rel(publisher, topic, "Publishes", "Signed Transaction")
 Rel(resolver, topic, "Retrieves", "DID Document")
+
+Rel(hcsService, hederaClientService, "Initializes")
+Rel(hcsService, cache, "Initializes")
+
+Rel(hcsService, hcsTopicService, "Uses")
+Rel(hcsService, hcsMessageService, "Uses")
+Rel(hcsService, hcsFileService, "Uses")
+
+Rel_U(hcsTopicService, hederaClientService, "Uses")
+Rel_U(hcsMessageService, hederaClientService, "Uses")
+Rel_U(hcsFileService, hederaClientService, "Uses")
+
+Rel_U(hcsTopicService, cache, "Uses")
+Rel_U(hcsMessageService, cache, "Uses")
+Rel_U(hcsFileService, cache, "Uses")
+
+Rel(hcsFileService, crypto, "Uses")
+Rel(hcsFileService, zstd, "Uses")
+
+
+Rel(hcsMessageService, topic, "Publishes and retrieves messages")
+Rel(hcsFileService, topic, "Publishes and retrieves files")
+Rel(hcsTopicService, topic, "Manages topics")
+
+Rel_L(anoncredsRegistry, hcsService, "Uses")
+
 Rel(topic, hedera, "Communicates with")
+
 
 @enduml

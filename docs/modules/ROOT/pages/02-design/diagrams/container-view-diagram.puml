@@ -9,7 +9,8 @@ System_Boundary(c1, "Hiero DID SDK") {
  Container(core, "Core Module", "DID create, update, and deactivate operations; DID message signing and verification; transaction signing and execution")
 }
 
-System_Ext(topic, "Hedera Topic Service", "Provides publish/subscribe mechanism for DID communication")
+System_Ext(topic, "Hedera Consensus Service", "Gateway to the Hedera Consensus Service")
+
 System_Ext(hedera, "Hedera Node", "Gateway to the Hedera network")
 
 Rel(developer, core, "Uses")

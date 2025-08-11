@@ -1,27 +1,27 @@
 === Level 2: Container View
 
-This view identifies the main containers (deployable/runnable units and libraries) inside the Hiero DID SDK JS and their relationships with external systems. It follows the C4 Model "Container" level.
+This view identifies the main containers (04-deployable/runnable units and libraries) inside the Hiero DID SDK JS and their relationships with external systems. It follows the C4 Model "Container" level.
 
 image::container-view-diagram.png[]
 
-==== Internal Containers (npm packages)
+==== Internal Containers (xref:04-deployment/packages/index.adoc[npm packages])
 
-* core: Common types, interfaces, and utilities shared by all packages. xref:04-deployment/packages/index.adoc#_advanced_packages[ref]
-* messages: DID message formats and lifecycle events. ref
-* lifecycle: Async orchestration utilities for DID flows. ref
-* registrar: High-level API to create/update/deactivate DIDs. Depends on messages, signer, publisher, hcs, client. xref:04-deployment/packages/index.adoc#_essential_packages[ref]
-* resolver: High-level API to resolve DIDs from Hedera. Depends on hcs topic reader, cache, verifier, client. ref
-* signer-internal: Local signing using Hedera PrivateKey. ref
-* verifier-internal: Local verification of signatures. ref
-* signer-hashicorp-vault (optional): Vault-backed signing. ref
-* verifier-hashicorp-vault (optional): Vault-backed verification. ref
-* publisher-internal: Publishes transactions to Hedera via Client. ref
-* client: Configures and provides Hedera SDK Client per network. ref
-* hcs: Abstraction over Hedera Consensus Service (publish/read topics). ref
-* cache: In-memory cache primitives used by resolver and others. ref
-* crypto: Cryptographic helpers (key/seed handling, hashing). ref
-* zstd: Compression utilities used to reduce on-chain payload size. ref
-* anoncreds: Hedera AnonCreds Registry integration per spec. ref
+* core: Common types, interfaces, and utilities shared by all packages.
+* messages: DID message formats and lifecycle events.
+* lifecycle: Async orchestration utilities for DID flows.
+* registrar: High-level API to create/update/deactivate DIDs. Depends on messages, signer, publisher, hcs, client.
+* resolver: High-level API to resolve DIDs from Hedera. Depends on hcs topic reader, cache, verifier, client.
+* signer-internal: Local signing using Hedera PrivateKey.
+* verifier-internal: Local verification of signatures.
+* signer-hashicorp-vault (optional): Vault-backed signing.
+* verifier-hashicorp-vault (optional): Vault-backed verification.
+* publisher-internal: Publishes transactions to Hedera via Client.
+* client: Configures and provides Hedera SDK Client per network.
+* hcs: Abstraction over Hedera Consensus Service (publish/read topics).
+* cache: In-memory cache primitives used by resolver and others.
+* crypto: Cryptographic helpers (key/seed handling, hashing).
+* zstd: Compression utilities used to reduce on-chain payload size.
+* anoncreds: Hedera AnonCreds Registry integration per spec.
 
 ==== External Containers
 

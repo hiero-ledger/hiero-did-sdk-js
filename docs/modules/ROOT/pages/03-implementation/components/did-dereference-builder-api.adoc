@@ -123,7 +123,7 @@ The matched `Service` or `VerificationMethod` object if found, otherwise `null`.
 
 .Details
 * Checks all DID Document properties that may hold arrays of services or verification methods.
-* Matches on IDs equal to {fragment} or {did}{fragment}.
+* Matches on IDs equal to fragment or did-fragment.
 
 === `dereferenceQuery`
 [source,ts]
