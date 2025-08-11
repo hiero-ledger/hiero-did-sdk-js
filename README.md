@@ -1,8 +1,6 @@
 # Hiero DID SDK JavaScript
 
 [![Release](https://img.shields.io/github/v/release/hiero-ledger/hiero-did-sdk-js)](https://github.com/hiero-ledger/hiero-did-sdk-js/releases)
-[![Build status](https://img.shields.io/github/actions/workflow/status/hiero-ledger/hiero-did-sdk-js/main.yml?branch=main)](https://github.com/hiero-ledger/hiero-did-sdk-js/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/hiero-ledger/hiero-did-sdk-js/branch/main/graph/badge.svg)](https://codecov.io/gh/hiero-ledger/hiero-did-sdk-js)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/hiero-ledger/hiero-did-sdk-js)](https://github.com/hiero-ledger/hiero-did-sdk-js/commits/main)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hiero-ledger/hiero-did-sdk-js/badge)](https://scorecard.dev/viewer/?uri=github.com/hiero-ledger/hiero-did-sdk-js)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/10697/badge)](https://bestpractices.coreinfrastructure.org/projects/10697)

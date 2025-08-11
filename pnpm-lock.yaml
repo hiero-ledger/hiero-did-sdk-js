@@ -7,13 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@hashgraph/sdk':
-        specifier: ^2.66.0
-        version: 2.66.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.27.4)(react@19.1.0))
-      '@scure/base':
-        specifier: ^1.2.4
-        version: 1.2.6
     devDependencies:
       '@antora/cli':
         specifier: ^3.1.10
@@ -33,6 +26,12 @@ importers:
       '@eslint/js':
         specifier: ^9.13.0
         version: 9.29.0
+      '@hashgraph/sdk':
+        specifier: ^2.66.0
+        version: 2.66.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.27.4)(react@19.1.0))
+      '@scure/base':
+        specifier: ^1.2.4
+        version: 1.2.6
       '@sntke/antora-mermaid-extension':
         specifier: ^0.0.6
         version: 0.0.6
