@@ -9,7 +9,7 @@ import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/c
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
 
-const config = {
+const config: HederaClientConfiguration = {
   networks: [
     {
       network: 'testnet',
@@ -17,7 +17,7 @@ const config = {
       operatorKey
     },
   ],
-} satisfies HederaClientConfiguration;
+};
 
 async function main() {
   const clientService = new HederaClientService(config);
@@ -26,7 +26,7 @@ async function main() {
   const topicService = new HcsTopicService(client, { maxSize: 100 });
 
   try {
-    // Put the existing TopicId on testnet
+    // Specify the existing topicId on the testnet here
     const topicId = '0.0.6558113';
     const topicInfo = await topicService.getTopicInfo({ topicId });
     console.log('Topic info:', topicInfo);

@@ -8,7 +8,7 @@ import { HederaClientConfiguration } from '@hiero-did-sdk/client';
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
 
-const config = {
+const config: HederaClientConfiguration = {
   networks: [
     {
       network: 'testnet',
@@ -16,9 +16,9 @@ const config = {
       operatorKey
     },
   ],
-} satisfies HederaClientConfiguration;
+};
 
-// Put the existing revocationRegistryDefinitionId on testnet
+// Specify the existing revocationRegistryDefinitionId on the testnet here
 const revocationRegistryDefinitionId = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.6557893';
 
 async function main() {

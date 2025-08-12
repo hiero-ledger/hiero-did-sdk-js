@@ -12,7 +12,7 @@ import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/c
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
 
-const config = {
+const config: HederaClientConfiguration = {
   networks: [
     {
       network: 'testnet',
@@ -20,7 +20,7 @@ const config = {
       operatorKey
     },
   ],
-} satisfies HederaClientConfiguration;
+};
 
 async function main() {
   const clientService = new HederaClientService(config);

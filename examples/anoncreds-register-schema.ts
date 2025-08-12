@@ -9,7 +9,7 @@ import { AnonCredsSchema } from '../packages/anoncreds/src/specification';
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
 
-const config = {
+const config: HederaClientConfiguration = {
   networks: [
     {
       network: 'testnet',
@@ -17,7 +17,7 @@ const config = {
       operatorKey
     },
   ],
-} satisfies HederaClientConfiguration;
+};
 
 const schema = {
   issuerId: 'did:example:issuer1',
