@@ -9,7 +9,7 @@ System_Boundary(c1, "Hiero DID SDK") {
 
   Component(registrar, "Registrar", "DID create, update, and deactivate operations")
   Component(resolver, "Resolver", "Resolves DID Document")
-  Component(hcsService, "HcsService", "Manages Hedera Consensus Service objects")
+  Component(hcsService, "HcsService", "Manages service instances and provides convenient API to work with Hedera Consensus Service")
   Component(anoncredsRegistry, "HederaAnoncredsRegistry", "Manages AnonCreds schemas, credential defs, revocation registries")
 
   Component(signer, "Signer", "Signs DID Message")
@@ -33,14 +33,14 @@ System_Ext(hedera, "Hedera Node", "Gateway to the Hedera network")
 ' Developer interactions
 Rel(developer, registrar, "dApp developers use Registrar to create, update, and deactivate DIDs")
 Rel(developer, resolver, "Developers resolve DID Documents using Resolver")
-Rel(developer, hcsService, "Developers leverage HcsService for Hedera Consensus Service object management")
+Rel(developer, hcsService, "Developers use HcsService to interact with HCS (Hedera Consensus Service)")
 Rel(developer, anoncredsRegistry, "Developers manage AnonCreds resources using HederaAnoncredsRegistry")
 
 ' Registrar dependencies
 Rel(registrar, signer, "Registrar requests cryptographic signing of DID messages from Signer")
 Rel(registrar, verifier, "Registrar requests cryptographic verification of DID messages from Verifier")
 
-Rel_R(registrar, publisher, "Registrar relies on Publisher to sign and send transactions to Hedera")
+Rel(registrar, publisher, "Registrar relies on Publisher to sign and send transactions to Hedera")
 
 Rel(registrar, hashicorpSigner, "Registrar requests cryptographic signing of DID messages from HashiCorp Signer")
 Rel(registrar, hashicorpVerifier, "Registrar requests cryptographic verification of DID messages from HashiCorp Verifier")

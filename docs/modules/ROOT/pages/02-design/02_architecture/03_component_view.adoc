@@ -6,7 +6,7 @@ image::component-view-diagram.png[]
 
 ==== Components
 
-* **dApp Developer:** Builds dApps with decentralized identity (not just identifiers).
+* **dApp Developer:** Builds dApps with decentralized identity.
 
 * **Hiero DID SDK:** The software development kit comprising the following components and services:
 

@@ -6,7 +6,7 @@ image::system-context-diagram.png[]
 
 ==== People
 
-* dApp Developer: Builds dApps with decentralized identity (not just identifiers).
+* dApp Developer: Builds dApps with decentralized identity.
 * Operator/DevOps: Configures network access, credentials, and optional external KMS (e.g., HashiCorp Vault).
 
 ==== Software Systems

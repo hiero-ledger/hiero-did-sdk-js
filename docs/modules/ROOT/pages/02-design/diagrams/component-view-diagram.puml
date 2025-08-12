@@ -9,7 +9,7 @@ System_Boundary(c1, "Hiero DID SDK") {
 
   Component(registrar, "Registrar", "DID create, update, and deactivate operations")
   Component(resolver, "Resolver", "Resolves DID Document")
-  Component(hcsService, "HcsService", "Manages Hedera Consensus Service objects")
+  Component(hcsService, "HcsService", "Manages service instances and provides convenient API to work with Hedera Consensus Service")
   Component(anoncredsRegistry, "HederaAnoncredsRegistry", "Manages AnonCreds schemas, credential defs, revocation registries")
 
   Component(signer, "Signer", "Signs DID Message")
