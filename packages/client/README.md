@@ -20,11 +20,6 @@ npm install @hiero-did-sdk/client
 
 Learn how to use the HederaClientService in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/client-guide.html).
 
-### Examples
-
-- [get-client](../../examples/client-get-client.ts) - Demonstrates how to create a Hedera client instance for a specific network.
-- [with-client-operation](../../examples/client-with-client-operation.ts) - Demonstrates usage of `withClient` to safely perform operations with automatic client lifecycle management.
-
 ## API Reference
 
 See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/client-api.html).
