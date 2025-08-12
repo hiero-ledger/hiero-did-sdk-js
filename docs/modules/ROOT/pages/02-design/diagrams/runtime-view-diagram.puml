@@ -3,14 +3,14 @@
 
 title Hiero DID SDK Runtime View
 
-Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identities")
+Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identity (not just identifiers)")
 
 System_Boundary(c1, "Hiero DID SDK") {
 
   Component(registrar, "Registrar", "DID create, update, and deactivate operations")
   Component(resolver, "Resolver", "Resolves DID Document")
   Component(hcsService, "HcsService", "Manages Hedera Consensus Service objects")
-  Component(anoncredsRegistry, "AnoncredsRegistry", "Manages AnonCreds schemas, credential defs, revocation registries")
+  Component(anoncredsRegistry, "HederaAnoncredsRegistry", "Manages AnonCreds schemas, credential defs, revocation registries")
 
   Component(signer, "Signer", "Signs DID Message")
   Component(verifier, "Verifier", "Verifies DID Message")
@@ -20,34 +20,27 @@ System_Boundary(c1, "Hiero DID SDK") {
   Component(hashicorpSigner, "HashiCorp Signer", "Signs DID Message")
   Component(hashicorpVerifier, "HashiCorp Verifier", "Verifies DID Message")
 
-  Component(hederaClientService, "HederaClientService", "Manages Hedera SDK clients for multiple networks")
-
   Component(hcsTopicService, "HcsTopicService", "Manages Hedera Consensus Service topics")
   Component(hcsMessageService, "HcsMessageService", "Sends and retrieves messages from topics")
-  Component(hcsFileService, "HcsFileService", "Stores and resolves files using HCS-1 protocol")
-
-  Component(cache, "Cache Service", "Caches data to improve performance")
-
-  Component(crypto, "Crypto Library", "Provides SHA-256 hashing")
-  Component(zstd, "Zstd Compression", "Compresses/Decompresses data using Zstandard")
+  Component(hcsFileService, "HcsFileService", "Stores and resolves files according to HCS-1 standard")
 }
 
 System_Ext(hashicorp, "HashiCorp Vault", "External KMS used by Vault signer/verifier")
 
-System_Ext(topic, "Hedera Consensus Service", "Gateway to the Hedera Consensus Service")
+System_Ext(topic, "Hedera Consensus Service", "Service providing decentralized, auditable logs of immutable and timestamped events (messages)")
 System_Ext(hedera, "Hedera Node", "Gateway to the Hedera network")
 
 ' Developer interactions
 Rel(developer, registrar, "dApp developers use Registrar to create, update, and deactivate DIDs")
 Rel(developer, resolver, "Developers resolve DID Documents using Resolver")
 Rel(developer, hcsService, "Developers leverage HcsService for Hedera Consensus Service object management")
-Rel(developer, anoncredsRegistry, "Developers manage anonymous credentials via AnoncredsRegistry")
+Rel(developer, anoncredsRegistry, "Developers manage AnonCreds resources using HederaAnoncredsRegistry")
 
 ' Registrar dependencies
 Rel(registrar, signer, "Registrar requests cryptographic signing of DID messages from Signer")
 Rel(registrar, verifier, "Registrar requests cryptographic verification of DID messages from Verifier")
 
-Rel(registrar, publisher, "Registrar relies on Publisher to sign and send transactions to Hedera")
+Rel_R(registrar, publisher, "Registrar relies on Publisher to sign and send transactions to Hedera")
 
 Rel(registrar, hashicorpSigner, "Registrar requests cryptographic signing of DID messages from HashiCorp Signer")
 Rel(registrar, hashicorpVerifier, "Registrar requests cryptographic verification of DID messages from HashiCorp Verifier")
@@ -61,28 +54,10 @@ Rel(publisher, topic, "Publisher submits signed transactions to Hedera Consensus
 ' DID Document retrieval
 Rel(resolver, topic, "Resolver reads DID Documents from Hedera Consensus Service topics")
 
-' HCS infrastructure initialization
-Rel(hcsService, hederaClientService, "HcsService initializes Hedera clients for network communication")
-Rel(hcsService, cache, "HcsService initializes cache for improved performance")
-
 ' HCS service internal usage
 Rel(hcsService, hcsTopicService, "HcsService manages topic lifecycle via HcsTopicService")
 Rel(hcsService, hcsMessageService, "HcsService manages messaging via HcsMessageService")
 Rel(hcsService, hcsFileService, "HcsService manages files via HcsFileService")
-
-' Individual HCS service Hedera client usage
-Rel_U(hcsTopicService, hederaClientService, "HcsTopicService uses HederaClientService for Hedera SDK client access")
-Rel_U(hcsMessageService, hederaClientService, "HcsMessageService uses HederaClientService for SDK client operations")
-Rel_U(hcsFileService, hederaClientService, "HcsFileService uses HederaClientService for SDK client operations")
-
-' Caching within HCS services
-Rel_U(hcsTopicService, cache, "HcsTopicService caches topic metadata and info")
-Rel_U(hcsMessageService, cache, "HcsMessageService caches messages for performance")
-Rel_U(hcsFileService, cache, "HcsFileService caches files to reduce network overhead")
-
-' Supporting libraries for file service
-Rel(hcsFileService, crypto, "HcsFileService uses Crypto Library for hashing and integrity checks")
-Rel(hcsFileService, zstd, "HcsFileService uses Zstd Compression for file compression and decompression")
 
 ' Topic communication with Hedera network
 Rel(hcsMessageService, topic, "HcsMessageService sends and fetches messages on topics")
@@ -90,7 +65,7 @@ Rel(hcsFileService, topic, "HcsFileService manages file chunks in topics")
 Rel(hcsTopicService, topic, "HcsTopicService handles topic lifecycle on Hedera")
 
 ' Anoncreds registry relies on HCS service
-Rel_L(anoncredsRegistry, hcsService, "AnoncredsRegistry uses HcsService for interraction with Hedera")
+Rel_L(anoncredsRegistry, hcsService, "AnoncredsRegistry uses HcsService for interaction with Hedera")
 
 ' Hedera network infrastructure
 Rel(topic, hedera, "Hedera Consensus Service topics interact with Hedera Nodes to process transactions")

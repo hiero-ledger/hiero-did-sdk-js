@@ -1,18 +1,18 @@
 = HederaHcsService Guide
 
-The `@hiero-did-sdk/hcs` package provides powerful tools and services for interacting with Hedera Consensus Service (HCS) topics and messages. The package also implements support for the HCS-1 protocol for file storage based on the Hedera ledger.
+The `@hiero-did-sdk/hcs` package provides powerful tools and services for interacting with Hedera Consensus Service (HCS) topics and messages. The package also implements support for the HCS-1 standard for file storage based on the Hedera ledger.
 
 == Overview
 
 Use `@hiero-did-sdk/hcs` to:
 * Create, update, and delete HCS topics.
 * Publish and retrieve messages in HCS topics.
-* Store and retrieve files (including chunked files) using Hedera Consensus Service file abstraction (HCS-1).
+* Store and retrieve files using Hedera Consensus Service file abstraction (HCS-1 standard).
 * Integrate caching and efficient retrieval for topic metadata and info.
 
 == Package Architecture
 
-image::hedera-hcs-service-diagram.png[]
+image::hcs-service-diagram.png[]
 
 * HederaHcsService - A service wrapper providing convenient interaction with the Hedera Consensus Service (HCS).
 * HcsTopicService - A service for working with topics.
@@ -106,14 +106,14 @@ const options = {
 ----
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
-const ledgerService = new HederaHcsService({
+const hcsService = new HederaHcsService({
   networks: [
     { 'testnet', operatorId, operatorKey },
   ],
   cache: { maxSize: 100 },
 });
 
-const topic = await ledgerService.createTopic({
+const topic = await hcsService.createTopic({
   networkName: 'testnet',
   topicMemo: "Topic Memo",
   waitForChangesVisibility: true,
@@ -128,14 +128,14 @@ console.log(topic);
 ----
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
-const ledgerService = new HederaHcsService({
+const hcsService = new HederaHcsService({
   networks: [
     { 'testnet', operatorId, operatorKey },
   ],
   cache: { maxSize: 100 },
 });
 
-const topic = await ledgerService.updateTopic({
+const topic = await hcsService.updateTopic({
   networkName: 'testnet',
   topicMemo: "New Topic Memo",
   waitForChangesVisibility: true,
@@ -150,14 +150,14 @@ console.log(topic);
 ----
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
-const ledgerService = new HederaHcsService({
+const hcsService = new HederaHcsService({
   networks: [
     { 'testnet', operatorId, operatorKey },
   ],
   cache: { maxSize: 100 },
 });
 
-const topic = await ledgerService.deleteTopic({
+const topic = await hcsService.deleteTopic({
   topicId,
   currentAdminKey: PrivateKey.fromStringDer(operatorKey),
   waitForChangesVisibility: true,
@@ -172,14 +172,14 @@ console.log(topic);
 ----
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
-const ledgerService = new HederaHcsService({
+const hcsService = new HederaHcsService({
   networks: [
     { 'testnet', operatorId, operatorKey },
   ],
   cache: { maxSize: 100 },
 });
 
-const topic = await ledgerService.getTopicInfo({
+const topic = await hcsService.getTopicInfo({
   topicId: "0.0.123"
 });
 
@@ -192,14 +192,14 @@ console.log(topic);
 ----
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
-const ledgerService = new HederaHcsService({
+const hcsService = new HederaHcsService({
   networks: [
     { 'testnet', operatorId, operatorKey },
   ],
   cache: { maxSize: 100 },
 });
 
-const topic = await ledgerService.submitMessage({
+const topic = await hcsService.submitMessage({
   networkName: 'testnet',
   topicId: 'topicId',
   message: 'message',
@@ -214,14 +214,14 @@ console.log(topic);
 ----
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
-const ledgerService = new HederaHcsService({
+const hcsService = new HederaHcsService({
   networks: [
     { 'testnet', operatorId, operatorKey },
   ],
   cache: { maxSize: 100 },
 });
 
-const topic = await ledgerService.getTopicMessages({
+const topic = await hcsService.getTopicMessages({
   networkName: 'testnet',
   topicId: '0.0.123'
 });
@@ -235,14 +235,14 @@ console.log(topic);
 ----
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
-const ledgerService = new HederaHcsService({
+const hcsService = new HederaHcsService({
   networks: [
     { 'testnet', operatorId, operatorKey },
   ],
   cache: { maxSize: 100 },
 });
 
-const topic = await ledgerService.submitFile({
+const topic = await hcsService.submitFile({
   payload: Buffer.from('This is a test content'),
   waitForChangesVisibility: true,
 });
@@ -256,18 +256,18 @@ console.log(topic);
 ----
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
-const ledgerService = new HederaHcsService({
+const hcsService = new HederaHcsService({
   networks: [
     { 'testnet', operatorId, operatorKey },
   ],
   cache: { maxSize: 100 },
 });
 
-const topic = await ledgerService.resolveFile({ topicId: '0.0.123' };
+const topic = await hcsService.resolveFile({ topicId: '0.0.123' };
 
 console.log(topic);
 ----
 
 == See Also
 
-xref:03-implementation/components/hedera-hcs-service-api.adoc[HCS Service API Reference]
+xref:03-implementation/components/hcs-service-api.adoc[HCS Service API Reference]

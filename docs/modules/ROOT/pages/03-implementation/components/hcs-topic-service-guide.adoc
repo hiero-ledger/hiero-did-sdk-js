@@ -126,5 +126,5 @@ Returns an object with the topic information, including memo, admin and submit k
 
 == See Also
 
-xref:03-implementation/components/hedera-hcs-topic-service-api.adoc[HcsTopicService API Reference]
+xref:03-implementation/components/hcs-topic-service-api.adoc[HcsTopicService API Reference]
 

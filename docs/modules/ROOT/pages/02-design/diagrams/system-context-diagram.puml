@@ -3,7 +3,7 @@
 
 title Hiero DID SDK System Context
 
-Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identities")
+Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identity (not just identifiers)")
 
 System(sdk, "Hiero DID SDK", "Manages Decentralized Identities (DIDs)")
 

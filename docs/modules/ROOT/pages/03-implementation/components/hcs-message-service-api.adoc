@@ -181,4 +181,4 @@ Constructs the next URL to fetch messages via the mirror node REST API.
 
 == See Also
 
-xref:03-implementation/components/hedera-hcs-message-service-guide.adoc[HcsMessageService Developer Guide]
+xref:03-implementation/components/hcs-message-service-guide.adoc[HcsMessageService Developer Guide]

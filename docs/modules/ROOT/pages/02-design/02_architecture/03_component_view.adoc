@@ -16,7 +16,7 @@ image::component-view-diagram.png[]
 
   * **HcsService:** Central service managing Hedera Consensus Service (HCS) objects; responsible for initializing the Hedera client and cache.
 
-  * **AnoncredsRegistry:** Manages registration and resolution of AnonCreds schemas, credential definitions, revocation registries, and revocation status lists on Hedera.
+  * **HederaAnoncredsRegistry:** Manages registration and resolution of AnonCreds schemas, credential definitions, revocation registries, and revocation status lists on Hedera.
 
   * **Signer:** Signs DID messages to ensure cryptographic integrity.
 
@@ -34,7 +34,7 @@ image::component-view-diagram.png[]
 
   * **HcsMessageService:** Handles sending and retrieving messages from HCS topics.
 
-  * **HcsFileService:** Provides file storage and retrieval capabilities using the HCS-1 protocol, with automatic Zstandard compression and integrity verification.
+  * **HcsFileService:** Provides file storage and retrieval capabilities using the HCS-1 standard, with automatic Zstandard compression and integrity verification.
 
   * **Cache Service:** Caches data and query results to improve performance and reduce redundant network requests.
 
@@ -50,7 +50,7 @@ image::component-view-diagram.png[]
 
 ==== Interactions
 
-* **dApp Developers use Registrar, Resolver, HcsService, and AnoncredsRegistry:** Developers interact with these components to manage decentralized identifiers, resolve DID documents, manipulate HCS objects, and register AnonCreds data.
+* **dApp Developers use Registrar, Resolver, HcsService, and HederaAnoncredsRegistry:** Developers interact with these components to manage decentralized identifiers, resolve DID documents, manipulate HCS objects, and register AnonCreds data.
 
 * **Registrar uses Signer and Publisher:** Registrar signs DID-related messages with the Signer and publishes these signed transactions to the Hedera network via the Publisher.
 
@@ -66,7 +66,7 @@ image::component-view-diagram.png[]
 
 * **HcsTopicService, HcsMessageService, HcsFileService use Cache Service:** All these services utilize caching to enhance data retrieval efficiency.
 
-* **HcsFileService uses Crypto Library and Zstd Compression:** For file integrity and compression during storage and retrieval.
+* **HcsFileService uses Crypto Library and Zstd Compression:** For file compression during storage and retrieval.
 
 * **HcsMessageService publishes and retrieves messages from Hedera Consensus Service:** Manages message sending and receiving through topics.
 
@@ -74,6 +74,6 @@ image::component-view-diagram.png[]
 
 * **HcsTopicService manages topics in the Hedera Consensus Service:** Oversees topic lifecycle (creation, update, deletion).
 
-* **AnoncredsRegistry uses HcsService:** Uses HCS services to store and retrieve AnonCreds-related data on Hedera.
+* **HederaAnoncredsRegistry uses HcsService:** Uses HCS services to store and retrieve AnonCreds-related data on Hedera.
 
 * **Hedera Consensus Service communicates with Hedera Node:** The underlying infrastructure supporting message publication and retrieval.

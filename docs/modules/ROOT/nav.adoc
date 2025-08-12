@@ -39,10 +39,10 @@
         ***** xref:03-implementation/components/hashicorp-vault-signer-guide.adoc[Signer]
         ***** xref:03-implementation/components/hashicorp-vault-verifier-guide.adoc[Verifier]
     *** Hedera HCS
-      **** xref:03-implementation/components/hedera-hcs-service-guide.adoc[HCS service]
-      **** xref:03-implementation/components/hedera-hcs-topic-service-guide.adoc[HCS Topic service]
-      **** xref:03-implementation/components/hedera-hcs-message-service-guide.adoc[HCS Message service]
-      **** xref:03-implementation/components/hedera-hcs-file-service-guide.adoc[HCS File service]
+      **** xref:03-implementation/components/hcs-service-guide.adoc[HCS service]
+      **** xref:03-implementation/components/hcs-topic-service-guide.adoc[HCS Topic service]
+      **** xref:03-implementation/components/hcs-message-service-guide.adoc[HCS Message service]
+      **** xref:03-implementation/components/hcs-file-service-guide.adoc[HCS File service]
       **** xref:03-implementation/components/publisher-guide.adoc[Publisher]
     *** Anoncreds
       **** xref:03-implementation/components/anoncreds-guide.adoc[Anoncreds Registry]
@@ -64,7 +64,7 @@
       **** DereferenceDid
         ***** xref:03-implementation/components/dereferenceDID-api.adoc[dereferenceDID]
         ***** xref:03-implementation/components/did-dereference-builder-api.adoc[didDereferenceBuilder]
-      **** xref:03-implementation/components/topic-reader-api.adoc[TopicReader]
+      **** xref:03-implementation/components/topic-reader-api.adoc[TopicReader API Reference]
     *** DidRegistrar
       **** CreateDid
         ***** xref:03-implementation/components/createDID-api.adoc[createDID]
@@ -89,11 +89,11 @@
         ***** xref:03-implementation/components/hashicorp-vault-verifier-api.adoc[Vault Verifier]
         ***** xref:03-implementation/components/hashicorp-vault-verifier-factory-api.adoc[Vault Verifier Factory]
     *** Hedera HCS
-      **** xref:03-implementation/components/hedera-hcs-service-api.adoc[HCS service]
-      **** xref:03-implementation/components/hedera-hcs-topic-service-api.adoc[HCS Topic service]
-      **** xref:03-implementation/components/hedera-hcs-message-service-api.adoc[HCS Message service]
-      **** xref:03-implementation/components/hedera-hcs-file-service-api.adoc[HCS File service]
-      **** xref:03-implementation/components/hedera-hcs-cache-service-api.adoc[HCS Cache service]
+      **** xref:03-implementation/components/hcs-service-api.adoc[HCS service]
+      **** xref:03-implementation/components/hcs-topic-service-api.adoc[HCS Topic service]
+      **** xref:03-implementation/components/hcs-message-service-api.adoc[HCS Message service]
+      **** xref:03-implementation/components/hcs-file-service-api.adoc[HCS File service]
+      **** xref:03-implementation/components/hcs-cache-service-api.adoc[HCS Cache service]
       **** xref:03-implementation/components/publisher-api.adoc[Publisher]
     *** Anoncreds
       **** xref:03-implementation/components/anoncreds-api.adoc[Anoncreds Registry]

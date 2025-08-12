@@ -84,5 +84,5 @@ Returns an array of objects each containing:
 
 == See Also
 
-xref:03-implementation/components/hedera-hcs-service-api.adoc[HcsMessageService API Reference]
+xref:03-implementation/components/hcs-service-api.adoc[HcsMessageService API Reference]
 

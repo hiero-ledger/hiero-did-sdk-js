@@ -185,4 +185,4 @@ Converts expiration time to milliseconds since epoch.
 
 == See Also
 
-xref:03-implementation/components/hedera-hcs-topic-service-guide.adoc[HcsTopicService Developer Guide]
+xref:03-implementation/components/hcs-topic-service-guide.adoc[HcsTopicService Developer Guide]

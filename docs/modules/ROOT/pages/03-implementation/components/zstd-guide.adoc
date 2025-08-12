@@ -11,7 +11,7 @@ Use the `Zstd` library to:
 * Automatically select a compatible compression module depending on runtime environment (Node.js native or React Native polyfill).
 * Support Uint8Array binary inputs and outputs for seamless integration with modern JavaScript/TypeScript applications.
 
-Zstandard is a lossless compression algorithm known for offering excellent compression ratios at high speed. It supports a wide range of compression levels and is suitable for real-time compression scenarios.[1][3][5]
+Zstandard is a lossless compression algorithm known for offering excellent compression ratios at high speed. It supports a wide range of compression levels and is suitable for real-time compression scenarios.
 
 == Initialization
 

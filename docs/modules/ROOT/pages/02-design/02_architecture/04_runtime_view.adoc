@@ -6,9 +6,9 @@ image::runtime-view-diagram.png[]
 
 ==== Components
 
-* **dApp Developer:** The end developer who interacts with the SDK to manage decentralized identifiers (DIDs) and related credentials.
+* **dApp Developer:** The end developer who interacts with the SDK to manage decentralized identifiers (DIDs) and resources required for AnonCreds verifiable credentials (VCs).
 
-* **Hiero DID SDK:** The software development kit consisting of key components that handle DID lifecycle, messaging, cryptography, and ledger interactions:
+* **Hiero DID SDK:** The software development kit providing key components to work with decentralized identity on Hiero:
 
   * **Registrar:** Handles creation, update, deactivation, and resolution of DIDs at runtime.
   * **Resolver:** Resolves DID Documents upon developer’s request.
@@ -22,7 +22,7 @@ image::runtime-view-diagram.png[]
   * **Cache Service:** Caches frequently used data to enhance performance.
   * **Crypto Library:** Provides cryptographic utilities (e.g., SHA-256 hashing).
   * **Zstd Compression:** Offers compression and decompression using the Zstandard algorithm.
-  * **AnoncredsRegistry:** Manages decentralized anonymous credentials (AnonCreds) data lifecycle on Hedera.
+  * **HederaAnoncredsRegistry:** Manages decentralized anonymous credentials (AnonCreds) data lifecycle on Hedera.
 
 * **Hedera Consensus Service:** The Hedera network service providing publish/subscribe messaging on topics.
 
@@ -36,17 +36,17 @@ image::runtime-view-diagram.png[]
 
 3. **HCS Object Management:** The **Registrar** invokes **HcsService**, which orchestrates interactions with **HcsTopicService**, **HcsMessageService**, and **HcsFileService** to handle topic creation, message sending, or file storage.
 
-4. **Transaction Preparation and Publishing:** The **Publisher** signs and publishes the constructed transactions (including DID Documents or credential data encoded as messages or files) to the **Hedera Consensus Service**.
+4. **Transaction Preparation and Publishing:** The **Publisher** publishes the signed transactions to the **Hedera Consensus Service**.
 
 5. **Ledger Interaction:** The **Hedera Consensus Service** communicates with one or more **Hedera Nodes** to persist, order, and propagate the transactions.
 
-6. **Caching for Efficiency:** The **Cache Service** supports multiple components (Registrar, Resolver, HCS services) by caching metadata, topic information, messages, or DID documents to reduce redundant network calls.
+6. **Caching for Efficiency:** The **Cache Service** caches **Hedera Consensus Service** data to reduce redundant network calls.
 
-7. **Message and File Retrieval:** The **Resolver**, when resolving DID Documents or credentials, uses **HcsMessageService** and **HcsFileService** to retrieve messages and files from topics, decompressing via **Zstd Compression** and verifying integrity with the **Crypto Library**.
+7. **Message and File Retrieval:** The **Resolver**, when resolving DID Documents, uses **TopicReader** for retrieving messages. The **HcsFileService**, when resolving files, get **HederaSDK** directly to retrieve messages from topics, build files from them by HCS-1 standard, decompressing via **Zstd Compression** and verifying integrity with the **Crypto **
 
 8. **Hedera Client Usage:** All interactions with the Hedera network (making calls, submitting transactions) pass through clients managed by **HederaClientService**, which handles multi-network configurations and client lifecycle.
 
-9. **Anoncreds Data Management:** The **AnoncredsRegistry** uses **HcsService** and related messaging/file services to register schemas, credential definitions, revocation registries, and status lists, ensuring decentralized credential management atop Hedera.
+9. **Anoncreds Data Management:** The **HederaAnoncredsRegistry** uses **HcsService** and related messaging/file services to register schemas, credential definitions, revocation registries, and status lists, ensuring decentralized credential management atop Hedera.
 
 ==== Data Flow Summary
 
@@ -64,5 +64,5 @@ image::runtime-view-diagram.png[]
 
 - All Ledger interactions → HederaClientService: Provides configured clients for network operations.
 
-- AnoncredsRegistry ↔ HcsService: Manages AnonCreds lifecycle on ledger.
+- HederaAnoncredsRegistry ↔ HcsService: Manages AnonCreds lifecycle on ledger.
 

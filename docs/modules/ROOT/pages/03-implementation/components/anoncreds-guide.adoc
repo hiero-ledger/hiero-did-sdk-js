@@ -201,5 +201,5 @@ Returns the revocation status list and resolution metadata.
 
 == See Also
 
-xref:03-implementation/components/anoncreds-api.adoc[AnoncredsRegistry API Reference]
+xref:03-implementation/components/anoncreds-api.adoc[HederaAnoncredsRegistry API Reference]
 

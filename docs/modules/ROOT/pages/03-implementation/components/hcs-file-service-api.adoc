@@ -79,7 +79,7 @@ Resolves an HCS-1 file from a topic ID without using any cache.
 * A promise resolving to a `Buffer` containing the reconstructed file content.
 
 .Throws
-* Error if the topic memo is invalid or does not comply with HCS-1 format.
+* Error if the topic memo is invalid or does not comply with HCS-1 standard.
 * Error if the topic contains an admin key (which is not allowed).
 * Error if the resolved file’s checksum does not match the expected hash.
 
@@ -137,13 +137,13 @@ Creates an HCS-1 compliant topic memo string from a SHA-256 hash.
 private isValidHCS1Memo(memo: string): boolean
 ----
 
-Checks whether a topic memo string conforms to the HCS-1 format.
+Checks whether a topic memo string conforms to the HCS-1 standard.
 
 .Parameters
 * `memo` (string, required): The memo string to validate.
 
 .Returns
-* `true` if the memo matches the HCS-1 format, `false` otherwise.
+* `true` if the memo matches the HCS-1 standard, `false` otherwise.
 
 === `isValidHCS1Checksum`
 [source,ts]
@@ -165,5 +165,5 @@ Validates that the computed checksum of the file payload matches the expected SH
 
 == See Also
 
-xref:03-implementation/components/hedera-hcs-file-service-guide.adoc[HcsFileService Developer Guide]
+xref:03-implementation/components/hcs-file-service-guide.adoc[HcsFileService Developer Guide]
 

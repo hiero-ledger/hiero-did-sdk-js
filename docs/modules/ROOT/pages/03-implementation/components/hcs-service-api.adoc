@@ -178,4 +178,4 @@ Reconstructs a file from topic messages.
 
 == See Also
 
-xref:03-implementation/components/hedera-hcs-service-guide.adoc[HcsService Developer Guide]
+xref:03-implementation/components/hcs-service-guide.adoc[HcsService Developer Guide]

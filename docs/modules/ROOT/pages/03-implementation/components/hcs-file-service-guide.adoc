@@ -1,6 +1,6 @@
 = HcsFileService Guide
 
-The `@hiero-did-sdk/hcs` package provides the `HcsFileService` — a service for managing file storage on Hedera Consensus Service (HCS) topics using the HCS-1 protocol, which supports chunked file uploads with compression.
+The `@hiero-did-sdk/hcs` package provides the `HcsFileService` — a service for managing file storage on Hedera Consensus Service (HCS) topics using the HCS-1 standard, which supports chunked file uploads with compression.
 
 == Overview
 
@@ -81,5 +81,5 @@ Returns:
 
 == See Also
 
-xref:03-implementation/components/hedera-hcs-file-service-api.adoc[HcsFileService API Reference]
+xref:03-implementation/components/hcs-file-service-api.adoc[HcsFileService API Reference]
 
