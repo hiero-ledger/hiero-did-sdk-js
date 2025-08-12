@@ -18,7 +18,7 @@ npm install @hiero-did-sdk/zstd
 
 ## Usage
 
-Learn how to use the Zstd module in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/zstd-guide.html).
+Learn how to use the Zstd module in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/zstd-guide.html).
 
 ### Examples
 
@@ -27,12 +27,12 @@ Learn how to use the Zstd module in the [Usage Guide](https://hiero-ledger.githu
 
 ## API Reference
 
-See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/zstd-api.html).
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/zstd-api.html).
 
 
 ## API Reference
 
-Learn more in the [Zstd API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/zstd-api.html).
+Learn more in the [Zstd API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/zstd-api.html).
 
 ## Running Tests
 

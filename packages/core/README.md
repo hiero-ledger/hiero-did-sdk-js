@@ -19,11 +19,11 @@ npm install @hiero-did-sdk/core
 
 ## Usage
 
-Learn how to use the core interfaces and utilities for DID operations in the [Core Package Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/core-guide.html).
+Learn how to use the core interfaces and utilities for DID operations in the [Core Package Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/core-guide.html).
 
 ## API Reference
 
-Learn more in the [Core API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/core-api.html).
+Learn more in the [Core API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/core-api.html).
 
 ## Running Tests
 

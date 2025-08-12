@@ -34,19 +34,19 @@ npm install @hiero-did-sdk/registrar
 
 This package provides three main functions for managing DIDs: `createDID`, `updateDID`, and `deactivateDID`.
 
-Learn how to use the `createDID` function to create a new DID in the [`createDID` Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/createDID-guide.html).
+Learn how to use the `createDID` function to create a new DID in the [`createDID` Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/createDID-guide.html).
 
-Learn how to use the `updateDID` function to update an existing DID in the [`updateDID` Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/updateDID-guide.html).
+Learn how to use the `updateDID` function to update an existing DID in the [`updateDID` Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/updateDID-guide.html).
 
-Learn how to use the `deactivateDID` function to deactivate a DID in the [`deactivateDID` Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/deactivateDID-guide.html).
+Learn how to use the `deactivateDID` function to deactivate a DID in the [`deactivateDID` Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/deactivateDID-guide.html).
 
 ## API Reference
 
-Learn more in the [`createDID` API reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/createDID-api.html).
+Learn more in the [`createDID` API reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/createDID-api.html).
 
-Learn more in the [`updateDID` API reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/updateDID-api.html).
+Learn more in the [`updateDID` API reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/updateDID-api.html).
 
-Learn more in the [`deactivateDID` API reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/deactivateDID-api.html).
+Learn more in the [`deactivateDID` API reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/deactivateDID-api.html).
 
 ## Running Tests
 

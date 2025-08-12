@@ -18,7 +18,7 @@ npm install @hiero-did-sdk/client
 
 ## Usage
 
-Learn how to use the HederaClientService in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/client-guide.html).
+Learn how to use the HederaClientService in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/client-guide.html).
 
 ### Examples
 
@@ -27,7 +27,7 @@ Learn how to use the HederaClientService in the [Usage Guide](https://hiero-ledg
 
 ## API Reference
 
-See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/client-api.html).
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/client-api.html).
 
 ## Running Tests
 

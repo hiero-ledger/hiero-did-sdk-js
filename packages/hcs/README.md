@@ -22,10 +22,10 @@ npm install @hiero-did-sdk/hcs
 ## Usage
 
 Learn how to use:
-- [HederaHcsService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hcs-service-guide.html)
-- [HcsTopicService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hcs-topic-service-guide.html)
-- [HcsMessageService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hcs-message-service-guide.html)
-- [HcsFileService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hcs-file-service-guide.html)
+- [HederaHcsService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-service-guide.html)
+- [HcsTopicService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-topic-service-guide.html)
+- [HcsMessageService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-message-service-guide.html)
+- [HcsFileService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-file-service-guide.html)
 
 ### Examples
 
@@ -53,10 +53,10 @@ Learn how to use:
 ## API Reference
 
 See detailed API specifications and available methods here:
-- [HederaHcsService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hcs-service-api.html).
-- [HcsTopicService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hcs-topic-service-api.html)
-- [HcsMessageService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hcs-message-service-api.html)
-- [HcsFileService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/hcs-file-service-api.html)
+- [HederaHcsService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-service-api.html).
+- [HcsTopicService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-topic-service-api.html)
+- [HcsMessageService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-message-service-api.html)
+- [HcsFileService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-file-service-api.html)
 
 ## Running Tests
 

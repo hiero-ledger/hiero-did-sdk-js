@@ -19,8 +19,8 @@ npm install @hiero-did-sdk/anoncreds
 
 ## Usage
 
-Learn how to manage anoncreds registry on the Hedera network in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-guide.html).
-For more detailed examples and usage scenarios, refer to the [AnonCreds Package Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-guide.html).
+Learn how to manage anoncreds registry on the Hedera network in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/anoncreds-guide.html).
+For more detailed examples and usage scenarios, refer to the [AnonCreds Package Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/anoncreds-guide.html).
 
 ### Examples
 
@@ -35,7 +35,7 @@ For more detailed examples and usage scenarios, refer to the [AnonCreds Package 
 
 ## API Reference
 
-See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-api.html).
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/anoncreds-api.html).
 
 
 ## Running Tests

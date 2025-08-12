@@ -18,7 +18,7 @@ npm install @hiero-did-sdk/crypto
 
 ## Usage
 
-Learn how to use the Crypto module in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/crypto-guide.html).
+Learn how to use the Crypto module in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/crypto-guide.html).
 
 ### Examples
 
@@ -27,7 +27,7 @@ Learn how to use the Crypto module in the [Usage Guide](https://hiero-ledger.git
 
 ## API Reference
 
-See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/crypto-api.html).
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/crypto-api.html).
 
 
 ## Running Tests
