@@ -22,8 +22,8 @@ Learn how to use the HederaClientService in the [Usage Guide](https://hiero-ledg
 
 ### Examples
 
-- [get-client](./examples/get-client.ts) - Demonstrates how to create a Hedera client instance for a specific network.
-- [with-client-operation](./examples/with-client-operation.ts) - Demonstrates usage of `withClient` to safely perform operations with automatic client lifecycle management.
+- [get-client](../../examples/client-get-client.ts) - Demonstrates how to create a Hedera client instance for a specific network.
+- [with-client-operation](../../examples/client-with-client-operation.ts) - Demonstrates usage of `withClient` to safely perform operations with automatic client lifecycle management.
 
 ## API Reference
 

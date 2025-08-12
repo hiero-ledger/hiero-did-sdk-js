@@ -97,8 +97,8 @@ The following examples are available in this directory:
 
 ### HederaClientService package
 
-- **[`get-client.ts`](./get-client.ts)**: Demonstrates how to create a Hedera client instance for a specific network using `HederaClientService.getClient`.
-- **[`with-client-operation.ts`](./with-client-operation.ts)**: Demonstrates usage of `HederaClientService.withClient` to safely perform operations with automatic client lifecycle management.
+- **[`get-client.ts`](./client-get-client.ts)**: Demonstrates how to create a Hedera client instance for a specific network using `HederaClientService.getClient`.
+- **[`with-client-operation.ts`](./client-with-client-operation.ts)**: Demonstrates usage of `HederaClientService.withClient` to safely perform operations with automatic client lifecycle management.
 
 ### LRUMemoryCache package
 

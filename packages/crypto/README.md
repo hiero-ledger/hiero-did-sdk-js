@@ -22,8 +22,8 @@ Learn how to use the Crypto module in the [Usage Guide](https://hiero-ledger.git
 
 ### Examples
 
-- [crypto-sha256-string](./examples/crypto-sha256-string.ts) - Demonstrates how to compute the SHA-256 hash of a string.
-- [crypto-sha256-uint8array](./examples/crypto-sha256-uint8array.ts) - Demonstrates how to compute the SHA-256 hash of a Uint8Array.
+- [crypto-sha256-string](../../examples/crypto-sha256-string.ts) - Demonstrates how to compute the SHA-256 hash of a string.
+- [crypto-sha256-uint8array](../../examples/crypto-sha256-uint8array.ts) - Demonstrates how to compute the SHA-256 hash of a Uint8Array.
 
 ## API Reference
 

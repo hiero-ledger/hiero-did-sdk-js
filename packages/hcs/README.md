@@ -31,24 +31,24 @@ Learn how to use:
 
 #### hcsService
 
-- [hedara-hcs-service-comprehensive-example](./examples/hedara-hcs-service-comprehensive-example.ts) - Comprehensive example demonstrating creation, update, info retrieval of HCS topic, message submission and retrieval, file submission and resolution.
+- [hedara-hcs-service-comprehensive-example](../../examples/hedara-hcs-service-comprehensive-example.ts) - Comprehensive example demonstrating creation, update, info retrieval of HCS topic, message submission and retrieval, file submission and resolution.
 
 #### HcsTopicService
 
-- [hcs-topic-service-create-topic](./examples/hcs-topic-service-create-topic.ts) - Demonstrates how to create a new Hedera Consensus Service (HCS) topic.
-- [hcs-topic-service-update-topic](./examples/hcs-topic-service-update-topic.ts) - Demonstrates how to update an existing HCS topic.
-- [hcs-topic-service-delete-topic](./examples/hcs-topic-service-delete-topic.ts) - Demonstrates how to delete an HCS topic.
-- [hcs-topic-service-get-topic-info](./examples/hcs-topic-service-get-topic-info.ts) - Demonstrates how to retrieve information about an HCS topic.
+- [hcs-topic-service-create-topic](../../examples/hcs-topic-service-create-topic.ts) - Demonstrates how to create a new Hedera Consensus Service (HCS) topic.
+- [hcs-topic-service-update-topic](../../examples/hcs-topic-service-update-topic.ts) - Demonstrates how to update an existing HCS topic.
+- [hcs-topic-service-delete-topic](../../examples/hcs-topic-service-delete-topic.ts) - Demonstrates how to delete an HCS topic.
+- [hcs-topic-service-get-topic-info](../../examples/hcs-topic-service-get-topic-info.ts) - Demonstrates how to retrieve information about an HCS topic.
 
 #### hcsMessageService
 
-- [hcs-message-service-submit-message](./examples/hcs-message-service-submit-message.ts) - Demonstrates how to submit a message to a Hedera Consensus Service (HCS) topic.
-- [hcs-message-service-get-topic-messages](./examples/hcs-message-service-get-topic-messages.ts) - Demonstrates how to retrieve messages from an HCS topic.
+- [hcs-message-service-submit-message](../../examples/hcs-message-service-submit-message.ts) - Demonstrates how to submit a message to a Hedera Consensus Service (HCS) topic.
+- [hcs-message-service-get-topic-messages](../../examples/hcs-message-service-get-topic-messages.ts) - Demonstrates how to retrieve messages from an HCS topic.
 
 #### hcsFileService
 
-- [hcs-file-service-submit-file](./examples/hcs-file-service-submit-file.ts) - Demonstrates how to submit a file to Hedera Consensus Service (HCS).
-- [hcs-file-service-resolve-file](./examples/hcs-file-service-resolve-file.ts) - Demonstrates how to resolve and retrieve a file from HCS.
+- [hcs-file-service-submit-file](../../examples/hcs-file-service-submit-file.ts) - Demonstrates how to submit a file to Hedera Consensus Service (HCS).
+- [hcs-file-service-resolve-file](../../examples/hcs-file-service-resolve-file.ts) - Demonstrates how to resolve and retrieve a file from HCS.
 
 ## API Reference
 

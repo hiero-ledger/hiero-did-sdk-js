@@ -22,8 +22,8 @@ Learn how to use the Zstd module in the [Usage Guide](https://hiero-ledger.githu
 
 ### Examples
 
-- [zstd-compress](./examples/zstd-compress.ts) - Demonstrates how to compress a Uint8Array.
-- [zstd-decompress](./examples/zstd-decompress.ts) - Demonstrates how to decompress a Uint8Array.
+- [zstd-compress](../../examples/zstd-compress.ts) - Demonstrates how to compress a Uint8Array.
+- [zstd-decompress](../../examples/zstd-decompress.ts) - Demonstrates how to decompress a Uint8Array.
 
 ## API Reference
 

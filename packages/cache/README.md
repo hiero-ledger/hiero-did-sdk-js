@@ -22,9 +22,9 @@ Learn how to use the LRUMemoryCache in the [Usage Guide](https://hiero-ledger.gi
 
 ### Examples
 
-- [cache-set-get](./examples/cache-set-get.ts)** - Demonstrates how to set, get, and remove cache entries.
-- [cache-expiry-cleanup](./examples/cache-expiry-cleanup.ts)** - Demonstrates how to use expiration for cache entries and clean up expired items.
-- [cache-clear-getall](./examples/cache-clear-getall.ts)** - Demonstrates how to clear the cache and retrieve all current cache entries.
+- [cache-set-get](../../examples/cache-set-get.ts) - Demonstrates how to set, get, and remove cache entries.
+- [cache-expiry-cleanup](../../examples/cache-expiry-cleanup.ts) - Demonstrates how to use expiration for cache entries and clean up expired items.
+- [cache-clear-getall](../../examples/cache-clear-getall.ts) - Demonstrates how to clear the cache and retrieve all current cache entries.
 
 ## API Reference
 
