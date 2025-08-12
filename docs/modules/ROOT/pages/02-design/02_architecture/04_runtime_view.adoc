@@ -42,7 +42,7 @@ image::runtime-view-diagram.png[]
 
 6. **Caching for Efficiency:** The **Cache Service** caches **Hedera Consensus Service** data to reduce redundant network calls.
 
-7. **Message and File Retrieval:** The **Resolver**, when resolving DID Documents, uses **TopicReader** for retrieving messages. The **HcsFileService**, when resolving files, get **HederaSDK** directly to retrieve messages from topics, build files from them by HCS-1 standard, decompressing via **Zstd Compression** and verifying integrity with the **Crypto **
+7. **Message and File Retrieval:** The **Resolver**, when resolving DID Documents, uses **TopicReader** for retrieving messages. The HcsFileService, when resolving files, uses HcsTopicService to retrieve chunk messages, builds file payload from them according to HCS-1 standard (decompressing via Zstd Compression and verifying integrity with the Crypto)
 
 8. **Hedera Client Usage:** All interactions with the Hedera network (making calls, submitting transactions) pass through clients managed by **HederaClientService**, which handles multi-network configurations and client lifecycle.
 

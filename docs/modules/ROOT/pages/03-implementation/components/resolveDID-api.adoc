@@ -99,7 +99,7 @@ It is an object that contains the following properties:
 
 |topicReader?
 |`TopicReader`
-|Specifies the topic reader to use for reading messages from the Hedera network. Default is `HederaClientTopicReader`. See xref:04-deployment/packages/index.adoc#essential-packages[TopicReader] for more details.
+|Specifies the xref:03-implementation/components/topic-reader-api.adoc[TopicReader] to use for reading messages from the Hedera network. Default is `HederaClientTopicReader`.
 |===
 
 == Return Value

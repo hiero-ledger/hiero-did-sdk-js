@@ -121,7 +121,7 @@ Defaults to `true`.
 
 |topicReader?
 |`TopicReader`
-|An instance of a TopicReader. If not provided, a default `TopicReaderHederaClient` will be used.
+|An instance of a xref:03-implementation/components/topic-reader-api.adoc[TopicReader]. If not provided, a default `TopicReaderHederaClient` will be used.
 |===
 
 == Return Value
