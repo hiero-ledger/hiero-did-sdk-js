@@ -45,9 +45,7 @@
     "format-check": "prettier --check \"src/*.ts\" \"tests/*.ts\""
   },
   "publishConfig": {
-    "access": "restricted",
-    "registry": "https://npm.pkg.github.com",
-    "scope": "@hiero-did-sdk"
+    "access": "public"
   },
   "dependencies": {
     "@hashgraph/sdk": "^2.66.0",

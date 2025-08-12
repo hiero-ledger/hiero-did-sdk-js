@@ -15,10 +15,12 @@
     "format": "prettier --write \"packages/**/src/**/*.ts\" \"packages/**/tests/*.ts\" \"examples/**/*.ts\"",
     "format-check": "prettier --check \"packages/**/src/*.ts\" \"packages/**/tests/*.ts\" \"examples/**/*.ts\"",
     "release": "pnpm build && pnpm changeset publish --no-git-tag",
-    "changeset-version": "pnpm changeset version && pnpm format",
+    "changeset-version": "pnpm changeset version && pnpm format && pnpm lint:fix",
     "examples:run": "tsx --env-file examples/.env"
   },
   "devDependencies": {
+    "@hashgraph/sdk": "^2.66.0",
+    "@scure/base": "^1.2.4",
     "@antora/cli": "^3.1.10",
     "@antora/site-generator-default": "^3.1.10",
     "@babel/core": "^7.26.10",
@@ -46,9 +48,5 @@
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.1"
-  },
-  "dependencies": {
-    "@hashgraph/sdk": "^2.66.0",
-    "@scure/base": "^1.2.4"
   }
 }
