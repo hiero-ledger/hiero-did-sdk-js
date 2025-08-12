@@ -18,18 +18,12 @@ npm install @hiero-did-sdk/zstd
 
 ## Usage
 
-The package provides a `Zstd` class with static methods for compression and decompression:
+Learn how to use the Zstd module in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/zstd-guide.html).
 
-```typescript
-import { Zstd } from '@hiero-did-sdk/zstd';
+## API Reference
 
-// Compress data
-const originalData = new Uint8Array([1, 2, 3, 4, 5]);
-const compressedData = Zstd.compress(originalData);
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/zstd-api.html).
 
-// Decompress data
-const decompressedData = Zstd.decompress(compressedData);
-```
 
 ## API Reference
 

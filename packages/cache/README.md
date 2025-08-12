@@ -18,42 +18,11 @@ npm install @hiero-did-sdk/cache
 
 ## Usage
 
-The package provides an `LRUMemoryCache` class that implements the `Cache` interface from the core package:
-
-```typescript
-import { LRUMemoryCache } from '@hiero-did-sdk/cache';
-
-// Create a cache with default size (10000 entries)
-const cache = new LRUMemoryCache();
-
-// Or specify a custom size
-const smallCache = new LRUMemoryCache(100);
-
-// Store a value in the cache
-await cache.set('key1', 'value1');
-
-// Store a value with expiration (in seconds)
-await cache.set('key2', 'value2', 60); // Expires after 60 seconds
-
-// Retrieve a value from the cache
-const value = await cache.get('key1');
-
-// Remove a value from the cache
-await cache.remove('key1');
-
-// Clean up expired entries
-await cache.cleanupExpired();
-
-// Clear the entire cache
-await cache.clear();
-
-// Get all entries in the cache
-const allEntries = await cache.getAll();
-```
+Learn how to use the LRUMemoryCache in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/cache-guide.html).
 
 ## API Reference
 
-Learn more in the [Cache API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/cache-api.html).
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/cache-api.html).
 
 ## Running Tests
 

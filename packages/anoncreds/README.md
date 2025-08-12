@@ -19,49 +19,17 @@ npm install @hiero-did-sdk/anoncreds
 
 ## Usage
 
-The package provides a `HederaAnoncredsRegistry` class that serves as the main entry point for interacting with anonymous credentials on the Hedera network:
-
-```typescript
-import { HederaAnoncredsRegistry, HederaAnoncredsRegistryConfiguration } from '@hiero-did-sdk/anoncreds';
-
-// Configure the registry
-const config: HederaAnoncredsRegistryConfiguration = {
-  // Configuration options from HederaHcsServiceConfiguration
-};
-
-// Create a registry instance
-const registry = new HederaAnoncredsRegistry(config);
-
-// Register a schema
-const schemaResult = await registry.registerSchema({
-  schema: {
-    // Schema definition
-  }
-});
-
-// Get a schema
-const schema = await registry.getSchema(schemaId);
-
-// Register a credential definition
-const credDefResult = await registry.registerCredentialDefinition({
-  credentialDefinition: {
-    // Credential definition
-  }
-});
-
-// Work with revocation
-const revRegDefResult = await registry.registerRevocationRegistryDefinition({
-  revocationRegistryDefinition: {
-    // Revocation registry definition
-  }
-});
-```
-
+Learn how to manage anoncreds registry on the Hedera network in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-guide.html).
 For more detailed examples and usage scenarios, refer to the [AnonCreds Package Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-guide.html).
+
+### Examples
+
+
 
 ## API Reference
 
-Learn more in the [AnonCreds API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-api.html).
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/anoncreds-api.html).
+
 
 ## Running Tests
 

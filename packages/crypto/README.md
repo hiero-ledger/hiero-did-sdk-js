@@ -18,27 +18,12 @@ npm install @hiero-did-sdk/crypto
 
 ## Usage
 
-The package provides a `Crypto` class with static methods for cryptographic operations:
-
-```typescript
-import { Crypto } from '@hiero-did-sdk/crypto';
-
-// Generate SHA-256 hash from a string
-const hash = Crypto.sha256('Hello, world!');
-console.log(hash); // Outputs the SHA-256 hash in hexadecimal format
-
-// Generate SHA-256 hash from a Buffer
-const buffer = Buffer.from('Hello, world!', 'utf-8');
-const hashFromBuffer = Crypto.sha256(buffer);
-
-// Generate SHA-256 hash from a Uint8Array
-const uint8Array = new TextEncoder().encode('Hello, world!');
-const hashFromUint8Array = Crypto.sha256(uint8Array);
-```
+Learn how to use the Crypto module in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/crypto-guide.html).
 
 ## API Reference
 
-Learn more in the [Crypto API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/crypto-api.html).
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/crypto-api.html).
+
 
 ## Running Tests
 
