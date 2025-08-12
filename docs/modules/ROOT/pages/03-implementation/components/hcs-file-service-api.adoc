@@ -61,17 +61,6 @@ Resolves an HCS-1 file from a Hedera topic ID, using cache if available.
 .Throws
 * Error if the file cannot be resolved.
 
-=== `resolveFileWithoutCache`
-[source,ts]
-----
-private async resolveFileWithoutCache(props: ResolveFileProps): Promise<Buffer>
-----
-
-Resolves an HCS-1 file from a topic ID without using any cache.
-
-.Parameters
-* `props` (required): Properties for resolving a file.
-
 ==== `ResolveFileProps` fields:
 * `topicId` (string, required): The topic ID where the file was submitted.
 
@@ -82,86 +71,6 @@ Resolves an HCS-1 file from a topic ID without using any cache.
 * Error if the topic memo is invalid or does not comply with HCS-1 standard.
 * Error if the topic contains an admin key (which is not allowed).
 * Error if the resolved file’s checksum does not match the expected hash.
-
-=== `buildFileFromChunkMessages`
-[source,ts]
-----
-private buildFileFromChunkMessages(chunkMessages: ChunkMessage[]): Buffer
-----
-
-Reconstructs the original file from an array of chunk messages by concatenating and decompressing them.
-
-.Parameters
-* `chunkMessages` (ChunkMessage[], required): Array of chunk messages with order index and content.
-
-.Returns
-* The reconstructed file as a `Buffer`.
-
-.Throws
-* Error if there is an issue during concatenation or decompression of chunks.
-
-=== `buildChunkMessagesFromFile`
-[source,ts]
-----
-private buildChunkMessagesFromFile(payload: Buffer): HcsFileChunkMessage[]
-----
-
-Splits a file payload into HCS-1 compatible chunk messages.
-
-.Parameters
-* `payload` (Buffer, required): The file content to chunk.
-
-.Returns
-* An array of `HcsFileChunkMessage` objects, each containing an order index and chunk content.
-
-.Throws
-* Error if chunk creation fails.
-
-=== `createHCS1Memo`
-[source,ts]
-----
-private createHCS1Memo(hash: string): string
-----
-
-Creates an HCS-1 compliant topic memo string from a SHA-256 hash.
-
-.Parameters
-* `hash` (string, required): The SHA-256 hash of the file payload.
-
-.Returns
-* The topic memo string in the format `hash:zstd:base64`.
-
-=== `isValidHCS1Memo`
-[source,ts]
-----
-private isValidHCS1Memo(memo: string): boolean
-----
-
-Checks whether a topic memo string conforms to the HCS-1 standard.
-
-.Parameters
-* `memo` (string, required): The memo string to validate.
-
-.Returns
-* `true` if the memo matches the HCS-1 standard, `false` otherwise.
-
-=== `isValidHCS1Checksum`
-[source,ts]
-----
-private isValidHCS1Checksum(memo: string, checksum: string): boolean
-----
-
-Validates that the computed checksum of the file payload matches the expected SHA-256 hash from the topic memo.
-
-.Parameters
-* `memo` (string, required): The HCS-1 memo string containing the expected hash.
-* `checksum` (string, required): The computed SHA-256 hash of the resolved payload.
-
-.Returns
-* `true` if `checksum` equals the hash specified in `memo`, `false` otherwise.
-
-.Throws
-* Error if the memo is empty or null.
 
 == See Also
 

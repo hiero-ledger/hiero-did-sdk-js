@@ -6,20 +6,6 @@ This document provides a detailed API reference for the `DIDDereferenceBuilder` 
 
 A builder class responsible for dereferencing parts (fragments or query parameters) of a DID Document, based on the DID Resolution object.
 
-=== `constructor`
-[source,ts]
-----
-private constructor(didResolution: DIDResolution)
-----
-
-Creates an instance of `DIDDereferenceBuilder` with a resolved DID Document.
-
-.Parameters
-* `didResolution` (DIDResolution, required): The DID resolution result containing the DID Document and associated metadata.
-
-.Note
-* The constructor is private. Use the static method `fromResolution` to instantiate.
-
 === `withFragment`
 [source,ts]
 ----
@@ -109,40 +95,6 @@ Encodes the dereferenced JSON content as CBOR format.
 
 .Returns
 * A `Uint8Array` containing the CBOR encoded dereferenced content.
-
-=== `dereferenceFragment`
-[source,ts]
-----
-private dereferenceFragment(): Service | VerificationMethod | null
-----
-
-Searches the DID Document for an item matching the specified fragment identifier.
-
-.Returns
-* The matched `Service` or `VerificationMethod` object if found, otherwise `null`.
-
-.Details
-* Checks all DID Document properties that may hold arrays of services or verification methods.
-* Matches on IDs equal to fragment or did-fragment.
-
-=== `dereferenceQuery`
-[source,ts]
-----
-private dereferenceQuery(): ServiceEndpoint | null
-----
-
-Resolves service endpoints based on the provided query parameters.
-
-.Returns
-* The resolved `ServiceEndpoint` string if found, otherwise `null`.
-
-.Throws
-* `DIDError` with code `'invalidDidUrl'` if unsupported parameters (`hl`, `versionTime`, `versionId`) are included.
-* `DIDError` with code `'representationNotSupported'` if multiple endpoints are found or the endpoint is not a string.
-
-.Details
-* Searches the DID Document's `service` array for a service with an ID matching the `service` query param.
-* Supports optional `relativeRef` to append to the service endpoint URL.
 
 === `fromResolution`
 [source,ts]

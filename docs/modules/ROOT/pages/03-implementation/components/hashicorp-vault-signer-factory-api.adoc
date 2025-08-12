@@ -8,19 +8,6 @@ The class diagram below illustrates the core methods of the Vault `VaultSignerFa
 
 image::vault-signer-factory-class-diagram.png[]
 
-== Constructor
-
-=== `constructor`
-[source,ts]
-----
-private constructor(vaultApi: VaultApi)
-----
-
-Initializes a new `VaultSignerFactory` instance. It is a private constructor and should not be called directly.
-
-Parameters::
-* `vaultApi`: (Required) An internal API object that interacts with HashiCorp Vault.
-
 == Static Methods
 
 === `loginWithToken`
