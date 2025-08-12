@@ -134,9 +134,6 @@ describe('Hedera AnonCreds Registry', () => {
 
     const schemaId = schemaResult.schemaState.schemaId;
 
-    console.log(schemaId);
-
-
     // Register a credential definition
     const credDefResult = await anoncredsRegistry.registerCredentialDefinition({
       credentialDefinition: {
@@ -150,10 +147,6 @@ describe('Hedera AnonCreds Registry', () => {
     });
     expect(credDefResult?.credentialDefinitionState?.state).toEqual('finished');
     const credentialDefinitionId = credDefResult.credentialDefinitionState.credentialDefinitionId ?? '';
-
-
-    console.log(credentialDefinitionId);
-
 
     // Resolve a credential definition
     const resolvedCredDef = await anoncredsRegistry.getCredentialDefinition(credentialDefinitionId);
