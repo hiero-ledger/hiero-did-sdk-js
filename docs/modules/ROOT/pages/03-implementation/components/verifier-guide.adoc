@@ -1,6 +1,6 @@
 = Verifier Class
 
-The `Verifier` is a fundamental component of the Hashgraph DID SDK, responsible for verifying digital signatures. Proper signature verification is essential for ensuring the authenticity and integrity of data, especially in the context of decentralized identifiers (DIDs). The `Verifier` supports the Hedera DID method, adhering to the DID specification and integrating seamlessly with the Hedera ecosystem.
+The `Verifier` is a fundamental component of the Hiero DID SDK, responsible for verifying digital signatures. Proper signature verification is essential for ensuring the authenticity and integrity of data, especially in the context of decentralized identifiers (DIDs). The `Verifier` supports the Hedera DID method, adhering to the DID specification and integrating seamlessly with the Hedera ecosystem.
 
 
 This component provides a standardized way to verify the authenticity and integrity of data, ensuring that it has not been tampered with.

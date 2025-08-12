@@ -32,7 +32,7 @@ Specifies the DID identifier for which the Document will be built.
 * Throws `DIDError` if the given DID is not a valid Hedera DID.
 
 .Returns
-The current `DidDocumentBuilder` instance for chaining.
+* The current `DidDocumentBuilder` instance for chaining.
 
 === `withVerifier`
 [source,ts]
@@ -46,7 +46,7 @@ Associates a verifier instance for cryptographic verification of DID messages.
 * `verifier` (Verifier, required): An instance capable of verifying message signatures.
 
 .Returns
-The current `DidDocumentBuilder` instance for chaining.
+* The current `DidDocumentBuilder` instance for chaining.
 
 === `build`
 [source,ts]
@@ -61,7 +61,7 @@ Processes all stored DID-related messages, verifying signatures and handling DID
 * Throws `DIDError` if the DID document does not exist (no valid DIDOwner creation event found).
 
 .Returns
-A promise that resolves to the current `DidDocumentBuilder` instance after building.
+* A promise that resolves to the current `DidDocumentBuilder` instance after building.
 
 === `toDidDocument`
 [source,ts]
@@ -72,8 +72,8 @@ toDidDocument(): DIDDocument
 Generates the resolved DID Document JSON object according to the internal state built from messages.
 
 .Returns
-A `DIDDocument` object representing the constructed DID Document.
-If the DID is deactivated, returns a minimal document without verification or service entries.
+* A `DIDDocument` object representing the constructed DID Document.
+* If the DID is deactivated, returns a minimal document without verification or service entries.
 
 === `toJsonLdDIDDocument`
 [source,ts]
@@ -84,7 +84,7 @@ toJsonLdDIDDocument(): JsonLdDIDDocument
 Returns the DID Document in JSON-LD format compliant with W3C DID specifications, including standard @context fields.
 
 .Returns
-A `JsonLdDIDDocument` including @context and the resolved DID Document properties.
+* A `JsonLdDIDDocument` including @context and the resolved DID Document properties.
 
 === `toResolution`
 [source,ts]
@@ -95,10 +95,10 @@ toResolution(): DIDResolution
 Returns a full DID Resolution result, including the DID Document, document metadata, and resolution metadata.
 
 .Returns
-A `DIDResolution` object with the following properties:
-* `didDocument`: The DID Document in JSON-LD format.
-* `didDocumentMetadata`: Metadata about creation, update times, and deactivation status.
-* `didResolutionMetadata`: Metadata describing content type and resolution profile.
+* A `DIDResolution` object with the following properties:
+  ** `didDocument`: The DID Document in JSON-LD format.
+  ** `didDocumentMetadata`: Metadata about creation, update times, and deactivation status.
+  ** `didResolutionMetadata`: Metadata describing content type and resolution profile.
 
 === `toDidDocumentCbor`
 [source,ts]
@@ -109,7 +109,7 @@ toDidDocumentCbor(): Uint8Array
 Encodes the resolved DID Document as CBOR bytes using the CBOR codec.
 
 .Returns
-A `Uint8Array` containing the CBOR-encoded DID Document.
+* A `Uint8Array` containing the CBOR-encoded DID Document.
 
 === `parseTopicMessage`
 [source,ts]
@@ -123,7 +123,7 @@ Parses a raw topic message string into a DID message with message content and si
 * `topicMessage` (string, required): Raw JSON string from a topic message.
 
 .Returns
-A parsed `TopicDIDContent` object containing message and signature if the message is valid and matches the current DID; otherwise, `undefined`.
+* A parsed `TopicDIDContent` object containing message and signature if the message is valid and matches the current DID; otherwise, `undefined`.
 
 === `parseEventString`
 [source,ts]
@@ -137,8 +137,8 @@ Decodes and parses a base64-encoded event string into a DID event object.
 * `eventString` (string, required): Base64-encoded JSON string representing a DID event.
 
 .Returns
-A parsed DID event object if valid, otherwise `undefined`.
-Also sets the public key verifier if a DIDOwner event is encountered.
+* A parsed DID event object if valid, otherwise `undefined`.
+* Also sets the public key verifier if a DIDOwner event is encountered.
 
 === `verifySignature`
 [source,ts]
@@ -156,7 +156,7 @@ Verifies the cryptographic signature of a DID message using the configured verif
 * Throws `DIDError` if no verifier is configured.
 
 .Returns
-A promise resolving to `true` if the signature is valid; `false` otherwise.
+* A promise resolving to `true` if the signature is valid; `false` otherwise.
 
 === `handleDIDOwner`
 [source,ts]
@@ -261,6 +261,6 @@ Static factory method to create a new `DidDocumentBuilder` instance from an arra
 * `messages` (string[], required): Array of raw DID-related messages to initialize the builder.
 
 .Returns
-A new instance of `DidDocumentBuilder`.
+* A new instance of `DidDocumentBuilder`.
 
 ---

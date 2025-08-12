@@ -173,10 +173,10 @@ The following table enumerates the exceptions that may arise during the executio
 |Providers must contain client options or client or publisher.
 
 |`invalidArgument`
-|Hashgraph SDK Client must be configured with a network.
+|Hiero SDK Client must be configured with a network.
 
 |`invalidArgument`
-|Hashgraph SDK Client must be configured with an operator account.
+|Hiero SDK Client must be configured with an operator account.
 
 |`invalidDid`
 |Controller is not a valid Hedera DID.
@@ -190,4 +190,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hashgraph DID SDK provides a `generateCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.
+The Hiero DID SDK provides a `generateCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

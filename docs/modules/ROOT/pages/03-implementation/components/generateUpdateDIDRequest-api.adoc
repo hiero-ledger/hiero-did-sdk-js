@@ -315,4 +315,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hashgraph DID SDK provides a `generateUpdateDIDRequest` function within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.
+The Hiero DID SDK provides a `generateUpdateDIDRequest` function within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

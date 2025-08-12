@@ -34,8 +34,8 @@ const messageService = new HcsMessageService(client, cache);
 const result = await messageService.submitMessage({
   topicId: '0.0.1234',
   message: 'Hello Hedera Consensus Service!',
-  submitKey: submitPrivateKey,              // Optional signing key
-  waitForChangesVisibility: true,           // Wait until message visible on mirror node
+  submitKey: submitPrivateKey, // Optional signing key
+  waitForChangesVisibility: true, // Wait until message visible on mirror node
   waitForChangesVisibilityTimeoutMs: 60000, // Wait timeout in milliseconds
 });
 
@@ -62,9 +62,9 @@ Returns an object containing:
 ----
 const messages = await messageService.getTopicMessages({
   topicId: '0.0.1234',
-  maxWaitSeconds: 10,         // Optional max wait time while polling for new messages
-  toDate: new Date(),         // Optional upper bound for messages
-  limit: 100,                 // Optional limit on number of messages returned
+  maxWaitSeconds: 10, // Optional max wait time while polling for new messages
+  toDate: new Date(), // Optional upper bound for messages
+  limit: 100, // Optional limit on number of messages returned
 });
 
 console.log("Retrieved messages:", messages);

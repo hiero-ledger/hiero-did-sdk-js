@@ -1,10 +1,10 @@
-= Hashgraph DID SDK: Handling Exceptions
+= Hiero DID SDK: Handling Exceptions
 
-This guide explains how to handle exceptions and errors when using the Hashgraph DID SDK. It covers common error scenarios, best practices for error handling, and strategies for debugging and troubleshooting.
+This guide explains how to handle exceptions and errors when using the Hiero DID SDK. It covers common error scenarios, best practices for error handling, and strategies for debugging and troubleshooting.
 
 == Error classes
 
-The Hashgraph DID SDK introduces a custom error class, `DIDError`, to handle exceptions and errors. This class extends the native `Error` class and provides additional properties and methods for error handling.
+The Hiero DID SDK introduces a custom error class, `DIDError`, to handle exceptions and errors. This class extends the native `Error` class and provides additional properties and methods for error handling.
 
 The `DIDError` class includes the following properties:
 
@@ -42,7 +42,7 @@ The `ErrorCodes` enumerated type can be imported from the `@hiero-did-sdk/core` 
 
 == Error handling
 
-When using the Hashgraph DID SDK, it is essential to implement robust error handling to gracefully handle exceptions and errors. Proper error handling ensures that your application can recover from errors, provide meaningful feedback to users, and prevent unexpected behavior.
+When using the Hiero DID SDK, it is essential to implement robust error handling to gracefully handle exceptions and errors. Proper error handling ensures that your application can recover from errors, provide meaningful feedback to users, and prevent unexpected behavior.
 
 The following best practices can help you handle exceptions and errors effectively:
 

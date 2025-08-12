@@ -36,10 +36,10 @@ Submits an HCS-1 formatted file to Hedera Consensus Service.
 * `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait for visibility confirmation.
 
 .Returns
-A promise resolving to the topic ID string where the file was submitted.
+* A promise resolving to the topic ID string where the file was submitted.
 
 .Throws
-Error if an issue occurs during file submission.
+* Error if an issue occurs during file submission.
 
 === `resolveFile`
 [source,ts]
@@ -56,10 +56,10 @@ Resolves an HCS-1 file from a Hedera topic ID, using cache if available.
 * `topicId` (string, required): The topic ID where the file was submitted.
 
 .Returns
-A promise resolving to a `Buffer` containing the reconstructed file content.
+* A promise resolving to a `Buffer` containing the reconstructed file content.
 
 .Throws
-Error if the file cannot be resolved.
+* Error if the file cannot be resolved.
 
 === `resolveFileWithoutCache`
 [source,ts]
@@ -76,7 +76,7 @@ Resolves an HCS-1 file from a topic ID without using any cache.
 * `topicId` (string, required): The topic ID where the file was submitted.
 
 .Returns
-A promise resolving to a `Buffer` containing the reconstructed file content.
+* A promise resolving to a `Buffer` containing the reconstructed file content.
 
 .Throws
 * Error if the topic memo is invalid or does not comply with HCS-1 format.
@@ -95,10 +95,10 @@ Reconstructs the original file from an array of chunk messages by concatenating 
 * `chunkMessages` (ChunkMessage[], required): Array of chunk messages with order index and content.
 
 .Returns
-The reconstructed file as a `Buffer`.
+* The reconstructed file as a `Buffer`.
 
 .Throws
-Error if there is an issue during concatenation or decompression of chunks.
+* Error if there is an issue during concatenation or decompression of chunks.
 
 === `buildChunkMessagesFromFile`
 [source,ts]
@@ -112,10 +112,10 @@ Splits a file payload into HCS-1 compatible chunk messages.
 * `payload` (Buffer, required): The file content to chunk.
 
 .Returns
-An array of `HcsFileChunkMessage` objects, each containing an order index and chunk content.
+* An array of `HcsFileChunkMessage` objects, each containing an order index and chunk content.
 
 .Throws
-Error if chunk creation fails.
+* Error if chunk creation fails.
 
 === `createHCS1Memo`
 [source,ts]
@@ -129,7 +129,7 @@ Creates an HCS-1 compliant topic memo string from a SHA-256 hash.
 * `hash` (string, required): The SHA-256 hash of the file payload.
 
 .Returns
-The topic memo string in the format `hash:zstd:base64`.
+* The topic memo string in the format `hash:zstd:base64`.
 
 === `isValidHCS1Memo`
 [source,ts]
@@ -143,7 +143,7 @@ Checks whether a topic memo string conforms to the HCS-1 format.
 * `memo` (string, required): The memo string to validate.
 
 .Returns
-`true` if the memo matches the HCS-1 format, `false` otherwise.
+* `true` if the memo matches the HCS-1 format, `false` otherwise.
 
 === `isValidHCS1Checksum`
 [source,ts]
@@ -158,10 +158,10 @@ Validates that the computed checksum of the file payload matches the expected SH
 * `checksum` (string, required): The computed SHA-256 hash of the resolved payload.
 
 .Returns
-`true` if `checksum` equals the hash specified in `memo`, `false` otherwise.
+* `true` if `checksum` equals the hash specified in `memo`, `false` otherwise.
 
 .Throws
-Error if the memo is empty or null.
+* Error if the memo is empty or null.
 
 == See Also
 

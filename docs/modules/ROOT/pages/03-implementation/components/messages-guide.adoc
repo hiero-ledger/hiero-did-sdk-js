@@ -1,4 +1,4 @@
-= Messages
+= Messages Guide
 
 The Messages component is the foundation of the Hiero DID SDK. It provides a comprehensive set of classes for constructing and handling DID Messages, which facilitate various DID operations on the Hedera network.
 
@@ -55,7 +55,7 @@ import { DIDAddVerificationMethodMessage } from "@hiero-did-sdk/messages";
 const message = new DIDAddVerificationMethodMessage({
   did: "did:hedera:testnet:...",
   controller: "did:hedera:testnet:...",
-  property: "verificationMethod",  
+  property: "verificationMethod",
   publicKeyMultibase: "z...",
   id: "#key-1",
 });

@@ -1,6 +1,6 @@
 == Verifier Internal Package
 
-This package provides an internal verifier for the Hashgraph DID SDK. It's enables the verification of signatures using the provided public key.
+This package provides an internal verifier for the Hiero DID SDK. It's enables the verification of signatures using the provided public key.
 
 *Installation*
 
@@ -18,8 +18,8 @@ The example below demonstrates how to use the `Verifier`:
 import { Verifier } from '@hiero-did-sdk/verifier-internal';
 
 // Instantiate a new Verifier with a public key class instance
-const verifier = new Verifier(publicKey); 
+const verifier = new Verifier(publicKey);
 
-const publicKey = await verifier.publicKey(); 
+const publicKey = await verifier.publicKey();
 const isValid = await verifier.verify(message, signature);
 ----

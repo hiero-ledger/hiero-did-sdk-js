@@ -32,7 +32,8 @@ publicKey(): string
 Returns the public key associated with the `Signer` instance in DER format.
 
 Returns::
-The public key in DER format.
+
+* The public key in DER format.
 
 === `sign`
 [source,ts]
@@ -46,7 +47,8 @@ Parameters::
 * `message`: The message to be signed.
 
 Returns::
-The signature of the message.
+
+* The signature of the message.
 
 === `verify`
 [source,ts]
@@ -61,7 +63,8 @@ Parameters::
 * `signature`: The signature to be verified.
 
 Returns::
-`true` if the signature is valid, `false` otherwise.
+
+* `true` if the signature is valid, `false` otherwise.
 
 == Data Types
 
@@ -100,4 +103,4 @@ The `SignerOptions` type is an object that contains the necessary options to cre
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the Vault `Signer` class within its `signer-hashicorp-vault` package. For further details, refer to the xref:04-deployment/packages/index.adoc[`@hiero-did-sdk-js/signer-hashicorp-vault`] package documentation.
+The Hiero DID SDK provides the Vault `Signer` class within its `signer-hashicorp-vault` package. For further details, refer to the xref:04-deployment/packages/index.adoc[`@hiero-did-sdk-js/signer-hashicorp-vault`] package documentation.

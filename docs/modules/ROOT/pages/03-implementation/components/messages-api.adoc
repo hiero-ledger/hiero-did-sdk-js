@@ -97,7 +97,8 @@ abstract toBytes(): string
 Serializes the DID Message into a byte array in base64 format.
 
 Returns::
-The serialized DID Message as a base64-encoded string.
+
+* The serialized DID Message as a base64-encoded string.
 
 ===== *`fromBytes`*
 [source,typescript]
@@ -111,7 +112,8 @@ Parameters::
 * `bytes`: The byte array containing the serialized DID Message.
 
 Returns::
-The deserialized DID Message object.
+
+* The deserialized DID Message object.
 
 
 

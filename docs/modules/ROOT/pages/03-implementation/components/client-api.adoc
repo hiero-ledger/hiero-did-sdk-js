@@ -92,7 +92,7 @@ Retrieves a Hedera `Client` instance for the specified network.
   - The network name must match either a known public Hedera network or a custom network name.
 
 .Returns
-A configured Hedera `Client` instance for the network.
+* A configured Hedera `Client` instance for the network.
 
 .Throws
 * Throws an error if the specified network name is unknown.
@@ -116,7 +116,7 @@ Convenience method to execute an asynchronous operation that requires a Hedera c
 * `operation` (required): A callback function that receives the Hedera `Client` instance and returns a `Promise<T>`.
 
 .Returns
-A promise resolving to the result of the `operation`.
+* A promise resolving to the result of the `operation`.
 
 .Behavior
 * Obtains a client with `getClient` using the provided `networkName`.

@@ -39,7 +39,7 @@ Creates a new HCS topic.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds for changes visibility.
 
 .Returns
-The created `TopicInfo`.
+* The created `TopicInfo`.
 
 === `updateTopic`
 [source,ts]
@@ -59,7 +59,7 @@ Updates an existing HCS topic.
 * *All properties from `CreateTopicProps` are also available for update (e.g., topicMemo, submitKey, adminKey, etc.).*
 
 .Returns
-The updated `TopicInfo`.
+* The updated `TopicInfo`.
 
 === `deleteTopic`
 [source,ts]
@@ -79,7 +79,7 @@ Deletes a topic.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds during which to wait for visibility.
 
 .Returns
-`true` if deletion was successful.
+* `true` if deletion was successful.
 
 === `getTopicInfo`
 [source,ts]
@@ -96,7 +96,7 @@ Retrieves information about a topic.
 * `topicId` (required, string): ID of the topic to retrieve information about.
 
 .Returns
-The `TopicInfo` object.
+* The `TopicInfo` object.
 
 === `submitMessage`
 [source,ts]
@@ -117,7 +117,7 @@ Submits a message to a topic.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
 
 .Returns
-`SubmitMessageResult` containing nodeId, transactionId, and transactionHash.
+* `SubmitMessageResult` containing nodeId, transactionId, and transactionHash.
 
 === `getTopicMessages`
 [source,ts]
@@ -137,7 +137,7 @@ Retrieves messages from a topic.
 * `limit` (optional, number): Maximum number of messages to retrieve.
 
 .Returns
-An array of `TopicMessageData`.
+* An array of `TopicMessageData`.
 
 === `submitFile`
 [source,ts]
@@ -157,7 +157,7 @@ Submits a file split into topic messages.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
 
 .Returns
-Topic ID created for the file.
+* Topic ID created for the file.
 
 === `resolveFile`
 [source,ts]
@@ -174,7 +174,7 @@ Reconstructs a file from topic messages.
 * `topicId` (required, string): Topic ID containing the file chunks.
 
 .Returns
-Buffer with the file contents.
+* Buffer with the file contents.
 
 == See Also
 

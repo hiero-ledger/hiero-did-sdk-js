@@ -1,10 +1,10 @@
-= Hashgraph DID SDK: Running in the Browser Environment
+= Hiero DID SDK: Running in the Browser Environment
 
-This guide provides instructions on how to run the Hashgraph DID SDK in a browser environment. The SDK is designed to be used in a Node.js environment, but it can also be used in a browser environment.
+This guide provides instructions on how to run the Hiero DID SDK in a browser environment. The SDK is designed to be used in a Node.js environment, but it can also be used in a browser environment.
 
 == Installation
 
-The Hashgraph DID SDK can be installed using npm or yarn.
+The Hiero DID SDK can be installed using npm or yarn.
 
 [source,bash]
 ----
@@ -24,7 +24,7 @@ IMPORTANT: Make sure that you module bundler is configured to resolve `browser` 
 
 == Usage
 
-Usage of the Hashgraph DID SDK in a browser environment is similar to the Node.js environment. The following example demonstrates how to create a DID in React Component:
+Usage of the Hiero DID SDK in a browser environment is similar to the Node.js environment. The following example demonstrates how to create a DID in React Component:
 
 [source,javascript]
 ----
@@ -48,7 +48,7 @@ The `CustomWalletConnectPublisher` is a custom implementation of the xref::03-im
 
 === Limitations
 
-The main dependency of the Hashgraph DID SDK is `@hashgraph/sdk`. It allows to interact with the Hedera network like submitting transactions, creating accounts, etc. This library exposes WebClient which is a browser-friendly version of the Hedera SDK Client. But because of the nature of the WebClient, it is instantiated with empty mirror node addresses and network. This prevents you from using it out of the box in the browser environment. You can read more about it in the https://github.com/hiero-ledger/hiero-sdk-js/issues/2263[issue].
+The main dependency of the Hiero DID SDK is `@hashgraph/sdk`. It allows to interact with the Hedera network like submitting transactions, creating accounts, etc. This library exposes WebClient which is a browser-friendly version of the Hedera SDK Client. But because of the nature of the WebClient, it is instantiated with empty mirror node addresses and network. This prevents you from using it out of the box in the browser environment. You can read more about it in the https://github.com/hiero-ledger/hiero-sdk-js/issues/2263[issue].
 
 To use the `@hashgraph/sdk` in a browser environment, you need to manually set the mirror node address and network. Another option is to use the `@hashgraph/sdk` with the WalletConnect provider. This will require you to implement a custom xref::03-implementation/components/core-api.adoc#publisher[Publisher] class.
 
@@ -56,7 +56,7 @@ When you have a custom `Publisher` implementation, you will need to pass it to a
 
 === Using Resolver and Registrar
 
-DID Resolver is a core component of the Hashgraph DID SDK. It is used to resolve DIDs and DID Documents. Registrar uses a resolver for various operations.
+DID Resolver is a core component of the Hiero DID SDK. It is used to resolve DIDs and DID Documents. Registrar uses a resolver for various operations.
 
 By default, Registrar and Resolver uses a TopicReader to read messages from the Hedera network topic. Default version of the TopicReader uses gRPC to connect to the Hedera network. This won't work in the browser environment.
 

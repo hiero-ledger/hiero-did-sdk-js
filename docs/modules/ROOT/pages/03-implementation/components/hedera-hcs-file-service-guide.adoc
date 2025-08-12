@@ -34,8 +34,8 @@ const fileService = new HcsFileService(client, cache);
 
 const topicId = await fileService.submitFile({
   payload: Buffer.from('Large file content here'),
-  submitKey: submitPrivateKey,             // Optional signing key for transactions
-  waitForChangesVisibility: true,          // Wait until file is visible on the network
+  submitKey: submitPrivateKey, // Optional signing key for transactions
+  waitForChangesVisibility: true, // Wait until file is visible on the network
   waitForChangesVisibilityTimeoutMs: 60000 // Milliseconds to wait for visibility confirmation
 });
 
@@ -68,9 +68,8 @@ Parameters:
 
 Returns:
 
-A `Buffer` containing the fully decompressed and reconstructed file content.
-
-Throws an error if the file cannot be found or integrity verification fails.
+* A `Buffer` containing the fully decompressed and reconstructed file content.
+* Throws an error if the file cannot be found or integrity verification fails.
 
 == Details
 

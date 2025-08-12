@@ -7,9 +7,12 @@ Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identit
 
 System(sdk, "Hiero DID SDK", "Manages Decentralized Identities (DIDs)")
 
+System_Ext(hashicorp, "HashiCorp Vault", "External KMS used by Vault signer/verifier")
+
 System_Ext(hedera, "Hedera Network", "Provides DID infrastructure")
 
 Rel(developer, sdk, "Uses")
 Rel(sdk, hedera, "Uses")
+Rel(sdk, hashicorp, "Uses")
 
 @enduml

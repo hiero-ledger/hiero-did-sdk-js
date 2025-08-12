@@ -45,7 +45,8 @@ Parameters::
 * `callback`:  A function that will be executed asynchronously. It receives a `Message` object and a `Publisher` object as parameters, which provides access to data and utilities within the lifecycle.
 
 Returns::
-The `LifecycleBuilder` instance for method chaining.
+
+* The `LifecycleBuilder` instance for method chaining.
 
 
 ===== [big]*`signature`*
@@ -60,7 +61,8 @@ Parameters::
 * `label`: A unique identifier for the signature step.
 
 Returns::
-The `LifecycleBuilder` instance for method chaining.
+
+* The `LifecycleBuilder` instance for method chaining.
 
 
 ===== [big]*`signWithSigner`*
@@ -75,7 +77,8 @@ Parameters::
 * `label`: A unique identifier for the sign with signer step.
 
 Returns::
-The `LifecycleBuilder` instance for method chaining.
+
+* The `LifecycleBuilder` instance for method chaining.
 
 ===== [big]*`pause`*
 [source,typescript]
@@ -89,7 +92,8 @@ Parameters::
 * `label`: A unique identifier for the pause step.
 
 Returns::
-The `LifecycleBuilder` instance for method chaining.
+
+* The `LifecycleBuilder` instance for method chaining.
 
 ===== [big]*`catch`*
 [source,typescript]
@@ -104,7 +108,8 @@ Parameters::
 * `callback`: A function that will be executed if an error occurs. It receives the error object as a parameter.
 
 Returns::
-The `LifecycleBuilder` instance for method chaining.
+
+* The `LifecycleBuilder` instance for method chaining.
 
 ===== [big]*`getByIndex`*
 [source,typescript]
@@ -118,7 +123,8 @@ Parameters::
 * `stepIndex`: A number representing the index of the step to retrieve.
 
 Returns::
-A `Steps<Message>` object representing the step at the specified index.
+
+* A `Steps<Message>` object representing the step at the specified index.
 
 Errors::
 The following exceptions may arise during the execution of the `getByIndex` function:
@@ -144,7 +150,8 @@ Parameters::
 * `stepLabel`: A string representing the label of the step to retrieve.
 
 Returns::
-A `Steps<Message>` object representing the step with the specified label.
+
+* A `Steps<Message>` object representing the step with the specified label.
 
 Errors::
 The following exceptions may arise during the execution of the `getByLabel` function:
@@ -170,7 +177,8 @@ Parameters::
 * `stepLabel`: A string representing the label of the step to retrieve.
 
 Returns::
-A number representing the index of the step with the specified label.
+
+* A number representing the index of the step with the specified label.
 
 Errors::
 The following exceptions may arise during the execution of the `getByLabel` function:
@@ -206,7 +214,8 @@ Parameters::
 * `builder`:  A `LifecycleBuilder` object representing the lifecycle steps.
 
 Returns::
-A new `LifecycleRunner` instance.
+
+* A new `LifecycleRunner` instance.
 
 ===== `process`
 [source,typescript]
@@ -224,7 +233,8 @@ Parameters::
 * `options`:  A `LifecycleRunnerOptions` object providing additional options for the lifecycle runner, like the `Publisher` and `Signer` instances.
 
 Returns::
-A `Promise` that resolves to a `LifecycleState` object, which contains information about the current state of the lifecycle and processed message.
+
+* A `Promise` that resolves to a `LifecycleState` object, which contains information about the current state of the lifecycle and processed message.
 
 Errors::
 The following exceptions may arise during the execution of the `process` function:
@@ -257,7 +267,8 @@ Parameters::
 * `context`: A `LifecycleRunnerOptions` object providing additional options for the lifecycle runner, like the `Publisher` and `Signer` instances.
 
 Returns::
-A `Promise` that resolves to a `RunnerState` object, which contains information about the current state of the lifecycle.
+
+* A `Promise` that resolves to a `RunnerState` object, which contains information about the current state of the lifecycle.
 
 Errors::
 The following exceptions may arise during the execution of the `resume` function:

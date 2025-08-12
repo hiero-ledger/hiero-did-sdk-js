@@ -32,7 +32,8 @@ static generate(): Signer
 Generates a new key pair and returns a `Signer` instance with the new private key.
 
 Returns::
-The new `Signer` instance.
+
+* The new `Signer` instance.
 
 
 == Methods
@@ -46,7 +47,8 @@ publicKey(): string
 Returns the public key associated with the `Signer` instance in DER format.
 
 Returns::
-The public key in DER format.
+
+* The public key in DER format.
 
 === `sign`
 [source,ts]
@@ -60,7 +62,8 @@ Parameters::
 * `message`: The message to be signed.
 
 Returns::
-The signature of the message.
+
+* The signature of the message.
 
 === `verify`
 [source,ts]
@@ -75,7 +78,8 @@ Parameters::
 * `signature`: The signature to be verified.
 
 Returns::
-`true` if the signature is valid, `false` otherwise.
+
+* `true` if the signature is valid, `false` otherwise.
 
 == Errors
 

@@ -1,4 +1,4 @@
-= HCS Guide
+= HederaHcsService Guide
 
 The `@hiero-did-sdk/hcs` package provides powerful tools and services for interacting with Hedera Consensus Service (HCS) topics and messages. The package also implements support for the HCS-1 protocol for file storage based on the Hedera ledger.
 

@@ -56,7 +56,7 @@ Retrieves a value from the cache by its key. If the item is found, it is refresh
 * `key` (string, required): The cache key to retrieve.
 
 .Returns
-A promise resolving to the cached value or `null` if absent or expired.
+* A promise resolving to the cached value or `null` if absent or expired.
 
 === `set`
 [source,ts]
@@ -72,7 +72,7 @@ Adds a value to the cache associated with the given key. If the cache is full, t
 * `expiresInSeconds` (number, optional): Number of seconds before the cache entry expires.
 
 .Returns
-A promise that resolves when the value has been cached.
+* A promise that resolves when the value has been cached.
 
 === `remove`
 [source,ts]
@@ -86,7 +86,7 @@ Removes the cache entry for the specified key.
 * `key` (string, required): The cache key to remove.
 
 .Returns
-A promise resolving when the entry is removed.
+* A promise resolving when the entry is removed.
 
 === `clear`
 [source,ts]
@@ -97,7 +97,7 @@ clear(): Promise<void>
 Clears all entries from the cache.
 
 .Returns
-A promise resolving when the cache has been cleared.
+* A promise resolving when the cache has been cleared.
 
 === `cleanupExpired`
 [source,ts]
@@ -108,7 +108,7 @@ cleanupExpired(): Promise<void>
 Removes all expired entries from the cache.
 
 .Returns
-A promise resolving when expired entries have been cleaned up.
+* A promise resolving when expired entries have been cleaned up.
 
 === `getAll`
 [source,ts]
@@ -119,7 +119,7 @@ getAll<CacheValue>(): Promise<KeyValue<CacheValue>[]>
 Retrieves all cache entries as an array of key-value pairs.
 
 .Returns
-A promise resolving to an array of `KeyValue` objects representing all cached entries.
+* A promise resolving to an array of `KeyValue` objects representing all cached entries.
 
 == See Also
 

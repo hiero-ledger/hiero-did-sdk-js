@@ -1,6 +1,6 @@
-= Hashgraph DID SDK: Transaction Costs
+= Hiero DID SDK: Transaction Costs
 
-This guide provides estimated transaction costs for various DID operations when using the Hashgraph DID SDK. Understanding these costs can help you plan and budget for your DID-related activities on the Hedera network.
+This guide provides estimated transaction costs for various DID operations when using the Hiero DID SDK. Understanding these costs can help you plan and budget for your DID-related activities on the Hedera network.
 
 [IMPORTANT]
 ====

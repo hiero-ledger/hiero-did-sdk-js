@@ -39,7 +39,7 @@ Registers a schema in the network registry.
 * `schema` (required, Anoncreds schema object): The schema to register.
 
 .Returns
-A promise resolving to a `RegisterSchemaReturn` object that includes the registration state and metadata.
+* A promise resolving to a `RegisterSchemaReturn` object that includes the registration state and metadata.
 
 === `getSchema`
 [source,ts]
@@ -53,7 +53,7 @@ Retrieves a schema definition from the registry by its identifier.
 * `schemaId` (required, string): The schema definition identifier to resolve.
 
 .Returns
-A promise resolving to a `GetSchemaReturn` object with the schema and resolution metadata.
+* A promise resolving to a `GetSchemaReturn` object with the schema and resolution metadata.
 
 === `registerCredentialDefinition`
 [source,ts]
@@ -72,7 +72,7 @@ Registers a credential definition in the registry.
 * `options` (optional): Additional metadata options such as supportRevocation flag.
 
 .Returns
-A promise resolving to a `RegisterCredentialDefinitionReturn` containing the registration state and metadata.
+* A promise resolving to a `RegisterCredentialDefinitionReturn` containing the registration state and metadata.
 
 === `getCredentialDefinition`
 [source,ts]
@@ -86,7 +86,7 @@ Retrieves a credential definition from the registry by identifier.
 * `credentialDefinitionId` (required, string): The credential definition identifier to resolve.
 
 .Returns
-A promise resolving to a `GetCredentialDefinitionReturn` with the credential definition and resolution metadata.
+* A promise resolving to a `GetCredentialDefinitionReturn` with the credential definition and resolution metadata.
 
 === `registerRevocationRegistryDefinition`
 [source,ts]
@@ -104,7 +104,7 @@ Registers a revocation registry definition in the registry.
 * `revocationRegistryDefinition` (required, Anoncreds revocation registry definition): The registry definition to register.
 
 .Returns
-A promise resolving to a `RegisterRevocationRegistryDefinitionReturn` describing registration state and metadata.
+* A promise resolving to a `RegisterRevocationRegistryDefinitionReturn` describing registration state and metadata.
 
 === `getRevocationRegistryDefinition`
 [source,ts]
@@ -118,7 +118,7 @@ Retrieves a revocation registry definition from the registry by its identifier.
 * `revocationRegistryDefinitionId` (required, string): The revocation registry definition ID to resolve.
 
 .Returns
-A promise resolving to a `GetRevocationRegistryDefinitionReturn` with the registry definition and resolution metadata.
+* A promise resolving to a `GetRevocationRegistryDefinitionReturn` with the registry definition and resolution metadata.
 
 === `registerRevocationStatusList`
 [source,ts]
@@ -136,7 +136,7 @@ Registers a revocation status list in the registry.
 * `revocationStatusList` (required, Anoncreds revocation status list without timestamp): The revocation status list to register.
 
 .Returns
-A promise resolving to a `RegisterRevocationStatusListReturn` describing the registration state and metadata.
+* A promise resolving to a `RegisterRevocationStatusListReturn` describing the registration state and metadata.
 
 === `getRevocationStatusList`
 [source,ts]
@@ -151,7 +151,7 @@ Retrieves a revocation status list as of a specific timestamp.
 * `timestamp` (required, number): The UNIX timestamp to resolve the status list for.
 
 .Returns
-A promise resolving to a `GetRevocationStatusListReturn`.
+* A promise resolving to a `GetRevocationStatusListReturn`.
 
 === `resolveRevocationRegistryDefinition`
 [source,ts]
@@ -165,10 +165,10 @@ Resolves a revocation registry definition by identifier.
 * `revocationRegistryDefinitionId` (required, string): The registry definition ID.
 
 .Returns
-A promise resolving to `GetRevocationRegistryDefinitionReturn`.
+* A promise resolving to `GetRevocationRegistryDefinitionReturn`.
 
 .Throws
-Throws an error if resolution fails.
+* Throws an error if resolution fails.
 
 === `resolveRevocationStatusList`
 [source,ts]
@@ -183,10 +183,10 @@ Resolves the revocation status list for a given definition at a certain timestam
 * `timestamp` (optional, number): UNIX timestamp to resolve the list at; defaults to now.
 
 .Returns
-A promise resolving to an object with `entriesTopicId` and optionally `statusList`.
+* A promise resolving to an object with `entriesTopicId` and optionally `statusList`.
 
 .Throws
-Throws an error if resolution fails or required metadata is missing.
+* Throws an error if resolution fails or required metadata is missing.
 
 === `getStatusListDiff`
 [source,ts]
@@ -201,10 +201,10 @@ Computes the difference between two revocation status lists, identifying newly i
 * `modifiedStatusList` (required, number[]): Modified revocation status list array.
 
 .Returns
-An object with arrays of `issued` and `revoked` indices.
+* An object with arrays of `issued` and `revoked` indices.
 
 .Throws
-Throws an error if list lengths differ or invalid values are found.
+* Throws an error if list lengths differ or invalid values are found.
 
 === `packRevocationRegistryEntryMessage`
 [source,ts]
@@ -218,7 +218,7 @@ Packages a revocation registry entry message for submission by compressing, enco
 * `data` (required, RevocationRegistryEntryMessage): The revocation registry entry data.
 
 .Returns
-A JSON string containing the compressed and encoded payload.
+* A JSON string containing the compressed and encoded payload.
 
 === `extractRevocationRegistryEntryMessage`
 [source,ts]
@@ -232,7 +232,7 @@ Extracts and decompresses a revocation registry entry message from raw topic mes
 * `data` (required, Uint8Array): Raw topic message contents.
 
 .Returns
-The parsed `RevocationRegistryEntryMessage` or `undefined` if parsing or decompression fails.
+* The parsed `RevocationRegistryEntryMessage` or `undefined` if parsing or decompression fails.
 
 === `verifyRevocationRegistryEntryMessage`
 [source,ts]
@@ -246,7 +246,7 @@ Verifies that a revocation registry entry message contains valid accumulator dat
 * `data` (required, RevocationRegistryEntryMessage): The message to verify.
 
 .Returns
-`true` if valid; otherwise, `false`.
+* `true` if valid; otherwise, `false`.
 
 == See Also
 

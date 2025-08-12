@@ -30,10 +30,10 @@ Compresses input data using Zstandard compression.
 * `data` (required, Uint8Array): The raw input data to compress.
 
 .Returns
-A `Uint8Array` containing the compressed data.
+* A `Uint8Array` containing the compressed data.
 
 .Throws
-Throws an error if no compatible zstd module is available in the environment.
+* Throws an error if no compatible zstd module is available in the environment.
 
 .Details
 * Internally selects either the native Node.js `zstd-napi` module or the React Native `react-native-zstd` module.
@@ -51,10 +51,10 @@ Decompresses input data previously compressed with Zstandard.
 * `data` (required, Uint8Array): The compressed input data to decompress.
 
 .Returns
-A `Uint8Array` containing the decompressed original data.
+* A `Uint8Array` containing the decompressed original data.
 
 .Throws
-Throws an error if no compatible zstd module is available in the environment.
+* Throws an error if no compatible zstd module is available in the environment.
 
 .Details
 * Uses the first available zstd module in the environment as with `compress`.
@@ -71,10 +71,10 @@ function getAvailableZstdModule(): ZstdModule
 Determines and returns a compatible Zstandard compression module available in the current runtime.
 
 .Returns
-A `ZstdModule` instance capable of compressing and decompressing data.
+* A `ZstdModule` instance capable of compressing and decompressing data.
 
 .Throws
-Throws an error if neither the Node.js `zstd-napi` package nor the React Native `react-native-zstd` package is found, with instructions for installation.
+* Throws an error if neither the Node.js `zstd-napi` package nor the React Native `react-native-zstd` package is found, with instructions for installation.
 
 .Details
 * Tries Node.js native binding `zstd-napi` first.

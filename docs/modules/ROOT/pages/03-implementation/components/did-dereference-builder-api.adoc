@@ -32,7 +32,7 @@ Sets a fragment identifier (the part after `#` in a DID URL) to dereference with
 * `fragment` (string, optional): The fragment identifier to dereference.
 
 .Returns
-The current instance for method chaining.
+* The current instance for method chaining.
 
 === `withParams`
 [source,ts]
@@ -46,7 +46,7 @@ Sets query parameters (key-value pairs after `?` in a DID URL) to dereference wi
 * `params` (object, required): A record/map of query parameters for dereferencing.
 
 .Returns
-The current instance for method chaining.
+* The current instance for method chaining.
 
 === `toJson`
 [source,ts]
@@ -67,10 +67,10 @@ Dereferences the specified fragment or query parameters from the DID Document, r
 * `DIDError` with code `'representationNotSupported'` if the service endpoint's representation is unsupported (e.g., multiple endpoints or non-string endpoints).
 
 .Returns
-The dereferenced JSON object, which can be a:
-* `Service` object
-* `VerificationMethod` object
-* `ServiceEndpoint` string
+* The dereferenced JSON object, which can be a:
+  ** `Service` object
+  ** `VerificationMethod` object
+  ** `ServiceEndpoint` string
 
 === `toJsonLd`
 [source,ts]
@@ -81,9 +81,9 @@ toJsonLd(): JsonLdService | JsonLdVerificationMethod | ServiceEndpoint
 Returns the dereferenced JSON content, wrapped as JSON-LD with `@context` from the DID Document.
 
 .Returns
-A JSON-LD wrapped object including:
-* `@context`: The original DID Document contexts.
-* Other properties: The dereferenced JSON content.
+* A JSON-LD wrapped object including:
+  ** `@context`: The original DID Document contexts.
+  ** Other properties: The dereferenced JSON content.
 
 === `toResolution`
 [source,ts]
@@ -94,10 +94,10 @@ toResolution(): DIDDereferenceResolution
 Builds a full DID Dereference Resolution object containing dereferenced content along with metadata.
 
 .Returns
-An object containing:
-* `contentStream`: The dereferenced JSON-LD content.
-* `dereferencingMetadata`: Metadata of the DID Document (from the original DID Resolution).
-* `contentMetadata`: Resolution metadata from the original DID Resolution.
+* An object containing:
+ ** `contentStream`: The dereferenced JSON-LD content.
+ ** `dereferencingMetadata`: Metadata of the DID Document (from the original DID Resolution).
+ ** `contentMetadata`: Resolution metadata from the original DID Resolution.
 
 === `toCbor`
 [source,ts]
@@ -108,7 +108,7 @@ toCbor(): Uint8Array
 Encodes the dereferenced JSON content as CBOR format.
 
 .Returns
-A `Uint8Array` containing the CBOR encoded dereferenced content.
+* A `Uint8Array` containing the CBOR encoded dereferenced content.
 
 === `dereferenceFragment`
 [source,ts]
@@ -119,7 +119,7 @@ private dereferenceFragment(): Service | VerificationMethod | null
 Searches the DID Document for an item matching the specified fragment identifier.
 
 .Returns
-The matched `Service` or `VerificationMethod` object if found, otherwise `null`.
+* The matched `Service` or `VerificationMethod` object if found, otherwise `null`.
 
 .Details
 * Checks all DID Document properties that may hold arrays of services or verification methods.
@@ -134,7 +134,7 @@ private dereferenceQuery(): ServiceEndpoint | null
 Resolves service endpoints based on the provided query parameters.
 
 .Returns
-The resolved `ServiceEndpoint` string if found, otherwise `null`.
+* The resolved `ServiceEndpoint` string if found, otherwise `null`.
 
 .Throws
 * `DIDError` with code `'invalidDidUrl'` if unsupported parameters (`hl`, `versionTime`, `versionId`) are included.
@@ -156,4 +156,4 @@ Static factory method to create a new `DIDDereferenceBuilder` from a DID Resolut
 * `resolution` (DIDResolution, required): The DID Resolution to dereference.
 
 .Returns
-A new `DIDDereferenceBuilder` instance initialized with the given resolution.
+* A new `DIDDereferenceBuilder` instance initialized with the given resolution.

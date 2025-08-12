@@ -37,7 +37,7 @@ Submits a message to an HCS topic.
 * `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait for visibility confirmation.
 
 .Returns
-A promise resolving to a `SubmitMessageResult` object.
+* A promise resolving to a `SubmitMessageResult` object.
 
 ==== `SubmitMessageResult` fields:
 * `nodeId` (string): The ID of the node that processed the transaction.
@@ -45,7 +45,7 @@ A promise resolving to a `SubmitMessageResult` object.
 * `transactionHash` (Uint8Array): The cryptographic hash of the transaction.
 
 .Throws
-Error if the message submission transaction fails.
+* Error if the message submission transaction fails.
 
 === `getTopicMessages`
 [source,ts]
@@ -65,7 +65,7 @@ Retrieves messages from an HCS topic.
 * `limit` (number, optional): Maximum number of messages to retrieve.
 
 .Returns
-A promise resolving to an array of `TopicMessageData`.
+* A promise resolving to an array of `TopicMessageData`.
 
 ==== `TopicMessageData` fields:
 * `consensusTime` (Date): The consensus timestamp when the message was agreed upon.
@@ -83,7 +83,7 @@ Removes duplicate messages and sorts them in chronological order by consensus ti
 * `messages` (TopicMessageData[]): One or more arrays of messages to deduplicate and sort.
 
 .Returns
-An array of unique and chronologically sorted `TopicMessageData`.
+* An array of unique and chronologically sorted `TopicMessageData`.
 
 === `getNewMessagesContent`
 [source,ts]
@@ -99,7 +99,7 @@ Retrieves string contents of messages submitted after a specific date.
   * `startFrom` (Date): The earliest consensus time from which to fetch messages.
 
 .Returns
-A promise resolving to an array of message contents as UTF-8 strings.
+* A promise resolving to an array of message contents as UTF-8 strings.
 
 === `fetchTopicMessages`
 [source,ts]
@@ -118,7 +118,7 @@ Fetches topic messages by using either Hedera SDK Client or REST API depending o
   * `limit` (number, optional): Maximum number of messages to fetch.
 
 .Returns
-A promise resolving to an array of `TopicMessageData`.
+* A promise resolving to an array of `TopicMessageData`.
 
 === `fetchTopicMessagesWithClient`
 [source,ts]
@@ -137,10 +137,10 @@ Fetches topic messages using the Hedera SDK client (gRPC).
   * `limit` (number, optional): Maximum number of messages to retrieve.
 
 .Returns
-A promise resolving to an array of `TopicMessageData`.
+* A promise resolving to an array of `TopicMessageData`.
 
 .Throws
-Error on network or query failure.
+* Error on network or query failure.
 
 === `fetchTopicMessagesWithRest`
 [source,ts]
@@ -158,10 +158,10 @@ Fetches topic messages using the mirror node REST API.
   * `limit` (number, optional): Maximum number of messages to retrieve.
 
 .Returns
-A promise resolving to an array of `TopicMessageData`.
+* A promise resolving to an array of `TopicMessageData`.
 
 .Throws
-Error if the fetch request fails.
+* Error if the fetch request fails.
 
 === `getNextUrl`
 [source,ts]
@@ -177,7 +177,7 @@ Constructs the next URL to fetch messages via the mirror node REST API.
 * `encoding` (string, optional): Encoding type for message contents (default `base64`).
 
 .Returns
-A string representing the full URL for the API request.
+* A string representing the full URL for the API request.
 
 == See Also
 

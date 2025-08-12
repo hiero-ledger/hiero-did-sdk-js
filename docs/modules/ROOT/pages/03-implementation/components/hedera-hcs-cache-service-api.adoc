@@ -30,7 +30,7 @@ Retrieves cached topic information for a given client and topic ID.
 * `topicId` (required): The ID of the HCS topic.
 
 .Returns
-A promise resolving to the cached `TopicInfo` if present, or `null` if not cached.
+* A promise resolving to the cached `TopicInfo` if present, or `null` if not cached.
 
 === `setTopicInfo`
 [source,ts]
@@ -46,7 +46,7 @@ Stores topic information in the cache.
 * `topicInfo` (required): The `TopicInfo` object to cache.
 
 .Returns
-A promise that resolves when the data is cached.
+* A promise that resolves when the data is cached.
 
 === `removeTopicInfo`
 [source,ts]
@@ -61,7 +61,7 @@ Removes cached topic information and associated messages for a topic.
 * `topicId` (required): The ID of the HCS topic to remove from cache.
 
 .Returns
-A promise that resolves when the cache entries have been removed.
+* A promise that resolves when the cache entries have been removed.
 
 === `getTopicMessages`
 [source,ts]
@@ -76,7 +76,7 @@ Retrieves cached messages for a given topic.
 * `topicId` (required): The ID of the HCS topic.
 
 .Returns
-A promise resolving to an array of cached `TopicMessageData`, or `null` if no cached messages exist.
+* A promise resolving to an array of cached `TopicMessageData`, or `null` if no cached messages exist.
 
 === `setTopicMessages`
 [source,ts]
@@ -92,7 +92,7 @@ Stores an array of topic messages in the cache and removes any cached file for t
 * `messages` (required): Array of `TopicMessageData` to cache.
 
 .Returns
-A promise that resolves when the messages have been cached and related cached files are cleared.
+* A promise that resolves when the messages have been cached and related cached files are cleared.
 
 === `removeTopicMessages`
 [source,ts]
@@ -107,7 +107,7 @@ Removes cached messages and cached file for a given topic.
 * `topicId` (required): The ID of the HCS topic.
 
 .Returns
-A promise that resolves when the cached messages and file for the topic have been removed.
+* A promise that resolves when the cached messages and file for the topic have been removed.
 
 === `getTopicFile`
 [source,ts]
@@ -122,7 +122,7 @@ Retrieves a cached file buffer for a topic, if available.
 * `topicId` (required): The ID of the HCS topic.
 
 .Returns
-A promise resolving to the cached file `Buffer`, or `null` if none exists.
+* A promise resolving to the cached file `Buffer`, or `null` if none exists.
 
 === `setTopicFile`
 [source,ts]
@@ -138,7 +138,7 @@ Stores a file buffer in the cache for a given topic.
 * `file` (required): The file contents as a `Buffer`.
 
 .Returns
-A promise that resolves when the file has been cached.
+* A promise that resolves when the file has been cached.
 
 === `removeTopicFile`
 [source,ts]
@@ -153,7 +153,7 @@ Removes a cached file for a given topic.
 * `topicId` (required): The ID of the HCS topic.
 
 .Returns
-A promise that resolves when the cached file has been removed.
+* A promise that resolves when the cached file has been removed.
 
 === `isCache`
 [source,ts]
@@ -167,7 +167,7 @@ Determines if the provided configuration is an external cache instance.
 * `configOrCache` (required): The configuration or cache instance to check.
 
 .Returns
-`true` if the input is an instance of `Cache`; otherwise, `false`.
+* `true` if the input is an instance of `Cache`; otherwise, `false`.
 
 === `buildCacheKey`
 [source,ts]
@@ -183,7 +183,7 @@ Constructs a cache key string for storage and retrieval.
 * `topicId` (required): The ID of the HCS topic.
 
 .Returns
-A string key combining ledger ID, target, and topic ID.
+* A string key combining ledger ID, target, and topic ID.
 
 === `getFromCache`
 [source,ts]
@@ -197,7 +197,7 @@ Retrieves a cached value by key.
 * `key` (required): The cache key.
 
 .Returns
-A promise resolving to the cached value or `null` if not found.
+* A promise resolving to the cached value or `null` if not found.
 
 === `putToCache`
 [source,ts]
@@ -213,7 +213,7 @@ Stores a value in the cache with optional expiration.
 * `expiresInSeconds` (optional): Lifetime of the cache entry in seconds.
 
 .Returns
-A promise that resolves when the value has been stored.
+* A promise that resolves when the value has been stored.
 
 === `removeFromCache`
 [source,ts]

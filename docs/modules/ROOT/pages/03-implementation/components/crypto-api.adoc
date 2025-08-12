@@ -44,7 +44,7 @@ Computes the SHA-256 hash of the given input data.
 * `data` (required, `HashInput`): The input data to hash. Supported types include `string`, `Buffer`, `Uint8Array`, and `ArrayBuffer`.
 
 .Returns
-A hexadecimal string representing the SHA-256 hash of the input data.
+* A hexadecimal string representing the SHA-256 hash of the input data.
 
 .Throws
 * Throws an error if no compatible crypto module can be found in the current environment.
@@ -66,10 +66,10 @@ function getAvailableCryptoModule(): CryptoModule
 Selects and returns a compatible cryptographic module available in the runtime environment.
 
 .Returns
-The first compatible `CryptoModule` found (`crypto` for Node.js or `react-native-quick-crypto` for React Native).
+* The first compatible `CryptoModule` found (`crypto` for Node.js or `react-native-quick-crypto` for React Native).
 
 .Throws
-Throws an error if no compatible crypto module is found, prompting the user to install required polyfills.
+* Throws an error if no compatible crypto module is found, prompting the user to install required polyfills.
 
 === `convertInputToBuffer`
 [source,ts]
@@ -83,7 +83,7 @@ Converts the input data of various supported types into a Node.js `Buffer`.
 * `data` (required, `HashInput`): The input data to convert.
 
 .Returns
-A `Buffer` instance representing the input data in UTF-8 encoding (for strings) or raw bytes (for binary types).
+* A `Buffer` instance representing the input data in UTF-8 encoding (for strings) or raw bytes (for binary types).
 
 == See Also
 

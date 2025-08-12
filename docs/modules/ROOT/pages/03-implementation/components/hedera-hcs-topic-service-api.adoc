@@ -40,7 +40,7 @@ Creates a new HCS topic.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for changes visibility.
 
 .Returns
-A promise resolving to the created topic ID as a string.
+* A promise resolving to the created topic ID as a string.
 
 .Throws
 * Error if `autoRenewAccountId` is provided without `autoRenewAccountKey`.
@@ -71,7 +71,7 @@ Updates an existing HCS topic.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds for visibility wait.
 
 .Returns
-A promise resolving when the topic update completes.
+* A promise resolving when the topic update completes.
 
 .Throws
 * Error if `autoRenewAccountId` is set without `autoRenewAccountKey`.
@@ -95,7 +95,7 @@ Deletes an HCS topic.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
 
 .Returns
-A promise resolving when deletion is complete.
+* A promise resolving when deletion is complete.
 
 .Throws
 * Error if the deletion transaction fails.
@@ -115,7 +115,7 @@ Retrieves information about a topic, utilizing cache if available.
 * `topicId` (required, string): ID of the topic.
 
 .Returns
-A promise resolving to `TopicInfo`.
+* A promise resolving to `TopicInfo`.
 
 .Throws
 * Error if topic info retrieval fails.
@@ -132,7 +132,7 @@ Fetches topic info using the SDK client or REST API depending on availability.
 * `props` (required): Properties specifying the topic ID.
 
 .Returns
-A promise resolving to `TopicInfo`.
+* A promise resolving to `TopicInfo`.
 
 === `fetchTopicInfoWithClient`
 [source,ts]
@@ -146,7 +146,7 @@ Fetches topic info through the Hedera SDK client (gRPC call).
 * `props` (required): Properties specifying the topic ID.
 
 .Returns
-A promise resolving to `TopicInfo`.
+* A promise resolving to `TopicInfo`.
 
 === `fetchTopicInfoWithRest`
 [source,ts]
@@ -160,7 +160,7 @@ Fetches topic info from the mirror node REST API.
 * `props` (required): Properties specifying the topic ID.
 
 .Returns
-A promise resolving to `TopicInfo`.
+* A promise resolving to `TopicInfo`.
 
 .Throws
 * Error if the fetch request fails.
@@ -178,7 +178,7 @@ Converts expiration time to milliseconds since epoch.
 * `expirationTime` (required): Expiration time as `Timestamp` or `Date`.
 
 .Returns
-Milliseconds since epoch or undefined.
+* Milliseconds since epoch or undefined.
 
 .Throws
 * Error if the input type is unsupported.

@@ -20,6 +20,12 @@ image::component-view-diagram.png[]
 
   * **Signer:** Signs DID messages to ensure cryptographic integrity.
 
+  * **Verifier:** Verifies DID messages using internal cryptographic.
+
+  * **HashiCorpSigner:** Signs DID messages using HashiCorp Vault.
+
+  * **HashiCorpVerifier:** Verifies DID messages using HashiCorp Vault.
+
   * **Publisher:** Signs and publishes transactions to the Hedera Topic Service.
 
   * **HederaClientService:** Manages Hedera SDK clients for multiple networks, handling client lifecycle and configuration.
@@ -38,7 +44,7 @@ image::component-view-diagram.png[]
 
 ==== External Systems
 
-* **Hedera Consensus Service (topic):** Hedera's publish/subscribe messaging platform through which DID topics and messages are exchanged.
+* **Hedera Consensus Service:** Hedera's publish/subscribe messaging platform through which DID topics and messages are exchanged.
 
 * **Hedera Node:** Hedera network node that acts as a gateway for submitting transactions and interacting with the blockchain.
 
@@ -70,4 +76,4 @@ image::component-view-diagram.png[]
 
 * **AnoncredsRegistry uses HcsService:** Uses HCS services to store and retrieve AnonCreds-related data on Hedera.
 
-* **Hedera Consensus Service (topic) communicates with Hedera Node:** The underlying infrastructure supporting message publication and retrieval.
+* **Hedera Consensus Service communicates with Hedera Node:** The underlying infrastructure supporting message publication and retrieval.

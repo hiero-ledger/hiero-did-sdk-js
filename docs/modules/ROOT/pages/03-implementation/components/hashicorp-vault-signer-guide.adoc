@@ -1,6 +1,6 @@
 = HashiCorp Vault Signer Class
 
-The `Signer` is a fundamental component of the Hashgraph DID SDK, responsible for securely managing cryptographic keys and generating digital signatures for DID operations. The HashiCorp Vault Signer is a specialized implementation of the `Signer` that integrates with HashiCorp Vault to securely store and manage cryptographic keys. This guide provides an overview of the HashiCorp Vault Signer and demonstrates how to use it within the SDK.
+The `Signer` is a fundamental component of the Hiero DID SDK, responsible for securely managing cryptographic keys and generating digital signatures for DID operations. The HashiCorp Vault Signer is a specialized implementation of the `Signer` that integrates with HashiCorp Vault to securely store and manage cryptographic keys. This guide provides an overview of the HashiCorp Vault Signer and demonstrates how to use it within the SDK.
 
 This component provides a `VaultSignerFactory` class that allows you to create a `Signer` instance that uses HashiCorp Vault as the key store. The `VaultSignerFactory` class requires authentication credentials to access the HashiCorp Vault server.
 
@@ -193,7 +193,7 @@ const publicKey = await signer.publicKey();
 
 == Rotating Vault Keys
 
-HashiCorp Vault provides a key rotation mechanism that allows you to rotate keys periodically for enhanced security. Unfortunately, the Hashgraph DID SDK does not currently support key rotation for Vault-managed keys both manually and automatically. Because of this, if a key has multiple versions in Vault, the SDK will always use the first version.
+HashiCorp Vault provides a key rotation mechanism that allows you to rotate keys periodically for enhanced security. Unfortunately, the Hiero DID SDK does not currently support key rotation for Vault-managed keys both manually and automatically. Because of this, if a key has multiple versions in Vault, the SDK will always use the first version.
 
 == References
 

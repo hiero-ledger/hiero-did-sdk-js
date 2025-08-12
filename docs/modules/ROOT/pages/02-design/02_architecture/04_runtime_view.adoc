@@ -24,7 +24,7 @@ image::runtime-view-diagram.png[]
   * **Zstd Compression:** Offers compression and decompression using the Zstandard algorithm.
   * **AnoncredsRegistry:** Manages decentralized anonymous credentials (AnonCreds) data lifecycle on Hedera.
 
-* **Hedera Consensus Service (topic):** The Hedera network service providing publish/subscribe messaging on topics.
+* **Hedera Consensus Service:** The Hedera network service providing publish/subscribe messaging on topics.
 
 * **Hedera Node:** The blockchain node gateway handling transaction submission and state queries.
 
@@ -36,7 +36,7 @@ image::runtime-view-diagram.png[]
 
 3. **HCS Object Management:** The **Registrar** invokes **HcsService**, which orchestrates interactions with **HcsTopicService**, **HcsMessageService**, and **HcsFileService** to handle topic creation, message sending, or file storage.
 
-4. **Transaction Preparation and Publishing:** The **Publisher** signs and publishes the constructed transactions (including DID Documents or credential data encoded as messages or files) to the **Hedera Consensus Service (topic)**.
+4. **Transaction Preparation and Publishing:** The **Publisher** signs and publishes the constructed transactions (including DID Documents or credential data encoded as messages or files) to the **Hedera Consensus Service**.
 
 5. **Ledger Interaction:** The **Hedera Consensus Service** communicates with one or more **Hedera Nodes** to persist, order, and propagate the transactions.
 

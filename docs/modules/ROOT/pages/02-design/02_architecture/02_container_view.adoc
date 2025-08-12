@@ -1,6 +1,6 @@
 === Level 2: Container View
 
-This view identifies the main containers (04-deployable/runnable units and libraries) inside the Hiero DID SDK JS and their relationships with external systems. It follows the C4 Model "Container" level.
+This view identifies the main containers (xref:04-deployment/packages/index.adoc[runnable units and libraries]) inside the Hiero DID SDK JS and their relationships with external systems. It follows the C4 Model "Container" level.
 
 image::container-view-diagram.png[]
 
@@ -21,12 +21,12 @@ image::container-view-diagram.png[]
 * cache: In-memory cache primitives used by resolver and others.
 * crypto: Cryptographic helpers (key/seed handling, hashing).
 * zstd: Compression utilities used to reduce on-chain payload size.
-* anoncreds: Hedera AnonCreds Registry integration per spec.
+* anoncreds: Hedera AnonCreds Registry implementation per spec.
 
 ==== External Containers
 
 * Hedera Nodes: Submit transactions (DID ops) to the network.
-* Hedera Mirror Node: Read topic messages for resolution.
+* Hedera Mirror Node: Read topic info and messages for resolution.
 * HashiCorp Vault (optional): External KMS used by Vault signer/verifier.
 
 ==== Relationships

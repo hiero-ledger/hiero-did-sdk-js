@@ -16,7 +16,7 @@ Benefits of using the `TopicReader` class:
 Use cases:
 
 * Read messages from the Hedera network topic using gRPC client.
-* Read messages from the Hedera network topic using HCS service.
+* Read messages from the Hedera network topic using HCS package.
 * Read messages from the Hedera network topic using REST API.
 * Read messages with additional caching capabilities.
 * Read messages for testing or development purposes.
@@ -60,13 +60,13 @@ console.log(messages);
 
 === TopicReaderHederaHcs
 
-The `TopicReaderHederaHcs` class is a implementation of the `TopicReader` class using the HCS service.
+The `TopicReaderHederaHcs` class is a implementation of the `TopicReader` class using the HCS package.
 The `TopicReaderHederaHcs` class can be initialized with a set of required for using networks and with a xref:03-implementation/components/cache-guide.adoc[Cache].
 It uses the Hedera gRPC client to read messages from the Hedera network topic. This implementation cannot be used in the browser environment.
 
 [source, typescript]
 ----
-import { TopicReaderHederaHcs } from '@hiero-did-sdk/resolver';
+import { TopicReaderHederaHcs } from '@hiero-did-sdk/hcs';
 
 const topicReader = new TopicReaderHederaHcs({
     networks: [

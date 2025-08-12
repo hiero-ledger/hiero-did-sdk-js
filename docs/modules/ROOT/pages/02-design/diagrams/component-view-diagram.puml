@@ -13,7 +13,12 @@ System_Boundary(c1, "Hiero DID SDK") {
   Component(anoncredsRegistry, "AnoncredsRegistry", "Manages AnonCreds schemas, credential defs, revocation registries")
 
   Component(signer, "Signer", "Signs DID Message")
+  Component(verifier, "Verifier", "Verifies DID Message")
+
   Component(publisher, "Publisher", "Signs & Publishes Transaction")
+
+  Component(hashicorpSigner, "HashiCorp Signer", "Signs DID Message")
+  Component(hashicorpVerifier, "HashiCorp Verifier", "Verifies DID Message")
 
   Component(hederaClientService, "HederaClientService", "Manages Hedera SDK clients for multiple networks")
 
@@ -21,12 +26,13 @@ System_Boundary(c1, "Hiero DID SDK") {
   Component(hcsMessageService, "HcsMessageService", "Sends and retrieves messages from topics")
   Component(hcsFileService, "HcsFileService", "Stores and resolves files using HCS-1 protocol")
 
-
   Component(cache, "Cache Service", "Caches data to improve performance")
 
   Component(crypto, "Crypto Library", "Provides SHA-256 hashing")
   Component(zstd, "Zstd Compression", "Compresses/Decompresses data using Zstandard")
 }
+
+System_Ext(hashicorp, "HashiCorp Vault", "External KMS used by Vault signer/verifier")
 
 System_Ext(topic, "Hedera Consensus Service", "Gateway to the Hedera Consensus Service")
 System_Ext(hedera, "Hedera Node", "Gateway to the Hedera network")
@@ -37,7 +43,15 @@ Rel(developer, hcsService, "Uses")
 Rel(developer, anoncredsRegistry, "Uses")
 
 Rel(registrar, signer, "Uses")
+Rel(registrar, verifier, "Uses")
+
 Rel(registrar, publisher, "Uses")
+
+Rel(registrar, hashicorpSigner, "Uses")
+Rel(registrar, hashicorpVerifier, "Uses")
+
+Rel(hashicorpSigner, hashicorp, "Uses")
+Rel_R(hashicorpVerifier, hashicorp, "Uses")
 
 Rel(publisher, topic, "Publishes", "Signed Transaction")
 Rel(resolver, topic, "Retrieves", "DID Document")
@@ -59,7 +73,6 @@ Rel_U(hcsFileService, cache, "Uses")
 
 Rel(hcsFileService, crypto, "Uses")
 Rel(hcsFileService, zstd, "Uses")
-
 
 Rel(hcsMessageService, topic, "Publishes and retrieves messages")
 Rel(hcsFileService, topic, "Publishes and retrieves files")
