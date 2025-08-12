@@ -20,6 +20,11 @@ npm install @hiero-did-sdk/zstd
 
 Learn how to use the Zstd module in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/zstd-guide.html).
 
+### Examples
+
+- [zstd-compress](./examples/zstd-compress.ts) - Demonstrates how to compress a Uint8Array.
+- [zstd-decompress](./examples/zstd-decompress.ts) - Demonstrates how to decompress a Uint8Array.
+
 ## API Reference
 
 See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/0.1.0/03-implementation/components/zstd-api.html).

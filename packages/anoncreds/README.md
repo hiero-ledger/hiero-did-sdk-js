@@ -5,9 +5,9 @@ It enables the management of AnonCreds resources using Hedera Consensus Service 
 
 ## Features
 
-- **AnonCreds VDR:** Register and resolve AnonCreds objects using HCS as highly-performant and cost-effective VDR.
-- **Revocation Support:** Comprehensive support for AnonCreds revocation through effective approach for revocation registry management.
-- **TypeScript Support:** Built with TypeScript to enhance developer experience and code maintainability.
+- AnonCreds VDR: Register and resolve AnonCreds objects using HCS as highly-performant and cost-effective VDR.
+- Revocation Support: Comprehensive support for AnonCreds revocation through effective approach for revocation registry management.
+- TypeScript Support: Built with TypeScript to enhance developer experience and code maintainability.
 
 ## Installation
 
@@ -24,7 +24,14 @@ For more detailed examples and usage scenarios, refer to the [AnonCreds Package 
 
 ### Examples
 
-
+- [anoncreds-register-schema](./examples/anoncreds-register-schema.ts) - Demonstrates how to register a schema.
+- [anoncreds-get-schema](./examples/anoncreds-get-schema.ts) - Demonstrates how to retrieve a registered schema.
+- [anoncreds-register-credential-definition](./examples/anoncreds-register-credential-definition.ts) - Demonstrates how to register a credential definition.
+- [anoncreds-get-credential-definition](./examples/anoncreds-get-credential-definition.ts) - Demonstrates how to obtain a credential definition.
+- [anoncreds-register-revocation-registry](./examples/anoncreds-register-revocation-registry.ts) - Demonstrates how to register a revocation registry definition.
+- [anoncreds-get-revocation-registry](./examples/anoncreds-get-revocation-registry.ts) - Demonstrates how to fetch a revocation registry definition.
+- [anoncreds-register-revocation-status-list](./examples/anoncreds-register-revocation-status-list.ts) - Demonstrates how to register a revocation status list.
+- [anoncreds-get-revocation-status-list](./examples/anoncreds-get-revocation-status-list.ts) - Demonstrates how to get a revocation status list.
 
 ## API Reference
 
