@@ -1,6 +1,6 @@
-= Hashgraph DID SDK: Single vs Shared Topic
+= Hiero DID SDK: Single vs Shared Topic
 
-When creating Decentralized Identifiers (DIDs) on Hedera Hashgraph using the DID SDK, you have two fundamental approaches for storing DID Documents: using a single topic per DID or using a shared topic for multiple DIDs. This guide explains the differences, advantages, and disadvantages of each approach to help you choose the best solution for your use case.
+When creating Decentralized Identifiers (DIDs) on Hedera Hiero using the DID SDK, you have two fundamental approaches for storing DID Documents: using a single topic per DID or using a shared topic for multiple DIDs. This guide explains the differences, advantages, and disadvantages of each approach to help you choose the best solution for your use case.
 
 == Understanding Topics in Hedera
 
@@ -120,10 +120,10 @@ async function createDidWithSharedTopic() {
       topicId: sharedTopicId,
       // Other options as needed
     });
-    
+
     console.log("Created DID:", result.did);
     console.log("Using shared topic:", sharedTopicId);
-    
+
     return result;
   } catch (error) {
     console.error("Error creating DID:", error);
@@ -145,10 +145,10 @@ async function createDidWithSingleTopic() {
       privateKey: "your-private-key",
       // Other options as needed
     });
-    
+
     console.log("Created DID:", result.did);
     console.log("Created new topic:", result.topicId);
-    
+
     return result;
   } catch (error) {
     console.error("Error creating DID:", error);
@@ -159,8 +159,8 @@ async function createDidWithSingleTopic() {
 
 == Next Steps
 
-*   **Explore `resolveDID`:**  Dive deeper into the xref::04-implementation/components/resolveDID-guide.adoc[resolveDID] function to understand its parameters, error handling, and advanced usage.
-*   **Manage DIDs:** Learn how to use xref::04-implementation/components/createDID-guide.adoc[createDID], xref::04-implementation/components/updateDID-guide.adoc[updateDID], and xref::04-implementation/components/deactivateDID-guide.adoc[deactivateDID] to effectively manage DIDs on Hedera.
-*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::04-implementation/components/signer-guide.adoc[Signer] class.
-*   **Utilize the `Publisher`:** Integrate the xref::04-implementation/components/publisher-guide.adoc[Publisher] class into your application for seamless transaction submission.
-*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hashgraph DID SDK: xref::04-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].
+*   **Explore `resolveDID`:**  Dive deeper into the xref::03-implementation/components/resolveDID-guide.adoc[resolveDID] function to understand its parameters, error handling, and advanced usage.
+*   **Manage DIDs:** Learn how to use xref::03-implementation/components/createDID-guide.adoc[createDID], xref::03-implementation/components/updateDID-guide.adoc[updateDID], and xref::03-implementation/components/deactivateDID-guide.adoc[deactivateDID] to effectively manage DIDs on Hedera.
+*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::03-implementation/components/signer-guide.adoc[Signer] class.
+*   **Utilize the `Publisher`:** Integrate the xref::03-implementation/components/publisher-guide.adoc[Publisher] class into your application for seamless transaction submission.
+*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::03-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].

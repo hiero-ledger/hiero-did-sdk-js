@@ -1,25 +1,43 @@
-=== Container View
+=== Level 2: Container View
 
-This diagram illustrates the containers within the Hiero DID SDK and their interactions with external dependencies. It provides a more detailed view of the SDK's internal structure and how it utilizes the Hedera network.
+This view identifies the main containers (xref:04-deployment/packages/index.adoc[runnable units and libraries]) inside the Hiero DID SDK JS and their relationships with external systems. It follows the C4 Model "Container" level.
 
 image::container-view-diagram.png[]
 
-==== Components
+==== Internal Containers (xref:04-deployment/packages/index.adoc[npm packages])
 
-* **dApp Developer:** Represents developers who build applications utilizing the Hiero DID SDK.
+* core: Common types, interfaces, and utilities shared by all packages.
+* messages: DID message formats and lifecycle events.
+* lifecycle: Async orchestration utilities for DID flows.
+* registrar: High-level API to create/update/deactivate DIDs. Depends on messages, signer, publisher, hcs, client.
+* resolver: High-level API to resolve DIDs from Hedera. Depends on hcs topic reader, cache, verifier, client.
+* signer-internal: Local signing using Hedera PrivateKey.
+* verifier-internal: Local verification of signatures.
+* signer-hashicorp-vault (optional): Vault-backed signing.
+* verifier-hashicorp-vault (optional): Vault-backed verification.
+* publisher-internal: Publishes transactions to Hedera via Client.
+* client: Configures and provides Hedera SDK Client per network.
+* hcs: Abstraction over Hedera Consensus Service (publish/read topics, publish/read messages, submit/resolve files by HCS-1 standard).
+* cache: In-memory cache primitives used by resolver and others.
+* crypto: Cryptographic helpers (SHA-256 hashing).
+* zstd: Compression utilities used to reduce on-chain payload size.
+* anoncreds: Hedera AnonCreds Registry implementation per spec.
 
-* **Hiero DID SDK:**  The software development kit containing the Core Module.
+==== External Containers
 
-    * **Core Module:**  Provides the core functionalities for managing DIDs, including creating, updating, and deactivating DIDs, signing and verifying DID messages, and handling transaction signing and execution.
+* Hedera Nodes: Submit transactions (DID ops) to the network.
+* Hedera Mirror Node: Read topic info and messages for resolution.
+* HashiCorp Vault (optional): External KMS used by Vault signer/verifier.
 
-* **Hedera Topic Service:** A service on the Hedera network that enables publish/subscribe communication. The DID SDK uses this service for DID-related communication.
+==== Relationships
 
-* **Hedera Node:** A node in the Hedera network that acts as a gateway for submitting transactions and interacting with the network.
+* registrar -> signer(-internal | -vault): to sign DID operations.
+* registrar -> publisher-internal -> client -> Hedera Nodes: to submit HCS transactions.
+* resolver -> hcs (Topic Reader) -> Mirror Node: to fetch topic messages; may use cache and zstd for performance.
+* resolver -> verifier(-internal | -vault): to verify signatures of DID messages/documents.
+* hcs -> client: to publish to HCS topics.
+* anoncreds -> hcs/client: to interact with Hedera AnonCreds registry.
 
-==== Interactions
+==== Notes
 
-* **dApp Developers use the Core Module:** Developers interact with the Core Module to perform DID operations and integrate DID functionalities into their applications.
-
-* **Core Module uses the Hedera Topic Service:** The Core Module utilizes the Hedera Topic Service for communication related to DID management.
-
-* **Hedera Topic Service communicates with Hedera Node:** The Hedera Topic Service interacts with the Hedera Node to publish and retrieve messages, ensuring that DID-related communication is handled efficiently and reliably.
+Each container is versioned and published independently, enabling consumers to choose only what they need. See xref:04-deployment/packages/index.adoc[Packages Guide] for details and links.

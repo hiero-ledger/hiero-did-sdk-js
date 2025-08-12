@@ -23,50 +23,89 @@
     **** xref:03-implementation/guides/browser-environment-guide.adoc[Browser Environment]
 
   ** Components
-    *** xref:03-implementation/components/resolveDID-guide.adoc[resolveDID]
-    *** xref:03-implementation/components/dereferenceDID-guide.adoc[dereferenceDID]
-    *** xref:03-implementation/components/topic-reader-guide.adoc[Topic Reader]
-    *** xref:03-implementation/components/createDID-guide.adoc[createDID]
-    *** xref:03-implementation/components/updateDID-guide.adoc[updateDID]
-    *** xref:03-implementation/components/deactivateDID-guide.adoc[deactivateDID]
-    *** xref:03-implementation/components/signer-guide.adoc[Signer]
-    *** HashiCorp Vault
-      **** xref:03-implementation/components/hashicorp-vault-signer-guide.adoc[Vault Signer]
-      **** xref:03-implementation/components/hashicorp-vault-verifier-guide.adoc[Vault Verifier]
-    *** xref:03-implementation/components/verifier-guide.adoc[Verifier]
-    *** xref:03-implementation/components/publisher-guide.adoc[Publisher]
+    *** Did Resolver
+      **** xref:03-implementation/components/topic-reader-guide.adoc[Topic Reader]
+      **** xref:03-implementation/components/resolveDID-guide.adoc[resolveDID]
+      **** xref:03-implementation/components/dereferenceDID-guide.adoc[dereferenceDID]
+    *** Did Registrar
+      **** xref:03-implementation/components/createDID-guide.adoc[createDID]
+      **** xref:03-implementation/components/updateDID-guide.adoc[updateDID]
+      **** xref:03-implementation/components/deactivateDID-guide.adoc[deactivateDID]
+    *** Signer/Verifier
+      **** Internal
+        ***** xref:03-implementation/components/signer-guide.adoc[Signer]
+        ***** xref:03-implementation/components/verifier-guide.adoc[Verifier]
+      **** HashiCorp Vault
+        ***** xref:03-implementation/components/hashicorp-vault-signer-guide.adoc[Signer]
+        ***** xref:03-implementation/components/hashicorp-vault-verifier-guide.adoc[Verifier]
+    *** Hedera HCS
+      **** xref:03-implementation/components/hcs-service-guide.adoc[HCS service]
+      **** xref:03-implementation/components/hcs-topic-service-guide.adoc[HCS Topic service]
+      **** xref:03-implementation/components/hcs-message-service-guide.adoc[HCS Message service]
+      **** xref:03-implementation/components/hcs-file-service-guide.adoc[HCS File service]
+      **** xref:03-implementation/components/publisher-guide.adoc[Publisher]
+    *** Anoncreds
+      **** xref:03-implementation/components/anoncreds-guide.adoc[Anoncreds Registry]
 
     *** Advanced
       **** xref:03-implementation/components/core-guide.adoc[Core]
-      **** xref:03-implementation/components/messages-guide.adoc[Messages]
+      **** xref:03-implementation/components/cache-guide.adoc[Cache]
+      **** xref:03-implementation/components/client-guide.adoc[Client]
+      **** xref:03-implementation/components/crypto-guide.adoc[Crypto]
       **** xref:03-implementation/components/lifecycle-guide.adoc[Lifecycle]
+      **** xref:03-implementation/components/messages-guide.adoc[Messages]
+      **** xref:03-implementation/components/zstd-guide.adoc[Zstd]
 
   ** Components API
-    *** xref:03-implementation/components/resolveDID-api.adoc[resolveDID]
-    *** xref:03-implementation/components/dereferenceDID-api.adoc[dereferenceDID]
-    *** xref:03-implementation/components/topic-reader-api.adoc[Topic Reader]
-    *** xref:03-implementation/components/createDID-api.adoc[createDID]
-    *** xref:03-implementation/components/generateCreateDIDRequest-api.adoc[generateCreateDIDRequest]
-    *** xref:03-implementation/components/submitCreateDIDRequest-api.adoc[submitCreateDIDRequest]
-    *** xref:03-implementation/components/updateDID-api.adoc[updateDID]
-    *** xref:03-implementation/components/did-update-builder-api.adoc[DIDUpdateBuilder]
-    *** xref:03-implementation/components/generateUpdateDIDRequest-api.adoc[generateUpdateDIDRequest]
-    *** xref:03-implementation/components/deactivateDID-api.adoc[deactivateDID]
-    *** xref:03-implementation/components/generateDeactivateDIDRequest-api.adoc[generateDeactivateDIDRequest]
-    *** xref:03-implementation/components/submitDeactivateDIDRequest-api.adoc[submitDeactivateDIDRequest]
-    *** xref:03-implementation/components/signer-api.adoc[Signer]
-    *** xref:03-implementation/components/verifier-api.adoc[Verifier]
-    *** HashiCorp Vault
-      **** xref:03-implementation/components/hashicorp-vault-signer-api.adoc[Vault Signer]
-      **** xref:03-implementation/components/hashicorp-vault-signer-factory-api.adoc[Vault Signer Factory]
-      **** xref:03-implementation/components/hashicorp-vault-verifier-api.adoc[Vault Verifier]
-      **** xref:03-implementation/components/hashicorp-vault-verifier-factory-api.adoc[Vault Verifier Factory]
-    *** xref:03-implementation/components/publisher-api.adoc[Publisher]
+    *** DidResolver
+      **** ResolveDid
+        ***** xref:03-implementation/components/resolveDID-api.adoc[resolveDID]
+        ***** xref:03-implementation/components/did-document-builder-api.adoc[didDocumentBuilder]
+      **** DereferenceDid
+        ***** xref:03-implementation/components/dereferenceDID-api.adoc[dereferenceDID]
+        ***** xref:03-implementation/components/did-dereference-builder-api.adoc[didDereferenceBuilder]
+      **** xref:03-implementation/components/topic-reader-api.adoc[TopicReader API Reference]
+    *** DidRegistrar
+      **** CreateDid
+        ***** xref:03-implementation/components/createDID-api.adoc[createDID]
+        ***** xref:03-implementation/components/generateCreateDIDRequest-api.adoc[generateCreateDIDRequest]
+        ***** xref:03-implementation/components/submitCreateDIDRequest-api.adoc[submitCreateDIDRequest]
+      **** UpdateDid
+        ***** xref:03-implementation/components/updateDID-api.adoc[updateDID]
+        ***** xref:03-implementation/components/generateUpdateDIDRequest-api.adoc[generateUpdateDIDRequest]
+        ***** xref:03-implementation/components/submitUpdateDIDRequest-api.adoc[submitUpdateDIDRequest]
+        ***** xref:03-implementation/components/did-update-builder-api.adoc[didUpdateBuilder]
+      **** DeactivateDid
+        ***** xref:03-implementation/components/deactivateDID-api.adoc[deactivateDID]
+        ***** xref:03-implementation/components/generateDeactivateDIDRequest-api.adoc[generateDeactivateDIDRequest]
+        ***** xref:03-implementation/components/submitDeactivateDIDRequest-api.adoc[submitDeactivateDIDRequest]
+    *** Signer/Verifier
+      **** Internal
+        ***** xref:03-implementation/components/signer-api.adoc[Signer]
+        ***** xref:03-implementation/components/verifier-api.adoc[Verifier]
+      **** HashiCorp Vault
+        ***** xref:03-implementation/components/hashicorp-vault-signer-api.adoc[Vault Signer]
+        ***** xref:03-implementation/components/hashicorp-vault-signer-factory-api.adoc[Vault Signer Factory]
+        ***** xref:03-implementation/components/hashicorp-vault-verifier-api.adoc[Vault Verifier]
+        ***** xref:03-implementation/components/hashicorp-vault-verifier-factory-api.adoc[Vault Verifier Factory]
+    *** Hedera HCS
+      **** xref:03-implementation/components/hcs-service-api.adoc[HCS service]
+      **** xref:03-implementation/components/hcs-topic-service-api.adoc[HCS Topic service]
+      **** xref:03-implementation/components/hcs-message-service-api.adoc[HCS Message service]
+      **** xref:03-implementation/components/hcs-file-service-api.adoc[HCS File service]
+      **** xref:03-implementation/components/hcs-cache-service-api.adoc[HCS Cache service]
+      **** xref:03-implementation/components/publisher-api.adoc[Publisher]
+    *** Anoncreds
+      **** xref:03-implementation/components/anoncreds-api.adoc[Anoncreds Registry]
 
     *** Advanced
       **** xref:03-implementation/components/core-api.adoc[Core]
-      **** xref:03-implementation/components/messages-api.adoc[Messages]
+      **** xref:03-implementation/components/cache-api.adoc[Cache]
+      **** xref:03-implementation/components/client-api.adoc[Client]
+      **** xref:03-implementation/components/crypto-api.adoc[Crypto]
       **** xref:03-implementation/components/lifecycle-api.adoc[Lifecycle]
+      **** xref:03-implementation/components/messages-api.adoc[Messages]
+      **** xref:03-implementation/components/zstd-api.adoc[Zstd]
 
 
 * Deployment

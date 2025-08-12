@@ -4,7 +4,7 @@ This document provides a concise API reference for the `generateCreateDIDRequest
 
 == Function Signature
 
-This function generates a request to create a new Decentralized Identifier (DID) on the Hedera network using the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Client Managed Secret Mode].
+This function generates a request to create a new Decentralized Identifier (DID) on the Hedera network using the xref:03-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Client Managed Secret Mode].
 
 The `generateCreateDIDRequest` function is invoked with `providers` and `options` parameters. The `providers` parameter encapsulates configuration parameters for interacting with the Hedera network, while the `options` parameter enables customization of the DID creation procedure and passing required public key.
 
@@ -101,7 +101,7 @@ The table below provides a detailed description of the `PublisherProviders` type
 
 |publisher?
 |`Publisher`
-|An instance of a xref:04-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
+|An instance of a xref:03-implementation/components/publisher-guide.adoc[Publisher] responsible for submitting the DID creation transaction to the Hedera network.
 |===
 
 [[options-data-types]]
@@ -129,7 +129,7 @@ The table below provides a detailed description of the `GenerateCreateDIDRequest
 
 |topicReader?
 |`TopicReader`
-|An instance of a xref:04-implementation/components/topic-reader-api.adoc[TopicReader] responsible for reading messages from the Hedera network topic.
+|An instance of a xref:03-implementation/components/topic-reader-api.adoc[TopicReader] responsible for reading messages from the Hedera network topic.
 |===
 
 [[signing-request-data-types]]
@@ -173,10 +173,10 @@ The following table enumerates the exceptions that may arise during the executio
 |Providers must contain client options or client or publisher.
 
 |`invalidArgument`
-|Hashgraph SDK Client must be configured with a network.
+|Hiero SDK Client must be configured with a network.
 
 |`invalidArgument`
-|Hashgraph SDK Client must be configured with an operator account.
+|Hiero SDK Client must be configured with an operator account.
 
 |`invalidDid`
 |Controller is not a valid Hedera DID.
@@ -190,4 +190,4 @@ The following table enumerates the exceptions that may arise during the executio
 
 == Function Implementation
 
-The Hashgraph DID SDK provides a `generateCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.
+The Hiero DID SDK provides a `generateCreateDIDRequest` function within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

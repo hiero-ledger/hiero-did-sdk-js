@@ -1,0 +1,273 @@
+= HederaHcsService Guide
+
+The `@hiero-did-sdk/hcs` package provides powerful tools and services for interacting with Hedera Consensus Service (HCS) topics and messages. The package also implements support for the HCS-1 standard for file storage based on the Hedera ledger.
+
+== Overview
+
+Use `@hiero-did-sdk/hcs` to:
+* Create, update, and delete HCS topics.
+* Publish and retrieve messages in HCS topics.
+* Store and retrieve files using Hedera Consensus Service file abstraction (HCS-1 standard).
+* Integrate caching and efficient retrieval for topic metadata and info.
+
+== Package Architecture
+
+image::hcs-service-diagram.png[]
+
+* HederaHcsService - A service wrapper providing convenient interaction with the Hedera Consensus Service (HCS).
+* HcsTopicService - A service for working with topics.
+* HcsMessageService - A service for sending and receiving messages.
+* HcsFileService - A service for file storage.
+* HcsCacheService - A service for data caching.
+
+== Initialization
+
+HederaHcsService accepts the following parameters:
+
+* networks: NetworkConfig[]; - Network configuration for initialization.
+* cache?: CacheConfig | Cache; - Cache service parameters for initializing HcsCacheService.
+
+=== Network option
+
+[source,typescript]
+----
+export const HEDERA_NETWORKS = ['mainnet', 'testnet', 'previewnet', 'local-node'] as const;
+
+export type HederaNetwork = (typeof HEDERA_NETWORKS)[number];
+
+export type HederaCustomNetwork = {
+  name: string;
+  nodes: {
+    [key: string]: string | AccountId;
+  };
+  mirrorNodes?: string | string[] | undefined;
+};
+
+export interface NetworkConfig {
+  network: HederaNetwork | HederaCustomNetwork;
+  operatorId: string;
+  operatorKey: string;
+}
+
+export interface HederaClientConfiguration {
+  networks: NetworkConfig[];
+}
+----
+
+Networks configuration described in the xref:03-implementation/components/client-api.adoc[Client API Reference]
+
+=== Cache option
+
+[source,typescript]
+----
+export type CacheConfig = {
+  maxSize: number;
+};
+
+export interface Cache {
+  get<CacheValue>(key: string): Promise<CacheValue | null>;
+  set<CacheValue>(key: string, value: CacheValue, expiresInSeconds?: number): Promise<void>;
+  remove(key: string): Promise<void>;
+  clear(): Promise<void>;
+  cleanupExpired(): Promise<void>;
+}
+----
+
+When initializing the cache, you can either use an external cache that implements the interface described in the xref:03-implementation/components/core-api.adoc[Core API Reference], or create a cache by specifying the maximum number of elements maxSize. In this case, the network configuration described in the xref:03-implementation/components/cache-guide.adoc[LRU Cache guide] will be used.
+
+
+=== Example
+[source,typescript]
+----
+const options = {
+    networks: [
+        { network: 'testnet', operatorId, operatorKey  },
+        { network: 'local-node', operatorId, operatorKey  },
+        {
+          network: {
+            name: 'custom-network',
+            nodes: {
+              'https://testnet-node00-00-grpc.hedera.com:443': new AccountId(3),
+            },
+          },
+          operatorId,
+          operatorKey,
+        },
+    ],
+    cache: { maxSize: 100 }
+}
+----
+
+== Basic Usage
+
+=== Creating a Topic
+
+[source,typescript]
+----
+import { HederaHcsService } from '@hiero-did-sdk/hcs';
+
+const hcsService = new HederaHcsService({
+  networks: [
+    { 'testnet', operatorId, operatorKey },
+  ],
+  cache: { maxSize: 100 },
+});
+
+const topic = await hcsService.createTopic({
+  networkName: 'testnet',
+  topicMemo: "Topic Memo",
+  waitForChangesVisibility: true,
+});
+
+console.log(topic);
+----
+
+=== Updating a Topic
+
+[source,typescript]
+----
+import { HederaHcsService } from '@hiero-did-sdk/hcs';
+
+const hcsService = new HederaHcsService({
+  networks: [
+    { 'testnet', operatorId, operatorKey },
+  ],
+  cache: { maxSize: 100 },
+});
+
+const topic = await hcsService.updateTopic({
+  networkName: 'testnet',
+  topicMemo: "New Topic Memo",
+  waitForChangesVisibility: true,
+});
+
+console.log(topic);
+----
+
+=== Deleting a Topic
+
+[source,typescript]
+----
+import { HederaHcsService } from '@hiero-did-sdk/hcs';
+
+const hcsService = new HederaHcsService({
+  networks: [
+    { 'testnet', operatorId, operatorKey },
+  ],
+  cache: { maxSize: 100 },
+});
+
+const topic = await hcsService.deleteTopic({
+  topicId,
+  currentAdminKey: PrivateKey.fromStringDer(operatorKey),
+  waitForChangesVisibility: true,
+});
+
+console.log(topic);
+----
+
+=== Fetching Topic Info
+
+[source,typescript]
+----
+import { HederaHcsService } from '@hiero-did-sdk/hcs';
+
+const hcsService = new HederaHcsService({
+  networks: [
+    { 'testnet', operatorId, operatorKey },
+  ],
+  cache: { maxSize: 100 },
+});
+
+const topic = await hcsService.getTopicInfo({
+  topicId: "0.0.123"
+});
+
+console.log(topic);
+----
+
+=== Publishing Messages
+
+[source,typescript]
+----
+import { HederaHcsService } from '@hiero-did-sdk/hcs';
+
+const hcsService = new HederaHcsService({
+  networks: [
+    { 'testnet', operatorId, operatorKey },
+  ],
+  cache: { maxSize: 100 },
+});
+
+const topic = await hcsService.submitMessage({
+  networkName: 'testnet',
+  topicId: 'topicId',
+  message: 'message',
+});
+
+console.log(topic);
+----
+
+=== Fetching Topic Messages
+
+[source,typescript]
+----
+import { HederaHcsService } from '@hiero-did-sdk/hcs';
+
+const hcsService = new HederaHcsService({
+  networks: [
+    { 'testnet', operatorId, operatorKey },
+  ],
+  cache: { maxSize: 100 },
+});
+
+const topic = await hcsService.getTopicMessages({
+  networkName: 'testnet',
+  topicId: '0.0.123'
+});
+
+console.log(topic);
+----
+
+=== Storing Files
+
+[source,typescript]
+----
+import { HederaHcsService } from '@hiero-did-sdk/hcs';
+
+const hcsService = new HederaHcsService({
+  networks: [
+    { 'testnet', operatorId, operatorKey },
+  ],
+  cache: { maxSize: 100 },
+});
+
+const topic = await hcsService.submitFile({
+  payload: Buffer.from('This is a test content'),
+  waitForChangesVisibility: true,
+});
+
+console.log(topic);
+----
+
+=== Resolving Files
+
+[source,typescript]
+----
+import { HederaHcsService } from '@hiero-did-sdk/hcs';
+
+const hcsService = new HederaHcsService({
+  networks: [
+    { 'testnet', operatorId, operatorKey },
+  ],
+  cache: { maxSize: 100 },
+});
+
+const topic = await hcsService.resolveFile({ topicId: '0.0.123' };
+
+console.log(topic);
+----
+
+== See Also
+
+xref:03-implementation/components/hcs-service-api.adoc[HCS Service API Reference]

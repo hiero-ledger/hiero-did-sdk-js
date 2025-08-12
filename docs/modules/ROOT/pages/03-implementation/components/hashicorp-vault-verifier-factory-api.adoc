@@ -8,19 +8,6 @@ The class diagram below illustrates the core methods of the Vault `VaultVerifier
 
 image::vault-verifier-factory-class-diagram.png[]
 
-== Constructor
-
-=== `constructor`
-[source,ts]
-----
-private constructor(vaultApi: VaultApi)
-----
-
-Initializes a new `VaultVerifierFactory` instance. It is a private constructor and should not be called directly.
-
-Parameters::
-* `vaultApi`: (Required) An internal API object that interacts with HashiCorp Vault.
-
 == Static Methods
 
 === `loginWithToken`
@@ -37,7 +24,8 @@ Parameters::
 * `options`: An object containing the necessary options to authenticate with HashiCorp Vault using an access token (refer to <<token-options-data-types>> for details).
 
 Returns::
-The new `VaultVerifierFactory` instance.
+
+* The new `VaultVerifierFactory` instance.
 
 === `loginWithUsernameAndPassword`
 [source,ts]
@@ -53,7 +41,8 @@ Parameters::
 * `options`: An object containing the necessary options to authenticate with HashiCorp Vault using a username and password (refer to <<userpass-options-data-types>> for details).
 
 Returns::
-The new `VaultVerifierFactory` instance.
+
+* The new `VaultVerifierFactory` instance.
 
 === `loginWithAppRole`
 [source,ts]
@@ -69,7 +58,8 @@ Parameters::
 * `options`: An object containing the necessary options to authenticate with HashiCorp Vault using an AppRole (refer to <<approle-options-data-types>> for details).
 
 Returns::
-The new `VaultVerifierFactory` instance.
+
+* The new `VaultVerifierFactory` instance.
 
 == Methods
 
@@ -85,7 +75,8 @@ Parameters::
 * `keyName`: The unique identifier for the key stored in HashiCorp Vault.
 
 Returns::
-A `Verifier` instance for the specified key.
+
+* A `Verifier` instance for the specified key.
 
 
 == Data Types
@@ -188,4 +179,4 @@ The `VaultLoginWithAppRoleOptions` type is an object that contains the necessary
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `VaultVerifierFactory` class within its `verifier-hashicorp-vault` package. For further details, refer to the xref:06-deployment/packages/index.adoc[`@hiero-did-sdk-js/verifier-hashicorp-vault`] package documentation.
+The Hiero DID SDK provides the `VaultVerifierFactory` class within its `verifier-hashicorp-vault` package. For further details, refer to the xref:04-deployment/packages/index.adoc[`@hiero-did-sdk-js/verifier-hashicorp-vault`] package documentation.

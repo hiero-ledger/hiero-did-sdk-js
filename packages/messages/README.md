@@ -19,11 +19,11 @@ npm install @hiero-did-sdk/messages
 
 ## Usage
 
-Learn how to use the DID Message classes to construct and handle DID Messages for various DID operations in the [Messages Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/messages-guide.html).
+Learn how to use the DID Message classes to construct and handle DID Messages for various DID operations in the [Messages Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/messages-guide.html).
 
 ## API Reference
 
-Learn more in the [Messages API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/messages-api.html).
+Learn more in the [Messages API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/messages-api.html).
 
 ## Running Tests
 

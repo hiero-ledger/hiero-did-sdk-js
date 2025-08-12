@@ -35,7 +35,8 @@ Parameters::
 * `transaction`: The transaction to be submitted.
 
 Returns::
-A promise that resolves to the `TransactionReceipt` of the submitted transaction.
+
+* A promise that resolves to the `TransactionReceipt` of the submitted transaction.
 
 === `network`
 [source,ts]
@@ -46,7 +47,8 @@ network(): string
 Returns the name of the Hedera network the `Publisher` is configured to use (e.g., "mainnet", "testnet").
 
 Returns::
-The name of the Hedera network.
+
+* The name of the Hedera network.
 
 === `publicKey`
 [source,ts]
@@ -57,7 +59,8 @@ publicKey(): PublicKey
 Returns the public key of the operator account associated with the Hedera `Client`.
 
 Returns::
-The public key of the operator account.
+
+* The public key of the operator account.
 
 == Errors
 
@@ -81,4 +84,4 @@ The public key of the operator account.
 
 == Class Implementation
 
-The Hiero DID SDK provides the `Publisher` class within its `publisher-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/publisher-internal`] package documentation.
+The Hiero DID SDK provides the `Publisher` class within its `publisher-internal` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/publisher-internal`] package documentation.

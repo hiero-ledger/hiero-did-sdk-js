@@ -3,13 +3,16 @@
 
 title Hiero DID SDK System Context
 
-Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identities")
+Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identity")
 
 System(sdk, "Hiero DID SDK", "Manages Decentralized Identities (DIDs)")
+
+System_Ext(hashicorp, "HashiCorp Vault", "External KMS used by Vault signer/verifier")
 
 System_Ext(hedera, "Hedera Network", "Provides DID infrastructure")
 
 Rel(developer, sdk, "Uses")
 Rel(sdk, hedera, "Uses")
+Rel(sdk, hashicorp, "Uses")
 
 @enduml

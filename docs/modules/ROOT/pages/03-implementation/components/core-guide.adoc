@@ -1,4 +1,4 @@
-= Core
+= Core Guide
 
 The Core component is the foundation of the Hiero DID SDK. It provides essential interfaces, utilities, and validation tools for working with Decentralized Identifiers (DIDs) on the Hedera network.
 
@@ -150,4 +150,4 @@ const decodedObjectInBytes = CborCodec.decode(encodedBytes);
 
 == References
 
-* xref:04-implementation/components/core-api.adoc[Core API Reference]
+* xref:03-implementation/components/core-api.adoc[Core API Reference]

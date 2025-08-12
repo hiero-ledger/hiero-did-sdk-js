@@ -1,0 +1,119 @@
+= Cache Guide
+
+The `@hiero-did-sdk/core` package provides the `Cache` interface and implementations for efficient caching of key-value data, improving performance and reducing redundant operations by storing and retrieving data with optional expiration.
+
+== Overview
+
+Use the Cache service to:
+
+* Store key-value pairs with optional expiration times.
+* Retrieve cached values by key, taking expiration into account.
+* Remove specific cache entries or clear the entire cache.
+* Perform cleanup of expired cache entries proactively.
+* Implement custom cache providers or use the built-in in-memory LRU cache.
+
+== Initialization
+
+You can initialize a cache by:
+
+* Providing an implementation of the `Cache` interface (custom or built-in), or
+* Using the built-in `LRUMemoryCache` by specifying max size.
+
+Example of creating an LRU memory cache:
+
+[source,typescript]
+----
+import { LRUMemoryCache } from '@hiero-did-sdk/core';
+
+const cache = new LRUMemoryCache(5000); // max 5000 entries
+----
+
+Parameters:
+
+* `maxSize` (number, optional): Maximum number of entries before evicting the least recently used item. Defaults to 10,000.
+
+== Basic Usage
+
+The `Cache` interface defines the following methods:
+
+=== Getting a value
+
+[source,typescript]
+----
+const cachedValue = await cache.get('my-key');
+if (cachedValue !== null) {
+  console.log('Found cached value:', cachedValue);
+} else {
+  console.log('Cache miss');
+}
+----
+
+Parameters:
+
+* `key` (string): The cache key.
+
+Returns:
+
+* A promise resolving to the cached value or `null` if not present or expired.
+
+=== Setting a value
+
+[source,typescript]
+----
+await cache.set('my-key', { some: 'data' }, 3600); // expires in 1 hour
+----
+
+Parameters:
+
+* `key` (string): The cache key.
+* `value`: The value to store.
+* `expiresInSeconds` (number, optional): Time-to-live for the entry in seconds.
+
+Returns:
+
+* A promise that resolves when the value is stored.
+
+=== Removing a value
+
+[source,typescript]
+----
+await cache.remove('my-key');
+----
+
+Parameters:
+
+* `key` (string): The cache key to remove.
+
+Returns:
+
+* A promise that resolves once removal completes.
+
+=== Clearing cache
+
+[source,typescript]
+----
+await cache.clear();
+----
+
+Clears all cached entries.
+
+Returns:
+
+* A promise that resolves when the cache is cleared.
+
+=== Cleanup expired entries
+
+[source,typescript]
+----
+await cache.cleanupExpired();
+----
+
+Removes all expired cache entries.
+
+Returns:
+
+* A promise that resolves when cleanup is done.
+
+== See Also
+
+xref:03-implementation/components/cache-api.adoc[Cache API Reference]

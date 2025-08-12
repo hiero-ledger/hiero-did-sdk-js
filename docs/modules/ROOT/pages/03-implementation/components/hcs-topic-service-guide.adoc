@@ -1,0 +1,130 @@
+= HcsTopicService Guide
+
+The `@hiero-did-sdk/hcs` package provides `HcsTopicService` — a dedicated service for managing Hedera Consensus Service topics, including creation, updating, deletion, and querying topic info.
+
+== Overview
+
+`HcsTopicService` allows developers to:
+
+* Create new HCS topics with optional memo, admin and submit keys, and auto-renew settings.
+* Update existing topics, including changing keys, memo, expiration, and auto-renew parameters.
+* Delete topics securely with proper authorization.
+* Retrieve topic metadata and state information efficiently.
+
+== Initialization
+
+[source,typescript]
+----
+constructor(
+  client: Client,
+  cache?: CacheConfig | Cache | HcsCacheService
+)
+----
+
+Create a new `HcsTopicService` instance.
+
+* `client`: Hedera SDK client instance for network operations.
+* `cache`: Optional cache configuration or instance to enhance performance by caching topic info.
+
+== Basic Usage
+
+=== Creating a Topic
+
+[source,typescript]
+----
+const topicService = new HcsTopicService(client, cache);
+
+const topicId = await topicService.createTopic({
+  topicMemo: "Example Topic",
+  adminKey: adminPrivateKey,
+  submitKey: submitPrivateKey,
+  autoRenewPeriod: 7776000, // 90 days in seconds
+  waitForChangesVisibility: true,
+  waitForChangesVisibilityTimeoutMs: 60000,
+});
+
+console.log("Created topic ID:", topicId);
+----
+
+Parameters:
+
+* `topicMemo` (optional): Description or memo for the topic.
+* `adminKey` (optional): Private key with admin rights.
+* `submitKey` (optional): Private key permitted to submit messages.
+* `autoRenewPeriod` (optional): Topic auto-renew period in seconds.
+* `waitForChangesVisibility` (optional): Wait until topic visibility confirmed in mirror node.
+* `waitForChangesVisibilityTimeoutMs` (optional): Timeout for waiting visibility in milliseconds.
+
+=== Updating a Topic
+
+[source,typescript]
+----
+await topicService.updateTopic({
+  topicId: existingTopicId,
+  currentAdminKey: adminPrivateKey,
+  topicMemo: "Updated Memo",
+  submitKey: newSubmitKey,
+  adminKey: newAdminKey,
+  autoRenewPeriod: 7776000, // 90 days in seconds
+  autoRenewAccountId: "0.0.1234", // optional
+  autoRenewAccountKey: autoRenewPrivateKey, // required if autoRenewAccountId is set
+  expirationTime: new Date('2025-01-01T00:00:00Z'), // optional
+  waitForChangesVisibility: true,
+  waitForChangesVisibilityTimeoutMs: 60000,
+});
+----
+
+Parameters:
+
+* `topicId` (required): The ID of the topic to update.
+* `currentAdminKey` (required): Private key of the current admin authorizing the update.
+* `topicMemo` (optional): New memo for the topic. To clear, set as empty string.
+* `submitKey` (optional): New submit key.
+* `adminKey` (optional): New admin key.
+* `autoRenewPeriod` (optional): New auto-renewal period in seconds.
+* `autoRenewAccountId` (optional): Account ID to be charged for auto-renewal fees.
+* `autoRenewAccountKey` (optional): Private key for the auto-renew account; required if `autoRenewAccountId` is provided.
+* `expirationTime` (optional): New expiration time for the topic.
+* `waitForChangesVisibility` (optional): Wait until updated topic info is visible in mirror node.
+* `waitForChangesVisibilityTimeoutMs` (optional): Timeout in milliseconds for visibility wait.
+
+=== Deleting a Topic
+
+[source,typescript]
+----
+await topicService.deleteTopic({
+  topicId: existingTopicId,
+  currentAdminKey: adminPrivateKey,
+  waitForChangesVisibility: true,
+  waitForChangesVisibilityTimeoutMs: 60000,
+});
+----
+
+Parameters:
+
+* `topicId` (required): The ID of the topic to delete.
+* `currentAdminKey` (required): Private key of the current admin authorizing the deletion.
+* `waitForChangesVisibility` (optional): Wait until deletion is confirmed visible in the mirror node.
+* `waitForChangesVisibilityTimeoutMs` (optional): Timeout in milliseconds for visibility wait.
+
+=== Fetching Topic Info
+
+[source,typescript]
+----
+const topicInfo = await topicService.getTopicInfo({
+  topicId: topicId,
+});
+
+console.log("Topic info:", topicInfo);
+----
+
+Parameters:
+
+* `topicId` (required): The ID of the topic to retrieve info for.
+
+Returns an object with the topic information, including memo, admin and submit keys (in string format), auto-renew period, auto-renew account, and expiration time if present.
+
+== See Also
+
+xref:03-implementation/components/hcs-topic-service-api.adoc[HcsTopicService API Reference]
+

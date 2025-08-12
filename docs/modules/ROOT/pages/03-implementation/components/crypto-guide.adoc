@@ -1,0 +1,42 @@
+= Crypto Library Guide
+
+The `@hiero-did-sdk/crypto` package provides a simple utility class `Crypto` for calculating SHA-256 hashes. It supports multiple input types and works seamlessly in both Node.js and React Native environments by automatically selecting the appropriate crypto backend.
+
+== Overview
+
+Use the `Crypto` library to:
+
+* Compute SHA-256 hashes of data inputs (string, Buffer, Uint8Array, ArrayBuffer).
+* Automatically select the compatible crypto module depending on the runtime environment.
+* Obtain hexadecimal string hashes for use in decentralized identity and cryptographic operations.
+
+== Initialization
+
+No explicit initialization is required. The library detects and uses the appropriate crypto module internally when hashing.
+
+== Basic Usage
+
+[source,typescript]
+----
+import { Crypto } from '@hiero-did-sdk/crypto';
+
+const input = 'Hello, World!';
+
+const hashHex = Crypto.sha256(input);
+
+console.log('SHA-256 hash:', hashHex);
+----
+
+Parameters:
+
+* `input` (string | Buffer | Uint8Array | ArrayBuffer) — data to hash.
+
+Returns:
+
+* `string` — hex-encoded SHA-256 hash.
+
+Throws an error if no compatible crypto module is found during runtime.
+
+== See Also
+
+xref:03-implementation/components/crypto-api.adoc[Crypto API Reference]

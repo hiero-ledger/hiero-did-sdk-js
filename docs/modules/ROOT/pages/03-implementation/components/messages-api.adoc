@@ -97,7 +97,8 @@ abstract toBytes(): string
 Serializes the DID Message into a byte array in base64 format.
 
 Returns::
-The serialized DID Message as a base64-encoded string.
+
+* The serialized DID Message as a base64-encoded string.
 
 ===== *`fromBytes`*
 [source,typescript]
@@ -111,7 +112,8 @@ Parameters::
 * `bytes`: The byte array containing the serialized DID Message.
 
 Returns::
-The deserialized DID Message object.
+
+* The deserialized DID Message object.
 
 
 
@@ -282,4 +284,4 @@ image::did-deactivate-message-class-diagram.png[]
 
 == Component Implementation
 
-The Hiero DID SDK provides the DID Message classes within its `messages` package. For further details, refer to the xref:06-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/messages`] package documentation.
+The Hiero DID SDK provides the DID Message classes within its `messages` package. For further details, refer to the xref:04-deployment/packages/index.adoc#advanced-packages[`@hiero-did-sdk-js/messages`] package documentation.

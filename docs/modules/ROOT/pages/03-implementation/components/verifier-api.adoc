@@ -32,7 +32,8 @@ static fromMultibase(multibase: string): Verifier
 Initializes a new `Verifier` instance from a multibase-encoded public key.
 
 Returns::
-The new `Verifier` instance.
+
+* The new `Verifier` instance.
 
 
 === `fromBase58`
@@ -44,7 +45,8 @@ static fromBase58(base58: string): Verifier
 Initializes a new `Verifier` instance from a base58-encoded public key.
 
 Returns::
-The new `Verifier` instance.
+
+* The new `Verifier` instance.
 
 
 == Methods
@@ -58,7 +60,8 @@ publicKey(): string
 Returns the public key associated with the `Verifier` instance in DER format.
 
 Returns::
-The public key in DER format.
+
+* The public key in DER format.
 
 === `verify`
 [source,ts]
@@ -73,7 +76,8 @@ Parameters::
 * `signature`: The signature to be verified.
 
 Returns::
-`true` if the signature is valid, `false` otherwise.
+
+* `true` if the signature is valid, `false` otherwise.
 
 == Errors
 
@@ -88,4 +92,8 @@ Returns::
 
 == Class Implementation
 
-The Hashgraph DID SDK provides the `Verifier` class within its `verifier-internal` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/verifier-internal`] package documentation.
+The Hiero DID SDK provides the `Verifier` class within its `verifier-internal` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/verifier-internal`] package documentation.
+
+== See Also
+
+xref:03-implementation/components/verifier-guide.adoc[Verifier Developer Guide]

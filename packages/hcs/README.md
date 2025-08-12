@@ -21,66 +21,19 @@ npm install @hiero-did-sdk/hcs
 
 ## Usage
 
-The package provides a `HederaHcsService` class for interacting with Hedera Consensus Service:
-
-```typescript
-import { HederaHcsService, HederaHcsServiceConfiguration } from '@hiero-did-sdk/hcs';
-
-// Configure the HCS service
-const config: HederaHcsServiceConfiguration = {
-  networks: [
-    {
-      network: 'testnet', // or 'mainnet', 'previewnet'
-      operatorId: 'YOUR_OPERATOR_ID',
-      operatorKey: 'YOUR_OPERATOR_PRIVATE_KEY'
-    }
-  ],
-  // Optional cache configuration
-  cache: {
-    maxSize: 1000
-  }
-};
-
-// Create an HCS service
-const hcsService = new HederaHcsService(config);
-
-// Create a topic
-const topicResult = await hcsService.createTopic({
-  networkName: 'testnet',
-  memo: 'My topic description'
-});
-const topicId = topicResult.topicId;
-
-// Submit a message to a topic
-const messageResult = await hcsService.submitMessage({
-  networkName: 'testnet',
-  topicId,
-  message: 'Hello, Hedera Consensus Service!'
-});
-
-// Get messages from a topic
-const messages = await hcsService.getTopicMessages({
-  networkName: 'testnet',
-  topicId
-});
-
-// Submit a file
-const fileId = await hcsService.submitFile({
-  networkName: 'testnet',
-  file: Buffer.from('File content'),
-  topicId
-});
-
-// Resolve a file
-const fileContent = await hcsService.resolveFile({
-  networkName: 'testnet',
-  fileId
-});
-```
+Learn how to use:
+- [HederaHcsService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-service-guide.html)
+- [HcsTopicService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-topic-service-guide.html)
+- [HcsMessageService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-message-service-guide.html)
+- [HcsFileService Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-file-service-guide.html)
 
 ## API Reference
 
-Learn more in the [HCS API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/hcs-api.html).
+See detailed API specifications and available methods here:
+- [HederaHcsService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-service-api.html).
+- [HcsTopicService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-topic-service-api.html)
+- [HcsMessageService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-message-service-api.html)
+- [HcsFileService API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/hcs-file-service-api.html)
 
 ## Running Tests
 

@@ -3,17 +3,21 @@
 
 title Hiero DID SDK Container View
 
-Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identities")
+Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identity")
 
 System_Boundary(c1, "Hiero DID SDK") {
- Container(core, "Core Module", "DID create, update, and deactivate operations; DID message signing and verification; transaction signing and execution")
+ Container(core, "Module", "core, messages, lifecycle, registrar, resolver, signer-internal, verifier-internal, signer-hashicorp-vault, verifier-hashicorp-vault, publisher-internal, client, hcs, cache, crypto, zstd, anoncreds")
 }
 
-System_Ext(topic, "Hedera Topic Service", "Provides publish/subscribe mechanism for DID communication")
+System_Ext(hashicorp, "HashiCorp Vault", "External KMS used by Vault signer/verifier")
+
+System_Ext(topic, "Hedera Consensus Service", "Service providing decentralized, auditable logs of immutable and timestamped events (messages)")
+
 System_Ext(hedera, "Hedera Node", "Gateway to the Hedera network")
 
 Rel(developer, core, "Uses")
 Rel(core, topic, "Uses")
+Rel(core, hashicorp, "Uses")
 Rel(topic, hedera, "Communicates with")
 
 @enduml

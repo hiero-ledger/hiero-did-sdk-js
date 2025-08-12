@@ -117,5 +117,5 @@ This guide provides a concise overview of the Hedera DID Method. For a deeper un
 
 == Next Steps
 
-*   **Essential Components:** Learn about the essential components and functions of the Hashgraph DID SDK in the xref::04-implementation/guides/essential-components-guide.adoc[Essential Components Guide].
-*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hashgraph DID SDK: xref::04-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].
+*   **Essential Components:** Learn about the essential components and functions of the Hiero DID SDK in the xref::03-implementation/guides/essential-components-guide.adoc[Essential Components Guide].
+*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::03-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].

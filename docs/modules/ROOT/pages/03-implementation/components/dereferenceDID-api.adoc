@@ -100,11 +100,11 @@ The function accepts the following parameters:
 
 |verifier?
 |`Verifier`
-|Specifies the verifier to use for verifying the DID Document signature. See xref:04-implementation/components/verifier-guide.adoc[Verifier] for more details.
+|Specifies the verifier to use for verifying the DID Document signature. See xref:03-implementation/components/verifier-guide.adoc[Verifier] for more details.
 
 |topicReader?
 |`TopicReader`
-|Specifies the topic reader to use for reading messages from the Hedera network. Default is `HederaClientTopicReader`. See xref:06-deployment/packages/index.adoc#essential-packages[TopicReader] for more details.
+|Specifies the xref:03-implementation/components/topic-reader-api.adoc[TopicReader] to use for reading messages from the Hedera network. Default is `HederaClientTopicReader`.
 |===
 
 == Return Value
@@ -183,4 +183,4 @@ The following exceptions may arise during the execution of the `dereferenceDID` 
 
 == Function Implementation
 
-The Hiero DID SDK provides a `dereferenceDID` function within its `resolver` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/resolver`] package documentation.
+The Hiero DID SDK provides a `dereferenceDID` function within its `resolver` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/resolver`] package documentation.

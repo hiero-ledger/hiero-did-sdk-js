@@ -112,8 +112,8 @@ This code demonstrates how to:
 
 == Next Steps
 
-*   **Explore `resolveDID`:**  Dive deeper into the link:04-implementation/components/resolveDID-guide.adoc[`resolveDID`] function to understand its parameters, error handling, and advanced usage.
-*   **Manage DIDs:** Learn how to use link:04-implementation/components/createDID-guide.adoc[`createDID`], link:04-implementation/components/updateDID-guide.adoc[`updateDID`], and link:04-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
-*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the link:04-implementation/components/signer-guide.adoc[`Signer`] class.
-*   **Utilize the `Publisher`:** Integrate the link:04-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.
-*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::04-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].
+*   **Explore `resolveDID`:**  Dive deeper into the link:03-implementation/components/resolveDID-guide.adoc[`resolveDID`] function to understand its parameters, error handling, and advanced usage.
+*   **Manage DIDs:** Learn how to use link:03-implementation/components/createDID-guide.adoc[`createDID`], link:03-implementation/components/updateDID-guide.adoc[`updateDID`], and link:03-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
+*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the link:03-implementation/components/signer-guide.adoc[`Signer`] class.
+*   **Utilize the `Publisher`:** Integrate the link:03-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.
+*   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::03-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].

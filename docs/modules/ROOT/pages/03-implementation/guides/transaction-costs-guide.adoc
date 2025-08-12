@@ -1,6 +1,6 @@
-= Hashgraph DID SDK: Transaction Costs
+= Hiero DID SDK: Transaction Costs
 
-This guide provides estimated transaction costs for various DID operations when using the Hashgraph DID SDK. Understanding these costs can help you plan and budget for your DID-related activities on the Hedera network.
+This guide provides estimated transaction costs for various DID operations when using the Hiero DID SDK. Understanding these costs can help you plan and budget for your DID-related activities on the Hedera network.
 
 [IMPORTANT]
 ====
@@ -60,8 +60,8 @@ Resolving a DID requires reading from the Hedera Consensus Service (HCS) topic. 
 
 == Next Steps
 
-* **Explore `resolveDID`:**  Dive deeper into the xref::04-implementation/components/resolveDID-guide.adoc[resolveDID] function to understand its parameters, error handling, and advanced usage.
-* **Manage DIDs:** Learn how to use xref::04-implementation/components/createDID-guide.adoc[createDID], xref::04-implementation/components/updateDID-guide.adoc[updateDID], and xref::04-implementation/components/deactivateDID-guide.adoc[deactivateDID] to effectively manage DIDs on Hedera.
-* **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::04-implementation/components/signer-guide.adoc[Signer] class.
-* **Utilize the `Publisher`:** Integrate the xref::04-implementation/components/publisher-guide.adoc[Publisher] class into your application for seamless transaction submission.
-* **Key Management:** Explore different key management strategies in the xref::04-implementation/guides/key-management-modes-guide.adoc[Key Management Modes Guide].
+* **Explore `resolveDID`:**  Dive deeper into the xref::03-implementation/components/resolveDID-guide.adoc[resolveDID] function to understand its parameters, error handling, and advanced usage.
+* **Manage DIDs:** Learn how to use xref::03-implementation/components/createDID-guide.adoc[createDID], xref::03-implementation/components/updateDID-guide.adoc[updateDID], and xref::03-implementation/components/deactivateDID-guide.adoc[deactivateDID] to effectively manage DIDs on Hedera.
+* **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::03-implementation/components/signer-guide.adoc[Signer] class.
+* **Utilize the `Publisher`:** Integrate the xref::03-implementation/components/publisher-guide.adoc[Publisher] class into your application for seamless transaction submission.
+* **Key Management:** Explore different key management strategies in the xref::03-implementation/guides/key-management-modes-guide.adoc[Key Management Modes Guide].

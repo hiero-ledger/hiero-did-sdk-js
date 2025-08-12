@@ -1,4 +1,4 @@
-=== Component View
+=== Level 3: Component View
 
 This diagram provides a detailed view of the components within the Hiero DID SDK and their interactions with each other and with external dependencies. It illustrates the internal workings of the SDK and how it facilitates DID management.
 
@@ -6,27 +6,74 @@ image::component-view-diagram.png[]
 
 ==== Components
 
-* **dApp Developer:** Represents developers who build applications utilizing the Hiero DID SDK.
+* **dApp Developer:** Builds dApps with decentralized identity.
 
-* **Hiero DID SDK:** The software development kit containing the following components:
+* **Hiero DID SDK:** The software development kit comprising the following components and services:
 
-    * **Registrar:** Handles the creation, updating, and deactivation of DIDs.
-    * **Resolver:** Resolves DIDs to their corresponding DID Documents.
-    * **Signer:**  Signs DID messages for secure communication.
-    * **Publisher:** Signs and publishes transactions to the Hedera network.
+  * **Registrar:** Handles creation, updating, and deactivation of DIDs.
 
-* **Hedera Topic Service:** A service on the Hedera network that enables publish/subscribe communication.
+  * **Resolver:** Resolves DIDs to their corresponding DID Documents.
 
-* **Hedera Node:** A node in the Hedera network that acts as a gateway for submitting transactions.
+  * **HcsService:** Central service managing Hedera Consensus Service (HCS) objects; responsible for initializing the Hedera client and cache.
+
+  * **HederaAnoncredsRegistry:** Manages registration and resolution of AnonCreds schemas, credential definitions, revocation registries, and revocation status lists on Hedera.
+
+  * **Signer:** Signs DID messages to ensure cryptographic integrity.
+
+  * **Verifier:** Verifies DID messages using internal cryptographic.
+
+  * **HashiCorpSigner:** Signs DID messages using HashiCorp Vault.
+
+  * **HashiCorpVerifier:** Verifies DID messages using HashiCorp Vault.
+
+  * **Publisher:** Signs and publishes transactions to the Hedera Topic Service.
+
+  * **HederaClientService:** Manages Hedera SDK clients for multiple networks, handling client lifecycle and configuration.
+
+  * **HcsTopicService:** Manages creation, update, deletion, and retrieval of topics within the Hedera Consensus Service.
+
+  * **HcsMessageService:** Handles sending and retrieving messages from HCS topics.
+
+  * **HcsFileService:** Provides file storage and retrieval capabilities using the HCS-1 standard, with automatic Zstandard compression and integrity verification.
+
+  * **Cache Service:** Caches data and query results to improve performance and reduce redundant network requests.
+
+  * **Crypto Library:** Provides cryptographic functions such as SHA-256 hashing.
+
+  * **Zstd Compression:** Module for compressing and decompressing data using the Zstandard algorithm.
+
+==== External Systems
+
+* **Hedera Consensus Service:** Hedera's publish/subscribe messaging platform through which DID topics and messages are exchanged.
+
+* **Hedera Node:** Hedera network node that acts as a gateway for submitting transactions and interacting with the blockchain.
 
 ==== Interactions
 
-* **dApp Developers use Registrar and Resolver:** Developers interact with these components to manage and resolve DIDs.
+* **dApp Developers use Registrar, Resolver, HcsService, and HederaAnoncredsRegistry:** Developers interact with these components to manage decentralized identifiers, resolve DID documents, manipulate HCS objects, and register AnonCreds data.
 
-* **Registrar uses Signer and Publisher:** The Registrar utilizes the Signer for signing DID-related operations and the Publisher for submitting transactions to the Hedera network.
+* **Registrar uses Signer and Publisher:** Registrar signs DID-related messages with the Signer and publishes these signed transactions to the Hedera network via the Publisher.
 
-* **Publisher publishes signed transactions to Hedera Topic Service:** The Publisher component sends signed transactions to the Hedera Topic Service for processing.
+* **Publisher publishes signed transactions to the Hedera Consensus Service:** Publisher submits signed transactions as messages to HCS topics.
 
-* **Resolver retrieves DID Documents from Hedera Topic Service:** The Resolver component retrieves DID Documents from the Hedera Topic Service.
+* **Resolver retrieves DID Documents from the Hedera Consensus Service:** Resolver queries DID document data by reading messages from HCS topics.
 
-* **Hedera Topic Service communicates with Hedera Node:**  The Hedera Topic Service interacts with the Hedera Node to publish and retrieve messages.
+* **HcsService initializes HederaClientService and Cache Service:** HcsService sets up the network client and caching mechanism for HCS operations.
+
+* **HcsService uses HcsTopicService, HcsMessageService, and HcsFileService:** Delegates topic, messaging, and file operations to specialized services.
+
+* **HcsTopicService, HcsMessageService, HcsFileService use HederaClientService:** These services leverage the Hedera SDK client for network interactions.
+
+* **HcsTopicService, HcsMessageService, HcsFileService use Cache Service:** All these services utilize caching to enhance data retrieval efficiency.
+
+* **HcsFileService uses Crypto Library and Zstd Compression:** For file compression during storage and retrieval.
+
+* **HcsMessageService publishes and retrieves messages from Hedera Consensus Service:** Manages message sending and receiving through topics.
+
+* **HcsFileService publishes and retrieves files from Hedera Consensus Service:** Manages chunked file submissions and retrieval with compression.
+
+* **HcsTopicService manages topics in the Hedera Consensus Service:** Oversees topic lifecycle (creation, update, deletion).
+
+* **HederaAnoncredsRegistry uses HcsService:** Uses HCS services to store and retrieve AnonCreds-related data on Hedera.
+
+* **Hedera Consensus Service communicates with Hedera Node:** The underlying infrastructure supporting message publication and retrieval.

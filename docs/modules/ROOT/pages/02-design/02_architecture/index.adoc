@@ -1,6 +1,6 @@
 == Architecture
 
-This section presents the static structure of the system using C4 model diagrams. Each level provides increasing detail about the software architecture. Update these diagrams when adding, removing, or significantly changing system components.
+This section presents the static structure of the system using C4 model diagrams. Each level provides increasing detail about the software architecture.
 
 include::01_system_context.adoc[]
 

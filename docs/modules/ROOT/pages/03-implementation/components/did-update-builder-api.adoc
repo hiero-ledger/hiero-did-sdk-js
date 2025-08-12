@@ -25,7 +25,8 @@ Parameters::
 * `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `removeAuthenticationMethod` [[method-removeAuthenticationMethod]]
 [source,ts]
@@ -39,7 +40,8 @@ Parameters::
 * `methodId`: The identifier of the authentication method to be removed.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `addAssertionMethod` [[method-addAssertionMethod]]
 [source,ts]
@@ -56,7 +58,8 @@ Parameters::
 * `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `removeAssertionMethod` [[method-removeAssertionMethod]]
 [source,ts]
@@ -70,7 +73,8 @@ Parameters::
 * `methodId`: The identifier of the assertion method to be removed.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `addKeyAgreementMethod` [[method-addKeyAgreementMethod]]
 [source,ts]
@@ -87,7 +91,8 @@ Parameters::
 * `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `removeKeyAgreementMethod` [[method-removeKeyAgreementMethod]]
 [source,ts]
@@ -101,7 +106,8 @@ Parameters::
 * `methodId`: The identifier of the key agreement method to be removed.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `addCapabilityInvocationMethod` [[method-addCapabilityInvocationMethod]]
 [source,ts]
@@ -118,7 +124,8 @@ Parameters::
 * `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `removeCapabilityInvocationMethod` [[method-removeCapabilityInvocationMethod]]
 [source,ts]
@@ -132,7 +139,8 @@ Parameters::
 * `methodId`: The identifier of the capability invocation method to be removed.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `addCapabilityDelegationMethod` [[method-addCapabilityDelegationMethod]]
 [source,ts]
@@ -149,7 +157,8 @@ Parameters::
 * `methodOrId`: The <<verification-method-type,VerificationMethod>> object or the identifier of the verification method as a source.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `removeCapabilityDelegationMethod` [[method-removeCapabilityDelegationMethod]]
 [source,ts]
@@ -163,7 +172,8 @@ Parameters::
 * `methodId`: The identifier of the capability delegation method to be removed.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `addService` [[method-addService]]
 [source,ts]
@@ -177,7 +187,8 @@ Parameters::
 * `service`: The <<service-type,Service>> object to be added.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `removeService` [[method-removeService]]
 [source,ts]
@@ -191,7 +202,8 @@ Parameters::
 * `serviceId`: The identifier of the service to be removed.
 
 Returns::
-The current `DIDUpdateBuilder` instance for method chaining.
+
+* The current `DIDUpdateBuilder` instance for method chaining.
 
 === `build` [[method-build]]
 [source,ts]
@@ -202,7 +214,8 @@ public build(): Array<DIDUpdateOperation> {}
 Builds the DID update operation based on the added verification methods, services, and other changes.
 
 Returns::
-A list of xref:04-implementation/components/updateDID-api.adoc#didupdateoperation-type[DIDUpdateOperation] objects representing the changes to the DID document.
+
+* A list of xref:03-implementation/components/updateDID-api.adoc#didupdateoperation-type[DIDUpdateOperation] objects representing the changes to the DID document.
 
 
 == Related Types
@@ -256,4 +269,4 @@ These types are used as parameters or return values in the `DIDUpdateBuilder` me
 
 == Class Implementation
 
-The Hashgraph DID SDK provides a `DIDUpdateBuilder` class within its `registrar` package. For further details, refer to the xref:06-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.
+The Hiero DID SDK provides a `DIDUpdateBuilder` class within its `registrar` package. For further details, refer to the xref:04-deployment/packages/index.adoc#essential-packages[`@hiero-did-sdk-js/registrar`] package documentation.

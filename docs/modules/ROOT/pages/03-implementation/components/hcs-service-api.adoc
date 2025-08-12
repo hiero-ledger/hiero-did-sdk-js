@@ -1,0 +1,181 @@
+= HederaHcsService API Reference
+
+This document provides a concise API reference for the `HederaHcsService` class — a service for working with Hedera Consensus Service (HCS). It enables creation, update, deletion of topics, message submission, and file handling.
+
+== Constructor
+
+=== `constructor`
+[source,ts]
+----
+constructor(config: HederaHcsServiceConfiguration)
+----
+
+Creates an instance of `HederaHcsService`.
+
+.Parameters
+* `config` (required): Service configuration including Hedera client settings and optional cache configuration.
+
+== Methods
+
+=== `createTopic`
+[source,ts]
+----
+async createTopic(props?: CreateTopicProps & NetworkName): Promise<TopicInfo>
+----
+
+Creates a new HCS topic.
+
+.Parameters
+* `props` (optional): Properties for creating a topic, combined with a network name.
+
+==== `CreateTopicProps` parameters:
+* `topicMemo` (optional, string): Memo associated with the topic.
+* `submitKey` (optional, PrivateKey): Key used to submit messages.
+* `adminKey` (optional, PrivateKey): Key to administer (update or delete) the topic.
+* `autoRenewPeriod` (optional, Duration | Long | number): Auto-renewal period for the topic.
+* `autoRenewAccountId` (optional, AccountId | string): Account ID responsible for auto-renewal payments.
+* `autoRenewAccountKey` (optional, PrivateKey): Private key of the auto-renew account.
+* `waitForChangesVisibility` (optional, boolean): If true, waits for consensus/gossip visibility after creation.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds for changes visibility.
+
+.Returns
+* The created `TopicInfo`.
+
+=== `updateTopic`
+[source,ts]
+----
+async updateTopic(props: UpdateTopicProps & NetworkName): Promise<TopicInfo>
+----
+
+Updates an existing HCS topic.
+
+.Parameters
+* `props`: Properties for updating a topic, combined with a network name.
+
+==== `UpdateTopicProps` parameters:
+* `topicId` (required, string): ID of the topic to update.
+* `currentAdminKey` (required, PrivateKey): Current admin key authorizing the update.
+* `expirationTime` (optional, Timestamp | Date): New expiration time to set.
+* *All properties from `CreateTopicProps` are also available for update (e.g., topicMemo, submitKey, adminKey, etc.).*
+
+.Returns
+* The updated `TopicInfo`.
+
+=== `deleteTopic`
+[source,ts]
+----
+async deleteTopic(props: DeleteTopicProps & NetworkName): Promise<boolean>
+----
+
+Deletes a topic.
+
+.Parameters
+* `props`: Properties for deleting a topic, combined with a network name.
+
+==== `DeleteTopicProps` parameters:
+* `topicId` (required, string): ID of the topic to delete.
+* `currentAdminKey` (required, PrivateKey): Current admin key authorizing the deletion.
+* `waitForChangesVisibility` (optional, boolean): Waits for deletion visibility confirmation if true.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds during which to wait for visibility.
+
+.Returns
+* `true` if deletion was successful.
+
+=== `getTopicInfo`
+[source,ts]
+----
+async getTopicInfo(props: GetTopicInfoProps & NetworkName): Promise<TopicInfo>
+----
+
+Retrieves information about a topic.
+
+.Parameters
+* `props`: Properties for topic info request, combined with a network name.
+
+==== `GetTopicInfoProps` parameters:
+* `topicId` (required, string): ID of the topic to retrieve information about.
+
+.Returns
+* The `TopicInfo` object.
+
+=== `submitMessage`
+[source,ts]
+----
+async submitMessage(props: SubmitMessageProps & NetworkName): Promise<SubmitMessageResult>
+----
+
+Submits a message to a topic.
+
+.Parameters
+* `props`: Properties for message submission, combined with a network name.
+
+==== `SubmitMessageProps` parameters:
+* `topicId` (required, string): The topic ID to submit the message.
+* `message` (required, string): Message content.
+* `submitKey` (optional, PrivateKey): Authorized key for message submission.
+* `waitForChangesVisibility` (optional, boolean): Wait for consensus/gossip visibility if true.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
+
+.Returns
+* `SubmitMessageResult` containing nodeId, transactionId, and transactionHash.
+
+=== `getTopicMessages`
+[source,ts]
+----
+async getTopicMessages(props: GetTopicMessagesProps & NetworkName): Promise<TopicMessageData[]>
+----
+
+Retrieves messages from a topic.
+
+.Parameters
+* `props`: Parameters to query topic messages, combined with a network name.
+
+==== `GetTopicMessagesProps` parameters:
+* `topicId` (required, string): The topic ID to fetch messages from.
+* `maxWaitSeconds` (optional, number): Max seconds to wait when polling for new messages.
+* `toDate` (optional, Date): Upper time boundary for fetching messages.
+* `limit` (optional, number): Maximum number of messages to retrieve.
+
+.Returns
+* An array of `TopicMessageData`.
+
+=== `submitFile`
+[source,ts]
+----
+async submitFile(props: SubmitFileProps & NetworkName): Promise<string>
+----
+
+Submits a file split into topic messages.
+
+.Parameters
+* `props`: File submission parameters combined with a network name.
+
+==== `SubmitFileProps` parameters:
+* `payload` (required, Buffer): Binary content of the file.
+* `submitKey` (optional, PrivateKey): Key authorized to submit the file.
+* `waitForChangesVisibility` (optional, boolean): Wait for consensus/gossip visibility if true.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
+
+.Returns
+* Topic ID created for the file.
+
+=== `resolveFile`
+[source,ts]
+----
+async resolveFile(props: ResolveFileProps & NetworkName): Promise<Buffer>
+----
+
+Reconstructs a file from topic messages.
+
+.Parameters
+* `props`: Parameters identifying the file topic, combined with a network name.
+
+==== `ResolveFileProps` parameters:
+* `topicId` (required, string): Topic ID containing the file chunks.
+
+.Returns
+* Buffer with the file contents.
+
+== See Also
+
+xref:03-implementation/components/hcs-service-guide.adoc[HcsService Developer Guide]

@@ -1,0 +1,158 @@
+= HederaAnoncredsRegistry API Reference
+
+This document provides a detailed API reference for the `HederaAnoncredsRegistry` class — a service for managing Anoncreds schemas, credential definitions, and revocation registries on Hedera Consensus Service (HCS).
+
+== Type Aliases
+
+=== `NetworkName`
+Represents an optional network name.
+
+.Parameters
+* `networkName` (optional, string): The Hedera network name to use for operations.
+
+== Class: HederaAnoncredsRegistry
+
+=== `constructor`
+[source,ts]
+----
+constructor(config: HederaAnoncredsRegistryConfiguration)
+----
+
+Creates a new instance of `HederaAnoncredsRegistry`.
+
+.Parameters
+* `config` (required): Configuration object for initializing underlying HCS service.
+
+=== `registerSchema`
+[source,ts]
+----
+async registerSchema(options: RegisterSchemaOptions & NetworkName): Promise<RegisterSchemaReturn>
+----
+
+Registers a schema in the network registry.
+
+.Parameters
+* `options` (required): Options for registering the schema.
+
+==== Fields of `RegisterSchemaOptions & NetworkName`:
+* `networkName` (optional, string): Network name to use.
+* `schema` (required, Anoncreds schema object): The schema to register.
+
+.Returns
+* A promise resolving to a `RegisterSchemaReturn` object that includes the registration state and metadata.
+
+=== `getSchema`
+[source,ts]
+----
+async getSchema(schemaId: string): Promise<GetSchemaReturn>
+----
+
+Retrieves a schema definition from the registry by its identifier.
+
+.Parameters
+* `schemaId` (required, string): The schema definition identifier to resolve.
+
+.Returns
+* A promise resolving to a `GetSchemaReturn` object with the schema and resolution metadata.
+
+=== `registerCredentialDefinition`
+[source,ts]
+----
+async registerCredentialDefinition(options: RegisterCredentialDefinitionOptions & NetworkName): Promise<RegisterCredentialDefinitionReturn>
+----
+
+Registers a credential definition in the registry.
+
+.Parameters
+* `options` (required): Credential definition registration options.
+
+==== Fields of `RegisterCredentialDefinitionOptions & NetworkName`:
+* `networkName` (optional, string): Network name to use.
+* `credentialDefinition` (required, Anoncreds credential definition): The credential definition to register.
+* `options` (optional): Additional metadata options such as supportRevocation flag.
+
+.Returns
+* A promise resolving to a `RegisterCredentialDefinitionReturn` containing the registration state and metadata.
+
+=== `getCredentialDefinition`
+[source,ts]
+----
+async getCredentialDefinition(credentialDefinitionId: string): Promise<GetCredentialDefinitionReturn>
+----
+
+Retrieves a credential definition from the registry by identifier.
+
+.Parameters
+* `credentialDefinitionId` (required, string): The credential definition identifier to resolve.
+
+.Returns
+* A promise resolving to a `GetCredentialDefinitionReturn` with the credential definition and resolution metadata.
+
+=== `registerRevocationRegistryDefinition`
+[source,ts]
+----
+async registerRevocationRegistryDefinition(options: RegisterRevocationRegistryDefinitionOptions & NetworkName): Promise<RegisterRevocationRegistryDefinitionReturn>
+----
+
+Registers a revocation registry definition in the registry.
+
+.Parameters
+* `options` (required): Options for registering the revocation registry definition.
+
+==== Fields of `RegisterRevocationRegistryDefinitionOptions & NetworkName`:
+* `networkName` (optional, string): Network name to use.
+* `revocationRegistryDefinition` (required, Anoncreds revocation registry definition): The registry definition to register.
+
+.Returns
+* A promise resolving to a `RegisterRevocationRegistryDefinitionReturn` describing registration state and metadata.
+
+=== `getRevocationRegistryDefinition`
+[source,ts]
+----
+async getRevocationRegistryDefinition(revocationRegistryDefinitionId: string): Promise<GetRevocationRegistryDefinitionReturn>
+----
+
+Retrieves a revocation registry definition from the registry by its identifier.
+
+.Parameters
+* `revocationRegistryDefinitionId` (required, string): The revocation registry definition ID to resolve.
+
+.Returns
+* A promise resolving to a `GetRevocationRegistryDefinitionReturn` with the registry definition and resolution metadata.
+
+=== `registerRevocationStatusList`
+[source,ts]
+----
+async registerRevocationStatusList(options: RegisterRevocationStatusListOptions & NetworkName): Promise<RegisterRevocationStatusListReturn>
+----
+
+Registers a revocation status list in the registry.
+
+.Parameters
+* `options` (required): Options for revocation status list registration.
+
+==== Fields of `RegisterRevocationStatusListOptions & NetworkName`:
+* `networkName` (optional, string): Network name to use.
+* `revocationStatusList` (required, Anoncreds revocation status list without timestamp): The revocation status list to register.
+
+.Returns
+* A promise resolving to a `RegisterRevocationStatusListReturn` describing the registration state and metadata.
+
+=== `getRevocationStatusList`
+[source,ts]
+----
+async getRevocationStatusList(revocationRegistryId: string, timestamp: number): Promise<GetRevocationStatusListReturn>
+----
+
+Retrieves a revocation status list as of a specific timestamp.
+
+.Parameters
+* `revocationRegistryId` (required, string): The revocation registry ID.
+* `timestamp` (required, number): The UNIX timestamp to resolve the status list for.
+
+.Returns
+* A promise resolving to a `GetRevocationStatusListReturn`.
+
+== See Also
+
+xref:03-implementation/components/anoncreds-guide.adoc[HederaAnoncredsRegistry Developer Guide]

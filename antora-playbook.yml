@@ -1,3 +1,6 @@
+urls:
+  latest_version_segment: latest
+  latest_version_segment_strategy: replace
 site:
   title: Hiero DID SDK JS
   url: https://github.com/hiero-ledger/hiero-did-sdk-js

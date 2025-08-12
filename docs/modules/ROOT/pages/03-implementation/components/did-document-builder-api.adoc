@@ -1,0 +1,128 @@
+= DidDocumentBuilder API Reference
+
+This document provides a detailed API reference for the `DidDocumentBuilder` class — a builder for creating, updating, and resolving DID Documents from raw DID-related messages, typically consumed from Hedera Consensus Service topics.
+
+== Class: DidDocumentBuilder
+
+A builder class to construct Decentralized Identifier (DID) Documents by parsing, verifying, and managing DID-related events from a series of messages.
+
+=== `constructor`
+[source,ts]
+----
+constructor(messages: string[])
+----
+
+Creates a new instance of `DidDocumentBuilder`.
+
+.Parameters
+* `messages` (string[], required): Array of raw topic messages containing DID content, typically JSON strings representing DID events.
+
+=== `forDID`
+[source,ts]
+----
+forDID(did: string): DidDocumentBuilder
+----
+
+Specifies the DID identifier for which the Document will be built.
+
+.Parameters
+* `did` (string, required): The DID string (must be a valid Hedera DID).
+
+.Throws
+* Throws `DIDError` if the given DID is not a valid Hedera DID.
+
+.Returns
+* The current `DidDocumentBuilder` instance for chaining.
+
+=== `withVerifier`
+[source,ts]
+----
+withVerifier(verifier: Verifier): DidDocumentBuilder
+----
+
+Associates a verifier instance for cryptographic verification of DID messages.
+
+.Parameters
+* `verifier` (Verifier, required): An instance capable of verifying message signatures.
+
+.Returns
+* The current `DidDocumentBuilder` instance for chaining.
+
+=== `build`
+[source,ts]
+----
+async build(): Promise<DidDocumentBuilder>
+----
+
+Processes all stored DID-related messages, verifying signatures and handling DID operations (create, update, revoke), building internal DID Document state.
+
+.Throws
+* Throws `DIDError` if no DID is specified before building (i.e., `forDID` was not called).
+* Throws `DIDError` if the DID document does not exist (no valid DIDOwner creation event found).
+
+.Returns
+* A promise that resolves to the current `DidDocumentBuilder` instance after building.
+
+=== `toDidDocument`
+[source,ts]
+----
+toDidDocument(): DIDDocument
+----
+
+Generates the resolved DID Document JSON object according to the internal state built from messages.
+
+.Returns
+* A `DIDDocument` object representing the constructed DID Document.
+* If the DID is deactivated, returns a minimal document without verification or service entries.
+
+=== `toJsonLdDIDDocument`
+[source,ts]
+----
+toJsonLdDIDDocument(): JsonLdDIDDocument
+----
+
+Returns the DID Document in JSON-LD format compliant with W3C DID specifications, including standard @context fields.
+
+.Returns
+* A `JsonLdDIDDocument` including @context and the resolved DID Document properties.
+
+=== `toResolution`
+[source,ts]
+----
+toResolution(): DIDResolution
+----
+
+Returns a full DID Resolution result, including the DID Document, document metadata, and resolution metadata.
+
+.Returns
+* A `DIDResolution` object with the following properties:
+  ** `didDocument`: The DID Document in JSON-LD format.
+  ** `didDocumentMetadata`: Metadata about creation, update times, and deactivation status.
+  ** `didResolutionMetadata`: Metadata describing content type and resolution profile.
+
+=== `toDidDocumentCbor`
+[source,ts]
+----
+toDidDocumentCbor(): Uint8Array
+----
+
+Encodes the resolved DID Document as CBOR bytes using the CBOR codec.
+
+.Returns
+* A `Uint8Array` containing the CBOR-encoded DID Document.
+
+=== `from`
+[source,ts]
+----
+static from(messages: string[]): DidDocumentBuilder
+----
+
+Static factory method to create a new `DidDocumentBuilder` instance from an array of topic messages.
+
+.Parameters
+* `messages` (string[], required): Array of raw DID-related messages to initialize the builder.
+
+.Returns
+* A new instance of `DidDocumentBuilder`.
+
+---

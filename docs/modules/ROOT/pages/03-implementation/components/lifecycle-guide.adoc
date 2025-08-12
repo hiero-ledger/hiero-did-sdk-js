@@ -1,4 +1,4 @@
-= Lifecycle
+= Lifecycle Guide
 
 The Lifecycle component is the foundation of the Hiero DID SDK. Tt provides a powerful and flexible system for orchestrating complex asynchronous operations related to Decentralized Identifiers (DIDs).
 
@@ -143,8 +143,4 @@ const state = await runner.process(message, {
 
 == References
 
-<<<<<<< HEAD
-* xref:04-implementation/components/lifecycle-api.adoc[lifecycle API Reference]
-=======
-* xref:04-implementation/components/lifecycle-api.adoc[lifecycle API Reference]
->>>>>>> 9ef57c8 (Hotfix: Conflict issue.)
+* xref:03-implementation/components/lifecycle-api.adoc[lifecycle API Reference]

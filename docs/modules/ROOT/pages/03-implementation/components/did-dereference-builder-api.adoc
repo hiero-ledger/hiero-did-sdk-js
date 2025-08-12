@@ -1,0 +1,111 @@
+= DIDDereferenceBuilder API Reference
+
+This document provides a detailed API reference for the `DIDDereferenceBuilder` class — a utility to dereference fragments or queries from a DID Resolution result, returning relevant pieces of a DID Document in various formats.
+
+== Class: DIDDereferenceBuilder
+
+A builder class responsible for dereferencing parts (fragments or query parameters) of a DID Document, based on the DID Resolution object.
+
+=== `withFragment`
+[source,ts]
+----
+withFragment(fragment?: string): this
+----
+
+Sets a fragment identifier (the part after `#` in a DID URL) to dereference within the DID Document.
+
+.Parameters
+* `fragment` (string, optional): The fragment identifier to dereference.
+
+.Returns
+* The current instance for method chaining.
+
+=== `withParams`
+[source,ts]
+----
+withParams(params: Record<string, string>): this
+----
+
+Sets query parameters (key-value pairs after `?` in a DID URL) to dereference within the DID Document.
+
+.Parameters
+* `params` (object, required): A record/map of query parameters for dereferencing.
+
+.Returns
+* The current instance for method chaining.
+
+=== `toJson`
+[source,ts]
+----
+toJson(): Service | VerificationMethod | ServiceEndpoint
+----
+
+Dereferences the specified fragment or query parameters from the DID Document, returning the corresponding JSON content.
+
+.Behavior
+* If a fragment is set, attempts to find the matching element (Service or VerificationMethod) in the DID Document by ID.
+* If query parameters are set, attempts to resolve service endpoints based on parameter keys.
+* If neither fragment nor valid params are set, throws an error.
+
+.Throws
+* `DIDError` with code `'notFound'` if the fragment or query target is not found in the DID Document.
+* `DIDError` with code `'invalidDidUrl'` if unsupported or invalid URL parameters are present.
+* `DIDError` with code `'representationNotSupported'` if the service endpoint's representation is unsupported (e.g., multiple endpoints or non-string endpoints).
+
+.Returns
+* The dereferenced JSON object, which can be a:
+  ** `Service` object
+  ** `VerificationMethod` object
+  ** `ServiceEndpoint` string
+
+=== `toJsonLd`
+[source,ts]
+----
+toJsonLd(): JsonLdService | JsonLdVerificationMethod | ServiceEndpoint
+----
+
+Returns the dereferenced JSON content, wrapped as JSON-LD with `@context` from the DID Document.
+
+.Returns
+* A JSON-LD wrapped object including:
+  ** `@context`: The original DID Document contexts.
+  ** Other properties: The dereferenced JSON content.
+
+=== `toResolution`
+[source,ts]
+----
+toResolution(): DIDDereferenceResolution
+----
+
+Builds a full DID Dereference Resolution object containing dereferenced content along with metadata.
+
+.Returns
+* An object containing:
+ ** `contentStream`: The dereferenced JSON-LD content.
+ ** `dereferencingMetadata`: Metadata of the DID Document (from the original DID Resolution).
+ ** `contentMetadata`: Resolution metadata from the original DID Resolution.
+
+=== `toCbor`
+[source,ts]
+----
+toCbor(): Uint8Array
+----
+
+Encodes the dereferenced JSON content as CBOR format.
+
+.Returns
+* A `Uint8Array` containing the CBOR encoded dereferenced content.
+
+=== `fromResolution`
+[source,ts]
+----
+static fromResolution(resolution: DIDResolution)
+----
+
+Static factory method to create a new `DIDDereferenceBuilder` from a DID Resolution object.
+
+.Parameters
+* `resolution` (DIDResolution, required): The DID Resolution to dereference.
+
+.Returns
+* A new `DIDDereferenceBuilder` instance initialized with the given resolution.

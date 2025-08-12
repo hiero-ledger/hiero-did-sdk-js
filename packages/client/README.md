@@ -18,39 +18,11 @@ npm install @hiero-did-sdk/client
 
 ## Usage
 
-The package provides a `HederaClientService` class for managing Hedera clients:
-
-```typescript
-import { HederaClientService, HederaClientConfiguration } from '@hiero-did-sdk/client';
-import { Client } from '@hashgraph/sdk';
-
-// Configure the client service
-const config: HederaClientConfiguration = {
-  networks: [
-    {
-      network: 'testnet', // or 'mainnet', 'previewnet'
-      operatorId: 'YOUR_OPERATOR_ID',
-      operatorKey: 'YOUR_OPERATOR_PRIVATE_KEY'
-    }
-  ]
-};
-
-// Create a client service
-const clientService = new HederaClientService(config);
-
-// Get a client for a specific network
-const client = clientService.getClient('testnet');
-
-// Or use the withClient method to automatically handle client cleanup
-await clientService.withClient({ networkName: 'testnet' }, async (client: Client) => {
-  // Perform operations with the client
-  // Client will be automatically closed when the operation completes
-});
-```
+Learn how to use the HederaClientService in the [Usage Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/client-guide.html).
 
 ## API Reference
 
-Learn more in the [Client API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/client-api.html).
+See detailed API specifications and available methods in the [API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/client-api.html).
 
 ## Running Tests
 

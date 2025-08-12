@@ -23,11 +23,11 @@ npm install @hiero-did-sdk/lifecycle
 
 ## Usage
 
-Learn how to use the lifecycle management system to orchestrate complex asynchronous operations for DID management in the [Lifecycle Management Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/lifecycle-guide.html).
+Learn how to use the lifecycle management system to orchestrate complex asynchronous operations for DID management in the [Lifecycle Management Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/lifecycle-guide.html).
 
 ## API Reference
 
-Learn more in the [Lifecycle Management API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/lifecycle-api.html).
+Learn more in the [Lifecycle Management API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/lifecycle-api.html).
 
 ## Running Tests
 

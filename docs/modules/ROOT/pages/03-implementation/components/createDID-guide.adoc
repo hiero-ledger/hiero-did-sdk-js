@@ -118,10 +118,10 @@ const { did, didDocument } = await submitCreateDIDRequest(
 ----
 **See a full running link:https://github.com/hiero-ledger/hiero-did-sdk-js/blob/main/examples/createDID-using-client-secret-mode.ts[example] in the source code.**
 
-You can learn more about the Client Managed Secret Mode in the xref:04-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
+You can learn more about the Client Managed Secret Mode in the xref:03-implementation/guides/key-management-modes-guide.adoc#client-managed-secret-mode[Key Management Modes Guide].
 
 == References
 
-* xref:04-implementation/components/createDID-api.adoc[`createDID` API Reference]
-* xref:04-implementation/components/generateCreateDIDRequest-api.adoc[`generateCreateDIDRequest` API Reference]
-* xref:04-implementation/components/submitCreateDIDRequest-api.adoc[`submitCreateDIDRequest` API Reference]
+* xref:03-implementation/components/createDID-api.adoc[`createDID` API Reference]
+* xref:03-implementation/components/generateCreateDIDRequest-api.adoc[`generateCreateDIDRequest` API Reference]
+* xref:03-implementation/components/submitCreateDIDRequest-api.adoc[`submitCreateDIDRequest` API Reference]

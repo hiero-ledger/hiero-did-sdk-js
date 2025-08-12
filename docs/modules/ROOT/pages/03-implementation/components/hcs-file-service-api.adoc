@@ -1,0 +1,78 @@
+= HcsFileService API Reference
+
+This document provides a detailed API reference for the `HcsFileService` class — a service for submitting and resolving Hedera Consensus Service (HCS) files following the HCS-1 standard.
+
+== Constructor
+
+=== `constructor`
+[source,ts]
+----
+constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+----
+
+Creates a new instance of `HcsFileService`.
+
+.Parameters
+* `client` (required): Hedera SDK client instance used for HCS operations.
+* `cache` (optional): Cache configuration, cache instance, or an existing `HcsCacheService`.
+
+== Methods
+
+=== `submitFile`
+[source,ts]
+----
+async submitFile(props: SubmitFileProps): Promise<string>
+----
+
+Submits an HCS-1 formatted file to Hedera Consensus Service.
+
+.Parameters
+* `props` (required): Properties for submitting a file.
+
+==== `SubmitFileProps` fields:
+* `payload` (Buffer, required): The file content as a binary buffer.
+* `submitKey` (PrivateKey, optional): Private key used to sign transaction submissions.
+* `waitForChangesVisibility` (boolean, optional): If true, waits until the submitted file is fully visible on the network.
+* `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait for visibility confirmation.
+
+.Returns
+* A promise resolving to the topic ID string where the file was submitted.
+
+.Throws
+* Error if an issue occurs during file submission.
+
+=== `resolveFile`
+[source,ts]
+----
+async resolveFile(props: ResolveFileProps): Promise<Buffer>
+----
+
+Resolves an HCS-1 file from a Hedera topic ID, using cache if available.
+
+.Parameters
+* `props` (required): Properties for resolving a file.
+
+==== `ResolveFileProps` fields:
+* `topicId` (string, required): The topic ID where the file was submitted.
+
+.Returns
+* A promise resolving to a `Buffer` containing the reconstructed file content.
+
+.Throws
+* Error if the file cannot be resolved.
+
+==== `ResolveFileProps` fields:
+* `topicId` (string, required): The topic ID where the file was submitted.
+
+.Returns
+* A promise resolving to a `Buffer` containing the reconstructed file content.
+
+.Throws
+* Error if the topic memo is invalid or does not comply with HCS-1 standard.
+* Error if the topic contains an admin key (which is not allowed).
+* Error if the resolved file’s checksum does not match the expected hash.
+
+== See Also
+
+xref:03-implementation/components/hcs-file-service-guide.adoc[HcsFileService Developer Guide]
+

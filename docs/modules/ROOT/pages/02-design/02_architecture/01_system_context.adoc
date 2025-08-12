@@ -1,19 +1,22 @@
-=== System Context
+=== Level 1: System Context
 
-This diagram illustrates the high-level relationship between the Hiero DID SDK and its primary users and dependencies. It provides a clear overview of how the SDK facilitates decentralized application development on the Hedera network.
+This view shows the Hiero DID SDK JS as a system in its environment and the key actors and external systems it collaborates with. It follows the C4 Model "Context" level.
 
 image::system-context-diagram.png[]
 
-==== Components
+==== People
 
-* **dApp Developer:** Represents developers who utilize the DID SDK to build decentralized applications that leverage decentralized identities on the Hedera network. They interact with the SDK to create, manage, and resolve DIDs, and to integrate verifiable credentials into their applications.
+* dApp Developer: Builds dApps with decentralized identity.
+* Operator/DevOps: Configures network access, credentials, and optional external KMS (e.g., HashiCorp Vault).
 
-* **Hiero DID SDK:** A software development kit that provides tools and functionalities for managing decentralized identities on the Hedera network. It simplifies the process of working with DIDs by abstracting away the complexities of interacting with the Hedera network.
+==== Software Systems
 
-* **Hedera Network:** The underlying distributed ledger technology that provides the infrastructure for creating and managing DIDs. It ensures the security and immutability of DID documents and verifiable credentials. The Hedera Consensus Service (HCS) plays a crucial role in anchoring DIDs to the Hedera network, providing a verifiable and auditable history of DID operations.
+* Hiero DID SDK JS (System): Monorepo of npm packages that expose APIs to manage and resolve DIDs on Hedera, plus utilities for cryptography, caching, compression, messaging, and AnonCreds registry integration.
+* Hedera Network (External System): Provides Hedera Consensus Service (HCS) topics, Nodes for submitting transactions, and Mirror Nodes for reading messages.
+* HashiCorp Vault (External System, optional): External KMS used by optional signer/verifier packages for key custody.
 
-==== Interactions
+==== Relationships
 
-* **dApp Developers use the Hiero DID SDK:** Developers utilize the SDK's functions to integrate DID management capabilities into their applications. This includes generating key pairs, creating DID documents, updating DID information, and revoking DIDs when necessary.
-
-* **Hiero DID SDK uses the Hedera Network:** The SDK interacts with the Hedera network to submit transactions related to DID management. This ensures that all DID operations are recorded on the Hedera ledger and are verifiable by anyone.
+* dApp Developer -> Hiero DID SDK JS: Calls Registrar to perform DID operations; calls Resolver to resolve DID Documents; may call AnonCreds registry APIs.
+* Hiero DID SDK JS -> Hedera Network: Publishes DID operations to HCS topics via Hedera Clients; reads topic messages via Mirror Node APIs.
+* Hiero DID SDK JS -> HashiCorp Vault (optional): Uses Vault-backed signer/verifier packages for signing and verification without exposing private keys.

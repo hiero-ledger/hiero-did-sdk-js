@@ -181,5 +181,5 @@ main();
 
 == References
 
-* xref:04-implementation/components/resolveDID-api.adoc[`resolveDID` API Reference]
-* xref:04-implementation/components/topic-reader-api.adoc[`TopicReader` API Reference]
+* xref:03-implementation/components/resolveDID-api.adoc[`resolveDID` API Reference]
+* xref:03-implementation/components/topic-reader-api.adoc[Topic Reader API Reference]

@@ -20,11 +20,11 @@ npm install @hiero-did-sdk/resolver
 
 ## Usage
 
-Learn how to use the `resolveDID` function to resolve DID Documents in the [resolveDID Guide](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/resolveDID-guide.html).
+Learn how to use the `resolveDID` function to resolve DID Documents in the [resolveDID Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/resolveDID-guide.html).
 
 ## API Reference
 
-Learn more in the [`resolveDID` API Reference](https://github.com/hiero-ledger/hiero-did-sdk-js/documentation/0.0.2-alpha/04-implementation/components/resolveDID-api.html).
+Learn more in the [`resolveDID` API Reference](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/03-implementation/components/resolveDID-api.html).
 
 ## Running Tests
 

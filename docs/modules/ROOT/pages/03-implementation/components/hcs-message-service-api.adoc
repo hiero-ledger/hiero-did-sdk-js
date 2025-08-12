@@ -1,0 +1,76 @@
+= HcsMessageService API Reference
+
+This document provides a detailed API reference for the `HcsMessageService` class — a service for submitting and querying messages in Hedera Consensus Service (HCS) topics.
+
+== Constructor
+
+=== `constructor`
+[source,ts]
+----
+constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+----
+
+Creates a new instance of `HcsMessageService`.
+
+.Parameters
+* `client` (required): Hedera SDK client instance used for HCS operations.
+* `cache` (optional): Cache configuration, cache instance, or an existing `HcsCacheService`.
+
+== Methods
+
+=== `submitMessage`
+[source,ts]
+----
+async submitMessage(props: SubmitMessageProps): Promise<SubmitMessageResult>
+----
+
+Submits a message to an HCS topic.
+
+.Parameters
+* `props` (required): Properties for submitting the message.
+
+==== `SubmitMessageProps` fields:
+* `topicId` (string, required): The ID of the topic to which the message will be submitted.
+* `message` (string, required): The message content to submit.
+* `submitKey` (PrivateKey, optional): Private key used to sign the submission transaction.
+* `waitForChangesVisibility` (boolean, optional): If true, waits until the message becomes visible/confirmed in the topic.
+* `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait for visibility confirmation.
+
+.Returns
+* A promise resolving to a `SubmitMessageResult` object.
+
+==== `SubmitMessageResult` fields:
+* `nodeId` (string): The ID of the node that processed the transaction.
+* `transactionId` (string): The ID of the transaction.
+* `transactionHash` (Uint8Array): The cryptographic hash of the transaction.
+
+.Throws
+* Error if the message submission transaction fails.
+
+=== `getTopicMessages`
+[source,ts]
+----
+async getTopicMessages(props: GetTopicMessagesProps): Promise<TopicMessageData[]>
+----
+
+Retrieves messages from an HCS topic.
+
+.Parameters
+* `props` (required): Properties to configure the message retrieval.
+
+==== `GetTopicMessagesProps` fields:
+* `topicId` (string, required): The ID of the topic to fetch messages from.
+* `maxWaitSeconds` (number, optional): Maximum number of seconds to wait for new messages during polling.
+* `toDate` (Date, optional): Upper time bound (inclusive) for message retrieval.
+* `limit` (number, optional): Maximum number of messages to retrieve.
+
+.Returns
+* A promise resolving to an array of `TopicMessageData`.
+
+==== `TopicMessageData` fields:
+* `consensusTime` (Date): The consensus timestamp when the message was agreed upon.
+* `contents` (Uint8Array): The raw content of the message.
+
+== See Also
+
+xref:03-implementation/components/hcs-message-service-guide.adoc[HcsMessageService Developer Guide]

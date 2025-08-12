@@ -1,6 +1,6 @@
 = HashiCorp Vault Verifier Class
 
-The `Verifier` class in the Hashgraph DID SDK allows you to verify digital signatures using Ed25519 keys stored in HashiCorp Vault. This guide provides an overview of the `Verifier` class and demonstrates how to use it to verify signatures securely.
+The `Verifier` class in the Hiero DID SDK allows you to verify digital signatures using Ed25519 keys stored in HashiCorp Vault. This guide provides an overview of the `Verifier` class and demonstrates how to use it to verify signatures securely.
 
 == Features
 
@@ -149,5 +149,5 @@ const publicKey = await verifier.publicKey();
 
 == References
 
-* xref:04-implementation/components/hashicorp-vault-verifier-api.adoc[Vault `Verifier` API Reference]
-* xref:04-implementation/components/hashicorp-vault-verifier-factory-api.adoc[`VaultVerifierFactory` API Reference]
+* xref:03-implementation/components/hashicorp-vault-verifier-api.adoc[Vault `Verifier` API Reference]
+* xref:03-implementation/components/hashicorp-vault-verifier-factory-api.adoc[`VaultVerifierFactory` API Reference]

@@ -1,0 +1,205 @@
+= HederaAnoncredsRegistry Guide
+
+The `@hiero-did-sdk/anoncreds` package provides the `HederaAnoncredsRegistry` — a service to manage AnonCreds schemas, credential definitions, revocation registries, and revocation status lists on the Hedera Consensus Service (HCS) ledger, enabling decentralized issuance and verification of zero-knowledge proof based credentials.
+
+== Overview
+
+`HederaAnoncredsRegistry` enables developers to:
+
+* Register and retrieve credential schemas defining sets of attributes.
+* Register and resolve credential definitions linking schemas to issuers with cryptographic material.
+* Register and resolve revocation registries and their definitions to manage credential revocation state.
+* Register and fetch revocation status lists reflecting issued and revoked credentials over time.
+* Use Hedera HCS topics as a scalable Verifiable Data Registry following AnonCreds specifications.
+
+== Package Architecture
+
+The service integrates with the underlying HederaHcsService for interacting with the ledger, leveraging submission and retrieval of files and messages encoded as AnonCreds objects.
+
+== Initialization
+
+[source,typescript]
+----
+constructor(config: HederaAnoncredsRegistryConfiguration)
+----
+
+Create a new instance of the `HederaAnoncredsRegistry`.
+
+.Parameters
+* `config` (required): Configuration object for the registry, including network and client settings.
+
+== Basic Usage
+
+=== Registering a Schema
+
+[source,typescript]
+----
+const registry = new HederaAnoncredsRegistry(config);
+
+const schema = {
+  name: "EmployeeCredential",
+  issuerId: issuerDid,
+  attrNames: ["name", "employeeId", "department"],
+  version: "1.0"
+};
+
+const registerSchemaResult = await registry.registerSchema({
+  networkName: "testnet",
+  schema,
+});
+
+console.log("Schema registration result:", registerSchemaResult);
+----
+
+Parameters:
+
+* `networkName` (optional): The Hedera network name to use.
+* `schema` (required): An object describing the credential schema including name, issuer DID, attribute names, and version.
+
+Returns a result object describing registration state and metadata.
+
+=== Getting a Schema
+
+[source,typescript]
+----
+const resolvedSchema = await registry.getSchema(schemaId);
+
+console.log("Resolved schema:", resolvedSchema);
+----
+
+Parameters:
+
+* `schemaId` (required): The schema identifier to resolve on ledger.
+
+Returns the schema object and associated metadata.
+
+=== Registering a Credential Definition
+
+[source,typescript]
+----
+const credDef = {
+  schemaId: schemaId,
+  issuerId: issuerDid,
+  value: cryptographicPublicKeys,
+  tag: "tag1"
+};
+
+const registerCredDefResult = await registry.registerCredentialDefinition({
+  networkName: "testnet",
+  credentialDefinition: credDef,
+  options: { supportRevocation: true }
+});
+
+console.log("Credential Definition registration result:", registerCredDefResult);
+----
+
+Parameters:
+
+* `networkName` (optional): Hedera network name.
+* `credentialDefinition` (required): An object defining the credential definition, linking schema and issuer with cryptographic parameters.
+* `options` (optional): Metadata options such as revocation support flag.
+
+Returns a result object with registration state and metadata.
+
+=== Getting a Credential Definition
+
+[source,typescript]
+----
+const resolvedCredDef = await registry.getCredentialDefinition(credentialDefinitionId);
+
+console.log("Resolved Credential Definition:", resolvedCredDef);
+----
+
+Parameters:
+
+* `credentialDefinitionId` (required): The credential definition ID to retrieve.
+
+Returns the credential definition and metadata.
+
+=== Registering a Revocation Registry Definition
+
+[source,typescript]
+----
+const revRegDef = {
+  issuerId: issuerDid,
+  maxCredNum: 1000,
+  tailsLocation: "https://example.com/tails",
+  // other revocation registry fields
+};
+
+const registerRevRegResult = await registry.registerRevocationRegistryDefinition({
+  networkName: "testnet",
+  revocationRegistryDefinition: revRegDef,
+});
+
+console.log("Revocation Registry registration result:", registerRevRegResult);
+----
+
+Parameters:
+
+* `networkName` (optional): Hedera network name.
+* `revocationRegistryDefinition` (required): Object defining revocation registry parameters.
+
+Returns registration state and metadata.
+
+=== Getting a Revocation Registry Definition
+
+[source,typescript]
+----
+const resolvedRevRegDef = await registry.getRevocationRegistryDefinition(revocationRegistryDefinitionId);
+
+console.log("Resolved Revocation Registry Definition:", resolvedRevRegDef);
+----
+
+Parameters:
+
+* `revocationRegistryDefinitionId` (required): The ID of the revocation registry definition.
+
+Returns the definition and resolution metadata.
+
+=== Registering a Revocation Status List
+
+[source,typescript]
+----
+const revStatusList = {
+  revRegDefId: revocationRegistryDefinitionId,
+  revocationList: [0, 1, 0, 0, 1],  // status array: 0-active, 1-revoked
+  currentAccumulator: "...",
+  timestamp: Date.now(),
+};
+
+const registerStatusListResult = await registry.registerRevocationStatusList({
+  networkName: "testnet",
+  revocationStatusList: revStatusList,
+});
+
+console.log("Revocation Status List registration result:", registerStatusListResult);
+----
+
+Parameters:
+
+* `networkName` (optional): Hedera network name.
+* `revocationStatusList` (required): Revocation status list object without timestamp.
+
+Returns the registration state and metadata.
+
+=== Getting a Revocation Status List
+
+[source,typescript]
+----
+const resolvedStatusList = await registry.getRevocationStatusList(revocationRegistryId, timestamp);
+
+console.log("Resolved Revocation Status List:", resolvedStatusList);
+----
+
+Parameters:
+
+* `revocationRegistryId` (required): ID of the revocation registry.
+* `timestamp` (required): UNIX timestamp to resolve the status list at.
+
+Returns the revocation status list and resolution metadata.
+
+== See Also
+
+xref:03-implementation/components/anoncreds-api.adoc[HederaAnoncredsRegistry API Reference]
+

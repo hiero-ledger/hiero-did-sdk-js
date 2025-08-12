@@ -1,0 +1,85 @@
+= HcsFileService Guide
+
+The `@hiero-did-sdk/hcs` package provides the `HcsFileService` — a service for managing file storage on Hedera Consensus Service (HCS) topics using the HCS-1 standard, which supports chunked file uploads with compression.
+
+== Overview
+
+`HcsFileService` allows developers to:
+
+* Submit files (potentially large, chunked, and compressed) to Hedera topics.
+* Resolve and reconstruct files previously submitted to HCS topics.
+* Handle automatic compression and decompression using Zstandard.
+* Verify file integrity through memo-based checksum validation.
+* Integrate with caching to optimize file retrieval.
+
+== Initialization
+
+[source,typescript]
+----
+constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+----
+
+Instantiate a new `HcsFileService`.
+
+* `client`: Hedera SDK client instance used for network operations.
+* `cache`: Optional cache config or instance to support caching resolved files.
+
+== Basic Usage
+
+=== Submitting a File
+
+[source,typescript]
+----
+const fileService = new HcsFileService(client, cache);
+
+const topicId = await fileService.submitFile({
+  payload: Buffer.from('Large file content here'),
+  submitKey: submitPrivateKey, // Optional signing key for transactions
+  waitForChangesVisibility: true, // Wait until file is visible on the network
+  waitForChangesVisibilityTimeoutMs: 60000 // Milliseconds to wait for visibility confirmation
+});
+
+console.log("File submitted to topic:", topicId);
+----
+
+Parameters:
+
+* `payload` (Buffer, required): The file content to submit.
+* `submitKey` (PrivateKey, optional): Key to sign each chunk submission transaction.
+* `waitForChangesVisibility` (boolean, optional): Wait for full file visibility after submission.
+* `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait.
+
+Returns the Hedera topic ID (string) where the file was submitted.
+
+=== Resolving a File
+
+[source,typescript]
+----
+const fileBuffer = await fileService.resolveFile({
+  topicId: "0.0.1234"
+});
+
+console.log("Resolved file contents:", fileBuffer.toString());
+----
+
+Parameters:
+
+* `topicId` (string, required): The topic ID where the file was stored.
+
+Returns:
+
+* A `Buffer` containing the fully decompressed and reconstructed file content.
+* Throws an error if the file cannot be found or integrity verification fails.
+
+== Details
+
+* Files are split into chunks respecting Hedera transaction size limits.
+* Chunk messages are compressed using Zstandard and encoded in base64 before submission.
+* The topic memo encodes the SHA-256 hash of the file and compression details for validation.
+* During resolution, chunks are fetched in order, base64 decoded, decompressed, and concatenated.
+* Cache service is used when available, to speed up repeated retrievals.
+
+== See Also
+
+xref:03-implementation/components/hcs-file-service-api.adoc[HcsFileService API Reference]
+

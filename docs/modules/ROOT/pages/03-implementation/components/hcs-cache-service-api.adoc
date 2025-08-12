@@ -1,0 +1,157 @@
+= HcsCacheService API Reference
+
+This document provides a detailed API reference for the `HcsCacheService` class — a service responsible for caching Hedera Consensus Service (HCS) topic information, messages, and files.
+
+== Constructor
+
+=== `constructor`
+[source,ts]
+----
+constructor(configOrCache: CacheConfig | Cache)
+----
+
+Creates a new instance of `HcsCacheService`.
+
+.Parameters
+* `configOrCache` (required): Either a cache configuration object specifying cache size, or an existing cache instance implementing the `Cache` interface.
+
+== Methods
+
+=== `getTopicInfo`
+[source,ts]
+----
+public getTopicInfo(client: Client, topicId: string): Promise<TopicInfo | null>
+----
+
+Retrieves cached topic information for a given client and topic ID.
+
+.Parameters
+* `client` (required): Hedera SDK client instance associated with the request.
+* `topicId` (required): The ID of the HCS topic.
+
+.Returns
+* A promise resolving to the cached `TopicInfo` if present, or `null` if not cached.
+
+=== `setTopicInfo`
+[source,ts]
+----
+public setTopicInfo(client: Client, topicId: string, topicInfo: TopicInfo): Promise<void>
+----
+
+Stores topic information in the cache.
+
+.Parameters
+* `client` (required): Hedera SDK client instance associated with the cache entry.
+* `topicId` (required): The ID of the HCS topic.
+* `topicInfo` (required): The `TopicInfo` object to cache.
+
+.Returns
+* A promise that resolves when the data is cached.
+
+=== `removeTopicInfo`
+[source,ts]
+----
+public async removeTopicInfo(client: Client, topicId: string): Promise<void>
+----
+
+Removes cached topic information and associated messages for a topic.
+
+.Parameters
+* `client` (required): Hedera SDK client instance.
+* `topicId` (required): The ID of the HCS topic to remove from cache.
+
+.Returns
+* A promise that resolves when the cache entries have been removed.
+
+=== `getTopicMessages`
+[source,ts]
+----
+public getTopicMessages(client: Client, topicId: string): Promise<TopicMessageData[] | null>
+----
+
+Retrieves cached messages for a given topic.
+
+.Parameters
+* `client` (required): Hedera SDK client instance.
+* `topicId` (required): The ID of the HCS topic.
+
+.Returns
+* A promise resolving to an array of cached `TopicMessageData`, or `null` if no cached messages exist.
+
+=== `setTopicMessages`
+[source,ts]
+----
+public async setTopicMessages(client: Client, topicId: string, messages: TopicMessageData[]): Promise<void>
+----
+
+Stores an array of topic messages in the cache and removes any cached file for the topic.
+
+.Parameters
+* `client` (required): Hedera SDK client instance.
+* `topicId` (required): The ID of the HCS topic.
+* `messages` (required): Array of `TopicMessageData` to cache.
+
+.Returns
+* A promise that resolves when the messages have been cached and related cached files are cleared.
+
+=== `removeTopicMessages`
+[source,ts]
+----
+public async removeTopicMessages(client: Client, topicId: string): Promise<void>
+----
+
+Removes cached messages and cached file for a given topic.
+
+.Parameters
+* `client` (required): Hedera SDK client instance.
+* `topicId` (required): The ID of the HCS topic.
+
+.Returns
+* A promise that resolves when the cached messages and file for the topic have been removed.
+
+=== `getTopicFile`
+[source,ts]
+----
+public getTopicFile(client: Client, topicId: string): Promise<Buffer | null>
+----
+
+Retrieves a cached file buffer for a topic, if available.
+
+.Parameters
+* `client` (required): Hedera SDK client instance.
+* `topicId` (required): The ID of the HCS topic.
+
+.Returns
+* A promise resolving to the cached file `Buffer`, or `null` if none exists.
+
+=== `setTopicFile`
+[source,ts]
+----
+public setTopicFile(client: Client, topicId: string, file: Buffer): Promise<void>
+----
+
+Stores a file buffer in the cache for a given topic.
+
+.Parameters
+* `client` (required): Hedera SDK client instance.
+* `topicId` (required): The ID of the HCS topic.
+* `file` (required): The file contents as a `Buffer`.
+
+.Returns
+* A promise that resolves when the file has been cached.
+
+=== `removeTopicFile`
+[source,ts]
+----
+public removeTopicFile(client: Client, topicId: string): Promise<void>
+----
+
+Removes a cached file for a given topic.
+
+.Parameters
+* `client` (required): Hedera SDK client instance.
+* `topicId` (required): The ID of the HCS topic.
+
+.Returns
+* A promise that resolves when the cached file has been removed.
+

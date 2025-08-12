@@ -14,23 +14,23 @@ By adhering to the Hedera DID Method and Hedera AnonCreds Method specification, 
 
 == Requirements
 
-This SDK was developed to fulfill a set of specific requirements outlined in the xref:02-analysis/requirements/index.adoc[Requirements Document]. These requirements encompass various aspects of DID management, security, and developer experience, ensuring that the SDK meets the needs of its users effectively.
+This SDK was developed to fulfill a set of specific requirements outlined in the xref:01-analysis/requirements/index.adoc[Requirements Document]. These requirements encompass various aspects of DID management, security, and developer experience, ensuring that the SDK meets the needs of its users effectively.
 
 == Design
 
-Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the xref:03-design/01_introduction_and_goals/index.adoc[Architecture Overview].
+Gain a comprehensive understanding of the SDK's architecture and underlying design principles by exploring the xref:02-design/01_introduction_and_goals/index.adoc[Architecture Overview].
 
 == Implementation
 
-For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed xref:04-implementation/guides/getting-started-guide.adoc[Getting Started Guide].
+For step-by-step guidance on installing and utilizing the SDK effectively, consult the detailed xref:03-implementation/guides/getting-started-guide.adoc[Getting Started Guide].
 
 == Deployment
 
-This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the xref:06-deployment/packages/index.adoc[Packages Guide].
+This SDK is distributed as a collection of packages. Detailed information about these packages and their contents can be found in the xref:04-deployment/packages/index.adoc[Packages Guide].
 
 == Maintenance
 
-Should you encounter any issues or require assistance, please refer to the xref:07-maintenance/support/getting-support-guide.adoc[Getting Support Guide].
+Should you encounter any issues or require assistance, please refer to the xref:05-maintenance/support/getting-support-guide.adoc[Getting Support Guide].
 
 == License
 

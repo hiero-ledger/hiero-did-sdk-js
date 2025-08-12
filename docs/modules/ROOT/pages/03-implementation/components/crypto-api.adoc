@@ -1,0 +1,91 @@
+= Crypto API Reference
+
+This document provides a concise API reference for the `Crypto` class and its related interfaces, which provide cryptographic hashing functionality, specifically SHA-256 hashing, with compatibility across Node.js and React Native environments.
+
+== Types and Interfaces
+
+=== `HashInput`
+Input data types supported for hashing.
+
+.Values
+* `string`
+* `Buffer`
+* `Uint8Array`
+* `ArrayBuffer`
+
+=== `CryptoModule`
+Interface representing a cryptographic module capable of creating hash instances or providing a direct SHA256 method.
+
+.Properties
+* `createHash?` (optional method): Function accepting an algorithm name and returning a `Hash` instance.
+* `SHA256?` (optional method): Convenience method accepting `HashInput` and returning an object with a `toString()` method to get the hash string.
+
+=== `Hash`
+Interface representing a hash computation instance.
+
+.Methods
+* `update(data: HashInput): Hash`
+  Updates the hash with the given data. Returns the `Hash` instance for chaining.
+
+* `digest(encoding: 'hex'): string`
+  Finalizes the hash computation and returns the digest in the specified encoding format (only `'hex'` supported here).
+
+== Class: Crypto
+
+=== `sha256`
+[source,ts]
+----
+public static sha256(data: HashInput): string
+----
+
+Computes the SHA-256 hash of the given input data.
+
+.Parameters
+* `data` (required, `HashInput`): The input data to hash. Supported types include `string`, `Buffer`, `Uint8Array`, and `ArrayBuffer`.
+
+.Returns
+* A hexadecimal string representing the SHA-256 hash of the input data.
+
+.Throws
+* Throws an error if no compatible crypto module can be found in the current environment.
+
+.Details
+* Internally uses the first available crypto module in the following order:
+  1. Node.js built-in `crypto` module.
+  2. `react-native-quick-crypto` module (for React Native).
+* Converts various input types to a Node.js `Buffer` before hashing.
+
+== Internal Functions (not part of public API)
+
+=== `getAvailableCryptoModule`
+[source,ts]
+----
+function getAvailableCryptoModule(): CryptoModule
+----
+
+Selects and returns a compatible cryptographic module available in the runtime environment.
+
+.Returns
+* The first compatible `CryptoModule` found (`crypto` for Node.js or `react-native-quick-crypto` for React Native).
+
+.Throws
+* Throws an error if no compatible crypto module is found, prompting the user to install required polyfills.
+
+=== `convertInputToBuffer`
+[source,ts]
+----
+function convertInputToBuffer(data: HashInput): Buffer
+----
+
+Converts the input data of various supported types into a Node.js `Buffer`.
+
+.Parameters
+* `data` (required, `HashInput`): The input data to convert.
+
+.Returns
+* A `Buffer` instance representing the input data in UTF-8 encoding (for strings) or raw bytes (for binary types).
+
+== See Also
+
+xref:03-implementation/components/crypto-guide.adoc[Crypto Developer Guide]
+
