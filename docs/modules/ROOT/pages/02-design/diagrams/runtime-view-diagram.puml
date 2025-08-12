@@ -33,7 +33,7 @@ System_Ext(hedera, "Hedera Node", "Gateway to the Hedera network")
 ' Developer interactions
 Rel(developer, registrar, "dApp developers use Registrar to create, update, and deactivate DIDs")
 Rel(developer, resolver, "Developers resolve DID Documents using Resolver")
-Rel(developer, hcsService, "Developers use HcsService to interact with HCS (Hedera Consensus Service)")
+Rel(developer, hcsService, "Developers use HcsService to interact with Hedera Consensus Service")
 Rel(developer, anoncredsRegistry, "Developers manage AnonCreds resources using HederaAnoncredsRegistry")
 
 ' Registrar dependencies
