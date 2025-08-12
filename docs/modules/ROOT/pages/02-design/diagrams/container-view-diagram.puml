@@ -3,7 +3,7 @@
 
 title Hiero DID SDK Container View
 
-Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identity (not just identifiers)")
+Person_Ext(developer, "dApp Developer", "Builds dApps with decentralized identity")
 
 System_Boundary(c1, "Hiero DID SDK") {
  Container(core, "Module", "core, messages, lifecycle, registrar, resolver, signer-internal, verifier-internal, signer-hashicorp-vault, verifier-hashicorp-vault, publisher-internal, client, hcs, cache, crypto, zstd, anoncreds")

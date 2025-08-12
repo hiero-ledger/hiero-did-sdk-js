@@ -6,7 +6,7 @@ image::runtime-view-diagram.png[]
 
 ==== Components
 
-* **dApp Developer:** The end developer who interacts with the SDK to manage decentralized identifiers (DIDs) and resources required for AnonCreds verifiable credentials (VCs).
+* **dApp Developer:** Builds dApps with decentralized identity (not just identifiers).
 
 * **Hiero DID SDK:** The software development kit providing key components to work with decentralized identity on Hiero:
 

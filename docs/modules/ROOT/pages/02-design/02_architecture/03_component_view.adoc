@@ -6,7 +6,7 @@ image::component-view-diagram.png[]
 
 ==== Components
 
-* **dApp Developer:** Represents developers who build decentralized applications (dApps) using the Hiero DID SDK for decentralized identity management and related services.
+* **dApp Developer:** Builds dApps with decentralized identity (not just identifiers).
 
 * **Hiero DID SDK:** The software development kit comprising the following components and services:
 

@@ -6,7 +6,7 @@ image::system-context-diagram.png[]
 
 ==== People
 
-* dApp Developer: Builds applications that need DID operations (create, update, deactivate, resolve) and Verifiable Credentials/AnonCreds integrations.
+* dApp Developer: Builds dApps with decentralized identity (not just identifiers).
 * Operator/DevOps: Configures network access, credentials, and optional external KMS (e.g., HashiCorp Vault).
 
 ==== Software Systems

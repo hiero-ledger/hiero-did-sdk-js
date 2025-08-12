@@ -17,7 +17,7 @@ image::container-view-diagram.png[]
 * verifier-hashicorp-vault (optional): Vault-backed verification.
 * publisher-internal: Publishes transactions to Hedera via Client.
 * client: Configures and provides Hedera SDK Client per network.
-* hcs: Abstraction over Hedera Consensus Service (publish/read topics, publics/read messages, submit/resolve files by HCS-1 standard).
+* hcs: Abstraction over Hedera Consensus Service (publish/read topics, publish/read messages, submit/resolve files by HCS-1 standard).
 * cache: In-memory cache primitives used by resolver and others.
 * crypto: Cryptographic helpers (SHA-256 hashing).
 * zstd: Compression utilities used to reduce on-chain payload size.
