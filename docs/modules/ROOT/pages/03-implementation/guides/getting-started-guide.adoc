@@ -10,7 +10,7 @@ The Hiero DID SDK empowers you to leverage decentralized identity concepts for y
 * **Improved Privacy:**  decentralized identity can be used to selectively disclose information, minimizing the data shared with third parties.
 * **Increased Trust:**  DIDs and AnonCreds resources are anchored to the Hedera ledger, providing a tamper-proof and auditable record of identity information.
 
-This guide will walk you through the essential steps to get you started with the Hiero DID SDK. You'll learn how to install the SDK, create and resolve your first DID, and create AnonCreds credential schema.
+This guide will walk you through the essential steps to get you started with the Hiero DID SDK. You'll learn how to install the SDK, create and resolve your first DID and AnonCreds credential schema.
 
 **Prerequisites:**
 
@@ -195,10 +195,10 @@ This code demonstrates how to:
 
 == Next Steps
 
-*   **Explore `resolveDID`:**  Dive deeper into the link:../03-implementation/components/resolveDID-guide.adoc[`resolveDID`] function to understand its parameters, error handling, and advanced usage.
-*   **Manage DIDs:** Learn how to use link:../03-implementation/components/createDID-guide.adoc[`createDID`], link:../03-implementation/components/updateDID-guide.adoc[`updateDID`], and link:../03-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
-*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the link:../03-implementation/components/signer-guide.adoc[`Signer`] class.
-*   **Utilize the `Publisher`:** Integrate the link:../03-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.
-*   **Manage AnonCreds resources:** Learn how to use link:../03-implementation/components/anoncreds-guide.adoc[`HederaAnoncredsRegistry`] to effectively manage AnonCreds resources on Hedera.
-*   **Leverage convenient HCS integration API:** Explore use cases for link:../03-implementation/components/hcs-service-guide.adoc[`HcsService` API] for advanced integration with Hedera Consensus Service (HCS).
+*   **Explore `resolveDID`:**  Dive deeper into the xref::03-implementation/components/resolveDID-guide.adoc[`resolveDID`] function to understand its parameters, error handling, and advanced usage.
+*   **Manage DIDs:** Learn how to use xref::03-implementation/components/createDID-guide.adoc[`createDID`], xref::03-implementation/components/updateDID-guide.adoc[`updateDID`], and xref::03-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
+*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the xref::03-implementation/components/signer-guide.adoc[`Signer`] class.
+*   **Utilize the `Publisher`:** Integrate the xref::03-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.
+*   **Manage AnonCreds resources:** Learn how to use xref::03-implementation/components/anoncreds-guide.adoc[`HederaAnoncredsRegistry`] to effectively manage AnonCreds resources on Hedera.
+*   **Leverage convenient HCS integration API:** Explore use cases for xref::03-implementation/components/hcs-service-guide.adoc[`HcsService` API] for advanced integration with Hedera Consensus Service (HCS).
 *   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::03-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].
