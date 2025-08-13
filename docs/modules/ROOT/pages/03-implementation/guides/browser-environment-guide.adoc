@@ -20,7 +20,7 @@ npm install buffer
 
 The `buffer` package provides a polyfill for the `Buffer` class in the browser environment.
 
-IMPORTANT: Make sure that you module bundler is configured to resolve `browser` field in `package.json` files. This is required to load the correct version of the DID SDK in the browser environment.
+IMPORTANT: Make sure that your module bundler is configured to resolve `browser` field in `package.json` files. This is required to load the correct version of the DID SDK in the browser environment.
 
 == Usage
 

@@ -2,7 +2,7 @@
 
 == Introduction
 
-This guide provides an overview of the essential components and functions that power the Hiero DID SDK. These elements work together to enable developers to seamlessly create, manage, and resolve Decentralized Identifiers (DIDs) on the Hedera network. Familiarizing yourself with these core aspects is key to effectively leveraging the SDK for your decentralized identity solutions.
+This guide provides an overview of the essential components and functions that power the Hiero DID SDK. These elements work together to enable developers to seamlessly manage Decentralized Identifiers (DIDs) and AnonCreds resources on the Hedera network. Familiarizing yourself with these core aspects is key to effectively leveraging the SDK for your decentralized identity solutions.
 
 === Resolving DIDs with `resolveDID`
 
@@ -20,6 +20,13 @@ The `Signer` class plays a vital role in securing your DID operations. It provid
 
 The `Publisher` class acts as a bridge between your DID operations and the Hedera network. It simplifies the submission of transactions to the Hedera Consensus Service (HCS), streamlining the process of registering, updating, and deactivating DIDs. With automatic network detection and robust error handling, the `Publisher` class ensures a smooth and reliable experience.
 
+=== Managing AnonCreds resources with the `HederaAnoncredsRegistry` Class
+
+The `HederaAnoncredsRegistry` class provides an API to register and resolve AnonCreds resources (Schema, Credential Definition, Revocation Registries) on Hedera ledger. Combined with effective built-in caching, this provides a great AnonCreds Verifiable Data Registry (VDR) option that allows developers to leverage Hedera speed and cost-effectiveness for AnonCreds use cases.
+
+=== Convenient integration with Hedera Consensus Service (HCS)
+
+The `@hiero-did-sdk/hcs` package provides API and helpers to simplify integration with HCS. The `HcsService` class provides easy-to-use common API with built-in management of Hedera SDK Client instances. `HcsTopicService`, `HcsMessageService` and `HcsFileService` (HCS-1 standard implementation) classes provide specific API parts that can be used independently.
 
 == Next Steps
 *   **Key Management Modes:**  Learn about the different key management strategies supported by the DID SDK and choose the best one for your needs: xref::03-implementation/guides/key-management-modes-guide.adoc[Key Management Modes Guide].

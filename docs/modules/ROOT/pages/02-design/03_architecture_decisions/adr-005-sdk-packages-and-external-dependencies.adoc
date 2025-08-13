@@ -38,4 +38,4 @@ The SDK will utilize the following external dependencies:
 
 ==== References
 
-* xref:adr-003[ADR-003: Monorepo Project Structure]
+* xref:adr-003-monorepo-project-structure[ADR-003: Monorepo Project Structure]

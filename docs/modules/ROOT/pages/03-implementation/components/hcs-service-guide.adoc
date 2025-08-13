@@ -14,11 +14,11 @@ Use `@hiero-did-sdk/hcs` to:
 
 image::hcs-service-diagram.png[]
 
-* HederaHcsService - A service wrapper providing convenient interaction with the Hedera Consensus Service (HCS).
-* HcsTopicService - A service for working with topics.
-* HcsMessageService - A service for sending and receiving messages.
-* HcsFileService - A service for file storage.
-* HcsCacheService - A service for data caching.
+* HederaHcsService - A service wrapper providing a convenient API for integration with the Hedera Consensus Service (HCS).
+* HcsTopicService - A service for managing HCS Topics.
+* HcsMessageService - A service for submitting and resolving HCS messages.
+* HcsFileService - A service creating and resolving files on HCS according to HCS-1 standard.
+* HcsCacheService - A service providing data caching functionality.
 
 == Initialization
 

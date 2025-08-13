@@ -20,11 +20,18 @@ ui:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     snapshot: true
   supplemental_files:
+    - path: partials/header-content.hbs
+      contents: docs/supplemental-ui/partials/header-content.hbs
+    - path: partials/head-icons.hbs
+      contents: docs/supplemental-ui/partials/head-icons.hbs
     - path: ui.yml
       contents: |
         static_files:
         - .nojekyll
+        - favicon.svg
     - path: .nojekyll
+    - path: favicon.svg
+      contents: docs/modules/ROOT/images/hiero-icon.svg
 antora:
   extensions:
     - require: "@sntke/antora-mermaid-extension"

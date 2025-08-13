@@ -34,5 +34,5 @@ Each package must include these files:
 
 ==== References
 
-* xref:adr-002[ADR-002: Repository Tooling]
-* xref:adr-003[ADR-003: Monorepo Project Structure]
+* xref:adr-002-sdk-repository-tooling[ADR-002: SDK Repository Tooling]
+* xref:adr-003-monorepo-project-structure[ADR-003: Monorepo Project Structure]

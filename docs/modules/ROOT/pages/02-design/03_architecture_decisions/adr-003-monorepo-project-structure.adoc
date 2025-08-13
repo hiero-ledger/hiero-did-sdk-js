@@ -29,4 +29,4 @@ The monorepo will be organized into the following top-level directories:
 
 ==== References
 
-* xref:adr-001[ADR-001: Project Structure]
+* xref:adr-001-sdk-project-structure[ADR-001: Project Structure]
