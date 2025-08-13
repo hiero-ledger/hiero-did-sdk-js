@@ -65,5 +65,3 @@ After careful consideration, the decision is to adopt the multiple libraries app
 
 1. *Review and Adjust*: Review this ADR one month post-implementation to compare expectations with actual outcomes.
 2. *Document Further ADRs*: Document any additional ADRs arising from this decision, especially for further adjustments or enhancements.
-
-==== References

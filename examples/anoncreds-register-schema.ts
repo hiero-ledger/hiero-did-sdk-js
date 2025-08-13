@@ -14,17 +14,17 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };
 
-const schema = {
+const schema: AnonCredsSchema = {
   issuerId: 'did:example:issuer1',
   name: 'Example Schema',
   version: '1.0',
   attrNames: ['attr1', 'attr2'],
-} satisfies AnonCredsSchema;
+};
 
 async function main() {
   const registry = new HederaAnoncredsRegistry(config);

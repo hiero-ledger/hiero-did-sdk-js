@@ -2,15 +2,15 @@
 
 == Introduction
 
-Welcome to the Hedera DID SDK! This guide provides a quick and practical introduction to creating and managing Decentralized Identifiers (DIDs) on the Hedera network.
+Welcome to the Hiero DID SDK! This guide provides a quick and practical introduction to creating and managing Decentralized Identifiers (DIDs) and AnonCreds resources on the Hedera network.
 
-Decentralized Identifiers (DIDs) are a new type of identifier that enables verifiable, decentralized digital identity.  The Hedera DID SDK empowers you to leverage this technology for your applications, providing:
+The Hiero DID SDK empowers you to leverage decentralized identity concepts for your applications, providing:
 
-* **Enhanced Security:** DIDs give users greater control over their digital identities and reduce the reliance on centralized authorities.
-* **Improved Privacy:**  DIDs can be used to selectively disclose information, minimizing the data shared with third parties.
-* **Increased Trust:**  DIDs are anchored to the Hedera blockchain, providing a tamper-proof and auditable record of identity information.
+* **Enhanced Security:** give users greater control over their digital identities and reduce the reliance on centralized authorities.
+* **Improved Privacy:**  decentralized identity can be used to selectively disclose information, minimizing the data shared with third parties.
+* **Increased Trust:**  DIDs and AnonCreds resources are anchored to the Hedera ledger, providing a tamper-proof and auditable record of identity information.
 
-This guide will walk you through the essential steps to get you started with the Hedera DID SDK. You'll learn how to install the SDK, create your first DID, and resolve its DID document.
+This guide will walk you through the essential steps to get you started with the Hiero DID SDK. You'll learn how to install the SDK, create and resolve your first DID, and create AnonCreds credential schema.
 
 **Prerequisites:**
 
@@ -110,10 +110,95 @@ This code demonstrates how to:
 * Use the `resolveDID` function from the resolver package.
 * Fetch and display the DID document associated with a given DID string. This allows you to verify the authenticity and retrieve information linked to the DID.
 
+=== 5. Create AnonCreds schema
+
+[source,javascript]
+----
+import { HederaAnoncredsRegistry } from '@hiero-did-sdk/anoncreds';
+import { HederaClientConfiguration } from '@hiero-did-sdk/client';
+
+const config: HederaClientConfiguration = {
+  networks: [
+    {
+      network: 'testnet',
+      operatorId,
+      operatorKey
+    }
+  ]
+};
+
+const schema = {
+  issuerId: 'did:example:issuer1',
+  name: 'Example Schema',
+  version: '1.0',
+  attrNames: ['attr1', 'attr2']
+};
+
+async function main() {
+  const registry = new HederaAnoncredsRegistry(config);
+
+  try {
+    const result = await registry.registerSchema({ networkName: 'testnet', schema });
+    console.log('Schema register result:', result);
+  } catch (error) {
+    console.error('Failed to register schema:', error);
+  }
+}
+
+main();
+
+----
+
+This code demonstrates how to:
+
+* Use the `HederaAnoncredsRegistry.registerSchema` function to register AnonCreds schema on Hedera ledger.
+* Display the AnonCreds schema registration result to verify the status of the operation (success/failure).
+
+=== 6. Resolve AnonCreds schema
+
+[source,javascript]
+----
+import { HederaAnoncredsRegistry } from '@hiero-did-sdk/anoncreds';
+import { HederaClientConfiguration } from '@hiero-did-sdk/client';
+
+const config: HederaClientConfiguration = {
+  networks: [
+    {
+      network: 'testnet',
+      operatorId,
+      operatorKey
+    }
+  ]
+};
+
+// Specify the existing schemaId on the testnet here
+const schemaId = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.6557796';
+
+async function main() {
+  const registry = new HederaAnoncredsRegistry(config);
+
+  try {
+    const result = await registry.getSchema(schemaId);
+    console.log('Schema resolution result:', result);
+  } catch (error) {
+    console.error('Failed to resolve schema:', error);
+  }
+}
+
+main();
+----
+
+This code demonstrates how to:
+
+* Use the `HederaAnoncredsRegistry.getSchema` function to resolve AnonCreds schema from Hedera ledger.
+* Fetch and display the AnonCreds schema object associated with a given AnonCreds identifier.
+
 == Next Steps
 
-*   **Explore `resolveDID`:**  Dive deeper into the link:03-implementation/components/resolveDID-guide.adoc[`resolveDID`] function to understand its parameters, error handling, and advanced usage.
-*   **Manage DIDs:** Learn how to use link:03-implementation/components/createDID-guide.adoc[`createDID`], link:03-implementation/components/updateDID-guide.adoc[`updateDID`], and link:03-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
-*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the link:03-implementation/components/signer-guide.adoc[`Signer`] class.
-*   **Utilize the `Publisher`:** Integrate the link:03-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.
+*   **Explore `resolveDID`:**  Dive deeper into the link:../03-implementation/components/resolveDID-guide.adoc[`resolveDID`] function to understand its parameters, error handling, and advanced usage.
+*   **Manage DIDs:** Learn how to use link:../03-implementation/components/createDID-guide.adoc[`createDID`], link:../03-implementation/components/updateDID-guide.adoc[`updateDID`], and link:../03-implementation/components/deactivateDID-guide.adoc[`deactivateDID`] to effectively manage DIDs on Hedera.
+*   **Implement the `Signer`:** Practice generating key pairs, signing messages, and verifying signatures using the link:../03-implementation/components/signer-guide.adoc[`Signer`] class.
+*   **Utilize the `Publisher`:** Integrate the link:../03-implementation/components/publisher-guide.adoc[`Publisher`] class into your application for seamless transaction submission.
+*   **Manage AnonCreds resources:** Learn how to use link:../03-implementation/components/anoncreds-guide.adoc[`HederaAnoncredsRegistry`] to effectively manage AnonCreds resources on Hedera.
+*   **Leverage convenient HCS integration API:** Explore use cases for link:../03-implementation/components/hcs-service-guide.adoc[`HcsService` API] for advanced integration with Hedera Consensus Service (HCS).
 *   **Handling Exceptions:** Explore best practices for handling exceptions and errors when working with the Hiero DID SDK: xref::03-implementation/guides/handling-exceptions.adoc[Handling Exceptions Guide].
