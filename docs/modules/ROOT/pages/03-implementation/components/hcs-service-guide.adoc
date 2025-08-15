@@ -5,6 +5,7 @@ The `@hiero-did-sdk/hcs` package provides powerful tools and services for intera
 == Overview
 
 Use `@hiero-did-sdk/hcs` to:
+
 * Create, update, and delete HCS topics.
 * Publish and retrieve messages in HCS topics.
 * Store and retrieve files using Hedera Consensus Service file abstraction (HCS-1 standard).

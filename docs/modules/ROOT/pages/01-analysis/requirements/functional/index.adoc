@@ -39,3 +39,5 @@ include::fr-019-registration-deactivate-did.adoc[]
 include::fr-020-registration-manage-verification-relationships.adoc[]
 
 include::fr-021-registration-manage-verification-method.adoc[]
+
+include::fr-022-hedera-anoncreds-registry.adoc[]
