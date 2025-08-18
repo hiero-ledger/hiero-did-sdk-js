@@ -91,14 +91,15 @@ describe('HcsFileService', () => {
 
   describe('submitFile', () => {
     it('should submit a file successfully', async () => {
-      const result = await service.submitFile({ payload: testPayload });
+      const submitKey = PrivateKey.generate();
+      const result = await service.submitFile({ payload: testPayload, submitKey});
 
       expect(Crypto.sha256).toHaveBeenCalledWith(testPayload);
       expect(Zstd.compress).toHaveBeenCalledWith(testPayload);
 
       expect(mockCreateTopic).toHaveBeenCalledWith({
         topicMemo: mockHcsTopicMemo,
-        submitKey: undefined,
+        submitKey,
       });
 
       expect(mockSubmitMessage).toHaveBeenCalled();
@@ -129,6 +130,7 @@ describe('HcsFileService', () => {
 
       await service.submitFile({
         payload: testPayload,
+        submitKey: PrivateKey.generate(),
         waitForChangesVisibility: true,
         waitForChangesVisibilityTimeoutMs: 1000,
       });

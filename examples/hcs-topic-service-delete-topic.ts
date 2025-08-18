@@ -15,7 +15,7 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };
@@ -42,7 +42,7 @@ async function main() {
     await topicService.deleteTopic({
       topicId,
       currentAdminKey,
-      waitForChangesVisibility: true
+      waitForChangesVisibility: true,
     });
     console.log('Topic deleted successfully');
   } catch (error) {

@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This package provides a flexible and configurable approach to managing Hedera SDK Clients with different network configurations.",
   "author": {
     "name": "DSR Corporation",

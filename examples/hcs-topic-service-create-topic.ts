@@ -14,7 +14,7 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };

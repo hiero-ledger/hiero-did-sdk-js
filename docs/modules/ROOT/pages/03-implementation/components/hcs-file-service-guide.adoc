@@ -34,7 +34,7 @@ const fileService = new HcsFileService(client, cache);
 
 const topicId = await fileService.submitFile({
   payload: Buffer.from('Large file content here'),
-  submitKey: submitPrivateKey, // Optional signing key for transactions
+  submitKey: submitPrivateKey, // Signing key for transactions
   waitForChangesVisibility: true, // Wait until file is visible on the network
   waitForChangesVisibilityTimeoutMs: 60000 // Milliseconds to wait for visibility confirmation
 });
@@ -45,7 +45,7 @@ console.log("File submitted to topic:", topicId);
 Parameters:
 
 * `payload` (Buffer, required): The file content to submit.
-* `submitKey` (PrivateKey, optional): Key to sign each chunk submission transaction.
+* `submitKey` (PrivateKey, required): Key to sign each chunk submission transaction.
 * `waitForChangesVisibility` (boolean, optional): Wait for full file visibility after submission.
 * `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait.
 

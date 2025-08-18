@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/signer-internal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This package provides the `Signer` class, a core component of the Hiero DID SDK. It enables secure key management and digital signature generation for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
   "author": {
     "name": "The Hashgraph Association",

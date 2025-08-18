@@ -5,6 +5,7 @@
  */
 import { HcsFileService } from '@hiero-did-sdk/hcs';
 import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/client';
+import { PrivateKey } from '@hashgraph/sdk';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
@@ -14,7 +15,7 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };
@@ -29,6 +30,7 @@ async function main() {
     const content = 'It is the file content!';
     const fileTopicId = await hcsFileService.submitFile({
       payload: Buffer.from(content),
+      submitKey: PrivateKey.generate(),
       waitForChangesVisibility: true,
     });
     console.log('File submitted successfully to topic:', fileTopicId);

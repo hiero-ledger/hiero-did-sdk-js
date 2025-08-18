@@ -18,6 +18,7 @@ import {
   RevocationRegistryEntryMessage,
 } from '../../src/dto';
 import { NetworkName } from '@hiero-did-sdk/client';
+import { PrivateKey } from '@hashgraph/sdk';
 
 jest.mock('@hiero-did-sdk/hcs');
 jest.mock('@hiero-did-sdk/zstd');
@@ -71,7 +72,7 @@ describe('HederaAnoncredsRegistry', () => {
         version: '1.0',
         attrNames: [],
       };
-      const result = await registry.registerSchema({ schema, networkName: 'testnet' });
+      const result = await registry.registerSchema({ schema, networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer() });
 
       expect(result.schemaState.state).toBe('finished');
       expect(result.schemaState.schema).toEqual(schema);
@@ -91,7 +92,7 @@ describe('HederaAnoncredsRegistry', () => {
         version: '1.0',
         attrNames: [],
       };
-      const result = await registry.registerSchema({ schema, networkName: 'testnet' });
+      const result = await registry.registerSchema({ schema, networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer() });
 
       expect(result.schemaState.state).toBe('failed');
       const failedState = result.schemaState as RegisterSchemaReturnStateFailed;
@@ -127,7 +128,7 @@ describe('HederaAnoncredsRegistry', () => {
           revocation: undefined,
         },
       };
-      const options = { credentialDefinition, networkName: 'testnet', options: { supportRevocation: true } };
+      const options = { credentialDefinition, networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer(), options: { supportRevocation: true } };
 
       const result = await registry.registerCredentialDefinition(options);
 
@@ -153,6 +154,7 @@ describe('HederaAnoncredsRegistry', () => {
       const options: RegisterCredentialDefinitionOptions & NetworkName = {
         credentialDefinition,
         networkName: 'testnet',
+        issuerKeyDer: PrivateKey.generate().toStringDer()
       };
 
       const result = await registry.registerCredentialDefinition(options);
@@ -200,7 +202,7 @@ describe('HederaAnoncredsRegistry', () => {
 
       const result = await registry.registerRevocationRegistryDefinition({
         revocationRegistryDefinition,
-        networkName: 'testnet',
+        networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer()
       });
 
       expect(result.revocationRegistryDefinitionState.state).toBe('finished');
@@ -232,7 +234,7 @@ describe('HederaAnoncredsRegistry', () => {
 
       const result = await registry.registerRevocationRegistryDefinition({
         revocationRegistryDefinition,
-        networkName: 'testnet',
+        networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer()
       });
 
       expect(result.revocationRegistryDefinitionState.state).toBe('failed');

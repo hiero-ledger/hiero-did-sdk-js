@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { LRUMemoryCache } from '@hiero-did-sdk/cache';
 import { HederaNetwork, NetworkConfig } from '@hiero-did-sdk/client';
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
+import { PrivateKey } from '@hashgraph/sdk';
 
 const TEST_WITH_CACHE = true;
 
@@ -87,6 +88,7 @@ describe('Hedera AnonCreds Registry', () => {
   let anoncredsRegistry: HederaAnoncredsRegistry;
 
   const issuerDid = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419';
+  const issuerKeyDer = PrivateKey.generate().toStringDer();
 
   const cache = TEST_WITH_CACHE ? new LRUMemoryCache() : undefined;
 
@@ -106,7 +108,8 @@ describe('Hedera AnonCreds Registry', () => {
   it('Register and resolve a schema', async () => {
     // Register
     const schemaResult = await anoncredsRegistry.registerSchema({
-      schema: { ...schemaPayload, issuerId: issuerDid },
+      schema: { ...schemaPayload, issuerId: issuerDid},
+      issuerKeyDer
     });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
@@ -129,6 +132,7 @@ describe('Hedera AnonCreds Registry', () => {
     // Register a schema
     const schemaResult = await anoncredsRegistry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
+      issuerKeyDer
     });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
@@ -144,6 +148,7 @@ describe('Hedera AnonCreds Registry', () => {
       options: {
         supportRevocation: true,
       },
+      issuerKeyDer
     });
     expect(credDefResult?.credentialDefinitionState?.state).toEqual('finished');
     const credentialDefinitionId = credDefResult.credentialDefinitionState.credentialDefinitionId ?? '';
@@ -166,6 +171,7 @@ describe('Hedera AnonCreds Registry', () => {
   it('Register and resolve a revocation registry definition', async () => {
     const schemaResult = await anoncredsRegistry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
+      issuerKeyDer
     });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
@@ -180,6 +186,7 @@ describe('Hedera AnonCreds Registry', () => {
       options: {
         supportRevocation: true,
       },
+      issuerKeyDer
     });
     expect(credDefResult?.credentialDefinitionState?.state).toEqual('finished');
 
@@ -191,6 +198,7 @@ describe('Hedera AnonCreds Registry', () => {
         issuerId: issuerDid,
         credDefId,
       },
+      issuerKeyDer
     });
     expect(revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId).toBeDefined();
 
@@ -219,6 +227,7 @@ describe('Hedera AnonCreds Registry', () => {
   it('Register and resolve a revocation status list', async () => {
     const schemaResult = await anoncredsRegistry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
+      issuerKeyDer
     });
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
@@ -233,6 +242,7 @@ describe('Hedera AnonCreds Registry', () => {
       options: {
         supportRevocation: true,
       },
+      issuerKeyDer
     });
     expect(credDefResult?.credentialDefinitionState?.state).toEqual('finished');
 
@@ -244,6 +254,7 @@ describe('Hedera AnonCreds Registry', () => {
         issuerId: issuerDid,
         credDefId,
       },
+      issuerKeyDer
     });
     expect(revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId).toBeDefined();
 
@@ -297,6 +308,7 @@ describe('Hedera AnonCreds Registry', () => {
       // Schema
       const schemaResult = await registry.registerSchema({
         schema: { ...schemaPayload, issuerId: issuerDid },
+        issuerKeyDer
       });
       expect(schemaResult?.schemaState?.schemaId).toBeDefined();
       schemaId = schemaResult.schemaState.schemaId;
@@ -311,6 +323,7 @@ describe('Hedera AnonCreds Registry', () => {
         options: {
           supportRevocation: true,
         },
+        issuerKeyDer
       });
       expect(credDefResult?.credentialDefinitionState?.credentialDefinitionId).toBeDefined();
       credDefId = credDefResult.credentialDefinitionState.credentialDefinitionId!;
@@ -322,6 +335,7 @@ describe('Hedera AnonCreds Registry', () => {
           issuerId: issuerDid,
           credDefId,
         },
+        issuerKeyDer
       });
       expect(revRegDefRegResult?.revocationRegistryDefinitionState?.revocationRegistryDefinitionId).toBeDefined();
       revRegDefId = revRegDefRegResult.revocationRegistryDefinitionState.revocationRegistryDefinitionId!;

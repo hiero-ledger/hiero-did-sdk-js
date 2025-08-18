@@ -17,6 +17,7 @@ export interface GetSchemaReturn {
 
 export interface RegisterSchemaOptions {
   schema: AnonCredsSchema;
+  issuerKeyDer: string;
 }
 
 export interface RegisterSchemaReturnStateFailed extends AnonCredsOperationStateFailed {

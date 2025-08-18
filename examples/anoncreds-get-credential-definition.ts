@@ -13,13 +13,14 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };
 
 // Specify the existing credentialDefinitionId on the testnet here
-const credentialDefinitionId = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/PUBLIC_CRED_DEF/0.0.6557868';
+const credentialDefinitionId =
+  'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/PUBLIC_CRED_DEF/0.0.6557868';
 
 async function main() {
   const registry = new HederaAnoncredsRegistry(config);

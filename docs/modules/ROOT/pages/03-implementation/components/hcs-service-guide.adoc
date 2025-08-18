@@ -238,13 +238,14 @@ import { HederaHcsService } from '@hiero-did-sdk/hcs';
 
 const hcsService = new HederaHcsService({
   networks: [
-    { 'testnet', operatorId, operatorKey },
+    { 'testnet', operatorId, operatorKey }
   ],
   cache: { maxSize: 100 },
 });
 
 const topic = await hcsService.submitFile({
   payload: Buffer.from('This is a test content'),
+  submitKey: PrivateKey.generate(),
   waitForChangesVisibility: true,
 });
 
