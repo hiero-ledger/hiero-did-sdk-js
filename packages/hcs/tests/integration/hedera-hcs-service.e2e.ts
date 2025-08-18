@@ -233,6 +233,7 @@ describe('Hedera HCS Service', () => {
       const content = `___${uuidv4()}___`;
       const fileTopicId = await ledgerService.submitFile({
         payload: Buffer.from(content),
+        submitKey: PrivateKey.generate(),
         waitForChangesVisibility: true,
       });
       expect(fileTopicId).toBeDefined();
@@ -243,6 +244,7 @@ describe('Hedera HCS Service', () => {
       const content = `___${uuidv4()}___`;
       const topicId = await ledgerService.submitFile({
         payload: Buffer.from(content),
+        submitKey: PrivateKey.generate(),
         waitForChangesVisibility: true,
       });
       expect(topicId).toBeDefined();

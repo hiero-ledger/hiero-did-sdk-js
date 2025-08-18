@@ -117,6 +117,7 @@ describe('Hedera HCS networks configuration', () => {
     // File service
     const submitFileResult = await ledgerService.submitFile({
       payload: Buffer.from('test'),
+      submitKey: PrivateKey.generate()
     });
     expect(submitFileResult).toBeDefined();
     const resolveFileResult = await ledgerService.resolveFile({ topicId: 'topicId' });
@@ -148,6 +149,7 @@ describe('Hedera HCS networks configuration', () => {
     const submitFileResult = await ledgerService.submitFile({
       networkName,
       payload: Buffer.from('test'),
+      submitKey: PrivateKey.generate()
     });
     expect(submitFileResult).toBeDefined();
     const resolveFileResult = await ledgerService.resolveFile({ networkName, topicId: 'topicId' });
@@ -181,6 +183,7 @@ describe('Hedera HCS networks configuration', () => {
     await expect(
       ledgerService.submitFile({
         networkName,
+        submitKey: PrivateKey.generate(),
         payload: Buffer.from('test'),
       })
     ).rejects.toThrow('Unknown Hedera network');
@@ -214,6 +217,7 @@ describe('Hedera HCS networks configuration', () => {
     await expect(
       ledgerService.submitFile({
         payload: Buffer.from('test'),
+        submitKey: PrivateKey.generate(),
       })
     ).rejects.toThrow('Unknown Hedera network');
     await expect(ledgerService.resolveFile({ topicId: 'topicId' })).rejects.toThrow('Unknown Hedera network');
@@ -249,6 +253,7 @@ describe('Hedera HCS networks configuration', () => {
     const submitFileResult = await ledgerService.submitFile({
       networkName,
       payload: Buffer.from('test'),
+      submitKey: PrivateKey.generate(),
     });
     expect(submitFileResult).toBeDefined();
     const resolveFileResult = await ledgerService.resolveFile({ networkName, topicId: 'topicId' });
@@ -280,6 +285,7 @@ describe('Hedera HCS networks configuration', () => {
     await expect(
       ledgerService.submitFile({
         payload: Buffer.from('test'),
+        submitKey: PrivateKey.generate(),
       })
     ).rejects.toThrow('Unknown Hedera network');
     await expect(ledgerService.resolveFile({ topicId: 'topicId' })).rejects.toThrow('Unknown Hedera network');

@@ -5,6 +5,7 @@
 import { HederaAnoncredsRegistry } from '@hiero-did-sdk/anoncreds';
 import { HederaClientConfiguration } from '@hiero-did-sdk/client';
 import { AnonCredsSchema } from '../packages/anoncreds/src/specification';
+import { PrivateKey } from '@hashgraph/sdk';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
@@ -30,7 +31,7 @@ async function main() {
   const registry = new HederaAnoncredsRegistry(config);
 
   try {
-    const result = await registry.registerSchema({ networkName: 'testnet', schema });
+    const result = await registry.registerSchema({ networkName: 'testnet', schema, issuerKeyDer: PrivateKey.generate().toStringDer(), });
     console.log('Schema register result:', result);
   } catch (error) {
     console.error('Failed to register schema:', error);
