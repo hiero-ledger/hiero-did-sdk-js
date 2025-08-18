@@ -15,7 +15,7 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };
@@ -60,7 +60,7 @@ async function main() {
     console.log(`Schema registering...`);
     const schemaResult = await registry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
-      issuerKeyDer
+      issuerKeyDer,
     });
     const schemaId = schemaResult.schemaState.schemaId;
     console.log(`Schema registered (schemaId = ${schemaId})`);
@@ -76,7 +76,7 @@ async function main() {
       options: {
         supportRevocation: true,
       },
-      issuerKeyDer
+      issuerKeyDer,
     });
     console.log('Credential definition register result:', result);
   } catch (error) {

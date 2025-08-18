@@ -15,7 +15,9 @@
     "format": "prettier --write \"packages/**/src/**/*.ts\" \"packages/**/tests/*.ts\" \"examples/**/*.ts\"",
     "format-check": "prettier --check \"packages/**/src/*.ts\" \"packages/**/tests/*.ts\" \"examples/**/*.ts\"",
     "release": "pnpm build && pnpm changeset publish --no-git-tag",
-    "changeset-version": "pnpm changeset version && pnpm format && pnpm lint:fix",
+    "changeset-prepare": "pnpm format && pnpm lint:fix",
+    "changeset-create": "pnpm changeset",
+    "changeset-version": "pnpm changeset version",
     "examples:run": "tsx --env-file examples/.env"
   },
   "devDependencies": {

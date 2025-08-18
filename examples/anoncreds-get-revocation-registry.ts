@@ -13,13 +13,14 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };
 
 // Specify the existing revocationRegistryDefinitionId on the testnet here
-const revocationRegistryDefinitionId = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.6557893';
+const revocationRegistryDefinitionId =
+  'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.6557893';
 
 async function main() {
   const registry = new HederaAnoncredsRegistry(config);

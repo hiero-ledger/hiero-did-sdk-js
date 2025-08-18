@@ -19,7 +19,7 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };
@@ -81,7 +81,7 @@ async function main() {
     console.log(`Schema registering...`);
     const schemaResult = await registry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
-      issuerKeyDer
+      issuerKeyDer,
     });
     const schemaId = schemaResult.schemaState.schemaId;
     console.log(`Schema registered (schemaId = ${schemaId})`);
@@ -97,7 +97,7 @@ async function main() {
       options: {
         supportRevocation: true,
       },
-      issuerKeyDer
+      issuerKeyDer,
     });
     const credDefId = credDefResult.credentialDefinitionState.credentialDefinitionId ?? '';
     console.log(`Credential definition registered (credDefId = ${credDefId})`);
@@ -110,7 +110,7 @@ async function main() {
         issuerId: issuerDid,
         credDefId,
       },
-      issuerKeyDer
+      issuerKeyDer,
     });
     console.log('Revocation registry register result:', result);
   } catch (error) {

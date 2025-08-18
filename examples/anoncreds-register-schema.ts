@@ -31,7 +31,11 @@ async function main() {
   const registry = new HederaAnoncredsRegistry(config);
 
   try {
-    const result = await registry.registerSchema({ networkName: 'testnet', schema, issuerKeyDer: PrivateKey.generate().toStringDer(), });
+    const result = await registry.registerSchema({
+      networkName: 'testnet',
+      schema,
+      issuerKeyDer: PrivateKey.generate().toStringDer(),
+    });
     console.log('Schema register result:', result);
   } catch (error) {
     console.error('Failed to register schema:', error);

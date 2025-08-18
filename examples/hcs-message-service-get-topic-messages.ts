@@ -16,7 +16,7 @@ const config: HederaClientConfiguration = {
     {
       network: 'testnet',
       operatorId,
-      operatorKey
+      operatorKey,
     },
   ],
 };
@@ -44,7 +44,7 @@ async function main() {
       topicId,
       message,
       submitKey,
-      waitForChangesVisibility: true
+      waitForChangesVisibility: true,
     });
     console.log(`Message submitted`);
 

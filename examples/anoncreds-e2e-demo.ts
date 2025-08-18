@@ -124,7 +124,7 @@ async function main() {
   const schemaRegistrationResult = await anoncredsRegistry.registerSchema({
     schema,
     networkName: network,
-    issuerKeyDer: issuerPrivateKey.toStringDer()
+    issuerKeyDer: issuerPrivateKey.toStringDer(),
   });
   assert.equal(schemaRegistrationResult.schemaState.state, 'finished');
 
@@ -158,7 +158,7 @@ async function main() {
   const credDefRegistrationResult = await anoncredsRegistry.registerCredentialDefinition({
     credentialDefinition: credDef,
     networkName: network,
-    issuerKeyDer: issuerPrivateKey.toStringDer()
+    issuerKeyDer: issuerPrivateKey.toStringDer(),
   });
   assert.equal(credDefRegistrationResult.credentialDefinitionState.state, 'finished');
 
@@ -193,7 +193,7 @@ async function main() {
 
   const revRegDefRegistrationResult = await anoncredsRegistry.registerRevocationRegistryDefinition({
     revocationRegistryDefinition: revRegDef,
-    issuerKeyDer: issuerPrivateKey.toStringDer()
+    issuerKeyDer: issuerPrivateKey.toStringDer(),
   });
   assert.equal(revRegDefRegistrationResult.revocationRegistryDefinitionState.state, 'finished');
 
