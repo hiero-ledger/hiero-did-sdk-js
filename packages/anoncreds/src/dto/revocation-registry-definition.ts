@@ -17,6 +17,7 @@ export interface GetRevocationRegistryDefinitionReturn {
 
 export interface RegisterRevocationRegistryDefinitionOptions {
   revocationRegistryDefinition: AnonCredsRevocationRegistryDefinition;
+  issuerKeyDer: string;
 }
 
 export interface RegisterRevocationRegistryDefinitionReturnStateAction extends AnonCredsOperationStateAction {

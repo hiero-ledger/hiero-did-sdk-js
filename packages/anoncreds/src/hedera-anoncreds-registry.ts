@@ -21,6 +21,7 @@ import { HederaAnoncredsRegistryConfiguration } from './hedera-anoncreds-registr
 import { AnonCredsRevocationRegistryDefinitionWithMetadata, AnonCredsRevocationStatusList } from './specification';
 import { AnonCredsObjectType, buildAnonCredsIdentifier, parseAnonCredsIdentifier } from './utils';
 import { Buffer } from 'buffer';
+import { PrivateKey } from '@hashgraph/sdk';
 
 type NetworkName = {
   networkName?: string;
@@ -45,6 +46,7 @@ export class HederaAnoncredsRegistry {
       const schemaTopicId = await this.hcsService.submitFile({
         payload,
         networkName,
+        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
         waitForChangesVisibility: true,
       });
       return {
@@ -100,6 +102,7 @@ export class HederaAnoncredsRegistry {
       const credentialDefinitionTopicId = await this.hcsService.submitFile({
         payload,
         networkName,
+        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
         waitForChangesVisibility: true,
       });
       return {
@@ -169,6 +172,7 @@ export class HederaAnoncredsRegistry {
       const revocationRegistryDefinitionTopic = await this.hcsService.submitFile({
         payload,
         networkName,
+        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
         waitForChangesVisibility: true,
       });
 

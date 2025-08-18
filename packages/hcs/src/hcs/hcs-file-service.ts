@@ -23,7 +23,7 @@ export interface HcsFileChunkMessage {
 
 export interface SubmitFileProps {
   payload: Buffer;
-  submitKey?: PrivateKey;
+  submitKey: PrivateKey;
   waitForChangesVisibility?: boolean;
   waitForChangesVisibilityTimeoutMs?: number;
 }

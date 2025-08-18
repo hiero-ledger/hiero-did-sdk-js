@@ -17,6 +17,7 @@ export interface GetCredentialDefinitionReturn {
 
 export interface RegisterCredentialDefinitionOptions {
   credentialDefinition: AnonCredsCredentialDefinition;
+  issuerKeyDer: string;
   options?: { supportRevocation: boolean };
 }
 
