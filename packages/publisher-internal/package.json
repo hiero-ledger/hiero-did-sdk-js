@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/publisher-internal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This package provides the `Publisher` class, a core component of the Hiero DID SDK. It offers a standardized way to submit and execute transactions on the Hedera network, simplifying the process of interacting with the Hedera Consensus Service (HCS).",
   "author": {
     "name": "The Hashgraph Association",
