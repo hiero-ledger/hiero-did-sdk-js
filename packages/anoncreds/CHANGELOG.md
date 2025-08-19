@@ -1,5 +1,14 @@
 # @hiero-did-sdk/anoncreds
 
+## 0.1.2
+
+### Patch Changes
+
+- 9d8f61d: Add submit key for create the entries topic
+  - @hiero-did-sdk/core@0.1.2
+  - @hiero-did-sdk/hcs@0.1.2
+  - @hiero-did-sdk/zstd@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

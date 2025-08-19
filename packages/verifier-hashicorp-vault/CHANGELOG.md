@@ -1,5 +1,11 @@
 # @hiero-did-sdk/verifier-hashicorp-vault
 
+## 0.1.2
+
+### Patch Changes
+
+- @hiero-did-sdk/core@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes
