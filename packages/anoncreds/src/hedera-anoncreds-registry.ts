@@ -159,6 +159,7 @@ export class HederaAnoncredsRegistry {
     const { networkName, revocationRegistryDefinition } = options;
     try {
       const entriesTopicId = await this.hcsService.createTopic({
+        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
         waitForChangesVisibility: true,
       });
       const hcsMetadata = { entriesTopicId };
