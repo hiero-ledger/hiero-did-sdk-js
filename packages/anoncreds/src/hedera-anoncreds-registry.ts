@@ -262,6 +262,7 @@ export class HederaAnoncredsRegistry {
 
       await this.hcsService.submitMessage({
         topicId: entriesTopicId,
+        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
         message,
         networkName,
         waitForChangesVisibility: true,
