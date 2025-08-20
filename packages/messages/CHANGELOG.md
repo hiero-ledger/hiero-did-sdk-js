@@ -1,5 +1,13 @@
 # @hiero-did-sdk/messages
 
+## 0.1.2
+
+### Patch Changes
+
+- @hiero-did-sdk/core@0.1.2
+- @hiero-did-sdk/lifecycle@0.1.2
+- @hiero-did-sdk/resolver@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

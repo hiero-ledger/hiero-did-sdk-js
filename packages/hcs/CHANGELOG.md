@@ -1,5 +1,15 @@
 # @hiero-did-sdk/hcs
 
+## 0.1.2
+
+### Patch Changes
+
+- @hiero-did-sdk/cache@0.1.2
+- @hiero-did-sdk/client@0.1.2
+- @hiero-did-sdk/core@0.1.2
+- @hiero-did-sdk/crypto@0.1.2
+- @hiero-did-sdk/zstd@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

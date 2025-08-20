@@ -130,6 +130,7 @@ async function main() {
         issuerId: issuerDid,
         revRegDefId,
       },
+      issuerKeyDer,
     });
     console.log('Revocation status list register result:', result);
   } catch (error) {

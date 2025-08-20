@@ -176,6 +176,7 @@ const revStatusList = {
 
 const registerStatusListResult = await registry.registerRevocationStatusList({
   networkName: "testnet",
+  issuerKeyDer: PrivateKey.generate().toStringDer(),
   revocationStatusList: revStatusList,
 });
 
@@ -185,6 +186,7 @@ console.log("Revocation Status List registration result:", registerStatusListRes
 Parameters:
 
 * `networkName` (optional): Hedera network name.
+* `issuerKeyDer` (required, string): The issuer private key in the DER format.
 * `revocationStatusList` (required): Revocation status list object without timestamp.
 
 Returns the registration state and metadata.

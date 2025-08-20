@@ -236,6 +236,7 @@ async function main() {
   const revListRegistrationResult = await anoncredsRegistry.registerRevocationStatusList({
     revocationStatusList: revList,
     networkName: network,
+    issuerKeyDer: issuerPrivateKey.toStringDer(),
   });
   assert.equal(revListRegistrationResult.revocationStatusListState.state, 'finished');
 
@@ -257,6 +258,7 @@ async function main() {
   const revListUpdateResult = await anoncredsRegistry.registerRevocationStatusList({
     revocationStatusList: updatedRevList,
     networkName: network,
+    issuerKeyDer: issuerPrivateKey.toStringDer(),
   });
   assert.equal(revListUpdateResult.revocationStatusListState.state, 'finished');
 

@@ -272,6 +272,7 @@ describe('Hedera AnonCreds Registry', () => {
         issuerId: issuerDid,
         revRegDefId,
       },
+      issuerKeyDer
     });
     expect(registerRevocationStatusListResponse?.revocationStatusListState.state).toEqual('finished');
     expect(registerRevocationStatusListResponse?.revocationStatusListState.revocationStatusList).toBeDefined();
@@ -350,6 +351,7 @@ describe('Hedera AnonCreds Registry', () => {
           revRegDefId,
           revocationList: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         },
+        issuerKeyDer
       });
       expect(registerRevocationStatusListResponse1?.revocationStatusListState?.revocationStatusList).toBeDefined();
 
@@ -360,6 +362,7 @@ describe('Hedera AnonCreds Registry', () => {
           revRegDefId,
           revocationList: [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
         },
+        issuerKeyDer
       });
       expect(registerRevocationStatusListResponse2?.revocationStatusListState?.revocationStatusList).toBeDefined();
 

@@ -137,6 +137,7 @@ Registers a revocation status list in the registry.
 
 ==== Fields of `RegisterRevocationStatusListOptions & NetworkName`:
 * `networkName` (optional, string): Network name to use.
+* `issuerKeyDer` (required, string): The issuer private key in the DER format.
 * `revocationStatusList` (required, Anoncreds revocation status list without timestamp): The revocation status list to register.
 
 .Returns

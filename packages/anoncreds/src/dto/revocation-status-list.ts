@@ -21,6 +21,7 @@ export type AnonCredsRevocationStatusListWithOptionalTimestamp = Optional<AnonCr
 
 export interface RegisterRevocationStatusListOptions {
   revocationStatusList: AnonCredsRevocationStatusListWithoutTimestamp;
+  issuerKeyDer: string;
 }
 
 export interface RegisterRevocationStatusListReturnStateAction extends AnonCredsOperationStateAction {

@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/verifier-internal",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This package provides the `verifier` class, a core component of the Hiero DID SDK. It enables digital signature verification for Decentralized Identifiers (DIDs) using the ED25519 algorithm.",
   "author": {
     "name": "The Hashgraph Association",

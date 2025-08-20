@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/messages",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This package provides a comprehensive set of classes for constructing and handling DID Messages within the Hiero DID SDK. These DID Messages facilitate various DID operations on the Hedera network, such as creating, updating, and deactivating DIDs, as well as managing their associated keys and services.",
   "author": {
     "name": "The Hashgraph Association",

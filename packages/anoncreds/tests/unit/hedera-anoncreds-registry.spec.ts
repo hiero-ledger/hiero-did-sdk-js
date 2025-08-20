@@ -297,6 +297,7 @@ describe('HederaAnoncredsRegistry', () => {
       const result = await registry.registerRevocationStatusList({
         revocationStatusList,
         networkName: 'testnet',
+        issuerKeyDer: PrivateKey.generate().toStringDer()
       });
 
       expect(result.revocationStatusListState.state).toBe('finished');
@@ -316,6 +317,7 @@ describe('HederaAnoncredsRegistry', () => {
       const result = await registry.registerRevocationStatusList({
         revocationStatusList,
         networkName: 'testnet',
+        issuerKeyDer: PrivateKey.generate().toStringDer()
       });
 
       expect(result.revocationStatusListState.state).toBe('failed');
