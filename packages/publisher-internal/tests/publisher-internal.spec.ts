@@ -42,6 +42,7 @@ describe('Internal publisher class', () => {
       receiptMock.mockReturnValueOnce({
         status: Status.Success,
       });
+      jest.spyOn(transaction, 'freezeWith').mockReturnThis();
       jest.spyOn(transaction, 'execute').mockResolvedValueOnce({ getReceipt: receiptMock } as never);
 
       const receipt = await publisher.publish(transaction);

@@ -55,7 +55,7 @@ export async function deactivateDID(
 
   const secondState = await manager.resume(firstState, runnerOptions);
 
-  if (operationProviders.client instanceof Object && publisher instanceof Publisher) {
+  if (operationProviders.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 
