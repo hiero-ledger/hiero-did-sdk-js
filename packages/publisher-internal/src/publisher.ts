@@ -69,7 +69,7 @@ export class Publisher implements BasePublisher {
    * @returns The transaction receipt.
    */
   async publish(transaction: Transaction): Promise<TransactionReceipt> {
-    const response = await transaction.execute(this.client);
+    const response = await transaction.freezeWith(this.client).execute(this.client);
     const receipt = await response.getReceipt(this.client);
     return receipt;
   }

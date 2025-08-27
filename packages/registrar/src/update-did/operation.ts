@@ -76,7 +76,7 @@ export async function updateDID(
     await executeOperation(operation, state, false, publisher, signer);
   }
 
-  if (operationProviders.client instanceof Object && publisher instanceof Publisher) {
+  if (operationProviders.clientOptions instanceof Object && publisher instanceof Publisher) {
     publisher.client.close();
   }
 

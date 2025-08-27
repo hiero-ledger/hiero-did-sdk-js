@@ -35,6 +35,7 @@ describe('Create DID operation', () => {
   const TopicCreateTransactionMockImplementation = {
     setAdminKey: jest.fn().mockReturnThis(),
     setSubmitKey: jest.fn().mockReturnThis(),
+    freezeWith: jest.fn().mockReturnThis(),
     execute: jest.fn().mockResolvedValue({
       getReceipt: jest.fn().mockResolvedValue({ topicId: CREATED_TOPIC_ID }),
     }),
@@ -43,6 +44,7 @@ describe('Create DID operation', () => {
   const TopicMessageSubmitTransactionMockImplementation = {
     setTopicId: jest.fn().mockReturnThis(),
     setMessage: jest.fn().mockReturnThis(),
+    freezeWith: jest.fn().mockReturnThis(),
     execute: jest.fn().mockResolvedValue({
       getReceipt: jest.fn(),
     }),

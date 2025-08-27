@@ -37,6 +37,7 @@ describe('Update DID operation', () => {
   const TopicMessageSubmitTransactionMockImplementation = {
     setTopicId: jest.fn().mockReturnThis(),
     setMessage: jest.fn().mockReturnThis(),
+    freezeWith: jest.fn().mockReturnThis(),
     execute: jest.fn().mockResolvedValue({
       getReceipt: jest.fn(),
     }),
