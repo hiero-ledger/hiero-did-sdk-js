@@ -8,7 +8,7 @@ const readLineInterface = readline.createInterface({
   output: process.stdout,
 });
 
-const prompt = (text) => new Promise((resolve) => readLineInterface.question(text, resolve));
+const prompt = (text: string) => new Promise((resolve) => readLineInterface.question(text, resolve));
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;

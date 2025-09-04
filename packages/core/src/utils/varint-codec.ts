@@ -3,14 +3,14 @@ import { encode, decode, encodingLength } from 'varint';
 import { Buffer } from 'buffer';
 
 export class VarintCodec {
-  public static decode(data: Uint8Array | number[] | Buffer) {
+  public static decode(data: Uint8Array | number[] | Buffer): readonly [number, number] {
     const code = decode(data);
     return [code, decode.bytes] as const;
   }
 
-  public static encode(int: number) {
+  public static encode(int: number): Uint8Array {
     const target = Buffer.alloc(encodingLength(int));
     encode(int, target);
-    return target;
+    return new Uint8Array(target);
   }
 }

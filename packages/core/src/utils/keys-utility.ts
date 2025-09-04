@@ -7,7 +7,7 @@ import { isEd25519PublicKey } from '../validators';
 
 type Curve = 'ED25519' | 'secp256k1';
 
-const MULTICODEC_PREFIXES: Record<Curve, number> = {
+export const MULTICODEC_PREFIXES: Record<Curve, number> = {
   ED25519: 237,
   secp256k1: 231,
 };
