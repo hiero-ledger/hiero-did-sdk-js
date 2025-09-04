@@ -4,21 +4,21 @@ import { Buffer } from 'buffer';
 describe('Varint format utilities', () => {
   describe('encoding', () => {
     it.each([
-      [0, Buffer.from([0x00])],
-      [1, Buffer.from([0x01])],
-      [127, Buffer.from([0x7f])],
-      [128, Buffer.from([0x80, 0x01])],
-      [255, Buffer.from([0xff, 0x01])],
-      [300, Buffer.from([0xac, 0x02])],
-      [16384, Buffer.from([0x80, 0x80, 0x01])],
+      [0, new Uint8Array([0x00])],
+      [1, new Uint8Array([0x01])],
+      [127, new Uint8Array([0x7f])],
+      [128, new Uint8Array([0x80, 0x01])],
+      [255, new Uint8Array([0xff, 0x01])],
+      [300, new Uint8Array([0xac, 0x02])],
+      [16384, new Uint8Array([0x80, 0x80, 0x01])],
     ])('should encode %s to correct varint bytes', (input, expected) => {
       const encoded = VarintCodec.encode(input);
       expect(encoded).toEqual(expected);
     });
 
-    it('should return a Buffer', () => {
+    it('should return a Uint8Array', () => {
       const encoded = VarintCodec.encode(42);
-      expect(encoded).toBeInstanceOf(Buffer);
+      expect(encoded).toBeInstanceOf(Uint8Array);
     });
   });
 
@@ -54,7 +54,7 @@ describe('Varint format utilities', () => {
 
   it('should encode and decode to the same value', () => {
     const testValues = [0, 1, 127, 128, 255, 300, 16384, 2097151, 268435455];
-    
+
     for (const value of testValues) {
       const encoded = VarintCodec.encode(value);
       const [decoded] = VarintCodec.decode(encoded);
