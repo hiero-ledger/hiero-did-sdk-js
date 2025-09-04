@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/zstd",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "This package provides Zstandard (Zstd) compression utilities for the Hiero DID SDK JS.",
   "author": {
     "name": "DSR Corporation",

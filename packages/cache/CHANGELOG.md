@@ -1,5 +1,14 @@
 # @hiero-did-sdk/cache
 
+## 0.1.3
+
+### Patch Changes
+
+- bb5b2bf: Fixed an issue where multiple actions to update and deactivate a document's DID could not be performed when using a Client instance
+- Updated dependencies [f95ba48]
+- Updated dependencies [bb5b2bf]
+  - @hiero-did-sdk/core@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes
