@@ -48,6 +48,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.66.0"
+    "@hashgraph/sdk": "^2.72.0"
   }
 }

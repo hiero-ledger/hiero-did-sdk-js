@@ -22,7 +22,7 @@ describe('Keys utility', () => {
   );
 
   it.each(['toMultibase', 'toPublicKey', 'toBytes', 'toBase58', 'toDerString'] as const)(
-    'should transform from from base58 to %s',
+    'should transform from base58 to %s',
     async (toFunc) => {
       const privateKey = await PrivateKey.generateED25519Async();
       const keyUtil = KeysUtility.fromBase58(KeysUtility.fromBytes(privateKey.publicKey.toBytes()).toBase58());
@@ -31,7 +31,7 @@ describe('Keys utility', () => {
   );
 
   it.each(['toMultibase', 'toPublicKey', 'toBytes', 'toBase58', 'toDerString'] as const)(
-    'should transform from from public key to %s',
+    'should transform from public key to %s',
     async (toFunc) => {
       const privateKey = await PrivateKey.generateED25519Async();
       const keyUtil = KeysUtility.fromPublicKey(privateKey.publicKey);

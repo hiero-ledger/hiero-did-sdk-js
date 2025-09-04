@@ -21,10 +21,10 @@
     "examples:run": "tsx --env-file examples/.env"
   },
   "devDependencies": {
-    "@hashgraph/sdk": "^2.66.0",
+    "@hashgraph/sdk": "^2.72.0",
     "@scure/base": "^1.2.4",
     "@antora/cli": "^3.1.10",
-    "@antora/site-generator-default": "^3.1.10",
+    "@antora/site-generator-default": "^3.1.12",
     "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
     "@changesets/cli": "^2.29.4",

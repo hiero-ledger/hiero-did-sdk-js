@@ -1,4 +1,4 @@
-import { MultibaseCodec } from '../utils/multibase-codec';
+import { KeysUtility } from '../utils';
 
 /**
  * Verifies if the given bytes are a valid Ed25519 public key.
@@ -21,7 +21,7 @@ function isEd25519PublicKey(bytesOrMultibase: string | Uint8Array): boolean {
   let keyBytes: Uint8Array;
   if (typeof bytesOrMultibase === 'string') {
     try {
-      keyBytes = MultibaseCodec.decode(bytesOrMultibase);
+      keyBytes = KeysUtility.fromMultibase(bytesOrMultibase).toBytes();
     } catch {
       return false;
     }
@@ -33,11 +33,7 @@ function isEd25519PublicKey(bytesOrMultibase: string | Uint8Array): boolean {
     return false;
   }
 
-  if (keyBytes.length !== 32) {
-    return false;
-  }
-
-  return true;
+  return keyBytes.length === 32;
 }
 
 export { isEd25519PublicKey };
