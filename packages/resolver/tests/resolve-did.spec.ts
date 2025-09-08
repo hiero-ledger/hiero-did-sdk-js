@@ -41,6 +41,8 @@ describe('DID Resolver', () => {
 
     const didDocument = await resolveDID(did);
 
+    const controllerVerificationMethodId = `${did}#did-root-key`;
+
     expect(didDocument).toBeDefined();
     expect(didDocument).toStrictEqual({
       '@context': expect.arrayContaining([expect.any(String)]),
@@ -48,7 +50,7 @@ describe('DID Resolver', () => {
       controller: did,
       verificationMethod: [
         {
-          id: `${did}#did-root-key`,
+          id: controllerVerificationMethodId,
           type: 'Ed25519VerificationKey2020',
           controller: did,
           publicKeyMultibase: didOwnerPublicKey,
@@ -60,6 +62,8 @@ describe('DID Resolver', () => {
           publicKeyMultibase: vmPublicKey,
         },
       ],
+      authentication: [controllerVerificationMethodId],
+      assertionMethod: [controllerVerificationMethodId],
     });
   });
 
@@ -68,13 +72,15 @@ describe('DID Resolver', () => {
 
     const didDocument = await resolveDID(did, 'application/did+json');
 
+    const controllerVerificationMethodId = `${did}#did-root-key`;
+
     expect(didDocument).toBeDefined();
     expect(didDocument).toStrictEqual({
       id: did,
       controller: did,
       verificationMethod: [
         {
-          id: `${did}#did-root-key`,
+          id: controllerVerificationMethodId,
           type: 'Ed25519VerificationKey2020',
           controller: did,
           publicKeyMultibase: didOwnerPublicKey,
@@ -86,6 +92,8 @@ describe('DID Resolver', () => {
           publicKeyMultibase: vmPublicKey,
         },
       ],
+      authentication: [controllerVerificationMethodId],
+      assertionMethod: [controllerVerificationMethodId],
     });
   });
 
@@ -93,6 +101,8 @@ describe('DID Resolver', () => {
     messagesMock.mockReturnValue(messages);
 
     const didDocument = await resolveDID(did, 'application/ld+json;profile="https://w3id.org/did-resolution"');
+
+    const controllerVerificationMethodId = `${did}#did-root-key`;
 
     expect(didDocument).toBeDefined();
     expect(didDocument).toStrictEqual({
@@ -110,7 +120,7 @@ describe('DID Resolver', () => {
         controller: did,
         verificationMethod: [
           {
-            id: `${did}#did-root-key`,
+            id: controllerVerificationMethodId,
             type: 'Ed25519VerificationKey2020',
             controller: did,
             publicKeyMultibase: didOwnerPublicKey,
@@ -122,6 +132,8 @@ describe('DID Resolver', () => {
             publicKeyMultibase: vmPublicKey,
           },
         ],
+        authentication: [controllerVerificationMethodId],
+        assertionMethod: [controllerVerificationMethodId],
       },
     });
   });
@@ -131,6 +143,8 @@ describe('DID Resolver', () => {
 
     const didDocument = await resolveDID(did, 'application/did+cbor');
 
+    const controllerVerificationMethodId = `${did}#did-root-key`;
+
     expect(didDocument).toBeDefined();
     expect(didDocument).toStrictEqual(
       CborCodec.encode({
@@ -138,7 +152,7 @@ describe('DID Resolver', () => {
         controller: did,
         verificationMethod: [
           {
-            id: `${did}#did-root-key`,
+            id: controllerVerificationMethodId,
             controller: did,
             type: 'Ed25519VerificationKey2020',
             publicKeyMultibase: didOwnerPublicKey,
@@ -150,6 +164,8 @@ describe('DID Resolver', () => {
             publicKeyMultibase: vmPublicKey,
           },
         ],
+        authentication: [controllerVerificationMethodId],
+        assertionMethod: [controllerVerificationMethodId],
       })
     );
   });
