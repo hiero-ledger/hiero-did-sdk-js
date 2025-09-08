@@ -127,6 +127,8 @@ export async function submitCreateDIDRequest(
     await messageAwaiter.wait();
   }
 
+  const controllerVerificationMethodId = `${message.did}#did-root-key`;
+
   return {
     did: message.did,
     didDocument: {
@@ -134,12 +136,14 @@ export async function submitCreateDIDRequest(
       controller: message.controllerDid,
       verificationMethod: [
         {
-          id: `${message.did}#did-root-key`,
+          id: controllerVerificationMethodId,
           type: 'Ed25519VerificationKey2020',
           controller: message.controllerDid,
           publicKeyMultibase: KeysUtility.fromPublicKey(message.publicKey).toMultibase(),
         },
       ],
+      authentication: [controllerVerificationMethodId],
+      assertionMethod: [controllerVerificationMethodId],
     },
   };
 }

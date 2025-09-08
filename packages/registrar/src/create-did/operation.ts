@@ -89,6 +89,8 @@ export async function createDID(
     await messageAwaiter.wait();
   }
 
+  const controllerVerificationMethodId = `${didOwnerMessage.did}#did-root-key`;
+
   return {
     did: didOwnerMessage.did,
     privateKey: signer instanceof Signer ? signer.privateKey : undefined,
@@ -97,12 +99,14 @@ export async function createDID(
       controller: didOwnerMessage.controllerDid,
       verificationMethod: [
         {
-          id: `${didOwnerMessage.did}#did-root-key`,
+          id: controllerVerificationMethodId,
           type: 'Ed25519VerificationKey2020',
           controller: didOwnerMessage.controllerDid,
           publicKeyMultibase: KeysUtility.fromPublicKey(publicKeyObject).toMultibase(),
         },
       ],
+      authentication: [controllerVerificationMethodId],
+      assertionMethod: [controllerVerificationMethodId],
     },
   };
 }

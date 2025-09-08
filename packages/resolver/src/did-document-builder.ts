@@ -180,6 +180,22 @@ export class DidDocumentBuilder {
           didDocument[property] = [...values];
         }
       }
+
+      const { id: controllerVerificationMethodId } = didDocument.verificationMethod.find((verificationMethod) =>
+        verificationMethod.id.endsWith(DID_ROOT_KEY_ID)
+      );
+
+      if (!didDocument.authentication?.includes(controllerVerificationMethodId)) {
+        didDocument.authentication = !didDocument.authentication
+          ? [controllerVerificationMethodId]
+          : [...didDocument.authentication, controllerVerificationMethodId];
+      }
+
+      if (!didDocument.assertionMethod?.includes(controllerVerificationMethodId)) {
+        didDocument.assertionMethod = !didDocument.assertionMethod
+          ? [controllerVerificationMethodId]
+          : [...didDocument.assertionMethod, controllerVerificationMethodId];
+      }
     }
 
     return didDocument;
