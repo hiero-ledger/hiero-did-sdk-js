@@ -1,7 +1,16 @@
 import { PublicKey } from '@hashgraph/sdk';
 import { base58 } from '@scure/base';
-import { MultibaseCodec, MultibaseAlgorithm } from './multibase-codec';
+import { MultibaseAlgorithm, MultibaseCodec } from './multibase-codec';
 import { Buffer } from 'buffer';
+import { VarintCodec } from './varint-codec';
+import { isEd25519PublicKey } from '../validators';
+
+type Curve = 'ED25519' | 'secp256k1';
+
+export const MULTICODEC_PREFIXES: Record<Curve, number> = {
+  ED25519: 237,
+  secp256k1: 231,
+};
 
 /**
  * `KeysUtility` is a simple utility class for working with public keys transformed into different formats.
@@ -12,10 +21,27 @@ export class KeysUtility {
   /**
    * Transforms the public key into a multibase string.
    * Default algorithm is 'base58btc'.
+   * Default muticodec curve is 'ED25519'.
    * @returns The multibase string.
    */
-  toMultibase(algorithm: MultibaseAlgorithm = 'base58btc'): string {
+  toMultibase(algorithm: MultibaseAlgorithm = 'base58btc', multicodecCurve: Curve | null = 'ED25519'): string {
+    if (multicodecCurve) {
+      return this.toMulticodecMultibase(multicodecCurve, algorithm);
+    }
+
     return MultibaseCodec.encode(this.bytes, algorithm);
+  }
+
+  /**
+   * Transforms the public key into a multibase string (with multicodec prefix).
+   * Default algorithm is 'base58btc'.
+   * @returns The multibase string.
+   */
+  toMulticodecMultibase(curve: Curve, algorithm: MultibaseAlgorithm = 'base58btc'): string {
+    const prefixBytes = VarintCodec.encode(MULTICODEC_PREFIXES[curve]);
+    const prefixedPublicKeyBytes = new Uint8Array([...prefixBytes, ...this.bytes]);
+
+    return MultibaseCodec.encode(prefixedPublicKeyBytes, algorithm);
   }
 
   /**
@@ -48,8 +74,7 @@ export class KeysUtility {
    * @returns The base58 string.
    */
   toBase58(): string {
-    const publicKeyBase58 = base58.encode(this.bytes);
-    return publicKeyBase58;
+    return base58.encode(this.bytes);
   }
 
   /**
@@ -107,6 +132,28 @@ export class KeysUtility {
    */
   static fromMultibase(multibase: string): KeysUtility {
     const bytes = MultibaseCodec.decode(multibase);
+
+    // If decoded bytes do not match Ed25519 public key right away, we should try to parse with multicodec prefix
+    if (!isEd25519PublicKey(bytes)) {
+      return this.fromMulticodecMultibase(multibase);
+    }
+
     return new KeysUtility(bytes);
+  }
+
+  /**
+   * Loads a public key from a multibase string (with multicodec prefix).
+   * @param multibase The multibase string representing the public key.
+   * @returns The KeysUtility instance.
+   */
+  static fromMulticodecMultibase(multibase: string): KeysUtility {
+    const bytes = MultibaseCodec.decode(multibase);
+    const [prefix] = VarintCodec.decode(bytes.subarray(0, 2));
+
+    if (!Object.values(MULTICODEC_PREFIXES).includes(prefix)) {
+      throw new Error(`Cannot parse multicodec key - prefix ${prefix} is not supported`);
+    }
+
+    return new KeysUtility(bytes.subarray(2));
   }
 }

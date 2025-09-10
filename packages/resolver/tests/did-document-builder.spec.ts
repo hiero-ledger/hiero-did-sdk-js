@@ -596,17 +596,21 @@ describe('DID Document Builder', () => {
           .forDID(didOwnerMessage.did)
           .build();
 
+        const controllerVerificationMethodId = `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`;
+
         expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
           id: didOwnerMessage.did,
           controller: didOwnerMessage.did,
           verificationMethod: [
             {
-              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              id: controllerVerificationMethodId,
               type: 'Ed25519VerificationKey2020',
               controller: didOwnerMessage.did,
               publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
             },
           ],
+          authentication: [controllerVerificationMethodId],
+          assertionMethod: [controllerVerificationMethodId],
         });
       });
 
@@ -628,12 +632,14 @@ describe('DID Document Builder', () => {
           .forDID(didOwnerMessage.did)
           .build();
 
+        const controllerVerificationMethodId = `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`;
+
         expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
           id: didOwnerMessage.did,
           controller: didOwnerMessage.did,
           verificationMethod: [
             {
-              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              id: controllerVerificationMethodId,
               type: 'Ed25519VerificationKey2020',
               controller: didOwnerMessage.did,
               publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
@@ -645,6 +651,8 @@ describe('DID Document Builder', () => {
               publicKeyMultibase: verificationMethod.publicKeyMultibase,
             },
           ],
+          authentication: [controllerVerificationMethodId],
+          assertionMethod: [controllerVerificationMethodId],
         });
       });
 
@@ -659,12 +667,14 @@ describe('DID Document Builder', () => {
           .forDID(didOwnerMessage.did)
           .build();
 
+        const controllerVerificationMethodId = `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`;
+
         expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
           id: didOwnerMessage.did,
           controller: didOwnerMessage.did,
           verificationMethod: [
             {
-              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              id: controllerVerificationMethodId,
               type: 'Ed25519VerificationKey2020',
               controller: didOwnerMessage.did,
               publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
@@ -677,6 +687,8 @@ describe('DID Document Builder', () => {
               serviceEndpoint: 'https://example.com/credentials',
             },
           ],
+          authentication: [controllerVerificationMethodId],
+          assertionMethod: [controllerVerificationMethodId],
         });
       });
 
@@ -692,18 +704,21 @@ describe('DID Document Builder', () => {
           .forDID(didOwnerMessage.did)
           .build();
 
+        const controllerVerificationMethodId = `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`;
+
         expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
           id: didOwnerMessage.did,
           controller: didOwnerMessage.did,
           verificationMethod: [
             {
-              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              id: controllerVerificationMethodId,
               type: 'Ed25519VerificationKey2020',
               controller: didOwnerMessage.did,
               publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
             },
           ],
-          authentication: [`${didOwnerMessage.did}${DID_ROOT_KEY_ID}`],
+          authentication: [controllerVerificationMethodId],
+          assertionMethod: [controllerVerificationMethodId],
         });
       });
 
@@ -755,12 +770,14 @@ describe('DID Document Builder', () => {
           .forDID(didOwnerMessage.did)
           .build();
 
+        const controllerVerificationMethodId = `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`;
+
         expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
           id: didOwnerMessage.did,
           controller: didOwnerMessage.did,
           verificationMethod: [
             {
-              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              id: controllerVerificationMethodId,
               type: 'Ed25519VerificationKey2020',
               controller: didOwnerMessage.did,
               publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
@@ -772,6 +789,8 @@ describe('DID Document Builder', () => {
               publicKeyMultibase: verificationMethodMessage.publicKeyMultibase,
             },
           ],
+          authentication: [controllerVerificationMethodId],
+          assertionMethod: [controllerVerificationMethodId],
         });
       });
 
@@ -823,17 +842,21 @@ describe('DID Document Builder', () => {
           .forDID(didOwnerMessage.did)
           .build();
 
+        const controllerVerificationMethodId = `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`;
+
         expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
           id: didOwnerMessage.did,
           controller: didOwnerMessage.did,
           verificationMethod: [
             {
-              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              id: controllerVerificationMethodId,
               type: 'Ed25519VerificationKey2020',
               controller: didOwnerMessage.did,
               publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
             },
           ],
+          authentication: [controllerVerificationMethodId],
+          assertionMethod: [controllerVerificationMethodId],
         });
       });
 
@@ -852,17 +875,21 @@ describe('DID Document Builder', () => {
           .forDID(didOwnerMessage.did)
           .build();
 
+        const controllerVerificationMethodId = `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`;
+
         expect(didDocumentBuilder.toDidDocument()).toStrictEqual({
           id: didOwnerMessage.did,
           controller: didOwnerMessage.did,
           verificationMethod: [
             {
-              id: `${didOwnerMessage.did}${DID_ROOT_KEY_ID}`,
+              id: controllerVerificationMethodId,
               type: 'Ed25519VerificationKey2020',
               controller: didOwnerMessage.did,
               publicKeyMultibase: didOwnerMessage.publicKeyMultibase,
             },
           ],
+          authentication: [controllerVerificationMethodId],
+          assertionMethod: [controllerVerificationMethodId],
         });
       });
     });
@@ -1052,13 +1079,16 @@ describe('DID Document Builder', () => {
       ];
 
       did = didOwnerMessage.did;
+
+      const controllerVerificationMethodId = `${did}${DID_ROOT_KEY_ID}`;
+
       privateKey = didOwnerMessage.privateKey;
       expectedDIDDocument = {
         id: did,
         controller: did,
         verificationMethod: [
           {
-            id: `${did}${DID_ROOT_KEY_ID}`,
+            id: controllerVerificationMethodId,
             type: 'Ed25519VerificationKey2020',
             controller: did,
             publicKeyMultibase: expect.any(String),
@@ -1077,6 +1107,7 @@ describe('DID Document Builder', () => {
             controller: did,
             publicKeyMultibase: expect.any(String),
           },
+          controllerVerificationMethodId,
         ],
         assertionMethod: [
           {
@@ -1085,6 +1116,7 @@ describe('DID Document Builder', () => {
             controller: did,
             publicKeyMultibase: expect.any(String),
           },
+          controllerVerificationMethodId,
         ],
         keyAgreement: [
           {

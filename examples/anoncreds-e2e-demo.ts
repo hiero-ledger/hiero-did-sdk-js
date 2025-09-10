@@ -277,4 +277,4 @@ async function main() {
   console.log(JSON.stringify(revListResolutionResult.revocationStatusList, null, 2));
 }
 
-main();
+main().finally(() => client.close());

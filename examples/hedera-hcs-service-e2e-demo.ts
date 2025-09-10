@@ -1,7 +1,7 @@
 /*
- * This comprehensive example demonstrates how to use the HederaHcsService
+ * This E2E demo demonstrates how to use the HederaHcsService
  * to create and manage topics, submit and read messages, and upload and
- * retrieve files in the Hedera Consensus Service (HCS) ecosystem.
+ * retrieve files in the Hedera Consensus Service (HCS).
  *
  * It showcases the main capabilities wrapped via `HederaHcsService`,
  * including topic lifecycle operations, message publishing and querying,
@@ -51,7 +51,7 @@ async function main() {
     console.log('Topic info:', topicInfo);
     console.log('');
 
-    // 3. Update topic example
+    // 3. Update topic
     await hcsService.updateTopic({
       networkName: 'testnet',
       topicId,
@@ -111,7 +111,7 @@ async function main() {
     console.log('Resolved file content (string):', resolvedFile.toString());
     console.log('');
 
-    // 8. Delete topic example
+    // 8. Delete topic
     await hcsService.deleteTopic({
       networkName: 'testnet',
       topicId,

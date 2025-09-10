@@ -3,13 +3,17 @@
 ## Overview
 
 This directory contains example implementations demonstrating the usage of the SDK. These examples showcase various functionalities of the SDK, such as creating DIDs, updating DID documents, resolving DIDs, and managing keys.
-Additionally, there is an E2E demo for recently added Hedera AnonCreds support.
 
 ## Prerequisites
 
 - Hiero DID SDK: Make sure you have the Hiero DID SDK installed in your project.
 - Node.js: Ensure you have Node.js (version 20 or higher) installed on your system.
 - Hedera Testnet Account: You'll need a Hedera account on the testnet with some hbars to pay for transaction fees.
+
+## E2E Demos
+- **[`did-e2e-demo.ts`](./did-e2e-demo.ts)**: Demonstrates how to create, update, and deactivate a DID. Provides basic interactivity (steps confirmation and user input for DID service endpoint).
+- **[`anoncreds-e2e-demo.ts`](./anoncreds-e2e-demo.ts)**: Demonstrates how manage AnonCreds resources on Hedera — create Schema and Credential Definition, create and update Revocation Registry.
+- **[`hedera-hcs-service-e2e-demo.ts`](./hedera-hcs-service-e2e-demo.ts)**: Demonstrates how to use the HederaHcsService to create and manage topics, submit and read messages, and upload and retrieve files using Hedera Consensus Service (HCS).
 
 ## Examples
 
@@ -34,7 +38,7 @@ The following examples are available in this directory:
 - **[`dereferenceDID-service-endpoint.ts`](./dereferenceDID-service-endpoint.ts)**: Demonstrates how to dereference a service endpoint from a DID document.
 - **[`dereferenceDID-with-full-metadata.ts`](./dereferenceDID-with-full-metadata.ts)**: Demonstrates how to dereference a DID fragment with full DID Resolution metadata.
 - **[`dereferenceDID-with-topic-reader.ts`](./dereferenceDID-with-topic-reader.ts)**: Demonstrates how to dereference a DID fragment using a custom topic reader.
-- - **[`dereferenceDID-with-verifier.ts`](./dereferenceDID-with-verifier.ts)**: Demonstrates how to dereference a DID fragment using a custom verifier.
+- **[`dereferenceDID-with-verifier.ts`](./dereferenceDID-with-verifier.ts)**: Demonstrates how to dereference a DID fragment using a custom verifier.
 
 ### Registrar package
 
