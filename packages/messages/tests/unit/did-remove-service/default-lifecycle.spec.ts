@@ -1,23 +1,25 @@
-import {
-  LifecycleRunner,
-  RunnerState,
-} from '@hiero-did-sdk/lifecycle';
+import { LifecycleRunner, RunnerState } from '@hiero-did-sdk/lifecycle';
 import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
-import {
-  DIDRemoveServiceMessage,
-  DIDRemoveServiceMessageHederaDefaultLifeCycle,
-} from '../../../src';
-import {
-  SIGNATURE,
-  TestVerifier,
-  VALID_DID,
-  VALID_DID_TOPIC_ID,
-} from '../helpers';
+import { DIDRemoveServiceMessage, DIDRemoveServiceMessageHederaDefaultLifeCycle } from '../../../src';
+import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
+import { Signer } from '@hiero-did-sdk/core';
+
+const mockSigner = new (class extends Signer {
+  publicKey = jest.fn();
+  sign = jest.fn().mockImplementation(() => SIGNATURE);
+  verify = jest.fn().mockResolvedValue(true);
+})();
+
+const mockPublisher = {
+  network: jest.fn(),
+  publicKey: jest.fn(),
+  publish: jest.fn().mockResolvedValue({
+    topicId: VALID_DID_TOPIC_ID,
+  }),
+};
 
 describe('Default DIDRemoveServiceMessage Lifecycle', () => {
   describe('when processing a valid DIDRemoveServiceMessage', () => {
-    let publishMock: jest.Mock;
-    let signMock: jest.Mock;
     let message: DIDRemoveServiceMessage;
     let result: RunnerState<DIDRemoveServiceMessage>;
 
@@ -30,30 +32,10 @@ describe('Default DIDRemoveServiceMessage Lifecycle', () => {
 
       verifier.verifyMock.mockResolvedValue(true);
 
-      publishMock = jest.fn().mockResolvedValue({
-        topicId: VALID_DID_TOPIC_ID,
-      });
-
-      signMock = jest.fn().mockImplementation(() => {
-        return SIGNATURE;
-      });
-
-      const runner = new LifecycleRunner(
-        DIDRemoveServiceMessageHederaDefaultLifeCycle,
-      );
+      const runner = new LifecycleRunner(DIDRemoveServiceMessageHederaDefaultLifeCycle);
       result = await runner.process(message, {
-        signer: {
-          publicKey: jest.fn(),
-          sign: signMock,
-          verify: jest.fn(),
-          publicKeyInstance: jest.fn(),
-          signTransaction: jest.fn(),
-        },
-        publisher: {
-          network: jest.fn(),
-          publicKey: jest.fn(),
-          publish: publishMock,
-        },
+        signer: mockSigner,
+        publisher: mockPublisher,
         args: {
           verifier,
         },
@@ -61,7 +43,7 @@ describe('Default DIDRemoveServiceMessage Lifecycle', () => {
     });
 
     it('should sign with given signer', () => {
-      expect(signMock).toHaveBeenCalledTimes(1);
+      expect(mockSigner.sign).toHaveBeenCalledTimes(1);
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
@@ -71,29 +53,15 @@ describe('Default DIDRemoveServiceMessage Lifecycle', () => {
 
     describe('when resuming the lifecycle', () => {
       beforeEach(async () => {
-        const runner = new LifecycleRunner(
-          DIDRemoveServiceMessageHederaDefaultLifeCycle,
-        );
+        const runner = new LifecycleRunner(DIDRemoveServiceMessageHederaDefaultLifeCycle);
         result = await runner.resume(result, {
-          signer: {
-            publicKey: jest.fn(),
-            sign: signMock,
-            verify: jest.fn(),
-            publicKeyInstance: jest.fn(),
-            signTransaction: jest.fn(),
-          },
-          publisher: {
-            network: jest.fn(),
-            publicKey: jest.fn(),
-            publish: publishMock,
-          },
+          signer: mockSigner,
+          publisher: mockPublisher,
         });
       });
 
       it('should publish the message to the topic', () => {
-        expect(publishMock).toHaveBeenCalledWith(
-          expect.any(TopicMessageSubmitTransaction),
-        );
+        expect(mockPublisher.publish).toHaveBeenCalledWith(expect.any(TopicMessageSubmitTransaction));
       });
     });
 

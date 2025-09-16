@@ -1,10 +1,6 @@
-import {
-  LifecycleRunner,
-  LifecycleRunnerOptions,
-  RunnerState,
-} from '@hiero-did-sdk/lifecycle';
+import { LifecycleRunner, LifecycleRunnerOptions, RunnerState } from '@hiero-did-sdk/lifecycle';
 import { resolveDID } from '@hiero-did-sdk/resolver';
-import { DIDError } from '@hiero-did-sdk/core';
+import { DIDError, Network, Signer } from '@hiero-did-sdk/core';
 import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import { DIDOwnerMessage, DIDOwnerMessageHederaDefaultLifeCycle } from '../../../src';
 import { DIDOwnerMessageContext } from '../../../src/messages/did-owner/lifecycle/context';
@@ -16,6 +12,22 @@ jest.mock('@hiero-did-sdk/resolver', () => {
   };
 });
 
+const privateKey = PrivateKey.generateED25519();
+
+const mockSigner = new (class extends Signer {
+  publicKey = jest.fn().mockResolvedValue(privateKey.publicKey.toStringDer());
+  sign = jest.fn().mockImplementation(() => SIGNATURE);
+  verify = jest.fn().mockResolvedValue(true);
+})();
+
+const mockPublisher = {
+  network: () => NETWORK as Network,
+  publicKey: () => privateKey.publicKey,
+  publish: jest.fn().mockResolvedValue({
+    topicId: VALID_DID_TOPIC_ID,
+  }),
+};
+
 const resolverMock = resolveDID as jest.Mock;
 
 describe('Default DID Owner Lifecycle', () => {
@@ -23,9 +35,11 @@ describe('Default DID Owner Lifecycle', () => {
     resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('when processing a valid DIDOwnerMessage', () => {
-    let publishMock: jest.Mock;
-    let signMock: jest.Mock;
     let message: DIDOwnerMessage;
     let result: RunnerState<DIDOwnerMessage>;
 
@@ -38,28 +52,10 @@ describe('Default DID Owner Lifecycle', () => {
 
       verifier.verifyMock.mockResolvedValue(true);
 
-      publishMock = jest.fn().mockResolvedValue({
-        topicId: VALID_DID_TOPIC_ID,
-      });
-
-      signMock = jest.fn().mockImplementation(() => {
-        return SIGNATURE;
-      });
-
       const runner = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
       result = await runner.process(message, {
-        signer: {
-          publicKey: () => Promise.resolve(privateKey.publicKey.toStringDer()),
-          sign: signMock,
-          verify: jest.fn(),
-          publicKeyInstance: jest.fn(),
-          signTransaction: jest.fn(),
-        },
-        publisher: {
-          network: () => NETWORK,
-          publicKey: () => privateKey.publicKey,
-          publish: publishMock,
-        },
+        signer: mockSigner,
+        publisher: mockPublisher,
         context: {
           topicReader: undefined,
         },
@@ -78,7 +74,7 @@ describe('Default DID Owner Lifecycle', () => {
     });
 
     it('should sign with given signer', () => {
-      expect(signMock).toHaveBeenCalledTimes(1);
+      expect(mockSigner.sign).toHaveBeenCalledTimes(1);
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
@@ -93,18 +89,8 @@ describe('Default DID Owner Lifecycle', () => {
         verifier.verifyMock.mockResolvedValue(true);
 
         result = await runner.resume(result, {
-          signer: {
-            publicKey: jest.fn(),
-            sign: signMock,
-            verify: jest.fn(),
-            publicKeyInstance: jest.fn(),
-            signTransaction: jest.fn(),
-          },
-          publisher: {
-            network: jest.fn(),
-            publicKey: jest.fn(),
-            publish: publishMock,
-          },
+          signer: mockSigner,
+          publisher: mockPublisher,
           context: {
             topicReader: undefined,
           },
@@ -115,7 +101,7 @@ describe('Default DID Owner Lifecycle', () => {
       });
 
       it('should publish the message to the topic', () => {
-        expect(publishMock).toHaveBeenCalledWith(expect.any(TopicMessageSubmitTransaction));
+        expect(mockPublisher.publish).toHaveBeenCalledWith(expect.any(TopicMessageSubmitTransaction));
       });
     });
 
@@ -125,7 +111,6 @@ describe('Default DID Owner Lifecycle', () => {
   });
 
   it('should throw an error if the topic ID is missing', async () => {
-    const privateKey = await PrivateKey.generateED25519Async();
     const message = new DIDOwnerMessage({
       publicKey: privateKey.publicKey,
     });
@@ -133,23 +118,15 @@ describe('Default DID Owner Lifecycle', () => {
     const verifier = new TestVerifier();
     verifier.verifyMock.mockResolvedValue(true);
 
+    mockPublisher.publish.mockResolvedValueOnce({
+      status: 'failed',
+    });
+
     const runner = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
     await expect(
       runner.process(message, {
-        signer: {
-          publicKey: () => Promise.resolve(privateKey.publicKey.toStringDer()),
-          sign: jest.fn(),
-          verify: jest.fn(),
-          publicKeyInstance: jest.fn(),
-          signTransaction: jest.fn(),
-        },
-        publisher: {
-          network: () => NETWORK,
-          publicKey: () => privateKey.publicKey,
-          publish: jest.fn().mockResolvedValue({
-            status: 'failed',
-          }),
-        },
+        signer: mockSigner,
+        publisher: mockPublisher,
         context: {
           topicReader: undefined,
         },
@@ -163,7 +140,6 @@ describe('Default DID Owner Lifecycle', () => {
   it('should throw an error if the DID existing', async () => {
     resolverMock.mockResolvedValue({ id: 'did:testnet' });
 
-    const privateKey = await PrivateKey.generateED25519Async();
     const message = new DIDOwnerMessage({
       publicKey: privateKey.publicKey,
     });
@@ -171,24 +147,11 @@ describe('Default DID Owner Lifecycle', () => {
     const verifier = new TestVerifier();
     verifier.verifyMock.mockResolvedValue(true);
 
-    const publishMock = jest.fn().mockResolvedValue({
-      topicId: VALID_DID_TOPIC_ID,
-    });
     const runner = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
     await expect(
       runner.process(message, {
-        signer: {
-          publicKey: () => Promise.resolve(privateKey.publicKey.toStringDer()),
-          sign: jest.fn(),
-          verify: jest.fn(),
-          publicKeyInstance: jest.fn(),
-          signTransaction: jest.fn(),
-        },
-        publisher: {
-          network: () => NETWORK,
-          publicKey: () => privateKey.publicKey,
-          publish: publishMock,
-        },
+        signer: mockSigner,
+        publisher: mockPublisher,
         context: {
           topicReader: undefined,
         },
@@ -206,7 +169,6 @@ describe('Default DID Owner Lifecycle', () => {
     };
     resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
 
-    const privateKey = await PrivateKey.generateED25519Async();
     const message = new DIDOwnerMessage({
       publicKey: privateKey.publicKey,
     });
@@ -214,23 +176,10 @@ describe('Default DID Owner Lifecycle', () => {
     const verifier = new TestVerifier();
     verifier.verifyMock.mockResolvedValue(true);
 
-    const publishMock = jest.fn().mockResolvedValue({
-      topicId: VALID_DID_TOPIC_ID,
-    });
     const runner = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
     await runner.process(message, {
-      signer: {
-        publicKey: () => Promise.resolve(privateKey.publicKey.toStringDer()),
-        sign: jest.fn(),
-        verify: jest.fn(),
-        publicKeyInstance: jest.fn(),
-        signTransaction: jest.fn(),
-      },
-      publisher: {
-        network: () => NETWORK,
-        publicKey: () => privateKey.publicKey,
-        publish: publishMock,
-      },
+      signer: mockSigner,
+      publisher: mockPublisher,
       context: {
         topicReader: topicReader,
       },
@@ -245,31 +194,18 @@ describe('Default DID Owner Lifecycle', () => {
   });
 
   it('should skip the topic creation if the topic ID is already set', async () => {
-    const privateKey = await PrivateKey.generateED25519Async();
     const message = new DIDOwnerMessage({
       publicKey: privateKey.publicKey,
       topicId: VALID_DID_TOPIC_ID,
     });
-
-    const publishMock = jest.fn();
 
     const verifier = new TestVerifier();
     verifier.verifyMock.mockResolvedValue(true);
 
     const runner = new LifecycleRunner(DIDOwnerMessageHederaDefaultLifeCycle);
     const runnerOptions: LifecycleRunnerOptions<DIDOwnerMessageContext> = {
-      signer: {
-        publicKey: () => Promise.resolve(privateKey.publicKey.toStringDer()),
-        sign: jest.fn().mockResolvedValue(SIGNATURE),
-        verify: jest.fn(),
-        publicKeyInstance: jest.fn(),
-        signTransaction: jest.fn(),
-      },
-      publisher: {
-        network: () => NETWORK,
-        publicKey: () => privateKey.publicKey,
-        publish: publishMock,
-      },
+      signer: mockSigner,
+      publisher: mockPublisher,
       context: {
         topicReader: undefined,
       },
@@ -280,6 +216,6 @@ describe('Default DID Owner Lifecycle', () => {
     const state = await runner.process(message, runnerOptions);
     await runner.resume(state, runnerOptions);
 
-    expect(publishMock).toHaveBeenCalledTimes(1);
+    expect(mockPublisher.publish).toHaveBeenCalledTimes(1);
   });
 });
