@@ -1,5 +1,17 @@
 # @hiero-did-sdk/hcs
 
+## 0.1.4
+
+### Patch Changes
+
+- Use Signer in HCS and AnonCreds packages API
+- Updated dependencies
+  - @hiero-did-sdk/cache@0.1.4
+  - @hiero-did-sdk/core@0.1.4
+  - @hiero-did-sdk/client@0.1.4
+  - @hiero-did-sdk/crypto@0.1.4
+  - @hiero-did-sdk/zstd@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/resolver",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "This package provides the `resolveDID` function, a core component of the Hiero DID SDK. It resolves Decentralized Identifiers (DIDs) registered on the Hedera network to their corresponding DID Documents.",
   "author": {
     "name": "The Hashgraph Association",
