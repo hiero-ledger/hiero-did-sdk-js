@@ -57,6 +57,7 @@
     "buffer": "^6.0.3"
   },
   "devDependencies": {
+    "@hiero-did-sdk/signer-internal": "workspace:*",
     "uuid": "^11.1.0"
   }
 }

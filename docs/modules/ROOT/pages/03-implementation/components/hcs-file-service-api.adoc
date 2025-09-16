@@ -30,10 +30,10 @@ Submits an HCS-1 formatted file to Hedera Consensus Service.
 * `props` (required): Properties for submitting a file.
 
 ==== `SubmitFileProps` fields:
-* `payload` (Buffer, required): The file content as a binary buffer.
-* `submitKey` (PrivateKey, required): Private key used to sign transaction submissions.
+* `payload` (required, Buffer): The file content as a binary buffer.
+* `submitKeySigner` (required, PrivateKey): Signer for a key that must sign any message submitted to the file topic (access control).
 * `waitForChangesVisibility` (boolean, optional): If true, waits until the submitted file is fully visible on the network.
-* `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait for visibility confirmation.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility confirmation.
 
 .Returns
 * A promise resolving to the topic ID string where the file was submitted.

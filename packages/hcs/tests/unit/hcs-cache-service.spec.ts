@@ -21,7 +21,6 @@ describe('HcsCacheService', () => {
     set: jest.fn(() => Promise.resolve(undefined)),
     remove: jest.fn(() => Promise.resolve(undefined)),
     clear: jest.fn(() => Promise.resolve(undefined)),
-    cleanupExpired: jest.fn(() => Promise.resolve(undefined)),
   };
 
   let service: HcsCacheService;

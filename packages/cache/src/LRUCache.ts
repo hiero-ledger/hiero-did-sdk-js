@@ -1,10 +1,5 @@
 import { Cache } from '@hiero-did-sdk/core';
 
-interface KeyValue<CacheValue> {
-  key: string;
-  value: CacheValue;
-}
-
 interface CacheEntry<CacheValue> {
   value: CacheValue;
   expiresAt?: number;
@@ -41,6 +36,8 @@ export class LRUMemoryCache implements Cache {
   }
 
   set<CacheValue>(key: string, value: CacheValue, expiresInSeconds?: number): Promise<void> {
+    void this.cleanupExpired();
+
     if (this._cache.has(key)) {
       this._cache.delete(key);
     } else {
@@ -63,16 +60,20 @@ export class LRUMemoryCache implements Cache {
   }
 
   remove(key: string): Promise<void> {
+    void this.cleanupExpired();
+
     this._cache.delete(key);
     return Promise.resolve();
   }
 
   clear(): Promise<void> {
+    void this.cleanupExpired();
+
     this._cache.clear();
     return Promise.resolve();
   }
 
-  cleanupExpired(): Promise<void> {
+  private cleanupExpired(): Promise<void> {
     const now = Date.now();
     for (const [key, entry] of this._cache.entries()) {
       if (entry.expiresAt && entry.expiresAt < now) {
@@ -80,10 +81,5 @@ export class LRUMemoryCache implements Cache {
       }
     }
     return Promise.resolve();
-  }
-
-  getAll<CacheValue>(): Promise<KeyValue<CacheValue>[]> {
-    const entries = [...this._cache] as [string, CacheEntry<CacheValue>][];
-    return Promise.resolve(entries.map(([key, entry]) => ({ key, value: entry.value }) as KeyValue<CacheValue>));
   }
 }

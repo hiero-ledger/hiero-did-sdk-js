@@ -11,6 +11,7 @@ import {
 } from '../packages/anoncreds/src/specification';
 import { AnonCredsRevocationStatusListWithoutTimestamp } from '../packages/anoncreds/src/dto';
 import { PrivateKey } from '@hashgraph/sdk';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
@@ -26,7 +27,8 @@ const config: HederaClientConfiguration = {
 };
 
 const issuerDid = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419';
-const issuerKeyDer = PrivateKey.generate().toStringDer();
+const issuerKey = PrivateKey.generate();
+const issuerKeySigner = new Signer(issuerKey);
 
 const schemaPayload: AnonCredsSchema = {
   issuerId: '',
@@ -90,7 +92,7 @@ async function main() {
     console.log(`Schema registering...`);
     const schemaResult = await registry.registerSchema({
       schema: { ...schemaPayload, issuerId: issuerDid },
-      issuerKeyDer,
+      issuerKeySigner,
     });
     const schemaId = schemaResult.schemaState.schemaId;
     console.log(`Schema registered (schemaId = ${schemaId})`);
@@ -106,7 +108,7 @@ async function main() {
       options: {
         supportRevocation: true,
       },
-      issuerKeyDer,
+      issuerKeySigner,
     });
     const credDefId = credDefResult.credentialDefinitionState.credentialDefinitionId ?? '';
     console.log(`Credential definition registered (credDefId = ${credDefId})`);
@@ -119,7 +121,7 @@ async function main() {
         issuerId: issuerDid,
         credDefId,
       },
-      issuerKeyDer,
+      issuerKeySigner,
     });
     const revRegDefId = revRegDefResult.revocationRegistryDefinitionState.revocationRegistryDefinitionId ?? '';
     console.log(`Revocation registry definition registered (revRegDefId = ${revRegDefId})`);
@@ -130,7 +132,7 @@ async function main() {
         issuerId: issuerDid,
         revRegDefId,
       },
-      issuerKeyDer,
+      issuerKeySigner,
     });
     console.log('Revocation status list register result:', result);
   } catch (error) {

@@ -12,8 +12,6 @@ Interface defining the contract for a cache implementation.
 * `set<CacheValue>(key: string, value: CacheValue, expiresInSeconds?: number): Promise<void>`
 * `remove(key: string): Promise<void>`
 * `clear(): Promise<void>`
-* `cleanupExpired(): Promise<void>`
-* `getAll<CacheValue>(): Promise<KeyValue<CacheValue>[]>`
 
 === `KeyValue<CacheValue>`
 Represents a cache entry key and its associated value.
@@ -98,28 +96,6 @@ Clears all entries from the cache.
 
 .Returns
 * A promise resolving when the cache has been cleared.
-
-=== `cleanupExpired`
-[source,ts]
-----
-cleanupExpired(): Promise<void>
-----
-
-Removes all expired entries from the cache.
-
-.Returns
-* A promise resolving when expired entries have been cleaned up.
-
-=== `getAll`
-[source,ts]
-----
-getAll<CacheValue>(): Promise<KeyValue<CacheValue>[]>
-----
-
-Retrieves all cache entries as an array of key-value pairs.
-
-.Returns
-* A promise resolving to an array of `KeyValue` objects representing all cached entries.
 
 == See Also
 

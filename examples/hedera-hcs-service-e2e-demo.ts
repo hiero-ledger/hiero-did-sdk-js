@@ -11,6 +11,7 @@
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 import { PrivateKey } from '@hashgraph/sdk';
 import { HederaClientConfiguration } from '@hiero-did-sdk/client';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
@@ -33,10 +34,12 @@ async function main() {
     const adminKey = PrivateKey.generateED25519();
     const submitKey = PrivateKey.generateED25519();
 
+    const adminKeySigner = new Signer(adminKey);
+
     const topicId = await hcsService.createTopic({
       networkName: 'testnet',
       topicMemo: 'My Comprehensive HCS Topic',
-      adminKey,
+      adminKeySigner,
       submitKey,
       waitForChangesVisibility: true,
       waitForChangesVisibilityTimeoutMs: 15000,
@@ -55,7 +58,7 @@ async function main() {
     await hcsService.updateTopic({
       networkName: 'testnet',
       topicId,
-      currentAdminKey: adminKey,
+      currentAdminKeySigner: adminKeySigner,
       topicMemo: 'Updated Memo for HCS Topic',
       waitForChangesVisibility: true,
     });
@@ -68,7 +71,7 @@ async function main() {
     const submitResult = await hcsService.submitMessage({
       topicId,
       message,
-      submitKey,
+      submitKeySigner: new Signer(submitKey),
       networkName: 'testnet',
       waitForChangesVisibility: true,
       waitForChangesVisibilityTimeoutMs: 10000,
@@ -95,7 +98,7 @@ async function main() {
     const fileSubmitKey = PrivateKey.generateED25519();
     const fileTopicId = await hcsService.submitFile({
       payload: fileContent,
-      submitKey: fileSubmitKey,
+      submitKeySigner: new Signer(fileSubmitKey),
       networkName: 'testnet',
       waitForChangesVisibility: true,
       waitForChangesVisibilityTimeoutMs: 30000,
@@ -115,7 +118,7 @@ async function main() {
     await hcsService.deleteTopic({
       networkName: 'testnet',
       topicId,
-      currentAdminKey: adminKey,
+      adminKeySigner,
       waitForChangesVisibility: true,
     });
     console.log('Step 8');

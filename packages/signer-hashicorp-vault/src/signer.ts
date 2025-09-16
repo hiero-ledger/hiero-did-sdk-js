@@ -6,8 +6,10 @@ import { Buffer } from 'buffer';
  * An implementation of the Signer interface that signs messages using Hashicorp Vault.
  * This class can be created using the `VaultSignerFactory` class.
  */
-export class Signer implements BaseSigner {
-  constructor(private readonly options: SignerOptions) {}
+export class Signer extends BaseSigner {
+  constructor(private readonly options: SignerOptions) {
+    super();
+  }
 
   /**
    * Get the public key of the signer.

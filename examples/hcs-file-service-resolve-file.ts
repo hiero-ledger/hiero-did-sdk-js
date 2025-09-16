@@ -6,6 +6,7 @@
 import { HcsFileService } from '@hiero-did-sdk/hcs';
 import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/client';
 import { PrivateKey } from '@hashgraph/sdk';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
@@ -33,7 +34,7 @@ async function main() {
     console.log(`File submitting...`);
     const fileTopicId = await hcsFileService.submitFile({
       payload: Buffer.from(content),
-      submitKey: PrivateKey.generate(),
+      submitKeySigner: new Signer(PrivateKey.generate()),
       waitForChangesVisibility: true,
     });
     console.log(`File submitted (topicId = ${fileTopicId})`);

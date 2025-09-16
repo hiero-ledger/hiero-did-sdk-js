@@ -11,6 +11,7 @@ import {
   Timestamp,
   TopicInfo,
   TopicId,
+  PublicKey,
 } from '@hashgraph/sdk';
 import {
   CreateTopicProps,
@@ -21,9 +22,11 @@ import {
 } from '../../src/hcs';
 import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
 import { HcsCacheService } from '../../src/cache';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 jest.mock('@hashgraph/sdk', () => {
   const actual = jest.requireActual('@hashgraph/sdk');
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...actual,
@@ -49,15 +52,23 @@ function mockTopicTransaction() {
     setExpirationTime: jest.fn().mockReturnThis(),
     freezeWith: jest.fn().mockReturnThis(),
     sign: jest.fn().mockResolvedValue(undefined),
+    signWith: jest.fn().mockResolvedValue(undefined),
     execute: jest.fn(),
   };
 }
 
-jest.mock('../../src/shared', () => ({
-  waitForChangesVisibility: jest.fn(),
-  getMirrorNetworkNodeUrl: jest.fn(),
-  isMirrorQuerySupported: jest.fn(),
-}));
+jest.mock('../../src/shared', () => {
+  const actual = jest.requireActual('../../src/shared');
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return {
+    ...actual,
+    signTransaction: jest.fn(),
+    waitForChangesVisibility: jest.fn(),
+    getMirrorNetworkNodeUrl: jest.fn(),
+    isMirrorQuerySupported: jest.fn(),
+  };
+});
 
 describe('HcsTopicService', () => {
   let client: jest.Mocked<Client>;
@@ -94,7 +105,7 @@ describe('HcsTopicService', () => {
   describe('createTopic', () => {
     it('should throw if autoRenewAccountId is provided without autoRenewAccountKey', async () => {
       await expect(service.createTopic({ autoRenewAccountId: '0.0.1' })).rejects.toThrow(
-        'The autoRenewAccountKey is required for set the autoRenewAccountId'
+        'The autoRenewAccountKeySigner is required for setting autoRenewAccountId'
       );
     });
 
@@ -114,17 +125,25 @@ describe('HcsTopicService', () => {
       const submitKey = PrivateKey.generateED25519();
       const autoRenewAccountKey = PrivateKey.generateED25519();
 
+      // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
+      const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
+      const submitPublicKey = PublicKey.fromString(submitKey.publicKey.toStringDer());
+      const autoRenewAccountPublicKey = PublicKey.fromString(autoRenewAccountKey.publicKey.toStringDer());
+
+      const adminKeySigner = new Signer(adminKey);
+      const autoRenewAccountKeySigner = new Signer(autoRenewAccountKey);
+
       transactionMock.execute.mockResolvedValueOnce({
         getReceipt: jest.fn().mockResolvedValue({ status: Status.Success, topicId: { toString: () => '4.5.6' } }),
       });
 
       const props: CreateTopicProps = {
         topicMemo: 'TestMemo',
-        submitKey,
-        adminKey,
+        submitKey: submitPublicKey,
+        adminKeySigner: adminKeySigner,
         autoRenewPeriod: 30 * 24 * 60 * 60 * 1000,
         autoRenewAccountId: '0.0.123',
-        autoRenewAccountKey,
+        autoRenewAccountKeySigner: autoRenewAccountKeySigner,
         waitForChangesVisibility: true,
         waitForChangesVisibilityTimeoutMs: 1000,
       };
@@ -139,13 +158,13 @@ describe('HcsTopicService', () => {
 
       expect(topicId).toBe('4.5.6');
       expect(transactionMock.setTopicMemo).toHaveBeenCalledWith(props.topicMemo);
-      expect(transactionMock.setSubmitKey).toHaveBeenCalledWith(submitKey);
-      expect(transactionMock.setAdminKey).toHaveBeenCalledWith(adminKey);
+      expect(transactionMock.setSubmitKey).toHaveBeenCalledWith(submitPublicKey);
+      expect(transactionMock.setAdminKey).toHaveBeenCalledWith(adminPublicKey);
       expect(transactionMock.setAutoRenewPeriod).toHaveBeenCalledWith(props.autoRenewPeriod);
       expect(transactionMock.setAutoRenewAccountId).toHaveBeenCalledWith('0.0.123');
 
-      expect(transactionMock.sign).toHaveBeenCalledWith(autoRenewAccountKey);
-      expect(transactionMock.sign).toHaveBeenCalledWith(adminKey);
+      expect(transactionMock.signWith).toHaveBeenCalledWith(autoRenewAccountPublicKey, expect.any(Function));
+      expect(transactionMock.signWith).toHaveBeenCalledWith(adminPublicKey, expect.any(Function));
       expect(waitForChangesVisibility).toHaveBeenCalled();
     });
 
@@ -165,14 +184,20 @@ describe('HcsTopicService', () => {
   });
 
   describe('updateTopic', () => {
+    const currentAdminKey = PrivateKey.generateED25519();
+    const currentAdminKeySigner = new Signer(currentAdminKey);
+
+    // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
+    const currentAdminPublicKey = PublicKey.fromString(currentAdminKey.publicKey.toStringDer());
+
     const baseProps: UpdateTopicProps = {
       topicId: '0.0.100',
-      currentAdminKey: PrivateKey.generateED25519(),
+      currentAdminKeySigner,
     };
 
     it('should throw if autoRenewAccountId set without autoRenewAccountKey', async () => {
       await expect(service.updateTopic({ ...baseProps, autoRenewAccountId: '0.0.101' })).rejects.toThrow(
-        'The autoRenewAccountKey is required for set the autoRenewAccountId'
+        'The autoRenewAccountKeySigner is required for updating autoRenewAccountId'
       );
     });
 
@@ -181,21 +206,33 @@ describe('HcsTopicService', () => {
         getReceipt: jest.fn().mockResolvedValue({ status: Status.Success }),
       });
 
+      const adminKey = PrivateKey.generateED25519();
+      const submitKey = PrivateKey.generateED25519();
+      const autoRenewAccountKey = PrivateKey.generateED25519();
+
+      const adminKeySigner = new Signer(adminKey);
+      const autoRenewAccountKeySigner = new Signer(autoRenewAccountKey);
+
+      // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
+      const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
+      const submitPublicKey = PublicKey.fromString(submitKey.publicKey.toStringDer());
+      const autoRenewAccountPublicKey = PublicKey.fromString(autoRenewAccountKey.publicKey.toStringDer());
+
       const props: UpdateTopicProps = {
         ...baseProps,
         topicMemo: 'newMemo',
-        submitKey: PrivateKey.generateED25519(),
-        adminKey: PrivateKey.generateED25519(),
+        submitKey: submitPublicKey,
+        adminKeySigner,
         autoRenewPeriod: 90 * 24 * 60 * 60,
-        autoRenewAccountKey: PrivateKey.generateED25519(),
+        autoRenewAccountKeySigner,
       };
 
       (waitForChangesVisibility as jest.Mock).mockResolvedValueOnce(undefined);
       jest.spyOn(service as any, 'fetchTopicInfo').mockResolvedValue({
         topicId: props.topicId,
         topicMemo: 'newMemo',
-        submitKey: props.submitKey.publicKey.toStringDer(),
-        adminKey: props.adminKey.publicKey.toStringDer(),
+        submitKey: props.submitKey.toStringDer(),
+        adminKey: await props.adminKeySigner.publicKey(),
         autoRenewPeriod: 90 * 24 * 60 * 60,
         autoRenewAccountId: undefined,
         expirationTime: undefined,
@@ -205,14 +242,14 @@ describe('HcsTopicService', () => {
 
       expect(transactionMock.setTopicId).toHaveBeenCalledWith(props.topicId);
       expect(transactionMock.setTopicMemo).toHaveBeenCalledWith('newMemo');
-      expect(transactionMock.setSubmitKey).toHaveBeenCalledWith(props.submitKey);
-      expect(transactionMock.setAdminKey).toHaveBeenCalledWith(props.adminKey);
+      expect(transactionMock.setSubmitKey).toHaveBeenCalledWith(submitPublicKey);
+      expect(transactionMock.setAdminKey).toHaveBeenCalledWith(adminPublicKey);
       expect(transactionMock.setAutoRenewPeriod).toHaveBeenCalledWith(90 * 24 * 60 * 60);
 
       expect(transactionMock.freezeWith).toHaveBeenCalledWith(client);
-      expect(transactionMock.sign).toHaveBeenCalledWith(props.autoRenewAccountKey);
-      expect(transactionMock.sign).toHaveBeenCalledWith(props.adminKey);
-      expect(transactionMock.sign).toHaveBeenCalledWith(props.currentAdminKey);
+      expect(transactionMock.signWith).toHaveBeenCalledWith(autoRenewAccountPublicKey, expect.any(Function));
+      expect(transactionMock.signWith).toHaveBeenCalledWith(adminPublicKey, expect.any(Function));
+      expect(transactionMock.signWith).toHaveBeenCalledWith(currentAdminPublicKey, expect.any(Function));
       expect(transactionMock.execute).toHaveBeenCalledWith(client);
 
       expect(cacheServiceMock.removeTopicInfo).toHaveBeenCalledWith(client, props.topicId);
@@ -229,9 +266,15 @@ describe('HcsTopicService', () => {
   });
 
   describe('deleteTopic', () => {
+    const adminKey = PrivateKey.generateED25519();
+    const adminKeySigner = new Signer(adminKey);
+
+    // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
+    const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
+
     const props: DeleteTopicProps = {
       topicId: '0.0.50',
-      currentAdminKey: PrivateKey.generateED25519(),
+      adminKeySigner: adminKeySigner,
     };
 
     it('should delete the topic and wait for changes visibility', async () => {
@@ -262,7 +305,7 @@ describe('HcsTopicService', () => {
 
       expect(transactionMock.setTopicId).toHaveBeenCalledWith(props.topicId);
       expect(transactionMock.freezeWith).toHaveBeenCalledWith(client);
-      expect(transactionMock.sign).toHaveBeenCalledWith(props.currentAdminKey);
+      expect(transactionMock.signWith).toHaveBeenCalledWith(adminPublicKey, expect.any(Function));
       expect(transactionMock.execute).toHaveBeenCalledWith(client);
 
       expect(cacheServiceMock.removeTopicInfo).toHaveBeenCalledWith(client, props.topicId);

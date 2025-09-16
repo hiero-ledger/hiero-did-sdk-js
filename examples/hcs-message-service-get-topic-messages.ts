@@ -7,6 +7,7 @@
 import { HcsMessageService, HcsTopicService } from '@hiero-did-sdk/hcs';
 import { PrivateKey } from '@hashgraph/sdk';
 import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/client';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
@@ -43,7 +44,7 @@ async function main() {
     await hcsMessageService.submitMessage({
       topicId,
       message,
-      submitKey,
+      submitKeySigner: new Signer(submitKey),
       waitForChangesVisibility: true,
     });
     console.log(`Message submitted`);

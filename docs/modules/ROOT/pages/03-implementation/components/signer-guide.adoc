@@ -16,13 +16,16 @@ This component provides a standardized way to handle cryptographic operations, e
 
 == Using the Signer
 
-=== Generating a Key Pair and Signing a Message
+=== Generating a Key Pair and Signing a Message and Transaction
 
 This example demonstrates how to generate a new key pair using the `Signer` and sign a message:
 
-[source, typescript]
+[source,typescript]
 ----
-import { Signer } from "@hiero-did-sdk/signer-internal"; // Import from signer-internal
+import { Signer } from "@hiero-did-sdk/signer-internal";
+import {Client, TopicMessageSubmitTransaction} from "@hashgraph/sdk"; // Import from signer-internal
+
+const client = Client.forTestnet()
 
 async function main() {
   const signer = Signer.generate();
@@ -34,6 +37,13 @@ async function main() {
   const signature = await signer.sign(message);
 
   console.log(`Signature: ${signature}`);
+
+  const transaction = new TopicMessageSubmitTransaction({}).freezeWith(client);
+  const signedTransaction = await signer.signTransaction(transaction)
+
+  const response = await signedTransaction.execute(client)
+
+  console.log(`Transaction has been signed and executed: ${response}`)
 }
 
 main();

@@ -7,6 +7,7 @@ import {
   AnonCredsResolutionMetadata,
   Extensible,
 } from './base';
+import { Signer } from '@hiero-did-sdk/core';
 
 export interface GetCredentialDefinitionReturn {
   credentialDefinition?: AnonCredsCredentialDefinition;
@@ -17,7 +18,7 @@ export interface GetCredentialDefinitionReturn {
 
 export interface RegisterCredentialDefinitionOptions {
   credentialDefinition: AnonCredsCredentialDefinition;
-  issuerKeyDer: string;
+  issuerKeySigner: Signer;
   options?: { supportRevocation: boolean };
 }
 

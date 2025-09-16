@@ -14,7 +14,7 @@ import Duration from '@hashgraph/sdk/lib/Duration';
 import AccountId from '@hashgraph/sdk/lib/account/AccountId';
 import { HcsCacheService } from '../cache';
 import { CacheConfig } from '../hedera-hcs-service.configuration';
-import { Cache } from '@hiero-did-sdk/core';
+import { Cache, Signer } from '@hiero-did-sdk/core';
 import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, waitForChangesVisibility } from '../shared';
 
 const DEFAULT_AUTO_RENEW_PERIOD = 90 * 24 * 60 * 60; // 90 days
@@ -23,24 +23,24 @@ const DEFAULT_AUTO_RENEW_PERIOD = 90 * 24 * 60 * 60; // 90 days
 
 export interface CreateTopicProps {
   topicMemo?: string;
-  submitKey?: PrivateKey;
-  adminKey?: PrivateKey;
+  submitKey?: PublicKey | PrivateKey;
+  adminKeySigner?: Signer;
   autoRenewPeriod?: Duration | Long | number;
   autoRenewAccountId?: AccountId | string;
-  autoRenewAccountKey?: PrivateKey;
+  autoRenewAccountKeySigner?: Signer;
   waitForChangesVisibility?: boolean;
   waitForChangesVisibilityTimeoutMs?: number;
 }
 
 export type UpdateTopicProps = {
   topicId: string;
-  currentAdminKey: PrivateKey;
+  currentAdminKeySigner: Signer;
   expirationTime?: Timestamp | Date;
 } & CreateTopicProps;
 
 export type DeleteTopicProps = {
   topicId: string;
-  currentAdminKey: PrivateKey;
+  adminKeySigner: Signer;
   waitForChangesVisibility?: boolean;
   waitForChangesVisibilityTimeoutMs?: number;
 };
@@ -76,10 +76,6 @@ interface MirrorNodeTopicResponse {
   expiration_time?: string | null;
 }
 
-/**
- * Service for managing Hedera Consensus Service (HCS) topics
- * Provides functionality to create, update, delete HCS topics, and retrieve HCS topic info
- */
 export class HcsTopicService {
   private readonly cacheService?: HcsCacheService;
 
@@ -103,11 +99,11 @@ export class HcsTopicService {
    *
    * @param props - Optional configuration properties for the topic
    * @param props.topicMemo - Optional memo or description for the topic
-   * @param props.submitKey - Optional private key that must sign any message submitted to the topic
-   * @param props.adminKey - Optional private key that must sign any transaction updating the topic
+   * @param props.submitKey - Optional key that must sign any message submitted to the topic
+   * @param props.adminKeySigner - Optional Signer for private key that must sign any transaction updating the topic
    * @param props.autoRenewPeriod - Optional auto-renewal period for the topic
    * @param props.autoRenewAccountId - Optional account ID to be charged for auto-renewal fees
-   * @param props.autoRenewAccountKey - Optional private key for the auto-renewal account (required if autoRenewAccountId is provided)
+   * @param props.autoRenewAccountKeySigner - Optional Signer for the auto-renewal account (required if autoRenewAccountId is provided)
    * @param props.waitForChangesVisibility - Optional flag to wait until the topic is visible in the mirror node
    * @param props.waitForChangesVisibilityTimeoutMs - Optional timeout in milliseconds for waiting for changes visibility
    * @returns Promise resolving to the created topic ID as a string
@@ -115,8 +111,8 @@ export class HcsTopicService {
    * @throws Error if the topic creation transaction fails
    */
   public async createTopic(props?: CreateTopicProps): Promise<string> {
-    if (props?.autoRenewAccountId && !props?.autoRenewAccountKey) {
-      throw new Error('The autoRenewAccountKey is required for set the autoRenewAccountId');
+    if (props?.autoRenewAccountId && !props?.autoRenewAccountKeySigner) {
+      throw new Error('The autoRenewAccountKeySigner is required for setting autoRenewAccountId');
     }
 
     let transaction = new TopicCreateTransaction();
@@ -129,8 +125,9 @@ export class HcsTopicService {
       transaction = transaction.setSubmitKey(props.submitKey);
     }
 
-    if (props?.adminKey) {
-      transaction = transaction.setAdminKey(props.adminKey);
+    if (props?.adminKeySigner) {
+      const adminKey = await props.adminKeySigner.publicKeyInstance();
+      transaction = transaction.setAdminKey(adminKey);
     }
 
     if (props?.autoRenewPeriod) {
@@ -143,8 +140,8 @@ export class HcsTopicService {
 
     const frozenTransaction = transaction.freezeWith(this.client);
 
-    if (props?.autoRenewAccountKey) await frozenTransaction.sign(props.autoRenewAccountKey);
-    if (props?.adminKey) await frozenTransaction.sign(props.adminKey);
+    if (props?.autoRenewAccountKeySigner) await props.autoRenewAccountKeySigner.signTransaction(frozenTransaction);
+    if (props?.adminKeySigner) await props.adminKeySigner.signTransaction(frozenTransaction);
 
     const response = await frozenTransaction.execute(this.client);
 
@@ -175,13 +172,13 @@ export class HcsTopicService {
    *
    * @param props - Configuration properties for updating the topic
    * @param props.topicId - The ID of the topic to update
-   * @param props.currentAdminKey - The current admin private key required to sign the update transaction
+   * @param props.currentAdminKeySigner - Signer for current admin private key required to sign the update transaction
    * @param props.topicMemo - Optional new memo or description for the topic
-   * @param props.submitKey - Optional new private key that must sign any message submitted to the topic
-   * @param props.adminKey - Optional new private key that must sign any transaction updating the topic
+   * @param props.submitKey - Optional new key that must sign any message submitted to the topic
+   * @param props.adminKeySigner - Optional Signer for new private key that must sign any transaction updating the topic
    * @param props.autoRenewPeriod - Optional new auto renewal period for the topic
    * @param props.autoRenewAccountId - Optional new account ID to be charged for auto-renewal fees
-   * @param props.autoRenewAccountKey - Optional new private key for the auto-renew account (required if autoRenewAccountId is provided)
+   * @param props.autoRenewAccountKeySigner - Optional Signer for new private key for the auto-renew account (required if autoRenewAccountId is provided)
    * @param props.expirationTime - Optional new expiration time for the topic
    * @param props.waitForChangesVisibility - Optional flag to wait until the topic changes are visible in the mirror node
    * @param props.waitForChangesVisibilityTimeoutMs - Optional timeout in milliseconds for waiting for changes visibility
@@ -190,8 +187,8 @@ export class HcsTopicService {
    * @throws Error if the topic update transaction fails
    */
   public async updateTopic(props: UpdateTopicProps): Promise<void> {
-    if (props?.autoRenewAccountId && !props?.autoRenewAccountKey) {
-      throw new Error('The autoRenewAccountKey is required for set the autoRenewAccountId');
+    if (props?.autoRenewAccountId && !props?.autoRenewAccountKeySigner) {
+      throw new Error('The autoRenewAccountKeySigner is required for updating autoRenewAccountId');
     }
 
     let transaction = new TopicUpdateTransaction().setTopicId(props.topicId);
@@ -204,8 +201,9 @@ export class HcsTopicService {
       transaction = transaction.setSubmitKey(props.submitKey);
     }
 
-    if (props.adminKey !== undefined) {
-      transaction = transaction.setAdminKey(props.adminKey);
+    if (props.adminKeySigner !== undefined) {
+      const adminKey = await props.adminKeySigner.publicKeyInstance();
+      transaction = transaction.setAdminKey(adminKey);
     }
 
     if (props.autoRenewPeriod !== undefined) {
@@ -222,9 +220,9 @@ export class HcsTopicService {
 
     const frozenTransaction = transaction.freezeWith(this.client);
 
-    if (props.autoRenewAccountKey) await frozenTransaction.sign(props.autoRenewAccountKey);
-    if (props.adminKey) await frozenTransaction.sign(props.adminKey);
-    await frozenTransaction.sign(props.currentAdminKey);
+    if (props.autoRenewAccountKeySigner) await props.autoRenewAccountKeySigner.signTransaction(frozenTransaction);
+    if (props.adminKeySigner) await props.adminKeySigner.signTransaction(frozenTransaction);
+    await props.currentAdminKeySigner.signTransaction(frozenTransaction);
 
     const response = await frozenTransaction.execute(this.client);
 
@@ -235,13 +233,15 @@ export class HcsTopicService {
 
     await this.cacheService?.removeTopicInfo(this.client, props.topicId);
 
+    const currentAdminKeyDer = await props.currentAdminKeySigner.publicKey();
+
     if (props?.waitForChangesVisibility) {
       await waitForChangesVisibility({
         fetchFn: () => this.fetchTopicInfo({ topicId: props.topicId }),
         checkFn: (topicInfo: TopicInfo) =>
           (props.topicMemo === undefined || props.topicMemo === topicInfo.topicMemo) &&
-          (props.submitKey === undefined || props.submitKey.publicKey.toStringDer() === topicInfo.submitKey) &&
-          (props.adminKey === undefined || props.adminKey.publicKey.toStringDer() === topicInfo.adminKey) &&
+          (props.submitKey === undefined || props.submitKey.toStringDer() === topicInfo.submitKey) &&
+          (props.currentAdminKeySigner === undefined || currentAdminKeyDer === topicInfo.adminKey) &&
           (props.autoRenewPeriod === undefined || props.autoRenewPeriod === topicInfo.autoRenewPeriod) &&
           (props.autoRenewAccountId === undefined || props.autoRenewAccountId === topicInfo.autoRenewAccountId) &&
           (props.expirationTime === undefined ||
@@ -256,7 +256,7 @@ export class HcsTopicService {
    *
    * @param props - Configuration properties for deleting the topic
    * @param props.topicId - The ID of the topic to delete
-   * @param props.currentAdminKey - The current admin private key required to sign the delete transaction
+   * @param props.adminKeySigner - Signer for an admin key required to sign the delete transaction
    * @param props.waitForChangesVisibility - Optional flag to wait until the topic deletion is visible in the mirror node
    * @param props.waitForChangesVisibilityTimeoutMs - Optional timeout in milliseconds for waiting for changes visibility
    * @returns Promise that resolves when the topic has been deleted
@@ -265,9 +265,11 @@ export class HcsTopicService {
   public async deleteTopic(props: DeleteTopicProps): Promise<void> {
     const topicTransaction = new TopicDeleteTransaction().setTopicId(props.topicId);
 
-    const topicFrozenAndSignedTransaction = await topicTransaction.freezeWith(this.client).sign(props.currentAdminKey);
+    const frozenTransaction = topicTransaction.freezeWith(this.client);
 
-    const topicDeleteResult = await topicFrozenAndSignedTransaction.execute(this.client);
+    await props.adminKeySigner.signTransaction(frozenTransaction);
+
+    const topicDeleteResult = await frozenTransaction.execute(this.client);
 
     const receipt = await topicDeleteResult.getReceipt(this.client);
     if (receipt.status !== Status.Success) {

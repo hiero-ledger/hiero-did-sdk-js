@@ -12,6 +12,7 @@ import {
 import * as assert from 'assert';
 import { parseAnonCredsIdentifier } from '../packages/anoncreds/src/utils';
 import { AnonCredsRevocationStatusListWithoutTimestamp } from '../packages/anoncreds/src/dto';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 // In real scenario, these credential definition and revocation registry definition values are provided by AnonCreds implementation
 
@@ -55,6 +56,7 @@ client.setOperator(operatorId, PrivateKey.fromStringDer(operatorKey));
 async function main() {
   // Create issuer private key and register Hedera DID
   const issuerPrivateKey = await PrivateKey.generateED25519Async();
+  const issuerKeySigner = new Signer(issuerPrivateKey);
   const issuerDid = await createDID(
     {
       privateKey: issuerPrivateKey,
@@ -124,7 +126,7 @@ async function main() {
   const schemaRegistrationResult = await anoncredsRegistry.registerSchema({
     schema,
     networkName: network,
-    issuerKeyDer: issuerPrivateKey.toStringDer(),
+    issuerKeySigner,
   });
   assert.equal(schemaRegistrationResult.schemaState.state, 'finished');
 
@@ -158,7 +160,7 @@ async function main() {
   const credDefRegistrationResult = await anoncredsRegistry.registerCredentialDefinition({
     credentialDefinition: credDef,
     networkName: network,
-    issuerKeyDer: issuerPrivateKey.toStringDer(),
+    issuerKeySigner,
   });
   assert.equal(credDefRegistrationResult.credentialDefinitionState.state, 'finished');
 
@@ -193,7 +195,7 @@ async function main() {
 
   const revRegDefRegistrationResult = await anoncredsRegistry.registerRevocationRegistryDefinition({
     revocationRegistryDefinition: revRegDef,
-    issuerKeyDer: issuerPrivateKey.toStringDer(),
+    issuerKeySigner,
   });
   assert.equal(revRegDefRegistrationResult.revocationRegistryDefinitionState.state, 'finished');
 
@@ -236,7 +238,7 @@ async function main() {
   const revListRegistrationResult = await anoncredsRegistry.registerRevocationStatusList({
     revocationStatusList: revList,
     networkName: network,
-    issuerKeyDer: issuerPrivateKey.toStringDer(),
+    issuerKeySigner,
   });
   assert.equal(revListRegistrationResult.revocationStatusListState.state, 'finished');
 
@@ -258,7 +260,7 @@ async function main() {
   const revListUpdateResult = await anoncredsRegistry.registerRevocationStatusList({
     revocationStatusList: updatedRevList,
     networkName: network,
-    issuerKeyDer: issuerPrivateKey.toStringDer(),
+    issuerKeySigner,
   });
   assert.equal(revListUpdateResult.revocationStatusListState.state, 'finished');
 

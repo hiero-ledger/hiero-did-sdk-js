@@ -21,7 +21,6 @@ import { HederaAnoncredsRegistryConfiguration } from './hedera-anoncreds-registr
 import { AnonCredsRevocationRegistryDefinitionWithMetadata, AnonCredsRevocationStatusList } from './specification';
 import { AnonCredsObjectType, buildAnonCredsIdentifier, parseAnonCredsIdentifier } from './utils';
 import { Buffer } from 'buffer';
-import { PrivateKey } from '@hashgraph/sdk';
 
 type NetworkName = {
   networkName?: string;
@@ -46,7 +45,7 @@ export class HederaAnoncredsRegistry {
       const schemaTopicId = await this.hcsService.submitFile({
         payload,
         networkName,
-        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
+        submitKeySigner: options.issuerKeySigner,
         waitForChangesVisibility: true,
       });
       return {
@@ -102,7 +101,7 @@ export class HederaAnoncredsRegistry {
       const credentialDefinitionTopicId = await this.hcsService.submitFile({
         payload,
         networkName,
-        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
+        submitKeySigner: options.issuerKeySigner,
         waitForChangesVisibility: true,
       });
       return {
@@ -159,7 +158,7 @@ export class HederaAnoncredsRegistry {
     const { networkName, revocationRegistryDefinition } = options;
     try {
       const entriesTopicId = await this.hcsService.createTopic({
-        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
+        submitKey: await options.issuerKeySigner.publicKeyInstance(),
         waitForChangesVisibility: true,
       });
       const hcsMetadata = { entriesTopicId };
@@ -173,7 +172,7 @@ export class HederaAnoncredsRegistry {
       const revocationRegistryDefinitionTopic = await this.hcsService.submitFile({
         payload,
         networkName,
-        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
+        submitKeySigner: options.issuerKeySigner,
         waitForChangesVisibility: true,
       });
 
@@ -262,7 +261,7 @@ export class HederaAnoncredsRegistry {
 
       await this.hcsService.submitMessage({
         topicId: entriesTopicId,
-        submitKey: PrivateKey.fromStringDer(options.issuerKeyDer),
+        submitKeySigner: options.issuerKeySigner,
         message,
         networkName,
         waitForChangesVisibility: true,

@@ -8,6 +8,7 @@ import {
   Extensible,
   Optional,
 } from './base';
+import { Signer } from '@hiero-did-sdk/core';
 
 export interface GetRevocationStatusListReturn {
   revocationStatusList?: AnonCredsRevocationStatusList;
@@ -21,7 +22,7 @@ export type AnonCredsRevocationStatusListWithOptionalTimestamp = Optional<AnonCr
 
 export interface RegisterRevocationStatusListOptions {
   revocationStatusList: AnonCredsRevocationStatusListWithoutTimestamp;
-  issuerKeyDer: string;
+  issuerKeySigner: Signer;
 }
 
 export interface RegisterRevocationStatusListReturnStateAction extends AnonCredsOperationStateAction {

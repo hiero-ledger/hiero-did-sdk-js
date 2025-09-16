@@ -1,6 +1,5 @@
 import {
   type Client,
-  PrivateKey,
   Status,
   type SubscriptionHandle,
   Timestamp,
@@ -10,7 +9,7 @@ import {
 } from '@hashgraph/sdk';
 import { HcsCacheService } from '../cache';
 import { CacheConfig } from '../hedera-hcs-service.configuration';
-import { Cache } from '@hiero-did-sdk/core';
+import { Cache, Signer } from '@hiero-did-sdk/core';
 import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, waitForChangesVisibility } from '../shared';
 import { Buffer } from 'buffer';
 
@@ -19,7 +18,7 @@ const DEFAULT_TIMEOUT_SECONDS = 2;
 export interface SubmitMessageProps {
   topicId: string;
   message: string;
-  submitKey?: PrivateKey;
+  submitKeySigner?: Signer;
   waitForChangesVisibility?: boolean;
   waitForChangesVisibilityTimeoutMs?: number;
 }
@@ -83,7 +82,7 @@ export class HcsMessageService {
    * @param props - The properties for submitting a message
    * @param props.topicId - The ID of the topic to submit the message to
    * @param props.message - The message content to submit
-   * @param props.submitKey - Optional private key to sign the transaction
+   * @param props.submitKeySigner - Optional Signer for a key that must sign any message submitted to the file topic (access control)
    * @param props.waitForChangesVisibility - Optional flag to wait until the message is visible in the topic
    * @param props.waitForChangesVisibilityTimeoutMs - Optional timeout in milliseconds for waiting for visibility
    * @returns A promise that resolves to the submission result containing nodeId, transactionId, and transactionHash
@@ -94,8 +93,8 @@ export class HcsMessageService {
       .setMessage(props.message)
       .freezeWith(this.client);
 
-    if (props?.submitKey) {
-      await transaction.sign(props.submitKey);
+    if (props?.submitKeySigner) {
+      await props.submitKeySigner.signTransaction(transaction);
     }
 
     const response = await transaction.execute(this.client);

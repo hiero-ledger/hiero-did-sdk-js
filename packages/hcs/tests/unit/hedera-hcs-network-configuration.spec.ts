@@ -2,10 +2,14 @@ import { PrivateKey, Timestamp } from '@hashgraph/sdk';
 import { HederaHcsService } from '../../src/hedera-hcs-service';
 import { HederaNetwork, NetworkConfig } from '@hiero-did-sdk/client';
 import { Buffer } from 'buffer';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
 const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
+
+const operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
+const operatorKeySigner = new Signer(operatorKeyInstance);
 
 const networkConfigs: NetworkConfig[] = [
   {
@@ -99,10 +103,10 @@ describe('Hedera HCS networks configuration', () => {
     const getTopicInfoResult = await ledgerService.getTopicInfo({ topicId: 'topicId' });
     expect(getTopicInfoResult.topicId).toBeDefined();
     await expect(
-      ledgerService.updateTopic({ topicId: 'topicId', currentAdminKey: PrivateKey.fromStringDer(operatorKey) })
+      ledgerService.updateTopic({ topicId: 'topicId', currentAdminKeySigner: operatorKeySigner })
     ).resolves.not.toThrow();
     await expect(
-      ledgerService.deleteTopic({ topicId: 'topicId', currentAdminKey: PrivateKey.fromStringDer(operatorKey) })
+      ledgerService.deleteTopic({ topicId: 'topicId', adminKeySigner: operatorKeySigner })
     ).resolves.not.toThrow();
 
     // Message service
@@ -117,7 +121,7 @@ describe('Hedera HCS networks configuration', () => {
     // File service
     const submitFileResult = await ledgerService.submitFile({
       payload: Buffer.from('test'),
-      submitKey: PrivateKey.generate()
+      submitKeySigner: new Signer(PrivateKey.generate()),
     });
     expect(submitFileResult).toBeDefined();
     const resolveFileResult = await ledgerService.resolveFile({ topicId: 'topicId' });
@@ -149,7 +153,7 @@ describe('Hedera HCS networks configuration', () => {
     const submitFileResult = await ledgerService.submitFile({
       networkName,
       payload: Buffer.from('test'),
-      submitKey: PrivateKey.generate()
+      submitKeySigner: new Signer(PrivateKey.generate()),
     });
     expect(submitFileResult).toBeDefined();
     const resolveFileResult = await ledgerService.resolveFile({ networkName, topicId: 'topicId' });
@@ -183,7 +187,7 @@ describe('Hedera HCS networks configuration', () => {
     await expect(
       ledgerService.submitFile({
         networkName,
-        submitKey: PrivateKey.generate(),
+        submitKeySigner: new Signer(PrivateKey.generate()),
         payload: Buffer.from('test'),
       })
     ).rejects.toThrow('Unknown Hedera network');
@@ -217,7 +221,7 @@ describe('Hedera HCS networks configuration', () => {
     await expect(
       ledgerService.submitFile({
         payload: Buffer.from('test'),
-        submitKey: PrivateKey.generate(),
+        submitKeySigner: new Signer(PrivateKey.generate()),
       })
     ).rejects.toThrow('Unknown Hedera network');
     await expect(ledgerService.resolveFile({ topicId: 'topicId' })).rejects.toThrow('Unknown Hedera network');
@@ -253,7 +257,7 @@ describe('Hedera HCS networks configuration', () => {
     const submitFileResult = await ledgerService.submitFile({
       networkName,
       payload: Buffer.from('test'),
-      submitKey: PrivateKey.generate(),
+      submitKeySigner: new Signer(PrivateKey.generate()),
     });
     expect(submitFileResult).toBeDefined();
     const resolveFileResult = await ledgerService.resolveFile({ networkName, topicId: 'topicId' });
@@ -285,7 +289,7 @@ describe('Hedera HCS networks configuration', () => {
     await expect(
       ledgerService.submitFile({
         payload: Buffer.from('test'),
-        submitKey: PrivateKey.generate(),
+        submitKeySigner: new Signer(PrivateKey.generate()),
       })
     ).rejects.toThrow('Unknown Hedera network');
     await expect(ledgerService.resolveFile({ topicId: 'topicId' })).rejects.toThrow('Unknown Hedera network');
