@@ -39,79 +39,79 @@ describe('Internal signer class', () => {
   });
 
   describe('getting the public key', () => {
-    it('should return the matching public key', () => {
+    it('should return the matching public key', async () => {
       const privateKey = PrivateKey.generateED25519();
       const signer = new Signer(privateKey.toStringDer());
 
-      const publicKey = signer.publicKey();
+      const publicKey = await signer.publicKey();
 
       expect(publicKey).toBe(privateKey.publicKey.toStringDer());
     });
   });
 
   describe('signing and verifying a message', () => {
-    it('should sign a message', () => {
+    it('should sign a message', async () => {
       const privateKey = PrivateKey.generateED25519();
       const signer = new Signer(privateKey);
 
       const message = Buffer.from('Hello, Hedera!');
-      const signature = signer.sign(message);
+      const signature = await signer.sign(message);
 
       expect(signature).toBeInstanceOf(Uint8Array);
       expect(signature.length).toBeGreaterThan(0);
     });
 
-    it('should generate always the same signature for the same message', () => {
+    it('should generate always the same signature for the same message', async () => {
       const privateKey = PrivateKey.generateED25519();
       const signer = new Signer(privateKey);
 
       const message = Buffer.from('Hello, Hedera!');
-      const signature1 = signer.sign(message);
-      const signature2 = signer.sign(message);
+      const signature1 = await signer.sign(message);
+      const signature2 = await signer.sign(message);
 
       expect(signature1).toEqual(signature2);
     });
 
-    it('should verify a valid signature', () => {
+    it('should verify a valid signature', async () => {
       const privateKey = PrivateKey.generateED25519();
       const signer = new Signer(privateKey);
 
       const message = Buffer.from('Hello, Hedera!');
-      const signature = signer.sign(message);
+      const signature = await signer.sign(message);
 
-      const isValid = signer.verify(message, signature);
+      const isValid = await signer.verify(message, signature);
 
       expect(isValid).toBe(true);
     });
 
-    it('should verify a valid signature with another signer instance', () => {
+    it('should verify a valid signature with another signer instance', async () => {
       const privateKey = PrivateKey.generateED25519();
       const signer = new Signer(privateKey.toStringDer());
 
       const message = Buffer.from('Hello, Hedera!');
-      const signature = signer.sign(message);
+      const signature = await signer.sign(message);
 
       const verifier = new Signer(privateKey.toStringDer());
-      const isValid = verifier.verify(message, signature);
+      const isValid = await verifier.verify(message, signature);
 
       expect(isValid).toBe(true);
     });
 
-    it('should not verify an invalid signature', () => {
+    it('should not verify an invalid signature', async () => {
       const privateKey = PrivateKey.generateED25519();
       const signer = new Signer(privateKey);
 
       const message = Buffer.from('Hello, Hedera!');
-      const signature = signer.sign(message);
+      const signature = await signer.sign(message);
 
       const tamperedMessage = Buffer.from('Hello, Hedera?');
 
-      const isValid = signer.verify(tamperedMessage, signature);
+      const isValid = await signer.verify(tamperedMessage, signature);
 
       expect(isValid).toBe(false);
     });
 
-    it('should not verify a signature with a different key', () => {
+    it('should not verify a signature with a different key', async () => {
       const privateKey1 = PrivateKey.generateED25519();
       const signer1 = new Signer(privateKey1);
 
@@ -119,9 +119,9 @@ describe('Internal signer class', () => {
       const signer2 = new Signer(privateKey2);
 
       const message = Buffer.from('Hello, Hedera!');
-      const signature = signer1.sign(message);
+      const signature = await signer1.sign(message);
 
-      const isValid = signer2.verify(message, signature);
+      const isValid = await signer2.verify(message, signature);
 
       expect(isValid).toBe(false);
     });

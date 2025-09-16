@@ -48,6 +48,8 @@ describe('Default DIDAddServiceMessage Lifecycle', () => {
           publicKey: jest.fn(),
           sign: signMock,
           verify: jest.fn(),
+          publicKeyInstance: jest.fn(),
+          signTransaction: jest.fn(),
         },
         publisher: {
           network: jest.fn(),
@@ -79,6 +81,8 @@ describe('Default DIDAddServiceMessage Lifecycle', () => {
             publicKey: jest.fn(),
             sign: signMock,
             verify: jest.fn(),
+            publicKeyInstance: jest.fn(),
+            signTransaction: jest.fn(),
           },
           publisher: {
             network: jest.fn(),
