@@ -95,7 +95,7 @@ Returns::
 === `verify`
 [source,ts]
 ----
-verify(message: Uint8Array, signature: Uint8Array): boolean
+verify(message: Uint8Array, signature: Uint8Array): Promise<boolean>
 ----
 
 Verifies the given signature against the message and public key.

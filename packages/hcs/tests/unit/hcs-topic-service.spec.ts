@@ -140,7 +140,7 @@ describe('HcsTopicService', () => {
       const props: CreateTopicProps = {
         topicMemo: 'TestMemo',
         submitKey: submitPublicKey,
-        adminKeySigner: adminKeySigner,
+        adminKeySigner,
         autoRenewPeriod: 30 * 24 * 60 * 60 * 1000,
         autoRenewAccountId: '0.0.123',
         autoRenewAccountKeySigner: autoRenewAccountKeySigner,
@@ -274,7 +274,7 @@ describe('HcsTopicService', () => {
 
     const props: DeleteTopicProps = {
       topicId: '0.0.50',
-      adminKeySigner: adminKeySigner,
+      adminKeySigner,
     };
 
     it('should delete the topic and wait for changes visibility', async () => {

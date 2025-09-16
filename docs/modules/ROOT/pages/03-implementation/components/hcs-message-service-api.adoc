@@ -32,7 +32,7 @@ Submits a message to an HCS topic.
 ==== `SubmitMessageProps` fields:
 * `topicId` (required, string): The ID of the topic to which the message will be submitted.
 * `message` (required, string): The message content to submit.
-* `submitKeySigner` (optional, Signer): Signer for a key that must sign any message submitted to the file topic (access control).
+* `submitKeySigner` (optional, Signer): Signer for a key that must sign any message submitted to the topic (access control).
 * `waitForChangesVisibility` (optional, boolean): If true, waits until the message becomes visible/confirmed in the topic.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility confirmation.
 

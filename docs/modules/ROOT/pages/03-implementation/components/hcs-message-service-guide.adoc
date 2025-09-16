@@ -46,7 +46,7 @@ Parameters:
 
 * `topicId` (required, string): The identifier of the topic to submit the message to.
 * `message` (required, string): The message content.
-* `submitKeySigner` (optional, Signer): Signer for a key that must sign any message submitted to the file topic (access control).
+* `submitKeySigner` (optional, Signer): Signer for a key that must sign any message submitted to the topic (access control).
 * `waitForChangesVisibility` (optional, boolean): Whether to wait until the message is confirmed visible on the mirror node.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility confirmation.
 

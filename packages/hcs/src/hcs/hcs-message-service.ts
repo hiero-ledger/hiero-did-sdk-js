@@ -82,7 +82,7 @@ export class HcsMessageService {
    * @param props - The properties for submitting a message
    * @param props.topicId - The ID of the topic to submit the message to
    * @param props.message - The message content to submit
-   * @param props.submitKeySigner - Optional Signer for a key that must sign any message submitted to the file topic (access control)
+   * @param props.submitKeySigner - Optional Signer for a key that must sign any message submitted to the topic (access control)
    * @param props.waitForChangesVisibility - Optional flag to wait until the message is visible in the topic
    * @param props.waitForChangesVisibilityTimeoutMs - Optional timeout in milliseconds for waiting for visibility
    * @returns A promise that resolves to the submission result containing nodeId, transactionId, and transactionHash

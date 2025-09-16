@@ -112,7 +112,7 @@ Submits a message to a topic.
 ==== `SubmitMessageProps` parameters:
 * `topicId` (required, string): The topic ID to submit the message.
 * `message` (required, string): Message content.
-* `submitKeySigner` (optional, Signer): Signer for a key that must sign any message submitted to the file topic (access control).
+* `submitKeySigner` (optional, Signer): Signer for a key that must sign any message submitted to the topic (access control).
 * `waitForChangesVisibility` (optional, boolean): Wait for consensus/gossip visibility if true.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
 
