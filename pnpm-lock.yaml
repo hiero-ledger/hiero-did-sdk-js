@@ -117,6 +117,9 @@ importers:
       '@hiero-did-sdk/client':
         specifier: workspace:*
         version: link:../client
+      '@hiero-did-sdk/signer-internal':
+        specifier: workspace:*
+        version: link:../signer-internal
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -185,6 +188,9 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
     devDependencies:
+      '@hiero-did-sdk/signer-internal':
+        specifier: workspace:*
+        version: link:../signer-internal
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
