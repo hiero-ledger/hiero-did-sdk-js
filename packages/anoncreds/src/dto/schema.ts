@@ -7,6 +7,7 @@ import {
   AnonCredsResolutionMetadata,
   Extensible,
 } from './base';
+import { Signer } from '@hiero-did-sdk/core';
 
 export interface GetSchemaReturn {
   schema?: AnonCredsSchema;
@@ -17,7 +18,7 @@ export interface GetSchemaReturn {
 
 export interface RegisterSchemaOptions {
   schema: AnonCredsSchema;
-  issuerKeyDer: string;
+  issuerKeySigner: Signer;
 }
 
 export interface RegisterSchemaReturnStateFailed extends AnonCredsOperationStateFailed {

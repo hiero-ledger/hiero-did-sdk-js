@@ -1,5 +1,13 @@
 # @hiero-did-sdk/signer-hashicorp-vault
 
+## 0.1.4
+
+### Patch Changes
+
+- Use Signer in HCS and AnonCreds packages API
+- Updated dependencies
+  - @hiero-did-sdk/core@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

@@ -4,10 +4,14 @@ import { HederaHcsService } from '../../src/hedera-hcs-service';
 import { Buffer } from 'buffer';
 import { v4 as uuidv4 } from 'uuid';
 import { Cache } from '@hiero-did-sdk/core';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
 const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
+
+const operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
+const operatorKeySigner = new Signer(operatorKeyInstance);
 
 const TEST_VARIANTS = [
   { useRestAPI: false, name: 'Client' },
@@ -22,7 +26,6 @@ describe('Hedera HCS Service', () => {
     set: jest.fn(),
     remove: jest.fn(),
     clear: jest.fn(),
-    cleanupExpired: jest.fn(),
   };
 
   describe.each(TEST_VARIANTS)('Using $name', ({ useRestAPI }) => {
@@ -59,32 +62,35 @@ describe('Hedera HCS Service', () => {
     it('Create topic', async () => {
       const topicMemo = '1234567890';
       const autoRenewPeriod = 90 * 24 * 60 * 60; // sec
+
       const topicId = await ledgerService.createTopic({
         topicMemo,
-        submitKey: PrivateKey.fromStringDer(operatorKey),
-        adminKey: PrivateKey.fromStringDer(operatorKey),
+        submitKey: operatorKeyInstance,
+        adminKeySigner: operatorKeySigner,
         autoRenewPeriod,
         autoRenewAccountId: operatorId,
-        autoRenewAccountKey: PrivateKey.fromStringDer(operatorKey),
+        autoRenewAccountKeySigner: operatorKeySigner,
         waitForChangesVisibility: true,
       });
       expect(topicId).toBeDefined();
+
       const topicInfo = await ledgerService.getTopicInfo({
         topicId: topicId.toString(),
       });
+
       expect(topicInfo.topicMemo).toEqual(topicMemo);
-      expect(topicInfo.submitKey).toEqual(PrivateKey.fromStringDer(operatorKey).publicKey.toStringRaw());
-      expect(topicInfo.adminKey).toEqual(PrivateKey.fromStringDer(operatorKey).publicKey.toStringRaw());
+      expect(topicInfo.submitKey).toEqual(operatorKeyInstance.publicKey.toStringRaw());
+      expect(topicInfo.adminKey).toEqual(operatorKeyInstance.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(autoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(operatorId);
     });
 
     it('Get topic info', async () => {
-      // Create topic
       const topicMemo = '1234567890';
+
       const topicId = await ledgerService.createTopic({
         topicMemo,
-        adminKey: PrivateKey.fromStringDer(operatorKey),
+        adminKeySigner: operatorKeySigner,
         waitForChangesVisibility: true,
       });
       expect(topicId).toBeDefined();
@@ -93,7 +99,7 @@ describe('Hedera HCS Service', () => {
       const topicInfo = await ledgerService.getTopicInfo({ topicId });
       expect(topicInfo).toBeDefined();
       expect(topicInfo.topicMemo).toEqual(topicMemo);
-      expect(topicInfo.adminKey).toEqual(PrivateKey.fromStringDer(operatorKey).publicKey.toStringRaw());
+      expect(topicInfo.adminKey).toEqual(operatorKeyInstance.publicKey.toStringRaw());
       expect(topicInfo.submitKey).toBeUndefined();
     });
 
@@ -103,15 +109,17 @@ describe('Hedera HCS Service', () => {
       const admin1Key = PrivateKey.generate();
       const admin2Key = PrivateKey.generate();
 
+      const admin1KeySigner = new Signer(admin1Key);
+      const admin2KeySigner = new Signer(admin2Key);
+
       const renewAccountId = '0.0.5065521';
       const renewAccountKey =
         '302e020100300506032b657004220420e4f76aa303bfbf350ad080b879173b31977e5661d51ff5932f6597e2bb6680ff';
-
-      // Create the test topic
       const topicMemo = '1234567890';
+
       const topicId = await ledgerService.createTopic({
         topicMemo,
-        adminKey: admin1Key,
+        adminKeySigner: admin1KeySigner,
         waitForChangesVisibility: true,
       });
       expect(topicId).toBeDefined();
@@ -127,12 +135,12 @@ describe('Hedera HCS Service', () => {
 
       await ledgerService.updateTopic({
         topicId,
-        currentAdminKey: admin1Key,
+        currentAdminKeySigner: admin1KeySigner,
         submitKey: submit1Key,
         topicMemo: newTopicMemo,
         autoRenewPeriod: newAutoRenewPeriod,
         autoRenewAccountId: renewAccountId,
-        autoRenewAccountKey: PrivateKey.fromStringDer(renewAccountKey),
+        autoRenewAccountKeySigner: new Signer(renewAccountKey),
         expirationTime: newExpirationTime,
         waitForChangesVisibility: true,
       });
@@ -143,17 +151,16 @@ describe('Hedera HCS Service', () => {
       expect(topicInfo.adminKey).toEqual(admin1Key.publicKey.toStringRaw());
       expect(topicInfo.autoRenewPeriod).toEqual(newAutoRenewPeriod);
       expect(topicInfo.autoRenewAccountId).toEqual(renewAccountId);
-      if (topicInfo.expirationTime)
-        expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
+      if (topicInfo.expirationTime) expect(topicInfo.expirationTime).toEqual(newExpirationTime.getTime());
 
       // Change memo, renew period, admin and submit keys
       const nextNewTopicMemo = 'the new memo';
       const nextNewAutoRenewPeriod = 87 * 24 * 60 * 60; // sec
       await ledgerService.updateTopic({
         topicId,
-        currentAdminKey: admin2Key,
+        currentAdminKeySigner: admin2KeySigner,
         submitKey: submit2Key,
-        adminKey: admin1Key,
+        adminKeySigner: admin1KeySigner,
         topicMemo: nextNewTopicMemo,
         autoRenewPeriod: nextNewAutoRenewPeriod,
         waitForChangesVisibility: true,
@@ -170,9 +177,9 @@ describe('Hedera HCS Service', () => {
       // Clear auto re-new account
       await ledgerService.updateTopic({
         topicId,
-        currentAdminKey: admin1Key,
+        currentAdminKeySigner: admin1KeySigner,
         autoRenewAccountId: operatorId,
-        autoRenewAccountKey: PrivateKey.fromStringDer(operatorKey),
+        autoRenewAccountKeySigner: operatorKeySigner,
         waitForChangesVisibility: true,
       });
 
@@ -187,8 +194,8 @@ describe('Hedera HCS Service', () => {
       // Set admin and submit keys to be the same
       await ledgerService.updateTopic({
         topicId,
-        currentAdminKey: admin1Key,
-        adminKey: admin2Key,
+        currentAdminKeySigner: admin1KeySigner,
+        adminKeySigner: admin2KeySigner,
         submitKey: admin2Key,
         waitForChangesVisibility: true,
       });
@@ -206,7 +213,7 @@ describe('Hedera HCS Service', () => {
       const topicMemo = '1234567890';
       const topicId = await ledgerService.createTopic({
         topicMemo,
-        adminKey: PrivateKey.fromStringDer(operatorKey),
+        adminKeySigner: operatorKeySigner,
         waitForChangesVisibility: true,
       });
       expect(topicId).toBeDefined();
@@ -216,7 +223,7 @@ describe('Hedera HCS Service', () => {
 
       await ledgerService.deleteTopic({
         topicId,
-        currentAdminKey: PrivateKey.fromStringDer(operatorKey),
+        adminKeySigner: operatorKeySigner,
         waitForChangesVisibility: true,
       });
 
@@ -233,7 +240,7 @@ describe('Hedera HCS Service', () => {
       const content = `___${uuidv4()}___`;
       const fileTopicId = await ledgerService.submitFile({
         payload: Buffer.from(content),
-        submitKey: PrivateKey.generate(),
+        submitKeySigner: new Signer(PrivateKey.generate()),
         waitForChangesVisibility: true,
       });
       expect(fileTopicId).toBeDefined();
@@ -244,7 +251,7 @@ describe('Hedera HCS Service', () => {
       const content = `___${uuidv4()}___`;
       const topicId = await ledgerService.submitFile({
         payload: Buffer.from(content),
-        submitKey: PrivateKey.generate(),
+        submitKeySigner: new Signer(PrivateKey.generate()),
         waitForChangesVisibility: true,
       });
       expect(topicId).toBeDefined();
@@ -296,7 +303,7 @@ describe('Hedera HCS Service', () => {
       const messageTransactionId = await ledgerService.submitMessage({
         topicId,
         message: 'test message',
-        submitKey,
+        submitKeySigner: new Signer(submitKey),
         waitForChangesVisibility: true,
       });
       expect(messageTransactionId).toBeDefined();

@@ -3,5 +3,4 @@ export interface Cache {
   set<CacheValue>(key: string, value: CacheValue, expiresInSeconds?: number): Promise<void>;
   remove(key: string): Promise<void>;
   clear(): Promise<void>;
-  cleanupExpired(): Promise<void>;
 }

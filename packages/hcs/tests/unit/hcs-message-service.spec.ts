@@ -4,6 +4,7 @@ import { Buffer } from 'buffer';
 import { HcsCacheService } from '../../src/cache';
 import { HcsMessageService, TopicMessageData } from '../../src/hcs';
 import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 jest.mock('../../src/cache');
 jest.mock('../../src/shared');
@@ -18,6 +19,7 @@ jest.mock('@hashgraph/sdk', () => {
       setMessage: jest.fn().mockReturnThis(),
       freezeWith: jest.fn().mockReturnThis(),
       sign: jest.fn().mockResolvedValue(undefined),
+      signWith: jest.fn().mockReturnThis(),
       execute: jest.fn(),
     })),
     TopicMessageQuery: jest.fn(),
@@ -96,6 +98,7 @@ describe('HcsMessageService', () => {
         setMessage: jest.fn().mockReturnThis(),
         freezeWith: jest.fn().mockReturnThis(),
         sign: jest.fn().mockResolvedValue(undefined),
+        signWith: jest.fn().mockReturnThis(),
         execute: jest.fn().mockResolvedValue(responseMock),
       };
       (TopicMessageSubmitTransaction as unknown as jest.Mock).mockImplementation(() => transactionMock);
@@ -127,15 +130,17 @@ describe('HcsMessageService', () => {
     });
 
     it('should sign the transaction with submitKey if provided', async () => {
-      const submitKey = {} as PrivateKey;
+      const submitKey = PrivateKey.generateED25519();
+      const submitKeySigner = new Signer(submitKey);
 
       await service.submitMessage({
         topicId: '0.0.123',
         message: 'msg',
-        submitKey,
+        submitKeySigner,
       });
 
-      expect(transactionMock.sign).toHaveBeenCalledWith(submitKey);
+      const submitPublicKey = await submitKeySigner.publicKeyInstance();
+      expect(transactionMock.signWith).toHaveBeenCalledWith(submitPublicKey, expect.any(Function));
     });
 
     it('should wait for changes visibility if flag is set', async () => {

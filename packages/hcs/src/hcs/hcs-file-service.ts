@@ -1,11 +1,11 @@
-import { type Client, PrivateKey } from '@hashgraph/sdk';
+import { type Client } from '@hashgraph/sdk';
 import { Crypto } from '@hiero-did-sdk/crypto';
 import { Zstd } from '@hiero-did-sdk/zstd';
 import { HcsCacheService } from '../cache';
 import { HcsMessageService } from './hcs-message-service';
 import { HcsTopicService } from './hcs-topic-service';
 import { CacheConfig } from '../hedera-hcs-service.configuration';
-import { Cache } from '@hiero-did-sdk/core';
+import { Cache, Signer } from '@hiero-did-sdk/core';
 import { waitForChangesVisibility } from '../shared';
 import { Buffer } from 'buffer';
 
@@ -23,7 +23,7 @@ export interface HcsFileChunkMessage {
 
 export interface SubmitFileProps {
   payload: Buffer;
-  submitKey: PrivateKey;
+  submitKeySigner: Signer;
   waitForChangesVisibility?: boolean;
   waitForChangesVisibilityTimeoutMs?: number;
 }
@@ -53,7 +53,7 @@ export class HcsFileService {
    * Submit HCS-1 file to HCS
    * @param props - The properties for submitting a file
    * @param props.payload - The file content as a Buffer
-   * @param props.submitKey - Optional private key used to sign the transaction
+   * @param props.submitKey - Signer for a key that must sign any message submitted to the file topic (access control)
    * @param props.waitForChangesVisibility - Optional flag to wait until the file is visible in the network
    * @param props.waitForChangesVisibilityTimeoutMs - Optional timeout in milliseconds for waiting
    * @returns The topic ID where the file was submitted
@@ -65,7 +65,7 @@ export class HcsFileService {
     const payloadHash = Crypto.sha256(props.payload);
     const topicId = await new HcsTopicService(this.client, this.cacheService).createTopic({
       topicMemo: this.createHCS1Memo(payloadHash),
-      submitKey: props.submitKey,
+      submitKey: await props.submitKeySigner.publicKeyInstance(),
     });
 
     const chunks = this.buildChunkMessagesFromFile(props.payload);
@@ -74,7 +74,7 @@ export class HcsFileService {
       await hcsMessagesService.submitMessage({
         topicId,
         message,
-        submitKey: props.submitKey,
+        submitKeySigner: props.submitKeySigner,
         waitForChangesVisibility: false,
       });
     }

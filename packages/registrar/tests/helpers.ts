@@ -1,22 +1,24 @@
 import { Network, PublicKeyInDer, Publisher, Signer } from '@hiero-did-sdk/core';
 import { Client, PrivateKey, PublicKey, Transaction, TransactionReceipt } from '@hashgraph/sdk';
 
-export class TestSigner implements Signer {
+export class TestSigner extends Signer {
   constructor(
     public readonly signMock: jest.Mock = jest.fn(),
     public readonly publicKeyMock: jest.Mock = jest.fn(),
     public readonly verifyMock: jest.Mock = jest.fn()
-  ) {}
+  ) {
+    super();
+  }
 
-  sign(data: Uint8Array): Uint8Array {
+  sign(data: Uint8Array): Promise<Uint8Array> {
     return this.signMock(data) as never;
   }
 
-  publicKey(): PublicKeyInDer {
+  publicKey(): Promise<PublicKeyInDer> {
     return this.publicKeyMock() as never;
   }
 
-  verify(message: Uint8Array, signature: Uint8Array): boolean {
+  verify(message: Uint8Array, signature: Uint8Array): Promise<boolean> {
     return this.verifyMock(message, signature) as never;
   }
 }

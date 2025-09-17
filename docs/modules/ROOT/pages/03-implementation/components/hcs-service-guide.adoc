@@ -70,7 +70,6 @@ export interface Cache {
   set<CacheValue>(key: string, value: CacheValue, expiresInSeconds?: number): Promise<void>;
   remove(key: string): Promise<void>;
   clear(): Promise<void>;
-  cleanupExpired(): Promise<void>;
 }
 ----
 
@@ -160,7 +159,7 @@ const hcsService = new HederaHcsService({
 
 const topic = await hcsService.deleteTopic({
   topicId,
-  currentAdminKey: PrivateKey.fromStringDer(operatorKey),
+  adminKeySigner: new Signer(PrivateKey.fromStringDer(operatorKey)),
   waitForChangesVisibility: true,
 });
 
@@ -245,7 +244,7 @@ const hcsService = new HederaHcsService({
 
 const topic = await hcsService.submitFile({
   payload: Buffer.from('This is a test content'),
-  submitKey: PrivateKey.generate(),
+  submitKeySigner: new Signer(PrivateKey.generate()),
   waitForChangesVisibility: true,
 });
 

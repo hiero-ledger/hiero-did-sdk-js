@@ -41,7 +41,7 @@ Returns::
 === `publicKey`
 [source,ts]
 ----
-publicKey(): string
+publicKey(): Promise<string>
 ----
 
 Returns the public key associated with the `Signer` instance in DER format.
@@ -50,10 +50,22 @@ Returns::
 
 * The public key in DER format.
 
+=== `publicKeyInstance`
+[source,ts]
+----
+publicKeyInstance(): Promise<PublicKey>
+----
+
+Returns Hiero SDK public key instance associated with the `Signer` instance.
+
+Returns::
+
+* Hiero SDK public key instance.
+
 === `sign`
 [source,ts]
 ----
-sign(message: Uint8Array): Uint8Array
+sign(message: Uint8Array): Promise<Uint8Array>
 ----
 
 Signs the given message using the private key and returns the signature.
@@ -65,10 +77,25 @@ Returns::
 
 * The signature of the message.
 
+=== `signTransaction`
+[source,ts]
+----
+signTransaction(transaction: Transaction): Promise<Transaction>
+----
+
+Signs the given message using the private key and returns the signature.
+
+Parameters::
+* `transaction`: Hiero SDK transaction to be signed.
+
+Returns::
+
+* Signed Hiero SDK transaction instance.
+
 === `verify`
 [source,ts]
 ----
-verify(message: Uint8Array, signature: Uint8Array): boolean
+verify(message: Uint8Array, signature: Uint8Array): Promise<boolean>
 ----
 
 Verifies the given signature against the message and public key.

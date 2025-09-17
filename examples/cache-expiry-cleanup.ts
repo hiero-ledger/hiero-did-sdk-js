@@ -11,7 +11,7 @@ async function delay(ms: number) {
 async function main() {
   const cache = new LRUMemoryCache();
 
-  // Store a value with 2 seconds expiration
+  // Store a value with 2-second expiration
   await cache.set('tempKey', 'temporaryValue', 2);
   console.log('Set temporary cache entry with 2 seconds TTL');
 
@@ -23,10 +23,6 @@ async function main() {
 
   // Try to get expired value
   console.log('Value after 3 seconds:', await cache.get('tempKey')); // should be null
-
-  // Cleanup expired entries
-  await cache.cleanupExpired();
-  console.log('Expired entries cleaned up');
 }
 
 main().catch(console.error);

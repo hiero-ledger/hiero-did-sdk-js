@@ -36,7 +36,7 @@ Registers a schema in the network registry.
 
 ==== Fields of `RegisterSchemaOptions & NetworkName`:
 * `networkName` (optional, string): Network name to use.
-* `issuerKeyDer` (required, string): The issuer private key in the DER format.
+* `issuerKeySigner` (required, Signer): Signer instance for signing Hedera transactions with an issuer private key.
 * `schema` (required, Anoncreds schema object): The schema to register.
 
 .Returns
@@ -69,7 +69,7 @@ Registers a credential definition in the registry.
 
 ==== Fields of `RegisterCredentialDefinitionOptions & NetworkName`:
 * `networkName` (optional, string): Network name to use.
-* `issuerKeyDer` (required, string): The issuer private key in the DER format.
+* `issuerKeySigner` (required, Signer): Signer instance for signing Hedera transactions with an issuer private key.
 * `credentialDefinition` (required, Anoncreds credential definition): The credential definition to register.
 * `options` (optional): Additional metadata options such as supportRevocation flag.
 
@@ -104,7 +104,7 @@ Registers a revocation registry definition in the registry.
 
 ==== Fields of `RegisterRevocationRegistryDefinitionOptions & NetworkName`:
 * `networkName` (optional, string): Network name to use.
-* `issuerKeyDer` (required, string): The issuer private key in the DER format.
+* `issuerKeySigner` (required, Signer): Signer instance for signing Hedera transactions with an issuer private key.
 * `revocationRegistryDefinition` (required, Anoncreds revocation registry definition): The registry definition to register.
 
 .Returns
@@ -137,7 +137,7 @@ Registers a revocation status list in the registry.
 
 ==== Fields of `RegisterRevocationStatusListOptions & NetworkName`:
 * `networkName` (optional, string): Network name to use.
-* `issuerKeyDer` (required, string): The issuer private key in the DER format.
+* `issuerKeySigner` (required, Signer): Signer instance for signing Hedera transactions with an issuer private key.
 * `revocationStatusList` (required, Anoncreds revocation status list without timestamp): The revocation status list to register.
 
 .Returns

@@ -1,8 +1,9 @@
 import { HcsFileService, ChunkMessage } from '../../src';
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey, PublicKey } from '@hashgraph/sdk';
 import { Crypto } from '@hiero-did-sdk/crypto';
 import { Zstd } from '@hiero-did-sdk/zstd';
 import { Buffer } from 'buffer';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const mockTopicId = 'mockTopicId';
 
@@ -68,7 +69,6 @@ jest.mock('../../src/cache/hcs-cache-service', () => {
 
 describe('HcsFileService', () => {
   const mockClient = {} as Client;
-  const mockPrivateKey = {} as PrivateKey;
 
   let service: HcsFileService;
 
@@ -91,31 +91,20 @@ describe('HcsFileService', () => {
 
   describe('submitFile', () => {
     it('should submit a file successfully', async () => {
-      const submitKey = PrivateKey.generate();
-      const result = await service.submitFile({ payload: testPayload, submitKey});
+      const submitKey = PrivateKey.generateED25519();
+      const result = await service.submitFile({ payload: testPayload, submitKeySigner: new Signer(submitKey) });
 
       expect(Crypto.sha256).toHaveBeenCalledWith(testPayload);
       expect(Zstd.compress).toHaveBeenCalledWith(testPayload);
 
       expect(mockCreateTopic).toHaveBeenCalledWith({
         topicMemo: mockHcsTopicMemo,
-        submitKey,
+        // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
+        submitKey: PublicKey.fromString(submitKey.publicKey.toStringDer()),
       });
 
       expect(mockSubmitMessage).toHaveBeenCalled();
       expect(result).toBe(mockTopicId);
-    });
-
-    it('should submit a file with submitKey', async () => {
-      await service.submitFile({
-        payload: testPayload,
-        submitKey: mockPrivateKey,
-      });
-
-      expect(mockCreateTopic).toHaveBeenCalledWith({
-        topicMemo: mockHcsTopicMemo,
-        submitKey: mockPrivateKey,
-      });
     });
 
     it('should wait for changes visibility if specified', async () => {
@@ -130,7 +119,7 @@ describe('HcsFileService', () => {
 
       await service.submitFile({
         payload: testPayload,
-        submitKey: PrivateKey.generate(),
+        submitKeySigner: new Signer(PrivateKey.generate()),
         waitForChangesVisibility: true,
         waitForChangesVisibilityTimeoutMs: 1000,
       });

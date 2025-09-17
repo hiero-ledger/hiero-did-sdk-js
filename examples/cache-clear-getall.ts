@@ -11,17 +11,17 @@ async function main() {
   await cache.set('key1', 'value1');
   await cache.set('key2', { data: 123 });
 
-  // Get all entries
-  const allEntries = await cache.getAll();
-  console.log('All cache entries:', allEntries);
+  console.log('Initial cache entries:');
+  console.log('Entry with a key "key1"', await cache.get('key1'));
+  console.log('Entry with a key "key2"', await cache.get('key2'));
 
   // Clear cache
   await cache.clear();
   console.log('Cache cleared');
 
-  // Confirm cache is empty
-  const emptyEntries = await cache.getAll();
-  console.log('Entries after clear:', emptyEntries);
+  console.log('Cache entries after clearing:');
+  console.log('Entry with a key "key1"', await cache.get('key1'));
+  console.log('Entry with a key "key2"', await cache.get('key2'));
 }
 
 main().catch(console.error);

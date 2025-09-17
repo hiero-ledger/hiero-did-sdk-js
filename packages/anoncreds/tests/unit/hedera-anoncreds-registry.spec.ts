@@ -6,11 +6,13 @@ import { HederaAnoncredsRegistry, HederaAnoncredsRegistryConfiguration } from '.
 import { buildAnonCredsIdentifier, parseAnonCredsIdentifier } from '../../src/utils';
 import {
   AnonCredsCredentialDefinition,
-  AnonCredsRevocationRegistryDefinition, AnonCredsRevocationStatusList,
+  AnonCredsRevocationRegistryDefinition,
+  AnonCredsRevocationStatusList,
   AnonCredsSchema,
 } from '../../src/specification';
 import {
-  AnonCredsRevocationStatusListWithoutTimestamp, RegisterCredentialDefinitionOptions,
+  AnonCredsRevocationStatusListWithoutTimestamp,
+  RegisterCredentialDefinitionOptions,
   RegisterCredentialDefinitionReturnStateFailed,
   RegisterRevocationRegistryDefinitionReturnStateFailed,
   RegisterRevocationStatusListReturnStateFailed,
@@ -19,6 +21,7 @@ import {
 } from '../../src/dto';
 import { NetworkName } from '@hiero-did-sdk/client';
 import { PrivateKey } from '@hashgraph/sdk';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 jest.mock('@hiero-did-sdk/hcs');
 jest.mock('@hiero-did-sdk/zstd');
@@ -41,7 +44,8 @@ describe('HederaAnoncredsRegistry', () => {
 
     // id example: "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.5896422"
     (buildAnonCredsIdentifier as jest.Mock).mockImplementation(
-      (issuerId: string, topicId: string, type: string) => `did:hedera:testnet:${issuerId}/anoncreds/v0/${type}/${topicId}`
+      (issuerId: string, topicId: string, type: string) =>
+        `did:hedera:testnet:${issuerId}/anoncreds/v0/${type}/${topicId}`
     );
     (parseAnonCredsIdentifier as jest.Mock).mockImplementation((id: string) => {
       const sections = id.split('/');
@@ -72,15 +76,21 @@ describe('HederaAnoncredsRegistry', () => {
         version: '1.0',
         attrNames: [],
       };
-      const result = await registry.registerSchema({ schema, networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer() });
+      const result = await registry.registerSchema({
+        schema,
+        networkName: 'testnet',
+        issuerKeySigner: new Signer(PrivateKey.generate()),
+      });
 
       expect(result.schemaState.state).toBe('finished');
       expect(result.schemaState.schema).toEqual(schema);
-      expect(serviceMock.submitFile).toHaveBeenCalledWith(expect.objectContaining({
-        networkName: 'testnet',
-        payload: Buffer.from(JSON.stringify(schema)),
-        waitForChangesVisibility: true,
-      }));
+      expect(serviceMock.submitFile).toHaveBeenCalledWith(
+        expect.objectContaining({
+          networkName: 'testnet',
+          payload: Buffer.from(JSON.stringify(schema)),
+          waitForChangesVisibility: true,
+        })
+      );
     });
 
     it('should fail to register schema and return failure reason', async () => {
@@ -92,7 +102,11 @@ describe('HederaAnoncredsRegistry', () => {
         version: '1.0',
         attrNames: [],
       };
-      const result = await registry.registerSchema({ schema, networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer() });
+      const result = await registry.registerSchema({
+        schema,
+        networkName: 'testnet',
+        issuerKeySigner: new Signer(PrivateKey.generate()),
+      });
 
       expect(result.schemaState.state).toBe('failed');
       const failedState = result.schemaState as RegisterSchemaReturnStateFailed;
@@ -105,12 +119,13 @@ describe('HederaAnoncredsRegistry', () => {
       const schemaObj = { data: 'schema-data' };
       serviceMock.resolveFile.mockResolvedValue(Buffer.from(JSON.stringify(schemaObj)));
 
-      const id = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.5896422'
+      const id =
+        'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.5896422';
       const result = await registry.getSchema(id);
 
       expect(result.schemaId).toBe(id);
       expect(result.schema).toEqual(schemaObj);
-      expect(serviceMock.resolveFile).toHaveBeenCalledWith({networkName: "testnet", topicId: "0.0.5896422"});
+      expect(serviceMock.resolveFile).toHaveBeenCalledWith({ networkName: 'testnet', topicId: '0.0.5896422' });
     });
   });
 
@@ -128,7 +143,12 @@ describe('HederaAnoncredsRegistry', () => {
           revocation: undefined,
         },
       };
-      const options = { credentialDefinition, networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer(), options: { supportRevocation: true } };
+      const options = {
+        credentialDefinition,
+        networkName: 'testnet',
+        issuerKeySigner: new Signer(PrivateKey.generate()),
+        options: { supportRevocation: true },
+      };
 
       const result = await registry.registerCredentialDefinition(options);
 
@@ -154,7 +174,7 @@ describe('HederaAnoncredsRegistry', () => {
       const options: RegisterCredentialDefinitionOptions & NetworkName = {
         credentialDefinition,
         networkName: 'testnet',
-        issuerKeyDer: PrivateKey.generate().toStringDer()
+        issuerKeySigner: new Signer(PrivateKey.generate()),
       };
 
       const result = await registry.registerCredentialDefinition(options);
@@ -202,7 +222,8 @@ describe('HederaAnoncredsRegistry', () => {
 
       const result = await registry.registerRevocationRegistryDefinition({
         revocationRegistryDefinition,
-        networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer()
+        networkName: 'testnet',
+        issuerKeySigner: new Signer(PrivateKey.generate()),
       });
 
       expect(result.revocationRegistryDefinitionState.state).toBe('finished');
@@ -234,7 +255,8 @@ describe('HederaAnoncredsRegistry', () => {
 
       const result = await registry.registerRevocationRegistryDefinition({
         revocationRegistryDefinition,
-        networkName: 'testnet', issuerKeyDer: PrivateKey.generate().toStringDer()
+        networkName: 'testnet',
+        issuerKeySigner: new Signer(PrivateKey.generate()),
       });
 
       expect(result.revocationRegistryDefinitionState.state).toBe('failed');
@@ -297,7 +319,7 @@ describe('HederaAnoncredsRegistry', () => {
       const result = await registry.registerRevocationStatusList({
         revocationStatusList,
         networkName: 'testnet',
-        issuerKeyDer: PrivateKey.generate().toStringDer()
+        issuerKeySigner: new Signer(PrivateKey.generate()),
       });
 
       expect(result.revocationStatusListState.state).toBe('finished');
@@ -317,7 +339,7 @@ describe('HederaAnoncredsRegistry', () => {
       const result = await registry.registerRevocationStatusList({
         revocationStatusList,
         networkName: 'testnet',
-        issuerKeyDer: PrivateKey.generate().toStringDer()
+        issuerKeySigner: new Signer(PrivateKey.generate()),
       });
 
       expect(result.revocationStatusListState.state).toBe('failed');
@@ -442,14 +464,15 @@ describe('HederaAnoncredsRegistry', () => {
     it('should throw error if revocation registry payload is not found', async () => {
       serviceMock.resolveFile.mockResolvedValue(null);
 
-      const revRegId = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.5896422'
+      const revRegId =
+        'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.5896422';
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       await expect((registry as any).resolveRevocationRegistryDefinition(revRegId)).rejects.toThrowError(
         `AnonCreds revocation registry with id ${revRegId} not found`
       );
 
-      expect(serviceMock.resolveFile).toHaveBeenCalledWith({networkName: "testnet", "topicId": "0.0.5896422" } );
+      expect(serviceMock.resolveFile).toHaveBeenCalledWith({ networkName: 'testnet', topicId: '0.0.5896422' });
     });
   });
 
@@ -562,8 +585,7 @@ describe('HederaAnoncredsRegistry', () => {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-      await expect((registry as any).resolveRevocationStatusList('id', 123))
-        .rejects.toThrowError(/not found/i);
+      await expect((registry as any).resolveRevocationStatusList('id', 123)).rejects.toThrowError(/not found/i);
     });
 
     it('should throw error if entriesTopicId is missing', async () => {
@@ -590,9 +612,9 @@ describe('HederaAnoncredsRegistry', () => {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-      await expect((registry as any).resolveRevocationStatusList('id', 123))
-        .rejects.toThrowError(/entries topic id is missing/i);
+      await expect((registry as any).resolveRevocationStatusList('id', 123)).rejects.toThrowError(
+        /entries topic id is missing/i
+      );
     });
   });
-
 });

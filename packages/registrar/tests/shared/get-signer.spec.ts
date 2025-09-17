@@ -14,13 +14,11 @@ describe('Get signer from providers', () => {
 
     const signer = getSigner(undefined, privateKey);
     expect(signer).toBeInstanceOf(Signer);
-    expect(signer.publicKey()).toBe(privateKey.publicKey.toStringDer());
+    expect(await signer.publicKey()).toBe(privateKey.publicKey.toStringDer());
   });
 
   it('should throw error if no signer or private key is provided', () => {
-    expect(() => getSigner()).toThrow(
-      'Signer or private key is required to perform the operation',
-    );
+    expect(() => getSigner()).toThrow('Signer or private key is required to perform the operation');
   });
 
   it('should create new InternalSigner instance with random private key when autoCreate option is enabled', () => {

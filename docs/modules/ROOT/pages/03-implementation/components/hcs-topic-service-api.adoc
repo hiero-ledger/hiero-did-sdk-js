@@ -30,13 +30,13 @@ Creates a new HCS topic.
 * `props` (optional): Properties to configure topic creation.
 
 ==== `CreateTopicProps` fields:
-* `topicMemo` (optional, string): Memo or description for the topic.
-* `submitKey` (optional, PrivateKey): Private key required to submit messages.
-* `adminKey` (optional, PrivateKey): Private key required for administrative actions on the topic.
-* `autoRenewPeriod` (optional, Duration | Long | number): Duration for auto-renewal.
-* `autoRenewAccountId` (optional, AccountId | string): Account ID responsible for auto-renew payments.
-* `autoRenewAccountKey` (optional, PrivateKey): Private key of the auto-renew account (required if `autoRenewAccountId` is set).
-* `waitForChangesVisibility` (optional, boolean): If true, waits until the topic is visible in the mirror node.
+* `topicMemo` (optional, string): Description or memo for the topic.
+* `adminKeySigner` (optional, Signer): Signer for a private key that must sign any transaction updating the topic (admin rights).
+* `submitKey` (optional, PrivateKey | PublicKey): Key permitted to submit messages.
+* `autoRenewPeriod` (optional, Duration | Long | number): Topic auto-renew period in seconds.
+* `autoRenewAccountId` (optional, AccountId | string): Account ID to be charged for auto-renewal fees.
+* `autoRenewAccountKeySigner` (optional, Signer): Signer for the auto-renewal account (required if autoRenewAccountId is provided).
+* `waitForChangesVisibility` (optional, boolean): If true, waits until the topic visibility is confirmed in the mirror node.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for changes visibility.
 
 .Returns
@@ -59,13 +59,13 @@ Updates an existing HCS topic.
 
 ==== `UpdateTopicProps` fields:
 * `topicId` (required, string): The ID of the topic to update.
-* `currentAdminKey` (required, PrivateKey): Current admin key authorizing the update.
+* `currentAdminKeySigner` (required, Signer): Signer for the current admin key required to sign the update transaction.
 * `topicMemo` (optional, string): New memo for the topic (set empty string to clear).
 * `submitKey` (optional, PrivateKey): New submit key.
-* `adminKey` (optional, PrivateKey): New admin key.
+* `adminKeySigner` (optional, Signer): Signer for a new admin key that must sign any transaction updating the topic.
 * `autoRenewPeriod` (optional, Duration | Long | number): New auto-renewal period (default fallback to 90 days if null).
 * `autoRenewAccountId` (optional, AccountId | string): New auto-renew account ID.
-* `autoRenewAccountKey` (optional, PrivateKey): Private key of the auto-renew account (required if `autoRenewAccountId` is provided).
+* `autoRenewAccountKeySigner` (optional, Signer): Signer for the auto-renewal account (required if autoRenewAccountId is provided).
 * `expirationTime` (optional, Timestamp | Date): New expiration time.
 * `waitForChangesVisibility` (optional, boolean): If true, wait until updated topic info is visible in mirror node.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds for visibility wait.
@@ -90,7 +90,7 @@ Deletes an HCS topic.
 
 ==== `DeleteTopicProps` fields:
 * `topicId` (required, string): ID of the topic to delete.
-* `currentAdminKey` (required, PrivateKey): Current admin key authorizing the deletion.
+* `adminKeySigner` (required, Signer): Signer for the current admin key required to sign the delete transaction.
 * `waitForChangesVisibility` (optional, boolean): Wait until deletion is confirmed visible in mirror node.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
 

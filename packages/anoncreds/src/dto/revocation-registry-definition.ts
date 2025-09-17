@@ -7,6 +7,7 @@ import {
   AnonCredsResolutionMetadata,
   Extensible,
 } from './base';
+import { Signer } from '@hiero-did-sdk/core';
 
 export interface GetRevocationRegistryDefinitionReturn {
   revocationRegistryDefinition?: AnonCredsRevocationRegistryDefinition;
@@ -17,7 +18,7 @@ export interface GetRevocationRegistryDefinitionReturn {
 
 export interface RegisterRevocationRegistryDefinitionOptions {
   revocationRegistryDefinition: AnonCredsRevocationRegistryDefinition;
-  issuerKeyDer: string;
+  issuerKeySigner: Signer;
 }
 
 export interface RegisterRevocationRegistryDefinitionReturnStateAction extends AnonCredsOperationStateAction {

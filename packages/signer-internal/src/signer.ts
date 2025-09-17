@@ -6,7 +6,7 @@ import { isEd25519DerPrivateKeyString, isEd25519PrivateKey } from './validators'
  * An internal implementation of the Signer interface.
  * This implementation uses the Hedera PrivateKey class with Ed25519 algorithm.
  */
-export class Signer implements BaseSigner {
+export class Signer extends BaseSigner {
   /**
    * The private key used for signing.
    */
@@ -17,6 +17,8 @@ export class Signer implements BaseSigner {
    * @param privateKeyOrDer The PrivateKey object or the private key in DER format.
    */
   constructor(privateKeyOrDer: string | PrivateKey) {
+    super();
+
     if (typeof privateKeyOrDer === 'string') {
       if (!isEd25519DerPrivateKeyString(privateKeyOrDer)) {
         throw new DIDError('invalidArgument', 'Invalid private key format. Expected DER.');
@@ -37,9 +39,9 @@ export class Signer implements BaseSigner {
    * @returns The public key in DER format.
    * @remarks The public key is used to verify the signature.
    */
-  publicKey(): string {
+  publicKey(): Promise<string> {
     const publicKey = this.privateKey.publicKey.toStringDer();
-    return publicKey;
+    return Promise.resolve(publicKey);
   }
 
   /**
@@ -47,8 +49,8 @@ export class Signer implements BaseSigner {
    * @param message The data to sign.
    * @returns The signature.
    */
-  sign(message: Uint8Array): Uint8Array {
-    return this.privateKey.sign(message);
+  sign(message: Uint8Array): Promise<Uint8Array> {
+    return Promise.resolve(this.privateKey.sign(message));
   }
 
   /**
@@ -57,8 +59,8 @@ export class Signer implements BaseSigner {
    * @param signature The signature to verify.
    * @returns True if the signature is valid, false otherwise.
    */
-  verify(message: Uint8Array, signature: Uint8Array): boolean {
-    return this.privateKey.publicKey.verify(message, signature);
+  verify(message: Uint8Array, signature: Uint8Array): Promise<boolean> {
+    return Promise.resolve(this.privateKey.publicKey.verify(message, signature));
   }
 
   /**

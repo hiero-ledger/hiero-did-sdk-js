@@ -36,8 +36,8 @@ const topicService = new HcsTopicService(client, cache);
 
 const topicId = await topicService.createTopic({
   topicMemo: "Example Topic",
-  adminKey: adminPrivateKey,
-  submitKey: submitPrivateKey,
+  adminKeySigner: new Signer(adminPrivateKey),
+  submitKeySigner: submitPrivateKey,
   autoRenewPeriod: 7776000, // 90 days in seconds
   waitForChangesVisibility: true,
   waitForChangesVisibilityTimeoutMs: 60000,
@@ -49,10 +49,12 @@ console.log("Created topic ID:", topicId);
 Parameters:
 
 * `topicMemo` (optional): Description or memo for the topic.
-* `adminKey` (optional): Private key with admin rights.
-* `submitKey` (optional): Private key permitted to submit messages.
+* `adminKeySigner` (optional): Signer for a private key that must sign any transaction updating the topic (admin rights).
+* `submitKey` (optional): Key permitted to submit messages.
 * `autoRenewPeriod` (optional): Topic auto-renew period in seconds.
-* `waitForChangesVisibility` (optional): Wait until topic visibility confirmed in mirror node.
+* `autoRenewAccountId` (optional): Account ID to be charged for auto-renewal fees.
+* `autoRenewAccountKeySigner` (optional): Signer for the auto-renewal account (required if autoRenewAccountId is provided).
+* `waitForChangesVisibility` (optional): Wait until topic visibility is confirmed in the mirror node.
 * `waitForChangesVisibilityTimeoutMs` (optional): Timeout for waiting visibility in milliseconds.
 
 === Updating a Topic
@@ -61,13 +63,13 @@ Parameters:
 ----
 await topicService.updateTopic({
   topicId: existingTopicId,
-  currentAdminKey: adminPrivateKey,
+  currentAdminKeySigner: new Signer(adminPrivateKey),
   topicMemo: "Updated Memo",
   submitKey: newSubmitKey,
-  adminKey: newAdminKey,
+  adminKeySigner: new Signer(newAdminKey),
   autoRenewPeriod: 7776000, // 90 days in seconds
   autoRenewAccountId: "0.0.1234", // optional
-  autoRenewAccountKey: autoRenewPrivateKey, // required if autoRenewAccountId is set
+  autoRenewAccountKeySigner: new Signer(autoRenewPrivateKey), // required if autoRenewAccountId is set
   expirationTime: new Date('2025-01-01T00:00:00Z'), // optional
   waitForChangesVisibility: true,
   waitForChangesVisibilityTimeoutMs: 60000,
@@ -77,13 +79,13 @@ await topicService.updateTopic({
 Parameters:
 
 * `topicId` (required): The ID of the topic to update.
-* `currentAdminKey` (required): Private key of the current admin authorizing the update.
+* `currentAdminKeySigner` (required): Signer for the current admin key required to sign the update transaction.
 * `topicMemo` (optional): New memo for the topic. To clear, set as empty string.
 * `submitKey` (optional): New submit key.
-* `adminKey` (optional): New admin key.
+* `adminKeySigner` (optional): Signer for a new admin key that must sign any transaction updating the topic.
 * `autoRenewPeriod` (optional): New auto-renewal period in seconds.
 * `autoRenewAccountId` (optional): Account ID to be charged for auto-renewal fees.
-* `autoRenewAccountKey` (optional): Private key for the auto-renew account; required if `autoRenewAccountId` is provided.
+* `autoRenewAccountKeySigner` (optional): Signer for the auto-renewal account (required if autoRenewAccountId is provided)
 * `expirationTime` (optional): New expiration time for the topic.
 * `waitForChangesVisibility` (optional): Wait until updated topic info is visible in mirror node.
 * `waitForChangesVisibilityTimeoutMs` (optional): Timeout in milliseconds for visibility wait.
@@ -94,7 +96,7 @@ Parameters:
 ----
 await topicService.deleteTopic({
   topicId: existingTopicId,
-  currentAdminKey: adminPrivateKey,
+  adminKeySigner: new Signer(adminPrivateKey),
   waitForChangesVisibility: true,
   waitForChangesVisibilityTimeoutMs: 60000,
 });
@@ -103,7 +105,7 @@ await topicService.deleteTopic({
 Parameters:
 
 * `topicId` (required): The ID of the topic to delete.
-* `currentAdminKey` (required): Private key of the current admin authorizing the deletion.
+* `adminKeySigner` (required): Signer for the current admin key required to sign the delete transaction.
 * `waitForChangesVisibility` (optional): Wait until deletion is confirmed visible in the mirror node.
 * `waitForChangesVisibilityTimeoutMs` (optional): Timeout in milliseconds for visibility wait.
 

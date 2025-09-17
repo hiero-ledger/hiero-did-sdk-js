@@ -34,7 +34,7 @@ const messageService = new HcsMessageService(client, cache);
 const result = await messageService.submitMessage({
   topicId: '0.0.1234',
   message: 'Hello Hedera Consensus Service!',
-  submitKey: submitPrivateKey, // Optional signing key
+  submitKeySigner: new Signer(submitPrivateKey), // Optional signing key
   waitForChangesVisibility: true, // Wait until message visible on mirror node
   waitForChangesVisibilityTimeoutMs: 60000, // Wait timeout in milliseconds
 });
@@ -44,11 +44,11 @@ console.log("Message submitted:", result);
 
 Parameters:
 
-* `topicId` (string, required): The identifier of the topic to submit the message to.
-* `message` (string, required): The message content.
-* `submitKey` (PrivateKey, optional): Private key to sign the submission transaction.
-* `waitForChangesVisibility` (boolean, optional): Whether to wait until the message is confirmed visible on the mirror node.
-* `waitForChangesVisibilityTimeoutMs` (number, optional): Timeout in milliseconds to wait for visibility confirmation.
+* `topicId` (required, string): The identifier of the topic to submit the message to.
+* `message` (required, string): The message content.
+* `submitKeySigner` (optional, Signer): Signer for a key that must sign any message submitted to the topic (access control).
+* `waitForChangesVisibility` (optional, boolean): Whether to wait until the message is confirmed visible on the mirror node.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility confirmation.
 
 Returns an object containing:
 

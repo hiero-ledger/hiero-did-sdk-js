@@ -6,6 +6,7 @@
 import { HcsTopicService } from '@hiero-did-sdk/hcs';
 import { PrivateKey } from '@hashgraph/sdk';
 import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/client';
+import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;
@@ -26,14 +27,15 @@ async function main() {
 
   const topicService = new HcsTopicService(client, { maxSize: 100 });
 
-  const currentAdminKey = PrivateKey.fromStringDer(operatorKey);
+  const adminKey = PrivateKey.fromStringDer(operatorKey);
+  const adminKeySigner = new Signer(adminKey);
 
   try {
     // Create topic
     console.log(`Topic creating...`);
     const topicId = await topicService.createTopic({
       topicMemo: 'Example Topic Memo',
-      adminKey: currentAdminKey,
+      adminKeySigner,
     });
     console.log(`Topic created (topicId = ${topicId})`);
 
@@ -41,7 +43,7 @@ async function main() {
     console.log(`Topic deleting...`);
     await topicService.deleteTopic({
       topicId,
-      currentAdminKey,
+      adminKeySigner,
       waitForChangesVisibility: true,
     });
     console.log('Topic deleted successfully');

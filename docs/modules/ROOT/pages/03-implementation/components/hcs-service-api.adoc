@@ -29,14 +29,14 @@ Creates a new HCS topic.
 * `props` (optional): Properties for creating a topic, combined with a network name.
 
 ==== `CreateTopicProps` parameters:
-* `topicMemo` (optional, string): Memo associated with the topic.
-* `submitKey` (optional, PrivateKey): Key used to submit messages.
-* `adminKey` (optional, PrivateKey): Key to administer (update or delete) the topic.
-* `autoRenewPeriod` (optional, Duration | Long | number): Auto-renewal period for the topic.
-* `autoRenewAccountId` (optional, AccountId | string): Account ID responsible for auto-renewal payments.
-* `autoRenewAccountKey` (optional, PrivateKey): Private key of the auto-renew account.
-* `waitForChangesVisibility` (optional, boolean): If true, waits for consensus/gossip visibility after creation.
-* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds for changes visibility.
+* `topicMemo` (optional, string): Description or memo for the topic.
+* `adminKeySigner` (optional, Signer): Signer for a private key that must sign any transaction updating the topic (admin rights).
+* `submitKey` (optional, PrivateKey | PublicKey): Key permitted to submit messages.
+* `autoRenewPeriod` (optional, Duration | Long | number): Topic auto-renew period in seconds.
+* `autoRenewAccountId` (optional, AccountId | string): Account ID to be charged for auto-renewal fees.
+* `autoRenewAccountKeySigner` (optional, Signer): Signer for the auto-renewal account (required if autoRenewAccountId is provided).
+* `waitForChangesVisibility` (optional, boolean): If true, waits until the topic visibility is confirmed in the mirror node.
+* `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for changes visibility.
 
 .Returns
 * The created `TopicInfo`.
@@ -54,7 +54,7 @@ Updates an existing HCS topic.
 
 ==== `UpdateTopicProps` parameters:
 * `topicId` (required, string): ID of the topic to update.
-* `currentAdminKey` (required, PrivateKey): Current admin key authorizing the update.
+* `currentAdminKeySigner` (required, Signer): Signer for the current admin key required to sign the update transaction.
 * `expirationTime` (optional, Timestamp | Date): New expiration time to set.
 * *All properties from `CreateTopicProps` are also available for update (e.g., topicMemo, submitKey, adminKey, etc.).*
 
@@ -74,7 +74,7 @@ Deletes a topic.
 
 ==== `DeleteTopicProps` parameters:
 * `topicId` (required, string): ID of the topic to delete.
-* `currentAdminKey` (required, PrivateKey): Current admin key authorizing the deletion.
+* `adminKeySigner` (required, Signer): Signer for the current admin key required to sign the delete transaction.
 * `waitForChangesVisibility` (optional, boolean): Waits for deletion visibility confirmation if true.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds during which to wait for visibility.
 
@@ -112,7 +112,7 @@ Submits a message to a topic.
 ==== `SubmitMessageProps` parameters:
 * `topicId` (required, string): The topic ID to submit the message.
 * `message` (required, string): Message content.
-* `submitKey` (optional, PrivateKey): Authorized key for message submission.
+* `submitKeySigner` (optional, Signer): Signer for a key that must sign any message submitted to the topic (access control).
 * `waitForChangesVisibility` (optional, boolean): Wait for consensus/gossip visibility if true.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
 
@@ -152,7 +152,7 @@ Submits a file split into topic messages.
 
 ==== `SubmitFileProps` parameters:
 * `payload` (required, Buffer): Binary content of the file.
-* `submitKey` (required, PrivateKey): Key to sign each chunk submission transaction.
+* `submitKeySigner` (required, PrivateKey): Signer for a key that must sign any message submitted to the file topic (access control).
 * `waitForChangesVisibility` (optional, boolean): Wait for consensus/gossip visibility if true.
 * `waitForChangesVisibilityTimeoutMs` (optional, number): Timeout in milliseconds to wait for visibility.
 

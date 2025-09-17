@@ -45,7 +45,7 @@ const schema = {
 
 const registerSchemaResult = await registry.registerSchema({
   networkName: "testnet",
-  issuerKeyDer: PrivateKey.generate().toStringDer(),
+  issuerKeySigner: new Signer(PrivateKey.generate()),
   schema,
 });
 
@@ -55,7 +55,7 @@ console.log("Schema registration result:", registerSchemaResult);
 Parameters:
 
 * `networkName` (optional): The Hedera network name to use.
-* `issuerKeyDer` (required, string): The issuer private key in the DER format.
+* `issuerKeySigner` (required, Signer): Signer instance for signing Hedera transactions with an issuer private key.
 * `schema` (required): An object describing the credential schema including name, issuer DID, attribute names, and version.
 
 Returns a result object describing registration state and metadata.
@@ -88,7 +88,7 @@ const credDef = {
 
 const registerCredDefResult = await registry.registerCredentialDefinition({
   networkName: "testnet",
-  issuerKeyDer: PrivateKey.generate().toStringDer(),
+  issuerKeySigner: new Signer(PrivateKey.generate()),
   credentialDefinition: credDef,
   options: { supportRevocation: true }
 });
@@ -99,7 +99,7 @@ console.log("Credential Definition registration result:", registerCredDefResult)
 Parameters:
 
 * `networkName` (optional): Hedera network name.
-* `issuerKeyDer` (required, string): The issuer private key in the DER format.
+* `issuerKeySigner` (required, Signer): Signer instance for signing Hedera transactions with an issuer private key.
 * `credentialDefinition` (required): An object defining the credential definition, linking schema and issuer with cryptographic parameters.
 * `options` (optional): Metadata options such as revocation support flag.
 
@@ -133,7 +133,7 @@ const revRegDef = {
 
 const registerRevRegResult = await registry.registerRevocationRegistryDefinition({
   networkName: "testnet",
-  issuerKeyDer: PrivateKey.generate().toStringDer(),
+  issuerKeySigner: new Signer(PrivateKey.generate()),
   revocationRegistryDefinition: revRegDef,
 });
 
@@ -143,7 +143,7 @@ console.log("Revocation Registry registration result:", registerRevRegResult);
 Parameters:
 
 * `networkName` (optional): Hedera network name.
-* `issuerKeyDer` (required, string): The issuer private key in the DER format.
+* `issuerKeySigner` (required, Signer): Signer instance for signing Hedera transactions with an issuer private key.
 * `revocationRegistryDefinition` (required): Object defining revocation registry parameters.
 
 Returns registration state and metadata.
@@ -176,7 +176,7 @@ const revStatusList = {
 
 const registerStatusListResult = await registry.registerRevocationStatusList({
   networkName: "testnet",
-  issuerKeyDer: PrivateKey.generate().toStringDer(),
+  issuerKeySigner: new Signer(PrivateKey.generate()),
   revocationStatusList: revStatusList,
 });
 
@@ -186,7 +186,7 @@ console.log("Revocation Status List registration result:", registerStatusListRes
 Parameters:
 
 * `networkName` (optional): Hedera network name.
-* `issuerKeyDer` (required, string): The issuer private key in the DER format.
+* `issuerKeySigner` (required, Signer): Signer instance for signing Hedera transactions with an issuer private key.
 * `revocationStatusList` (required): Revocation status list object without timestamp.
 
 Returns the registration state and metadata.
