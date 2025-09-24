@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/crypto",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This package provides cryptographic utilities for the Hiero DID SDK JS.",
   "author": {
     "name": "DSR Corporation",

@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/cache",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This package provides caching utilities for the Hiero DID SDK JS.",
   "author": {
     "name": "DSR Corporation",

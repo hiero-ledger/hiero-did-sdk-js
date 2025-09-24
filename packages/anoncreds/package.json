@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/anoncreds",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This package provides implementation of Hedera AnonCreds Registry, following Hedera AnonCreds Method specification.",
   "author": {
     "name": "DSR Corporation",

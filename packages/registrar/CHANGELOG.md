@@ -1,5 +1,19 @@
 # @hiero-did-sdk/registrar
 
+## 0.1.5
+
+### Patch Changes
+
+- Use CJS for React Native + split optional dependencies loading
+- Updated dependencies
+  - @hiero-did-sdk/publisher-internal@0.1.5
+  - @hiero-did-sdk/verifier-internal@0.1.5
+  - @hiero-did-sdk/signer-internal@0.1.5
+  - @hiero-did-sdk/lifecycle@0.1.5
+  - @hiero-did-sdk/messages@0.1.5
+  - @hiero-did-sdk/resolver@0.1.5
+  - @hiero-did-sdk/core@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

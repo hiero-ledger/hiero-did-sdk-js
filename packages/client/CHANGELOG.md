@@ -1,5 +1,11 @@
 # @hiero-did-sdk/client
 
+## 0.1.5
+
+### Patch Changes
+
+- Use CJS for React Native + split optional dependencies loading
+
 ## 0.1.4
 
 ### Patch Changes
