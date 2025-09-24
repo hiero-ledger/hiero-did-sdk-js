@@ -1,5 +1,17 @@
 # @hiero-did-sdk/hcs
 
+## 0.1.5
+
+### Patch Changes
+
+- Use CJS for React Native + split optional dependencies loading
+- Updated dependencies
+  - @hiero-did-sdk/client@0.1.5
+  - @hiero-did-sdk/crypto@0.1.5
+  - @hiero-did-sdk/cache@0.1.5
+  - @hiero-did-sdk/core@0.1.5
+  - @hiero-did-sdk/zstd@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

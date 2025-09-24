@@ -1,5 +1,16 @@
 # @hiero-did-sdk/resolver
 
+## 0.1.5
+
+### Patch Changes
+
+- Use CJS for React Native + split optional dependencies loading
+- Updated dependencies
+  - @hiero-did-sdk/verifier-internal@0.1.5
+  - @hiero-did-sdk/client@0.1.5
+  - @hiero-did-sdk/core@0.1.5
+  - @hiero-did-sdk/hcs@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

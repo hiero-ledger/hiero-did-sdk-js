@@ -28,7 +28,7 @@ const browserOptions: Options = {
   ...commonOptions,
   platform: 'browser',
   outDir: 'dist/browser',
-  format: ['esm'],
+  format: ['cjs', 'esm'],
   inject: ['../../node_modules/node-stdlib-browser/helpers/esbuild/shim.js'],
 };
 

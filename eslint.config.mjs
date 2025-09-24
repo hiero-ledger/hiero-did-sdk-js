@@ -44,7 +44,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['packages/zstd/**/zstd.ts', 'packages/crypto/**/crypto.ts'],
+    files: ['packages/zstd/**', 'packages/crypto/**'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',

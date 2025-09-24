@@ -1,4 +1,6 @@
 import { Buffer } from 'buffer';
+import { nodeCrypto } from './node-crypto';
+import { rnCrypto } from './react-native-crypto';
 
 type HashInput = string | Buffer | Uint8Array | ArrayBuffer;
 
@@ -22,21 +24,8 @@ export class Crypto {
 }
 
 function getAvailableCryptoModule(): CryptoModule {
-  // 1. Try to use built-in Node.js crypto module
-  try {
-    const nodeCrypto = require('crypto');
-    if (nodeCrypto.createHash) return nodeCrypto;
-  } catch {
-    // Ignore
-  }
-
-  // 2. Try to use 'react-native-quick-crypto' package (for React Native environments)
-  try {
-    const rnCrypto = require('react-native-quick-crypto');
-    if (rnCrypto.createHash) return rnCrypto;
-  } catch {
-    // Ignore
-  }
+  if (nodeCrypto) return nodeCrypto;
+  else if (rnCrypto) return rnCrypto;
 
   throw new Error(
     "No compatible crypto module found. Please install 'react-native-quick-crypto' or 'crypto' polyfills depending on platform"

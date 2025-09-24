@@ -2,20 +2,20 @@ import { type Client } from '@hashgraph/sdk';
 import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, normalizeMirrorUrl } from '../../src/shared';
 
 describe('isMirrorQuerySupported', () => {
-  it('returns true when client._mirrorNetwork.getNextMirrorNode returns a value', () => {
+  it('returns true when client.constructor.name is NodeClient', () => {
     const client = {
-      _mirrorNetwork: {
-        getNextMirrorNode: () => 'node1',
+      constructor: {
+        name: 'NodeClient',
       },
     } as unknown as Client;
 
     expect(isMirrorQuerySupported(client)).toBe(true);
   });
 
-  it('returns false when client._mirrorNetwork.getNextMirrorNode returns falsy', () => {
+  it('returns false when client.constructor.name is not NodeClient', () => {
     const client = {
-      _mirrorNetwork: {
-        getNextMirrorNode: () => null,
+      constructor: {
+        name: 'WebClient',
       },
     } as unknown as Client;
 

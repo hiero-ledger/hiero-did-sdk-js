@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/anoncreds",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This package provides implementation of Hedera AnonCreds Registry, following Hedera AnonCreds Method specification.",
   "author": {
     "name": "DSR Corporation",
@@ -14,9 +14,11 @@
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "browser": "./dist/browser/index.esm.js",
+  "react-native": "./dist/browser/index.cjs.js",
   "exports": {
     "types": "./dist/index.d.ts",
     "browser": "./dist/browser/index.esm.js",
+    "react-native": "./dist/browser/index.cjs.js",
     "require": "./dist/index.cjs.js",
     "import": "./dist/index.esm.js",
     "default": "./dist/index.esm.js"

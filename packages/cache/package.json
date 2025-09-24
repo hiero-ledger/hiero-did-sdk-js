@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/cache",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This package provides caching utilities for the Hiero DID SDK JS.",
   "author": {
     "name": "DSR Corporation",
@@ -14,9 +14,11 @@
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "browser": "./dist/browser/index.esm.js",
+  "react-native": "./dist/browser/index.cjs.js",
   "exports": {
     "types": "./dist/index.d.ts",
     "browser": "./dist/browser/index.esm.js",
+    "react-native": "./dist/browser/index.cjs.js",
     "require": "./dist/index.cjs.js",
     "import": "./dist/index.esm.js",
     "default": "./dist/index.esm.js"
