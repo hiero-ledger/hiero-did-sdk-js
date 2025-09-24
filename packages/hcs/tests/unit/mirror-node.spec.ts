@@ -12,7 +12,7 @@ describe('isMirrorQuerySupported', () => {
     expect(isMirrorQuerySupported(client)).toBe(true);
   });
 
-  it('returns false when client.constructor.name is not a NodeClient', () => {
+  it('returns false when client.constructor.name is not NodeClient', () => {
     const client = {
       constructor: {
         name: 'WebClient',
