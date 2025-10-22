@@ -38,6 +38,19 @@ This SDK is distributed as a collection of packages. Detailed information about 
 
 Should you encounter any issues or require assistance, please refer to the [Getting Support Guide](https://hiero-ledger.github.io/hiero-did-sdk-js/documentation/latest/05-maintenance/support/getting-support-guide.html).
 
+## Contributing
+
+Please read our [contributing guide](https://github.com/hiero-ledger/.github/blob/main/CONTRIBUTING.md) to see how you can get involved.
+
+## Code of Conduct
+
+Hiero uses the Linux Foundation Decentralised Trust [Code of Conduct](https://www.lfdecentralizedtrust.org/code-of-conduct).
+
+## Contact
+
+Join our [community discussions](https://discord.lfdecentralizedtrust.org/) on discord.
+Attend our [community calls](https://zoom-lfx.platform.linuxfoundation.org/meetings/hiero?view=week). 
+
 ## License
 
 This SDK is licensed under the [Apache License 2.0](LICENSE).
