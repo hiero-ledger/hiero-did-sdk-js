@@ -50,10 +50,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.72.0",
+    "@hashgraph/sdk": "^2.75.0",
+    "@hiero-did-sdk/client": "workspace:*",
     "@hiero-did-sdk/core": "workspace:*",
     "@hiero-did-sdk/hcs": "workspace:*",
-    "@hiero-did-sdk/client": "workspace:*",
     "@hiero-did-sdk/verifier-internal": "workspace:*",
     "buffer": "^6.0.3"
   }
