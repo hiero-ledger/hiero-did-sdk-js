@@ -3,7 +3,7 @@ import { parseDID } from '@hiero-did-sdk/core';
 export const ANONCREDS_IDENTIFIER_SEPARATOR = '/';
 
 export const ANONCREDS_OBJECT_FAMILY = 'anoncreds';
-export const ANONCREDS_VERSION = 'v0';
+export const ANONCREDS_VERSION = 'v1';
 
 export enum AnonCredsObjectType {
   SCHEMA = 'SCHEMA',
@@ -34,7 +34,7 @@ export type AnoncredsIdentifierFields = {
 };
 
 export function parseAnonCredsIdentifier(id: string): AnoncredsIdentifierFields {
-  // Identifier example "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.5896422"
+  // Identifier example "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/SCHEMA/0.0.5896422"
   const [did, objectFamilyName, version, objectTypeName, topicId] = id.split(ANONCREDS_IDENTIFIER_SEPARATOR);
   const { method, network: networkName, publicKey: issuerPublicKey, topicId: didDocumentTopicId } = parseDID(did);
   return {

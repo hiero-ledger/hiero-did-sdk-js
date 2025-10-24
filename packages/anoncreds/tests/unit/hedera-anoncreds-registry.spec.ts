@@ -42,10 +42,10 @@ describe('HederaAnoncredsRegistry', () => {
 
     (HederaHcsService as jest.Mock).mockImplementation(() => serviceMock);
 
-    // id example: "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.5896422"
+    // id example: "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/SCHEMA/0.0.5896422"
     (buildAnonCredsIdentifier as jest.Mock).mockImplementation(
       (issuerId: string, topicId: string, type: string) =>
-        `did:hedera:testnet:${issuerId}/anoncreds/v0/${type}/${topicId}`
+        `did:hedera:testnet:${issuerId}/anoncreds/v1/${type}/${topicId}`
     );
     (parseAnonCredsIdentifier as jest.Mock).mockImplementation((id: string) => {
       const sections = id.split('/');
@@ -120,7 +120,7 @@ describe('HederaAnoncredsRegistry', () => {
       serviceMock.resolveFile.mockResolvedValue(Buffer.from(JSON.stringify(schemaObj)));
 
       const id =
-        'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.5896422';
+        'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/SCHEMA/0.0.5896422';
       const result = await registry.getSchema(id);
 
       expect(result.schemaId).toBe(id);
@@ -465,7 +465,7 @@ describe('HederaAnoncredsRegistry', () => {
       serviceMock.resolveFile.mockResolvedValue(null);
 
       const revRegId =
-        'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.5896422';
+        'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/REV_REG/0.0.5896422';
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       await expect((registry as any).resolveRevocationRegistryDefinition(revRegId)).rejects.toThrowError(
