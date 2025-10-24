@@ -20,7 +20,7 @@ const config: HederaClientConfiguration = {
 
 // Specify the existing revocationRegistryId on the testnet here
 const revocationRegistryId =
-  'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.6557949';
+  'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/REV_REG/0.0.7121326';
 const timestamp = Date.now();
 
 async function main() {

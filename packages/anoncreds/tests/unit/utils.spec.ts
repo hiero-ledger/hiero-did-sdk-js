@@ -19,7 +19,7 @@ describe('Anoncreds Identifier Utils', () => {
 
   describe('buildAnonCredsIdentifier', () => {
     it('should build the identifier correctly', () => {
-      const id = 'did:hedera:testnet:abc123/anoncreds/v0/SCHEMA/0.0.12345'
+      const id = 'did:hedera:testnet:abc123/anoncreds/v1/SCHEMA/0.0.12345';
 
       const publisherDid = 'did:hedera:testnet:abc123';
       const topicId = '0.0.12345';
@@ -70,7 +70,7 @@ describe('Anoncreds Identifier Utils', () => {
     });
 
     it('should handle identifiers with unexpected format by returning correct split parts', () => {
-      const id = 'did-sample/anoncreds/v0';
+      const id = 'did-sample/anoncreds/v1';
       (parseDID as jest.Mock).mockReturnValue({
         method: 'sample',
         network: 'net',
@@ -82,7 +82,7 @@ describe('Anoncreds Identifier Utils', () => {
 
       expect(result.issuerDid).toBe('did-sample');
       expect(result.objectFamilyName).toBe('anoncreds');
-      expect(result.version).toBe('v0');
+      expect(result.version).toBe('v1');
       expect(result.objectTypeName).toBeUndefined();
       expect(result.topicId).toBeUndefined();
     });
