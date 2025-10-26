@@ -345,7 +345,6 @@ export class HcsTopicService {
       topicMemo: info.topicMemo,
       adminKey: (info.adminKey as PublicKey)?.toStringRaw(),
       submitKey: (info.submitKey as PublicKey)?.toStringRaw(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       autoRenewPeriod: info.autoRenewPeriod?.seconds.low,
       autoRenewAccountId: info.autoRenewAccountId?.toString(),
       expirationTime: info.expirationTime?.toDate().getTime(),
