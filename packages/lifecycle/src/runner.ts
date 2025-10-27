@@ -166,6 +166,7 @@ export class LifecycleRunner<Message extends DIDMessage, Context extends object 
   private async callHooks(label: string, message: Message) {
     const hooks = this.hooks[label] ?? [];
 
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await Promise.all(hooks.map((hook) => hook(message)));
   }
 }

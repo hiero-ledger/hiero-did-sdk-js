@@ -20,7 +20,7 @@ const config: HederaClientConfiguration = {
 
 // Specify the existing revocationRegistryDefinitionId on the testnet here
 const revocationRegistryDefinitionId =
-  'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/REV_REG/0.0.6557893';
+  'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/REV_REG/0.0.7121326';
 
 async function main() {
   const registry = new HederaAnoncredsRegistry(config);

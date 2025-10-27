@@ -172,7 +172,7 @@ const config: HederaClientConfiguration = {
 };
 
 // Specify the existing schemaId on the testnet here
-const schemaId = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v0/SCHEMA/0.0.6557796';
+const schemaId = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/SCHEMA/0.0.7121291';
 
 async function main() {
   const registry = new HederaAnoncredsRegistry(config);
