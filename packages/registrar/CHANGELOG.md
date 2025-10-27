@@ -1,5 +1,21 @@
 # @hiero-did-sdk/registrar
 
+## 0.1.6
+
+### Patch Changes
+
+- 532336c: Use 'v1' version in AnonCreds identifiers + update dependencies
+- 9554e93: ESM compatibility fixes
+- Updated dependencies [532336c]
+- Updated dependencies [9554e93]
+  - @hiero-did-sdk/publisher-internal@0.1.6
+  - @hiero-did-sdk/verifier-internal@0.1.6
+  - @hiero-did-sdk/signer-internal@0.1.6
+  - @hiero-did-sdk/lifecycle@0.1.6
+  - @hiero-did-sdk/messages@0.1.6
+  - @hiero-did-sdk/resolver@0.1.6
+  - @hiero-did-sdk/core@0.1.6
+
 ## 0.1.5
 
 ### Patch Changes
