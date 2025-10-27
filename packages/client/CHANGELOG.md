@@ -1,5 +1,12 @@
 # @hiero-did-sdk/client
 
+## 0.1.6
+
+### Patch Changes
+
+- 532336c: Use 'v1' version in AnonCreds identifiers + update dependencies
+- 9554e93: ESM compatibility fixes
+
 ## 0.1.5
 
 ### Patch Changes
