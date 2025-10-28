@@ -1,5 +1,11 @@
 # @hiero-did-sdk/zstd
 
+## 0.1.6
+
+### Patch Changes
+
+- 9554e93: ESM compatibility fixes
+
 ## 0.1.5
 
 ### Patch Changes
