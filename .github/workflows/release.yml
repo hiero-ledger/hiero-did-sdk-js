@@ -8,6 +8,7 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 permissions:
+  id-token: write  # Required for OIDC (trusted publishing)
   pull-requests: write
   contents: write
 
@@ -27,6 +28,10 @@ jobs:
       - name: Set up Node and install dependencies
         uses: ./.github/actions/setup-npm-env
 
+      # Trusted publishing feature requires NPM 11.5.1+
+      - name: Upgrade NPM version to 11+
+        run: npm install -g npm@11
+
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: step-security/changeset-action@531a275d3847d9291b64e729d0ee55cd0dc93b16 # v1.5.3
@@ -37,7 +42,6 @@ jobs:
           version: pnpm changeset-version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Get current package version
         id: get_version
