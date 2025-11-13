@@ -4,7 +4,7 @@ import { Network } from '../interfaces';
 const VALID_NETWORKS: Network[] = ['mainnet', 'testnet', 'local-node'];
 
 const BASE58_CHARS = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-const BASE58_PUBLIC_KEY_PATTERN = `[${BASE58_CHARS}]{43,44}`; // 44 base58 chars
+const BASE58_PUBLIC_KEY_PATTERN = `z?[${BASE58_CHARS}]{43,44}`; // optional base58 multibase prefix + 44 base58 chars
 
 // Regex patterns
 const NETWORK_PATTERN = `(${VALID_NETWORKS.join('|')})`;
