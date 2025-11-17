@@ -1,5 +1,11 @@
 # @hiero-did-sdk/crypto
 
+## 0.1.7
+
+### Patch Changes
+
+- 1544666: Allow multibase key prefix in DID identifier
+
 ## 0.1.6
 
 ### Patch Changes

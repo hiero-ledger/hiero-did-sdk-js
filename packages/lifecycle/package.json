@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/lifecycle",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "This package provides a lifecycle management system for orchestrating complex asynchronous operations within the Hiero DID SDK. It enables developers to define sequences of steps, handle asynchronous actions, manage signatures, and control the flow of execution with features like pausing and resuming. By streamlining these processes, it simplifies the development of robust and reliable DID-related applications.",
   "author": {
     "name": "The Hashgraph Association",

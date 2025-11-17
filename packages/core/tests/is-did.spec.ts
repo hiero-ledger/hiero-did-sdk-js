@@ -15,6 +15,7 @@ describe('Hedera DID validator', () => {
     'did:hedera:mainnet:QDui45JN8tAZyc8aNcgc8ZPHeESjrtDfA3CHgUHJhzxU8KBNAt4rPDdg1jBUPMKQ_0.0.1', // Invalid ED25519 public key
     'did:hedera:mainnet:bSJxbfGGZ5sAr7U2Bdgk1EMskb9EATHJi7rrq3rxfW6r2WVnPGitj6S9UMUvLKceUYtA_0.0.1', // Invalid ED25519 public key
     'did:hedera:mainnet:J98ruZlvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1', // Invalid base58 public key
+    'did:hedera:testnet:f3GQSZwaa68uYqcqKYciw8hLREKYbabothXVYP9x7AVx8_0.0.1', // Wrong multibase prefix
     'did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736', // Not a Hedera DID
   ])('should return false for invalid Hedera DIDs', (did) => {
     expect(isHederaDID(did)).toBe(false);
@@ -32,6 +33,7 @@ describe('Hedera DID validator', () => {
     'did:hedera:mainnet:QDui45JN8tAZyc8aNcgc8ZPHeESjrtDfA3CHgUHJhzxU8KBNAt4rPDdg1jBUPMKQ_0.0.1', // Invalid ED25519 public key
     'did:hedera:mainnet:bSJxbfGGZ5sAr7U2Bdgk1EMskb9EATHJi7rrq3rxfW6r2WVnPGitj6S9UMUvLKceUYtA_0.0.1', // Invalid ED25519 public key
     'did:hedera:mainnet:J98ruZlvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1', // Invalid base58 public key
+    'did:hedera:testnet:f3GQSZwaa68uYqcqKYciw8hLREKYbabothXVYP9x7AVx8_0.0.1', // Wrong multibase prefix
     'did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736', // Not a Hedera DID
     'did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1path/sub-path', // Missing separator
   ])('should return false for invalid Hedera DID URLs', (did) => {
@@ -44,6 +46,7 @@ describe('Hedera DID validator', () => {
     'did:hedera:mainnet:HZhZzgrEKVvt2PtkqzX3AkWUzKwFEtdZhriuSeuMKz3X_1.1.1',
     'did:hedera:testnet:AN8jSKuP7cuBfgW4vTFtG9WvqG5FyTQZmsKZw8ewYXwi_11.111.111111',
     'did:hedera:testnet:4nXwbafzJfvEhtcNMK6wDZrzSu5eSS6CGGPoacvGHDQw_0.0.1',
+    'did:hedera:testnet:z3GQSZwaa68uYqcqKYciw8hLREKYbabothXVYP9x7AVx8_0.0.1',
   ])('should return true for valid Hedera DIDs', (did) => {
     expect(isHederaDID(did)).toBe(true);
   });
@@ -62,6 +65,7 @@ describe('Hedera DID validator', () => {
     'did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1#agent',
     'did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1?service=agent&relativeRef=/credentials#degree',
     'did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_0.0.1/path/sub-path?service=agent&relativeRef=/credentials#degree',
+    'did:hedera:testnet:z3GQSZwaa68uYqcqKYciw8hLREKYbabothXVYP9x7AVx8_0.0.1/path/sub-path?service=agent&relativeRef=/credentials#license',
   ])('should return true for valid Hedera DID URLs', (did) => {
     expect(isHederaDIDUrl(did)).toBe(true);
   });
