@@ -1,5 +1,17 @@
 # @hiero-did-sdk/hcs
 
+## 0.1.7
+
+### Patch Changes
+
+- 1544666: Allow multibase key prefix in DID identifier
+- Updated dependencies [1544666]
+  - @hiero-did-sdk/core@0.1.7
+  - @hiero-did-sdk/cache@0.1.7
+  - @hiero-did-sdk/client@0.1.7
+  - @hiero-did-sdk/crypto@0.1.7
+  - @hiero-did-sdk/zstd@0.1.7
+
 ## 0.1.6
 
 ### Patch Changes
