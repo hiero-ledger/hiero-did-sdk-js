@@ -3,7 +3,7 @@ import { Client, PrivateKey, Status, TopicMessageSubmitTransaction, TopicMessage
 import { Buffer } from 'buffer';
 import { HcsCacheService } from '../../src/cache';
 import { HcsMessageService, TopicMessageData } from '../../src/hcs';
-import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
+import { isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 
 jest.mock('../../src/cache');
@@ -50,7 +50,9 @@ describe('HcsMessageService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    let client: jest.Mocked<Client>;
+
+    client = {} as jest.Mocked<Client>;
+    Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: jest.fn(), configurable: true });
 
     const realCacheServiceMock = new HcsCacheService({ maxSize: 100 });
 
@@ -102,7 +104,6 @@ describe('HcsMessageService', () => {
         execute: jest.fn().mockResolvedValue(responseMock),
       };
       (TopicMessageSubmitTransaction as unknown as jest.Mock).mockImplementation(() => transactionMock);
-      (waitForChangesVisibility as jest.Mock).mockResolvedValue(undefined);
       (cache.removeTopicMessages as jest.Mock).mockResolvedValue(undefined);
     });
 
@@ -354,7 +355,7 @@ describe('HcsMessageService', () => {
 
   describe('fetchTopicMessagesWithRest (private)', () => {
     beforeEach(() => {
-      (getMirrorNetworkNodeUrl as jest.Mock).mockReturnValue('http://mirror-node');
+      jest.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node/');
       global.fetch = jest.fn();
     });
 
@@ -432,20 +433,12 @@ describe('HcsMessageService', () => {
   });
 
   describe('getNextUrl (private)', () => {
-    it('should construct URL correctly, trimming trailing slash on base URL', () => {
-      (getMirrorNetworkNodeUrl as jest.Mock).mockReturnValue('http://mirror-node/');
+    it('should construct URL correctly', () => {
+      jest.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       const nextUrl = (service as any).getNextUrl('/path?param=1', 10, 'base64');
       expect(nextUrl).toBe('http://mirror-node/path?param=1&limit=10&encoding=base64');
-    });
-
-    it('should construct URL correctly when no trailing slash', () => {
-      (getMirrorNetworkNodeUrl as jest.Mock).mockReturnValue('http://mirror-node');
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      const nextUrl = (service as any).getNextUrl('/path?param=1');
-      expect(nextUrl).toBe('http://mirror-node/path?param=1&limit=25&encoding=base64');
     });
   });
 });

@@ -31,11 +31,21 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: Prepare Hiero Solo
+        id: solo
+        uses: hiero-ledger/hiero-solo-action@fbca3e7a99ce9aa8a250563a81187abe115e0dad # v0.16
+        with:
+          installMirrorNode: true
+          hieroVersion: v0.65.0
+          mirrorNodeVersion: v0.138.0
+          grpcProxyPort: 8080
+
       - name: Run tests
-        timeout-minutes: 15
+        timeout-minutes: 30
         env:
-          HEDERA_OPERATOR_ID: ${{ secrets.HEDERA_OPERATOR_ID }}
-          HEDERA_OPERATOR_KEY: ${{ secrets.HEDERA_OPERATOR_KEY }}
+          HEDERA_OPERATOR_ID: ${{ steps.solo.outputs.accountId }}
+          HEDERA_OPERATOR_KEY: ${{ steps.solo.outputs.privateKey }}
+          HEDERA_NETWORK: local-node
           NODE_OPTIONS: '--max_old_space_size=8192'
         run: pnpm test:ci
 

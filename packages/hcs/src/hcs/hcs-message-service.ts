@@ -10,7 +10,7 @@ import {
 import { HcsCacheService } from '../cache';
 import { CacheConfig } from '../hedera-hcs-service.configuration';
 import { Cache, Signer } from '@hiero-did-sdk/core';
-import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, waitForChangesVisibility } from '../shared';
+import { isMirrorQuerySupported, waitForChangesVisibility } from '../shared';
 import { Buffer } from 'buffer';
 
 const DEFAULT_TIMEOUT_SECONDS = 2;
@@ -107,8 +107,9 @@ export class HcsMessageService {
     await this.cacheService?.removeTopicMessages(this.client, props.topicId);
 
     if (props?.waitForChangesVisibility) {
-      await waitForChangesVisibility<string[]>({
-        fetchFn: () => this.getNewMessagesContent({ topicId: props.topicId, startFrom: new Date(Date.now() - 1000) }),
+      const startFrom = new Date(Date.now() - 5000);
+      await waitForChangesVisibility({
+        fetchFn: () => this.getNewMessagesContent({ topicId: props.topicId, startFrom }),
         checkFn: (messages) => messages.includes(props.message),
         waitTimeout: props?.waitForChangesVisibilityTimeoutMs,
       });
@@ -293,7 +294,7 @@ export class HcsMessageService {
 
     let messages: TopicMessageData[] = [];
 
-    let nextPath = `/api/v1/topics/${topicId}/messages?`;
+    let nextPath = `/topics/${topicId}/messages?`;
     if (fromDate) {
       const timestamp = Timestamp.fromDate(fromDate);
       nextPath += `&timestamp=gte:${timestamp.toString()}`;
@@ -341,12 +342,7 @@ export class HcsMessageService {
    * @private
    */
   private getNextUrl(nextPath: string, limit = 25, encoding = 'base64') {
-    let apiUrl = getMirrorNetworkNodeUrl(this.client);
-
-    if (apiUrl.endsWith('/')) {
-      apiUrl = apiUrl.slice(0, -1);
-    }
-
-    return `${apiUrl}${nextPath}&limit=${limit.toString()}&encoding=${encoding}`;
+    const restApiUrl = this.client.mirrorRestApiBaseUrl;
+    return `${restApiUrl}${nextPath}&limit=${limit.toString()}&encoding=${encoding}`;
   }
 }

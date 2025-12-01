@@ -20,7 +20,7 @@ import {
   HcsTopicService,
   UpdateTopicProps,
 } from '../../src/hcs';
-import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
+import { isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
 import { HcsCacheService } from '../../src/cache';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 
@@ -80,6 +80,7 @@ describe('HcsTopicService', () => {
     jest.clearAllMocks();
 
     client = {} as jest.Mocked<Client>;
+    Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: jest.fn(), configurable: true });
 
     const realCacheServiceMock = new HcsCacheService({ maxSize: 100 });
 
@@ -148,7 +149,6 @@ describe('HcsTopicService', () => {
         waitForChangesVisibilityTimeoutMs: 1000,
       };
 
-      (waitForChangesVisibility as jest.Mock).mockResolvedValueOnce(undefined);
       jest.spyOn(service as any, 'fetchTopicInfo').mockResolvedValue({
         topicId: '4.5.6',
         topicMemo: 'TestMemo',
@@ -227,7 +227,6 @@ describe('HcsTopicService', () => {
         autoRenewAccountKeySigner,
       };
 
-      (waitForChangesVisibility as jest.Mock).mockResolvedValueOnce(undefined);
       jest.spyOn(service as any, 'fetchTopicInfo').mockResolvedValue({
         topicId: props.topicId,
         topicMemo: 'newMemo',
@@ -284,8 +283,6 @@ describe('HcsTopicService', () => {
       transactionMock.execute.mockResolvedValueOnce({
         getReceipt: jest.fn().mockResolvedValue({ status: Status.Success }),
       });
-
-      (waitForChangesVisibility as jest.Mock).mockResolvedValueOnce(undefined);
 
       jest.spyOn(service as any, 'fetchTopicInfo').mockRejectedValueOnce(
         new StatusError(
@@ -421,7 +418,7 @@ describe('HcsTopicService', () => {
   describe('fetchTopicInfoWithRest', () => {
     beforeEach(() => {
       global.fetch = jest.fn();
-      (getMirrorNetworkNodeUrl as jest.Mock).mockReturnValue('https://test-node');
+      jest.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('https://test-node/api/v1');
     });
 
     afterEach(() => {

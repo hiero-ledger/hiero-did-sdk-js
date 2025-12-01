@@ -13,10 +13,12 @@ const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
 const operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
 const operatorKeySigner = new Signer(operatorKeyInstance);
 
-const TEST_VARIANTS = [
-  { useRestAPI: false, name: 'Client' },
-  { useRestAPI: true, name: 'REST API' },
-];
+const TEST_VARIANTS = [{ useRestAPI: false, name: 'Client' }];
+
+// TODO: Enable REST API tests for 'local-node' once topic info query endpoint work properly for Solo
+if (network !== 'local-node') {
+  TEST_VARIANTS.push({ useRestAPI: true, name: 'REST API' });
+}
 
 describe('Hedera HCS Service', () => {
   jest.setTimeout(60000);
@@ -112,9 +114,11 @@ describe('Hedera HCS Service', () => {
       const admin1KeySigner = new Signer(admin1Key);
       const admin2KeySigner = new Signer(admin2Key);
 
-      const renewAccountId = '0.0.5065521';
+      const renewAccountId = network === 'testnet' ? '0.0.5065521' : operatorId;
       const renewAccountKey =
-        '302e020100300506032b657004220420e4f76aa303bfbf350ad080b879173b31977e5661d51ff5932f6597e2bb6680ff';
+        network === 'testnet'
+          ? '302e020100300506032b657004220420e4f76aa303bfbf350ad080b879173b31977e5661d51ff5932f6597e2bb6680ff'
+          : operatorKey;
       const topicMemo = '1234567890';
 
       const topicId = await ledgerService.createTopic({

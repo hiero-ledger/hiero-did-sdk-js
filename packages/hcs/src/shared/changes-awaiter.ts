@@ -1,3 +1,7 @@
+const DEFAULT_TIMEOUT = 2 * 60 * 1000; // 2 minutes
+
+const POLLING_INTERVAL = 500;
+
 /**
  * Wait Hedera consensus changes
  * @param options
@@ -7,26 +11,23 @@ export async function waitForChangesVisibility<T>(options: {
   fetchFn: () => Promise<T>;
   checkFn: (item: T) => boolean;
   waitTimeout?: number;
-}): Promise<boolean> {
+}): Promise<void> {
   const { fetchFn, checkFn, waitTimeout } = options;
-  const timeout = waitTimeout ?? 5000;
-  const interval = 500;
+  const timeout = waitTimeout ?? DEFAULT_TIMEOUT;
   const startTime = Date.now();
-  let isChangesAvailable = false;
 
-  while (Date.now() - startTime < timeout && !isChangesAvailable) {
+  while (Date.now() - startTime < timeout) {
     try {
       const data = await fetchFn();
       if (checkFn(data)) {
-        isChangesAvailable = true;
-        break;
+        return;
       }
     } catch {
       // Ignore
     }
 
-    await new Promise((resolve) => setTimeout(resolve, interval));
+    await new Promise((resolve) => setTimeout(resolve, POLLING_INTERVAL));
   }
 
-  return isChangesAvailable;
+  throw new Error(`Timeout of ${timeout}ms exceeded while waiting for changes visibility`);
 }
