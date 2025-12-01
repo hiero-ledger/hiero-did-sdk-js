@@ -10,9 +10,9 @@
     "url": "https://github.com/hiero-ledger/hiero-did-sdk-js/issues"
   },
   "license": "Apache-2.0",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "exports": {
-    "default": "./dist/index.js"
+    "default": "./dist/index.cjs"
   },
   "files": [
     "dist",
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "clean": "rimraf ./dist",
-    "compile": "tsup",
+    "compile": "tsdown --config-loader unrun",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "build": "pnpm clean && pnpm compile",

@@ -22,7 +22,7 @@ export default tseslint.config(
       '**/dist/*',
       '**/build/*',
       '**/jest.config.ts',
-      '**/tsup.config.ts',
+      '**/tsdown.config.ts',
       '**/eslint.config.mjs',
       '**/cucumber.js',
     ],
