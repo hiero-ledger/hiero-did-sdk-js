@@ -12,7 +12,7 @@
     "rootDir": ".",
     "declaration": true,
     "declarationMap": true,
-    "esModuleInterop":  true,
+    "esModuleInterop": true,
     "paths": {
       "@hiero-did-sdk/anoncreds": ["packages/anoncreds/src/index.ts"],
       "@hiero-did-sdk/cache": ["packages/cache/src/index.ts"],

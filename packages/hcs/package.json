@@ -10,18 +10,18 @@
     "url": "https://github.com/hiero-ledger/hiero-did-sdk-js/issues"
   },
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.esm.js",
-  "types": "./dist/index.d.ts",
-  "browser": "./dist/browser/index.esm.js",
-  "react-native": "./dist/browser/index.cjs.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "browser": "./dist/browser/index.mjs",
+  "react-native": "./dist/browser/index.cjs",
   "exports": {
-    "types": "./dist/index.d.ts",
-    "browser": "./dist/browser/index.esm.js",
-    "react-native": "./dist/browser/index.cjs.js",
-    "require": "./dist/index.cjs.js",
-    "import": "./dist/index.esm.js",
-    "default": "./dist/index.esm.js"
+    "types": "./dist/index.d.cts",
+    "browser": "./dist/browser/index.mjs",
+    "react-native": "./dist/browser/index.cjs",
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.mjs",
+    "default": "./dist/index.mjs"
   },
   "files": [
     "dist",
@@ -39,7 +39,7 @@
   },
   "scripts": {
     "clean": "rimraf ./dist",
-    "compile": "tsup",
+    "compile": "tsdown --config-loader unrun",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "build": "pnpm clean && pnpm compile",
