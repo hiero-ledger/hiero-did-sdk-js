@@ -33,8 +33,8 @@ importers:
         specifier: ^9.38.0
         version: 9.38.0
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@scure/base':
         specifier: ^1.2.6
         version: 1.2.6
@@ -139,14 +139,14 @@ importers:
   packages/client:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
 
   packages/core:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@scure/base':
         specifier: ^1.2.6
         version: 1.2.6
@@ -173,8 +173,8 @@ importers:
   packages/hcs:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@hiero-did-sdk/cache':
         specifier: workspace:*
         version: link:../cache
@@ -213,8 +213,8 @@ importers:
   packages/messages:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@hiero-did-sdk/core':
         specifier: workspace:*
         version: link:../core
@@ -231,8 +231,8 @@ importers:
   packages/publisher-internal:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@hiero-did-sdk/core':
         specifier: workspace:*
         version: link:../core
@@ -243,8 +243,8 @@ importers:
   packages/registrar:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@hiero-did-sdk/core':
         specifier: workspace:*
         version: link:../core
@@ -273,8 +273,8 @@ importers:
   packages/resolver:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@hiero-did-sdk/client':
         specifier: workspace:*
         version: link:../client
@@ -303,8 +303,8 @@ importers:
   packages/signer-internal:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@hiero-did-sdk/core':
         specifier: workspace:*
         version: link:../core
@@ -324,8 +324,8 @@ importers:
   packages/verifier-internal:
     dependencies:
       '@hashgraph/sdk':
-        specifier: ^2.75.0
-        version: 2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+        specifier: ^2.78.0
+        version: 2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
       '@hiero-did-sdk/core':
         specifier: workspace:*
         version: link:../core
@@ -1363,8 +1363,14 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  '@hashgraph/cryptography@1.13.0':
-    resolution: {integrity: sha512-bttkU9cnbA2NgmE41V4IDYZ5IYMY9HtVTnlvg3fdj8m83+7T4KgTBPPSkqwFCgSeW2x/6MV2GDzvaj4Lx4IYfw==}
+  '@hashgraph/sdk@2.78.0':
+    resolution: {integrity: sha512-mhefCpseHduXwsSJvAItNjpgio0LwTxoEQ3qzGdtY1WybUurTe5XA+2PFVnbiutaXQ+mDsLo+LJzS3D1juaK1g==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      bn.js: 5.2.1
+
+  '@hiero-ledger/cryptography@1.15.0':
+    resolution: {integrity: sha512-KLbueVfPuTotZfGT+HxcA3zz455eIZW/dBGxkpj9MEp+J2pruR9TyWzenozkuFAzvQ+ouJexE8OmtJMwV5XBBg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       expo-crypto: '*'
@@ -1372,8 +1378,8 @@ packages:
       expo-crypto:
         optional: true
 
-  '@hashgraph/proto@2.24.0':
-    resolution: {integrity: sha512-S1eE0CoQ17s40JuzKaKpMze8h0JoN13za5arCp3xaqbWVT4UEFq/O/zJud9cpZ31uYwpPe8gH65TPZ3pKd9ZWQ==}
+  '@hiero-ledger/proto@2.25.0':
+    resolution: {integrity: sha512-yZ9gb/2FMUSvH+txR1g1Z/03vbl4T11H8qw1NQyIuKhXe4PE8Ct8iHAL62aS0BN+OcR6CaF2wkfkQa16kgIkSA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       ansi-regex: 6.2.2
@@ -1381,12 +1387,6 @@ packages:
       debug: 4.4.1
       protobufjs: 7.5.4
       strip-ansi: 7.1.2
-
-  '@hashgraph/sdk@2.75.0':
-    resolution: {integrity: sha512-Nkv57So2RbNlKxog1nsyqHgorgrStr3yzx0ZWse4R6yg1TztafiqA2+9m3YlmH3eNMr7vmghgtGqPkRflfVhZg==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      bn.js: 5.2.1
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1560,6 +1560,9 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@pinojs/redact@0.4.0':
+    resolution: {integrity: sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg==}
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -3874,12 +3877,12 @@ packages:
   pino-std-serializers@7.0.0:
     resolution: {integrity: sha512-e906FRY0+tV27iq4juKzSYPbUj2do2X2JX4EzSca1631EB2QJQUqGbDuERal7LCtOpxl6x3+nvo9NPZcmjkiFA==}
 
-  pino@9.2.0:
-    resolution: {integrity: sha512-g3/hpwfujK5a4oVbaefoJxezLzsDgLcNJeITvC6yrfwYeT9la+edCK42j5QpEQSQCZgTKapXvnQIdgZwvRaZug==}
+  pino@10.1.0:
+    resolution: {integrity: sha512-0zZC2ygfdqvqK8zJIr1e+wT1T/L+LF6qvqvbzEQ6tiMAoTqEVK9a1K3YRu8HEUvGEvNqZyPJTtb2sNIoTkB83w==}
     hasBin: true
 
-  pino@9.6.0:
-    resolution: {integrity: sha512-i85pKRCt4qMjZ1+L7sy2Ag4t1atFcdbEt76+7iRJn1g2BvsnRMGu9p8pivl9fs63M2kF/A0OacFZhTub+m/qMg==}
+  pino@9.2.0:
+    resolution: {integrity: sha512-g3/hpwfujK5a4oVbaefoJxezLzsDgLcNJeITvC6yrfwYeT9la+edCK42j5QpEQSQCZgTKapXvnQIdgZwvRaZug==}
     hasBin: true
 
   pirates@4.0.7:
@@ -3948,8 +3951,8 @@ packages:
   process-warning@3.0.0:
     resolution: {integrity: sha512-mqn0kFRl0EoqhnL0GQ0veqFHyIN1yig9RHh/InzORTUiZHFRAur+aMtRkELNwGs9aNwKS6tg/An4NYBPGwvtzQ==}
 
-  process-warning@4.0.1:
-    resolution: {integrity: sha512-3c2LzQ3rY9d0hc1emcsHhfT9Jwz0cChib/QN89oME2R451w5fy3f0afAhERFZAwrbDU43wk12d0ORBpDVME50Q==}
+  process-warning@5.0.0:
+    resolution: {integrity: sha512-a39t9ApHNx2L4+HBnQKqxxHNs1r7KF+Intd8Q/g1bUh6q0WIp9voPXJ/x0j+ZL45KF1pJd9+q2jLIRMfvEshkA==}
 
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
@@ -6209,7 +6212,35 @@ snapshots:
       protobufjs: 7.5.4
       yargs: 17.7.2
 
-  '@hashgraph/cryptography@1.13.0(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))':
+  '@hashgraph/sdk@2.78.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))':
+    dependencies:
+      '@ethersproject/abi': 5.8.0
+      '@ethersproject/bignumber': 5.8.0
+      '@ethersproject/bytes': 5.8.0
+      '@ethersproject/rlp': 5.8.0
+      '@grpc/grpc-js': 1.12.6
+      '@hiero-ledger/cryptography': 1.15.0(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
+      '@hiero-ledger/proto': 2.25.0(ansi-regex@6.2.2)(ansi-styles@6.2.3)(debug@4.4.1)(protobufjs@7.5.4)(strip-ansi@7.1.2)
+      ansi-regex: 6.2.2
+      ansi-styles: 6.2.3
+      bignumber.js: 9.1.1
+      bn.js: 5.2.2
+      crypto-js: 4.2.0
+      debug: 4.4.1
+      js-base64: 3.7.4
+      long: 5.3.1
+      pino: 10.1.0
+      pino-pretty: 13.0.0
+      protobufjs: 7.5.4
+      rfc4648: 1.5.3
+      strip-ansi: 7.1.2
+      utf8: 3.0.0
+    transitivePeerDependencies:
+      - expo-crypto
+      - react-native
+      - supports-color
+
+  '@hiero-ledger/cryptography@1.15.0(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))':
     dependencies:
       '@noble/curves': 1.8.1
       ansi-regex: 6.2.2
@@ -6231,7 +6262,7 @@ snapshots:
       - react-native
       - supports-color
 
-  '@hashgraph/proto@2.24.0(ansi-regex@6.2.2)(ansi-styles@6.2.3)(debug@4.4.1)(protobufjs@7.5.4)(strip-ansi@7.1.2)':
+  '@hiero-ledger/proto@2.25.0(ansi-regex@6.2.2)(ansi-styles@6.2.3)(debug@4.4.1)(protobufjs@7.5.4)(strip-ansi@7.1.2)':
     dependencies:
       ansi-regex: 6.2.2
       ansi-styles: 6.2.3
@@ -6239,34 +6270,6 @@ snapshots:
       long: 5.3.1
       protobufjs: 7.5.4
       strip-ansi: 7.1.2
-
-  '@hashgraph/sdk@2.75.0(bn.js@5.2.2)(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))':
-    dependencies:
-      '@ethersproject/abi': 5.8.0
-      '@ethersproject/bignumber': 5.8.0
-      '@ethersproject/bytes': 5.8.0
-      '@ethersproject/rlp': 5.8.0
-      '@grpc/grpc-js': 1.12.6
-      '@hashgraph/cryptography': 1.13.0(react-native@0.80.0(@babel/core@7.28.4)(react@19.1.0))
-      '@hashgraph/proto': 2.24.0(ansi-regex@6.2.2)(ansi-styles@6.2.3)(debug@4.4.1)(protobufjs@7.5.4)(strip-ansi@7.1.2)
-      ansi-regex: 6.2.2
-      ansi-styles: 6.2.3
-      bignumber.js: 9.1.1
-      bn.js: 5.2.2
-      crypto-js: 4.2.0
-      debug: 4.4.1
-      js-base64: 3.7.4
-      long: 5.3.1
-      pino: 9.6.0
-      pino-pretty: 13.0.0
-      protobufjs: 7.5.4
-      rfc4648: 1.5.3
-      strip-ansi: 7.1.2
-      utf8: 3.0.0
-    transitivePeerDependencies:
-      - expo-crypto
-      - react-native
-      - supports-color
 
   '@humanfs/core@0.19.1': {}
 
@@ -6545,6 +6548,8 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
+
+  '@pinojs/redact@0.4.0': {}
 
   '@protobufjs/aspromise@1.1.2': {}
 
@@ -7476,7 +7481,7 @@ snapshots:
     dependencies:
       import-fresh: 2.0.0
       is-directory: 0.3.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       parse-json: 4.0.0
 
   cpu-features@0.0.10:
@@ -9298,6 +9303,20 @@ snapshots:
 
   pino-std-serializers@7.0.0: {}
 
+  pino@10.1.0:
+    dependencies:
+      '@pinojs/redact': 0.4.0
+      atomic-sleep: 1.0.0
+      on-exit-leak-free: 2.1.2
+      pino-abstract-transport: 2.0.0
+      pino-std-serializers: 7.0.0
+      process-warning: 5.0.0
+      quick-format-unescaped: 4.0.4
+      real-require: 0.2.0
+      safe-stable-stringify: 2.5.0
+      sonic-boom: 4.2.0
+      thread-stream: 3.1.0
+
   pino@9.2.0:
     dependencies:
       atomic-sleep: 1.0.0
@@ -9310,20 +9329,6 @@ snapshots:
       real-require: 0.2.0
       safe-stable-stringify: 2.5.0
       sonic-boom: 4.0.1
-      thread-stream: 3.1.0
-
-  pino@9.6.0:
-    dependencies:
-      atomic-sleep: 1.0.0
-      fast-redact: 3.5.0
-      on-exit-leak-free: 2.1.2
-      pino-abstract-transport: 2.0.0
-      pino-std-serializers: 7.0.0
-      process-warning: 4.0.1
-      quick-format-unescaped: 4.0.4
-      real-require: 0.2.0
-      safe-stable-stringify: 2.5.0
-      sonic-boom: 4.2.0
       thread-stream: 3.1.0
 
   pirates@4.0.7: {}
@@ -9382,7 +9387,7 @@ snapshots:
 
   process-warning@3.0.0: {}
 
-  process-warning@4.0.1: {}
+  process-warning@5.0.0: {}
 
   process@0.11.10: {}
 
