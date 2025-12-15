@@ -1,5 +1,19 @@
 # @hiero-did-sdk/registrar
 
+## 0.1.8
+
+### Patch Changes
+
+- 0008e01: Use Hiero Solo for integration tests + security updates
+- Updated dependencies [0008e01]
+  - @hiero-did-sdk/publisher-internal@0.1.8
+  - @hiero-did-sdk/verifier-internal@0.1.8
+  - @hiero-did-sdk/signer-internal@0.1.8
+  - @hiero-did-sdk/messages@0.1.8
+  - @hiero-did-sdk/resolver@0.1.8
+  - @hiero-did-sdk/core@0.1.8
+  - @hiero-did-sdk/lifecycle@0.1.8
+
 ## 0.1.7
 
 ### Patch Changes

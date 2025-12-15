@@ -1,5 +1,11 @@
 # @hiero-did-sdk/crypto
 
+## 0.1.8
+
+### Patch Changes
+
+- 0008e01: Use Hiero Solo for integration tests + security updates
+
 ## 0.1.7
 
 ### Patch Changes
