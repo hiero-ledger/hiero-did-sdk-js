@@ -1,4 +1,4 @@
-const TOPIC_ID_PATTERN = /^\d+.\d+.\d+$/;
+const TOPIC_ID_PATTERN = /^\d+\.\d+\.\d+$/;
 
 /**
  * Validates if a string is a valid Hedera topic ID.

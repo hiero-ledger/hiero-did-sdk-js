@@ -50,7 +50,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.75.0",
+    "@hashgraph/sdk": "^2.78.0",
     "@scure/base": "^1.2.6",
     "buffer": "^6.0.3",
     "cbor-x": "^1.6.0",

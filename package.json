@@ -27,7 +27,7 @@
     "@babel/preset-env": "^7.28.3",
     "@changesets/cli": "^2.29.7",
     "@eslint/js": "^9.38.0",
-    "@hashgraph/sdk": "^2.75.0",
+    "@hashgraph/sdk": "^2.78.0",
     "@scure/base": "^1.2.6",
     "@sntke/antora-mermaid-extension": "^0.0.6",
     "@types/eslint__js": "^8.42.3",
