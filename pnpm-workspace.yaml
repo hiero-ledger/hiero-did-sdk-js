@@ -13,5 +13,6 @@ onlyBuiltDependencies:
 overrides:
   glob@>=10.2.0 <10.5.0: '>=10.5.0'
   glob@>=11.0.0 <11.1.0: '>=11.1.0'
-  js-yaml@<3.14.2: '>=3.14.2'
+# TODO: Enable this back once '@changesets' packages support 'js-yaml' 4+
+#  js-yaml@<3.14.2: '>=3.14.2'
   js-yaml@>=4.0.0 <4.1.1: '>=4.1.1'

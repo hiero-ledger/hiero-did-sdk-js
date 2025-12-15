@@ -1,5 +1,15 @@
 # @hiero-did-sdk/anoncreds
 
+## 0.1.8
+
+### Patch Changes
+
+- 0008e01: Use Hiero Solo for integration tests + security updates
+- Updated dependencies [0008e01]
+  - @hiero-did-sdk/core@0.1.8
+  - @hiero-did-sdk/hcs@0.1.8
+  - @hiero-did-sdk/zstd@0.1.8
+
 ## 0.1.7
 
 ### Patch Changes
