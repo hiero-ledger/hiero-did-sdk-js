@@ -88,7 +88,7 @@ describe('Hedera AnonCreds Registry', () => {
 
   let anoncredsRegistry: HederaAnoncredsRegistry;
 
-  const issuerDid = 'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419';
+  const issuerDid = `did:hedera:${network}:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419`;
   const issuerKey = PrivateKey.generate();
   const issuerKeySigner = new Signer(issuerKey);
 

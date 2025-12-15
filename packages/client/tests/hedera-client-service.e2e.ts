@@ -28,7 +28,7 @@ describe('HederaClientService', () => {
 
   test('should throw an error if network names are not unique', () => {
     config.networks.push({
-      network: 'testnet',
+      network,
       operatorId,
       operatorKey,
     });
@@ -82,7 +82,7 @@ describe('HederaClientService', () => {
 
   test('should execute operation with client and close the client afterwards', async () => {
     const mockOperation = jest.fn().mockResolvedValue(true);
-    await service.withClient({ networkName: 'testnet' }, (client) => {
+    await service.withClient({ networkName: network }, (client) => {
       expect(client).toBeInstanceOf(Client);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return mockOperation();

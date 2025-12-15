@@ -15,7 +15,7 @@ import AccountId from '@hashgraph/sdk/lib/account/AccountId';
 import { HcsCacheService } from '../cache';
 import { CacheConfig } from '../hedera-hcs-service.configuration';
 import { Cache, Signer } from '@hiero-did-sdk/core';
-import { getMirrorNetworkNodeUrl, isMirrorQuerySupported, waitForChangesVisibility } from '../shared';
+import { isMirrorQuerySupported, waitForChangesVisibility } from '../shared';
 
 const DEFAULT_AUTO_RENEW_PERIOD = 90 * 24 * 60 * 60; // 90 days
 
@@ -157,9 +157,9 @@ export class HcsTopicService {
     const topicId = receipt.topicId.toString();
 
     if (props?.waitForChangesVisibility) {
-      await waitForChangesVisibility<TopicInfo>({
+      await waitForChangesVisibility({
         fetchFn: () => this.fetchTopicInfo({ topicId }),
-        checkFn: (topicInfo: TopicInfo) => topicInfo.topicId === topicId,
+        checkFn: (topicInfo) => topicInfo.topicId === topicId,
         waitTimeout: props?.waitForChangesVisibilityTimeoutMs,
       });
     }
@@ -233,18 +233,26 @@ export class HcsTopicService {
 
     await this.cacheService?.removeTopicInfo(this.client, props.topicId);
 
-    const currentAdminKeyDer = await props.currentAdminKeySigner.publicKey();
-
     if (props?.waitForChangesVisibility) {
+      const adminKeyRaw = await props.adminKeySigner?.publicKeyInstance().then((key) => key.toStringRaw());
+      const submitKeyRaw =
+        props.submitKey instanceof PrivateKey
+          ? props.submitKey?.publicKey.toStringRaw()
+          : props.submitKey?.toStringRaw();
+
+      // FIXME: Expiration time is not returned from REST API, so we should not check it
+      const shouldCheckExpirationTime = isMirrorQuerySupported(this.client);
+
       await waitForChangesVisibility({
         fetchFn: () => this.fetchTopicInfo({ topicId: props.topicId }),
         checkFn: (topicInfo: TopicInfo) =>
           (props.topicMemo === undefined || props.topicMemo === topicInfo.topicMemo) &&
-          (props.submitKey === undefined || props.submitKey.toStringDer() === topicInfo.submitKey) &&
-          (props.currentAdminKeySigner === undefined || currentAdminKeyDer === topicInfo.adminKey) &&
+          (props.submitKey === undefined || submitKeyRaw === topicInfo.submitKey) &&
+          (props.adminKeySigner === undefined || adminKeyRaw === topicInfo.adminKey) &&
           (props.autoRenewPeriod === undefined || props.autoRenewPeriod === topicInfo.autoRenewPeriod) &&
           (props.autoRenewAccountId === undefined || props.autoRenewAccountId === topicInfo.autoRenewAccountId) &&
-          (props.expirationTime === undefined ||
+          (!shouldCheckExpirationTime ||
+            props.expirationTime === undefined ||
             this.convertExpirationTimeToSeconds(props.expirationTime) === topicInfo.expirationTime),
         waitTimeout: props?.waitForChangesVisibilityTimeoutMs,
       });
@@ -279,7 +287,7 @@ export class HcsTopicService {
     await this.cacheService?.removeTopicInfo(this.client, props.topicId);
 
     if (props?.waitForChangesVisibility) {
-      await waitForChangesVisibility<boolean>({
+      await waitForChangesVisibility({
         fetchFn: async () => {
           try {
             await this.fetchTopicInfo({ topicId: props.topicId });
@@ -362,9 +370,9 @@ export class HcsTopicService {
    * @private
    */
   private async fetchTopicInfoWithRest(props: GetTopicInfoProps): Promise<TopicInfo> {
-    const restApiUrl = getMirrorNetworkNodeUrl(this.client);
+    const restApiUrl = this.client.mirrorRestApiBaseUrl;
 
-    const response = await fetch(`${restApiUrl}/api/v1/topics/${props.topicId}?_=${Date.now()}`, {
+    const response = await fetch(`${restApiUrl}/topics/${props.topicId}?_=${Date.now()}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',

@@ -107,25 +107,34 @@ describe('HcsFileService', () => {
       expect(result).toBe(mockTopicId);
     });
 
-    it('should wait for changes visibility if specified', async () => {
-      // Mock implementation for waitForChangesVisibility
-      jest.spyOn(global, 'setTimeout').mockImplementation((callback: TimerHandler) => {
-        if (typeof callback === 'function') {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          callback();
-        }
-        return {} as NodeJS.Timeout;
-      });
+    it('should wait for changes visibility', async () => {
+      // Mock message service to return chunks
+      mockGetTopicMessages.mockResolvedValueOnce([
+        {
+          contents: Buffer.from(
+            JSON.stringify({ o: 0, c: 'data:application/json;base64,Y29tcHJlc3NlZC10ZXN0IHBheWxvYWQ=' })
+          ),
+        },
+      ]);
 
       await service.submitFile({
         payload: testPayload,
         submitKeySigner: new Signer(PrivateKey.generate()),
         waitForChangesVisibility: true,
-        waitForChangesVisibilityTimeoutMs: 1000,
       });
 
-      // The test passes if no error is thrown
-      expect(true).toBeTruthy();
+      expect(mockGetTopicMessages).toHaveBeenCalledWith({ topicId: mockTopicId });
+    });
+
+    it('should wait for changes visibility and fail if timeout is exceeded', async () => {
+      await expect(
+        service.submitFile({
+          payload: testPayload,
+          submitKeySigner: new Signer(PrivateKey.generate()),
+          waitForChangesVisibility: true,
+          waitForChangesVisibilityTimeoutMs: 1000,
+        })
+      ).rejects.toThrow('Timeout of 1000ms exceeded while waiting for changes visibility');
     });
   });
 

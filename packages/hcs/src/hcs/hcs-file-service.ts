@@ -80,9 +80,9 @@ export class HcsFileService {
     }
 
     if (props?.waitForChangesVisibility) {
-      await waitForChangesVisibility<Buffer>({
+      await waitForChangesVisibility({
         fetchFn: () => this.resolveFileWithoutCache({ topicId }),
-        checkFn: (file: Buffer) => file.equals(props.payload),
+        checkFn: (file) => file.equals(props.payload),
         waitTimeout: props?.waitForChangesVisibilityTimeoutMs,
       });
     }
