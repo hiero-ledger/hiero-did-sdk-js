@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: hl-dsdk-js-lin-md
     name: Release
     steps:
       - name: Harden the runner (Audit all outbound calls)

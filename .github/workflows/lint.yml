@@ -10,7 +10,7 @@ permissions:
 jobs:
   build-and-lint:
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-latest
+    runs-on: hl-dsdk-js-lin-md
     name: Build and lint check
     steps:
       - name: Harden the runner (Audit all outbound calls)
