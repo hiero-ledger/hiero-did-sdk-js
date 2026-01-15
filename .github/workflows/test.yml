@@ -12,7 +12,7 @@ permissions:
 jobs:
   test:
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-latest
+    runs-on: hl-dsdk-js-lin-md
     strategy:
       matrix:
         node: [20, 22, 24]
