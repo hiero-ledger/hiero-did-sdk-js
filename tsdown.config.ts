@@ -5,7 +5,6 @@ export type UserConfigEntry = Exclude<UserConfig, Array<unknown>>;
 const esbuildShim = require.resolve('node-stdlib-browser/helpers/esbuild/shim');
 
 const commonOptions: UserConfigEntry = {
-  minify: false,
   outDir: 'dist',
   format: ['cjs', 'esm'],
   target: 'es2021',

@@ -1,7 +1,7 @@
 export * from './get-resolver';
 export * from './resolve-did';
 export * from './dereference-did';
-export {
+export type {
   ResolveDIDOptions,
   GetResolveDIDOptions,
   DereferenceDIDOptions,
