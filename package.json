@@ -6,10 +6,10 @@
     "docs:serve": "npx http-server ./build/site",
     "clean": "pnpm -r clean",
     "build": "pnpm -r build",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --testLocationInResults --json --outputFile=coverage/report.json",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:ci": "vitest --ci --coverage --testLocationInResults --json --outputFile=coverage/report.json",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier --write \"packages/**/src/**/*.ts\" \"packages/**/tests/*.ts\" \"examples/**/*.ts\"",
@@ -49,6 +49,7 @@
     "tsup": "^8.5.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.2"
+    "typescript-eslint": "^8.46.2",
+    "vitest": "^4.0.18"
   }
 }

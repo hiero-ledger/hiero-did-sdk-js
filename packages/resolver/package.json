@@ -40,8 +40,8 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "compile": "tsup",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
     "build": "pnpm clean && pnpm compile",
     "format": "prettier --write \"src/**/*.ts\" \"tests/*.ts\"",
     "format-check": "prettier --check \"src/*.ts\" \"tests/*.ts\""
@@ -55,6 +55,7 @@
     "@hiero-did-sdk/core": "workspace:*",
     "@hiero-did-sdk/hcs": "workspace:*",
     "@hiero-did-sdk/verifier-internal": "workspace:*",
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "vitest": "^4.0.18"
   }
 }

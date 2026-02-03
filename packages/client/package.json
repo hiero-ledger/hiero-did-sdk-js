@@ -40,8 +40,8 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "compile": "tsup",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
     "build": "pnpm clean && pnpm compile",
     "format": "prettier --write \"src/**/*.ts\"",
     "format-check": "prettier --check \"src/*.ts\""
@@ -50,6 +50,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.78.0"
+    "@hashgraph/sdk": "^2.78.0",
+    "vitest": "^4.0.18"
   }
 }
