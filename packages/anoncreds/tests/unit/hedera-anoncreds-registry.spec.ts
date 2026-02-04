@@ -22,7 +22,7 @@ import {
 import { NetworkName } from '@hiero-did-sdk/client';
 import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { expect, Mock, Mocked, vi } from 'vitest';
+import { Mock, Mocked, vi } from 'vitest';
 
 vi.mock('@hiero-did-sdk/hcs');
 vi.mock('@hiero-did-sdk/zstd');
@@ -30,25 +30,9 @@ vi.mock('../../src/utils');
 
 describe('HederaAnoncredsRegistry', () => {
   let serviceMock: Mocked<HederaHcsService>;
-  let registry: Mocked<HederaAnoncredsRegistry>;
+  let registry: HederaAnoncredsRegistry;
 
   beforeEach(() => {
-    serviceMock = {
-      submitFile: vi.fn(),
-      resolveFile: vi.fn(),
-      createTopic: vi.fn(),
-      submitMessage: vi.fn(),
-      getTopicMessages: vi.fn(),
-    } as any;
-
-    vi.mock('HederaHcsService', () => ({
-      submitFile: vi.fn(),
-      resolveFile: vi.fn(),
-      createTopic: vi.fn(),
-      submitMessage: vi.fn(),
-      getTopicMessages: vi.fn(),
-    }));
-
     // id example: "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/SCHEMA/0.0.5896422"
     (buildAnonCredsIdentifier as jest.Mock).mockImplementation(
       (issuerId: string, topicId: string, type: string) =>
@@ -67,6 +51,7 @@ describe('HederaAnoncredsRegistry', () => {
     (Zstd.decompress as Mock).mockImplementation((buf: Buffer) => buf);
 
     registry = new HederaAnoncredsRegistry({} as HederaAnoncredsRegistryConfiguration);
+    serviceMock = (HederaHcsService as Mock).mock.instances[0] as Mocked<HederaHcsService>;
   });
 
   afterEach(() => {
@@ -364,8 +349,10 @@ describe('HederaAnoncredsRegistry', () => {
         timestamp: 123,
         currentAccumulator: 'accum',
       };
-      vi.spyOn(registry as any, 'resolveRevocationStatusList')
-        .mockResolvedValue(function() { entriesTopicId: 'topic', statusList });
+      vi.spyOn(registry as any, 'resolveRevocationStatusList').mockResolvedValue({
+        entriesTopicId: 'topic',
+        statusList,
+      });
 
       const result = await registry.getRevocationStatusList('id', 123);
 
@@ -374,9 +361,10 @@ describe('HederaAnoncredsRegistry', () => {
     });
 
     it('should return notFound error if revocation status list is undefined', async () => {
-      vi
-        .spyOn(registry as any, 'resolveRevocationStatusList')
-        .mockResolvedValue({ entriesTopicId: 'topic', statusList: undefined });
+      vi.spyOn(registry as any, 'resolveRevocationStatusList').mockResolvedValue({
+        entriesTopicId: 'topic',
+        statusList: undefined,
+      });
 
       const result = await registry.getRevocationStatusList('id', 123);
 
