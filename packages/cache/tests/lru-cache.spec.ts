@@ -1,4 +1,5 @@
 import { LRUMemoryCache } from '../src';
+import { vi } from 'vitest';
 
 describe('LRUMemoryCache', () => {
   let cache: LRUMemoryCache;
@@ -56,15 +57,15 @@ describe('LRUMemoryCache', () => {
   });
 
   it('should cleanup expired items', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     await cache.set('key1', 'value1', 2); // Expires in 2 seconds
 
-    jest.advanceTimersByTime(3000);
+    vi.advanceTimersByTime(3000);
 
     const result = await cache.get<string>('key1');
     expect(result).toBeNull(); // Key should have expired and been removed
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should push up the items when read from the cache', async () => {
