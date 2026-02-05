@@ -3,6 +3,7 @@ import { HederaHcsService } from '../../src/hedera-hcs-service';
 import { HederaNetwork, NetworkConfig } from '@hiero-did-sdk/client';
 import { Buffer } from 'buffer';
 import { Signer } from '@hiero-did-sdk/signer-internal';
+import { vi } from 'vitest';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
@@ -19,12 +20,12 @@ const networkConfigs: NetworkConfig[] = [
   },
 ];
 
-jest.mock('../../src/hcs/hcs-topic-service', () => ({
-  HcsTopicService: jest.fn().mockImplementation(() => ({
-    createTopic: jest.fn().mockReturnValue('MOCK_TOPIC_ID'),
-    updateTopic: jest.fn(),
-    deleteTopic: jest.fn(),
-    getTopicInfo: jest.fn().mockReturnValue({
+vi.mock('../../src/hcs/hcs-topic-service', () => ({
+  HcsTopicService: vi.fn().mockImplementation(() => ({
+    createTopic: vi.fn().mockReturnValue('MOCK_TOPIC_ID'),
+    updateTopic: vi.fn(),
+    deleteTopic: vi.fn(),
+    getTopicInfo: vi.fn().mockReturnValue({
       topicId: 'MOCK_TOPIC_ID',
       topicMemo: 'MOCK_TOPIC_MEMO',
       adminKey: false,
@@ -33,14 +34,14 @@ jest.mock('../../src/hcs/hcs-topic-service', () => ({
   })),
 }));
 
-jest.mock('../../src/hcs/hcs-message-service', () => ({
-  HcsMessageService: jest.fn().mockImplementation(() => ({
-    submitMessage: jest.fn().mockReturnValue({
+vi.mock('../../src/hcs/hcs-message-service', () => ({
+  HcsMessageService: vi.fn().mockImplementation(() => ({
+    submitMessage: vi.fn().mockReturnValue({
       nodeId: 'MOCK_NODE_ID',
       transactionId: 'MOCK_TX_ID',
       transactionHash: [],
     }),
-    getTopicMessages: jest.fn().mockReturnValue([
+    getTopicMessages: vi.fn().mockReturnValue([
       {
         consensusTimestamp: new Timestamp(0, 0),
         contents: [1, 2, 3, 4, 5],
@@ -53,10 +54,10 @@ jest.mock('../../src/hcs/hcs-message-service', () => ({
   })),
 }));
 
-jest.mock('../../src/hcs/hcs-file-service', () => ({
-  HcsFileService: jest.fn().mockImplementation(() => ({
-    submitFile: jest.fn().mockReturnValue('MOCK_FILE_TOPIC_ID'),
-    resolveFile: jest.fn().mockReturnValue(Buffer.from('MOCK_FILE_CONTENT')),
+vi.mock('../../src/hcs/hcs-file-service', () => ({
+  HcsFileService: vi.fn().mockImplementation(() => ({
+    submitFile: vi.fn().mockReturnValue('MOCK_FILE_TOPIC_ID'),
+    resolveFile: vi.fn().mockReturnValue(Buffer.from('MOCK_FILE_CONTENT')),
   })),
 }));
 

@@ -5,24 +5,25 @@ import { HcsCacheService } from '../../src/cache';
 import { HcsMessageService, TopicMessageData } from '../../src/hcs';
 import { isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
 import { Signer } from '@hiero-did-sdk/signer-internal';
+import { vi } from 'vitest';
 
-jest.mock('../../src/cache');
-jest.mock('../../src/shared');
+vi.mock('../../src/cache');
+vi.mock('../../src/shared');
 
-jest.mock('@hashgraph/sdk', () => {
-  const originalModule = jest.requireActual('@hashgraph/sdk');
+vi.mock('@hashgraph/sdk', () => {
+  const originalModule = vi.importActual('@hashgraph/sdk');
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...originalModule,
-    TopicMessageSubmitTransaction: jest.fn().mockImplementation(() => ({
-      setTopicId: jest.fn().mockReturnThis(),
-      setMessage: jest.fn().mockReturnThis(),
-      freezeWith: jest.fn().mockReturnThis(),
-      sign: jest.fn().mockResolvedValue(undefined),
-      signWith: jest.fn().mockReturnThis(),
-      execute: jest.fn(),
+    TopicMessageSubmitTransaction: vi.fn().mockImplementation(() => ({
+      setTopicId: vi.fn().mockReturnThis(),
+      setMessage: vi.fn().mockReturnThis(),
+      freezeWith: vi.fn().mockReturnThis(),
+      sign: vi.fn().mockResolvedValue(undefined),
+      signWith: vi.fn().mockReturnThis(),
+      execute: vi.fn(),
     })),
-    TopicMessageQuery: jest.fn(),
+    TopicMessageQuery: vi.fn(),
   };
 });
 
@@ -30,17 +31,17 @@ type ErrorCallback = (message: any, error: Error | null) => void;
 type MessageCallback = (message: { consensusTimestamp: { toDate: () => Date }; contents: Buffer }) => void;
 
 interface SubscriptionMock {
-  unsubscribe: jest.Mock<void, []>;
+  unsubscribe: vi.Mock<void, []>;
 }
 
 interface TopicMessageQueryMock {
-  setTopicId: jest.Mock<TopicMessageQueryMock, [string]>;
-  setMaxAttempts: jest.Mock<TopicMessageQueryMock, [number]>;
-  setStartTime: jest.Mock<TopicMessageQueryMock, [Date | number]>;
-  setEndTime: jest.Mock<TopicMessageQueryMock, [Date | number]>;
-  setLimit: jest.Mock<TopicMessageQueryMock, [number]>;
-  setCompletionHandler: jest.Mock<TopicMessageQueryMock, [() => void]>;
-  subscribe: jest.Mock<SubscriptionMock, [unknown, ErrorCallback, MessageCallback]>;
+  setTopicId: vi.Mock<TopicMessageQueryMock, [string]>;
+  setMaxAttempts: vi.Mock<TopicMessageQueryMock, [number]>;
+  setStartTime: vi.Mock<TopicMessageQueryMock, [Date | number]>;
+  setEndTime: vi.Mock<TopicMessageQueryMock, [Date | number]>;
+  setLimit: vi.Mock<TopicMessageQueryMock, [number]>;
+  setCompletionHandler: vi.Mock<TopicMessageQueryMock, [() => void]>;
+  subscribe: vi.Mock<SubscriptionMock, [unknown, ErrorCallback, MessageCallback]>;
 }
 
 describe('HcsMessageService', () => {
@@ -49,35 +50,35 @@ describe('HcsMessageService', () => {
   let service: HcsMessageService;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
-    client = {} as jest.Mocked<Client>;
-    Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: jest.fn(), configurable: true });
+    client = {} as vi.Mocked<Client>;
+    Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: vi.fn(), configurable: true });
 
     const realCacheServiceMock = new HcsCacheService({ maxSize: 100 });
 
-    jest.spyOn(realCacheServiceMock, 'getTopicInfo').mockResolvedValue(undefined);
-    jest.spyOn(realCacheServiceMock, 'setTopicInfo').mockResolvedValue(undefined);
-    jest.spyOn(realCacheServiceMock, 'removeTopicInfo').mockResolvedValue(undefined);
+    vi.spyOn(realCacheServiceMock, 'getTopicInfo').mockResolvedValue(undefined);
+    vi.spyOn(realCacheServiceMock, 'setTopicInfo').mockResolvedValue(undefined);
+    vi.spyOn(realCacheServiceMock, 'removeTopicInfo').mockResolvedValue(undefined);
 
-    cache = realCacheServiceMock as unknown as jest.Mocked<HcsCacheService>;
+    cache = realCacheServiceMock as unknown as vi.Mocked<HcsCacheService>;
 
-    (HcsCacheService as jest.Mock).mockReturnValue(cache);
+    (HcsCacheService as vi.Mock).mockReturnValue(cache);
 
-    (isMirrorQuerySupported as jest.Mock).mockReturnValue(true);
+    (isMirrorQuerySupported as vi.Mock).mockReturnValue(true);
 
     service = new HcsMessageService(client, cache);
   });
 
   type ResponseMockType = {
-    getReceipt: jest.Mock<Promise<{ status: Status; toString(): string }>, [Client]>;
+    getReceipt: vi.Mock<Promise<{ status: Status; toString(): string }>, [Client]>;
     nodeId: { toString(): string };
     transactionId: { toString(): string };
     transactionHash: Uint8Array;
   };
 
   describe('submitMessage', () => {
-    let transactionMock: jest.Mocked<Partial<TopicMessageSubmitTransaction>>;
+    let transactionMock: vi.Mocked<Partial<TopicMessageSubmitTransaction>>;
     let responseMock: ResponseMockType;
     let receiptMock: {
       status: Status;
@@ -90,21 +91,21 @@ describe('HcsMessageService', () => {
         toString: () => 'Success',
       };
       responseMock = {
-        getReceipt: jest.fn().mockResolvedValue(receiptMock),
+        getReceipt: vi.fn().mockResolvedValue(receiptMock),
         nodeId: { toString: () => 'nodeId' },
         transactionId: { toString: () => 'txId' },
         transactionHash: new Uint8Array([1, 2, 3]),
       };
       transactionMock = {
-        setTopicId: jest.fn().mockReturnThis(),
-        setMessage: jest.fn().mockReturnThis(),
-        freezeWith: jest.fn().mockReturnThis(),
-        sign: jest.fn().mockResolvedValue(undefined),
-        signWith: jest.fn().mockReturnThis(),
-        execute: jest.fn().mockResolvedValue(responseMock),
+        setTopicId: vi.fn().mockReturnThis(),
+        setMessage: vi.fn().mockReturnThis(),
+        freezeWith: vi.fn().mockReturnThis(),
+        sign: vi.fn().mockResolvedValue(undefined),
+        signWith: vi.fn().mockReturnThis(),
+        execute: vi.fn().mockResolvedValue(responseMock),
       };
-      (TopicMessageSubmitTransaction as unknown as jest.Mock).mockImplementation(() => transactionMock);
-      (cache.removeTopicMessages as jest.Mock).mockResolvedValue(undefined);
+      (TopicMessageSubmitTransaction as unknown as vi.Mock).mockImplementation(() => transactionMock);
+      (cache.removeTopicMessages as vi.Mock).mockResolvedValue(undefined);
     });
 
     it('should submit message successfully without submitKey and without wait', async () => {
@@ -154,7 +155,7 @@ describe('HcsMessageService', () => {
 
       expect(waitForChangesVisibility).toHaveBeenCalled();
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const waitArgs = (waitForChangesVisibility as jest.Mock).mock.calls[0][0] as {
+      const waitArgs = (waitForChangesVisibility as vi.Mock).mock.calls[0][0] as {
         checkFn: (messages: string[]) => boolean;
       };
       expect(waitArgs.checkFn(['msg'])).toBe(true);
@@ -170,8 +171,8 @@ describe('HcsMessageService', () => {
 
   describe('getTopicMessages', () => {
     beforeEach(() => {
-      (cache.getTopicMessages as jest.Mock).mockResolvedValue(undefined);
-      (cache.setTopicMessages as jest.Mock).mockResolvedValue(undefined);
+      (cache.getTopicMessages as vi.Mock).mockResolvedValue(undefined);
+      (cache.setTopicMessages as vi.Mock).mockResolvedValue(undefined);
     });
 
     it('should return cached messages if toDate is before last cached consensusTime', async () => {
@@ -179,7 +180,7 @@ describe('HcsMessageService', () => {
         { consensusTime: new Date(2000), contents: Buffer.from('cached1') },
         { consensusTime: new Date(3000), contents: Buffer.from('cached2') },
       ];
-      (cache.getTopicMessages as jest.Mock).mockResolvedValue(cachedMessages);
+      (cache.getTopicMessages as vi.Mock).mockResolvedValue(cachedMessages);
 
       const result = await service.getTopicMessages({
         topicId: '0.0.123',
@@ -191,14 +192,14 @@ describe('HcsMessageService', () => {
 
     it('should fetch new messages and update cache if needed', async () => {
       const cachedMessages = [{ consensusTime: new Date(1000), contents: Buffer.from('msg1') }];
-      (cache.getTopicMessages as jest.Mock).mockResolvedValue(cachedMessages);
+      (cache.getTopicMessages as vi.Mock).mockResolvedValue(cachedMessages);
 
       const newMessages = [
         { consensusTime: new Date(2000), contents: Buffer.from('msg2') },
         { consensusTime: new Date(3000), contents: Buffer.from('msg3') },
       ];
 
-      jest.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue(newMessages);
+      vi.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue(newMessages);
 
       const result = await service.getTopicMessages({
         topicId: '0.0.123',
@@ -213,9 +214,9 @@ describe('HcsMessageService', () => {
     });
 
     it('should call fetchTopicMessages if no cached messages', async () => {
-      (cache.getTopicMessages as jest.Mock).mockResolvedValue([]);
+      (cache.getTopicMessages as vi.Mock).mockResolvedValue([]);
 
-      jest.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue([]);
+      vi.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue([]);
 
       const result = await service.getTopicMessages({
         topicId: '0.0.123',
@@ -241,7 +242,7 @@ describe('HcsMessageService', () => {
   describe('getNewMessagesContent (private)', () => {
     it('should return message contents as strings', async () => {
       const mockMessages = [{ contents: Buffer.from('hello') }, { contents: Buffer.from('world') }];
-      jest.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue(mockMessages);
+      vi.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue(mockMessages);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       const contents = await (service as any).getNewMessagesContent({
@@ -255,10 +256,10 @@ describe('HcsMessageService', () => {
 
   describe('fetchTopicMessages', () => {
     it('should call fetchTopicMessagesWithClient if supported', async () => {
-      (isMirrorQuerySupported as jest.Mock).mockReturnValue(true);
+      (isMirrorQuerySupported as vi.Mock).mockReturnValue(true);
 
       const result = [{ consensusTime: new Date(), contents: Buffer.from('msg') }];
-      jest.spyOn(service as any, 'fetchTopicMessagesWithClient').mockResolvedValue(result);
+      vi.spyOn(service as any, 'fetchTopicMessagesWithClient').mockResolvedValue(result);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       const res = await (service as any).fetchTopicMessages({ topicId: '0.0.123' });
@@ -266,10 +267,10 @@ describe('HcsMessageService', () => {
     });
 
     it('should call fetchTopicMessagesWithRest if not supported', async () => {
-      (isMirrorQuerySupported as jest.Mock).mockReturnValue(false);
+      (isMirrorQuerySupported as vi.Mock).mockReturnValue(false);
 
       const result = [{ consensusTime: new Date(), contents: Buffer.from('msg') }];
-      jest.spyOn(service as any, 'fetchTopicMessagesWithRest').mockResolvedValue(result);
+      vi.spyOn(service as any, 'fetchTopicMessagesWithRest').mockResolvedValue(result);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       const res = await (service as any).fetchTopicMessages({ topicId: '0.0.123' });
@@ -278,24 +279,24 @@ describe('HcsMessageService', () => {
   });
 
   describe('fetchTopicMessagesWithClient (private)', () => {
-    let subscribeMock: jest.Mock;
-    let unsubscribeMock: jest.Mock;
+    let subscribeMock: vi.Mock;
+    let unsubscribeMock: vi.Mock;
     let queryMock: TopicMessageQueryMock;
-    let subscriptionObj: { unsubscribe: jest.Mock };
+    let subscriptionObj: { unsubscribe: vi.Mock };
 
     beforeEach(() => {
-      unsubscribeMock = jest.fn();
+      unsubscribeMock = vi.fn();
       subscriptionObj = { unsubscribe: unsubscribeMock };
 
-      subscribeMock = jest.fn();
+      subscribeMock = vi.fn();
 
       queryMock = {
-        setTopicId: jest.fn().mockReturnThis(),
-        setMaxAttempts: jest.fn().mockReturnThis(),
-        setStartTime: jest.fn().mockReturnThis(),
-        setEndTime: jest.fn().mockReturnThis(),
-        setLimit: jest.fn().mockReturnThis(),
-        setCompletionHandler: jest.fn().mockReturnThis(),
+        setTopicId: vi.fn().mockReturnThis(),
+        setMaxAttempts: vi.fn().mockReturnThis(),
+        setStartTime: vi.fn().mockReturnThis(),
+        setEndTime: vi.fn().mockReturnThis(),
+        setLimit: vi.fn().mockReturnThis(),
+        setCompletionHandler: vi.fn().mockReturnThis(),
         subscribe: subscribeMock.mockImplementation((_client, errorCb: MessageCallback, messageCb: MessageCallback) => {
           setTimeout(() => {
             messageCb({ consensusTimestamp: { toDate: () => new Date(1) }, contents: Buffer.from('a') });
@@ -306,7 +307,7 @@ describe('HcsMessageService', () => {
         }),
       };
 
-      (TopicMessageQuery as jest.Mock).mockImplementation(() => queryMock);
+      (TopicMessageQuery as vi.Mock).mockImplementation(() => queryMock);
     });
 
     it('should resolve with collected messages', async () => {
@@ -355,12 +356,12 @@ describe('HcsMessageService', () => {
 
   describe('fetchTopicMessagesWithRest (private)', () => {
     beforeEach(() => {
-      jest.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node/');
-      global.fetch = jest.fn();
+      vi.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node/');
+      global.fetch = vi.fn();
     });
 
     afterEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
     });
 
     it('should fetch all pages until no next link or limit reached', async () => {
@@ -375,7 +376,7 @@ describe('HcsMessageService', () => {
         messages: [{ consensus_timestamp: '3000', message: Buffer.from('c').toString('base64') }],
         links: {},
       };
-      (global.fetch as jest.Mock)
+      (global.fetch as vi.Mock)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(firstResponse),
@@ -405,7 +406,7 @@ describe('HcsMessageService', () => {
           { consensus_timestamp: '3000', message: Buffer.from('c').toString('base64') },
         ],
       };
-      (global.fetch as jest.Mock).mockResolvedValue({
+      (global.fetch as vi.Mock).mockResolvedValue({
         ok: true,
         json: () => Promise.resolve(response),
       });
@@ -420,7 +421,7 @@ describe('HcsMessageService', () => {
     });
 
     it('should throw on fetch failure', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      (global.fetch as vi.Mock).mockResolvedValue({
         ok: false,
         statusText: 'Bad Request',
       });
@@ -434,7 +435,7 @@ describe('HcsMessageService', () => {
 
   describe('getNextUrl (private)', () => {
     it('should construct URL correctly', () => {
-      jest.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node');
+      vi.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       const nextUrl = (service as any).getNextUrl('/path?param=1', 10, 'base64');

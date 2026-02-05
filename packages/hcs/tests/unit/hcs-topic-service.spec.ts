@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Client,
-  PrivateKey,
   Status,
   StatusError,
   TopicCreateTransaction,
@@ -23,80 +22,81 @@ import {
 import { isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
 import { HcsCacheService } from '../../src/cache';
 import { Signer } from '@hiero-did-sdk/signer-internal';
+import { vi } from 'vitest';
 
-jest.mock('@hashgraph/sdk', () => {
-  const actual = jest.requireActual('@hashgraph/sdk');
+vi.mock('@hashgraph/sdk', () => {
+  const actual = vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...actual,
     Status: { Success: 'SUCCESS', FailInvalid: 'FailInvalid', InvalidTopicId: 'INVALID_TOPIC' },
-    TopicCreateTransaction: jest.fn().mockImplementation(() => mockTopicTransaction()),
-    TopicUpdateTransaction: jest.fn().mockImplementation(() => mockTopicTransaction()),
-    TopicDeleteTransaction: jest.fn().mockImplementation(() => mockTopicTransaction()),
-    TopicInfoQuery: jest.fn().mockImplementation(() => ({
-      setTopicId: jest.fn().mockReturnThis(),
-      execute: jest.fn(),
+    TopicCreateTransaction: vi.fn().mockImplementation(() => mockTopicTransaction()),
+    TopicUpdateTransaction: vi.fn().mockImplementation(() => mockTopicTransaction()),
+    TopicDeleteTransaction: vi.fn().mockImplementation(() => mockTopicTransaction()),
+    TopicInfoQuery: vi.fn().mockImplementation(() => ({
+      setTopicId: vi.fn().mockReturnThis(),
+      execute: vi.fn(),
     })),
   };
 });
 
 function mockTopicTransaction() {
   return {
-    setTopicMemo: jest.fn().mockReturnThis(),
-    setSubmitKey: jest.fn().mockReturnThis(),
-    setAdminKey: jest.fn().mockReturnThis(),
-    setAutoRenewPeriod: jest.fn().mockReturnThis(),
-    setAutoRenewAccountId: jest.fn().mockReturnThis(),
-    setTopicId: jest.fn().mockReturnThis(),
-    setExpirationTime: jest.fn().mockReturnThis(),
-    freezeWith: jest.fn().mockReturnThis(),
-    sign: jest.fn().mockResolvedValue(undefined),
-    signWith: jest.fn().mockResolvedValue(undefined),
-    execute: jest.fn(),
+    setTopicMemo: vi.fn().mockReturnThis(),
+    setSubmitKey: vi.fn().mockReturnThis(),
+    setAdminKey: vi.fn().mockReturnThis(),
+    setAutoRenewPeriod: vi.fn().mockReturnThis(),
+    setAutoRenewAccountId: vi.fn().mockReturnThis(),
+    setTopicId: vi.fn().mockReturnThis(),
+    setExpirationTime: vi.fn().mockReturnThis(),
+    freezeWith: vi.fn().mockReturnThis(),
+    sign: vi.fn().mockResolvedValue(undefined),
+    signWith: vi.fn().mockResolvedValue(undefined),
+    execute: vi.fn(),
   };
 }
 
-jest.mock('../../src/shared', () => {
-  const actual = jest.requireActual('../../src/shared');
+vi.mock('../../src/shared', () => {
+  const actual = vi.importActual('../../src/shared');
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...actual,
-    signTransaction: jest.fn(),
-    waitForChangesVisibility: jest.fn(),
-    getMirrorNetworkNodeUrl: jest.fn(),
-    isMirrorQuerySupported: jest.fn(),
+    signTransaction: vi.fn(),
+    waitForChangesVisibility: vi.fn(),
+    getMirrorNetworkNodeUrl: vi.fn(),
+    isMirrorQuerySupported: vi.fn(),
   };
 });
 
 describe('HcsTopicService', () => {
-  let client: jest.Mocked<Client>;
+  let client: vi.Mocked<Client>;
   let service: HcsTopicService;
   let transactionMock: ReturnType<typeof mockTopicTransaction>;
-  let cacheServiceMock: jest.Mocked<HcsCacheService>;
+  let cacheServiceMock: vi.Mocked<HcsCacheService>;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
-    client = {} as jest.Mocked<Client>;
-    Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: jest.fn(), configurable: true });
+    client = {} as vi.Mocked<Client>;
+    Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: vi.fn(), configurable: true });
 
     const realCacheServiceMock = new HcsCacheService({ maxSize: 100 });
 
-    jest.spyOn(realCacheServiceMock, 'getTopicInfo').mockResolvedValue(undefined);
-    jest.spyOn(realCacheServiceMock, 'setTopicInfo').mockResolvedValue(undefined);
-    jest.spyOn(realCacheServiceMock, 'removeTopicInfo').mockResolvedValue(undefined);
+    vi.spyOn(realCacheServiceMock, 'getTopicInfo').mockResolvedValue(undefined);
+    vi.spyOn(realCacheServiceMock, 'setTopicInfo').mockResolvedValue(undefined);
+    vi.spyOn(realCacheServiceMock, 'removeTopicInfo').mockResolvedValue(undefined);
 
-    cacheServiceMock = realCacheServiceMock as unknown as jest.Mocked<HcsCacheService>;
+    cacheServiceMock = realCacheServiceMock as unknown as vi.Mocked<HcsCacheService>;
 
     service = new HcsTopicService(client, cacheServiceMock);
 
     transactionMock = mockTopicTransaction();
 
-    (TopicCreateTransaction as unknown as jest.Mock).mockImplementation(() => transactionMock);
-    (TopicUpdateTransaction as unknown as jest.Mock).mockImplementation(() => transactionMock);
-    (TopicDeleteTransaction as unknown as jest.Mock).mockImplementation(() => transactionMock);
+    (TopicCreateTransaction as unknown as vi.Mock).mockImplementation(() => transactionMock);
+    (TopicUpdateTransaction as unknown as vi.Mock).mockImplementation(() => transactionMock);
+    (TopicDeleteTransaction as unknown as vi.Mock).mockImplementation(() => transactionMock);
 
     transactionMock.freezeWith.mockReturnValue(transactionMock);
     transactionMock.sign.mockResolvedValue(transactionMock);
@@ -112,7 +112,7 @@ describe('HcsTopicService', () => {
 
     it('should create topic with minimal props', async () => {
       transactionMock.execute.mockResolvedValueOnce({
-        getReceipt: jest.fn().mockResolvedValue({ status: Status.Success, topicId: { toString: () => '1.2.3' } }),
+        getReceipt: vi.fn().mockResolvedValue({ status: Status.Success, topicId: { toString: () => '1.2.3' } }),
       });
 
       const topicId = await service.createTopic({});
@@ -135,7 +135,7 @@ describe('HcsTopicService', () => {
       const autoRenewAccountKeySigner = new Signer(autoRenewAccountKey);
 
       transactionMock.execute.mockResolvedValueOnce({
-        getReceipt: jest.fn().mockResolvedValue({ status: Status.Success, topicId: { toString: () => '4.5.6' } }),
+        getReceipt: vi.fn().mockResolvedValue({ status: Status.Success, topicId: { toString: () => '4.5.6' } }),
       });
 
       const props: CreateTopicProps = {
@@ -149,7 +149,7 @@ describe('HcsTopicService', () => {
         waitForChangesVisibilityTimeoutMs: 1000,
       };
 
-      jest.spyOn(service as any, 'fetchTopicInfo').mockResolvedValue({
+      vi.spyOn(service as any, 'fetchTopicInfo').mockResolvedValue({
         topicId: '4.5.6',
         topicMemo: 'TestMemo',
       } as unknown as TopicInfo);
@@ -170,14 +170,14 @@ describe('HcsTopicService', () => {
 
     it('should throw error if receipt.status !== Success', async () => {
       transactionMock.execute.mockResolvedValueOnce({
-        getReceipt: jest.fn().mockResolvedValue({ status: Status.FailInvalid, topicId: { toString: () => '1.1.1' } }),
+        getReceipt: vi.fn().mockResolvedValue({ status: Status.FailInvalid, topicId: { toString: () => '1.1.1' } }),
       });
       await expect(service.createTopic({})).rejects.toThrow(/Topic Create transaction failed/);
     });
 
     it('should throw error if receipt.topicId missing', async () => {
       transactionMock.execute.mockResolvedValueOnce({
-        getReceipt: jest.fn().mockResolvedValue({ status: Status.Success }),
+        getReceipt: vi.fn().mockResolvedValue({ status: Status.Success }),
       });
       await expect(service.createTopic({})).rejects.toThrow(/Transaction receipt do not contain topicId/);
     });
@@ -203,7 +203,7 @@ describe('HcsTopicService', () => {
 
     it('should update with default values and sign correctly', async () => {
       transactionMock.execute.mockResolvedValueOnce({
-        getReceipt: jest.fn().mockResolvedValue({ status: Status.Success }),
+        getReceipt: vi.fn().mockResolvedValue({ status: Status.Success }),
       });
 
       const adminKey = PrivateKey.generateED25519();
@@ -227,7 +227,7 @@ describe('HcsTopicService', () => {
         autoRenewAccountKeySigner,
       };
 
-      jest.spyOn(service as any, 'fetchTopicInfo').mockResolvedValue({
+      vi.spyOn(service as any, 'fetchTopicInfo').mockResolvedValue({
         topicId: props.topicId,
         topicMemo: 'newMemo',
         submitKey: props.submitKey.toStringDer(),
@@ -257,7 +257,7 @@ describe('HcsTopicService', () => {
 
     it('should throw error if receipt.status !== Success', async () => {
       transactionMock.execute.mockResolvedValueOnce({
-        getReceipt: jest.fn().mockResolvedValue({ status: Status.FailInvalid }),
+        getReceipt: vi.fn().mockResolvedValue({ status: Status.FailInvalid }),
       });
 
       await expect(service.updateTopic(baseProps)).rejects.toThrow(/Topic update transaction failed/);
@@ -281,10 +281,10 @@ describe('HcsTopicService', () => {
       transactionMock.sign.mockResolvedValueOnce(transactionMock);
 
       transactionMock.execute.mockResolvedValueOnce({
-        getReceipt: jest.fn().mockResolvedValue({ status: Status.Success }),
+        getReceipt: vi.fn().mockResolvedValue({ status: Status.Success }),
       });
 
-      jest.spyOn(service as any, 'fetchTopicInfo').mockRejectedValueOnce(
+      vi.spyOn(service as any, 'fetchTopicInfo').mockRejectedValueOnce(
         new StatusError(
           {
             transactionId: undefined,
@@ -311,7 +311,7 @@ describe('HcsTopicService', () => {
 
     it('should throw error if receipt.status !== Success', async () => {
       transactionMock.execute.mockResolvedValueOnce({
-        getReceipt: jest.fn().mockResolvedValue({ status: Status.FailInvalid }),
+        getReceipt: vi.fn().mockResolvedValue({ status: Status.FailInvalid }),
       });
 
       await expect(service.deleteTopic(props)).rejects.toThrow(/Topic delete transaction failed/);
@@ -336,7 +336,7 @@ describe('HcsTopicService', () => {
     it('should fetch info if no cache, then set cache', async () => {
       cacheServiceMock.getTopicInfo.mockResolvedValueOnce(undefined);
       const fetched = { topicId: TopicId.fromString('0.0.200'), topicMemo: 'Fetched memo' };
-      jest.spyOn(service as any, 'fetchTopicInfo').mockResolvedValueOnce(fetched);
+      vi.spyOn(service as any, 'fetchTopicInfo').mockResolvedValueOnce(fetched);
 
       const res = await service.getTopicInfo(props);
 
@@ -348,7 +348,7 @@ describe('HcsTopicService', () => {
 
   describe('fetchTopicInfo', () => {
     it('should call fetchTopicInfoWithClient if mirror supported', async () => {
-      (isMirrorQuerySupported as jest.Mock).mockReturnValue(true);
+      (isMirrorQuerySupported as vi.Mock).mockReturnValue(true);
       const spy = jest
         .spyOn(service as any, 'fetchTopicInfoWithClient')
         .mockResolvedValue({ topicId: 'topic123', topicMemo: 'memo' });
@@ -361,7 +361,7 @@ describe('HcsTopicService', () => {
     });
 
     it('should call fetchTopicInfoWithRest if mirror not supported', async () => {
-      (isMirrorQuerySupported as jest.Mock).mockReturnValue(false);
+      (isMirrorQuerySupported as vi.Mock).mockReturnValue(false);
       const spy = jest
         .spyOn(service as any, 'fetchTopicInfoWithRest')
         .mockResolvedValue({ topicId: 'topic456', topicMemo: 'memo2' });
@@ -395,9 +395,9 @@ describe('HcsTopicService', () => {
         },
       };
 
-      (TopicInfoQuery as unknown as jest.Mock).mockImplementation(() => ({
-        setTopicId: jest.fn().mockReturnThis(),
-        execute: jest.fn().mockResolvedValue(mockInfo),
+      (TopicInfoQuery as unknown as vi.Mock).mockImplementation(() => ({
+        setTopicId: vi.fn().mockReturnThis(),
+        execute: vi.fn().mockResolvedValue(mockInfo),
       }));
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
@@ -417,12 +417,12 @@ describe('HcsTopicService', () => {
 
   describe('fetchTopicInfoWithRest', () => {
     beforeEach(() => {
-      global.fetch = jest.fn();
-      jest.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('https://test-node/api/v1');
+      global.fetch = vi.fn();
+      vi.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('https://test-node/api/v1');
     });
 
     afterEach(() => {
-      jest.resetAllMocks();
+      vi.resetAllMocks();
     });
 
     it('should fetch info from REST and transform data', async () => {
@@ -437,9 +437,9 @@ describe('HcsTopicService', () => {
         expiration_time: new Date(1650000000000).toISOString(),
       };
 
-      (global.fetch as jest.Mock).mockResolvedValue({
+      (global.fetch as vi.Mock).mockResolvedValue({
         ok: true,
-        json: jest.fn().mockResolvedValue(fetchedData),
+        json: vi.fn().mockResolvedValue(fetchedData),
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
@@ -461,7 +461,7 @@ describe('HcsTopicService', () => {
     });
 
     it('should throw error if fetch response is not ok', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      (global.fetch as vi.Mock).mockResolvedValue({
         ok: false,
         statusText: 'Not Found',
       });
@@ -478,9 +478,9 @@ describe('HcsTopicService', () => {
         topic_id: '0.0.100',
         memo: '',
       };
-      (global.fetch as jest.Mock).mockResolvedValue({
+      (global.fetch as vi.Mock).mockResolvedValue({
         ok: true,
-        json: jest.fn().mockResolvedValue(deletedData),
+        json: vi.fn().mockResolvedValue(deletedData),
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call

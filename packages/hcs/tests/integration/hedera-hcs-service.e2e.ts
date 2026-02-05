@@ -5,6 +5,7 @@ import { Buffer } from 'buffer';
 import { v4 as uuidv4 } from 'uuid';
 import { Cache } from '@hiero-did-sdk/core';
 import { Signer } from '@hiero-did-sdk/signer-internal';
+import { vi } from 'vitest';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
@@ -21,13 +22,13 @@ if (network !== 'local-node') {
 }
 
 describe('Hedera HCS Service', () => {
-  jest.setTimeout(60000);
+  vi.setConfig({ testTimeout: 60000 });
 
   const mockCache: Cache = {
-    get: jest.fn(),
-    set: jest.fn(),
-    remove: jest.fn(),
-    clear: jest.fn(),
+    get: vi.fn(),
+    set: vi.fn(),
+    remove: vi.fn(),
+    clear: vi.fn(),
   };
 
   describe.each(TEST_VARIANTS)('Using $name', ({ useRestAPI }) => {
@@ -45,20 +46,19 @@ describe('Hedera HCS Service', () => {
     beforeAll(() => {
       global.UseRestAPI = useRestAPI;
 
-      jest
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        .spyOn(require('../../src/shared/mirror-node'), 'isMirrorQuerySupported')
+        vi.spyOn(require('../../src/shared/mirror-node'), 'isMirrorQuerySupported')
         .mockImplementation((_: Client) => {
           return !global.UseRestAPI;
         });
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     afterAll(() => {
-      jest.restoreAllMocks();
+      vi.restoreAllMocks();
     });
 
     it('Create topic', async () => {
