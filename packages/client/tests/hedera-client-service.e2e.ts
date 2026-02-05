@@ -1,5 +1,6 @@
 import { AccountId, Client } from '@hashgraph/sdk';
 import { HederaClientService, HederaClientConfiguration, HederaNetwork } from '../src';
+import { vi } from 'vitest';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
@@ -81,7 +82,7 @@ describe('HederaClientService', () => {
   });
 
   test('should execute operation with client and close the client afterwards', async () => {
-    const mockOperation = jest.fn().mockResolvedValue(true);
+    const mockOperation = vi.fn().mockResolvedValue(true);
     await service.withClient({ networkName: network }, (client) => {
       expect(client).toBeInstanceOf(Client);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
