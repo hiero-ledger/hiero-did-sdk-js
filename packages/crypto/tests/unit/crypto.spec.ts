@@ -3,21 +3,25 @@ import { Crypto } from '@hiero-did-sdk/crypto';
 import { Buffer } from 'buffer';
 import { nodeCrypto } from '../../src/node-crypto';
 import { rnCrypto } from '../../src/react-native-crypto';
+import { vi } from 'vitest';
 
 const data = 'Test data for sha256 calculating';
 const digest = '952a959a1ac6cd9ce1d80fcd1dfd570401c0d40ab36ea9a7a2e22295fd630d3b';
 
 const engines = ['crypto', 'react-native-quick-crypto'] as const;
-
+let cryptoMock;
 describe('Crypto', () => {
-  const mockCreateHash = jest.fn().mockReturnThis();
-  const mockUpdate = jest.fn().mockReturnThis();
-  const mockDigest = jest.fn().mockReturnValue(digest);
-  const cryptoMock = {
-    createHash: mockCreateHash,
-    update: mockUpdate,
-    digest: mockDigest,
-  };
+
+  beforeEach(() => {
+    const mockCreateHash = vi.fn().mockReturnThis();
+    const mockUpdate = vi.fn().mockReturnThis();
+    const mockDigest = vi.fn().mockReturnValue(digest);
+    cryptoMock = {
+      createHash: mockCreateHash,
+      update: mockUpdate,
+      digest: mockDigest,
+    };
+  })
 
   it('should throw an error if no compatible crypto module is found', () => {
     // @ts-expect-error Override resolved module
