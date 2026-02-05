@@ -9,11 +9,12 @@ import {
   DIDAddServiceMessageHederaCSMLifeCycle,
 } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID } from '../helpers';
+import { vi } from 'vitest';
 
 describe('Client mode DIDAddServiceMessage Lifecycle', () => {
   describe('when processing a valid DIDAddServiceMessage', () => {
     const verifier = new TestVerifier();
-    let publishMock: jest.Mock;
+    let publishMock: vi.Mock;
     let message: DIDAddServiceMessage;
     let result: RunnerState<DIDAddServiceMessage>;
 
@@ -25,11 +26,11 @@ describe('Client mode DIDAddServiceMessage Lifecycle', () => {
         did: VALID_DID,
       });
 
-      publishMock = jest.fn();
+      publishMock = vi.fn();
 
       const publisher: Publisher = {
-        network: jest.fn(),
-        publicKey: jest.fn(),
+        network: vi.fn(),
+        publicKey: vi.fn(),
         publish: publishMock,
       };
 
@@ -38,8 +39,8 @@ describe('Client mode DIDAddServiceMessage Lifecycle', () => {
       );
       const pauseStep = await runner.process(message, {
         publisher: {
-          network: jest.fn(),
-          publicKey: jest.fn(),
+          network: vi.fn(),
+          publicKey: vi.fn(),
           publish: publishMock,
         },
       });
@@ -64,8 +65,8 @@ describe('Client mode DIDAddServiceMessage Lifecycle', () => {
         );
         result = await runner.resume(result, {
           publisher: {
-            network: jest.fn(),
-            publicKey: jest.fn(),
+            network: vi.fn(),
+            publicKey: vi.fn(),
             publish: publishMock,
           },
         });
@@ -83,7 +84,7 @@ describe('Client mode DIDAddServiceMessage Lifecycle', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
   });
 });

@@ -14,11 +14,12 @@ import {
   TestVerifier,
   VALID_DID,
 } from '../helpers';
+import { vi } from 'vitest';
 
 describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
   describe('when processing a valid DIDAddVerificationMethodMessage', () => {
     const verifier = new TestVerifier();
-    let publishMock: jest.Mock;
+    let publishMock: vi.Mock;
     let message: DIDAddVerificationMethodMessage;
     let result: RunnerState<DIDAddVerificationMethodMessage>;
 
@@ -31,11 +32,11 @@ describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
         did: VALID_DID,
       });
 
-      publishMock = jest.fn();
+      publishMock = vi.fn();
 
       const publisher: Publisher = {
-        network: jest.fn(),
-        publicKey: jest.fn(),
+        network: vi.fn(),
+        publicKey: vi.fn(),
         publish: publishMock,
       };
 
@@ -44,8 +45,8 @@ describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
       );
       const pauseStep = await runner.process(message, {
         publisher: {
-          network: jest.fn(),
-          publicKey: jest.fn(),
+          network: vi.fn(),
+          publicKey: vi.fn(),
           publish: publishMock,
         },
       });
@@ -70,8 +71,8 @@ describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
         );
         result = await runner.resume(result, {
           publisher: {
-            network: jest.fn(),
-            publicKey: jest.fn(),
+            network: vi.fn(),
+            publicKey: vi.fn(),
             publish: publishMock,
           },
         });
@@ -89,7 +90,7 @@ describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
   });
 });

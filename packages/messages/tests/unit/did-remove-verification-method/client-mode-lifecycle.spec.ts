@@ -9,11 +9,12 @@ import {
   DIDRemoveVerificationMethodMessageHederaCSMLifeCycle,
 } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID } from '../helpers';
+import { vi } from 'vitest';
 
 describe('Client mode DIDRemoveVerificationMethodMessage Lifecycle', () => {
   describe('when processing a valid DIDRemoveVerificationMethodMessage', () => {
     const verifier = new TestVerifier();
-    let publishMock: jest.Mock;
+    let publishMock: vi.Mock;
     let message: DIDRemoveVerificationMethodMessage;
     let result: RunnerState<DIDRemoveVerificationMethodMessage>;
 
@@ -24,11 +25,11 @@ describe('Client mode DIDRemoveVerificationMethodMessage Lifecycle', () => {
         did: VALID_DID,
       });
 
-      publishMock = jest.fn();
+      publishMock = vi.fn();
 
       const publisher: Publisher = {
-        network: jest.fn(),
-        publicKey: jest.fn(),
+        network: vi.fn(),
+        publicKey: vi.fn(),
         publish: publishMock,
       };
 
@@ -37,8 +38,8 @@ describe('Client mode DIDRemoveVerificationMethodMessage Lifecycle', () => {
       );
       const pauseStep = await runner.process(message, {
         publisher: {
-          network: jest.fn(),
-          publicKey: jest.fn(),
+          network: vi.fn(),
+          publicKey: vi.fn(),
           publish: publishMock,
         },
       });
@@ -63,8 +64,8 @@ describe('Client mode DIDRemoveVerificationMethodMessage Lifecycle', () => {
         );
         result = await runner.resume(result, {
           publisher: {
-            network: jest.fn(),
-            publicKey: jest.fn(),
+            network: vi.fn(),
+            publicKey: vi.fn(),
             publish: publishMock,
           },
         });
@@ -82,7 +83,7 @@ describe('Client mode DIDRemoveVerificationMethodMessage Lifecycle', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
   });
 });

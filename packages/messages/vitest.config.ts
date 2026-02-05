@@ -1,18 +1,8 @@
-import { defineConfig } from 'vitest/config';
+import { mergeConfig } from 'vitest/config';
+import baseConfig from '../../vitest.config.base';
 
-export default defineConfig({
+export default mergeConfig(baseConfig, {
   test: {
-    globals: true, // so you can keep `describe`, `it`, `expect`
-    name: '@hiero-did-sdk/cache',
-    include: ['**/__tests__/**/*.{ts,tsx,js,jsx}', '**/*.{test,spec}.{ts,tsx,js,jsx}'],
-    exclude: [
-      '../packages/cache',
-      '../packages/core',
-      '../packages/client',
-      '../packages/crypto',
-      '../packages/hcs',
-      '../packages/zstd',
-      '../tests',
-    ],
+    name: '@hiero-did-sdk/messages',
   },
 });

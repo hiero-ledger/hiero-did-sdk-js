@@ -1,14 +1,15 @@
 import { resolveDID } from '@hiero-did-sdk/resolver';
 import { DIDError } from '@hiero-did-sdk/core';
 import { checkDIDExists } from '../../../src/messages/did-owner/utils';
+import { vi } from 'vitest';
 
-jest.mock('@hiero-did-sdk/resolver', () => {
+vi.mock('@hiero-did-sdk/resolver', () => {
   return {
-    resolveDID: jest.fn(),
+    resolveDID: vi.fn(),
   };
 });
 
-const resolverMock = resolveDID as jest.Mock;
+const resolverMock = resolveDID as vi.Mock;
 
 describe('DID Owner utils', () => {
   describe('checkDIDExists()', () => {

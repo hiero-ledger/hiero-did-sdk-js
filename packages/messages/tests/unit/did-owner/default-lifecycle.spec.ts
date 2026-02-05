@@ -5,30 +5,31 @@ import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import { DIDOwnerMessage, DIDOwnerMessageHederaDefaultLifeCycle } from '../../../src';
 import { DIDOwnerMessageContext } from '../../../src/messages/did-owner/lifecycle/context';
 import { NETWORK, SIGNATURE, TestVerifier, VALID_DID_TOPIC_ID } from '../helpers';
+import { vi } from 'vitest';
 
-jest.mock('@hiero-did-sdk/resolver', () => {
+vi.mock('@hiero-did-sdk/resolver', () => {
   return {
-    resolveDID: jest.fn(),
+    resolveDID: vi.fn(),
   };
 });
 
 const privateKey = PrivateKey.generateED25519();
 
 const mockSigner = new (class extends Signer {
-  publicKey = jest.fn().mockResolvedValue(privateKey.publicKey.toStringDer());
-  sign = jest.fn().mockImplementation(() => SIGNATURE);
-  verify = jest.fn().mockResolvedValue(true);
+  publicKey = vi.fn().mockResolvedValue(privateKey.publicKey.toStringDer());
+  sign = vi.fn().mockImplementation(() => SIGNATURE);
+  verify = vi.fn().mockResolvedValue(true);
 })();
 
 const mockPublisher = {
   network: () => NETWORK as Network,
   publicKey: () => privateKey.publicKey,
-  publish: jest.fn().mockResolvedValue({
+  publish: vi.fn().mockResolvedValue({
     topicId: VALID_DID_TOPIC_ID,
   }),
 };
 
-const resolverMock = resolveDID as jest.Mock;
+const resolverMock = resolveDID as vi.Mock;
 
 describe('Default DID Owner Lifecycle', () => {
   beforeEach(() => {
@@ -36,7 +37,7 @@ describe('Default DID Owner Lifecycle', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('when processing a valid DIDOwnerMessage', () => {
@@ -106,7 +107,7 @@ describe('Default DID Owner Lifecycle', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
   });
 
@@ -164,8 +165,8 @@ describe('Default DID Owner Lifecycle', () => {
 
   it('should pass the topic reader to the resolver', async () => {
     const topicReader = {
-      fetchAllToDate: jest.fn().mockResolvedValue([]),
-      fetchFrom: jest.fn().mockResolvedValue([]),
+      fetchAllToDate: vi.fn().mockResolvedValue([]),
+      fetchFrom: vi.fn().mockResolvedValue([]),
     };
     resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
 

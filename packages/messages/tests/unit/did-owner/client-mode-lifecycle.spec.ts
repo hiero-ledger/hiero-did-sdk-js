@@ -15,14 +15,15 @@ import {
   TestVerifier,
   VALID_DID_TOPIC_ID,
 } from '../helpers';
+import { vi } from 'vitest';
 
-jest.mock('@hiero-did-sdk/resolver', () => {
+vi.mock('@hiero-did-sdk/resolver', () => {
   return {
-    resolveDID: jest.fn(),
+    resolveDID: vi.fn(),
   };
 });
 
-const resolverMock = resolveDID as jest.Mock;
+const resolverMock = resolveDID as vi.Mock;
 
 describe('Client Mode DID Owner Lifecycle', () => {
   beforeEach(() => {
@@ -31,7 +32,7 @@ describe('Client Mode DID Owner Lifecycle', () => {
 
   describe('when processing a valid DIDOwnerMessage', () => {
     const verifier = new TestVerifier();
-    let publishMock: jest.Mock;
+    let publishMock: vi.Mock;
     let message: DIDOwnerMessage;
     let result: RunnerState<DIDOwnerMessage>;
 
@@ -41,7 +42,7 @@ describe('Client Mode DID Owner Lifecycle', () => {
         publicKey: privateKey.publicKey,
       });
 
-      publishMock = jest.fn().mockResolvedValue({
+      publishMock = vi.fn().mockResolvedValue({
         topicId: VALID_DID_TOPIC_ID,
       });
 
@@ -92,8 +93,8 @@ describe('Client Mode DID Owner Lifecycle', () => {
         const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
         result = await runner.resume(result, {
           publisher: {
-            network: jest.fn(),
-            publicKey: jest.fn(),
+            network: vi.fn(),
+            publicKey: vi.fn(),
             publish: publishMock,
           },
           context: {
@@ -110,7 +111,7 @@ describe('Client Mode DID Owner Lifecycle', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
   });
 
@@ -126,7 +127,7 @@ describe('Client Mode DID Owner Lifecycle', () => {
         publisher: {
           network: () => NETWORK,
           publicKey: () => privateKey.publicKey,
-          publish: jest.fn().mockResolvedValue({
+          publish: vi.fn().mockResolvedValue({
             status: 'failed',
           }),
         },
@@ -145,7 +146,7 @@ describe('Client Mode DID Owner Lifecycle', () => {
       publicKey: privateKey.publicKey,
     });
 
-    const publishMock = jest.fn().mockResolvedValue({
+    const publishMock = vi.fn().mockResolvedValue({
       topicId: VALID_DID_TOPIC_ID,
     });
     const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
@@ -165,8 +166,8 @@ describe('Client Mode DID Owner Lifecycle', () => {
 
   it('should pass the topic reader to the resolver', async () => {
     const topicReader = {
-      fetchAllToDate: jest.fn().mockResolvedValue([]),
-      fetchFrom: jest.fn().mockResolvedValue([]),
+      fetchAllToDate: vi.fn().mockResolvedValue([]),
+      fetchFrom: vi.fn().mockResolvedValue([]),
     };
     resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
 
@@ -175,7 +176,7 @@ describe('Client Mode DID Owner Lifecycle', () => {
       publicKey: privateKey.publicKey,
     });
 
-    const publishMock = jest.fn().mockResolvedValue({
+    const publishMock = vi.fn().mockResolvedValue({
       topicId: VALID_DID_TOPIC_ID,
     });
     const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
@@ -206,7 +207,7 @@ describe('Client Mode DID Owner Lifecycle', () => {
       topicId: VALID_DID_TOPIC_ID,
     });
 
-    const publishMock = jest.fn();
+    const publishMock = vi.fn();
 
     const runner = new LifecycleRunner(DIDOwnerMessageHederaCSMLifeCycle);
     const state = await runner.process(message, {

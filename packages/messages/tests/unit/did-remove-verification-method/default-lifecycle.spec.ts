@@ -6,17 +6,18 @@ import {
 } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
 import { Signer } from '@hiero-did-sdk/core';
+import { vi } from 'vitest';
 
 const mockSigner = new (class extends Signer {
-  publicKey = jest.fn();
-  sign = jest.fn().mockImplementation(() => SIGNATURE);
-  verify = jest.fn().mockResolvedValue(true);
+  publicKey = vi.fn();
+  sign = vi.fn().mockImplementation(() => SIGNATURE);
+  verify = vi.fn().mockResolvedValue(true);
 })();
 
 const mockPublisher = {
-  network: jest.fn(),
-  publicKey: jest.fn(),
-  publish: jest.fn().mockResolvedValue({
+  network: vi.fn(),
+  publicKey: vi.fn(),
+  publish: vi.fn().mockResolvedValue({
     topicId: VALID_DID_TOPIC_ID,
   }),
 };
@@ -70,7 +71,7 @@ describe('Default DIDRemoveVerificationMethodMessage Lifecycle', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
   });
 });
