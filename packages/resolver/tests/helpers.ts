@@ -9,6 +9,7 @@ import {
 } from '@hiero-did-sdk/messages';
 import { PrivateKey } from '@hashgraph/sdk';
 import { DIDResolution } from '@hiero-did-sdk/core';
+import { vi } from 'vitest';
 
 export const VALID_DID_TOPIC_ID = '0.0.2';
 export const VALID_DID_PUBLIC_KEY = 'J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4';
@@ -168,9 +169,9 @@ export async function getDeactivateMessage(options: DeactivateOptions) {
 
 export class TestSigner extends Signer {
   constructor(
-    public readonly signMock: jest.Mock = jest.fn(),
-    public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly verifyMock: jest.Mock = jest.fn()
+    public readonly signMock: vi.Mock = vi.fn(),
+    public readonly publicKeyMock: vi.Mock = vi.fn(),
+    public readonly verifyMock: vi.Mock = vi.fn()
   ) {
     super();
   }

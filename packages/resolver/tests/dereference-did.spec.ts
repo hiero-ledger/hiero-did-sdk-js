@@ -2,11 +2,12 @@ import { CborCodec, DIDError } from '@hiero-did-sdk/core';
 import { resolveDID } from '../src';
 import { dereferenceDID } from '../src/dereference-did';
 import { DID_RESOLUTION, VALID_DID } from './helpers';
+import { vi } from 'vitest';
 
-const didDocumentMock = jest.fn();
-jest.mock('../src/resolve-did.ts', () => {
+const didDocumentMock = vi.fn();
+vi.mock('../src/resolve-did.ts', () => {
   return {
-    resolveDID: jest.fn().mockImplementation(() => Promise.resolve(didDocumentMock())),
+    resolveDID: vi.fn().mockImplementation(() => Promise.resolve(didDocumentMock())),
   };
 });
 
@@ -86,6 +87,6 @@ describe('DID Dereference', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 });

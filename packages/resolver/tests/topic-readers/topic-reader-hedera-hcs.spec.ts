@@ -1,26 +1,27 @@
 import { TopicReaderHederaHcs } from '../../src/topic-readers';
 import {  HederaHcsServiceConfiguration } from '@hiero-did-sdk/hcs';
 import { Buffer } from 'buffer';
+import { vi } from 'vitest';
 
 const operatorId = '0.0.123'
 const operatorKey = 'xxxxx'
 
-const getTopicMessagesMock = jest.fn();
+const getTopicMessagesMock = vi.fn();
 const hcsServiceMock = {
   getTopicMessages: getTopicMessagesMock,
 };
 
-jest.mock('@hiero-did-sdk/hcs', () => {
-  const actual: object = jest.requireActual('@hiero-did-sdk/hcs');
+vi.mock('@hiero-did-sdk/hcs', () => {
+  const actual: object = vi.importActual('@hiero-did-sdk/hcs');
   return {
     ...actual,
-    HederaHcsService: jest.fn().mockImplementation(() => hcsServiceMock),
+    HederaHcsService: vi.fn().mockImplementation(() => hcsServiceMock),
   };
 });
 
 describe('Topic Reader Hedera HCS', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should create a new instance of TopicReaderHederaHcs', () => {

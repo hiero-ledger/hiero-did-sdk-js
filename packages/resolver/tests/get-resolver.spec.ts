@@ -1,6 +1,7 @@
 import { getResolver, resolveDID } from '../src';
+import { vi } from 'vitest';
 
-jest.mock('../src/resolve-did');
+vi.mock('../src/resolve-did');
 
 describe('DID get resolver function', () => {
   it('should return a resolver function', () => {

@@ -1,13 +1,14 @@
 import { CborCodec, DIDError } from '@hiero-did-sdk/core';
 import { resolveDID } from '../src';
 import { getAddVerificationMethodMessage, getDIDOwnerMessage } from './helpers';
+import { vi } from 'vitest';
 
-const messagesMock = jest.fn();
-jest.mock('../src/topic-readers/topic-reader-hedera-client.ts', () => {
+const messagesMock = vi.fn();
+vi.mock('../src/topic-readers/topic-reader-hedera-client.ts', () => {
   return {
-    TopicReaderHederaClient: jest.fn().mockImplementation(() => {
+    TopicReaderHederaClient: vi.fn().mockImplementation(() => {
       return {
-        fetchAllToDate: jest.fn().mockImplementation(() => messagesMock() as never),
+        fetchAllToDate: vi.fn().mockImplementation(() => messagesMock() as never),
       };
     }),
   };
@@ -189,6 +190,6 @@ describe('DID Resolver', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 });
