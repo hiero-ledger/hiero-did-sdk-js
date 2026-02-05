@@ -34,7 +34,7 @@ describe('HederaAnoncredsRegistry', () => {
 
   beforeEach(() => {
     // id example: "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/SCHEMA/0.0.5896422"
-    (buildAnonCredsIdentifier as jest.Mock).mockImplementation(
+    (buildAnonCredsIdentifier as Mock).mockImplementation(
       (issuerId: string, topicId: string, type: string) =>
         `did:hedera:testnet:${issuerId}/anoncreds/v1/${type}/${topicId}`
     );

@@ -3,6 +3,6 @@ import baseConfig from '../../vitest.config.base';
 
 export default mergeConfig(baseConfig, {
   test: {
-    name: 'heiro-did:unit',
+    name: '@hiero-did-sdk/annoncreds',
   },
 });

@@ -11,7 +11,7 @@ import { HederaNetwork, NetworkConfig } from '@hiero-did-sdk/client';
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-
+import { vi } from 'vitest';
 const TEST_WITH_CACHE = true;
 
 const GET_DATA_TIMEOUT = 50;
@@ -84,8 +84,7 @@ const revocationStatusListPayload: AnonCredsRevocationStatusListWithoutTimestamp
 };
 
 describe('Hedera AnonCreds Registry', () => {
-  jest.setTimeout(120000);
-
+  vi.setConfig({ testTimeout: 12000 });
   let anoncredsRegistry: HederaAnoncredsRegistry;
 
   const issuerDid = `did:hedera:${network}:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419`;

@@ -13,7 +13,7 @@ export default defineProject({
   test: {
     hookTimeout: 30000,
     testTimeout: 30000,
-    include: ['**/*.spec.ts'],
+    include: ['**/*.spec.ts', '**/*.e2e.ts'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
