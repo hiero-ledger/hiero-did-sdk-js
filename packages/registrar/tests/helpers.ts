@@ -1,11 +1,12 @@
 import { Network, PublicKeyInDer, Publisher, Signer } from '@hiero-did-sdk/core';
 import { Client, PrivateKey, PublicKey, Transaction, TransactionReceipt } from '@hashgraph/sdk';
+import { vi } from 'vitest';
 
 export class TestSigner extends Signer {
   constructor(
-    public readonly signMock: jest.Mock = jest.fn(),
-    public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly verifyMock: jest.Mock = jest.fn()
+    public readonly signMock: vi.Mock = vi.fn(),
+    public readonly publicKeyMock: vi.Mock = vi.fn(),
+    public readonly verifyMock: vi.Mock = vi.fn()
   ) {
     super();
   }
@@ -25,9 +26,9 @@ export class TestSigner extends Signer {
 
 export class TestPublisher implements Publisher {
   constructor(
-    public readonly networkMock: jest.Mock = jest.fn(),
-    public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly publishMock: jest.Mock = jest.fn()
+    public readonly networkMock: vi.Mock = vi.fn(),
+    public readonly publicKeyMock: vi.Mock = vi.fn(),
+    public readonly publishMock: vi.Mock = vi.fn()
   ) {}
 
   network(): Network {

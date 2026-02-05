@@ -1,10 +1,11 @@
 import { DIDMessage, PublicKeyInDer, Verifier } from '../src';
+import { vi } from 'vitest';
 
 export const VALID_DID_TOPIC_ID = '0.0.2';
 export const VALID_DID = `did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_${VALID_DID_TOPIC_ID}`;
 
 export class TestDIDMessage extends DIDMessage {
-  constructor(public readonly messageMock: jest.Mock = jest.fn()) {
+  constructor(public readonly messageMock: vi.Mock = vi.fn()) {
     super();
   }
 
@@ -31,8 +32,8 @@ export class TestDIDMessage extends DIDMessage {
 
 export class TestVerifier implements Verifier {
   constructor(
-    public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly verifyMock: jest.Mock = jest.fn()
+    public readonly publicKeyMock: vi.Mock = vi.fn(),
+    public readonly verifyMock: vi.Mock = vi.fn()
   ) {}
 
   publicKey(): PublicKeyInDer {

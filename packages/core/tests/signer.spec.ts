@@ -1,30 +1,45 @@
 import { PublicKey, Transaction } from '@hashgraph/sdk';
 import { KeysUtility, Signer } from '@hiero-did-sdk/core';
+import { vi } from 'vitest';
 
-const mockPublicKeyDer = 'mock-public-key-der';
+//TODO update the mocking
 
-const mockPublicKey = {} as PublicKey;
+let mockPublicKeyDer;
 
-const mockTransaction = {
-  signWith: jest.fn().mockReturnThis(),
-} as unknown as Transaction;
+let mockPublicKey;
 
-const mockKeysUtility = {
-  toPublicKey: jest.fn().mockReturnValue(mockPublicKey),
-};
+let mockTransaction;
 
-jest.spyOn(KeysUtility, 'fromDerString').mockReturnValue(mockKeysUtility as unknown as KeysUtility);
+let mockKeysUtility;
 
-// Create a mock signer with the original publicKeyInstance implementation
-const mockSigner = new (class extends Signer {
-  publicKey = jest.fn().mockResolvedValue(mockPublicKeyDer);
-  sign = jest.fn();
-  verify = jest.fn().mockResolvedValue(true);
-})();
+let mockSigner;
 
 describe('signer', () => {
+
+  beforeEach(() => {
+    mockPublicKeyDer = 'mock-public-key-der';
+
+    mockPublicKey = {} as PublicKey;
+
+    mockTransaction = {
+      signWith: vi.fn().mockReturnThis(),
+    } as unknown as Transaction;
+
+    mockKeysUtility = {
+      toPublicKey: vi.fn().mockReturnValue(mockPublicKey),
+    };
+
+    vi.spyOn(KeysUtility, 'fromDerString').mockReturnValue(mockKeysUtility as unknown as KeysUtility);
+
+    // Create a mock signer with the original publicKeyInstance implementation
+    mockSigner = new (class extends Signer {
+      publicKey = vi.fn().mockResolvedValue(mockPublicKeyDer);
+      sign = vi.fn();
+      verify = vi.fn().mockResolvedValue(true);
+    })();
+  })
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('publicKeyInstance', () => {
@@ -41,7 +56,7 @@ describe('signer', () => {
       const mockError = new Error('Failed to get public key');
 
       // Mock the publicKey method to reject with mockError
-      jest.spyOn(mockSigner, 'publicKey').mockRejectedValueOnce(mockError);
+      vi.spyOn(mockSigner, 'publicKey').mockRejectedValueOnce(mockError);
 
       await expect(mockSigner.publicKeyInstance()).rejects.toThrow(mockError);
       expect(mockSigner.publicKey).toHaveBeenCalledTimes(1);
@@ -51,7 +66,7 @@ describe('signer', () => {
   describe('signTransaction', () => {
     it('should sign a transaction with the signer', async () => {
       // Mock the publicKeyInstance method to return the mock public key
-      jest.spyOn(mockSigner, 'publicKeyInstance').mockResolvedValueOnce(mockPublicKey);
+      vi.spyOn(mockSigner, 'publicKeyInstance').mockResolvedValueOnce(mockPublicKey);
 
       const result = await mockSigner.signTransaction(mockTransaction);
 
@@ -64,7 +79,7 @@ describe('signer', () => {
       const mockError = new Error('Failed to get public key');
 
       // Mock the publicKey method to reject with mockError
-      jest.spyOn(mockSigner, 'publicKey').mockRejectedValueOnce(mockError);
+      vi.spyOn(mockSigner, 'publicKey').mockRejectedValueOnce(mockError);
 
       await expect(mockSigner.signTransaction(mockTransaction)).rejects.toThrow();
 
@@ -76,17 +91,17 @@ describe('signer', () => {
       let capturedSignFunction: ((payload: Uint8Array) => Promise<Uint8Array>) | undefined;
 
       const mockTransaction = {
-        signWith: jest.fn().mockImplementation((publicKey, signFunction) => {
+        signWith: vi.fn().mockImplementation((publicKey, signFunction) => {
           capturedSignFunction = signFunction;
           return mockTransaction;
         }),
       } as unknown as Transaction;
 
       // Mock the sign method to return the mock signed payload
-      jest.spyOn(mockSigner, 'sign').mockResolvedValueOnce(new Uint8Array([1, 2, 3]));
+      vi.spyOn(mockSigner, 'sign').mockResolvedValueOnce(new Uint8Array([1, 2, 3]));
 
       // Mock the publicKeyInstance method to return the mock public key
-      jest.spyOn(mockSigner, 'publicKeyInstance').mockResolvedValueOnce(mockPublicKey);
+      vi.spyOn(mockSigner, 'publicKeyInstance').mockResolvedValueOnce(mockPublicKey);
 
       await mockSigner.signTransaction(mockTransaction);
 

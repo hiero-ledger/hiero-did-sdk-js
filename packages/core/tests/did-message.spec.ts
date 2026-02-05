@@ -4,17 +4,18 @@ import { Signer } from '@hiero-did-sdk/core';
 
 const mockSignature = new Uint8Array([1, 2, 3, 4]);
 
-const mockSigner = new (class extends Signer {
-  publicKey = jest.fn();
-  sign = jest.fn().mockResolvedValue(mockSignature);
-  verify = jest.fn().mockResolvedValue(true);
-})();
+let mockSigner;
 
 describe('DID Message', () => {
   let message: TestDIDMessage;
 
   beforeEach(() => {
     message = new TestDIDMessage();
+    mockSigner = new (class extends Signer {
+      publicKey = vi.fn();
+      sign = vi.fn().mockResolvedValue(mockSignature);
+      verify = vi.fn().mockResolvedValue(true);
+    })();
   });
 
   it('should return message as a JSON string in bytes', () => {
@@ -82,8 +83,8 @@ describe('DID Message', () => {
 
   it('should sign the message with the given signer', async () => {
     const verifier = {
-      publicKey: jest.fn(),
-      verify: jest.fn().mockResolvedValue(true),
+      publicKey: vi.fn(),
+      verify: vi.fn().mockResolvedValue(true),
     };
 
     await message.signWith(mockSigner, verifier);
@@ -94,8 +95,8 @@ describe('DID Message', () => {
 
   it('should throw an error if the signer is invalid', async () => {
     const verifier = {
-      publicKey: jest.fn(),
-      verify: jest.fn().mockResolvedValue(false),
+      publicKey: vi.fn(),
+      verify: vi.fn().mockResolvedValue(false),
     };
 
     await expect(() => message.signWith(mockSigner, verifier)).rejects.toThrow(
@@ -106,6 +107,6 @@ describe('DID Message', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 });
