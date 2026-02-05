@@ -3,6 +3,7 @@ import { Signer } from '@hiero-did-sdk/signer-internal';
 import { LifecycleRunner, LifecycleBuilder } from '../src';
 import { randomClient } from './helpers';
 import { Buffer } from 'buffer';
+import { vi } from 'vitest';
 
 describe('Lifecycle runner class', () => {
   let publisher: Publisher;
@@ -27,7 +28,7 @@ describe('Lifecycle runner class', () => {
       const builder = new LifecycleBuilder();
       const runner = new LifecycleRunner(builder);
 
-      const callbackFunction = jest.fn();
+      const callbackFunction = vi.fn();
       builder.callback('s1', callbackFunction);
 
       const state = await runner.process({} as never, {
@@ -44,7 +45,7 @@ describe('Lifecycle runner class', () => {
       const builder = new LifecycleBuilder();
       const runner = new LifecycleRunner(builder);
 
-      const callbackFunction = jest.fn();
+      const callbackFunction = vi.fn();
       builder.callback('s1', callbackFunction);
 
       const context = {
@@ -73,7 +74,7 @@ describe('Lifecycle runner class', () => {
         verify: () => true,
       } as never;
 
-      const signWithMock = jest.fn();
+      const signWithMock = vi.fn();
 
       const state = await runner.process(
         {
@@ -113,7 +114,7 @@ describe('Lifecycle runner class', () => {
 
       builder.signature('s1');
 
-      const setSignatureMock = jest.fn();
+      const setSignatureMock = vi.fn();
       const signature = Buffer.from('signature');
       const verifier = {
         verify: () => true,
@@ -144,7 +145,7 @@ describe('Lifecycle runner class', () => {
 
       builder.signature('s1');
 
-      const setSignatureMock = jest.fn();
+      const setSignatureMock = vi.fn();
 
       await expect(
         runner.process(
@@ -192,7 +193,7 @@ describe('Lifecycle runner class', () => {
       const builder = new LifecycleBuilder();
       const runner = new LifecycleRunner(builder);
 
-      const catchCallback = jest.fn();
+      const catchCallback = vi.fn();
 
       const error = new Error('error');
 
@@ -236,8 +237,8 @@ describe('Lifecycle runner class', () => {
     const builder = new LifecycleBuilder();
     const runner = new LifecycleRunner(builder);
 
-    const step1Callback = jest.fn();
-    const step2Callback = jest.fn();
+    const step1Callback = vi.fn();
+    const step2Callback = vi.fn();
 
     builder.callback('s1', step1Callback).pause('s2').callback('s3', step2Callback);
 
@@ -267,8 +268,8 @@ describe('Lifecycle runner class', () => {
     const builder = new LifecycleBuilder();
     const runner = new LifecycleRunner(builder);
 
-    const step1Callback = jest.fn();
-    const step2Callback = jest.fn();
+    const step1Callback = vi.fn();
+    const step2Callback = vi.fn();
 
     builder.callback('s1', step1Callback).pause('s2').callback('s3', step2Callback);
 
@@ -306,8 +307,8 @@ describe('Lifecycle runner class', () => {
     const builder = new LifecycleBuilder();
     const runner = new LifecycleRunner(builder);
 
-    const step1Callback = jest.fn();
-    const step2Callback = jest.fn();
+    const step1Callback = vi.fn();
+    const step2Callback = vi.fn();
 
     builder.pause('s1').callback('s2', step1Callback).callback('s3', step2Callback);
 
@@ -335,8 +336,8 @@ describe('Lifecycle runner class', () => {
     const builder = new LifecycleBuilder();
     const runner = new LifecycleRunner(builder);
 
-    const callbackFunction = jest.fn();
-    const hookFunction = jest.fn();
+    const callbackFunction = vi.fn();
+    const hookFunction = vi.fn();
 
     builder.callback('s1', callbackFunction).callback('s2', callbackFunction);
 
@@ -355,8 +356,8 @@ describe('Lifecycle runner class', () => {
     const builder = new LifecycleBuilder();
     const runner = new LifecycleRunner(builder);
 
-    const callbackFunction = jest.fn();
-    const hookFunction = jest.fn();
+    const callbackFunction = vi.fn();
+    const hookFunction = vi.fn();
 
     builder.callback('s1', callbackFunction).pause('s2').callback('s3', callbackFunction);
 

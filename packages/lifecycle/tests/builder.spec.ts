@@ -1,4 +1,5 @@
 import { LifecycleBuilder } from '../src';
+import { vi } from 'vitest';
 
 describe('Lifecycle builder class', () => {
   it('should be able to create a new instance', () => {
@@ -15,7 +16,7 @@ describe('Lifecycle builder class', () => {
     it('should be able to add a callback step', () => {
       const builder = new LifecycleBuilder();
 
-      const callbackFunction = jest.fn();
+      const callbackFunction = vi.fn();
 
       builder.callback('s1', callbackFunction);
 
@@ -57,7 +58,7 @@ describe('Lifecycle builder class', () => {
     it('should add steps in the order they are added', () => {
       const builder = new LifecycleBuilder();
 
-      const callbackFunction = jest.fn();
+      const callbackFunction = vi.fn();
 
       builder.callback('s1', callbackFunction).signature('s2').signWithSigner('s3');
 
@@ -77,7 +78,7 @@ describe('Lifecycle builder class', () => {
     it('should add a catch step', () => {
       const builder = new LifecycleBuilder();
 
-      const catchFunction = jest.fn();
+      const catchFunction = vi.fn();
 
       builder.catch('s1', catchFunction);
 
@@ -91,8 +92,8 @@ describe('Lifecycle builder class', () => {
     it('should override the catch step', () => {
       const builder = new LifecycleBuilder();
 
-      const catchFunction1 = jest.fn();
-      const catchFunction2 = jest.fn();
+      const catchFunction1 = vi.fn();
+      const catchFunction2 = vi.fn();
 
       builder.catch('s1', catchFunction1);
       builder.catch('s1', catchFunction2);
@@ -126,15 +127,15 @@ describe('Lifecycle builder class', () => {
   it('should throw an error when same label is used', () => {
     const builder = new LifecycleBuilder();
 
-    builder.callback('s1', jest.fn());
+    builder.callback('s1', vi.fn());
 
-    expect(() => builder.callback('s1', jest.fn())).toThrow(`Step with label 's1' already exists`);
+    expect(() => builder.callback('s1', vi.fn())).toThrow(`Step with label 's1' already exists`);
   });
 
   it('should get an index of step by a label', () => {
     const builder = new LifecycleBuilder();
 
-    builder.callback('s1', jest.fn()).callback('s2', jest.fn()).callback('s3', jest.fn());
+    builder.callback('s1', vi.fn()).callback('s2', vi.fn()).callback('s3', vi.fn());
 
     expect(builder.getIndexByLabel('s1')).toBe(0);
     expect(builder.getIndexByLabel('s2')).toBe(1);
