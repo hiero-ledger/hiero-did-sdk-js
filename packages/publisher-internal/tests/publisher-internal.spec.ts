@@ -1,6 +1,7 @@
 import { Client, PrivateKey, Transaction, Status, LedgerId } from '@hashgraph/sdk';
 import { Publisher } from '../src';
 import { randomClient } from './helpers';
+import { vi } from 'vitest';
 
 describe('Internal publisher class', () => {
   describe('initializing a publisher', () => {
@@ -38,12 +39,12 @@ describe('Internal publisher class', () => {
       const publisher = new Publisher(client);
 
       const transaction = new Transaction();
-      const receiptMock = jest.fn();
+      const receiptMock = vi.fn();
       receiptMock.mockReturnValueOnce({
         status: Status.Success,
       });
-      jest.spyOn(transaction, 'freezeWith').mockReturnThis();
-      jest.spyOn(transaction, 'execute').mockResolvedValueOnce({ getReceipt: receiptMock } as never);
+      vi.spyOn(transaction, 'freezeWith').mockReturnThis();
+      vi.spyOn(transaction, 'execute').mockResolvedValueOnce({ getReceipt: receiptMock } as never);
 
       const receipt = await publisher.publish(transaction);
 
