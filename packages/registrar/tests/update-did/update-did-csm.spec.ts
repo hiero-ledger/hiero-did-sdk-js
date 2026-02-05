@@ -28,11 +28,12 @@ import {
   PUBLIC_KEY_MULTIBASE,
 } from '../helpers';
 import * as UpdateSubOperations from '../../src/update-did/sub-operations';
+import { vi } from 'vitest';
 
-const didDocumentMock = jest.fn();
-jest.mock('@hiero-did-sdk/resolver', () => {
+const didDocumentMock = vi.fn();
+vi.mock('@hiero-did-sdk/resolver', () => {
   return {
-    resolveDID: jest.fn().mockImplementation((...args) =>
+    resolveDID: vi.fn().mockImplementation((...args) =>
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       Promise.resolve(didDocumentMock(...args)),
     ),
@@ -41,11 +42,11 @@ jest.mock('@hiero-did-sdk/resolver', () => {
 
 describe('Update DID operation', () => {
   const TopicMessageSubmitTransactionMockImplementation = {
-    setTopicId: jest.fn().mockReturnThis(),
-    setMessage: jest.fn().mockReturnThis(),
-    freezeWith: jest.fn().mockReturnThis(),
-    execute: jest.fn().mockResolvedValue({
-      getReceipt: jest.fn(),
+    setTopicId: vi.fn().mockReturnThis(),
+    setMessage: vi.fn().mockReturnThis(),
+    freezeWith: vi.fn().mockReturnThis(),
+    execute: vi.fn().mockResolvedValue({
+      getReceipt: vi.fn(),
     }),
   };
 
@@ -73,7 +74,7 @@ describe('Update DID operation', () => {
   };
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     didPrivateKey = await PrivateKey.generateED25519Async();
 
@@ -292,7 +293,7 @@ describe('Update DID operation', () => {
     });
 
     it('should apply update operations in order', async () => {
-      const updateOperationsMock = jest.spyOn(
+      const updateOperationsMock = vi.spyOn(
         UpdateSubOperations,
         'prepareOperation',
       );
@@ -340,7 +341,7 @@ describe('Update DID operation', () => {
     });
 
     it('should execute update operations in order', async () => {
-      const updateOperationsMock = jest.spyOn(
+      const updateOperationsMock = vi.spyOn(
         UpdateSubOperations,
         'executeOperation',
       );
@@ -388,7 +389,7 @@ describe('Update DID operation', () => {
     });
 
     it('should execute all update operations', async () => {
-      const updateOperationsMock = jest.spyOn(
+      const updateOperationsMock = vi.spyOn(
         UpdateSubOperations,
         'executeOperation',
       );
@@ -475,7 +476,7 @@ describe('Update DID operation', () => {
     });
 
     it('should return the updated DID document', async () => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
 
       const didDocument = {
         id: VALID_DID,
@@ -520,7 +521,7 @@ describe('Update DID operation', () => {
     });
 
     it('should not perform any updates when update array is empty', async () => {
-      const updateOperationsMock = jest.spyOn(
+      const updateOperationsMock = vi.spyOn(
         UpdateSubOperations,
         'prepareOperation',
       );
@@ -847,8 +848,8 @@ describe('Update DID operation', () => {
 
     it('should pass the topic reader to the resolver', async () => {
       const topicReader = {
-        fetchAllToDate: jest.fn().mockResolvedValue([]),
-        fetchFrom: jest.fn().mockResolvedValue([]),
+        fetchAllToDate: vi.fn().mockResolvedValue([]),
+        fetchFrom: vi.fn().mockResolvedValue([]),
       };
 
       didDocumentMock.mockResolvedValue({
@@ -1002,7 +1003,7 @@ describe('Update DID operation', () => {
   });
 
   describe('Message awaiting', () => {
-    const publisher = new TestPublisher(jest.fn().mockReturnValue('testnet'));
+    const publisher = new TestPublisher(vi.fn().mockReturnValue('testnet'));
     const signer = new TestSigner();
     signer.signMock.mockResolvedValue('test-signature');
 

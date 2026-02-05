@@ -1,17 +1,19 @@
-export const TopicCreateTransactionMock = jest.fn();
-export const TopicMessageSubmitTransactionMock = jest.fn();
+import { vi } from 'vitest';
 
-jest.mock('@hashgraph/sdk', () => {
-  const actual: object = jest.requireActual('@hashgraph/sdk');
+export const TopicCreateTransactionMock = vi.fn();
+export const TopicMessageSubmitTransactionMock = vi.fn();
+
+vi.mock('@hashgraph/sdk', () => {
+  const actual: object = vi.importActual('@hashgraph/sdk');
   const ClientMock = {
-    forName: jest.fn().mockReturnThis(),
-    setOperator: jest.fn().mockReturnThis(),
-    close: jest.fn(),
+    forName: vi.fn().mockReturnThis(),
+    setOperator: vi.fn().mockReturnThis(),
+    close: vi.fn(),
     ledgerId: {
-      isMainnet: jest.fn().mockReturnValue(false),
-      isTestnet: jest.fn().mockReturnValue(true),
-      isPreviewnet: jest.fn().mockReturnValue(false),
-      isLocalNode: jest.fn().mockReturnValue(false),
+      isMainnet: vi.fn().mockReturnValue(false),
+      isTestnet: vi.fn().mockReturnValue(true),
+      isPreviewnet: vi.fn().mockReturnValue(false),
+      isLocalNode: vi.fn().mockReturnValue(false),
     },
     operatorPublicKey: 'test-operator-public-key',
   };
@@ -20,27 +22,27 @@ jest.mock('@hashgraph/sdk', () => {
     ...actual,
     Client: ClientMock,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    TopicCreateTransaction: jest.fn(() => TopicCreateTransactionMock()),
-    TopicMessageSubmitTransaction: jest.fn(() =>
+    TopicCreateTransaction: vi.fn(() => TopicCreateTransactionMock()),
+    TopicMessageSubmitTransaction: vi.fn(() =>
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       TopicMessageSubmitTransactionMock()
     ),
   };
 });
 
-export const MessageAwaiterForMessagesMock = jest.fn().mockReturnThis();
-export const MessageAwaiterConstructorMock = jest.fn();
-export const MessageAwaiterWaitMock = jest.fn().mockResolvedValue(void 0);
-export const MessageAwaiterWithTimeoutMock = jest.fn().mockReturnThis();
-jest.mock('../src/shared/message-awaiter.ts', () => {
+export const MessageAwaiterForMessagesMock = vi.fn().mockReturnThis();
+export const MessageAwaiterConstructorMock = vi.fn();
+export const MessageAwaiterWaitMock = vi.fn().mockResolvedValue(void 0);
+export const MessageAwaiterWithTimeoutMock = vi.fn().mockReturnThis();
+vi.mock('../src/shared/message-awaiter.ts', () => {
   return {
-    MessageAwaiter: jest.fn().mockImplementation((...args) => {
+    MessageAwaiter: vi.fn().mockImplementation((...args) => {
       MessageAwaiterConstructorMock(args);
       return {
         forMessages: MessageAwaiterForMessagesMock,
-        setStartsAt: jest.fn().mockReturnThis(),
+        setStartsAt: vi.fn().mockReturnThis(),
         withTimeout: MessageAwaiterWithTimeoutMock,
-        withWaitForTopic: jest.fn().mockReturnThis(),
+        withWaitForTopic: vi.fn().mockReturnThis(),
         wait: MessageAwaiterWaitMock,
       };
     }),

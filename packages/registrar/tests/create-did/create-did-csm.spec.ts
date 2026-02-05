@@ -24,34 +24,35 @@ import {
   VALID_DID,
 } from '../helpers';
 import { KeysUtility } from '@hiero-did-sdk/core';
+import { vi } from 'vitest';
 
 const notFoundError = new DIDError('notFound', 'DID not found');
-jest.mock('@hiero-did-sdk/resolver', () => {
+vi.mock('@hiero-did-sdk/resolver', () => {
   return {
-    resolveDID: jest.fn().mockImplementation(() => {
+    resolveDID: vi.fn().mockImplementation(() => {
       throw notFoundError;
     }),
   };
 });
 
-const resolverMock = resolveDID as jest.Mock;
+const resolverMock = resolveDID as vi.Mock;
 
 describe('Create DID operation in Client-Secret Mode', () => {
   const TopicCreateTransactionMockImplementation = {
-    setAdminKey: jest.fn().mockReturnThis(),
-    setSubmitKey: jest.fn().mockReturnThis(),
-    freezeWith: jest.fn().mockReturnThis(),
-    execute: jest.fn().mockResolvedValue({
-      getReceipt: jest.fn().mockResolvedValue({ topicId: CREATED_TOPIC_ID }),
+    setAdminKey: vi.fn().mockReturnThis(),
+    setSubmitKey: vi.fn().mockReturnThis(),
+    freezeWith: vi.fn().mockReturnThis(),
+    execute: vi.fn().mockResolvedValue({
+      getReceipt: vi.fn().mockResolvedValue({ topicId: CREATED_TOPIC_ID }),
     }),
   };
 
   const TopicMessageSubmitTransactionMockImplementation = {
-    setTopicId: jest.fn().mockReturnThis(),
-    setMessage: jest.fn().mockReturnThis(),
-    freezeWith: jest.fn().mockReturnThis(),
-    execute: jest.fn().mockResolvedValue({
-      getReceipt: jest.fn(),
+    setTopicId: vi.fn().mockReturnThis(),
+    setMessage: vi.fn().mockReturnThis(),
+    freezeWith: vi.fn().mockReturnThis(),
+    execute: vi.fn().mockResolvedValue({
+      getReceipt: vi.fn(),
     }),
   };
 
@@ -63,7 +64,7 @@ describe('Create DID operation in Client-Secret Mode', () => {
   );
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('Provider options', () => {
@@ -483,8 +484,8 @@ describe('Create DID operation in Client-Secret Mode', () => {
     const didPrivateKey = await PrivateKey.generateED25519Async();
     resolverMock.mockRejectedValue(notFoundError);
     const topicReader = {
-      fetchAllToDate: jest.fn().mockResolvedValue([]),
-      fetchFrom: jest.fn().mockResolvedValue([]),
+      fetchAllToDate: vi.fn().mockResolvedValue([]),
+      fetchFrom: vi.fn().mockResolvedValue([]),
     };
 
     await generateCreateDIDRequest(

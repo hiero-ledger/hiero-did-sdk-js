@@ -19,11 +19,12 @@ import {
   TestSigner,
   VALID_DID,
 } from '../helpers';
+import { vi } from 'vitest';
 
-const didDocumentMock = jest.fn();
-jest.mock('@hiero-did-sdk/resolver', () => {
+const didDocumentMock = vi.fn();
+vi.mock('@hiero-did-sdk/resolver', () => {
   return {
-    resolveDID: jest.fn().mockImplementation((...args) =>
+    resolveDID: vi.fn().mockImplementation((...args) =>
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       Promise.resolve(didDocumentMock(...args)),
     ),
@@ -32,11 +33,11 @@ jest.mock('@hiero-did-sdk/resolver', () => {
 
 describe('Deactivate DID operation', () => {
   const TopicMessageSubmitTransactionMockImplementation = {
-    setTopicId: jest.fn().mockReturnThis(),
-    setMessage: jest.fn().mockReturnThis(),
-    freezeWith: jest.fn().mockReturnThis(),
-    execute: jest.fn().mockResolvedValue({
-      getReceipt: jest.fn(),
+    setTopicId: vi.fn().mockReturnThis(),
+    setMessage: vi.fn().mockReturnThis(),
+    freezeWith: vi.fn().mockReturnThis(),
+    execute: vi.fn().mockResolvedValue({
+      getReceipt: vi.fn(),
     }),
   };
 
@@ -47,7 +48,7 @@ describe('Deactivate DID operation', () => {
   let privateKey: PrivateKey;
   beforeEach(async () => {
     privateKey = await PrivateKey.generateED25519Async();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     didDocumentMock.mockResolvedValue({
       id: VALID_DID,
       controller: VALID_DID,
@@ -65,7 +66,7 @@ describe('Deactivate DID operation', () => {
   describe('operations', () => {
     let result: DeactivateDIDResult;
     const defaultSigner = new TestSigner(
-      jest.fn().mockImplementation((data) => {
+      vi.fn().mockImplementation((data) => {
         return privateKey.sign(data as never);
       }),
     );
@@ -137,7 +138,7 @@ describe('Deactivate DID operation', () => {
     it('should create a new DID using provided private key', async () => {
       const publisher = new TestPublisher();
 
-      const signSpy = jest.spyOn(privateKey, 'sign');
+      const signSpy = vi.spyOn(privateKey, 'sign');
 
       result = await deactivateDID(
         {
@@ -153,7 +154,7 @@ describe('Deactivate DID operation', () => {
     });
 
     it('should set message awaiter with proper topic id and network', async () => {
-      const publisher = new TestPublisher(jest.fn().mockReturnValue('testnet'));
+      const publisher = new TestPublisher(vi.fn().mockReturnValue('testnet'));
 
       result = await deactivateDID(
         { did: VALID_DID },
