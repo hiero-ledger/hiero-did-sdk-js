@@ -1,9 +1,10 @@
 import { VaultVerifierFactory } from '../src';
 import { VaultApi } from '../src/vault-api';
+import { vi } from 'vitest';
 
-const VaultApiMock = VaultApi as jest.MockedClass<typeof VaultApi>;
+const VaultApiMock = VaultApi as vi.MockedClass<typeof VaultApi>;
 
-jest.mock('../src/vault-api.ts');
+vi.mock('../src/vault-api.ts');
 
 describe('Vault Verifier Factory', () => {
   beforeEach(() => {
@@ -99,7 +100,7 @@ describe('Vault Verifier Factory', () => {
 
   describe('Authenticated Vault Verifier Factory', () => {
     let factory: VaultVerifierFactory;
-    let client: jest.Mocked<VaultApi>;
+    let client: vi.Mocked<VaultApi>;
 
     beforeEach(async () => {
       factory = await VaultVerifierFactory.loginWithToken({
@@ -107,7 +108,7 @@ describe('Vault Verifier Factory', () => {
         url: 'http://example.com',
       });
 
-      client = VaultApiMock.mock.instances[0] as jest.Mocked<VaultApi>;
+      client = VaultApiMock.mock.instances[0] as vi.Mocked<VaultApi>;
     });
 
     it('should have vault api client set', () => {
