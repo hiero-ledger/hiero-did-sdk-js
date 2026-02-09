@@ -5,21 +5,27 @@ import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpe
 import { Signer } from '@hiero-did-sdk/core';
 import { vi } from 'vitest';
 
-const mockSigner = new (class extends Signer {
-  publicKey = vi.fn();
-  sign = vi.fn().mockImplementation(() => SIGNATURE);
-  verify = vi.fn().mockResolvedValue(true);
-})();
+const mockSigner = {
+  publicKey: vi.fn(),
+  sign: vi.fn(),
+  verify: vi.fn(),
+} as unknown as Signer;
 
 const mockPublisher = {
   network: vi.fn(),
   publicKey: vi.fn(),
-  publish: vi.fn().mockResolvedValue({
-    topicId: VALID_DID_TOPIC_ID,
-  }),
+  publish: vi.fn(),
 };
 
 describe('Default DIDAddServiceMessage Lifecycle', () => {
+
+  beforeEach(() => {
+    mockSigner.sign = vi.fn().mockReturnValue(SIGNATURE);
+    mockSigner.verify = vi.fn().mockReturnValue(true);
+    mockPublisher.publish = vi.fn().mockResolvedValue({
+      topicId: VALID_DID_TOPIC_ID,
+    });
+  })
   describe('when processing a valid DIDAddServiceMessage', () => {
     let message: DIDAddServiceMessage;
     let result: RunnerState<DIDAddServiceMessage>;
