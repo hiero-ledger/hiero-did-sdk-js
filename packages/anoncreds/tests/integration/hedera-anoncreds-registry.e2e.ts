@@ -84,7 +84,7 @@ const revocationStatusListPayload: AnonCredsRevocationStatusListWithoutTimestamp
 };
 
 describe('Hedera AnonCreds Registry', () => {
-  vi.setConfig({ testTimeout: 12000 });
+  vi.setConfig({ testTimeout: 120000 });
   let anoncredsRegistry: HederaAnoncredsRegistry;
 
   const issuerDid = `did:hedera:${network}:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419`;
