@@ -8,21 +8,27 @@ import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpe
 import { Signer } from '@hiero-did-sdk/core';
 import { vi } from 'vitest';
 
-const mockSigner = new (class extends Signer {
-  publicKey = vi.fn();
-  sign = vi.fn().mockImplementation(() => SIGNATURE);
-  verify = vi.fn().mockResolvedValue(true);
-})();
-
-const mockPublisher = {
-  network: vi.fn(),
-  publicKey: vi.fn(),
-  publish: vi.fn().mockResolvedValue({
-    topicId: VALID_DID_TOPIC_ID,
-  }),
-};
 
 describe('Default DIDRemoveVerificationMethodMessage Lifecycle', () => {
+  let mockSigner;
+  let mockPublisher;
+
+  beforeEach(() => {
+    mockSigner = new (class extends Signer {
+      publicKey = vi.fn();
+      sign = vi.fn().mockImplementation(() => SIGNATURE);
+      verify = vi.fn().mockResolvedValue(true);
+    })();
+
+    mockPublisher = {
+      network: vi.fn(),
+      publicKey: vi.fn(),
+      publish: vi.fn().mockResolvedValue({
+        topicId: VALID_DID_TOPIC_ID,
+      }),
+    };
+  })
+
   describe('when processing a valid DIDRemoveVerificationMethodMessage', () => {
     let message: DIDRemoveVerificationMethodMessage;
     let result: RunnerState<DIDRemoveVerificationMethodMessage>;

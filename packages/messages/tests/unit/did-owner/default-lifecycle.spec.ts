@@ -15,24 +15,27 @@ vi.mock('@hiero-did-sdk/resolver', () => {
 
 const privateKey = PrivateKey.generateED25519();
 
-const mockSigner = new (class extends Signer {
-  publicKey = vi.fn().mockResolvedValue(privateKey.publicKey.toStringDer());
-  sign = vi.fn().mockImplementation(() => SIGNATURE);
-  verify = vi.fn().mockResolvedValue(true);
-})();
-
-const mockPublisher = {
-  network: () => NETWORK as Network,
-  publicKey: () => privateKey.publicKey,
-  publish: vi.fn().mockResolvedValue({
-    topicId: VALID_DID_TOPIC_ID,
-  }),
-};
-
 const resolverMock = resolveDID as vi.Mock;
 
 describe('Default DID Owner Lifecycle', () => {
+  let mockSigner;
+  let mockPublisher;
+
   beforeEach(() => {
+    mockPublisher = {
+      network: () => NETWORK as Network,
+      publicKey: () => privateKey.publicKey,
+      publish: vi.fn().mockResolvedValue({
+        topicId: VALID_DID_TOPIC_ID,
+      }),
+    };
+
+    mockSigner = new (class extends Signer {
+      publicKey = vi.fn().mockResolvedValue(privateKey.publicKey.toStringDer());
+      sign = vi.fn().mockImplementation(() => SIGNATURE);
+      verify = vi.fn().mockResolvedValue(true);
+    })();
+
     resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
   });
 
