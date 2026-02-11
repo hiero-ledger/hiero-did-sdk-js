@@ -6,67 +6,85 @@ import { Buffer } from 'buffer';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 import { vi } from 'vitest';
 
-const mockTopicId = 'mockTopicId';
-
-const mockHash = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08';
-const mockHcsTopicMemo = `${mockHash}:zstd:base64`;
-
 const testPayload = Buffer.from('test payload');
+
+const {
+  mockTopicId,
+  mockHash,
+  mockHcsTopicMemo,
+  mockSubmitMessage,
+  mockGetTopicMessages,
+  mockCreateTopic,
+  mockGetTopicInfo,
+  mockSetTopicFile,
+  mockGetTopicFile,
+  mockCryptoSha256,
+  mockZstdCompress,
+  mockZstdDecompress,
+} = vi.hoisted(() => {
+  const mockTopicId = 'mockTopicId';
+  const mockHash = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08';
+  const mockHcsTopicMemo = `${mockHash}:zstd:base64`;
+
+  return {
+    mockTopicId,
+    mockHash,
+    mockHcsTopicMemo,
+    mockSubmitMessage: vi.fn().mockResolvedValue(undefined),
+    mockGetTopicMessages: vi.fn().mockResolvedValue([]),
+    mockCreateTopic: vi.fn().mockResolvedValue(mockTopicId),
+    mockGetTopicInfo: vi.fn().mockResolvedValue({
+      topicId: mockTopicId,
+      topicMemo: mockHcsTopicMemo,
+    }),
+    mockSetTopicFile: vi.fn(),
+    mockGetTopicFile: vi.fn().mockResolvedValue(undefined),
+    mockCryptoSha256: vi.fn().mockReturnValue(mockHash),
+    mockZstdCompress: vi.fn((data: Buffer) => Buffer.from(`compressed-${data.toString()}`)),
+    mockZstdDecompress: vi.fn((data: Buffer) => Buffer.from(data.toString().replace('compressed-', ''))),
+  };
+});
 
 // Mock dependencies
 vi.mock('@hiero-did-sdk/crypto', () => ({
   Crypto: {
-    // TODO: Update mocks to properly re-use const value
-    sha256: vi.fn().mockReturnValue('9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'),
+    sha256: mockCryptoSha256,
   },
 }));
 
 vi.mock('@hiero-did-sdk/zstd', () => ({
   Zstd: {
-    compress: vi.fn((data: Buffer) => Buffer.from(`compressed-${data.toString()}`)),
-    decompress: vi.fn((data: Buffer) => Buffer.from(data.toString().replace('compressed-', ''))),
+    compress: mockZstdCompress,
+    decompress: mockZstdDecompress,
   },
 }));
 
-// Mock HcsMessageService, HcsTopicService and HcsCacheService
-const mockSubmitMessage = vi.fn().mockResolvedValue(undefined);
-const mockGetTopicMessages = vi.fn().mockResolvedValue([]);
-
-const mockCreateTopic = vi.fn().mockResolvedValue(mockTopicId);
-const mockGetTopicInfo = vi.fn().mockResolvedValue({
-  topicId: mockTopicId,
-  topicMemo: mockHcsTopicMemo,
-});
-
-const mockSetTopicFile = vi.fn();
-const mockGetTopicFile = vi.fn().mockResolvedValue(undefined);
-
-vi.mock('../../src/hcs/hcs-message-service', () => {
-  return {
-    HcsMessageService: vi.fn().mockImplementation(() => ({
+vi.mock('../../src/hcs/hcs-message-service', () => ({
+  HcsMessageService: vi.fn(function () {
+    return {
       submitMessage: mockSubmitMessage,
       getTopicMessages: mockGetTopicMessages,
-    })),
-  };
-});
+    };
+  }),
+}));
 
-vi.mock('../../src/hcs/hcs-topic-service', () => {
-  return {
-    HcsTopicService: vi.fn().mockImplementation(() => ({
+vi.mock('../../src/hcs/hcs-topic-service', () => ({
+  HcsTopicService: vi.fn(function () {
+    return {
       createTopic: mockCreateTopic,
       getTopicInfo: mockGetTopicInfo,
-    })),
-  };
-});
+    };
+  }),
+}));
 
-vi.mock('../../src/cache/hcs-cache-service', () => {
-  return {
-    HcsCacheService: vi.fn().mockImplementation(() => ({
+vi.mock('../../src/cache/hcs-cache-service', () => ({
+  HcsCacheService: vi.fn(function () {
+    return {
       getTopicFile: mockGetTopicFile,
       setTopicFile: mockSetTopicFile,
-    })),
-  };
-});
+    };
+  }),
+}));
 
 describe('HcsFileService', () => {
   const mockClient = {} as Client;
@@ -75,6 +93,19 @@ describe('HcsFileService', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+
+    mockSubmitMessage.mockResolvedValue(undefined);
+    mockGetTopicMessages.mockResolvedValue([]);
+    mockCreateTopic.mockResolvedValue(mockTopicId);
+    mockGetTopicInfo.mockResolvedValue({
+      topicId: mockTopicId,
+      topicMemo: mockHcsTopicMemo,
+    });
+    mockGetTopicFile.mockResolvedValue(undefined);
+    mockCryptoSha256.mockReturnValue('9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+    mockZstdCompress.mockImplementation((data: Buffer) => Buffer.from(`compressed-${data.toString()}`));
+    mockZstdDecompress.mockImplementation((data: Buffer) => Buffer.from(data.toString().replace('compressed-', '')));
+
     service = new HcsFileService(mockClient, { maxSize: 10 });
   });
 
