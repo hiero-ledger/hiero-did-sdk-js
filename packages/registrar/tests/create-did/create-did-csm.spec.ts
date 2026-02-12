@@ -6,6 +6,8 @@ import {
   MessageAwaiterConstructorMock,
   MessageAwaiterWaitMock,
   MessageAwaiterWithTimeoutMock,
+  ClientForNameMock,
+  ClientSetOperatorMock,
 } from '../mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
@@ -56,15 +58,19 @@ describe('Create DID operation in Client-Secret Mode', () => {
     }),
   };
 
-  TopicCreateTransactionMock.mockImplementation(
-    () => TopicCreateTransactionMockImplementation,
-  );
-  TopicMessageSubmitTransactionMock.mockImplementation(
-    () => TopicMessageSubmitTransactionMockImplementation,
-  );
-
   beforeEach(() => {
     vi.clearAllMocks();
+
+    const ClientMock = Client as any;
+    ClientForNameMock.mockReturnValue(ClientMock);
+    ClientSetOperatorMock.mockReturnValue(ClientMock);
+
+    TopicCreateTransactionMock.mockImplementation(
+      function() { return TopicCreateTransactionMockImplementation; },
+    );
+    TopicMessageSubmitTransactionMock.mockImplementation(
+      function() { return TopicMessageSubmitTransactionMockImplementation; },
+    );
   });
 
   describe('Provider options', () => {
@@ -331,10 +337,11 @@ describe('Create DID operation in Client-Secret Mode', () => {
       },
     );
 
-    expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
+    expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith(
       CREATED_TOPIC_ID,
       'testnet',
-    ]);
+      undefined
+    );
   });
 
   it('should set message awaiter for a created message', async () => {

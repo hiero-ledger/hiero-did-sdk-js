@@ -5,6 +5,8 @@ import {
   MessageAwaiterConstructorMock,
   MessageAwaiterWaitMock,
   MessageAwaiterWithTimeoutMock,
+  ClientForNameMock,
+  ClientSetOperatorMock,
 } from '../mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
@@ -41,14 +43,18 @@ describe('Deactivate DID operation', () => {
     }),
   };
 
-  TopicMessageSubmitTransactionMock.mockImplementation(
-    () => TopicMessageSubmitTransactionMockImplementation,
-  );
-
   let privateKey: PrivateKey;
   beforeEach(async () => {
     privateKey = await PrivateKey.generateED25519Async();
     vi.clearAllMocks();
+
+    const ClientMock = Client as any;
+    ClientForNameMock.mockReturnValue(ClientMock);
+    ClientSetOperatorMock.mockReturnValue(ClientMock);
+
+    TopicMessageSubmitTransactionMock.mockImplementation(
+      function() { return TopicMessageSubmitTransactionMockImplementation; },
+    );
     didDocumentMock.mockResolvedValue({
       id: VALID_DID,
       controller: VALID_DID,
@@ -164,10 +170,11 @@ describe('Deactivate DID operation', () => {
         },
       );
 
-      expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
+      expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith(
         VALID_DID_TOPIC_ID,
         'testnet',
-      ]);
+        undefined
+      );
     });
 
     it('should set message awaiter for a created message', async () => {

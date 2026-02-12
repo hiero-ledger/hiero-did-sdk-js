@@ -6,6 +6,8 @@ import {
   MessageAwaiterConstructorMock,
   MessageAwaiterWaitMock,
   MessageAwaiterWithTimeoutMock,
+  ClientForNameMock,
+  ClientSetOperatorMock,
 } from '../mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
@@ -22,8 +24,10 @@ import {
 import { vi } from 'vitest';
 
 const notFoundError = new DIDError('notFound', 'DID not found');
-vi.mock('@hiero-did-sdk/resolver', () => {
+vi.mock('@hiero-did-sdk/resolver', async () => {
+  const actual = await vi.importActual<typeof import('@hiero-did-sdk/resolver')>('@hiero-did-sdk/resolver');
   return {
+    ...actual,
     resolveDID: vi.fn().mockImplementation(() => {
       throw notFoundError;
     }),
@@ -51,15 +55,19 @@ describe('Create DID operation', () => {
     }),
   };
 
-  TopicCreateTransactionMock.mockImplementation(
-    () => TopicCreateTransactionMockImplementation,
-  );
-  TopicMessageSubmitTransactionMock.mockImplementation(
-    () => TopicMessageSubmitTransactionMockImplementation,
-  );
-
   beforeEach(() => {
     vi.clearAllMocks();
+
+    const ClientMock = Client as any;
+    ClientForNameMock.mockReturnValue(ClientMock);
+    ClientSetOperatorMock.mockReturnValue(ClientMock);
+
+    TopicCreateTransactionMock.mockImplementation(
+      function() { return TopicCreateTransactionMockImplementation; },
+    );
+    TopicMessageSubmitTransactionMock.mockImplementation(
+      function() { return TopicMessageSubmitTransactionMockImplementation; },
+    );
   });
 
   describe('Provider options', () => {
@@ -235,10 +243,11 @@ describe('Create DID operation', () => {
       },
     });
 
-    expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
+    expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith(
       CREATED_TOPIC_ID,
       'testnet',
-    ]);
+      undefined
+    );
   });
 
   it('should set message awaiter for a created message', async () => {
