@@ -3,45 +3,35 @@ import { TopicReaderHederaClient } from '../../src/topic-readers';
 import { Client, TopicMessage, Timestamp } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
 import { vi } from 'vitest';
-const subscribeMock = vi.fn();
-const completionHandlerMock = vi.fn();
-const errorHandlerMock = vi.fn();
-const messageHandlerMock = vi.fn();
-const unsubscribeMock = vi.fn();
 
-vi.mock('@hashgraph/sdk', () => {
-  const actual: object = vi.importActual('@hashgraph/sdk');
+const {
+  subscribeMock,
+  completionHandlerMock,
+  errorHandlerMock,
+  messageHandlerMock,
+  unsubscribeMock,
+  topicMessageQueryMock,
+} = vi.hoisted(() => ({
+  subscribeMock: vi.fn(),
+  completionHandlerMock: vi.fn(),
+  errorHandlerMock: vi.fn(),
+  messageHandlerMock: vi.fn(),
+  unsubscribeMock: vi.fn(),
+  topicMessageQueryMock: vi.fn(),
+}));
 
-  const TopicMessageQueryMock = vi.fn().mockImplementation(() => ({
-    setTopicId: vi.fn().mockReturnThis(),
-    setStartTime: vi.fn().mockReturnThis(),
-    setEndTime: vi.fn().mockReturnThis(),
-    setMaxAttempts: vi.fn().mockReturnThis(),
-    setCompletionHandler: vi.fn().mockImplementation((handler) => {
-      completionHandlerMock.mockImplementation(handler);
-      return {
-        subscribe: subscribeMock.mockImplementation(
-          (_, errorHandler, messageHandler) => {
-            errorHandlerMock.mockImplementation(errorHandler);
-            messageHandlerMock.mockImplementation(messageHandler);
-            return {
-              unsubscribe: unsubscribeMock,
-            };
-          },
-        ),
-      };
-    }),
-  }));
+vi.mock('@hashgraph/sdk', async () => {
+  const actual = await vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
 
-  const ClientMock = {
-    forName: vi.fn().mockReturnThis(),
-    close: vi.fn().mockReturnThis(),
+  const ClientMock: any = {
+    close: vi.fn(),
   };
+  ClientMock.forName = vi.fn().mockReturnValue(ClientMock);
 
   return {
     ...actual,
     Client: ClientMock,
-    TopicMessageQuery: TopicMessageQueryMock,
+    TopicMessageQuery: topicMessageQueryMock,
     Timestamp: {
       fromDate: vi.fn().mockReturnValue('mocked-timestamp'),
     },
@@ -51,6 +41,30 @@ vi.mock('@hashgraph/sdk', () => {
 describe('Topic Reader Hedera Client', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+
+    topicMessageQueryMock.mockImplementation(function() {
+      const queryMock: any = {
+        setCompletionHandler: vi.fn().mockImplementation((handler) => {
+          completionHandlerMock.mockImplementation(handler);
+          return {
+            subscribe: subscribeMock.mockImplementation(
+              (_, errorHandler, messageHandler) => {
+                errorHandlerMock.mockImplementation(errorHandler);
+                messageHandlerMock.mockImplementation(messageHandler);
+                return {
+                  unsubscribe: unsubscribeMock,
+                };
+              },
+            ),
+          };
+        }),
+      };
+      queryMock.setTopicId = vi.fn().mockReturnValue(queryMock);
+      queryMock.setStartTime = vi.fn().mockReturnValue(queryMock);
+      queryMock.setEndTime = vi.fn().mockReturnValue(queryMock);
+      queryMock.setMaxAttempts = vi.fn().mockReturnValue(queryMock);
+      return queryMock;
+    });
   });
 
   it('should create a new SDK Client instance', () => {

@@ -6,22 +6,28 @@ import { vi } from 'vitest';
 const operatorId = '0.0.123'
 const operatorKey = 'xxxxx'
 
-const getTopicMessagesMock = vi.fn();
-const hcsServiceMock = {
-  getTopicMessages: getTopicMessagesMock,
-};
+const { getTopicMessagesMock, hederaHcsServiceMock } = vi.hoisted(() => ({
+  getTopicMessagesMock: vi.fn(),
+  hederaHcsServiceMock: vi.fn(),
+}));
 
-vi.mock('@hiero-did-sdk/hcs', () => {
-  const actual: object = vi.importActual('@hiero-did-sdk/hcs');
+vi.mock('@hiero-did-sdk/hcs', async () => {
+  const actual = await vi.importActual<typeof import('@hiero-did-sdk/hcs')>('@hiero-did-sdk/hcs');
   return {
     ...actual,
-    HederaHcsService: vi.fn().mockImplementation(() => hcsServiceMock),
+    HederaHcsService: hederaHcsServiceMock,
   };
 });
 
 describe('Topic Reader Hedera HCS', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+
+    hederaHcsServiceMock.mockImplementation(function() {
+      return {
+        getTopicMessages: getTopicMessagesMock,
+      };
+    });
   });
 
   it('should create a new instance of TopicReaderHederaHcs', () => {

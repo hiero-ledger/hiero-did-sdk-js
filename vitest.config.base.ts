@@ -26,6 +26,6 @@ export default defineProject({
       concurrent: false,
     },
     clearMocks: true,
-    mockReset: true,
+    mockReset: false,
   },
 });
