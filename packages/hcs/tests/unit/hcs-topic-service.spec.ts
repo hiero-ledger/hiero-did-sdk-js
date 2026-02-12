@@ -3,14 +3,10 @@ import {
   Client,
   Status,
   StatusError,
-  TopicCreateTransaction,
-  TopicDeleteTransaction,
   TopicInfoQuery,
-  TopicUpdateTransaction,
   Timestamp,
   TopicInfo,
   TopicId,
-  PublicKey,
 } from '@hashgraph/sdk';
 import {
   CreateTopicProps,
@@ -24,20 +20,37 @@ import { HcsCacheService } from '../../src/cache';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 import { vi } from 'vitest';
 
-vi.mock('@hashgraph/sdk', () => {
-  const actual = vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
+const {
+  mockTopicCreateTransaction,
+  mockTopicUpdateTransaction,
+  mockTopicDeleteTransaction,
+  mockTopicInfoQuery,
+  mockSignTransaction,
+  mockWaitForChangesVisibility,
+  mockGetMirrorNetworkNodeUrl,
+  mockIsMirrorQuerySupported,
+} = vi.hoisted(() => ({
+  mockTopicCreateTransaction: vi.fn(),
+  mockTopicUpdateTransaction: vi.fn(),
+  mockTopicDeleteTransaction: vi.fn(),
+  mockTopicInfoQuery: vi.fn(),
+  mockSignTransaction: vi.fn(),
+  mockWaitForChangesVisibility: vi.fn(),
+  mockGetMirrorNetworkNodeUrl: vi.fn(),
+  mockIsMirrorQuerySupported: vi.fn(),
+}));
+
+vi.mock('@hashgraph/sdk', async () => {
+  const actual = await vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...actual,
     Status: { Success: 'SUCCESS', FailInvalid: 'FailInvalid', InvalidTopicId: 'INVALID_TOPIC' },
-    TopicCreateTransaction: vi.fn().mockImplementation(() => mockTopicTransaction()),
-    TopicUpdateTransaction: vi.fn().mockImplementation(() => mockTopicTransaction()),
-    TopicDeleteTransaction: vi.fn().mockImplementation(() => mockTopicTransaction()),
-    TopicInfoQuery: vi.fn().mockImplementation(() => ({
-      setTopicId: vi.fn().mockReturnThis(),
-      execute: vi.fn(),
-    })),
+    TopicCreateTransaction: mockTopicCreateTransaction,
+    TopicUpdateTransaction: mockTopicUpdateTransaction,
+    TopicDeleteTransaction: mockTopicDeleteTransaction,
+    TopicInfoQuery: mockTopicInfoQuery,
   };
 });
 
@@ -57,16 +70,16 @@ function mockTopicTransaction() {
   };
 }
 
-vi.mock('../../src/shared', () => {
-  const actual = vi.importActual('../../src/shared');
+vi.mock('../../src/shared', async () => {
+  const actual = await vi.importActual('../../src/shared');
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...actual,
-    signTransaction: vi.fn(),
-    waitForChangesVisibility: vi.fn(),
-    getMirrorNetworkNodeUrl: vi.fn(),
-    isMirrorQuerySupported: vi.fn(),
+    signTransaction: mockSignTransaction,
+    waitForChangesVisibility: mockWaitForChangesVisibility,
+    getMirrorNetworkNodeUrl: mockGetMirrorNetworkNodeUrl,
+    isMirrorQuerySupported: mockIsMirrorQuerySupported,
   };
 });
 
@@ -94,9 +107,15 @@ describe('HcsTopicService', () => {
 
     transactionMock = mockTopicTransaction();
 
-    (TopicCreateTransaction as unknown as vi.Mock).mockImplementation(() => transactionMock);
-    (TopicUpdateTransaction as unknown as vi.Mock).mockImplementation(() => transactionMock);
-    (TopicDeleteTransaction as unknown as vi.Mock).mockImplementation(() => transactionMock);
+    mockTopicCreateTransaction.mockImplementation(function() { return transactionMock; });
+    mockTopicUpdateTransaction.mockImplementation(function() { return transactionMock; });
+    mockTopicDeleteTransaction.mockImplementation(function() { return transactionMock; });
+    mockTopicInfoQuery.mockImplementation(function() {
+      return {
+        setTopicId: vi.fn().mockReturnThis(),
+        execute: vi.fn(),
+      };
+    });
 
     transactionMock.freezeWith.mockReturnValue(transactionMock);
     transactionMock.sign.mockResolvedValue(transactionMock);
@@ -122,14 +141,15 @@ describe('HcsTopicService', () => {
     });
 
     it('should set all properties and sign if keys provided', async () => {
-      const adminKey = PrivateKey.generateED25519();
-      const submitKey = PrivateKey.generateED25519();
-      const autoRenewAccountKey = PrivateKey.generateED25519();
+      const { PrivateKey: PK, PublicKey: PubK } = await import('@hashgraph/sdk');
+      const adminKey = PK.generateED25519();
+      const submitKey = PK.generateED25519();
+      const autoRenewAccountKey = PK.generateED25519();
 
       // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
-      const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
-      const submitPublicKey = PublicKey.fromString(submitKey.publicKey.toStringDer());
-      const autoRenewAccountPublicKey = PublicKey.fromString(autoRenewAccountKey.publicKey.toStringDer());
+      const adminPublicKey = PubK.fromString(adminKey.publicKey.toStringDer());
+      const submitPublicKey = PubK.fromString(submitKey.publicKey.toStringDer());
+      const autoRenewAccountPublicKey = PubK.fromString(autoRenewAccountKey.publicKey.toStringDer());
 
       const adminKeySigner = new Signer(adminKey);
       const autoRenewAccountKeySigner = new Signer(autoRenewAccountKey);
@@ -184,16 +204,20 @@ describe('HcsTopicService', () => {
   });
 
   describe('updateTopic', () => {
-    const currentAdminKey = PrivateKey.generateED25519();
-    const currentAdminKeySigner = new Signer(currentAdminKey);
+    let currentAdminKeySigner: Signer;
+    let currentAdminPublicKey: any;
+    let baseProps: UpdateTopicProps;
 
-    // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
-    const currentAdminPublicKey = PublicKey.fromString(currentAdminKey.publicKey.toStringDer());
-
-    const baseProps: UpdateTopicProps = {
-      topicId: '0.0.100',
-      currentAdminKeySigner,
-    };
+    beforeEach(async () => {
+      const { PrivateKey: PK, PublicKey: PubK } = await import('@hashgraph/sdk');
+      const currentAdminKey = PK.generateED25519();
+      currentAdminKeySigner = new Signer(currentAdminKey);
+      currentAdminPublicKey = PubK.fromString(currentAdminKey.publicKey.toStringDer());
+      baseProps = {
+        topicId: '0.0.100',
+        currentAdminKeySigner,
+      };
+    });
 
     it('should throw if autoRenewAccountId set without autoRenewAccountKey', async () => {
       await expect(service.updateTopic({ ...baseProps, autoRenewAccountId: '0.0.101' })).rejects.toThrow(
@@ -206,17 +230,18 @@ describe('HcsTopicService', () => {
         getReceipt: vi.fn().mockResolvedValue({ status: Status.Success }),
       });
 
-      const adminKey = PrivateKey.generateED25519();
-      const submitKey = PrivateKey.generateED25519();
-      const autoRenewAccountKey = PrivateKey.generateED25519();
+      const { PrivateKey: PK, PublicKey: PubK } = await import('@hashgraph/sdk');
+      const adminKey = PK.generateED25519();
+      const submitKey = PK.generateED25519();
+      const autoRenewAccountKey = PK.generateED25519();
 
       const adminKeySigner = new Signer(adminKey);
       const autoRenewAccountKeySigner = new Signer(autoRenewAccountKey);
 
       // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
-      const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
-      const submitPublicKey = PublicKey.fromString(submitKey.publicKey.toStringDer());
-      const autoRenewAccountPublicKey = PublicKey.fromString(autoRenewAccountKey.publicKey.toStringDer());
+      const adminPublicKey = PubK.fromString(adminKey.publicKey.toStringDer());
+      const submitPublicKey = PubK.fromString(submitKey.publicKey.toStringDer());
+      const autoRenewAccountPublicKey = PubK.fromString(autoRenewAccountKey.publicKey.toStringDer());
 
       const props: UpdateTopicProps = {
         ...baseProps,
@@ -265,16 +290,21 @@ describe('HcsTopicService', () => {
   });
 
   describe('deleteTopic', () => {
-    const adminKey = PrivateKey.generateED25519();
-    const adminKeySigner = new Signer(adminKey);
+    let adminKeySigner: Signer;
+    let adminPublicKey: any;
+    let props: DeleteTopicProps;
 
-    // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
-    const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
-
-    const props: DeleteTopicProps = {
-      topicId: '0.0.50',
-      adminKeySigner,
-    };
+    beforeEach(async () => {
+      const { PrivateKey: PK, PublicKey: PubK } = await import('@hashgraph/sdk');
+      const adminKey = PK.generateED25519();
+      adminKeySigner = new Signer(adminKey);
+      // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
+      adminPublicKey = PubK.fromString(adminKey.publicKey.toStringDer());
+      props = {
+        topicId: '0.0.50',
+        adminKeySigner,
+      };
+    });
 
     it('should delete the topic and wait for changes visibility', async () => {
       transactionMock.freezeWith.mockReturnValueOnce(transactionMock);
@@ -349,7 +379,7 @@ describe('HcsTopicService', () => {
   describe('fetchTopicInfo', () => {
     it('should call fetchTopicInfoWithClient if mirror supported', async () => {
       (isMirrorQuerySupported as vi.Mock).mockReturnValue(true);
-      const spy = jest
+      const spy = vi
         .spyOn(service as any, 'fetchTopicInfoWithClient')
         .mockResolvedValue({ topicId: 'topic123', topicMemo: 'memo' });
 
@@ -362,7 +392,7 @@ describe('HcsTopicService', () => {
 
     it('should call fetchTopicInfoWithRest if mirror not supported', async () => {
       (isMirrorQuerySupported as vi.Mock).mockReturnValue(false);
-      const spy = jest
+      const spy = vi
         .spyOn(service as any, 'fetchTopicInfoWithRest')
         .mockResolvedValue({ topicId: 'topic456', topicMemo: 'memo2' });
 
@@ -395,10 +425,12 @@ describe('HcsTopicService', () => {
         },
       };
 
-      (TopicInfoQuery as unknown as vi.Mock).mockImplementation(() => ({
-        setTopicId: vi.fn().mockReturnThis(),
-        execute: vi.fn().mockResolvedValue(mockInfo),
-      }));
+      (TopicInfoQuery as unknown as vi.Mock).mockImplementation(function() {
+        return {
+          setTopicId: vi.fn().mockReturnThis(),
+          execute: vi.fn().mockResolvedValue(mockInfo),
+        };
+      });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       const result = await (service as any).fetchTopicInfoWithClient({ topicId: '0.0.10' });

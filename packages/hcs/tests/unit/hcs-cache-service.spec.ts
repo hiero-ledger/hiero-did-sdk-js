@@ -5,13 +5,15 @@ import { Client } from '@hashgraph/sdk';
 import { vi } from 'vitest';
 
 vi.mock('@hiero-did-sdk/cache', () => ({
-  LRUMemoryCache: vi.fn().mockImplementation(() => ({
-    get: vi.fn(() => Promise.resolve(undefined)),
-    set: vi.fn(() => Promise.resolve(undefined)),
-    remove: vi.fn(() => Promise.resolve(undefined)),
-    cleanup: vi.fn(() => Promise.resolve(undefined)),
-    cleanupExpired: vi.fn(() => Promise.resolve(undefined)),
-  })),
+  LRUMemoryCache: vi.fn().mockImplementation(function() {
+    return {
+      get: vi.fn(() => Promise.resolve(undefined)),
+      set: vi.fn(() => Promise.resolve(undefined)),
+      remove: vi.fn(() => Promise.resolve(undefined)),
+      cleanup: vi.fn(() => Promise.resolve(undefined)),
+      cleanupExpired: vi.fn(() => Promise.resolve(undefined)),
+    };
+  }),
 }));
 
 describe('HcsCacheService', () => {

@@ -3,26 +3,62 @@ import { Client, PrivateKey, Status, TopicMessageSubmitTransaction, TopicMessage
 import { Buffer } from 'buffer';
 import { HcsCacheService } from '../../src/cache';
 import { HcsMessageService, TopicMessageData } from '../../src/hcs';
-import { isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
+import { isMirrorQuerySupported } from '../../src/shared';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { vi } from 'vitest';
+import { vi, describe, it, beforeEach, expect } from 'vitest';
 
-vi.mock('../../src/cache');
-vi.mock('../../src/shared');
+const {
+  mockIsMirrorQuerySupported,
+  mockWaitForChangesVisibility,
+  mockCacheGetTopicInfo,
+  mockCacheSetTopicInfo,
+  mockCacheRemoveTopicInfo,
+  mockCacheRemoveTopicMessages,
+  mockCacheGetTopicMessages,
+  mockCacheSetTopicMessages,
+} = vi.hoisted(() => ({
+  mockIsMirrorQuerySupported: vi.fn().mockReturnValue(true),
+  mockWaitForChangesVisibility: vi.fn(),
+  mockCacheGetTopicInfo: vi.fn().mockResolvedValue(undefined),
+  mockCacheSetTopicInfo: vi.fn().mockResolvedValue(undefined),
+  mockCacheRemoveTopicInfo: vi.fn().mockResolvedValue(undefined),
+  mockCacheRemoveTopicMessages: vi.fn().mockResolvedValue(undefined),
+  mockCacheGetTopicMessages: vi.fn().mockResolvedValue(null),
+  mockCacheSetTopicMessages: vi.fn().mockResolvedValue(undefined),
+}));
 
-vi.mock('@hashgraph/sdk', () => {
-  const originalModule = vi.importActual('@hashgraph/sdk');
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+vi.mock('../../src/cache', () => ({
+  HcsCacheService: vi.fn(function () {
+    return {
+      getTopicInfo: mockCacheGetTopicInfo,
+      setTopicInfo: mockCacheSetTopicInfo,
+      removeTopicInfo: mockCacheRemoveTopicInfo,
+      removeTopicMessages: mockCacheRemoveTopicMessages,
+      getTopicMessages: mockCacheGetTopicMessages,
+      setTopicMessages: mockCacheSetTopicMessages,
+    };
+  }),
+}));
+
+vi.mock('../../src/shared', () => ({
+  isMirrorQuerySupported: mockIsMirrorQuerySupported,
+  waitForChangesVisibility: mockWaitForChangesVisibility,
+}));
+
+vi.mock('@hashgraph/sdk', async () => {
+  const originalModule = await vi.importActual('@hashgraph/sdk');
   return {
     ...originalModule,
-    TopicMessageSubmitTransaction: vi.fn().mockImplementation(() => ({
-      setTopicId: vi.fn().mockReturnThis(),
-      setMessage: vi.fn().mockReturnThis(),
-      freezeWith: vi.fn().mockReturnThis(),
-      sign: vi.fn().mockResolvedValue(undefined),
-      signWith: vi.fn().mockReturnThis(),
-      execute: vi.fn(),
-    })),
+    TopicMessageSubmitTransaction: vi.fn(function () {
+      return {
+        setTopicId: vi.fn().mockReturnThis(),
+        setMessage: vi.fn().mockReturnThis(),
+        freezeWith: vi.fn().mockReturnThis(),
+        sign: vi.fn().mockResolvedValue(undefined),
+        signWith: vi.fn().mockReturnThis(),
+        execute: vi.fn(),
+      };
+    }),
     TopicMessageQuery: vi.fn(),
   };
 });
@@ -51,21 +87,17 @@ describe('HcsMessageService', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockIsMirrorQuerySupported.mockReturnValue(true);
+    mockWaitForChangesVisibility.mockImplementation(() => Promise.resolve());
+    mockCacheGetTopicInfo.mockResolvedValue(undefined);
+    mockCacheSetTopicInfo.mockResolvedValue(undefined);
+    mockCacheRemoveTopicInfo.mockResolvedValue(undefined);
+    mockCacheRemoveTopicMessages.mockResolvedValue(undefined);
 
     client = {} as vi.Mocked<Client>;
     Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: vi.fn(), configurable: true });
 
-    const realCacheServiceMock = new HcsCacheService({ maxSize: 100 });
-
-    vi.spyOn(realCacheServiceMock, 'getTopicInfo').mockResolvedValue(undefined);
-    vi.spyOn(realCacheServiceMock, 'setTopicInfo').mockResolvedValue(undefined);
-    vi.spyOn(realCacheServiceMock, 'removeTopicInfo').mockResolvedValue(undefined);
-
-    cache = realCacheServiceMock as unknown as vi.Mocked<HcsCacheService>;
-
-    (HcsCacheService as vi.Mock).mockReturnValue(cache);
-
-    (isMirrorQuerySupported as vi.Mock).mockReturnValue(true);
+    cache = new HcsCacheService({ maxSize: 100 });
 
     service = new HcsMessageService(client, cache);
   });
@@ -104,8 +136,9 @@ describe('HcsMessageService', () => {
         signWith: vi.fn().mockReturnThis(),
         execute: vi.fn().mockResolvedValue(responseMock),
       };
-      (TopicMessageSubmitTransaction as unknown as vi.Mock).mockImplementation(() => transactionMock);
-      (cache.removeTopicMessages as vi.Mock).mockResolvedValue(undefined);
+      (TopicMessageSubmitTransaction as unknown as vi.Mock).mockImplementation(function () {
+        return transactionMock;
+      });
     });
 
     it('should submit message successfully without submitKey and without wait', async () => {
@@ -121,8 +154,8 @@ describe('HcsMessageService', () => {
       expect(transactionMock.sign).not.toHaveBeenCalled();
       expect(transactionMock.execute).toHaveBeenCalledWith(client);
       expect(responseMock.getReceipt).toHaveBeenCalledWith(client);
-      expect(cache.removeTopicMessages).toHaveBeenCalledWith(client, '0.0.123');
-      expect(waitForChangesVisibility).not.toHaveBeenCalled();
+      expect(mockCacheRemoveTopicMessages).toHaveBeenCalledWith(client, '0.0.123');
+      expect(mockWaitForChangesVisibility).not.toHaveBeenCalled();
 
       expect(result).toEqual({
         nodeId: 'nodeId',
@@ -153,9 +186,9 @@ describe('HcsMessageService', () => {
         waitForChangesVisibilityTimeoutMs: 1000,
       });
 
-      expect(waitForChangesVisibility).toHaveBeenCalled();
+      expect(mockWaitForChangesVisibility).toHaveBeenCalled();
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const waitArgs = (waitForChangesVisibility as vi.Mock).mock.calls[0][0] as {
+      const waitArgs = (mockWaitForChangesVisibility as vi.Mock).mock.calls[0][0] as {
         checkFn: (messages: string[]) => boolean;
       };
       expect(waitArgs.checkFn(['msg'])).toBe(true);
@@ -170,18 +203,13 @@ describe('HcsMessageService', () => {
   });
 
   describe('getTopicMessages', () => {
-    beforeEach(() => {
-      (cache.getTopicMessages as vi.Mock).mockResolvedValue(undefined);
-      (cache.setTopicMessages as vi.Mock).mockResolvedValue(undefined);
-    });
-
     it('should return cached messages if toDate is before last cached consensusTime', async () => {
       const cachedMessages = [
         { consensusTime: new Date(2000), contents: Buffer.from('cached1') },
         { consensusTime: new Date(3000), contents: Buffer.from('cached2') },
       ];
-      (cache.getTopicMessages as vi.Mock).mockResolvedValue(cachedMessages);
 
+      vi.spyOn(cache, 'getTopicMessages').mockResolvedValue(cachedMessages);
       const result = await service.getTopicMessages({
         topicId: '0.0.123',
         toDate: new Date(2500),
@@ -192,7 +220,7 @@ describe('HcsMessageService', () => {
 
     it('should fetch new messages and update cache if needed', async () => {
       const cachedMessages = [{ consensusTime: new Date(1000), contents: Buffer.from('msg1') }];
-      (cache.getTopicMessages as vi.Mock).mockResolvedValue(cachedMessages);
+      vi.spyOn(cache, 'getTopicMessages').mockResolvedValue(cachedMessages);
 
       const newMessages = [
         { consensusTime: new Date(2000), contents: Buffer.from('msg2') },
@@ -201,12 +229,14 @@ describe('HcsMessageService', () => {
 
       vi.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue(newMessages);
 
+      const setTopicMessagesSpy = vi.spyOn(cache, 'setTopicMessages').mockResolvedValue(undefined);
+
       const result = await service.getTopicMessages({
         topicId: '0.0.123',
         toDate: new Date(4000),
       });
 
-      expect(cache.setTopicMessages).toHaveBeenCalled();
+      expect(setTopicMessagesSpy).toHaveBeenCalled();
 
       expect(result).toEqual(
         [...cachedMessages, ...newMessages].sort((a, b) => a.consensusTime.getTime() - b.consensusTime.getTime())
@@ -214,7 +244,7 @@ describe('HcsMessageService', () => {
     });
 
     it('should call fetchTopicMessages if no cached messages', async () => {
-      (cache.getTopicMessages as vi.Mock).mockResolvedValue([]);
+      vi.spyOn(cache, 'getTopicMessages').mockResolvedValue([]);
 
       vi.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue([]);
 
@@ -307,7 +337,7 @@ describe('HcsMessageService', () => {
         }),
       };
 
-      (TopicMessageQuery as vi.Mock).mockImplementation(() => queryMock);
+      (TopicMessageQuery as vi.Mock).mockImplementation(function() { return queryMock; });
     });
 
     it('should resolve with collected messages', async () => {

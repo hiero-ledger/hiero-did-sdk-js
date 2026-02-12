@@ -6,13 +6,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { Cache } from '@hiero-did-sdk/core';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 import { vi } from 'vitest';
+import * as mirrorNode from '../../src/shared/mirror-node';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
 const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
 
-const operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
-const operatorKeySigner = new Signer(operatorKeyInstance);
+let operatorKeyInstance: PrivateKey;
+let operatorKeySigner: Signer;
 
 const TEST_VARIANTS = [{ useRestAPI: false, name: 'Client' }];
 
@@ -44,10 +45,12 @@ describe('Hedera HCS Service', () => {
     });
 
     beforeAll(() => {
+      operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
+      operatorKeySigner = new Signer(operatorKeyInstance);
+
       global.UseRestAPI = useRestAPI;
 
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        vi.spyOn(require('../../src/shared/mirror-node'), 'isMirrorQuerySupported')
+      vi.spyOn(mirrorNode, 'isMirrorQuerySupported')
         .mockImplementation((_: Client) => {
           return !global.UseRestAPI;
         });
