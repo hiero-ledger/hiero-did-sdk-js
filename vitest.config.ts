@@ -25,7 +25,7 @@ export default defineConfig({
       ],
       clean: true,
       provider: 'v8',
-      reporter: ['cobertura', 'text'],
+      reporter: ['cobertura', 'text', 'json-summary', 'json'],
     },
     reporters: ['junit', 'default'],
     outputFile: './coverage/junit.json',

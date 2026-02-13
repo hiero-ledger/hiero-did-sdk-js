@@ -9,7 +9,7 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run --coverage --reporter=json --outputFile=coverage/report.json",
+    "test:ci": "vitest run --coverage",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier --write \"packages/**/src/**/*.ts\" \"packages/**/tests/*.ts\" \"examples/**/*.ts\"",
