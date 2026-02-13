@@ -6,8 +6,8 @@ import { Signer } from '@hiero-did-sdk/signer-internal';
 import { vi } from 'vitest';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
-const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
-const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
+const operatorId = process.env.HEDERA_OPERATOR_ID ?? '0.0.123';
+const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '302e020100300506032b65700422042091132178e72057a1d7528025956fe39b0b847f200ab59b2fdd367017f3087137';
 
 let operatorKeyInstance: PrivateKey;
 let operatorKeySigner: Signer;
