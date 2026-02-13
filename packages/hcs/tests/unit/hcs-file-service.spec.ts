@@ -277,10 +277,10 @@ describe('HcsFileService', () => {
 
       (Zstd.decompress as vi.Mock).mockReturnValueOnce('decompressed content');
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+       
       const result = buildFileFromChunkMessages(chunkMessages);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+       
       expect(result.toString()).toBe('decompressed content');
     });
 
@@ -299,7 +299,7 @@ describe('HcsFileService', () => {
         throw new Error('Decompression failed');
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+       
       expect(() => buildFileFromChunkMessages([{ o: 0, c: 'data:application/json;base64,invalid' }])).toThrow(
         'Error on building HCS-1 file payload from chunk messages: Decompression failed'
       );
@@ -319,14 +319,14 @@ describe('HcsFileService', () => {
       // Create a large payload that will be split into multiple chunks
       const largePayload = Buffer.from('a'.repeat(2000));
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+       
       const result = buildChunkMessagesFromFile(largePayload);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+       
       expect(result.length).toBeGreaterThan(1);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+       
       expect(result[0].orderIndex).toBe(0);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+       
       expect(result[1].orderIndex).toBe(1);
     });
 
@@ -345,7 +345,7 @@ describe('HcsFileService', () => {
         throw new Error('Compression failed');
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+       
       expect(() => buildChunkMessagesFromFile(testPayload)).toThrow(
         'Error on getting chunk messages for HCS-1 file: Error: Compression failed'
       );
@@ -360,7 +360,7 @@ describe('HcsFileService', () => {
       };
       const createHCS1Memo = (service as unknown as PrivateHcsFileService).createHCS1Memo.bind(service);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+       
       const result = createHCS1Memo('testHash');
       expect(result).toBe('testHash:zstd:base64');
     });
@@ -375,7 +375,7 @@ describe('HcsFileService', () => {
       const isValidHCS1Memo = (service as unknown as PrivateHcsFileService).isValidHCS1Memo.bind(service);
 
       const validMemo = '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef:zstd:base64';
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+       
       expect(isValidHCS1Memo(validMemo)).toBe(true);
     });
 
@@ -395,7 +395,7 @@ describe('HcsFileService', () => {
       ];
 
       invalidMemos.forEach((memo) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+         
         expect(isValidHCS1Memo(memo)).toBe(false);
       });
     });
@@ -412,7 +412,7 @@ describe('HcsFileService', () => {
       const memo = 'checksum123:zstd:base64';
       const checksum = 'checksum123';
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+       
       expect(isValidHCS1Checksum(memo, checksum)).toBe(true);
     });
 
@@ -426,7 +426,7 @@ describe('HcsFileService', () => {
       const memo = 'checksum123:zstd:base64';
       const checksum = 'differentChecksum';
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+       
       expect(isValidHCS1Checksum(memo, checksum)).toBe(false);
     });
 
@@ -437,7 +437,7 @@ describe('HcsFileService', () => {
       };
       const isValidHCS1Checksum = (service as unknown as PrivateHcsFileService).isValidHCS1Checksum.bind(service);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+       
       expect(() => isValidHCS1Checksum('', 'checksum')).toThrow('Memo is required');
     });
   });

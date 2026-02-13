@@ -21,7 +21,7 @@ export default tseslint.config(
       '.changeset',
       '**/dist/*',
       '**/build/*',
-      '**/jest.config.ts',
+      '**/vitest.config.ts',
       '**/tsup.config.ts',
       '**/eslint.config.mjs',
       '**/cucumber.js',
@@ -50,12 +50,18 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
     },
   },
   {
     files: ['**/tests/**/*.ts'],
     rules: {
       '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   }
 );

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Client, PrivateKey, Status, TopicMessageSubmitTransaction, TopicMessageQuery } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
 import { HcsCacheService } from '../../src/cache';
@@ -187,7 +187,7 @@ describe('HcsMessageService', () => {
       });
 
       expect(mockWaitForChangesVisibility).toHaveBeenCalled();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+       
       const waitArgs = (mockWaitForChangesVisibility as vi.Mock).mock.calls[0][0] as {
         checkFn: (messages: string[]) => boolean;
       };
@@ -262,7 +262,7 @@ describe('HcsMessageService', () => {
       const m2 = { consensusTime: new Date(2000), contents: Buffer.from('2') };
       const m3 = { consensusTime: new Date(1000), contents: Buffer.from('3') };
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const result = (service as any).deduplicateAndSortMessages(m1, m2, m3);
 
       expect(result).toEqual([m1, m2]);
@@ -274,7 +274,7 @@ describe('HcsMessageService', () => {
       const mockMessages = [{ contents: Buffer.from('hello') }, { contents: Buffer.from('world') }];
       vi.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue(mockMessages);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const contents = await (service as any).getNewMessagesContent({
         topicId: '0.0.123',
         startFrom: new Date(),
@@ -291,7 +291,7 @@ describe('HcsMessageService', () => {
       const result = [{ consensusTime: new Date(), contents: Buffer.from('msg') }];
       vi.spyOn(service as any, 'fetchTopicMessagesWithClient').mockResolvedValue(result);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const res = await (service as any).fetchTopicMessages({ topicId: '0.0.123' });
       expect(res).toEqual(result);
     });
@@ -302,7 +302,7 @@ describe('HcsMessageService', () => {
       const result = [{ consensusTime: new Date(), contents: Buffer.from('msg') }];
       vi.spyOn(service as any, 'fetchTopicMessagesWithRest').mockResolvedValue(result);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const res = await (service as any).fetchTopicMessages({ topicId: '0.0.123' });
       expect(res).toEqual(result);
     });
@@ -341,7 +341,7 @@ describe('HcsMessageService', () => {
     });
 
     it('should resolve with collected messages', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const res: TopicMessageData[] = await (service as any).fetchTopicMessagesWithClient({
         topicId: '0.0.123',
         limit: 5000,
@@ -364,7 +364,7 @@ describe('HcsMessageService', () => {
         return subscriptionObj;
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const res = await (service as any).fetchTopicMessagesWithClient({ topicId: '0.0.123' });
       expect(res).toEqual([]);
       expect(unsubscribeMock).toHaveBeenCalled();
@@ -378,7 +378,7 @@ describe('HcsMessageService', () => {
         return subscriptionObj;
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       await expect((service as any).fetchTopicMessagesWithClient({ topicId: '0.0.123' })).rejects.toThrow('some error');
       expect(unsubscribeMock).toHaveBeenCalled();
     });
@@ -416,7 +416,7 @@ describe('HcsMessageService', () => {
           json: () => Promise.resolve(secondResponse),
         });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const res: TopicMessageData[] = await (service as any).fetchTopicMessagesWithRest({
         topicId: '0.0.123',
         limit: 10,
@@ -441,7 +441,7 @@ describe('HcsMessageService', () => {
         json: () => Promise.resolve(response),
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const res: TopicMessageData[] = await (service as any).fetchTopicMessagesWithRest({
         topicId: '0.0.123',
         limit: 2,
@@ -457,7 +457,7 @@ describe('HcsMessageService', () => {
       });
 
       await expect(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+         
         (service as any).fetchTopicMessagesWithRest({ topicId: '0.0.123' })
       ).rejects.toThrow('Failed to fetch topic messages: Bad Request');
     });
@@ -467,7 +467,7 @@ describe('HcsMessageService', () => {
     it('should construct URL correctly', () => {
       vi.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node');
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const nextUrl = (service as any).getNextUrl('/path?param=1', 10, 'base64');
       expect(nextUrl).toBe('http://mirror-node/path?param=1&limit=10&encoding=base64');
     });

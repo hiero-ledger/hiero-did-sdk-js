@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 import { Zstd } from '@hiero-did-sdk/zstd';
 import { Buffer } from 'buffer';
@@ -388,7 +388,7 @@ describe('HederaAnoncredsRegistry', () => {
       const original = [0, 1, 0, 1];
       const modified = [1, 0, 0, 1];
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+       
       const result: { issued: number[]; revoked: number[] } = (registry as any).getStatusListDiff(original, modified);
 
       expect(result.issued).toEqual([1]);
@@ -396,14 +396,14 @@ describe('HederaAnoncredsRegistry', () => {
     });
 
     it('should throw error if status lists lengths differ', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
+       
       expect(() => (registry as any).getStatusListDiff([0], [0, 1])).toThrow();
     });
 
     it('should throw error if status lists contain invalid values', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
+       
       expect(() => (registry as any).getStatusListDiff([2], [0])).toThrow();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
+       
       expect(() => (registry as any).getStatusListDiff([0], [3])).toThrow();
     });
   });
@@ -412,7 +412,7 @@ describe('HederaAnoncredsRegistry', () => {
     it('should pack and compress a revocation registry entry message', () => {
       (Zstd.compress as Mock).mockImplementation(() => Buffer.from('compressed'));
       const messageData = { value: { accum: 'accum1' } };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+       
       const result = (registry as any).packRevocationRegistryEntryMessage(messageData);
 
       expect(typeof result).toBe('string');
@@ -427,7 +427,7 @@ describe('HederaAnoncredsRegistry', () => {
       const wrapper = { payload: Buffer.from(inner).toString('base64') };
 
       const data = Buffer.from(JSON.stringify(wrapper));
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+       
       const result = (registry as any).extractRevocationRegistryEntryMessage(data);
 
       expect(result).toHaveProperty('value.accum', 'accum1');
@@ -435,7 +435,7 @@ describe('HederaAnoncredsRegistry', () => {
 
     it('should return undefined for invalid message data', () => {
       const data = Buffer.from('invalid');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+       
       const result = (registry as any).extractRevocationRegistryEntryMessage(data);
       expect(result).toBeUndefined();
     });
@@ -444,12 +444,12 @@ describe('HederaAnoncredsRegistry', () => {
   describe('verifyRevocationRegistryEntryMessage', () => {
     it('should verify message successfully if accum exists', () => {
       const data = { value: { accum: 'accum' } };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+       
       expect((registry as any).verifyRevocationRegistryEntryMessage(data)).toBe(true);
     });
 
     it('should fail verification if accum is missing', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+       
       expect((registry as any).verifyRevocationRegistryEntryMessage({ value: {} })).toBe(false);
     });
   });
@@ -461,7 +461,7 @@ describe('HederaAnoncredsRegistry', () => {
       const revRegId =
         'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/REV_REG/0.0.5896422';
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+       
       await expect((registry as any).resolveRevocationRegistryDefinition(revRegId)).rejects.toThrowError(
         `AnonCreds revocation registry with id ${revRegId} not found`
       );
@@ -499,7 +499,7 @@ describe('HederaAnoncredsRegistry', () => {
       const result: {
         entriesTopicId: string;
         statusList?: AnonCredsRevocationStatusList;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+         
       } = await (registry as any).resolveRevocationStatusList('id', 1000);
 
       expect(result.entriesTopicId).toBe('entries-topic');
@@ -557,7 +557,7 @@ describe('HederaAnoncredsRegistry', () => {
       const result: {
         entriesTopicId: string;
         statusList?: AnonCredsRevocationStatusList;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+         
       } = await (registry as any).resolveRevocationStatusList('id', 1000);
 
       expect(result.statusList).toBeDefined();
@@ -578,7 +578,7 @@ describe('HederaAnoncredsRegistry', () => {
         revocationRegistryDefinitionId: 'id',
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+       
       await expect((registry as any).resolveRevocationStatusList('id', 123)).rejects.toThrowError(/not found/i);
     });
 
@@ -605,7 +605,7 @@ describe('HederaAnoncredsRegistry', () => {
         revocationRegistryDefinitionId: 'id',
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
+       
       await expect((registry as any).resolveRevocationStatusList('id', 123)).rejects.toThrowError(
         /entries topic id is missing/i
       );

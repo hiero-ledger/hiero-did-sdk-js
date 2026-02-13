@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+ 
 import {
   TopicMessageSubmitTransactionMock,
   MessageAwaiterForMessagesMock,
@@ -27,7 +27,7 @@ const didDocumentMock = vi.fn();
 vi.mock('@hiero-did-sdk/resolver', () => {
   return {
     resolveDID: vi.fn().mockImplementation((...args) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+       
       Promise.resolve(didDocumentMock(...args)),
     ),
   };

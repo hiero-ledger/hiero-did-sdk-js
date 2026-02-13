@@ -85,7 +85,7 @@ describe('HederaClientService', () => {
     const mockOperation = vi.fn().mockResolvedValue(true);
     await service.withClient({ networkName: network }, (client) => {
       expect(client).toBeInstanceOf(Client);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+       
       return mockOperation();
     });
     expect(mockOperation).toHaveBeenCalledTimes(1);
