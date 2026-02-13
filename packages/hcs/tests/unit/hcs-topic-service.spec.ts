@@ -43,7 +43,7 @@ const {
 vi.mock('@hashgraph/sdk', async () => {
   const actual = await vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+   
   return {
     ...actual,
     Status: { Success: 'SUCCESS', FailInvalid: 'FailInvalid', InvalidTopicId: 'INVALID_TOPIC' },
@@ -73,7 +73,7 @@ function mockTopicTransaction() {
 vi.mock('../../src/shared', async () => {
   const actual = await vi.importActual('../../src/shared');
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+   
   return {
     ...actual,
     signTransaction: mockSignTransaction,

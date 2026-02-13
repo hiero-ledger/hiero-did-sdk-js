@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import { Crypto } from '@hiero-did-sdk/crypto';
 import { Buffer } from 'buffer';
 import * as nodeModule from '../../src/node-crypto';
