@@ -21,9 +21,9 @@ if (network !== 'local-node') {
   TEST_VARIANTS.push({ useRestAPI: true, name: 'REST API' });
 }
 
-describe('Hedera HCS Service', () => {
-  vi.setConfig({ testTimeout: 60000 });
+vi.setConfig({ testTimeout: 60000, hookTimeout: 60000 });
 
+describe('Hedera HCS Service', () => {
   const mockCache: Cache = {
     get: vi.fn(),
     set: vi.fn(),
@@ -134,8 +134,7 @@ describe('Hedera HCS Service', () => {
       const newTopicMemo = '0987654321';
       const newAutoRenewPeriod = 60 * 24 * 60 * 60; // sec
 
-      const newExpirationTime = new Date();
-      newExpirationTime.setMonth(newExpirationTime.getMonth() + 3);
+      const newExpirationTime = new Date(Date.now() + 180 * 24 * 60 * 60 * 1000);
       // HCS do not use millisecond precision for Topic expiration time
       newExpirationTime.setMilliseconds(0);
 
