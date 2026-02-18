@@ -1,6 +1,8 @@
  
 import {
   Client,
+  PrivateKey,
+  PublicKey,
   Status,
   StatusError,
   TopicInfoQuery,
@@ -140,15 +142,14 @@ describe('HcsTopicService', () => {
     });
 
     it('should set all properties and sign if keys provided', async () => {
-      const { PrivateKey: PK, PublicKey: PubK } = await import('@hashgraph/sdk');
-      const adminKey = PK.generateED25519();
-      const submitKey = PK.generateED25519();
-      const autoRenewAccountKey = PK.generateED25519();
+      const adminKey = PrivateKey.generateED25519();
+      const submitKey = PrivateKey.generateED25519();
+      const autoRenewAccountKey = PrivateKey.generateED25519();
 
       // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
-      const adminPublicKey = PubK.fromString(adminKey.publicKey.toStringDer());
-      const submitPublicKey = PubK.fromString(submitKey.publicKey.toStringDer());
-      const autoRenewAccountPublicKey = PubK.fromString(autoRenewAccountKey.publicKey.toStringDer());
+      const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
+      const submitPublicKey = PublicKey.fromString(submitKey.publicKey.toStringDer());
+      const autoRenewAccountPublicKey = PublicKey.fromString(autoRenewAccountKey.publicKey.toStringDer());
 
       const adminKeySigner = new Signer(adminKey);
       const autoRenewAccountKeySigner = new Signer(autoRenewAccountKey);
@@ -207,11 +208,10 @@ describe('HcsTopicService', () => {
     let currentAdminPublicKey: any;
     let baseProps: UpdateTopicProps;
 
-    beforeEach(async () => {
-      const { PrivateKey: PK, PublicKey: PubK } = await import('@hashgraph/sdk');
-      const currentAdminKey = PK.generateED25519();
+    beforeEach(() => {
+      const currentAdminKey = PrivateKey.generateED25519();
       currentAdminKeySigner = new Signer(currentAdminKey);
-      currentAdminPublicKey = PubK.fromString(currentAdminKey.publicKey.toStringDer());
+      currentAdminPublicKey = PublicKey.fromString(currentAdminKey.publicKey.toStringDer());
       baseProps = {
         topicId: '0.0.100',
         currentAdminKeySigner,
@@ -229,18 +229,17 @@ describe('HcsTopicService', () => {
         getReceipt: vi.fn().mockResolvedValue({ status: Status.Success }),
       });
 
-      const { PrivateKey: PK, PublicKey: PubK } = await import('@hashgraph/sdk');
-      const adminKey = PK.generateED25519();
-      const submitKey = PK.generateED25519();
-      const autoRenewAccountKey = PK.generateED25519();
+      const adminKey = PrivateKey.generateED25519();
+      const submitKey = PrivateKey.generateED25519();
+      const autoRenewAccountKey = PrivateKey.generateED25519();
 
       const adminKeySigner = new Signer(adminKey);
       const autoRenewAccountKeySigner = new Signer(autoRenewAccountKey);
 
       // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
-      const adminPublicKey = PubK.fromString(adminKey.publicKey.toStringDer());
-      const submitPublicKey = PubK.fromString(submitKey.publicKey.toStringDer());
-      const autoRenewAccountPublicKey = PubK.fromString(autoRenewAccountKey.publicKey.toStringDer());
+      const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
+      const submitPublicKey = PublicKey.fromString(submitKey.publicKey.toStringDer());
+      const autoRenewAccountPublicKey = PublicKey.fromString(autoRenewAccountKey.publicKey.toStringDer());
 
       const props: UpdateTopicProps = {
         ...baseProps,
@@ -293,12 +292,11 @@ describe('HcsTopicService', () => {
     let adminPublicKey: any;
     let props: DeleteTopicProps;
 
-    beforeEach(async () => {
-      const { PrivateKey: PK, PublicKey: PubK } = await import('@hashgraph/sdk');
-      const adminKey = PK.generateED25519();
+    beforeEach(() => {
+      const adminKey = PrivateKey.generateED25519();
       adminKeySigner = new Signer(adminKey);
       // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
-      adminPublicKey = PubK.fromString(adminKey.publicKey.toStringDer());
+      adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
       props = {
         topicId: '0.0.50',
         adminKeySigner,
