@@ -1,7 +1,6 @@
 import { Client, PrivateKey, Transaction, Status, LedgerId } from '@hashgraph/sdk';
 import { Publisher } from '../src';
 import { randomClient } from './helpers';
-import { vi } from 'vitest';
 
 describe('Internal publisher class', () => {
   describe('initializing a publisher', () => {

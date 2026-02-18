@@ -5,7 +5,6 @@ import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import { DIDOwnerMessage, DIDOwnerMessageHederaDefaultLifeCycle } from '../../../src';
 import { DIDOwnerMessageContext } from '../../../src/messages/did-owner/lifecycle/context';
 import { NETWORK, SIGNATURE, TestVerifier, VALID_DID_TOPIC_ID } from '../helpers';
-import { vi } from 'vitest';
 
 vi.mock('@hiero-did-sdk/resolver', () => {
   return {

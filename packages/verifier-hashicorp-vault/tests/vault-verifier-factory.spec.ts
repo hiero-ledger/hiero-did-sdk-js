@@ -1,6 +1,5 @@
 import { VaultVerifierFactory } from '../src';
 import { VaultApi } from '../src/vault-api';
-import { vi } from 'vitest';
 
 const VaultApiMock = VaultApi as vi.MockedClass<typeof VaultApi>;
 

@@ -9,7 +9,6 @@ import {
 } from '@hiero-did-sdk/messages';
 import { PrivateKey } from '@hashgraph/sdk';
 import { DIDResolution } from '@hiero-did-sdk/core';
-import { vi } from 'vitest';
 
 export const VALID_DID_TOPIC_ID = '0.0.2';
 export const VALID_DID_PUBLIC_KEY = 'J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4';

@@ -1,5 +1,4 @@
 import { LRUMemoryCache } from '../src';
-import { vi } from 'vitest';
 
 describe('LRUMemoryCache', () => {
   let cache: LRUMemoryCache;

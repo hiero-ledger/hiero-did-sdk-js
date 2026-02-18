@@ -9,7 +9,6 @@ import {
   DIDRemoveVerificationMethodMessageHederaCSMLifeCycle,
 } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID } from '../helpers';
-import { vi } from 'vitest';
 
 describe('Client mode DIDRemoveVerificationMethodMessage Lifecycle', () => {
   describe('when processing a valid DIDRemoveVerificationMethodMessage', () => {

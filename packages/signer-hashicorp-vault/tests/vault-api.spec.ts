@@ -4,7 +4,6 @@ import { DIDError } from '@hiero-did-sdk/core';
 import { VaultApi } from '../src/vault-api';
 import { VaultTestContainer } from './helpers';
 import { Buffer } from 'buffer';
-import { vi } from 'vitest';
 
 describe('Vault API Client', () => {
   let vaultContainer: VaultTestContainer;

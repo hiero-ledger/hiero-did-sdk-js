@@ -1,5 +1,4 @@
 import { TopicReader } from '@hiero-did-sdk/resolver';
-import { vi } from 'vitest';
 
 export class MockTopicReader implements TopicReader {
   public fetchFrom = vi.fn();

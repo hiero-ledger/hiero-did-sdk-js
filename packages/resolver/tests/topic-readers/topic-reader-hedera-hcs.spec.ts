@@ -1,7 +1,6 @@
 import { TopicReaderHederaHcs } from '../../src/topic-readers';
 import {  HederaHcsServiceConfiguration } from '@hiero-did-sdk/hcs';
 import { Buffer } from 'buffer';
-import { vi } from 'vitest';
 
 const operatorId = '0.0.123'
 const operatorKey = 'xxxxx'

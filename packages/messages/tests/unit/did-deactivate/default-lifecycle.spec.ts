@@ -3,7 +3,6 @@ import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import { DIDDeactivateMessage, DIDDeactivateMessageHederaDefaultLifeCycle } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
 import { Signer } from '@hiero-did-sdk/core';
-import { vi } from 'vitest';
 
 const mockSigner = new (class extends Signer {
   publicKey = vi.fn();

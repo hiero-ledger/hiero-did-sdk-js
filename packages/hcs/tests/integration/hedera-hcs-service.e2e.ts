@@ -5,7 +5,6 @@ import { Buffer } from 'buffer';
 import { v4 as uuidv4 } from 'uuid';
 import { Cache } from '@hiero-did-sdk/core';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { vi } from 'vitest';
 import * as mirrorNode from '../../src/shared/mirror-node';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';

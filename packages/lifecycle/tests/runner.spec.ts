@@ -3,7 +3,6 @@ import { Signer } from '@hiero-did-sdk/signer-internal';
 import { LifecycleRunner, LifecycleBuilder } from '../src';
 import { randomClient } from './helpers';
 import { Buffer } from 'buffer';
-import { vi } from 'vitest';
 
 describe('Lifecycle runner class', () => {
   let publisher: Publisher;

@@ -2,7 +2,6 @@
 import { TopicReaderHederaClient } from '../../src/topic-readers';
 import { Client, TopicMessage, Timestamp } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
-import { vi } from 'vitest';
 
 const {
   subscribeMock,

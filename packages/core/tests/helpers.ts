@@ -1,5 +1,4 @@
 import { DIDMessage, PublicKeyInDer, Verifier } from '../src';
-import { vi } from 'vitest';
 
 export const VALID_DID_TOPIC_ID = '0.0.2';
 export const VALID_DID = `did:hedera:mainnet:J98ruZqvaqtXE6chynQPnrjFu4qRAmofqbzVEsQXvNq4_${VALID_DID_TOPIC_ID}`;

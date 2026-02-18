@@ -4,7 +4,6 @@ import { Crypto } from '@hiero-did-sdk/crypto';
 import { Zstd } from '@hiero-did-sdk/zstd';
 import { Buffer } from 'buffer';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { vi } from 'vitest';
 
 const testPayload = Buffer.from('test payload');
 

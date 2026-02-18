@@ -9,7 +9,6 @@ import {
   DIDAddServiceMessageHederaCSMLifeCycle,
 } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID } from '../helpers';
-import { vi } from 'vitest';
 
 describe('Client mode DIDAddServiceMessage Lifecycle', () => {
   describe('when processing a valid DIDAddServiceMessage', () => {

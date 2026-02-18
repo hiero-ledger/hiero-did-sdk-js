@@ -1,7 +1,6 @@
 import { resolveDID } from '@hiero-did-sdk/resolver';
 import { DIDError } from '@hiero-did-sdk/core';
 import { checkDIDExists } from '../../../src/messages/did-owner/utils';
-import { vi } from 'vitest';
 
 vi.mock('@hiero-did-sdk/resolver', () => {
   return {

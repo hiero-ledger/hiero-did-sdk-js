@@ -15,7 +15,6 @@ import {
   TestVerifier,
   VALID_DID_TOPIC_ID,
 } from '../helpers';
-import { vi } from 'vitest';
 
 vi.mock('@hiero-did-sdk/resolver', () => {
   return {

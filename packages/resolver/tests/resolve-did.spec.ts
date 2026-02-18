@@ -1,7 +1,6 @@
 import { CborCodec, DIDError } from '@hiero-did-sdk/core';
 import { resolveDID } from '../src';
 import { getAddVerificationMethodMessage, getDIDOwnerMessage } from './helpers';
-import { vi } from 'vitest';
 
 const { fetchAllToDateMock, topicReaderConstructorMock } = vi.hoisted(() => ({
   fetchAllToDateMock: vi.fn(),

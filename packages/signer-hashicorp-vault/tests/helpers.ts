@@ -1,7 +1,6 @@
 import { randomUUID } from 'crypto';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
 import { VaultApi } from '../src/vault-api';
-import { vi } from 'vitest';
 export class VaultTestContainer {
   private static IMAGE = 'hashicorp/vault:latest';
   private static PORT = 8200;

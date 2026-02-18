@@ -21,7 +21,6 @@ import {
   TestSigner,
   VALID_DID,
 } from '../helpers';
-import { vi } from 'vitest';
 
 const notFoundError = new DIDError('notFound', 'DID not found');
 vi.mock('@hiero-did-sdk/resolver', async () => {

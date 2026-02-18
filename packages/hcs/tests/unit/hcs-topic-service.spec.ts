@@ -18,7 +18,6 @@ import {
 import { isMirrorQuerySupported, waitForChangesVisibility } from '../../src/shared';
 import { HcsCacheService } from '../../src/cache';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { vi } from 'vitest';
 
 const {
   mockTopicCreateTransaction,

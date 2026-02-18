@@ -5,7 +5,6 @@ import { HcsCacheService } from '../../src/cache';
 import { HcsMessageService, TopicMessageData } from '../../src/hcs';
 import { isMirrorQuerySupported } from '../../src/shared';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { vi, describe, it, beforeEach, expect } from 'vitest';
 
 const {
   mockIsMirrorQuerySupported,

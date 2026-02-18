@@ -11,7 +11,6 @@ import { HederaNetwork, NetworkConfig } from '@hiero-did-sdk/client';
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { vi } from 'vitest';
 const TEST_WITH_CACHE = true;
 
 const GET_DATA_TIMEOUT = 50;

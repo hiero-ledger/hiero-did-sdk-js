@@ -1,5 +1,4 @@
 import { LifecycleBuilder } from '../src';
-import { vi } from 'vitest';
 
 describe('Lifecycle builder class', () => {
   it('should be able to create a new instance', () => {

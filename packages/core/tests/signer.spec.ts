@@ -1,20 +1,16 @@
 import { PublicKey, Transaction } from '@hashgraph/sdk';
 import { KeysUtility, Signer } from '@hiero-did-sdk/core';
-import { vi } from 'vitest';
-
-//TODO update the mocking
-
-let mockPublicKeyDer;
-
-let mockPublicKey;
-
-let mockTransaction;
-
-let mockKeysUtility;
-
-let mockSigner;
 
 describe('signer', () => {
+  let mockPublicKeyDer;
+
+  let mockPublicKey;
+
+  let mockTransaction;
+
+  let mockKeysUtility;
+
+  let mockSigner;
 
   beforeEach(() => {
     mockPublicKeyDer = 'mock-public-key-der';

@@ -6,7 +6,6 @@ import {
 } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
 import { Signer } from '@hiero-did-sdk/core';
-import { vi } from 'vitest';
 
 
 describe('Default DIDRemoveVerificationMethodMessage Lifecycle', () => {

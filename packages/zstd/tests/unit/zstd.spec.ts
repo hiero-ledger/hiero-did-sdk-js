@@ -2,7 +2,6 @@
 import { Zstd } from '@hiero-did-sdk/zstd';
 import * as nodeZstdModule  from '../../src/node-zstd';
 import * as rnZstdModule  from '../../src/react-native-zstd';
-import { vi } from 'vitest';
 
 const mockData = new TextEncoder().encode('mock-data');
 const compressedMockData = Uint8Array.from([0x1, 0x2, 0x3]);

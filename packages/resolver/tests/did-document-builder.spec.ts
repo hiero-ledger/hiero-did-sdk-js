@@ -14,7 +14,6 @@ import {
 } from './helpers';
 import { TopicDIDMessage } from '../src/interfaces/topic-did-message';
 import { Buffer } from 'buffer';
-import { vi } from 'vitest';
 
 describe('DID Document Builder', () => {
   it('should load messages', () => {

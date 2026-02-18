@@ -2,7 +2,6 @@ import { CborCodec, DIDError } from '@hiero-did-sdk/core';
 import { resolveDID } from '../src';
 import { dereferenceDID } from '../src/dereference-did';
 import { DID_RESOLUTION, VALID_DID } from './helpers';
-import { vi } from 'vitest';
 
 const { resolveDIDMock } = vi.hoisted(() => ({
   resolveDIDMock: vi.fn(),

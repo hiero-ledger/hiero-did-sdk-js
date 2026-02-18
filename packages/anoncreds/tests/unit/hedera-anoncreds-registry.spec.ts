@@ -22,7 +22,7 @@ import {
 import { NetworkName } from '@hiero-did-sdk/client';
 import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { Mock, Mocked, vi } from 'vitest';
+import type { Mock, Mocked } from 'vitest';
 
 vi.mock('@hiero-did-sdk/hcs');
 vi.mock('@hiero-did-sdk/zstd');

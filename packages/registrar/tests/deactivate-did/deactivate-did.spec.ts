@@ -21,7 +21,6 @@ import {
   TestSigner,
   VALID_DID,
 } from '../helpers';
-import { vi } from 'vitest';
 
 const didDocumentMock = vi.fn();
 vi.mock('@hiero-did-sdk/resolver', () => {

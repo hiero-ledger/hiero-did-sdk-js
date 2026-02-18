@@ -20,7 +20,6 @@ import {
   DeactivateDIDResult,
 } from '../../src';
 import { VALID_DID_TOPIC_ID, TestPublisher, VALID_DID } from '../helpers';
-import { vi } from 'vitest';
 
 const didDocumentMock = vi.fn();
 vi.mock('@hiero-did-sdk/resolver', () => {

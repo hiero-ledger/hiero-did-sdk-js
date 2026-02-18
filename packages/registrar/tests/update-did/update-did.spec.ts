@@ -24,7 +24,6 @@ import {
   PUBLIC_KEY_MULTIBASE,
 } from '../helpers';
 import * as UpdateSubOperations from '../../src/update-did/sub-operations';
-import { vi } from 'vitest';
 
 const didDocumentMock = vi.fn();
 vi.mock('@hiero-did-sdk/resolver', () => {

@@ -1,5 +1,4 @@
 import { getResolver, resolveDID } from '../src';
-import { vi } from 'vitest';
 
 vi.mock('../src/resolve-did');
 

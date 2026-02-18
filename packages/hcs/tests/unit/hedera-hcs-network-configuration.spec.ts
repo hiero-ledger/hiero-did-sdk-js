@@ -3,7 +3,6 @@ import { HederaHcsService } from '../../src/hedera-hcs-service';
 import { HederaNetwork, NetworkConfig } from '@hiero-did-sdk/client';
 import { Buffer } from 'buffer';
 import { Signer } from '@hiero-did-sdk/signer-internal';
-import { vi } from 'vitest';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '0.0.123';

@@ -14,7 +14,6 @@ import {
   TestVerifier,
   VALID_DID,
 } from '../helpers';
-import { vi } from 'vitest';
 
 describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
   describe('when processing a valid DIDAddVerificationMethodMessage', () => {

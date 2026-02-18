@@ -1,7 +1,6 @@
 import { Network } from '@hiero-did-sdk/core';
 import { TopicReaderHederaRestApi } from '../../src/topic-readers/topic-reader-hedera-rest-api';
 import { Buffer } from 'buffer';
-import { vi } from 'vitest';
 
 describe('Topic Reader Hedera REST API', () => {
   const mockResponse = (
