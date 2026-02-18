@@ -18,8 +18,8 @@ const GET_DATA_TIMEOUT = 50;
 const GET_CACHED_DATA_TIMEOUT = 1000;
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
-const operatorId = process.env.HEDERA_OPERATOR_ID ?? '0.0.5065521';
-const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '302e020100300506032b657004220420e4f76aa303bfbf350ad080b879173b31977e5661d51ff5932f6597e2bb6680ff';
+const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
+const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
 
 const networkConfigs: NetworkConfig[] = [
   {
