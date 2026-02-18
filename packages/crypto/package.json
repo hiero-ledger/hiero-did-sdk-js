@@ -41,7 +41,6 @@
     "access": "public"
   },
   "dependencies": {
-    "buffer": "^6.0.3",
-    "vitest": "^4.0.18"
+    "buffer": "^6.0.3"
   }
 }

@@ -58,7 +58,6 @@
     "@hiero-did-sdk/resolver": "workspace:*",
     "@hiero-did-sdk/signer-internal": "workspace:*",
     "@hiero-did-sdk/verifier-internal": "workspace:*",
-    "buffer": "^6.0.3",
-    "vitest": "^4.0.18"
+    "buffer": "^6.0.3"
   }
 }

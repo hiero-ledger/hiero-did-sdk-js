@@ -50,7 +50,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@hiero-did-sdk/core": "workspace:*",
-    "vitest": "^4.0.18"
+    "@hiero-did-sdk/core": "workspace:*"
   }
 }

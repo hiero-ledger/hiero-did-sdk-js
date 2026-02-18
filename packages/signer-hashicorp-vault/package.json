@@ -51,7 +51,6 @@
   },
   "dependencies": {
     "@hiero-did-sdk/core": "workspace:*",
-    "buffer": "^6.0.3",
-    "vitest": "^4.0.18"
+    "buffer": "^6.0.3"
   }
 }

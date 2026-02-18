@@ -41,7 +41,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "zstd-napi": "^0.0.10",
-    "vitest": "^4.0.18"
+    "zstd-napi": "^0.0.10"
   }
 }

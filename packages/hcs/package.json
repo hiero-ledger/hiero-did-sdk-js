@@ -60,7 +60,6 @@
   },
   "devDependencies": {
     "@hiero-did-sdk/signer-internal": "workspace:*",
-    "uuid": "^11.1.0",
-    "vitest": "^4.0.18"
+    "uuid": "^11.1.0"
   }
 }
