@@ -134,7 +134,7 @@ describe('Hedera HCS Service', () => {
       const newTopicMemo = '0987654321';
       const newAutoRenewPeriod = 60 * 24 * 60 * 60; // sec
 
-      const newExpirationTime = new Date(Date.now() + 180 * 24 * 60 * 60 * 1000);
+      const newExpirationTime = new Date(Date.now() + 7890000 * 1000);
       // HCS do not use millisecond precision for Topic expiration time
       newExpirationTime.setMilliseconds(0);
 
