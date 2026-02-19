@@ -112,6 +112,7 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       issuerKeySigner,
     });
+    console.log(schemaResult);
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     // Resolve
@@ -135,6 +136,7 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       issuerKeySigner,
     });
+    console.log(schemaResult);
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     const schemaId = schemaResult.schemaState.schemaId;
@@ -174,6 +176,7 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       issuerKeySigner,
     });
+    console.log(schemaResult);
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     const schemaId = schemaResult.schemaState.schemaId;
