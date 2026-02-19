@@ -1,4 +1,4 @@
-const DEFAULT_TIMEOUT = 2 * 60 * 1000; // 2 minutes
+const DEFAULT_TIMEOUT = 5 * 60 * 1000; // 2 minutes
 
 const POLLING_INTERVAL = 500;
 
