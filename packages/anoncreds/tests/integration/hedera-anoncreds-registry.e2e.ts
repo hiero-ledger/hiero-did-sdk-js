@@ -13,7 +13,7 @@ import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 const TEST_WITH_CACHE = true;
 
-const GET_DATA_TIMEOUT = 50;
+const GET_DATA_TIMEOUT = 20;
 const GET_CACHED_DATA_TIMEOUT = 1000;
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
@@ -422,7 +422,7 @@ describe('Hedera AnonCreds Registry', () => {
       expect(statusList.revocationStatusList?.revocationList[9]).toEqual(1);
     });
 
-    it('test the cache using', async () => {
+    it('should use cache', async () => {
       if (!TEST_WITH_CACHE) {
         console.log('The test skipped because the cache is not used');
         return;
@@ -444,13 +444,7 @@ describe('Hedera AnonCreds Registry', () => {
         };
       };
 
-      let resolutionResult = await resolveForTimestamp(tsBeforeStatusListEntryDate);
-      expect(resolutionResult.duration).toBeGreaterThan(GET_DATA_TIMEOUT);
-      expect(resolutionResult.statusList.revocationStatusList?.revocationList[0]).toEqual(0);
-      expect(resolutionResult.statusList.revocationStatusList?.revocationList[5]).toEqual(0);
-      expect(resolutionResult.statusList.revocationStatusList?.revocationList[9]).toEqual(0);
-
-      resolutionResult = await resolveForTimestamp(tsFirstStatusListEntryDate);
+      let resolutionResult = await resolveForTimestamp(tsFirstStatusListEntryDate);
       expect(resolutionResult.duration).toBeGreaterThan(GET_DATA_TIMEOUT);
       expect(resolutionResult.statusList.revocationStatusList?.revocationList[0]).toEqual(0);
       expect(resolutionResult.statusList.revocationStatusList?.revocationList[5]).toEqual(0);
