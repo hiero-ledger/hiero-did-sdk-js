@@ -73,8 +73,5 @@ describe('Default DIDAddVerificationMethodMessage Lifecycle', () => {
       });
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 });

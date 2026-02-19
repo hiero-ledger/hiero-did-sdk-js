@@ -13,10 +13,6 @@ vi.mock('@hiero-did-sdk/core', () => ({
 }));
 
 describe('Anoncreds Identifier Utils', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   describe('buildAnonCredsIdentifier', () => {
     it('should build the identifier correctly', () => {
       const id = 'did:hedera:testnet:abc123/anoncreds/v1/SCHEMA/0.0.12345';

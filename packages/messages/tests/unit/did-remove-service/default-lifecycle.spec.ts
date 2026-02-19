@@ -70,8 +70,5 @@ describe('Default DIDRemoveServiceMessage Lifecycle', () => {
       });
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 });

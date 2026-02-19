@@ -106,7 +106,4 @@ describe('DID Message', () => {
     expect(message.signature).toBeUndefined();
   });
 
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
 });

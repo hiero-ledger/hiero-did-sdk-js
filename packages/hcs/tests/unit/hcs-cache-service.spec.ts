@@ -29,7 +29,6 @@ describe('HcsCacheService', () => {
 
   beforeEach(() => {
     service = new HcsCacheService(mockCache);
-    vi.clearAllMocks();
   });
 
   describe('constructor', () => {

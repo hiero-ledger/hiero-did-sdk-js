@@ -1,4 +1,3 @@
- 
 import { Client, PrivateKey, Status, TopicMessageSubmitTransaction, TopicMessageQuery } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
 import { HcsCacheService } from '../../src/cache';
@@ -85,7 +84,6 @@ describe('HcsMessageService', () => {
   let service: HcsMessageService;
 
   beforeEach(() => {
-    vi.clearAllMocks();
     mockIsMirrorQuerySupported.mockReturnValue(true);
     mockWaitForChangesVisibility.mockImplementation(() => Promise.resolve());
     mockCacheGetTopicInfo.mockResolvedValue(undefined);
@@ -186,7 +184,6 @@ describe('HcsMessageService', () => {
       });
 
       expect(mockWaitForChangesVisibility).toHaveBeenCalled();
-       
       const waitArgs = (mockWaitForChangesVisibility as vi.Mock).mock.calls[0][0] as {
         checkFn: (messages: string[]) => boolean;
       };
@@ -260,8 +257,6 @@ describe('HcsMessageService', () => {
       const m1 = { consensusTime: new Date(1000), contents: Buffer.from('1') };
       const m2 = { consensusTime: new Date(2000), contents: Buffer.from('2') };
       const m3 = { consensusTime: new Date(1000), contents: Buffer.from('3') };
-
-       
       const result = (service as any).deduplicateAndSortMessages(m1, m2, m3);
 
       expect(result).toEqual([m1, m2]);
@@ -272,8 +267,6 @@ describe('HcsMessageService', () => {
     it('should return message contents as strings', async () => {
       const mockMessages = [{ contents: Buffer.from('hello') }, { contents: Buffer.from('world') }];
       vi.spyOn(service as any, 'fetchTopicMessages').mockResolvedValue(mockMessages);
-
-       
       const contents = await (service as any).getNewMessagesContent({
         topicId: '0.0.123',
         startFrom: new Date(),
@@ -289,8 +282,6 @@ describe('HcsMessageService', () => {
 
       const result = [{ consensusTime: new Date(), contents: Buffer.from('msg') }];
       vi.spyOn(service as any, 'fetchTopicMessagesWithClient').mockResolvedValue(result);
-
-       
       const res = await (service as any).fetchTopicMessages({ topicId: '0.0.123' });
       expect(res).toEqual(result);
     });
@@ -300,8 +291,6 @@ describe('HcsMessageService', () => {
 
       const result = [{ consensusTime: new Date(), contents: Buffer.from('msg') }];
       vi.spyOn(service as any, 'fetchTopicMessagesWithRest').mockResolvedValue(result);
-
-       
       const res = await (service as any).fetchTopicMessages({ topicId: '0.0.123' });
       expect(res).toEqual(result);
     });
@@ -340,7 +329,6 @@ describe('HcsMessageService', () => {
     });
 
     it('should resolve with collected messages', async () => {
-       
       const res: TopicMessageData[] = await (service as any).fetchTopicMessagesWithClient({
         topicId: '0.0.123',
         limit: 5000,
@@ -362,8 +350,6 @@ describe('HcsMessageService', () => {
         }, 0);
         return subscriptionObj;
       });
-
-       
       const res = await (service as any).fetchTopicMessagesWithClient({ topicId: '0.0.123' });
       expect(res).toEqual([]);
       expect(unsubscribeMock).toHaveBeenCalled();
@@ -376,8 +362,6 @@ describe('HcsMessageService', () => {
         }, 0);
         return subscriptionObj;
       });
-
-       
       await expect((service as any).fetchTopicMessagesWithClient({ topicId: '0.0.123' })).rejects.toThrow('some error');
       expect(unsubscribeMock).toHaveBeenCalled();
     });
@@ -414,8 +398,6 @@ describe('HcsMessageService', () => {
           ok: true,
           json: () => Promise.resolve(secondResponse),
         });
-
-       
       const res: TopicMessageData[] = await (service as any).fetchTopicMessagesWithRest({
         topicId: '0.0.123',
         limit: 10,
@@ -439,8 +421,6 @@ describe('HcsMessageService', () => {
         ok: true,
         json: () => Promise.resolve(response),
       });
-
-       
       const res: TopicMessageData[] = await (service as any).fetchTopicMessagesWithRest({
         topicId: '0.0.123',
         limit: 2,
@@ -456,7 +436,6 @@ describe('HcsMessageService', () => {
       });
 
       await expect(
-         
         (service as any).fetchTopicMessagesWithRest({ topicId: '0.0.123' })
       ).rejects.toThrow('Failed to fetch topic messages: Bad Request');
     });
@@ -465,8 +444,6 @@ describe('HcsMessageService', () => {
   describe('getNextUrl (private)', () => {
     it('should construct URL correctly', () => {
       vi.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node');
-
-       
       const nextUrl = (service as any).getNextUrl('/path?param=1', 10, 'base64');
       expect(nextUrl).toBe('http://mirror-node/path?param=1&limit=10&encoding=base64');
     });

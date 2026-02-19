@@ -109,9 +109,6 @@ describe('Client Mode DID Owner Lifecycle', () => {
       });
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 
   it('should throw an error if the topic ID is missing', async () => {

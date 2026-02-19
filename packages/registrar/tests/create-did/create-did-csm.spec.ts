@@ -1,4 +1,3 @@
- 
 import {
   TopicCreateTransactionMock,
   TopicMessageSubmitTransactionMock,
@@ -58,8 +57,6 @@ describe('Create DID operation in Client-Secret Mode', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
-
     const ClientMock = Client as any;
     ClientForNameMock.mockReturnValue(ClientMock);
     ClientSetOperatorMock.mockReturnValue(ClientMock);

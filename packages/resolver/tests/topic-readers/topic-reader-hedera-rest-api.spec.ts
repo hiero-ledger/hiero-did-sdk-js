@@ -28,7 +28,6 @@ describe('Topic Reader Hedera REST API', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
     global.fetch = vi.fn();
   });
 

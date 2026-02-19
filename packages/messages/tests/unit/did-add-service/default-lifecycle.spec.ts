@@ -73,8 +73,5 @@ describe('Default DIDAddServiceMessage Lifecycle', () => {
       });
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 });

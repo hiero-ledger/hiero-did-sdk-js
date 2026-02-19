@@ -88,7 +88,4 @@ describe('DID Dereference', () => {
     await expect(dereferenceDID(VALID_DID)).rejects.toThrow(error);
   });
 
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
 });

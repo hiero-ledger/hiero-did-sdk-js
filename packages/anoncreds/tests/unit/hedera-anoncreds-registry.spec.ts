@@ -1,4 +1,3 @@
- 
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 import { Zstd } from '@hiero-did-sdk/zstd';
 import { Buffer } from 'buffer';
@@ -52,10 +51,6 @@ describe('HederaAnoncredsRegistry', () => {
 
     registry = new HederaAnoncredsRegistry({} as HederaAnoncredsRegistryConfiguration);
     serviceMock = (HederaHcsService as Mock).mock.instances[0] as Mocked<HederaHcsService>;
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
   });
 
   describe('registerSchema', () => {
@@ -387,8 +382,6 @@ describe('HederaAnoncredsRegistry', () => {
     it('should return correct issued and revoked diffs', () => {
       const original = [0, 1, 0, 1];
       const modified = [1, 0, 0, 1];
-
-       
       const result: { issued: number[]; revoked: number[] } = (registry as any).getStatusListDiff(original, modified);
 
       expect(result.issued).toEqual([1]);
@@ -396,14 +389,11 @@ describe('HederaAnoncredsRegistry', () => {
     });
 
     it('should throw error if status lists lengths differ', () => {
-       
       expect(() => (registry as any).getStatusListDiff([0], [0, 1])).toThrow();
     });
 
     it('should throw error if status lists contain invalid values', () => {
-       
       expect(() => (registry as any).getStatusListDiff([2], [0])).toThrow();
-       
       expect(() => (registry as any).getStatusListDiff([0], [3])).toThrow();
     });
   });
@@ -412,7 +402,6 @@ describe('HederaAnoncredsRegistry', () => {
     it('should pack and compress a revocation registry entry message', () => {
       (Zstd.compress as Mock).mockImplementation(() => Buffer.from('compressed'));
       const messageData = { value: { accum: 'accum1' } };
-       
       const result = (registry as any).packRevocationRegistryEntryMessage(messageData);
 
       expect(typeof result).toBe('string');
@@ -427,7 +416,6 @@ describe('HederaAnoncredsRegistry', () => {
       const wrapper = { payload: Buffer.from(inner).toString('base64') };
 
       const data = Buffer.from(JSON.stringify(wrapper));
-       
       const result = (registry as any).extractRevocationRegistryEntryMessage(data);
 
       expect(result).toHaveProperty('value.accum', 'accum1');
@@ -435,7 +423,6 @@ describe('HederaAnoncredsRegistry', () => {
 
     it('should return undefined for invalid message data', () => {
       const data = Buffer.from('invalid');
-       
       const result = (registry as any).extractRevocationRegistryEntryMessage(data);
       expect(result).toBeUndefined();
     });
@@ -444,12 +431,10 @@ describe('HederaAnoncredsRegistry', () => {
   describe('verifyRevocationRegistryEntryMessage', () => {
     it('should verify message successfully if accum exists', () => {
       const data = { value: { accum: 'accum' } };
-       
       expect((registry as any).verifyRevocationRegistryEntryMessage(data)).toBe(true);
     });
 
     it('should fail verification if accum is missing', () => {
-       
       expect((registry as any).verifyRevocationRegistryEntryMessage({ value: {} })).toBe(false);
     });
   });
@@ -460,8 +445,6 @@ describe('HederaAnoncredsRegistry', () => {
 
       const revRegId =
         'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/REV_REG/0.0.5896422';
-
-       
       await expect((registry as any).resolveRevocationRegistryDefinition(revRegId)).rejects.toThrowError(
         `AnonCreds revocation registry with id ${revRegId} not found`
       );
@@ -499,7 +482,6 @@ describe('HederaAnoncredsRegistry', () => {
       const result: {
         entriesTopicId: string;
         statusList?: AnonCredsRevocationStatusList;
-         
       } = await (registry as any).resolveRevocationStatusList('id', 1000);
 
       expect(result.entriesTopicId).toBe('entries-topic');
@@ -557,7 +539,6 @@ describe('HederaAnoncredsRegistry', () => {
       const result: {
         entriesTopicId: string;
         statusList?: AnonCredsRevocationStatusList;
-         
       } = await (registry as any).resolveRevocationStatusList('id', 1000);
 
       expect(result.statusList).toBeDefined();
@@ -577,8 +558,6 @@ describe('HederaAnoncredsRegistry', () => {
         resolutionMetadata: {},
         revocationRegistryDefinitionId: 'id',
       });
-
-       
       await expect((registry as any).resolveRevocationStatusList('id', 123)).rejects.toThrowError(/not found/i);
     });
 
@@ -604,8 +583,6 @@ describe('HederaAnoncredsRegistry', () => {
         resolutionMetadata: {},
         revocationRegistryDefinitionId: 'id',
       });
-
-       
       await expect((registry as any).resolveRevocationStatusList('id', 123)).rejects.toThrowError(
         /entries topic id is missing/i
       );

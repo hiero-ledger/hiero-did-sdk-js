@@ -75,8 +75,5 @@ describe('Default DIDRemoveVerificationMethodMessage Lifecycle', () => {
       });
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 });

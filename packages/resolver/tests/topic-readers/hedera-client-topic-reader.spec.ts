@@ -1,4 +1,3 @@
- 
 import { TopicReaderHederaClient } from '../../src/topic-readers';
 import { Client, TopicMessage, Timestamp } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
@@ -39,8 +38,6 @@ vi.mock('@hashgraph/sdk', async () => {
 
 describe('Topic Reader Hedera Client', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-
     topicMessageQueryMock.mockImplementation(function() {
       const queryMock: any = {
         setCompletionHandler: vi.fn().mockImplementation((handler) => {

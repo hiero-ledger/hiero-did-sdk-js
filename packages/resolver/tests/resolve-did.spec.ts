@@ -193,7 +193,4 @@ describe('DID Resolver', () => {
     await expect(resolveDID(did)).rejects.toThrow(new DIDError('notFound', 'The DID document was not found'));
   });
 
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
 });

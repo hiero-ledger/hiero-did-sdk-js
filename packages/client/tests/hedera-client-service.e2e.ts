@@ -84,7 +84,6 @@ describe('HederaClientService', () => {
     const mockOperation = vi.fn().mockResolvedValue(true);
     await service.withClient({ networkName: network }, (client) => {
       expect(client).toBeInstanceOf(Client);
-       
       return mockOperation();
     });
     expect(mockOperation).toHaveBeenCalledTimes(1);

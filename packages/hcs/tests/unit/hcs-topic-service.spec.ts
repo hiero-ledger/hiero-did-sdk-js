@@ -1,4 +1,3 @@
- 
 import {
   Client,
   PrivateKey,
@@ -43,8 +42,6 @@ const {
 
 vi.mock('@hashgraph/sdk', async () => {
   const actual = await vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
-
-   
   return {
     ...actual,
     Status: { Success: 'SUCCESS', FailInvalid: 'FailInvalid', InvalidTopicId: 'INVALID_TOPIC' },
@@ -73,8 +70,6 @@ function mockTopicTransaction() {
 
 vi.mock('../../src/shared', async () => {
   const actual = await vi.importActual('../../src/shared');
-
-   
   return {
     ...actual,
     signTransaction: mockSignTransaction,
@@ -91,8 +86,6 @@ describe('HcsTopicService', () => {
   let cacheServiceMock: vi.Mocked<HcsCacheService>;
 
   beforeEach(() => {
-    vi.clearAllMocks();
-
     client = {} as vi.Mocked<Client>;
     Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: vi.fn(), configurable: true });
 
@@ -379,8 +372,6 @@ describe('HcsTopicService', () => {
       const spy = vi
         .spyOn(service as any, 'fetchTopicInfoWithClient')
         .mockResolvedValue({ topicId: 'topic123', topicMemo: 'memo' });
-
-       
       const res = (await (service as any).fetchTopicInfo({ topicId: 'topic123' })) as unknown as TopicInfo;
 
       expect(spy).toHaveBeenCalled();
@@ -392,12 +383,9 @@ describe('HcsTopicService', () => {
       const spy = vi
         .spyOn(service as any, 'fetchTopicInfoWithRest')
         .mockResolvedValue({ topicId: 'topic456', topicMemo: 'memo2' });
-
-       
       const res = await (service as any).fetchTopicInfo({ topicId: 'topic456' } as unknown as TopicInfo);
 
       expect(spy).toHaveBeenCalled();
-       
       expect(res.topicId).toBe('topic456');
     });
   });
@@ -428,8 +416,6 @@ describe('HcsTopicService', () => {
           execute: vi.fn().mockResolvedValue(mockInfo),
         };
       });
-
-       
       const result = await (service as any).fetchTopicInfoWithClient({ topicId: '0.0.10' });
 
       expect(result).toEqual({
@@ -470,8 +456,6 @@ describe('HcsTopicService', () => {
         ok: true,
         json: vi.fn().mockResolvedValue(fetchedData),
       });
-
-       
       const res = await (service as any).fetchTopicInfoWithRest({ topicId: '0.0.15' });
 
       expect(global.fetch).toHaveBeenCalledWith(
@@ -494,8 +478,6 @@ describe('HcsTopicService', () => {
         ok: false,
         statusText: 'Not Found',
       });
-
-       
       await expect((service as any).fetchTopicInfoWithRest({ topicId: '0.0.99' })).rejects.toThrow(
         /Failed to fetch topic info: Not Found/
       );
@@ -511,8 +493,6 @@ describe('HcsTopicService', () => {
         ok: true,
         json: vi.fn().mockResolvedValue(deletedData),
       });
-
-       
       await expect((service as any).fetchTopicInfoWithRest({ topicId: '0.0.100' })).rejects.toThrow(StatusError);
     });
   });
@@ -521,22 +501,17 @@ describe('HcsTopicService', () => {
     it('should convert Timestamp instance correctly', () => {
       const date = new Date(1600000000000);
       const timestamp = new Timestamp(date.getTime() / 1000, 0);
-
-       
       const result = (service as any).convertExpirationTimeToSeconds(timestamp);
       expect(result).toBe(Math.floor(date.getTime()));
     });
 
     it('should convert Date instance correctly', () => {
       const date = new Date(1600000000000);
-
-       
       const result = (service as any).convertExpirationTimeToSeconds(date);
       expect(result).toBe(Math.floor(date.getTime()));
     });
 
     it('should throw error on unsupported type', () => {
-       
       expect(() => (service as any).convertExpirationTimeToSeconds(undefined)).toThrow(
         'Unsupported expirationTime type'
       );

@@ -1,4 +1,3 @@
- 
 import {
   TopicMessageSubmitTransactionMock,
   MessageAwaiterForMessagesMock,
@@ -26,7 +25,6 @@ const didDocumentMock = vi.fn();
 vi.mock('@hiero-did-sdk/resolver', () => {
   return {
     resolveDID: vi.fn().mockImplementation((...args) =>
-       
       Promise.resolve(didDocumentMock(...args)),
     ),
   };
@@ -45,8 +43,6 @@ describe('Deactivate DID operation', () => {
   let privateKey: PrivateKey;
   beforeEach(async () => {
     privateKey = await PrivateKey.generateED25519Async();
-    vi.clearAllMocks();
-
     const ClientMock = Client as any;
     ClientForNameMock.mockReturnValue(ClientMock);
     ClientSetOperatorMock.mockReturnValue(ClientMock);

@@ -20,8 +20,6 @@ vi.mock('@hiero-did-sdk/hcs', async () => {
 
 describe('Topic Reader Hedera HCS', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-
     hederaHcsServiceMock.mockImplementation(function() {
       return {
         getTopicMessages: getTopicMessagesMock,

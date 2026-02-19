@@ -34,9 +34,6 @@ describe('signer', () => {
       verify = vi.fn().mockResolvedValue(true);
     })();
   })
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
 
   describe('publicKeyInstance', () => {
     it('should return a PublicKey from a Signer', async () => {

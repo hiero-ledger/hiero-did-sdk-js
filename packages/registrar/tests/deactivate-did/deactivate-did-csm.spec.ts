@@ -1,4 +1,3 @@
- 
 import {
   TopicMessageSubmitTransactionMock,
   MessageAwaiterForMessagesMock,
@@ -43,8 +42,6 @@ describe('Deactivate DID operation', () => {
   let didPrivateKey: PrivateKey;
 
   beforeEach(async () => {
-    vi.clearAllMocks();
-
     const ClientMock = Client as any;
     ClientForNameMock.mockReturnValue(ClientMock);
     ClientSetOperatorMock.mockReturnValue(ClientMock);

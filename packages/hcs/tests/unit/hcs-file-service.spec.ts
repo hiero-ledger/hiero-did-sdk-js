@@ -91,8 +91,6 @@ describe('HcsFileService', () => {
   let service: HcsFileService;
 
   beforeEach(() => {
-    vi.clearAllMocks();
-
     mockSubmitMessage.mockResolvedValue(undefined);
     mockGetTopicMessages.mockResolvedValue([]);
     mockCreateTopic.mockResolvedValue(mockTopicId);
@@ -276,10 +274,8 @@ describe('HcsFileService', () => {
 
       (Zstd.decompress as vi.Mock).mockReturnValueOnce('decompressed content');
 
-       
       const result = buildFileFromChunkMessages(chunkMessages);
 
-       
       expect(result.toString()).toBe('decompressed content');
     });
 
@@ -298,7 +294,6 @@ describe('HcsFileService', () => {
         throw new Error('Decompression failed');
       });
 
-       
       expect(() => buildFileFromChunkMessages([{ o: 0, c: 'data:application/json;base64,invalid' }])).toThrow(
         'Error on building HCS-1 file payload from chunk messages: Decompression failed'
       );
@@ -317,15 +312,9 @@ describe('HcsFileService', () => {
 
       // Create a large payload that will be split into multiple chunks
       const largePayload = Buffer.from('a'.repeat(2000));
-
-       
       const result = buildChunkMessagesFromFile(largePayload);
-
-       
       expect(result.length).toBeGreaterThan(1);
-       
       expect(result[0].orderIndex).toBe(0);
-       
       expect(result[1].orderIndex).toBe(1);
     });
 
@@ -343,8 +332,6 @@ describe('HcsFileService', () => {
       (Zstd.compress as vi.Mock).mockImplementationOnce(() => {
         throw new Error('Compression failed');
       });
-
-       
       expect(() => buildChunkMessagesFromFile(testPayload)).toThrow(
         'Error on getting chunk messages for HCS-1 file: Error: Compression failed'
       );
@@ -358,8 +345,6 @@ describe('HcsFileService', () => {
         createHCS1Memo(hash: string): string;
       };
       const createHCS1Memo = (service as unknown as PrivateHcsFileService).createHCS1Memo.bind(service);
-
-       
       const result = createHCS1Memo('testHash');
       expect(result).toBe('testHash:zstd:base64');
     });
@@ -374,7 +359,6 @@ describe('HcsFileService', () => {
       const isValidHCS1Memo = (service as unknown as PrivateHcsFileService).isValidHCS1Memo.bind(service);
 
       const validMemo = '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef:zstd:base64';
-       
       expect(isValidHCS1Memo(validMemo)).toBe(true);
     });
 
@@ -394,7 +378,6 @@ describe('HcsFileService', () => {
       ];
 
       invalidMemos.forEach((memo) => {
-         
         expect(isValidHCS1Memo(memo)).toBe(false);
       });
     });
@@ -410,8 +393,6 @@ describe('HcsFileService', () => {
 
       const memo = 'checksum123:zstd:base64';
       const checksum = 'checksum123';
-
-       
       expect(isValidHCS1Checksum(memo, checksum)).toBe(true);
     });
 
@@ -424,8 +405,6 @@ describe('HcsFileService', () => {
 
       const memo = 'checksum123:zstd:base64';
       const checksum = 'differentChecksum';
-
-       
       expect(isValidHCS1Checksum(memo, checksum)).toBe(false);
     });
 
@@ -435,8 +414,6 @@ describe('HcsFileService', () => {
         isValidHCS1Checksum(memo: string, checksum: string): boolean;
       };
       const isValidHCS1Checksum = (service as unknown as PrivateHcsFileService).isValidHCS1Checksum.bind(service);
-
-       
       expect(() => isValidHCS1Checksum('', 'checksum')).toThrow('Memo is required');
     });
   });

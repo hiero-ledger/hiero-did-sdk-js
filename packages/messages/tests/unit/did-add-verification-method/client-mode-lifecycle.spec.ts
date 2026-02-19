@@ -88,8 +88,5 @@ describe('Client mode DIDAddVerificationMethodMessage Lifecycle', () => {
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 });

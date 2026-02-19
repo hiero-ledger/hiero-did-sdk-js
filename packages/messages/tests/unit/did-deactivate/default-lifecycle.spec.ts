@@ -69,8 +69,5 @@ describe('Default DIDDeactivateMessage Lifecycle', () => {
       });
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 });

@@ -1,4 +1,3 @@
- 
 import {
   TopicCreateTransactionMock,
   TopicMessageSubmitTransactionMock,
@@ -55,8 +54,6 @@ describe('Create DID operation', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
-
     const ClientMock = Client as any;
     ClientForNameMock.mockReturnValue(ClientMock);
     ClientSetOperatorMock.mockReturnValue(ClientMock);

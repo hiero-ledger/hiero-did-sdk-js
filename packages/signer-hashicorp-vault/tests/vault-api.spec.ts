@@ -20,7 +20,6 @@ describe('Vault API Client', () => {
 
   beforeEach(() => {
     vi.resetAllMocks();
-    vi.clearAllMocks();
   });
 
   it('should create a new instance of the Vault API client with string URL', () => {

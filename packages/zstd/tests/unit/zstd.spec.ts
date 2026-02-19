@@ -1,4 +1,3 @@
- 
 import { Zstd } from '@hiero-did-sdk/zstd';
 import * as nodeZstdModule  from '../../src/node-zstd';
 import * as rnZstdModule  from '../../src/react-native-zstd';

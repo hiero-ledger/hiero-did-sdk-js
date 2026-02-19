@@ -233,7 +233,6 @@ describe('Hedera HCS Service', () => {
       });
 
       await expect(ledgerService.getTopicInfo({ topicId })).rejects.toThrow(
-         
         expect.objectContaining({
           name: 'StatusError',
           message: expect.stringMatching(/INVALID_TOPIC_ID/),

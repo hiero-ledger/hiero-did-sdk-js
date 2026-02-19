@@ -1,5 +1,3 @@
- 
- 
 import {
   TopicMessageSubmitTransactionMock,
   MessageAwaiterForMessagesMock,
@@ -35,7 +33,6 @@ const didDocumentMock = vi.fn();
 vi.mock('@hiero-did-sdk/resolver', () => {
   return {
     resolveDID: vi.fn().mockImplementation((...args) =>
-       
       Promise.resolve(didDocumentMock(...args)),
     ),
   };
@@ -71,9 +68,6 @@ describe('Update DID operation', () => {
   };
 
   beforeEach(async () => {
-    vi.clearAllMocks();
-
-    // Re-setup mocks after clearAllMocks
     const ClientMock = Client as any;
     ClientForNameMock.mockReturnValue(ClientMock);
     ClientSetOperatorMock.mockReturnValue(ClientMock);

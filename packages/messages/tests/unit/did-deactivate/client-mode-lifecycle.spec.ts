@@ -80,8 +80,5 @@ describe('Client mode DIDDeactivateMessage Lifecycle', () => {
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 });

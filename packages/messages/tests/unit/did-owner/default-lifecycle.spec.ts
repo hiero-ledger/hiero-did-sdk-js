@@ -38,10 +38,6 @@ describe('Default DID Owner Lifecycle', () => {
     resolverMock.mockRejectedValue(new DIDError('notFound', 'DID not found'));
   });
 
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   describe('when processing a valid DIDOwnerMessage', () => {
     let message: DIDOwnerMessage;
     let result: RunnerState<DIDOwnerMessage>;
@@ -108,9 +104,6 @@ describe('Default DID Owner Lifecycle', () => {
       });
     });
 
-    afterEach(() => {
-      vi.clearAllMocks();
-    });
   });
 
   it('should throw an error if the topic ID is missing', async () => {
