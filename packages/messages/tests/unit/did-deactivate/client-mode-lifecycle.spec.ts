@@ -10,10 +10,11 @@ import {
 } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID } from '../helpers';
 
+
 describe('Client mode DIDDeactivateMessage Lifecycle', () => {
   describe('when processing a valid DIDDeactivateMessage', () => {
     const verifier = new TestVerifier();
-    let publishMock: jest.Mock;
+    let publishMock: vi.Mock;
     let message: DIDDeactivateMessage;
     let result: RunnerState<DIDDeactivateMessage>;
 
@@ -22,11 +23,11 @@ describe('Client mode DIDDeactivateMessage Lifecycle', () => {
         did: VALID_DID,
       });
 
-      publishMock = jest.fn();
+      publishMock = vi.fn();
 
       const publisher: Publisher = {
-        network: jest.fn(),
-        publicKey: jest.fn(),
+        network: vi.fn(),
+        publicKey: vi.fn(),
         publish: publishMock,
       };
 
@@ -35,8 +36,8 @@ describe('Client mode DIDDeactivateMessage Lifecycle', () => {
       );
       const pauseStep = await runner.process(message, {
         publisher: {
-          network: jest.fn(),
-          publicKey: jest.fn(),
+          network: vi.fn(),
+          publicKey: vi.fn(),
           publish: publishMock,
         },
       });
@@ -61,8 +62,8 @@ describe('Client mode DIDDeactivateMessage Lifecycle', () => {
         );
         result = await runner.resume(result, {
           publisher: {
-            network: jest.fn(),
-            publicKey: jest.fn(),
+            network: vi.fn(),
+            publicKey: vi.fn(),
             publish: publishMock,
           },
         });
@@ -79,8 +80,5 @@ describe('Client mode DIDDeactivateMessage Lifecycle', () => {
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
   });
 });

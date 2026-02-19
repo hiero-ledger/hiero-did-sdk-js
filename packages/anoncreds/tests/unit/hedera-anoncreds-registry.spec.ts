@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
 import { Zstd } from '@hiero-did-sdk/zstd';
 import { Buffer } from 'buffer';
@@ -22,32 +21,23 @@ import {
 import { NetworkName } from '@hiero-did-sdk/client';
 import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
+import type { Mock, Mocked } from 'vitest';
 
-jest.mock('@hiero-did-sdk/hcs');
-jest.mock('@hiero-did-sdk/zstd');
-jest.mock('../../src/utils');
+vi.mock('@hiero-did-sdk/hcs');
+vi.mock('@hiero-did-sdk/zstd');
+vi.mock('../../src/utils');
 
 describe('HederaAnoncredsRegistry', () => {
-  let serviceMock: jest.Mocked<HederaHcsService>;
+  let serviceMock: Mocked<HederaHcsService>;
   let registry: HederaAnoncredsRegistry;
 
   beforeEach(() => {
-    serviceMock = {
-      submitFile: jest.fn(),
-      resolveFile: jest.fn(),
-      createTopic: jest.fn(),
-      submitMessage: jest.fn(),
-      getTopicMessages: jest.fn(),
-    } as any;
-
-    (HederaHcsService as jest.Mock).mockImplementation(() => serviceMock);
-
     // id example: "did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/SCHEMA/0.0.5896422"
-    (buildAnonCredsIdentifier as jest.Mock).mockImplementation(
+    (buildAnonCredsIdentifier as Mock).mockImplementation(
       (issuerId: string, topicId: string, type: string) =>
         `did:hedera:testnet:${issuerId}/anoncreds/v1/${type}/${topicId}`
     );
-    (parseAnonCredsIdentifier as jest.Mock).mockImplementation((id: string) => {
+    (parseAnonCredsIdentifier as Mock).mockImplementation((id: string) => {
       const sections = id.split('/');
       const parts = sections[0].split(':');
       return {
@@ -56,14 +46,11 @@ describe('HederaAnoncredsRegistry', () => {
       };
     });
 
-    (Zstd.compress as jest.Mock).mockImplementation((buf: Buffer) => buf);
-    (Zstd.decompress as jest.Mock).mockImplementation((buf: Buffer) => buf);
+    (Zstd.compress as Mock).mockImplementation((buf: Buffer) => buf);
+    (Zstd.decompress as Mock).mockImplementation((buf: Buffer) => buf);
 
     registry = new HederaAnoncredsRegistry({} as HederaAnoncredsRegistryConfiguration);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    serviceMock = (HederaHcsService as Mock).mock.instances[0] as Mocked<HederaHcsService>;
   });
 
   describe('registerSchema', () => {
@@ -299,7 +286,7 @@ describe('HederaAnoncredsRegistry', () => {
     it('should register revocation status list successfully', async () => {
       const revRegDefId = 'issuer3|topicId|REV_REG';
 
-      jest.spyOn(registry as any, 'resolveRevocationStatusList').mockResolvedValue({
+      vi.spyOn(registry as any, 'resolveRevocationStatusList').mockResolvedValue({
         entriesTopicId: 'entries-topic-id',
         statusList: {
           currentAccumulator: 'accum1',
@@ -327,7 +314,7 @@ describe('HederaAnoncredsRegistry', () => {
     });
 
     it('should fail to register revocation status list and return failure reason', async () => {
-      jest.spyOn(registry as any, 'resolveRevocationStatusList').mockRejectedValue(new Error('fail'));
+      vi.spyOn(registry as any, 'resolveRevocationStatusList').mockRejectedValue(new Error('fail'));
 
       const revocationStatusList: AnonCredsRevocationStatusListWithoutTimestamp = {
         revRegDefId: 'id',
@@ -357,9 +344,10 @@ describe('HederaAnoncredsRegistry', () => {
         timestamp: 123,
         currentAccumulator: 'accum',
       };
-      jest
-        .spyOn(registry as any, 'resolveRevocationStatusList')
-        .mockResolvedValue({ entriesTopicId: 'topic', statusList });
+      vi.spyOn(registry as any, 'resolveRevocationStatusList').mockResolvedValue({
+        entriesTopicId: 'topic',
+        statusList,
+      });
 
       const result = await registry.getRevocationStatusList('id', 123);
 
@@ -368,9 +356,10 @@ describe('HederaAnoncredsRegistry', () => {
     });
 
     it('should return notFound error if revocation status list is undefined', async () => {
-      jest
-        .spyOn(registry as any, 'resolveRevocationStatusList')
-        .mockResolvedValue({ entriesTopicId: 'topic', statusList: undefined });
+      vi.spyOn(registry as any, 'resolveRevocationStatusList').mockResolvedValue({
+        entriesTopicId: 'topic',
+        statusList: undefined,
+      });
 
       const result = await registry.getRevocationStatusList('id', 123);
 
@@ -379,7 +368,7 @@ describe('HederaAnoncredsRegistry', () => {
     });
 
     it('should return invalid error if resolving revocation status list rejects', async () => {
-      jest.spyOn(registry as any, 'resolveRevocationStatusList').mockRejectedValue(new Error('fail'));
+      vi.spyOn(registry as any, 'resolveRevocationStatusList').mockRejectedValue(new Error('fail'));
 
       const result = await registry.getRevocationStatusList('id', 123);
 
@@ -393,8 +382,6 @@ describe('HederaAnoncredsRegistry', () => {
     it('should return correct issued and revoked diffs', () => {
       const original = [0, 1, 0, 1];
       const modified = [1, 0, 0, 1];
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       const result: { issued: number[]; revoked: number[] } = (registry as any).getStatusListDiff(original, modified);
 
       expect(result.issued).toEqual([1]);
@@ -402,23 +389,19 @@ describe('HederaAnoncredsRegistry', () => {
     });
 
     it('should throw error if status lists lengths differ', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
       expect(() => (registry as any).getStatusListDiff([0], [0, 1])).toThrow();
     });
 
     it('should throw error if status lists contain invalid values', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
       expect(() => (registry as any).getStatusListDiff([2], [0])).toThrow();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
       expect(() => (registry as any).getStatusListDiff([0], [3])).toThrow();
     });
   });
 
   describe('packRevocationRegistryEntryMessage', () => {
     it('should pack and compress a revocation registry entry message', () => {
-      (Zstd.compress as jest.Mock).mockImplementation(() => Buffer.from('compressed'));
+      (Zstd.compress as Mock).mockImplementation(() => Buffer.from('compressed'));
       const messageData = { value: { accum: 'accum1' } };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       const result = (registry as any).packRevocationRegistryEntryMessage(messageData);
 
       expect(typeof result).toBe('string');
@@ -429,11 +412,10 @@ describe('HederaAnoncredsRegistry', () => {
   describe('extractRevocationRegistryEntryMessage', () => {
     it('should extract and decompress a revocation registry entry message', () => {
       const inner = JSON.stringify({ value: { accum: 'accum1' } });
-      (Zstd.decompress as jest.Mock).mockImplementation(() => Buffer.from(inner));
+      (Zstd.decompress as Mock).mockImplementation(() => Buffer.from(inner));
       const wrapper = { payload: Buffer.from(inner).toString('base64') };
 
       const data = Buffer.from(JSON.stringify(wrapper));
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       const result = (registry as any).extractRevocationRegistryEntryMessage(data);
 
       expect(result).toHaveProperty('value.accum', 'accum1');
@@ -441,7 +423,6 @@ describe('HederaAnoncredsRegistry', () => {
 
     it('should return undefined for invalid message data', () => {
       const data = Buffer.from('invalid');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       const result = (registry as any).extractRevocationRegistryEntryMessage(data);
       expect(result).toBeUndefined();
     });
@@ -450,12 +431,10 @@ describe('HederaAnoncredsRegistry', () => {
   describe('verifyRevocationRegistryEntryMessage', () => {
     it('should verify message successfully if accum exists', () => {
       const data = { value: { accum: 'accum' } };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       expect((registry as any).verifyRevocationRegistryEntryMessage(data)).toBe(true);
     });
 
     it('should fail verification if accum is missing', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       expect((registry as any).verifyRevocationRegistryEntryMessage({ value: {} })).toBe(false);
     });
   });
@@ -466,8 +445,6 @@ describe('HederaAnoncredsRegistry', () => {
 
       const revRegId =
         'did:hedera:testnet:zFAeKMsqnNc2bwEsC8oqENBvGqjpGu9tpUi3VWaFEBXBo_0.0.5896419/anoncreds/v1/REV_REG/0.0.5896422';
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       await expect((registry as any).resolveRevocationRegistryDefinition(revRegId)).rejects.toThrowError(
         `AnonCreds revocation registry with id ${revRegId} not found`
       );
@@ -478,7 +455,7 @@ describe('HederaAnoncredsRegistry', () => {
 
   describe('private resolveRevocationStatusList - empty messages', () => {
     it('should return undefined statusList if no messages are found', async () => {
-      jest.spyOn(registry, 'getRevocationRegistryDefinition').mockResolvedValue({
+      vi.spyOn(registry, 'getRevocationRegistryDefinition').mockResolvedValue({
         revocationRegistryDefinition: {
           issuerId: 'issuer3',
           value: {
@@ -505,7 +482,6 @@ describe('HederaAnoncredsRegistry', () => {
       const result: {
         entriesTopicId: string;
         statusList?: AnonCredsRevocationStatusList;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       } = await (registry as any).resolveRevocationStatusList('id', 1000);
 
       expect(result.entriesTopicId).toBe('entries-topic');
@@ -515,7 +491,7 @@ describe('HederaAnoncredsRegistry', () => {
 
   describe('private resolveRevocationStatusList - filtering invalid messages', () => {
     it('should filter out invalid or unverifiable messages when resolving status list', async () => {
-      jest.spyOn(registry, 'getRevocationRegistryDefinition').mockResolvedValue({
+      vi.spyOn(registry, 'getRevocationRegistryDefinition').mockResolvedValue({
         revocationRegistryDefinition: {
           issuerId: 'issuerId',
           value: {
@@ -539,14 +515,14 @@ describe('HederaAnoncredsRegistry', () => {
 
       const badContents = Buffer.from('bad data');
 
-      const extractMock = jest.spyOn(registry as any, 'extractRevocationRegistryEntryMessage');
+      const extractMock = vi.spyOn(registry as any, 'extractRevocationRegistryEntryMessage');
       extractMock.mockImplementation((data: Uint8Array) => {
         const str = data.toString();
         if (str === badContents.toString()) return undefined;
         return { value: { accum: 'accum', issued: [0], revoked: [] } };
       });
 
-      const verifyMock = jest.spyOn(registry as any, 'verifyRevocationRegistryEntryMessage');
+      const verifyMock = vi.spyOn(registry as any, 'verifyRevocationRegistryEntryMessage');
       verifyMock.mockImplementation((data: RevocationRegistryEntryMessage) => !!data.value?.accum);
 
       serviceMock.getTopicMessages.mockResolvedValue([
@@ -563,7 +539,6 @@ describe('HederaAnoncredsRegistry', () => {
       const result: {
         entriesTopicId: string;
         statusList?: AnonCredsRevocationStatusList;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       } = await (registry as any).resolveRevocationStatusList('id', 1000);
 
       expect(result.statusList).toBeDefined();
@@ -577,19 +552,17 @@ describe('HederaAnoncredsRegistry', () => {
 
   describe('resolveRevocationStatusList error handling', () => {
     it('should throw error if revocation registry definition is missing', async () => {
-      jest.spyOn(registry, 'getRevocationRegistryDefinition').mockResolvedValue({
+      vi.spyOn(registry, 'getRevocationRegistryDefinition').mockResolvedValue({
         revocationRegistryDefinition: undefined,
         revocationRegistryDefinitionMetadata: {},
         resolutionMetadata: {},
         revocationRegistryDefinitionId: 'id',
       });
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       await expect((registry as any).resolveRevocationStatusList('id', 123)).rejects.toThrowError(/not found/i);
     });
 
     it('should throw error if entriesTopicId is missing', async () => {
-      jest.spyOn(registry, 'getRevocationRegistryDefinition').mockResolvedValue({
+      vi.spyOn(registry, 'getRevocationRegistryDefinition').mockResolvedValue({
         revocationRegistryDefinition: {
           issuerId: 'issuer3',
           value: {
@@ -610,8 +583,6 @@ describe('HederaAnoncredsRegistry', () => {
         resolutionMetadata: {},
         revocationRegistryDefinitionId: 'id',
       });
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       await expect((registry as any).resolveRevocationStatusList('id', 123)).rejects.toThrowError(
         /entries topic id is missing/i
       );

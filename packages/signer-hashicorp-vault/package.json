@@ -40,8 +40,8 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "compile": "tsdown --config-loader unrun",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
     "build": "pnpm clean && pnpm compile",
     "format": "prettier --write \"src/**/*.ts\" \"tests/*.ts\"",
     "format-check": "prettier --check \"src/*.ts\" \"tests/*.ts\""

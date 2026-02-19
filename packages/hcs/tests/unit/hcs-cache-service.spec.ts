@@ -3,31 +3,32 @@ import { Cache } from '@hiero-did-sdk/core';
 import { LRUMemoryCache } from '@hiero-did-sdk/cache';
 import { Client } from '@hashgraph/sdk';
 
-jest.mock('@hiero-did-sdk/cache', () => ({
-  LRUMemoryCache: jest.fn().mockImplementation(() => ({
-    get: jest.fn(() => Promise.resolve(undefined)),
-    set: jest.fn(() => Promise.resolve(undefined)),
-    remove: jest.fn(() => Promise.resolve(undefined)),
-    cleanup: jest.fn(() => Promise.resolve(undefined)),
-    cleanupExpired: jest.fn(() => Promise.resolve(undefined)),
-  })),
+vi.mock('@hiero-did-sdk/cache', () => ({
+  LRUMemoryCache: vi.fn().mockImplementation(function() {
+    return {
+      get: vi.fn(() => Promise.resolve(undefined)),
+      set: vi.fn(() => Promise.resolve(undefined)),
+      remove: vi.fn(() => Promise.resolve(undefined)),
+      cleanup: vi.fn(() => Promise.resolve(undefined)),
+      cleanupExpired: vi.fn(() => Promise.resolve(undefined)),
+    };
+  }),
 }));
 
 describe('HcsCacheService', () => {
   const mockClient = {} as Client;
 
   const mockCache: Cache = {
-    get: jest.fn(() => Promise.resolve(undefined)),
-    set: jest.fn(() => Promise.resolve(undefined)),
-    remove: jest.fn(() => Promise.resolve(undefined)),
-    clear: jest.fn(() => Promise.resolve(undefined)),
+    get: vi.fn(() => Promise.resolve(undefined)),
+    set: vi.fn(() => Promise.resolve(undefined)),
+    remove: vi.fn(() => Promise.resolve(undefined)),
+    clear: vi.fn(() => Promise.resolve(undefined)),
   };
 
   let service: HcsCacheService;
 
   beforeEach(() => {
     service = new HcsCacheService(mockCache);
-    jest.clearAllMocks();
   });
 
   describe('constructor', () => {
@@ -51,7 +52,7 @@ describe('HcsCacheService', () => {
   describe('getTopicInfo', () => {
     it('should retrieve topic info from the cache using a constructed key', async () => {
       const mockTopicInfo: TopicInfo = { topicId: 'topic123', topicMemo: 'Test Memo' };
-      (mockCache.get as jest.Mock).mockResolvedValueOnce(mockTopicInfo);
+      (mockCache.get as vi.Mock).mockResolvedValueOnce(mockTopicInfo);
 
       const result = await service.getTopicInfo(mockClient, 'topic123');
 
@@ -83,7 +84,7 @@ describe('HcsCacheService', () => {
   describe('getTopicMessages', () => {
     it('should retrieve topic messages from the cache using a constructed key', async () => {
       const mockMessages: TopicMessageData[] = [{ consensusTime: new Date(), contents: new Uint8Array([1, 2, 3]) }];
-      (mockCache.get as jest.Mock).mockResolvedValueOnce(mockMessages);
+      (mockCache.get as vi.Mock).mockResolvedValueOnce(mockMessages);
 
       const result = await service.getTopicMessages(mockClient, 'topic123');
 
@@ -115,7 +116,7 @@ describe('HcsCacheService', () => {
   describe('getTopicFile', () => {
     it('should retrieve topic file from the cache using a constructed key', async () => {
       const mockFile = Buffer.from('test-file');
-      (mockCache.get as jest.Mock).mockResolvedValueOnce(mockFile);
+      (mockCache.get as vi.Mock).mockResolvedValueOnce(mockFile);
 
       const result = await service.getTopicFile(mockClient, 'topic123');
 

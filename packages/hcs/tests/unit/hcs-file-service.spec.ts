@@ -5,67 +5,85 @@ import { Zstd } from '@hiero-did-sdk/zstd';
 import { Buffer } from 'buffer';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 
-const mockTopicId = 'mockTopicId';
-
-const mockHash = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08';
-const mockHcsTopicMemo = `${mockHash}:zstd:base64`;
-
 const testPayload = Buffer.from('test payload');
 
-// Mock dependencies
-jest.mock('@hiero-did-sdk/crypto', () => ({
-  Crypto: {
-    // TODO: Update mocks to properly re-use const value
-    sha256: jest.fn().mockReturnValue('9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'),
-  },
-}));
+const {
+  mockTopicId,
+  mockHash,
+  mockHcsTopicMemo,
+  mockSubmitMessage,
+  mockGetTopicMessages,
+  mockCreateTopic,
+  mockGetTopicInfo,
+  mockSetTopicFile,
+  mockGetTopicFile,
+  mockCryptoSha256,
+  mockZstdCompress,
+  mockZstdDecompress,
+} = vi.hoisted(() => {
+  const mockTopicId = 'mockTopicId';
+  const mockHash = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08';
+  const mockHcsTopicMemo = `${mockHash}:zstd:base64`;
 
-jest.mock('@hiero-did-sdk/zstd', () => ({
-  Zstd: {
-    compress: jest.fn((data: Buffer) => Buffer.from(`compressed-${data.toString()}`)),
-    decompress: jest.fn((data: Buffer) => Buffer.from(data.toString().replace('compressed-', ''))),
-  },
-}));
-
-// Mock HcsMessageService, HcsTopicService and HcsCacheService
-const mockSubmitMessage = jest.fn().mockResolvedValue(undefined);
-const mockGetTopicMessages = jest.fn().mockResolvedValue([]);
-
-const mockCreateTopic = jest.fn().mockResolvedValue(mockTopicId);
-const mockGetTopicInfo = jest.fn().mockResolvedValue({
-  topicId: mockTopicId,
-  topicMemo: mockHcsTopicMemo,
+  return {
+    mockTopicId,
+    mockHash,
+    mockHcsTopicMemo,
+    mockSubmitMessage: vi.fn().mockResolvedValue(undefined),
+    mockGetTopicMessages: vi.fn().mockResolvedValue([]),
+    mockCreateTopic: vi.fn().mockResolvedValue(mockTopicId),
+    mockGetTopicInfo: vi.fn().mockResolvedValue({
+      topicId: mockTopicId,
+      topicMemo: mockHcsTopicMemo,
+    }),
+    mockSetTopicFile: vi.fn(),
+    mockGetTopicFile: vi.fn().mockResolvedValue(undefined),
+    mockCryptoSha256: vi.fn().mockReturnValue(mockHash),
+    mockZstdCompress: vi.fn((data: Buffer) => Buffer.from(`compressed-${data.toString()}`)),
+    mockZstdDecompress: vi.fn((data: Buffer) => Buffer.from(data.toString().replace('compressed-', ''))),
+  };
 });
 
-const mockSetTopicFile = jest.fn();
-const mockGetTopicFile = jest.fn().mockResolvedValue(undefined);
+// Mock dependencies
+vi.mock('@hiero-did-sdk/crypto', () => ({
+  Crypto: {
+    sha256: mockCryptoSha256,
+  },
+}));
 
-jest.mock('../../src/hcs/hcs-message-service', () => {
-  return {
-    HcsMessageService: jest.fn().mockImplementation(() => ({
+vi.mock('@hiero-did-sdk/zstd', () => ({
+  Zstd: {
+    compress: mockZstdCompress,
+    decompress: mockZstdDecompress,
+  },
+}));
+
+vi.mock('../../src/hcs/hcs-message-service', () => ({
+  HcsMessageService: vi.fn(function () {
+    return {
       submitMessage: mockSubmitMessage,
       getTopicMessages: mockGetTopicMessages,
-    })),
-  };
-});
+    };
+  }),
+}));
 
-jest.mock('../../src/hcs/hcs-topic-service', () => {
-  return {
-    HcsTopicService: jest.fn().mockImplementation(() => ({
+vi.mock('../../src/hcs/hcs-topic-service', () => ({
+  HcsTopicService: vi.fn(function () {
+    return {
       createTopic: mockCreateTopic,
       getTopicInfo: mockGetTopicInfo,
-    })),
-  };
-});
+    };
+  }),
+}));
 
-jest.mock('../../src/cache/hcs-cache-service', () => {
-  return {
-    HcsCacheService: jest.fn().mockImplementation(() => ({
+vi.mock('../../src/cache/hcs-cache-service', () => ({
+  HcsCacheService: vi.fn(function () {
+    return {
       getTopicFile: mockGetTopicFile,
       setTopicFile: mockSetTopicFile,
-    })),
-  };
-});
+    };
+  }),
+}));
 
 describe('HcsFileService', () => {
   const mockClient = {} as Client;
@@ -73,7 +91,6 @@ describe('HcsFileService', () => {
   let service: HcsFileService;
 
   beforeEach(() => {
-    jest.clearAllMocks();
     service = new HcsFileService(mockClient, { maxSize: 10 });
   });
 
@@ -163,7 +180,7 @@ describe('HcsFileService', () => {
       ]);
 
       // Mock Crypto.sha256 for validation
-      (Crypto.sha256 as jest.Mock).mockReturnValueOnce(mockHash);
+      (Crypto.sha256 as vi.Mock).mockReturnValueOnce(mockHash);
 
       const result = await service.resolveFile({ topicId: mockTopicId });
 
@@ -217,7 +234,7 @@ describe('HcsFileService', () => {
       ]);
 
       // Mock Crypto.sha256 to return a different hash for validation
-      (Crypto.sha256 as jest.Mock).mockReturnValueOnce('differentHash');
+      (Crypto.sha256 as vi.Mock).mockReturnValueOnce('differentHash');
 
       await expect(service.resolveFile({ topicId: mockTopicId })).rejects.toThrow(
         'Resolved HCS file payload is invalid'
@@ -243,12 +260,10 @@ describe('HcsFileService', () => {
 
       // Mock Zstd.decompress for this test
 
-      (Zstd.decompress as jest.Mock).mockReturnValueOnce('decompressed content');
+      (Zstd.decompress as vi.Mock).mockReturnValueOnce('decompressed content');
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const result = buildFileFromChunkMessages(chunkMessages);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       expect(result.toString()).toBe('decompressed content');
     });
 
@@ -263,11 +278,10 @@ describe('HcsFileService', () => {
 
       // Mock Zstd.decompress to throw an error
 
-      (Zstd.decompress as jest.Mock).mockImplementationOnce(() => {
+      (Zstd.decompress as vi.Mock).mockImplementationOnce(() => {
         throw new Error('Decompression failed');
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
       expect(() => buildFileFromChunkMessages([{ o: 0, c: 'data:application/json;base64,invalid' }])).toThrow(
         'Error on building HCS-1 file payload from chunk messages: Decompression failed'
       );
@@ -286,15 +300,9 @@ describe('HcsFileService', () => {
 
       // Create a large payload that will be split into multiple chunks
       const largePayload = Buffer.from('a'.repeat(2000));
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const result = buildChunkMessagesFromFile(largePayload);
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       expect(result.length).toBeGreaterThan(1);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       expect(result[0].orderIndex).toBe(0);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       expect(result[1].orderIndex).toBe(1);
     });
 
@@ -309,11 +317,9 @@ describe('HcsFileService', () => {
 
       // Mock Zstd.compress to throw an error
 
-      (Zstd.compress as jest.Mock).mockImplementationOnce(() => {
+      (Zstd.compress as vi.Mock).mockImplementationOnce(() => {
         throw new Error('Compression failed');
       });
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
       expect(() => buildChunkMessagesFromFile(testPayload)).toThrow(
         'Error on getting chunk messages for HCS-1 file: Error: Compression failed'
       );
@@ -327,8 +333,6 @@ describe('HcsFileService', () => {
         createHCS1Memo(hash: string): string;
       };
       const createHCS1Memo = (service as unknown as PrivateHcsFileService).createHCS1Memo.bind(service);
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const result = createHCS1Memo('testHash');
       expect(result).toBe('testHash:zstd:base64');
     });
@@ -343,7 +347,6 @@ describe('HcsFileService', () => {
       const isValidHCS1Memo = (service as unknown as PrivateHcsFileService).isValidHCS1Memo.bind(service);
 
       const validMemo = '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef:zstd:base64';
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(isValidHCS1Memo(validMemo)).toBe(true);
     });
 
@@ -363,7 +366,6 @@ describe('HcsFileService', () => {
       ];
 
       invalidMemos.forEach((memo) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         expect(isValidHCS1Memo(memo)).toBe(false);
       });
     });
@@ -379,8 +381,6 @@ describe('HcsFileService', () => {
 
       const memo = 'checksum123:zstd:base64';
       const checksum = 'checksum123';
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(isValidHCS1Checksum(memo, checksum)).toBe(true);
     });
 
@@ -393,8 +393,6 @@ describe('HcsFileService', () => {
 
       const memo = 'checksum123:zstd:base64';
       const checksum = 'differentChecksum';
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(isValidHCS1Checksum(memo, checksum)).toBe(false);
     });
 
@@ -404,8 +402,6 @@ describe('HcsFileService', () => {
         isValidHCS1Checksum(memo: string, checksum: string): boolean;
       };
       const isValidHCS1Checksum = (service as unknown as PrivateHcsFileService).isValidHCS1Checksum.bind(service);
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
       expect(() => isValidHCS1Checksum('', 'checksum')).toThrow('Memo is required');
     });
   });

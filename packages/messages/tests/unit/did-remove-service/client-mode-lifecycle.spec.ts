@@ -13,7 +13,7 @@ import { SIGNATURE, TestVerifier, VALID_DID } from '../helpers';
 describe('Client mode DIDRemoveServiceMessage Lifecycle', () => {
   describe('when processing a valid DIDRemoveServiceMessage', () => {
     const verifier = new TestVerifier();
-    let publishMock: jest.Mock;
+    let publishMock: vi.Mock;
     let message: DIDRemoveServiceMessage;
     let result: RunnerState<DIDRemoveServiceMessage>;
 
@@ -23,11 +23,11 @@ describe('Client mode DIDRemoveServiceMessage Lifecycle', () => {
         did: VALID_DID,
       });
 
-      publishMock = jest.fn();
+      publishMock = vi.fn();
 
       const publisher: Publisher = {
-        network: jest.fn(),
-        publicKey: jest.fn(),
+        network: vi.fn(),
+        publicKey: vi.fn(),
         publish: publishMock,
       };
 
@@ -36,8 +36,8 @@ describe('Client mode DIDRemoveServiceMessage Lifecycle', () => {
       );
       const pauseStep = await runner.process(message, {
         publisher: {
-          network: jest.fn(),
-          publicKey: jest.fn(),
+          network: vi.fn(),
+          publicKey: vi.fn(),
           publish: publishMock,
         },
       });
@@ -62,8 +62,8 @@ describe('Client mode DIDRemoveServiceMessage Lifecycle', () => {
         );
         result = await runner.resume(result, {
           publisher: {
-            network: jest.fn(),
-            publicKey: jest.fn(),
+            network: vi.fn(),
+            publicKey: vi.fn(),
             publish: publishMock,
           },
         });
@@ -80,8 +80,5 @@ describe('Client mode DIDRemoveServiceMessage Lifecycle', () => {
       expect(result.message.signature).toBe(SIGNATURE);
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
   });
 });

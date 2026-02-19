@@ -16,20 +16,19 @@ describe('Topic Reader Hedera REST API', () => {
       links: { next: response.links.next },
     }));
 
-    const mockFetch = jest.fn();
+    const mockFetch = vi.fn();
     global.fetch = mockFetch;
 
     responsesArray.forEach((response) => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: jest.fn().mockResolvedValue(response),
+        json: vi.fn().mockResolvedValue(response),
       });
     });
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    global.fetch = jest.fn();
+    global.fetch = vi.fn();
   });
 
   it('should create a new instance with the default network map', () => {
@@ -57,7 +56,7 @@ describe('Topic Reader Hedera REST API', () => {
     const topicId = '0.0.123';
     const network: Network = 'testnet';
 
-    const fromMock = jest.spyOn(topicReader, 'fetchFrom');
+    const fromMock = vi.spyOn(topicReader, 'fetchFrom');
     fromMock.mockResolvedValueOnce([]);
 
     await topicReader.fetchAllToDate(topicId, network);
@@ -75,7 +74,7 @@ describe('Topic Reader Hedera REST API', () => {
     const topicId = '0.0.123';
     const network: Network = 'testnet';
 
-    const fromMock = jest.spyOn(topicReader, 'fetchFrom');
+    const fromMock = vi.spyOn(topicReader, 'fetchFrom');
     fromMock.mockResolvedValueOnce(['test message 1', 'test message 2']);
 
     const result = await topicReader.fetchAllToDate(topicId, network);
@@ -278,7 +277,7 @@ describe('Topic Reader Hedera REST API', () => {
       const topicReader = new TopicReaderHederaRestApi();
       const url = 'https://testnet.hedera.com/api/v1/topics/0.0.123/messages';
 
-      global.fetch = jest.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValueOnce({
         ok: false,
         statusText: 'Not Found',
       });
@@ -293,9 +292,9 @@ describe('Topic Reader Hedera REST API', () => {
       const topicReader = new TopicReaderHederaRestApi();
       const url = 'https://testnet.hedera.com/api/v1/topics/0.0.123/messages';
 
-      global.fetch = jest.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValueOnce({
         ok: true,
-        json: jest.fn().mockRejectedValue(new Error('Not JSON')),
+        json: vi.fn().mockRejectedValue(new Error('Not JSON')),
       });
 
       await expect(topicReader['fetchMessages'](url)).rejects.toThrow(

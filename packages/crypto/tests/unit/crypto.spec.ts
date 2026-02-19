@@ -1,36 +1,39 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Crypto } from '@hiero-did-sdk/crypto';
 import { Buffer } from 'buffer';
-import { nodeCrypto } from '../../src/node-crypto';
-import { rnCrypto } from '../../src/react-native-crypto';
+import * as nodeModule from '../../src/node-crypto';
+import * as rnModule from '../../src/react-native-crypto';
 
 const data = 'Test data for sha256 calculating';
 const digest = '952a959a1ac6cd9ce1d80fcd1dfd570401c0d40ab36ea9a7a2e22295fd630d3b';
-
 const engines = ['crypto', 'react-native-quick-crypto'] as const;
 
 describe('Crypto', () => {
-  const mockCreateHash = jest.fn().mockReturnThis();
-  const mockUpdate = jest.fn().mockReturnThis();
-  const mockDigest = jest.fn().mockReturnValue(digest);
+  const mockUpdate = vi.fn().mockReturnThis();
+
+  const mockCreateHash = vi.fn().mockReturnValue({
+    update: mockUpdate,
+    digest: vi.fn().mockReturnValue(digest),
+  });
+
   const cryptoMock = {
     createHash: mockCreateHash,
-    update: mockUpdate,
-    digest: mockDigest,
   };
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should throw an error if no compatible crypto module is found', () => {
-    // @ts-expect-error Override resolved module
-    nodeCrypto = undefined;
-    // @ts-expect-error Override resolved module
-    rnCrypto = undefined;
+    // Force both to be undefined via getters
+    vi.spyOn(nodeModule, 'nodeCrypto', 'get').mockReturnValue(undefined);
+    vi.spyOn(rnModule, 'rnCrypto', 'get').mockReturnValue(undefined);
 
     expect(() => Crypto.sha256(data)).toThrow('No compatible crypto module found');
   });
 
   it('should handle different types of HashInput', () => {
-    // @ts-expect-error Override resolved module
-    nodeCrypto = cryptoMock;
+    vi.spyOn(nodeModule, 'nodeCrypto', 'get').mockReturnValue(cryptoMock);
+    vi.spyOn(rnModule, 'rnCrypto', 'get').mockReturnValue(undefined);
 
     const stringInput = data;
     const arrayBufferInput = new TextEncoder().encode(data).buffer;
@@ -42,20 +45,18 @@ describe('Crypto', () => {
     expect(Crypto.sha256(uint8ArrayInput)).toBe(digest);
     expect(Crypto.sha256(bufferInput)).toBe(digest);
 
+    // We check for Uint8Array because the SDK normalizes inputs
+    // to Uint8Array before passing them to the engine
     expect(mockUpdate).toHaveBeenCalledWith(bufferInput);
   });
 
-  it.each(engines)('should hash a string input correctly using $name', (engine) => {
+  it.each(engines)('should hash a string input correctly using %s', (engine) => {
     if (engine === 'crypto') {
-      // @ts-expect-error Override resolved module
-      nodeCrypto = cryptoMock;
-      // @ts-expect-error Override resolved module
-      rnCrypto = undefined;
-    } else if (engine === 'react-native-quick-crypto') {
-      // @ts-expect-error Override resolved module
-      nodeCrypto = undefined;
-      // @ts-expect-error Override resolved module
-      rnCrypto = cryptoMock;
+      vi.spyOn(nodeModule, 'nodeCrypto', 'get').mockReturnValue(cryptoMock);
+      vi.spyOn(rnModule, 'rnCrypto', 'get').mockReturnValue(undefined);
+    } else {
+      vi.spyOn(nodeModule, 'nodeCrypto', 'get').mockReturnValue(undefined);
+      vi.spyOn(rnModule, 'rnCrypto', 'get').mockReturnValue(cryptoMock);
     }
 
     let result = Crypto.sha256(data);

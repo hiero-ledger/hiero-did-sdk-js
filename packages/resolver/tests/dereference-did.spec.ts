@@ -3,10 +3,13 @@ import { resolveDID } from '../src';
 import { dereferenceDID } from '../src/dereference-did';
 import { DID_RESOLUTION, VALID_DID } from './helpers';
 
-const didDocumentMock = jest.fn();
-jest.mock('../src/resolve-did.ts', () => {
+const { resolveDIDMock } = vi.hoisted(() => ({
+  resolveDIDMock: vi.fn(),
+}));
+
+vi.mock('../src/resolve-did.ts', () => {
   return {
-    resolveDID: jest.fn().mockImplementation(() => Promise.resolve(didDocumentMock())),
+    resolveDID: resolveDIDMock,
   };
 });
 
@@ -16,7 +19,7 @@ describe('DID Dereference', () => {
   });
 
   it('should call resolveDID with the correct parameters', async () => {
-    didDocumentMock.mockReturnValue(DID_RESOLUTION);
+    resolveDIDMock.mockResolvedValue(DID_RESOLUTION);
 
     await dereferenceDID(`${VALID_DID}#srv-1`);
 
@@ -28,7 +31,7 @@ describe('DID Dereference', () => {
   });
 
   it('should return dereferenced service in resolution format', async () => {
-    didDocumentMock.mockReturnValue(DID_RESOLUTION);
+    resolveDIDMock.mockResolvedValue(DID_RESOLUTION);
 
     const result = await dereferenceDID(
       `${VALID_DID}#srv-2`,
@@ -46,7 +49,7 @@ describe('DID Dereference', () => {
   });
 
   it('should return dereferenced service in JSON format', async () => {
-    didDocumentMock.mockReturnValue(DID_RESOLUTION);
+    resolveDIDMock.mockResolvedValue(DID_RESOLUTION);
 
     const result = await dereferenceDID(`${VALID_DID}#srv-2`, 'application/did+json');
 
@@ -54,7 +57,7 @@ describe('DID Dereference', () => {
   });
 
   it('should return dereferenced service in JSON-LD format', async () => {
-    didDocumentMock.mockReturnValue(DID_RESOLUTION);
+    resolveDIDMock.mockResolvedValue(DID_RESOLUTION);
 
     const result = await dereferenceDID(`${VALID_DID}#srv-2`, 'application/did+ld+json');
 
@@ -65,7 +68,7 @@ describe('DID Dereference', () => {
   });
 
   it('should return dereferenced service in CBOR format', async () => {
-    didDocumentMock.mockReturnValue(DID_RESOLUTION);
+    resolveDIDMock.mockResolvedValue(DID_RESOLUTION);
 
     const result = await dereferenceDID(`${VALID_DID}#srv-2`, 'application/did+cbor');
 
@@ -73,19 +76,16 @@ describe('DID Dereference', () => {
   });
 
   it('should throw an error if the accept header is not supported', async () => {
-    didDocumentMock.mockReturnValue(DID_RESOLUTION);
+    resolveDIDMock.mockResolvedValue(DID_RESOLUTION);
 
     await expect(dereferenceDID(`${VALID_DID}#srv-2`, 'application/json' as never)).rejects.toThrow();
   });
 
   it('should throw an error when did not found', async () => {
     const error = new DIDError('notFound', 'The DID document was not found');
-    didDocumentMock.mockRejectedValue(error);
+    resolveDIDMock.mockRejectedValue(error);
 
-    await expect(resolveDID(VALID_DID)).rejects.toThrow(error);
+    await expect(dereferenceDID(VALID_DID)).rejects.toThrow(error);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
 });

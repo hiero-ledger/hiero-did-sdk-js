@@ -19,8 +19,7 @@ describe('Vault API Client', () => {
   }, 180_000);
 
   beforeEach(() => {
-    jest.resetAllMocks();
-    jest.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should create a new instance of the Vault API client with string URL', () => {
@@ -311,7 +310,7 @@ describe('Vault API Client', () => {
       const vaultApi = new VaultApi('http://vault.example');
       vaultApi.setToken('test-token');
 
-      global.fetch = jest.fn().mockResolvedValue({
+      global.fetch = vi.fn().mockResolvedValue({
         json: () => Promise.resolve({ data: 'test' }),
       });
 
@@ -331,7 +330,7 @@ describe('Vault API Client', () => {
       const vaultApi = new VaultApi('http://vault.example');
       vaultApi.setToken('test-token');
 
-      global.fetch = jest.fn().mockResolvedValue({
+      global.fetch = vi.fn().mockResolvedValue({
         json: () => Promise.resolve({ errors: ['test'] }),
       });
 
@@ -342,7 +341,7 @@ describe('Vault API Client', () => {
       const vaultApi = new VaultApi('http://vault.example');
       vaultApi.setToken('test-token');
 
-      global.fetch = jest.fn().mockResolvedValue({
+      global.fetch = vi.fn().mockResolvedValue({
         json: () => Promise.resolve({ data: 'test' }),
       });
 
@@ -365,7 +364,7 @@ describe('Vault API Client', () => {
       const vaultApi = new VaultApi('http://vault.example');
       vaultApi.setToken('test-token');
 
-      global.fetch = jest.fn().mockResolvedValue({
+      global.fetch = vi.fn().mockResolvedValue({
         json: () => Promise.resolve({ errors: ['test'] }),
       });
 

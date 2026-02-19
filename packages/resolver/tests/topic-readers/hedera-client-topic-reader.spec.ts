@@ -1,58 +1,62 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { TopicReaderHederaClient } from '../../src/topic-readers';
 import { Client, TopicMessage, Timestamp } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
 
-const subscribeMock = jest.fn();
-const completionHandlerMock = jest.fn();
-const errorHandlerMock = jest.fn();
-const messageHandlerMock = jest.fn();
-const unsubscribeMock = jest.fn();
-
-jest.mock('@hashgraph/sdk', () => {
-  const actual: object = jest.requireActual('@hashgraph/sdk');
-
-  const TopicMessageQueryMock = jest.fn().mockImplementation(() => ({
-    setTopicId: jest.fn().mockReturnThis(),
-    setStartTime: jest.fn().mockReturnThis(),
-    setEndTime: jest.fn().mockReturnThis(),
-    setMaxAttempts: jest.fn().mockReturnThis(),
-    setCompletionHandler: jest.fn().mockImplementation((handler) => {
-      completionHandlerMock.mockImplementation(handler);
-      return {
-        subscribe: subscribeMock.mockImplementation(
-          (_, errorHandler, messageHandler) => {
+const {
+  subscribeMock,
+  completionHandlerMock,
+  errorHandlerMock,
+  messageHandlerMock,
+  unsubscribeMock,
+  topicMessageQueryMock,
+} = vi.hoisted(() => ({
+  subscribeMock: vi.fn(),
+  completionHandlerMock: vi.fn(),
+  errorHandlerMock: vi.fn(),
+  messageHandlerMock: vi.fn(),
+  unsubscribeMock: vi.fn(),
+  topicMessageQueryMock: vi.fn().mockImplementation(function () {
+    const queryMock: any = {
+      setCompletionHandler: vi.fn().mockImplementation((handler) => {
+        completionHandlerMock.mockImplementation(handler);
+        return {
+          subscribe: subscribeMock.mockImplementation((_, errorHandler, messageHandler) => {
             errorHandlerMock.mockImplementation(errorHandler);
             messageHandlerMock.mockImplementation(messageHandler);
             return {
               unsubscribe: unsubscribeMock,
             };
-          },
-        ),
-      };
-    }),
-  }));
+          }),
+        };
+      }),
+    };
+    queryMock.setTopicId = vi.fn().mockReturnValue(queryMock);
+    queryMock.setStartTime = vi.fn().mockReturnValue(queryMock);
+    queryMock.setEndTime = vi.fn().mockReturnValue(queryMock);
+    queryMock.setMaxAttempts = vi.fn().mockReturnValue(queryMock);
+    return queryMock;
+  }),
+}));
 
-  const ClientMock = {
-    forName: jest.fn().mockReturnThis(),
-    close: jest.fn().mockReturnThis(),
+vi.mock('@hashgraph/sdk', async () => {
+  const actual = await vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
+
+  const ClientMock: any = {
+    close: vi.fn(),
   };
+  ClientMock.forName = vi.fn().mockReturnValue(ClientMock);
 
   return {
     ...actual,
     Client: ClientMock,
-    TopicMessageQuery: TopicMessageQueryMock,
+    TopicMessageQuery: topicMessageQueryMock,
     Timestamp: {
-      fromDate: jest.fn().mockReturnValue('mocked-timestamp'),
+      fromDate: vi.fn().mockReturnValue('mocked-timestamp'),
     },
   };
 });
 
 describe('Topic Reader Hedera Client', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should create a new SDK Client instance', () => {
     const topicReader = new TopicReaderHederaClient();
     expect(topicReader).toBeDefined();
@@ -94,7 +98,7 @@ describe('Topic Reader Hedera Client', () => {
   it('should call fetch from with correct parameters', async () => {
     const topicReader = new TopicReaderHederaClient();
 
-    const fetchFromSpy = jest.spyOn(topicReader, 'fetchFrom');
+    const fetchFromSpy = vi.spyOn(topicReader, 'fetchFrom');
 
     const promise = topicReader.fetchAllToDate('0.0.123', 'testnet');
     completionHandlerMock();

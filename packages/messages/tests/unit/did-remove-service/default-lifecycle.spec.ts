@@ -5,15 +5,15 @@ import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpe
 import { Signer } from '@hiero-did-sdk/core';
 
 const mockSigner = new (class extends Signer {
-  publicKey = jest.fn();
-  sign = jest.fn().mockImplementation(() => SIGNATURE);
-  verify = jest.fn().mockResolvedValue(true);
+  publicKey = vi.fn();
+  sign = vi.fn().mockImplementation(() => SIGNATURE);
+  verify = vi.fn().mockResolvedValue(true);
 })();
 
 const mockPublisher = {
-  network: jest.fn(),
-  publicKey: jest.fn(),
-  publish: jest.fn().mockResolvedValue({
+  network: vi.fn(),
+  publicKey: vi.fn(),
+  publish: vi.fn().mockResolvedValue({
     topicId: VALID_DID_TOPIC_ID,
   }),
 };
@@ -63,10 +63,6 @@ describe('Default DIDRemoveServiceMessage Lifecycle', () => {
       it('should publish the message to the topic', () => {
         expect(mockPublisher.publish).toHaveBeenCalledWith(expect.any(TopicMessageSubmitTransaction));
       });
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
     });
   });
 });

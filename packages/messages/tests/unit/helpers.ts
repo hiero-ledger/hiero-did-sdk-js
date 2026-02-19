@@ -15,8 +15,8 @@ export const SIGNATURE = new Uint8Array([1, 2, 3, 4]);
 
 export class TestVerifier implements Verifier {
   constructor(
-    public readonly publicKeyMock: jest.Mock = jest.fn(),
-    public readonly verifyMock: jest.Mock = jest.fn(),
+    public readonly publicKeyMock: vi.Mock = vi.fn(),
+    public readonly verifyMock: vi.Mock = vi.fn(),
   ) {}
 
   publicKey(): PublicKeyInDer {

@@ -40,8 +40,8 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "compile": "tsdown --config-loader unrun",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
     "build": "pnpm clean && pnpm compile",
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "format-check": "prettier --check \"src/*.ts\" \"tests/**/*.ts\""
@@ -56,9 +56,9 @@
     "buffer": "^6.0.3"
   },
   "devDependencies": {
-    "uuid": "^11.1.0",
     "@hiero-did-sdk/cache": "workspace:*",
     "@hiero-did-sdk/client": "workspace:*",
-    "@hiero-did-sdk/signer-internal": "workspace:*"
+    "@hiero-did-sdk/signer-internal": "workspace:*",
+    "uuid": "^11.1.0"
   }
 }

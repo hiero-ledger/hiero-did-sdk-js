@@ -1223,7 +1223,4 @@ describe('DID Document Builder', () => {
     });
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
 });

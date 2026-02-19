@@ -12,7 +12,7 @@ permissions:
 jobs:
   test:
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-latest
+    runs-on: hl-dsdk-js-lin-md
     strategy:
       matrix:
         node: [20, 22, 24]
@@ -31,26 +31,26 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Prepare Hiero Solo
-        id: solo
-        uses: hiero-ledger/hiero-solo-action@fbca3e7a99ce9aa8a250563a81187abe115e0dad # v0.16
-        with:
-          installMirrorNode: true
-          hieroVersion: v0.65.0
-          mirrorNodeVersion: v0.138.0
-          grpcProxyPort: 8080
+#      - name: Prepare Hiero Solo
+#        id: solo
+#        uses: hiero-ledger/hiero-solo-action@4d42a74e8e644a2753f3bb7a2afa429305375b14 # v0.17
+#        with:
+#          installMirrorNode: true
+#          hieroVersion: v0.65.0
+#          mirrorNodeVersion: v0.138.0
+#          grpcProxyPort: 8080
 
       - name: Run tests
         timeout-minutes: 30
         env:
-          HEDERA_OPERATOR_ID: ${{ steps.solo.outputs.accountId }}
-          HEDERA_OPERATOR_KEY: ${{ steps.solo.outputs.privateKey }}
-          HEDERA_NETWORK: local-node
+          HEDERA_OPERATOR_ID: ${{ secrets.HEDERA_OPERATOR_ID }}
+          HEDERA_OPERATOR_KEY: ${{ secrets.HEDERA_OPERATOR_KEY }}
+#          HEDERA_NETWORK: local-node
           NODE_OPTIONS: '--max_old_space_size=8192'
         run: pnpm test:ci
 
       - name: Report coverage
-        uses: step-security/jest-coverage-report-action@d70fde6bf791cdc2294f8c462d128caaafd28cdf # v2.3.4
+        uses: davelosert/vitest-coverage-report-action@v2
         with:
-          coverage-file: ./coverage/report.json
-          base-coverage-file: ./coverage/report.json
+          json-summary-path: ./coverage/coverage-summary.json
+          json-final-path: ./coverage/coverage-final.json

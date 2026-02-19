@@ -1,8 +1,8 @@
 import { TopicReader } from '@hiero-did-sdk/resolver';
 
 export class MockTopicReader implements TopicReader {
-  public fetchFrom = jest.fn();
-  public fetchAllToDate = jest.fn();
+  public fetchFrom = vi.fn();
+  public fetchAllToDate = vi.fn();
 
   withMessages(messages: string[]): this {
     this.fetchFrom.mockResolvedValue(messages);
