@@ -112,7 +112,6 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       issuerKeySigner,
     });
-    console.log(schemaResult);
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     // Resolve
@@ -136,7 +135,6 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       issuerKeySigner,
     });
-    console.log(schemaResult);
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     const schemaId = schemaResult.schemaState.schemaId;
@@ -176,7 +174,6 @@ describe('Hedera AnonCreds Registry', () => {
       schema: { ...schemaPayload, issuerId: issuerDid },
       issuerKeySigner,
     });
-    console.log(schemaResult);
     expect(schemaResult?.schemaState?.schemaId).toBeDefined();
 
     const schemaId = schemaResult.schemaState.schemaId;
@@ -424,7 +421,7 @@ describe('Hedera AnonCreds Registry', () => {
 
     it('should use cache', async () => {
       if (!TEST_WITH_CACHE) {
-        console.log('The test skipped because the cache is not used');
+        console.log('The test is skipped because the cache is not used');
         return;
       }
 
