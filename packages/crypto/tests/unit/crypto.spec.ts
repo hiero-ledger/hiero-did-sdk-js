@@ -8,27 +8,16 @@ const digest = '952a959a1ac6cd9ce1d80fcd1dfd570401c0d40ab36ea9a7a2e22295fd630d3b
 const engines = ['crypto', 'react-native-quick-crypto'] as const;
 
 describe('Crypto', () => {
-  let mockUpdate;
-  let mockCreateHash;
-  let cryptoMock;
+  const mockUpdate = vi.fn().mockReturnThis();
 
-  beforeEach(() => {
-    // Re-initialize mocks for every test to reset call counts
-    mockUpdate = vi.fn().mockReturnThis();
-    const mockDigest = vi.fn().mockReturnValue(digest);
-
-    // The hash object returned by createHash
-    const hashObject = {
-      update: mockUpdate,
-      digest: mockDigest,
-    };
-
-    mockCreateHash = vi.fn().mockReturnValue(hashObject);
-
-    cryptoMock = {
-      createHash: mockCreateHash,
-    };
+  const mockCreateHash = vi.fn().mockReturnValue({
+    update: mockUpdate,
+    digest: vi.fn().mockReturnValue(digest),
   });
+
+  const cryptoMock = {
+    createHash: mockCreateHash,
+  };
 
   afterEach(() => {
     vi.restoreAllMocks();

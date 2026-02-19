@@ -6,24 +6,19 @@ import { Signer } from '@hiero-did-sdk/core';
 
 const mockSigner = new (class extends Signer {
   publicKey = vi.fn();
-  sign = vi.fn();
-  verify = vi.fn();
+  sign = vi.fn().mockReturnValue(SIGNATURE);
+  verify = vi.fn().mockReturnValue(true);
 })();
 
 const mockPublisher = {
   network: vi.fn(),
   publicKey: vi.fn(),
-  publish: vi.fn(),
+  publish: vi.fn().mockResolvedValue({
+    topicId: VALID_DID_TOPIC_ID,
+  }),
 };
 
 describe('Default DIDDeactivateMessage Lifecycle', () => {
-  beforeEach(() => {
-    mockSigner.sign = vi.fn().mockReturnValue(SIGNATURE);
-    mockSigner.verify = vi.fn().mockReturnValue(true);
-    mockPublisher.publish = vi.fn().mockResolvedValue({
-      topicId: VALID_DID_TOPIC_ID,
-    });
-  });
   describe('when processing a valid DIDDeactivateMessage', () => {
     let message: DIDDeactivateMessage;
     let result: RunnerState<DIDDeactivateMessage>;
@@ -68,6 +63,5 @@ describe('Default DIDDeactivateMessage Lifecycle', () => {
         expect(mockPublisher.publish).toHaveBeenCalledWith(expect.any(TopicMessageSubmitTransaction));
       });
     });
-
   });
 });

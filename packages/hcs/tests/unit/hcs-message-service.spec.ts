@@ -79,23 +79,14 @@ interface TopicMessageQueryMock {
 }
 
 describe('HcsMessageService', () => {
-  let client: Client;
+  const client: Client = {} as vi.Mocked<Client>;
+  Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: vi.fn(), configurable: true });
+
   let cache: HcsCacheService;
   let service: HcsMessageService;
 
   beforeEach(() => {
-    mockIsMirrorQuerySupported.mockReturnValue(true);
-    mockWaitForChangesVisibility.mockImplementation(() => Promise.resolve());
-    mockCacheGetTopicInfo.mockResolvedValue(undefined);
-    mockCacheSetTopicInfo.mockResolvedValue(undefined);
-    mockCacheRemoveTopicInfo.mockResolvedValue(undefined);
-    mockCacheRemoveTopicMessages.mockResolvedValue(undefined);
-
-    client = {} as vi.Mocked<Client>;
-    Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: vi.fn(), configurable: true });
-
     cache = new HcsCacheService({ maxSize: 100 });
-
     service = new HcsMessageService(client, cache);
   });
 
@@ -325,7 +316,9 @@ describe('HcsMessageService', () => {
         }),
       };
 
-      (TopicMessageQuery as vi.Mock).mockImplementation(function() { return queryMock; });
+      (TopicMessageQuery as vi.Mock).mockImplementation(function () {
+        return queryMock;
+      });
     });
 
     it('should resolve with collected messages', async () => {
@@ -435,9 +428,9 @@ describe('HcsMessageService', () => {
         statusText: 'Bad Request',
       });
 
-      await expect(
-        (service as any).fetchTopicMessagesWithRest({ topicId: '0.0.123' })
-      ).rejects.toThrow('Failed to fetch topic messages: Bad Request');
+      await expect((service as any).fetchTopicMessagesWithRest({ topicId: '0.0.123' })).rejects.toThrow(
+        'Failed to fetch topic messages: Bad Request'
+      );
     });
   });
 

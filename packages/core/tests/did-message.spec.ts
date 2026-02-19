@@ -4,18 +4,17 @@ import { Signer } from '@hiero-did-sdk/core';
 
 const mockSignature = new Uint8Array([1, 2, 3, 4]);
 
-let mockSigner;
+const mockSigner = {
+  publicKey: vi.fn(),
+  sign: vi.fn().mockResolvedValue(mockSignature),
+  verify: vi.fn().mockResolvedValue(true),
+} as unknown as Signer;
 
 describe('DID Message', () => {
   let message: TestDIDMessage;
 
   beforeEach(() => {
     message = new TestDIDMessage();
-    mockSigner = new (class extends Signer {
-      publicKey = vi.fn();
-      sign = vi.fn().mockResolvedValue(mockSignature);
-      verify = vi.fn().mockResolvedValue(true);
-    })();
   });
 
   it('should return message as a JSON string in bytes', () => {
@@ -105,5 +104,4 @@ describe('DID Message', () => {
 
     expect(message.signature).toBeUndefined();
   });
-
 });

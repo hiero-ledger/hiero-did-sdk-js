@@ -2,29 +2,23 @@ import { LifecycleRunner, RunnerState } from '@hiero-did-sdk/lifecycle';
 import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import { DIDAddServiceMessage, DIDAddServiceMessageHederaDefaultLifeCycle } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
-import { Signer } from '@hiero-did-sdk/core';
+import { Publisher, Signer } from '@hiero-did-sdk/core';
 
 const mockSigner = {
   publicKey: vi.fn(),
-  sign: vi.fn(),
-  verify: vi.fn(),
+  sign: vi.fn().mockResolvedValue(SIGNATURE),
+  verify: vi.fn().mockResolvedValue(true),
 } as unknown as Signer;
 
 const mockPublisher = {
   network: vi.fn(),
   publicKey: vi.fn(),
-  publish: vi.fn(),
-};
+  publish: vi.fn().mockResolvedValue({
+    topicId: VALID_DID_TOPIC_ID,
+  }),
+} as unknown as Publisher;
 
 describe('Default DIDAddServiceMessage Lifecycle', () => {
-
-  beforeEach(() => {
-    mockSigner.sign = vi.fn().mockReturnValue(SIGNATURE);
-    mockSigner.verify = vi.fn().mockReturnValue(true);
-    mockPublisher.publish = vi.fn().mockResolvedValue({
-      topicId: VALID_DID_TOPIC_ID,
-    });
-  })
   describe('when processing a valid DIDAddServiceMessage', () => {
     let message: DIDAddServiceMessage;
     let result: RunnerState<DIDAddServiceMessage>;
@@ -72,6 +66,5 @@ describe('Default DIDAddServiceMessage Lifecycle', () => {
         expect(mockPublisher.publish).toHaveBeenCalledWith(expect.any(TopicMessageSubmitTransaction));
       });
     });
-
   });
 });

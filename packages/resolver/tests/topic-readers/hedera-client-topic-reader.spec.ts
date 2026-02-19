@@ -15,7 +15,27 @@ const {
   errorHandlerMock: vi.fn(),
   messageHandlerMock: vi.fn(),
   unsubscribeMock: vi.fn(),
-  topicMessageQueryMock: vi.fn(),
+  topicMessageQueryMock: vi.fn().mockImplementation(function () {
+    const queryMock: any = {
+      setCompletionHandler: vi.fn().mockImplementation((handler) => {
+        completionHandlerMock.mockImplementation(handler);
+        return {
+          subscribe: subscribeMock.mockImplementation((_, errorHandler, messageHandler) => {
+            errorHandlerMock.mockImplementation(errorHandler);
+            messageHandlerMock.mockImplementation(messageHandler);
+            return {
+              unsubscribe: unsubscribeMock,
+            };
+          }),
+        };
+      }),
+    };
+    queryMock.setTopicId = vi.fn().mockReturnValue(queryMock);
+    queryMock.setStartTime = vi.fn().mockReturnValue(queryMock);
+    queryMock.setEndTime = vi.fn().mockReturnValue(queryMock);
+    queryMock.setMaxAttempts = vi.fn().mockReturnValue(queryMock);
+    return queryMock;
+  }),
 }));
 
 vi.mock('@hashgraph/sdk', async () => {
@@ -37,32 +57,6 @@ vi.mock('@hashgraph/sdk', async () => {
 });
 
 describe('Topic Reader Hedera Client', () => {
-  beforeEach(() => {
-    topicMessageQueryMock.mockImplementation(function() {
-      const queryMock: any = {
-        setCompletionHandler: vi.fn().mockImplementation((handler) => {
-          completionHandlerMock.mockImplementation(handler);
-          return {
-            subscribe: subscribeMock.mockImplementation(
-              (_, errorHandler, messageHandler) => {
-                errorHandlerMock.mockImplementation(errorHandler);
-                messageHandlerMock.mockImplementation(messageHandler);
-                return {
-                  unsubscribe: unsubscribeMock,
-                };
-              },
-            ),
-          };
-        }),
-      };
-      queryMock.setTopicId = vi.fn().mockReturnValue(queryMock);
-      queryMock.setStartTime = vi.fn().mockReturnValue(queryMock);
-      queryMock.setEndTime = vi.fn().mockReturnValue(queryMock);
-      queryMock.setMaxAttempts = vi.fn().mockReturnValue(queryMock);
-      return queryMock;
-    });
-  });
-
   it('should create a new SDK Client instance', () => {
     const topicReader = new TopicReaderHederaClient();
     expect(topicReader).toBeDefined();

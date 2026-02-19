@@ -91,18 +91,6 @@ describe('HcsFileService', () => {
   let service: HcsFileService;
 
   beforeEach(() => {
-    mockSubmitMessage.mockResolvedValue(undefined);
-    mockGetTopicMessages.mockResolvedValue([]);
-    mockCreateTopic.mockResolvedValue(mockTopicId);
-    mockGetTopicInfo.mockResolvedValue({
-      topicId: mockTopicId,
-      topicMemo: mockHcsTopicMemo,
-    });
-    mockGetTopicFile.mockResolvedValue(undefined);
-    mockCryptoSha256.mockReturnValue('9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
-    mockZstdCompress.mockImplementation((data: Buffer) => Buffer.from(`compressed-${data.toString()}`));
-    mockZstdDecompress.mockImplementation((data: Buffer) => Buffer.from(data.toString().replace('compressed-', '')));
-
     service = new HcsFileService(mockClient, { maxSize: 10 });
   });
 

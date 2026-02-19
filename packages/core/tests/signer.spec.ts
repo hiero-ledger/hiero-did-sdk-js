@@ -2,38 +2,26 @@ import { PublicKey, Transaction } from '@hashgraph/sdk';
 import { KeysUtility, Signer } from '@hiero-did-sdk/core';
 
 describe('signer', () => {
-  let mockPublicKeyDer;
+  const mockPublicKeyDer = 'mock-public-key-der';
 
-  let mockPublicKey;
+  const mockPublicKey = {} as PublicKey;
 
-  let mockTransaction;
+  const mockTransaction = {
+    signWith: vi.fn().mockReturnThis(),
+  } as unknown as Transaction;
 
-  let mockKeysUtility;
+  const mockKeysUtility = {
+    toPublicKey: vi.fn().mockReturnValue(mockPublicKey),
+  };
 
-  let mockSigner;
+  // Create a mock signer with the original publicKeyInstance implementation
+  const mockSigner = new (class extends Signer {
+    publicKey = vi.fn().mockResolvedValue(mockPublicKeyDer);
+    sign = vi.fn();
+    verify = vi.fn().mockResolvedValue(true);
+  })();
 
-  beforeEach(() => {
-    mockPublicKeyDer = 'mock-public-key-der';
-
-    mockPublicKey = {} as PublicKey;
-
-    mockTransaction = {
-      signWith: vi.fn().mockReturnThis(),
-    } as unknown as Transaction;
-
-    mockKeysUtility = {
-      toPublicKey: vi.fn().mockReturnValue(mockPublicKey),
-    };
-
-    vi.spyOn(KeysUtility, 'fromDerString').mockReturnValue(mockKeysUtility as unknown as KeysUtility);
-
-    // Create a mock signer with the original publicKeyInstance implementation
-    mockSigner = new (class extends Signer {
-      publicKey = vi.fn().mockResolvedValue(mockPublicKeyDer);
-      sign = vi.fn();
-      verify = vi.fn().mockResolvedValue(true);
-    })();
-  })
+  vi.spyOn(KeysUtility, 'fromDerString').mockReturnValue(mockKeysUtility as unknown as KeysUtility);
 
   describe('publicKeyInstance', () => {
     it('should return a PublicKey from a Signer', async () => {

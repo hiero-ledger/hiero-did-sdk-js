@@ -48,7 +48,12 @@ vi.mock('@hashgraph/sdk', async () => {
     TopicCreateTransaction: mockTopicCreateTransaction,
     TopicUpdateTransaction: mockTopicUpdateTransaction,
     TopicDeleteTransaction: mockTopicDeleteTransaction,
-    TopicInfoQuery: mockTopicInfoQuery,
+    TopicInfoQuery: mockTopicInfoQuery.mockImplementation(function () {
+      return {
+        setTopicId: vi.fn().mockReturnThis(),
+        execute: vi.fn(),
+      };
+    }),
   };
 });
 
@@ -80,40 +85,37 @@ vi.mock('../../src/shared', async () => {
 });
 
 describe('HcsTopicService', () => {
-  let client: vi.Mocked<Client>;
+  const client: vi.Mocked<Client> = {} as vi.Mocked<Client>;
+  Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: vi.fn(), configurable: true });
+
+  const transactionMock: ReturnType<typeof mockTopicTransaction> = mockTopicTransaction();
+
+  transactionMock.freezeWith.mockReturnValue(transactionMock);
+  transactionMock.sign.mockResolvedValue(transactionMock);
+  transactionMock.execute.mockReset();
+
+  mockTopicCreateTransaction.mockImplementation(function () {
+    return transactionMock;
+  });
+  mockTopicUpdateTransaction.mockImplementation(function () {
+    return transactionMock;
+  });
+  mockTopicDeleteTransaction.mockImplementation(function () {
+    return transactionMock;
+  });
+
+  const realCacheServiceMock = new HcsCacheService({ maxSize: 100 });
+
+  vi.spyOn(realCacheServiceMock, 'getTopicInfo').mockResolvedValue(undefined);
+  vi.spyOn(realCacheServiceMock, 'setTopicInfo').mockResolvedValue(undefined);
+  vi.spyOn(realCacheServiceMock, 'removeTopicInfo').mockResolvedValue(undefined);
+
+  const cacheServiceMock = realCacheServiceMock as unknown as vi.Mocked<HcsCacheService>;
+
   let service: HcsTopicService;
-  let transactionMock: ReturnType<typeof mockTopicTransaction>;
-  let cacheServiceMock: vi.Mocked<HcsCacheService>;
 
   beforeEach(() => {
-    client = {} as vi.Mocked<Client>;
-    Object.defineProperty(client, 'mirrorRestApiBaseUrl', { get: vi.fn(), configurable: true });
-
-    const realCacheServiceMock = new HcsCacheService({ maxSize: 100 });
-
-    vi.spyOn(realCacheServiceMock, 'getTopicInfo').mockResolvedValue(undefined);
-    vi.spyOn(realCacheServiceMock, 'setTopicInfo').mockResolvedValue(undefined);
-    vi.spyOn(realCacheServiceMock, 'removeTopicInfo').mockResolvedValue(undefined);
-
-    cacheServiceMock = realCacheServiceMock as unknown as vi.Mocked<HcsCacheService>;
-
     service = new HcsTopicService(client, cacheServiceMock);
-
-    transactionMock = mockTopicTransaction();
-
-    mockTopicCreateTransaction.mockImplementation(function() { return transactionMock; });
-    mockTopicUpdateTransaction.mockImplementation(function() { return transactionMock; });
-    mockTopicDeleteTransaction.mockImplementation(function() { return transactionMock; });
-    mockTopicInfoQuery.mockImplementation(function() {
-      return {
-        setTopicId: vi.fn().mockReturnThis(),
-        execute: vi.fn(),
-      };
-    });
-
-    transactionMock.freezeWith.mockReturnValue(transactionMock);
-    transactionMock.sign.mockResolvedValue(transactionMock);
-    transactionMock.execute.mockReset();
   });
 
   describe('createTopic', () => {
@@ -197,19 +199,14 @@ describe('HcsTopicService', () => {
   });
 
   describe('updateTopic', () => {
-    let currentAdminKeySigner: Signer;
-    let currentAdminPublicKey: any;
-    let baseProps: UpdateTopicProps;
+    const currentAdminKey = PrivateKey.generateED25519();
 
-    beforeEach(() => {
-      const currentAdminKey = PrivateKey.generateED25519();
-      currentAdminKeySigner = new Signer(currentAdminKey);
-      currentAdminPublicKey = PublicKey.fromString(currentAdminKey.publicKey.toStringDer());
-      baseProps = {
-        topicId: '0.0.100',
-        currentAdminKeySigner,
-      };
-    });
+    const currentAdminKeySigner: Signer = new Signer(currentAdminKey);
+    const currentAdminPublicKey = PublicKey.fromString(currentAdminKey.publicKey.toStringDer());
+    const baseProps: UpdateTopicProps = {
+      topicId: '0.0.100',
+      currentAdminKeySigner,
+    };
 
     it('should throw if autoRenewAccountId set without autoRenewAccountKey', async () => {
       await expect(service.updateTopic({ ...baseProps, autoRenewAccountId: '0.0.101' })).rejects.toThrow(
@@ -281,20 +278,14 @@ describe('HcsTopicService', () => {
   });
 
   describe('deleteTopic', () => {
-    let adminKeySigner: Signer;
-    let adminPublicKey: any;
-    let props: DeleteTopicProps;
+    const adminKey = PrivateKey.generateED25519();
 
-    beforeEach(() => {
-      const adminKey = PrivateKey.generateED25519();
-      adminKeySigner = new Signer(adminKey);
-      // Workaround for Hiero SDK internal format inconsistency between PrivateKey.publicKey and "independent" PublicKey instance
-      adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
-      props = {
-        topicId: '0.0.50',
-        adminKeySigner,
-      };
-    });
+    const adminKeySigner: Signer = new Signer(adminKey);
+    const adminPublicKey = PublicKey.fromString(adminKey.publicKey.toStringDer());
+    const props: DeleteTopicProps = {
+      topicId: '0.0.50',
+      adminKeySigner,
+    };
 
     it('should delete the topic and wait for changes visibility', async () => {
       transactionMock.freezeWith.mockReturnValueOnce(transactionMock);
@@ -410,7 +401,7 @@ describe('HcsTopicService', () => {
         },
       };
 
-      (TopicInfoQuery as unknown as vi.Mock).mockImplementation(function() {
+      (TopicInfoQuery as unknown as vi.Mock).mockImplementation(function () {
         return {
           setTopicId: vi.fn().mockReturnThis(),
           execute: vi.fn().mockResolvedValue(mockInfo),

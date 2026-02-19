@@ -11,9 +11,6 @@ const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
 const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
 
-let operatorKeyInstance: PrivateKey;
-let operatorKeySigner: Signer;
-
 const TEST_VARIANTS = [{ useRestAPI: false, name: 'Client' }];
 
 // TODO: Enable REST API tests for 'local-node' once topic info query endpoint work properly for Solo
@@ -24,6 +21,9 @@ if (network !== 'local-node') {
 vi.setConfig({ testTimeout: 60000, hookTimeout: 60000 });
 
 describe('Hedera HCS Service', () => {
+  let operatorKeyInstance: PrivateKey;
+  let operatorKeySigner: Signer;
+
   const mockCache: Cache = {
     get: vi.fn(),
     set: vi.fn(),
@@ -49,10 +49,9 @@ describe('Hedera HCS Service', () => {
 
       global.UseRestAPI = useRestAPI;
 
-      vi.spyOn(mirrorNode, 'isMirrorQuerySupported')
-        .mockImplementation((_: Client) => {
-          return !global.UseRestAPI;
-        });
+      vi.spyOn(mirrorNode, 'isMirrorQuerySupported').mockImplementation((_: Client) => {
+        return !global.UseRestAPI;
+      });
     });
 
     afterEach(() => {
