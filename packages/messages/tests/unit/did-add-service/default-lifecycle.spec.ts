@@ -2,21 +2,21 @@ import { LifecycleRunner, RunnerState } from '@hiero-did-sdk/lifecycle';
 import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import { DIDAddServiceMessage, DIDAddServiceMessageHederaDefaultLifeCycle } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
-import { Signer } from '@hiero-did-sdk/core';
+import { Publisher, Signer } from '@hiero-did-sdk/core';
 
-const mockSigner = new (class extends Signer {
-  publicKey = jest.fn();
-  sign = jest.fn().mockImplementation(() => SIGNATURE);
-  verify = jest.fn().mockResolvedValue(true);
-})();
+const mockSigner = {
+  publicKey: vi.fn(),
+  sign: vi.fn().mockResolvedValue(SIGNATURE),
+  verify: vi.fn().mockResolvedValue(true),
+} as unknown as Signer;
 
 const mockPublisher = {
-  network: jest.fn(),
-  publicKey: jest.fn(),
-  publish: jest.fn().mockResolvedValue({
+  network: vi.fn(),
+  publicKey: vi.fn(),
+  publish: vi.fn().mockResolvedValue({
     topicId: VALID_DID_TOPIC_ID,
   }),
-};
+} as unknown as Publisher;
 
 describe('Default DIDAddServiceMessage Lifecycle', () => {
   describe('when processing a valid DIDAddServiceMessage', () => {
@@ -65,10 +65,6 @@ describe('Default DIDAddServiceMessage Lifecycle', () => {
       it('should publish the message to the topic', () => {
         expect(mockPublisher.publish).toHaveBeenCalledWith(expect.any(TopicMessageSubmitTransaction));
       });
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
     });
   });
 });

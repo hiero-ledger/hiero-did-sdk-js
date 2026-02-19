@@ -5,11 +5,11 @@ import { Buffer } from 'buffer';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
-const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
-const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
+const operatorId = process.env.HEDERA_OPERATOR_ID ?? '0.0.123';
+const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '302e020100300506032b65700422042091132178e72057a1d7528025956fe39b0b847f200ab59b2fdd367017f3087137';
 
-const operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
-const operatorKeySigner = new Signer(operatorKeyInstance);
+let operatorKeyInstance: PrivateKey;
+let operatorKeySigner: Signer;
 
 const networkConfigs: NetworkConfig[] = [
   {
@@ -19,45 +19,56 @@ const networkConfigs: NetworkConfig[] = [
   },
 ];
 
-jest.mock('../../src/hcs/hcs-topic-service', () => ({
-  HcsTopicService: jest.fn().mockImplementation(() => ({
-    createTopic: jest.fn().mockReturnValue('MOCK_TOPIC_ID'),
-    updateTopic: jest.fn(),
-    deleteTopic: jest.fn(),
-    getTopicInfo: jest.fn().mockReturnValue({
-      topicId: 'MOCK_TOPIC_ID',
-      topicMemo: 'MOCK_TOPIC_MEMO',
-      adminKey: false,
-      submitKey: false,
-    }),
-  })),
+beforeAll(() => {
+  operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
+  operatorKeySigner = new Signer(operatorKeyInstance);
+});
+
+vi.mock('../../src/hcs/hcs-topic-service', () => ({
+  HcsTopicService: vi.fn().mockImplementation(function() {
+    return {
+      createTopic: vi.fn().mockReturnValue('MOCK_TOPIC_ID'),
+      updateTopic: vi.fn(),
+      deleteTopic: vi.fn(),
+      getTopicInfo: vi.fn().mockReturnValue({
+        topicId: 'MOCK_TOPIC_ID',
+        topicMemo: 'MOCK_TOPIC_MEMO',
+        adminKey: false,
+        submitKey: false,
+      }),
+    };
+  }),
 }));
 
-jest.mock('../../src/hcs/hcs-message-service', () => ({
-  HcsMessageService: jest.fn().mockImplementation(() => ({
-    submitMessage: jest.fn().mockReturnValue({
-      nodeId: 'MOCK_NODE_ID',
-      transactionId: 'MOCK_TX_ID',
-      transactionHash: [],
-    }),
-    getTopicMessages: jest.fn().mockReturnValue([
-      {
-        consensusTimestamp: new Timestamp(0, 0),
-        contents: [1, 2, 3, 4, 5],
-      },
-      {
-        consensusTimestamp: new Timestamp(10, 0),
-        contents: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      },
-    ]),
-  })),
+vi.mock('../../src/hcs/hcs-message-service', () => ({
+  HcsMessageService: vi.fn().mockImplementation(function() {
+    return {
+      submitMessage: vi.fn().mockReturnValue({
+        nodeId: 'MOCK_NODE_ID',
+        transactionId: 'MOCK_TX_ID',
+        transactionHash: [],
+      }),
+      getTopicMessages: vi.fn().mockReturnValue([
+        {
+          consensusTimestamp: new Timestamp(0, 0),
+          contents: [1, 2, 3, 4, 5],
+        },
+        {
+          consensusTimestamp: new Timestamp(10, 0),
+          contents: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        },
+      ]),
+    };
+  }),
 }));
 
-jest.mock('../../src/hcs/hcs-file-service', () => ({
-  HcsFileService: jest.fn().mockImplementation(() => ({
-    submitFile: jest.fn().mockReturnValue('MOCK_FILE_TOPIC_ID'),
-    resolveFile: jest.fn().mockReturnValue(Buffer.from('MOCK_FILE_CONTENT')),
-  })),
+vi.mock('../../src/hcs/hcs-file-service', () => ({
+  HcsFileService: vi.fn().mockImplementation(function() {
+    return {
+      submitFile: vi.fn().mockReturnValue('MOCK_FILE_TOPIC_ID'),
+      resolveFile: vi.fn().mockReturnValue(Buffer.from('MOCK_FILE_CONTENT')),
+    };
+  }),
 }));
 
 describe('Hedera HCS networks configuration', () => {

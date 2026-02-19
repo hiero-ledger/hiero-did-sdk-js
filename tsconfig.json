@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["vitest/globals"],
     "module": "commonjs",
     "noImplicitAny": false,
     "noUnusedLocals": false,
@@ -12,7 +13,7 @@
     "rootDir": ".",
     "declaration": true,
     "declarationMap": true,
-    "esModuleInterop":  true,
+    "esModuleInterop": true,
     "paths": {
       "@hiero-did-sdk/anoncreds": ["packages/anoncreds/src/index.ts"],
       "@hiero-did-sdk/cache": ["packages/cache/src/index.ts"],
@@ -32,10 +33,5 @@
       "@hiero-did-sdk/zstd": ["packages/zstd/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "coverage", "**/*.spec.ts", "**/*.e2e.ts", "tests/**/*.ts", "dist"],
-  "ts-node": {
-    "moduleTypes": {
-      "jest.config.ts": "cjs"
-    }
-  }
+  "exclude": ["node_modules", "coverage", "dist"]
 }

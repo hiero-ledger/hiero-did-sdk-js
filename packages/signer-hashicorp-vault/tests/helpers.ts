@@ -1,7 +1,6 @@
 import { randomUUID } from 'crypto';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
 import { VaultApi } from '../src/vault-api';
-
 export class VaultTestContainer {
   private static IMAGE = 'hashicorp/vault:latest';
   private static PORT = 8200;
@@ -102,15 +101,15 @@ EOF
 }
 
 export class TestVaultApi extends VaultApi {
-  public setTokenMock = jest.fn();
-  public ensureAuthenticationMock = jest.fn();
-  public loginWithUsernameAndPasswordMock = jest.fn();
-  public loginWithAppRoleMock = jest.fn();
-  public validateKeyMock = jest.fn();
-  public createKeyMock = jest.fn();
-  public getPublicKeyMock = jest.fn();
-  public signMock = jest.fn();
-  public verifyMock = jest.fn();
+  public setTokenMock = vi.fn();
+  public ensureAuthenticationMock = vi.fn();
+  public loginWithUsernameAndPasswordMock = vi.fn();
+  public loginWithAppRoleMock = vi.fn();
+  public validateKeyMock = vi.fn();
+  public createKeyMock = vi.fn();
+  public getPublicKeyMock = vi.fn();
+  public signMock = vi.fn();
+  public verifyMock = vi.fn();
 
   constructor() {
     super('http://example.com');

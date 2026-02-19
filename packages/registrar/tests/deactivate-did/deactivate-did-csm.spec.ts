@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   TopicMessageSubmitTransactionMock,
   MessageAwaiterForMessagesMock,
   MessageAwaiterConstructorMock,
   MessageAwaiterWaitMock,
   MessageAwaiterWithTimeoutMock,
+  ClientForNameMock,
+  ClientSetOperatorMock,
 } from '../mocks';
 
 import { Client, PrivateKey } from '@hashgraph/sdk';
@@ -19,10 +20,10 @@ import {
 } from '../../src';
 import { VALID_DID_TOPIC_ID, TestPublisher, VALID_DID } from '../helpers';
 
-const didDocumentMock = jest.fn();
-jest.mock('@hiero-did-sdk/resolver', () => {
+const didDocumentMock = vi.fn();
+vi.mock('@hiero-did-sdk/resolver', () => {
   return {
-    resolveDID: jest
+    resolveDID: vi
       .fn()
       .mockImplementation(() => Promise.resolve(didDocumentMock())),
   };
@@ -30,22 +31,24 @@ jest.mock('@hiero-did-sdk/resolver', () => {
 
 describe('Deactivate DID operation', () => {
   const TopicMessageSubmitTransactionMockImplementation = {
-    setTopicId: jest.fn().mockReturnThis(),
-    setMessage: jest.fn().mockReturnThis(),
-    freezeWith: jest.fn().mockReturnThis(),
-    execute: jest.fn().mockResolvedValue({
-      getReceipt: jest.fn(),
+    setTopicId: vi.fn().mockReturnThis(),
+    setMessage: vi.fn().mockReturnThis(),
+    freezeWith: vi.fn().mockReturnThis(),
+    execute: vi.fn().mockResolvedValue({
+      getReceipt: vi.fn(),
     }),
   };
-
-  TopicMessageSubmitTransactionMock.mockImplementation(
-    () => TopicMessageSubmitTransactionMockImplementation,
-  );
 
   let didPrivateKey: PrivateKey;
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    const ClientMock = Client as any;
+    ClientForNameMock.mockReturnValue(ClientMock);
+    ClientSetOperatorMock.mockReturnValue(ClientMock);
+
+    TopicMessageSubmitTransactionMock.mockImplementation(
+      function() { return TopicMessageSubmitTransactionMockImplementation; },
+    );
 
     didPrivateKey = await PrivateKey.generateED25519Async();
 
@@ -142,7 +145,7 @@ describe('Deactivate DID operation', () => {
     });
 
     it('should set message awaiter with proper topic id and network', async () => {
-      const publisher = new TestPublisher(jest.fn().mockReturnValue('testnet'));
+      const publisher = new TestPublisher(vi.fn().mockReturnValue('testnet'));
 
       const { state, signingRequest } = await generateDeactivateDIDRequest(
         { did: VALID_DID },
@@ -160,10 +163,11 @@ describe('Deactivate DID operation', () => {
         },
       );
 
-      expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith([
+      expect(MessageAwaiterConstructorMock).toHaveBeenCalledWith(
         VALID_DID_TOPIC_ID,
         'testnet',
-      ]);
+        undefined
+      );
     });
 
     it('should set message awaiter for a created message', async () => {

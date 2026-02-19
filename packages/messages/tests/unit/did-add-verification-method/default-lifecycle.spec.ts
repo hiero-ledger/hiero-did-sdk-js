@@ -5,15 +5,15 @@ import { PUBLIC_KEY_MULTIBASE, SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOP
 import { Signer } from '@hiero-did-sdk/core';
 
 const mockSigner = new (class extends Signer {
-  publicKey = jest.fn();
-  sign = jest.fn().mockImplementation(() => SIGNATURE);
-  verify = jest.fn().mockResolvedValue(true);
+  publicKey = vi.fn();
+  sign = vi.fn().mockReturnValue(SIGNATURE);
+  verify = vi.fn().mockReturnValue(true);
 })();
 
 const mockPublisher = {
-  network: jest.fn(),
-  publicKey: jest.fn(),
-  publish: jest.fn().mockResolvedValue({
+  network: vi.fn(),
+  publicKey: vi.fn(),
+  publish: vi.fn().mockResolvedValue({
     topicId: VALID_DID_TOPIC_ID,
   }),
 };
@@ -66,10 +66,6 @@ describe('Default DIDAddVerificationMethodMessage Lifecycle', () => {
       it('should publish the message to the topic', () => {
         expect(mockPublisher.publish).toHaveBeenCalledWith(expect.any(TopicMessageSubmitTransaction));
       });
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
     });
   });
 });

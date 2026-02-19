@@ -1,9 +1,9 @@
 import { VaultSignerFactory } from '../src';
 import { VaultApi } from '../src/vault-api';
 
-const VaultApiMock = VaultApi as jest.MockedClass<typeof VaultApi>;
+const VaultApiMock = VaultApi as vi.MockedClass<typeof VaultApi>;
 
-jest.mock('../src/vault-api.ts');
+vi.mock('../src/vault-api.ts');
 
 describe('Vault Signer Factory', () => {
   beforeEach(() => {
@@ -99,7 +99,7 @@ describe('Vault Signer Factory', () => {
 
   describe('Authenticated Vault Signer Factory', () => {
     let factory: VaultSignerFactory;
-    let client: jest.Mocked<VaultApi>;
+    let client: vi.Mocked<VaultApi>;
 
     beforeEach(async () => {
       factory = await VaultSignerFactory.loginWithToken({
@@ -107,7 +107,7 @@ describe('Vault Signer Factory', () => {
         url: 'http://example.com',
       });
 
-      client = VaultApiMock.mock.instances[0] as jest.Mocked<VaultApi>;
+      client = VaultApiMock.mock.instances[0] as vi.Mocked<VaultApi>;
     });
 
     it('should have vault api client set', () => {

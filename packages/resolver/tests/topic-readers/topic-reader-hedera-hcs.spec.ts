@@ -1,28 +1,31 @@
 import { TopicReaderHederaHcs } from '../../src/topic-readers';
-import {  HederaHcsServiceConfiguration } from '@hiero-did-sdk/hcs';
+import { HederaHcsServiceConfiguration } from '@hiero-did-sdk/hcs';
 import { Buffer } from 'buffer';
 
-const operatorId = '0.0.123'
-const operatorKey = 'xxxxx'
+const operatorId = '0.0.123';
+const operatorKey = 'xxxxx';
 
-const getTopicMessagesMock = jest.fn();
-const hcsServiceMock = {
-  getTopicMessages: getTopicMessagesMock,
-};
+const { getTopicMessagesMock, hederaHcsServiceMock } = vi.hoisted(() => {
+  const getTopicMessagesMock = vi.fn();
+  return {
+    getTopicMessagesMock,
+    hederaHcsServiceMock: vi.fn().mockImplementation(function () {
+      return {
+        getTopicMessages: getTopicMessagesMock,
+      };
+    }),
+  };
+});
 
-jest.mock('@hiero-did-sdk/hcs', () => {
-  const actual: object = jest.requireActual('@hiero-did-sdk/hcs');
+vi.mock('@hiero-did-sdk/hcs', async () => {
+  const actual = await vi.importActual<typeof import('@hiero-did-sdk/hcs')>('@hiero-did-sdk/hcs');
   return {
     ...actual,
-    HederaHcsService: jest.fn().mockImplementation(() => hcsServiceMock),
+    HederaHcsService: hederaHcsServiceMock,
   };
 });
 
 describe('Topic Reader Hedera HCS', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should create a new instance of TopicReaderHederaHcs', () => {
     const config: HederaHcsServiceConfiguration = {
       networks: [{ network: 'testnet', operatorId, operatorKey }],
@@ -33,7 +36,7 @@ describe('Topic Reader Hedera HCS', () => {
 
   it('should fetch all messages from a topic to the current date', async () => {
     const config: HederaHcsServiceConfiguration = {
-      networks: [{ network: 'testnet', operatorId, operatorKey  }],
+      networks: [{ network: 'testnet', operatorId, operatorKey }],
     };
     const topicReader = new TopicReaderHederaHcs(config);
     getTopicMessagesMock.mockResolvedValueOnce([
@@ -47,16 +50,14 @@ describe('Topic Reader Hedera HCS', () => {
 
   it('should fetch messages from a specific time range', async () => {
     const config: HederaHcsServiceConfiguration = {
-      networks: [{ network: 'testnet', operatorId, operatorKey  }],
+      networks: [{ network: 'testnet', operatorId, operatorKey }],
     };
     const topicReader = new TopicReaderHederaHcs(config);
-    getTopicMessagesMock.mockResolvedValueOnce([
-      { contents: Buffer.from('message1') },
-    ]);
+    getTopicMessagesMock.mockResolvedValueOnce([{ contents: Buffer.from('message1') }]);
 
     const messages = await topicReader.fetchFrom('0.0.123', 'testnet', {
       from: 1609459200000, // 2021-01-01
-      to: 1612137600000,   // 2021-02-01
+      to: 1612137600000, // 2021-02-01
     });
 
     expect(messages).toEqual(['message1']);
@@ -69,7 +70,7 @@ describe('Topic Reader Hedera HCS', () => {
 
   it('should handle errors when fetching messages', async () => {
     const config: HederaHcsServiceConfiguration = {
-      networks: [{ network: 'testnet', operatorId, operatorKey  }],
+      networks: [{ network: 'testnet', operatorId, operatorKey }],
     };
     const topicReader = new TopicReaderHederaHcs(config);
     getTopicMessagesMock.mockRejectedValueOnce(new Error('Fetch error'));
@@ -79,7 +80,7 @@ describe('Topic Reader Hedera HCS', () => {
 
   it('should parse topic message contents to string', () => {
     const config: HederaHcsServiceConfiguration = {
-      networks: [{ network: 'testnet', operatorId, operatorKey  }],
+      networks: [{ network: 'testnet', operatorId, operatorKey }],
     };
     const topicReader = new TopicReaderHederaHcs(config);
     const content = Buffer.from('test-message');

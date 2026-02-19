@@ -8,15 +8,11 @@ import {
   parseAnonCredsIdentifier,
 } from '../../src/utils';
 
-jest.mock('@hiero-did-sdk/core', () => ({
-  parseDID: jest.fn(),
+vi.mock('@hiero-did-sdk/core', () => ({
+  parseDID: vi.fn(),
 }));
 
 describe('Anoncreds Identifier Utils', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('buildAnonCredsIdentifier', () => {
     it('should build the identifier correctly', () => {
       const id = 'did:hedera:testnet:abc123/anoncreds/v1/SCHEMA/0.0.12345';
@@ -40,7 +36,7 @@ describe('Anoncreds Identifier Utils', () => {
     };
 
     beforeEach(() => {
-      (parseDID as jest.Mock).mockReturnValue(mockParsedDID);
+      (parseDID as vi.Mock).mockReturnValue(mockParsedDID);
     });
 
     it('should parse a valid anoncreds identifier', () => {
@@ -71,7 +67,7 @@ describe('Anoncreds Identifier Utils', () => {
 
     it('should handle identifiers with unexpected format by returning correct split parts', () => {
       const id = 'did-sample/anoncreds/v1';
-      (parseDID as jest.Mock).mockReturnValue({
+      (parseDID as vi.Mock).mockReturnValue({
         method: 'sample',
         network: 'net',
         publicKey: 'pub',

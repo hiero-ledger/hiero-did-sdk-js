@@ -5,13 +5,11 @@ import { Buffer } from 'buffer';
 import { v4 as uuidv4 } from 'uuid';
 import { Cache } from '@hiero-did-sdk/core';
 import { Signer } from '@hiero-did-sdk/signer-internal';
+import * as mirrorNode from '../../src/shared/mirror-node';
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
 const operatorId = process.env.HEDERA_OPERATOR_ID ?? '';
 const operatorKey = process.env.HEDERA_OPERATOR_KEY ?? '';
-
-const operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
-const operatorKeySigner = new Signer(operatorKeyInstance);
 
 const TEST_VARIANTS = [{ useRestAPI: false, name: 'Client' }];
 
@@ -20,14 +18,17 @@ if (network !== 'local-node') {
   TEST_VARIANTS.push({ useRestAPI: true, name: 'REST API' });
 }
 
+vi.setConfig({ testTimeout: 60000, hookTimeout: 60000 });
+
 describe('Hedera HCS Service', () => {
-  jest.setTimeout(60000);
+  let operatorKeyInstance: PrivateKey;
+  let operatorKeySigner: Signer;
 
   const mockCache: Cache = {
-    get: jest.fn(),
-    set: jest.fn(),
-    remove: jest.fn(),
-    clear: jest.fn(),
+    get: vi.fn(),
+    set: vi.fn(),
+    remove: vi.fn(),
+    clear: vi.fn(),
   };
 
   describe.each(TEST_VARIANTS)('Using $name', ({ useRestAPI }) => {
@@ -43,22 +44,22 @@ describe('Hedera HCS Service', () => {
     });
 
     beforeAll(() => {
+      operatorKeyInstance = PrivateKey.fromStringDer(operatorKey);
+      operatorKeySigner = new Signer(operatorKeyInstance);
+
       global.UseRestAPI = useRestAPI;
 
-      jest
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        .spyOn(require('../../src/shared/mirror-node'), 'isMirrorQuerySupported')
-        .mockImplementation((_: Client) => {
-          return !global.UseRestAPI;
-        });
+      vi.spyOn(mirrorNode, 'isMirrorQuerySupported').mockImplementation((_: Client) => {
+        return !global.UseRestAPI;
+      });
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     afterAll(() => {
-      jest.restoreAllMocks();
+      vi.restoreAllMocks();
     });
 
     it('Create topic', async () => {
@@ -132,8 +133,7 @@ describe('Hedera HCS Service', () => {
       const newTopicMemo = '0987654321';
       const newAutoRenewPeriod = 60 * 24 * 60 * 60; // sec
 
-      const newExpirationTime = new Date();
-      newExpirationTime.setMonth(newExpirationTime.getMonth() + 3);
+      const newExpirationTime = new Date(Date.now() + 7890000 * 1000);
       // HCS do not use millisecond precision for Topic expiration time
       newExpirationTime.setMilliseconds(0);
 
@@ -232,7 +232,6 @@ describe('Hedera HCS Service', () => {
       });
 
       await expect(ledgerService.getTopicInfo({ topicId })).rejects.toThrow(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         expect.objectContaining({
           name: 'StatusError',
           message: expect.stringMatching(/INVALID_TOPIC_ID/),
