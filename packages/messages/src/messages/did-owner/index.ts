@@ -1,3 +1,3 @@
 export * from './message';
 export * from './lifecycle';
-export { DIDOwnerMessageConstructor } from './interfaces';
+export type { DIDOwnerMessageConstructor } from './interfaces';
