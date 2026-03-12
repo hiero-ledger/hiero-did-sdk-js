@@ -13,7 +13,7 @@ import { PrivateKey } from '@hashgraph/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 const TEST_WITH_CACHE = true;
 
-const GET_DATA_TIMEOUT = 20;
+const GET_DATA_TIMEOUT = 15;
 const GET_CACHED_DATA_TIMEOUT = 1000;
 
 const network = (process.env.HEDERA_NETWORK as HederaNetwork) ?? 'testnet';
