@@ -8,6 +8,11 @@ export default defineProject({
         find: /^@hiero-did-sdk\/(.*)$/,
         replacement: path.resolve(__dirname, 'packages') + '/$1/src',
       },
+      {
+        // Properly resolve deep imports from Hiero SDK JS
+        find: /^@hashgraph\/sdk\/(.*)$/,
+        replacement: path.resolve(__dirname, 'node_modules', '@hashgraph/sdk') + '/$1',
+      },
     ],
   },
   test: {
