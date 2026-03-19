@@ -70,13 +70,13 @@ Returns::
 |Description
 
 |`invalidArgument`
-|Hashgraph SDK Client is required to create a Publisher.
+|Hiero SDK Client is required to create a Publisher.
 
 |`invalidArgument`
-|Hashgraph SDK Client must be configured with a network.
+|Hiero SDK Client must be configured with a network.
 
 |`invalidArgument`
-|Hashgraph SDK Client must be configured with an operator account.
+|Hiero SDK Client must be configured with an operator account.
 
 |`internalError`
 |Unknown network, ledger ID: #.

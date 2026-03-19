@@ -8,7 +8,7 @@ import {
   ClientSetOperatorMock,
 } from '../mocks';
 import { Buffer } from 'buffer';
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey } from '@hiero-ledger/sdk';
 import {
   DID_ROOT_KEY_ID,
   KeysUtility,

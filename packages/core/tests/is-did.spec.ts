@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { KeysUtility } from '@hiero-did-sdk/core';
 import { isHederaDID, isHederaDIDUrl } from '../src';
 

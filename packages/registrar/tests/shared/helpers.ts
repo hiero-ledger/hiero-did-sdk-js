@@ -1,4 +1,4 @@
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey } from '@hiero-ledger/sdk';
 import { Providers } from '../../src/interfaces';
 import { CreateDIDOptions } from '../../src';
 import { TestPublisher, TestSigner } from '../helpers';

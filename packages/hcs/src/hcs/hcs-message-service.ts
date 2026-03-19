@@ -6,7 +6,7 @@ import {
   TopicId,
   TopicMessageQuery,
   TopicMessageSubmitTransaction,
-} from '@hashgraph/sdk';
+} from '@hiero-ledger/sdk';
 import { HcsCacheService } from '../cache';
 import { CacheConfig } from '../hedera-hcs-service.configuration';
 import { Cache, Signer } from '@hiero-did-sdk/core';

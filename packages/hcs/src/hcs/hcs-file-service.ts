@@ -1,4 +1,4 @@
-import { type Client } from '@hashgraph/sdk';
+import { type Client } from '@hiero-ledger/sdk';
 import { Crypto } from '@hiero-did-sdk/crypto';
 import { Zstd } from '@hiero-did-sdk/zstd';
 import { HcsCacheService } from '../cache';

@@ -8,7 +8,7 @@ import {
   Timestamp,
   TopicInfo,
   TopicId,
-} from '@hashgraph/sdk';
+} from '@hiero-ledger/sdk';
 import {
   CreateTopicProps,
   DeleteTopicProps,
@@ -40,8 +40,8 @@ const {
   mockIsMirrorQuerySupported: vi.fn(),
 }));
 
-vi.mock('@hashgraph/sdk', async () => {
-  const actual = await vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
+vi.mock('@hiero-ledger/sdk', async () => {
+  const actual = await vi.importActual<typeof import('@hiero-ledger/sdk')>('@hiero-ledger/sdk');
   return {
     ...actual,
     Status: { Success: 'SUCCESS', FailInvalid: 'FailInvalid', InvalidTopicId: 'INVALID_TOPIC' },

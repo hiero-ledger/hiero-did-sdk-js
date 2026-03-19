@@ -1,4 +1,4 @@
-import { Client, PrivateKey, Status, TopicMessageSubmitTransaction, TopicMessageQuery } from '@hashgraph/sdk';
+import { Client, PrivateKey, Status, TopicMessageSubmitTransaction, TopicMessageQuery } from '@hiero-ledger/sdk';
 import { Buffer } from 'buffer';
 import { HcsCacheService } from '../../src/cache';
 import { HcsMessageService, TopicMessageData } from '../../src/hcs';
@@ -43,8 +43,8 @@ vi.mock('../../src/shared', () => ({
   waitForChangesVisibility: mockWaitForChangesVisibility,
 }));
 
-vi.mock('@hashgraph/sdk', async () => {
-  const originalModule = await vi.importActual('@hashgraph/sdk');
+vi.mock('@hiero-ledger/sdk', async () => {
+  const originalModule = await vi.importActual('@hiero-ledger/sdk');
   return {
     ...originalModule,
     TopicMessageSubmitTransaction: vi.fn(function () {

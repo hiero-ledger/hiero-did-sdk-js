@@ -1,5 +1,5 @@
 import { Network, PublicKeyInDer, Publisher, Signer } from '@hiero-did-sdk/core';
-import { Client, PrivateKey, PublicKey, Transaction, TransactionReceipt } from '@hashgraph/sdk';
+import { Client, PrivateKey, PublicKey, Transaction, TransactionReceipt } from '@hiero-ledger/sdk';
 
 export class TestSigner extends Signer {
   constructor(

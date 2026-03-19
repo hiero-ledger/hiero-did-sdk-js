@@ -3,7 +3,7 @@ import {
   RunnerState,
 } from '@hiero-did-sdk/lifecycle';
 import { Publisher } from '@hiero-did-sdk/core';
-import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
+import { TopicMessageSubmitTransaction } from '@hiero-ledger/sdk';
 import {
   DIDDeactivateMessage,
   DIDDeactivateMessageHederaCSMLifeCycle,

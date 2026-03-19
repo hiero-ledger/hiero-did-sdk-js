@@ -1,4 +1,4 @@
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { LRUMemoryCache } from '@hiero-did-sdk/cache';
 import { Cache } from '@hiero-did-sdk/core';
 import { TopicInfo, TopicMessageData } from '../hcs';

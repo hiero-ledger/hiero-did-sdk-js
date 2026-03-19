@@ -15,7 +15,7 @@ import {
   DID_ROOT_KEY_ID,
 } from '@hiero-did-sdk/core';
 import { Verifier as InternalVerifier } from '@hiero-did-sdk/verifier-internal';
-import { PublicKey } from '@hashgraph/sdk';
+import { PublicKey } from '@hiero-ledger/sdk';
 import {
   TopicDIDContent,
   TopicDIDMessage,

@@ -1,4 +1,4 @@
-import { PublicKey } from '@hashgraph/sdk';
+import { PublicKey } from '@hiero-ledger/sdk';
 import { Verifier as BaseVerifier, DIDError, isEd25519PublicKey, KeysUtility } from '@hiero-did-sdk/core';
 
 /**

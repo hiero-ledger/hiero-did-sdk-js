@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 import { getSigner } from '../../src/shared/get-signer';
 import { TestSigner } from '../helpers';

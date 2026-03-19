@@ -26,7 +26,7 @@ The Hiero DID SDK will be composed of the following core packages:
 
 The SDK will utilize the following external dependencies:
 
-* `@hashgraph/sdk`: The official Hedera SDK for interacting with the Hedera network, sending transactions, and querying state.
+* `@hiero-ledger/sdk`: The official Hedera SDK for interacting with the Hedera network, sending transactions, and querying state.
 
 
 ==== Consequences

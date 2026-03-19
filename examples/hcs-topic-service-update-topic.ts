@@ -5,7 +5,7 @@
  */
 import { HcsTopicService } from '@hiero-did-sdk/hcs';
 import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/client';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;

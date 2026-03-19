@@ -1,5 +1,5 @@
 import { Network } from '@hiero-did-sdk/core';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 
 export interface ClientOptions {
   /**

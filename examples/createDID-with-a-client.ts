@@ -3,7 +3,7 @@
   Hedera `Client` instance. This allows for more control over the 
   client's configuration and network interaction.
 */
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { createDID } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;

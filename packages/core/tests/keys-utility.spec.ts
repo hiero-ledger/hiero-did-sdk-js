@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { KeysUtility, MULTICODEC_PREFIXES } from '../src';
 import { Buffer } from 'buffer';
 import { MultibaseCodec } from '../src/utils/multibase-codec';

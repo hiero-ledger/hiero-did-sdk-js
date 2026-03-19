@@ -14,8 +14,8 @@ export const ClientForNameMock: Mock = hoisted.ClientForNameMock;
 export const ClientSetOperatorMock: Mock = hoisted.ClientSetOperatorMock;
 export const ClientCloseMock: Mock = hoisted.ClientCloseMock;
 
-vi.mock('@hashgraph/sdk', async () => {
-  const actual = await vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
+vi.mock('@hiero-ledger/sdk', async () => {
+  const actual = await vi.importActual<typeof import('@hiero-ledger/sdk')>('@hiero-ledger/sdk');
   const ClientMock: any = {
     ledgerId: {
       isMainnet: vi.fn().mockReturnValue(false),

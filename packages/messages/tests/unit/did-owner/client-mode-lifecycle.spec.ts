@@ -4,7 +4,7 @@ import {
 } from '@hiero-did-sdk/lifecycle';
 import { Publisher, DIDError } from '@hiero-did-sdk/core';
 import { resolveDID } from '@hiero-did-sdk/resolver';
-import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
+import { PrivateKey, TopicMessageSubmitTransaction } from '@hiero-ledger/sdk';
 import {
   DIDOwnerMessage,
   DIDOwnerMessageHederaCSMLifeCycle,

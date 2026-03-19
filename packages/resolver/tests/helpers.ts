@@ -7,7 +7,7 @@ import {
   DIDRemoveServiceMessage,
   DIDRemoveVerificationMethodMessage,
 } from '@hiero-did-sdk/messages';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { DIDResolution } from '@hiero-did-sdk/core';
 
 export const VALID_DID_TOPIC_ID = '0.0.2';

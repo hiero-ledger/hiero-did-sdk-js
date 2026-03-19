@@ -1,5 +1,5 @@
 import { LifecycleRunner, RunnerState } from '@hiero-did-sdk/lifecycle';
-import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
+import { TopicMessageSubmitTransaction } from '@hiero-ledger/sdk';
 import {
   DIDRemoveVerificationMethodMessage,
   DIDRemoveVerificationMethodMessageHederaDefaultLifeCycle,

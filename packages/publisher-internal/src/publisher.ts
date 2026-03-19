@@ -1,4 +1,4 @@
-import { Client, PublicKey, Transaction, TransactionReceipt } from '@hashgraph/sdk';
+import { Client, PublicKey, Transaction, TransactionReceipt } from '@hiero-ledger/sdk';
 import { Network, Publisher as BasePublisher, DIDError } from '@hiero-did-sdk/core';
 
 /**

@@ -112,7 +112,7 @@ This guide provides a concise overview of the Hedera DID Method. For a deeper un
 
 *   link:https://w3c.github.io/did-core/[DID Specification]: The official W3C specification for Decentralized Identifiers (DIDs).
 *   link:https://github.com/hashgraph/did-method/blob/master/hedera-did-method-specification.md[Hedera DID Method Specification]: The official specification document for the Hedera DID method.
-*   link:https://github.com/hashgraph/hedera-sdk-js[Hedera JavaScript SDK]: The official Hedera JavaScript SDK, used for interacting with the Hedera network.
+*   link:https://github.com/hiero-ledger/hiero-sdk-js[Hiero JavaScript SDK]: The official Hiero JavaScript SDK, used for interacting with the Hedera network.
 *   link:https://docs.hedera.com[Hedera docs]: Official documentation for Hedera.
 
 == Next Steps

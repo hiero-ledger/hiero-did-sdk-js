@@ -1,7 +1,7 @@
 import { LifecycleRunner, LifecycleRunnerOptions, RunnerState } from '@hiero-did-sdk/lifecycle';
 import { resolveDID } from '@hiero-did-sdk/resolver';
 import { DIDError, Network, Signer } from '@hiero-did-sdk/core';
-import { PrivateKey, TopicMessageSubmitTransaction } from '@hashgraph/sdk';
+import { PrivateKey, TopicMessageSubmitTransaction } from '@hiero-ledger/sdk';
 import { DIDOwnerMessage, DIDOwnerMessageHederaDefaultLifeCycle } from '../../../src';
 import { DIDOwnerMessageContext } from '../../../src/messages/did-owner/lifecycle/context';
 import { NETWORK, SIGNATURE, TestVerifier, VALID_DID_TOPIC_ID } from '../helpers';

@@ -4,7 +4,7 @@
  * waiting for deletion confirmation on the mirror node.
  */
 import { HcsTopicService } from '@hiero-did-sdk/hcs';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/client';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 

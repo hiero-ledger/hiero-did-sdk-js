@@ -1,4 +1,4 @@
-import NodeClient from '@hashgraph/sdk/lib/client/NodeClient';
+import NodeClient from '@hiero-ledger/sdk/lib/client/NodeClient';
 import { isMirrorQuerySupported } from '../../src/shared';
 
 describe('isMirrorQuerySupported', () => {

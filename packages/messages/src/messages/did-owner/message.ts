@@ -1,4 +1,4 @@
-import { PublicKey } from '@hashgraph/sdk';
+import { PublicKey } from '@hiero-ledger/sdk';
 import { DIDMessage, Network, isHederaDID, KeysUtility, DIDError } from '@hiero-did-sdk/core';
 import { isTopicId } from '../../validators/is-topic-id';
 import { DIDOwnerMessageConstructor, MessageSerialized } from './interfaces';

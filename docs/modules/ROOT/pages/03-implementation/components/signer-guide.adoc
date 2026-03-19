@@ -23,7 +23,7 @@ This example demonstrates how to generate a new key pair using the `Signer` and 
 [source,typescript]
 ----
 import { Signer } from "@hiero-did-sdk/signer-internal";
-import {Client, TopicMessageSubmitTransaction} from "@hashgraph/sdk"; // Import from signer-internal
+import {Client, TopicMessageSubmitTransaction} from "@hiero-ledger/sdk"; // Import from signer-internal
 
 const client = Client.forTestnet()
 

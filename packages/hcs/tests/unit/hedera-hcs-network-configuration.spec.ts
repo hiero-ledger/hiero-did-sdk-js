@@ -1,4 +1,4 @@
-import { PrivateKey, Timestamp } from '@hashgraph/sdk';
+import { PrivateKey, Timestamp } from '@hiero-ledger/sdk';
 import { HederaHcsService } from '../../src/hedera-hcs-service';
 import { HederaNetwork, NetworkConfig } from '@hiero-did-sdk/client';
 import { Buffer } from 'buffer';

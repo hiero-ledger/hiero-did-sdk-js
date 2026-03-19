@@ -9,9 +9,9 @@ import {
   TopicDeleteTransaction,
   TopicInfoQuery,
   TopicUpdateTransaction,
-} from '@hashgraph/sdk';
-import Duration from '@hashgraph/sdk/lib/Duration';
-import AccountId from '@hashgraph/sdk/lib/account/AccountId';
+} from '@hiero-ledger/sdk';
+import Duration from '@hiero-ledger/sdk/lib/Duration';
+import AccountId from '@hiero-ledger/sdk/lib/account/AccountId';
 import { HcsCacheService } from '../cache';
 import { CacheConfig } from '../hedera-hcs-service.configuration';
 import { Cache, Signer } from '@hiero-did-sdk/core';

@@ -2,7 +2,7 @@
  * This example demonstrates how to update multiple properties of a
  * DID document simultaneously using the `updateDID` function.
  */
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { updateDID } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;

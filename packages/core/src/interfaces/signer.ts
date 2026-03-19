@@ -1,5 +1,5 @@
 import { PublicKeyInDer } from './public-key';
-import { PublicKey, Transaction } from '@hashgraph/sdk';
+import { PublicKey, Transaction } from '@hiero-ledger/sdk';
 import { KeysUtility } from '../utils';
 
 /**
@@ -35,7 +35,7 @@ export abstract class Signer {
   abstract verify(message: Uint8Array, signature: Uint8Array): Promise<boolean>;
 
   /**
-   * Get the public key as a PublicKey instance from @hashgraph/sdk.
+   * Get the public key as a PublicKey instance from @hiero-ledger/sdk.
    *
    * @returns The public key as a PublicKey instance.
    * @throws If the public key cannot be retrieved.

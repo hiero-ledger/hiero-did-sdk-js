@@ -1,4 +1,4 @@
-import { PublicKey, Transaction } from '@hashgraph/sdk';
+import { PublicKey, Transaction } from '@hiero-ledger/sdk';
 import { KeysUtility, Signer } from '@hiero-did-sdk/core';
 
 describe('signer', () => {

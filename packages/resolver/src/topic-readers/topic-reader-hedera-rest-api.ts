@@ -1,6 +1,6 @@
 import { Network, DIDError } from '@hiero-did-sdk/core';
 import { TopicReader, TopicReaderMessage, TopicReaderOptions } from '../interfaces';
-import { Timestamp } from '@hashgraph/sdk';
+import { Timestamp } from '@hiero-ledger/sdk';
 import { Buffer } from 'buffer';
 
 interface RestAPIMessage {

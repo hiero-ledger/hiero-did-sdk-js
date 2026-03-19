@@ -5,7 +5,7 @@
  * The sample operation here gets the account balance for the operator account.
  */
 import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/client';
-import { AccountBalanceQuery } from '@hashgraph/sdk';
+import { AccountBalanceQuery } from '@hiero-ledger/sdk';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;
 const operatorKey = process.env.HEDERA_TESTNET_OPERATOR_KEY;

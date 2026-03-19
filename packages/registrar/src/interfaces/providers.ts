@@ -1,5 +1,5 @@
 import { Publisher, Signer } from '@hiero-did-sdk/core';
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { ClientOptions } from './client-options';
 
 export interface PublisherProviders {

@@ -1,4 +1,4 @@
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey } from '@hiero-ledger/sdk';
 import { HederaNetwork } from '@hiero-did-sdk/client';
 import { HederaHcsService } from '../../src/hedera-hcs-service';
 import { Buffer } from 'buffer';

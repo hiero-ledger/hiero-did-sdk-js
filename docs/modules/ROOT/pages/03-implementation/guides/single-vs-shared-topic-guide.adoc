@@ -108,7 +108,7 @@ In some cases, a hybrid approach might be optimal:
 
 [source,typescript]
 ----
-import { createDID } from "@hashgraph/did-sdk-js";
+import { createDID } from "@hiero-did-sdk/registrar";
 
 // Your existing topic ID
 const sharedTopicId = "0.0.1234567";
@@ -136,7 +136,7 @@ async function createDidWithSharedTopic() {
 
 [source,typescript]
 ----
-import { createDID } from "@hashgraph/did-sdk-js";
+import { createDID } from "@hiero-did-sdk/registrar";
 
 async function createDidWithSingleTopic() {
   try {

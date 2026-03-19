@@ -8,7 +8,7 @@ The Hiero DID SDK can be installed using npm or yarn.
 
 [source,bash]
 ----
-npm install @hashgraph/sdk @hiero-did-sdk/registrar @hiero-did-sdk/resolver
+npm install @hiero-ledger/sdk @hiero-did-sdk/registrar @hiero-did-sdk/resolver
 ----
 
 Additionally, a `buffer` package is required to be installed as a dependency.
@@ -48,9 +48,9 @@ The `CustomWalletConnectPublisher` is a custom implementation of the xref::03-im
 
 === Limitations
 
-The main dependency of the Hiero DID SDK is `@hashgraph/sdk`. It allows to interact with the Hedera network like submitting transactions, creating accounts, etc. This library exposes WebClient which is a browser-friendly version of the Hedera SDK Client. But because of the nature of the WebClient, it is instantiated with empty mirror node addresses and network. This prevents you from using it out of the box in the browser environment. You can read more about it in the https://github.com/hiero-ledger/hiero-sdk-js/issues/2263[issue].
+The main dependency of the Hiero DID SDK is `@hiero-ledger/sdk`. It allows to interact with the Hedera network like submitting transactions, creating accounts, etc. This library exposes WebClient which is a browser-friendly version of the Hedera SDK Client. But because of the nature of the WebClient, it is instantiated with empty mirror node addresses and network. This prevents you from using it out of the box in the browser environment. You can read more about it in the https://github.com/hiero-ledger/hiero-sdk-js/issues/2263[issue].
 
-To use the `@hashgraph/sdk` in a browser environment, you need to manually set the mirror node address and network. Another option is to use the `@hashgraph/sdk` with the WalletConnect provider. This will require you to implement a custom xref::03-implementation/components/core-api.adoc#publisher[Publisher] class.
+To use the `@hiero-ledger/sdk` in a browser environment, you need to manually set the mirror node address and network. Another option is to use the `@hiero-ledger/sdk` with the WalletConnect provider. This will require you to implement a custom xref::03-implementation/components/core-api.adoc#publisher[Publisher] class.
 
 When you have a custom `Publisher` implementation, you will need to pass it to all the DID SDK functions that require it, like `createDID` and `resolveDID`.
 

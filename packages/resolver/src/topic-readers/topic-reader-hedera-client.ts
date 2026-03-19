@@ -1,4 +1,4 @@
-import { Client, Timestamp, TopicMessage, TopicMessageQuery } from '@hashgraph/sdk';
+import { Client, Timestamp, TopicMessage, TopicMessageQuery } from '@hiero-ledger/sdk';
 import { Network } from '@hiero-did-sdk/core';
 import { TopicReader, TopicReaderMessage, TopicReaderOptions } from '../interfaces';
 import { Buffer } from 'buffer';

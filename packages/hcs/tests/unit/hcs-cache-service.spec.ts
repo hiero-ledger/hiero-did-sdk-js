@@ -1,7 +1,7 @@
 import { TopicInfo, TopicMessageData, HcsCacheService } from '@hiero-did-sdk/hcs';
 import { Cache } from '@hiero-did-sdk/core';
 import { LRUMemoryCache } from '@hiero-did-sdk/cache';
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 
 vi.mock('@hiero-did-sdk/cache', () => ({
   LRUMemoryCache: vi.fn().mockImplementation(function() {

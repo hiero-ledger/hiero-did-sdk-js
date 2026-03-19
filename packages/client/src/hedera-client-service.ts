@@ -1,5 +1,5 @@
-import { Client, Hbar } from '@hashgraph/sdk';
-import NodeClient from '@hashgraph/sdk/lib/client/NodeClient';
+import { Client, Hbar } from '@hiero-ledger/sdk';
+import NodeClient from '@hiero-ledger/sdk/lib/client/NodeClient';
 import { HederaClientConfiguration } from './hedera-client.configuration';
 
 const MAX_TRANSACTION_FEE = 2;

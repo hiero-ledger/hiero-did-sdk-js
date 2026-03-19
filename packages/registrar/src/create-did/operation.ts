@@ -3,7 +3,7 @@ import { LifecycleRunner, LifecycleRunnerOptions } from '@hiero-did-sdk/lifecycl
 import { Signer } from '@hiero-did-sdk/signer-internal';
 import { Publisher } from '@hiero-did-sdk/publisher-internal';
 import { DIDError, KeysUtility } from '@hiero-did-sdk/core';
-import { PublicKey } from '@hashgraph/sdk';
+import { PublicKey } from '@hiero-ledger/sdk';
 import { Providers } from '../interfaces';
 import { getPublisher, getSigner, MessageAwaiter, extractOptions, extractProviders } from '../shared';
 import { CreateDIDOptions, CreateDIDResult } from './interface';

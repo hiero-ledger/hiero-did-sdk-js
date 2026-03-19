@@ -1,4 +1,4 @@
-import { PublicKey } from '@hashgraph/sdk';
+import { PublicKey } from '@hiero-ledger/sdk';
 import { base58 } from '@scure/base';
 import { MultibaseAlgorithm, MultibaseCodec } from './multibase-codec';
 import { Buffer } from 'buffer';

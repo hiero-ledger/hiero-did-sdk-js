@@ -4,7 +4,7 @@ import {
 } from '@hiero-did-sdk/core';
 import { getDIDRootKey } from '../../src/shared/get-root-key';
 import { VALID_DID } from '../helpers';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { KeysUtility } from '@hiero-did-sdk/core';
 
 describe('Get Root Key operation', () => {

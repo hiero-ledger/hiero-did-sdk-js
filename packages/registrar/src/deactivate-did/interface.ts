@@ -1,5 +1,5 @@
 import { DIDDocument } from '@hiero-did-sdk/core';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { OperationState, SigningRequest, CommonRegistrarOptions } from '../interfaces';
 import { TopicReader } from '@hiero-did-sdk/resolver';
 

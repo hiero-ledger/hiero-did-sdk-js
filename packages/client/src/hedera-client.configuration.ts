@@ -1,4 +1,4 @@
-import { AccountId } from '@hashgraph/sdk';
+import { AccountId } from '@hiero-ledger/sdk';
 
 export const HEDERA_NETWORKS = ['mainnet', 'testnet', 'previewnet', 'local-node'] as const;
 
