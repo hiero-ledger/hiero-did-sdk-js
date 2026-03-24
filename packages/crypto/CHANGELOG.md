@@ -1,5 +1,11 @@
 # @hiero-did-sdk/crypto
 
+## 0.2.0
+
+### Minor Changes
+
+- 5366367: Migrate to new Hiero SDK JS package namespace + security fixes
+
 ## 0.1.8
 
 ### Patch Changes

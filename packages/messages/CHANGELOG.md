@@ -1,5 +1,18 @@
 # @hiero-did-sdk/messages
 
+## 0.2.0
+
+### Minor Changes
+
+- 5366367: Migrate to new Hiero SDK JS package namespace + security fixes
+
+### Patch Changes
+
+- Updated dependencies [5366367]
+  - @hiero-did-sdk/lifecycle@0.2.0
+  - @hiero-did-sdk/resolver@0.2.0
+  - @hiero-did-sdk/core@0.2.0
+
 ## 0.1.8
 
 ### Patch Changes
