@@ -43,5 +43,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
+- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
 - [Zstandard](https://facebook.github.io/zstd/) - The official Zstandard website, providing information about the compression algorithm used in this package.

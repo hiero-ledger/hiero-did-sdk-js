@@ -1,6 +1,6 @@
 import { LifecycleRunner, RunnerState } from '@hiero-did-sdk/lifecycle';
 import { Publisher } from '@hiero-did-sdk/core';
-import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
+import { TopicMessageSubmitTransaction } from '@hiero-ledger/sdk';
 import { DIDAddServiceMessage, DIDAddServiceMessageHederaCSMLifeCycle } from '../../../src';
 import { SIGNATURE, TestVerifier, VALID_DID } from '../helpers';
 

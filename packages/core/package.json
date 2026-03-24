@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/core",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
@@ -50,7 +50,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.78.0",
+    "@hiero-ledger/sdk": "^2.81.0",
     "@scure/base": "^1.2.6",
     "buffer": "^6.0.3",
     "cbor-x": "^1.6.0",

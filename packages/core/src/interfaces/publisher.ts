@@ -1,4 +1,4 @@
-import { Transaction, TransactionReceipt, PublicKey } from '@hashgraph/sdk';
+import { Transaction, TransactionReceipt, PublicKey } from '@hiero-ledger/sdk';
 import { Network } from './network';
 
 /**

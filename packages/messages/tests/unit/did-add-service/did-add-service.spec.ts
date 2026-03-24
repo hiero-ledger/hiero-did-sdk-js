@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { DIDAddServiceMessage } from '../../../src';
 import { BASE64_PATTERN, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
 import { Buffer } from 'buffer';

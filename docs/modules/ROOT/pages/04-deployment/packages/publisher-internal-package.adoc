@@ -16,7 +16,7 @@ The following example demonstrates how to use the `Publisher` to submit a transa
 [source,typescript]
 ----
 import { Publisher } from '@hiero-did-sdk/publisher-internal';
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 
 // Create a Hedera Client instance for the testnet
 const client = Client.forTestnet(); 

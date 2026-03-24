@@ -1,6 +1,6 @@
 import { createDID, updateDID } from '@hiero-did-sdk/registrar';
 import { KeysUtility, parseDID } from '@hiero-did-sdk/core';
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey } from '@hiero-ledger/sdk';
 import { resolveDID } from '@hiero-did-sdk/resolver';
 import { HederaAnoncredsRegistry } from '@hiero-did-sdk/anoncreds';
 import {

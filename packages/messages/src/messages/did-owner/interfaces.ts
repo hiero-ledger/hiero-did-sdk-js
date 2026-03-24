@@ -1,5 +1,5 @@
 import { Network } from '@hiero-did-sdk/core';
-import { PublicKey } from '@hashgraph/sdk';
+import { PublicKey } from '@hiero-ledger/sdk';
 
 export interface DIDOwnerMessageConstructor {
   /**

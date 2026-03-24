@@ -2,7 +2,7 @@
  * This example demonstrates how to update a DID document using the
  * `updateDID` function with a client instance.
  */
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { updateDID } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;

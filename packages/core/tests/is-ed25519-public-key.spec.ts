@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { isEd25519PublicKey } from '../src';
 import { MultibaseCodec } from '../src/utils/multibase-codec';
 

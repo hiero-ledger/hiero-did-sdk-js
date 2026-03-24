@@ -1,5 +1,5 @@
 import { HcsFileService, ChunkMessage } from '../../src';
-import { Client, PrivateKey, PublicKey } from '@hashgraph/sdk';
+import { Client, PrivateKey, PublicKey } from '@hiero-ledger/sdk';
 import { Crypto } from '@hiero-did-sdk/crypto';
 import { Zstd } from '@hiero-did-sdk/zstd';
 import { Buffer } from 'buffer';

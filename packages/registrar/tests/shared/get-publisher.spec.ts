@@ -1,5 +1,5 @@
 import { Publisher } from '@hiero-did-sdk/publisher-internal';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { getPublisher } from '../../src/shared/get-publisher';
 import { randomClient, TestPublisher, TestSigner } from '../helpers';
 

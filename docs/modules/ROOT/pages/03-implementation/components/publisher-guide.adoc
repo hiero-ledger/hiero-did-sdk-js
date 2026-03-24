@@ -21,7 +21,7 @@ This example demonstrates how to submit a simple transaction using the `Publishe
 [source, typescript]
 ----
 import { Publisher } from "@hiero-did-sdk/publisher-internal";
-import { Client, PrivateKey, TransferTransaction } from "@hashgraph/sdk";
+import { Client, PrivateKey, TransferTransaction } from "@hiero-ledger/sdk";
 
 async function main() {
   // Configure the Hedera client

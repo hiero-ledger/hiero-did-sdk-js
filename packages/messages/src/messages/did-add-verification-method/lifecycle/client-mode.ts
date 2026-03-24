@@ -1,4 +1,4 @@
-import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
+import { TopicMessageSubmitTransaction } from '@hiero-ledger/sdk';
 import { LifecycleBuilder } from '@hiero-did-sdk/lifecycle';
 import { Publisher } from '@hiero-did-sdk/core';
 import { DIDAddVerificationMethodMessage } from '../message';

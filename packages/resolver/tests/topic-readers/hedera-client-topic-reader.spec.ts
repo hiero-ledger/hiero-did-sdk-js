@@ -1,5 +1,5 @@
 import { TopicReaderHederaClient } from '../../src/topic-readers';
-import { Client, TopicMessage, Timestamp } from '@hashgraph/sdk';
+import { Client, TopicMessage, Timestamp } from '@hiero-ledger/sdk';
 import { Buffer } from 'buffer';
 
 const {
@@ -38,8 +38,8 @@ const {
   }),
 }));
 
-vi.mock('@hashgraph/sdk', async () => {
-  const actual = await vi.importActual<typeof import('@hashgraph/sdk')>('@hashgraph/sdk');
+vi.mock('@hiero-ledger/sdk', async () => {
+  const actual = await vi.importActual<typeof import('@hiero-ledger/sdk')>('@hiero-ledger/sdk');
 
   const ClientMock: any = {
     close: vi.fn(),

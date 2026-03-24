@@ -1,5 +1,5 @@
 import { LifecycleRunner, RunnerState } from '@hiero-did-sdk/lifecycle';
-import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
+import { TopicMessageSubmitTransaction } from '@hiero-ledger/sdk';
 import { DIDAddVerificationMethodMessage, DIDAddVerificationMethodMessageHederaDefaultLifeCycle } from '../../../src';
 import { PUBLIC_KEY_MULTIBASE, SIGNATURE, TestVerifier, VALID_DID, VALID_DID_TOPIC_ID } from '../helpers';
 import { Signer } from '@hiero-did-sdk/core';

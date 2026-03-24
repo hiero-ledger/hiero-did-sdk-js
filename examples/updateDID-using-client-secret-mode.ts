@@ -1,7 +1,7 @@
 /*
  * This example demonstrates how to update a DID document in Client Managed Secret Mode.
  */
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey } from '@hiero-ledger/sdk';
 import { generateUpdateDIDRequest, submitUpdateDIDRequest, DIDUpdateBuilder } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;

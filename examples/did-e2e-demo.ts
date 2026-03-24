@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { createDID, deactivateDID, updateDID } from '@hiero-did-sdk/registrar';
 import { resolveDID } from '@hiero-did-sdk/resolver';
 import * as readline from 'node:readline';

@@ -39,5 +39,5 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ## References
 
-- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hashgraph DID SDK, containing the complete source code and documentation.
-- [Hedera JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The official Hedera JavaScript SDK, used for interacting with the Hedera network.
+- [Hiero DID SDK](https://github.com/hiero-ledger/hiero-did-sdk-js) - The official repository for the Hiero DID SDK, containing the complete source code and documentation.
+- [Hiero JavaScript SDK](https://github.com/hiero-ledger/hiero-sdk-js) - The official Hiero JavaScript SDK, used for interacting with the Hedera network.

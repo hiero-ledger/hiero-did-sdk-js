@@ -5,7 +5,7 @@
  * It demonstrates optional filtering by date, limit, and waiting for new messages.
  */
 import { HcsMessageService, HcsTopicService } from '@hiero-did-sdk/hcs';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { HederaClientConfiguration, HederaClientService } from '@hiero-did-sdk/client';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 

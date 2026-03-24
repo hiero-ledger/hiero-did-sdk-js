@@ -4,7 +4,7 @@
   associated with a specific Hedera topic ID, which can
   be useful for managing permissions and access control.
 */
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { createDID } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;

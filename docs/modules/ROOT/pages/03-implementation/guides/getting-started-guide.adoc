@@ -27,7 +27,7 @@ Use npm to install the necessary packages:
 
 [source,bash]
 ----
-npm install @hashgraph/sdk @hiero-did-sdk/registrar @hiero-did-sdk/resolver
+npm install @hiero-ledger/sdk @hiero-did-sdk/registrar @hiero-did-sdk/resolver
 ----
 
 === 2.  Set up your environment
@@ -45,7 +45,7 @@ HEDERA_PRIVATE_KEY=your_private_key_here
 
 [source,javascript]
 ----
-import { Client, PrivateKey } from "@hashgraph/sdk";
+import { Client, PrivateKey } from "@hiero-ledger/sdk";
 
 require("dotenv").config();
 

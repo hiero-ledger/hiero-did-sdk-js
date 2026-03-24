@@ -1,7 +1,7 @@
 /*
  * This example demonstrates how to deactivate a DID in Client Managed Secret Mode.
  */
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey } from '@hiero-ledger/sdk';
 import { generateDeactivateDIDRequest, submitDeactivateDIDRequest } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;

@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { DIDAddVerificationMethodMessage } from '../../../src';
 import {
   BASE64_PATTERN,

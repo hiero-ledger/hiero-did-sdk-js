@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { KeysUtility, DID_ROOT_KEY_ID } from '@hiero-did-sdk/core';
 import { DidDocumentBuilder } from '../src/did-document-builder';
 import {

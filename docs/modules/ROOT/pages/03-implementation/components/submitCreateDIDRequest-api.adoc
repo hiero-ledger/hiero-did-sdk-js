@@ -154,10 +154,10 @@ The following table enumerates the exceptions that may arise during the executio
 |Providers must contain client options or client or publisher.
 
 |`invalidArgument`
-|Hashgraph SDK Client must be configured with a network.
+|Hiero SDK Client must be configured with a network.
 
 |`invalidArgument`
-|Hashgraph SDK Client must be configured with an operator account.
+|Hiero SDK Client must be configured with an operator account.
 
 |`invalidArgument`
 |Signature and verifier are required for the signature step.

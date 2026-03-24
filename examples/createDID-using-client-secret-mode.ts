@@ -2,7 +2,7 @@
   This example demonstrates how to create a DID in Client Managed Secret Mode.
   This mode is useful when you want to manage the secret key yourself.
 */
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey } from '@hiero-ledger/sdk';
 import { generateCreateDIDRequest, submitCreateDIDRequest } from '@hiero-did-sdk/registrar';
 import { KeysUtility } from '@hiero-did-sdk/core';
 

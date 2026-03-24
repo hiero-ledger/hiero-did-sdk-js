@@ -107,7 +107,7 @@ This example shows how to use the `KeysUtility` to transform keys from a Hedera 
 [source, typescript]
 ----
 import { KeysUtility } from "@hiero-did-sdk/core";
-import { PublicKey } from "@hashgraph/sdk";
+import { PublicKey } from "@hiero-ledger/sdk";
 
 // Load a key from a Hedera PublicKey
 const keyUtil = KeysUtility.fromPublicKey(publicKey);

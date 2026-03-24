@@ -1,6 +1,6 @@
 {
   "name": "@hiero-did-sdk/hcs",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "This package provides a comprehensive interface for interacting with Hedera Consensus Service (HCS) within the Hiero DID SDK JS.",
   "author": {
     "name": "DSR Corporation",
@@ -50,7 +50,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.78.0",
+    "@hiero-ledger/sdk": "^2.81.0",
     "@hiero-did-sdk/cache": "workspace:*",
     "@hiero-did-sdk/client": "workspace:*",
     "@hiero-did-sdk/core": "workspace:*",

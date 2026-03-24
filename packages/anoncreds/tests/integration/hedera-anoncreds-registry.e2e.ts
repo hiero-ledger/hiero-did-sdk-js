@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { LRUMemoryCache } from '@hiero-did-sdk/cache';
 import { HederaNetwork, NetworkConfig } from '@hiero-did-sdk/client';
 import { HederaHcsService } from '@hiero-did-sdk/hcs';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 const TEST_WITH_CACHE = true;
 

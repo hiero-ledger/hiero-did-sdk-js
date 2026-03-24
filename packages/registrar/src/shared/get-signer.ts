@@ -1,6 +1,6 @@
 import { DIDError, Signer } from '@hiero-did-sdk/core';
 import { Signer as InternalSigner } from '@hiero-did-sdk/signer-internal';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 
 /**
  * Extract the signer from the providers or create a new internal signer.

@@ -1,4 +1,4 @@
-import { Client, PrivateKey, Transaction, Status, LedgerId } from '@hashgraph/sdk';
+import { Client, PrivateKey, Transaction, Status, LedgerId } from '@hiero-ledger/sdk';
 import { Publisher } from '../src';
 import { randomClient } from './helpers';
 

@@ -19,7 +19,7 @@ import {
   RevocationRegistryEntryMessage,
 } from '../../src/dto';
 import { NetworkName } from '@hiero-did-sdk/client';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 import type { Mock, Mocked } from 'vitest';
 

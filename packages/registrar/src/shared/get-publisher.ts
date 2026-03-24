@@ -1,4 +1,4 @@
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { DIDError, Publisher } from '@hiero-did-sdk/core';
 import { Publisher as InternalPublisher } from '@hiero-did-sdk/publisher-internal';
 import { Providers } from '../interfaces';

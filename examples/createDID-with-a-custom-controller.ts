@@ -3,7 +3,7 @@
   `controller`. The controller is the DID that has the authority
   to update or deactivate the DID document.
 */
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { createDID } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;

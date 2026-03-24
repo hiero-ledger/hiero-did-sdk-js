@@ -1,4 +1,4 @@
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { Signer as BaseSigner, DIDError } from '@hiero-did-sdk/core';
 import { isEd25519DerPrivateKeyString, isEd25519PrivateKey } from './validators';
 

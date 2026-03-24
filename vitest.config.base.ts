@@ -10,8 +10,8 @@ export default defineProject({
       },
       {
         // Properly resolve deep imports from Hiero SDK JS
-        find: /^@hashgraph\/sdk\/(.*)$/,
-        replacement: path.resolve(__dirname, 'node_modules', '@hashgraph/sdk') + '/$1',
+        find: /^@hiero-ledger\/sdk\/(.*)$/,
+        replacement: path.resolve(__dirname, 'node_modules', '@hiero-ledger/sdk') + '/$1',
       },
     ],
   },

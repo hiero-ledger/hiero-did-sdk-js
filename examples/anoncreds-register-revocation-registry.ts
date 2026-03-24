@@ -9,7 +9,7 @@ import {
   AnonCredsRevocationRegistryDefinition,
   AnonCredsSchema,
 } from '../packages/anoncreds/src/specification';
-import { PrivateKey } from '@hashgraph/sdk';
+import { PrivateKey } from '@hiero-ledger/sdk';
 import { Signer } from '@hiero-did-sdk/signer-internal';
 
 const operatorId = process.env.HEDERA_TESTNET_OPERATOR_ID;

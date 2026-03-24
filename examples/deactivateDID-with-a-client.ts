@@ -2,7 +2,7 @@
  * This example demonstrates how to deactivate a DID using the
  * `deactivateDID` function with a Hedera Client instance.
  */
-import { Client } from '@hashgraph/sdk';
+import { Client } from '@hiero-ledger/sdk';
 import { deactivateDID } from '@hiero-did-sdk/registrar';
 
 const accountId = process.env.HEDERA_TESTNET_OPERATOR_ID;

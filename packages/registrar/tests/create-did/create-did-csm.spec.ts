@@ -9,7 +9,7 @@ import {
   ClientSetOperatorMock,
 } from '../mocks';
 
-import { Client, PrivateKey } from '@hashgraph/sdk';
+import { Client, PrivateKey } from '@hiero-ledger/sdk';
 import { resolveDID } from '@hiero-did-sdk/resolver';
 import { DIDError } from '@hiero-did-sdk/core';
 import {
