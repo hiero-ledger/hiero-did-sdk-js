@@ -15,6 +15,7 @@ export async function waitForChangesVisibility<T>(options: {
   const { fetchFn, checkFn, waitTimeout } = options;
   const timeout = waitTimeout ?? DEFAULT_TIMEOUT;
   const startTime = Date.now();
+  let lastError: unknown;
 
   while (Date.now() - startTime < timeout) {
     try {
@@ -22,12 +23,15 @@ export async function waitForChangesVisibility<T>(options: {
       if (checkFn(data)) {
         return;
       }
-    } catch {
-      // Ignore
+    } catch (error) {
+      // Keep the most recent polling failure to improve timeout diagnostics.
+      lastError = error;
     }
 
     await new Promise((resolve) => setTimeout(resolve, POLLING_INTERVAL));
   }
 
-  throw new Error(`Timeout of ${timeout}ms exceeded while waiting for changes visibility`);
+  throw lastError !== undefined
+    ? new Error(`Timeout of ${timeout}ms exceeded while waiting for changes visibility`, { cause: lastError })
+    : new Error(`Timeout of ${timeout}ms exceeded while waiting for changes visibility`);
 }
