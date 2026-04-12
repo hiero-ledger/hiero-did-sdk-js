@@ -1,0 +1,19 @@
+@startuml
+class LRUMemoryCache {
+  - _maxSize: number
+  - _cache: Map<string, CacheEntry<unknown>>
+  + constructor(maxSize?: number)
+  + get<CacheValue>(key: string): Promise<CacheValue | null>
+  + set<CacheValue>(key: string, value: CacheValue, expiresInSeconds?: number): Promise<void>
+  + remove(key: string): Promise<void>
+  + clear(): Promise<void>
+}
+
+interface Cache {
+  + get<T>(key: string): Promise<T | null>
+  + set<T>(key: string, value: T, expiresInSeconds?: number): Promise<void>
+  + remove(key: string): Promise<void>
+}
+
+LRUMemoryCache ..|> Cache : implements
+@enduml

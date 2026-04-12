@@ -1,6 +1,12 @@
 = Crypto API Reference
 
-This document provides a concise API reference for the `Crypto` class and its related interfaces, which provide cryptographic hashing functionality, specifically SHA-256 hashing, with compatibility across Node.js and React Native environments.
+This document provides an API reference for the `Crypto` utility class — a cross-platform cryptographic helper that transparently supports both Node.js and React Native environments.
+
+== Class Diagram
+
+The class diagram below illustrates the public API of the `Crypto` utility.
+
+image::crypto-class-diagram.png[]
 
 == Types and Interfaces
 
