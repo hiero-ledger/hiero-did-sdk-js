@@ -1,0 +1,9 @@
+@startuml
+class HcsMessageService {
+  - cacheService?: HcsCacheService
+  - client: Client
+  + constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+  + submitMessage(props: SubmitMessageProps): Promise<SubmitMessageResult>
+  + getTopicMessages(props: GetTopicMessagesProps): Promise<TopicMessageData[]>
+}
+@enduml

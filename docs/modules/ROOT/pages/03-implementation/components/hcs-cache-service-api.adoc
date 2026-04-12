@@ -2,6 +2,12 @@
 
 This document provides a detailed API reference for the `HcsCacheService` class — a service responsible for caching Hedera Consensus Service (HCS) topic information, messages, and files.
 
+== Class Diagram
+
+The class diagram below illustrates the public API of the `HcsCacheService` class.
+
+image::hcs-cache-service-class-diagram.png[]
+
 == Constructor
 
 === `constructor`
