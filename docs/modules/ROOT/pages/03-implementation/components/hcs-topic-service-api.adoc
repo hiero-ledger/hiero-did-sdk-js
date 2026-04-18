@@ -2,6 +2,12 @@
 
 This document provides a detailed API reference for the `HcsTopicService` class — a service for managing Hedera Consensus Service (HCS) topics, including creating, updating, deleting topics, and retrieving topic info.
 
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `HcsTopicService` interface for managing topics.
+
+image::hcs-topic-service-class-diagram.png[]
+
 == Сonstructor
 
 === `constructor`

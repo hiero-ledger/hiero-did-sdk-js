@@ -2,6 +2,12 @@
 
 This document provides a detailed API reference for the `HcsMessageService` class — a service for submitting and querying messages in Hedera Consensus Service (HCS) topics.
 
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `HcsMessageService` interface for submitting and querying messages.
+
+image::hcs-message-service-class-diagram.png[]
+
 == Constructor
 
 === `constructor`
