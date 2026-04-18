@@ -2,6 +2,12 @@
 
 This document provides a concise API reference for the `Crypto` class and its related interfaces, which provide cryptographic hashing functionality, specifically SHA-256 hashing, with compatibility across Node.js and React Native environments.
 
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `Crypto` interface.
+
+image::crypto-class-diagram.png[]
+
 == Types and Interfaces
 
 === `HashInput`

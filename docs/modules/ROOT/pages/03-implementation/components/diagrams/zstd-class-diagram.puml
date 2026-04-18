@@ -1,0 +1,6 @@
+@startuml
+class Zstd {
+  + {static} compress(data: Uint8Array): Uint8Array
+  + {static} decompress(data: Uint8Array): Uint8Array
+}
+@enduml

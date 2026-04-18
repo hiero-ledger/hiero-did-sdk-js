@@ -2,6 +2,12 @@
 
 This document provides a detailed API reference for the `HederaClientService` class — a service to manage Hedera SDK clients with support for multiple Hedera networks (mainnet, testnet, previewnet, local-node, and custom networks).
 
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `HederaClientService` interface for interacting with the network.
+
+image::client-class-diagram.png[]
+
 == Constants
 
 === `HEDERA_NETWORKS`
