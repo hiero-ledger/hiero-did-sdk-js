@@ -517,4 +517,11 @@ export class HederaAnoncredsRegistry {
   private verifyRevocationRegistryEntryMessage(data: RevocationRegistryEntryMessage) {
     return !!data.value?.accum;
   }
+
+  /**
+   * Closes the registry and all its active Hedera SDK clients.
+   */
+  public close(): void {
+    this.hcsService.close();
+  }
 }

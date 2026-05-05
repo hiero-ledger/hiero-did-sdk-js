@@ -10,6 +10,7 @@ export type NetworkName = {
 
 export class HederaClientService {
   private readonly configuration: HederaClientConfiguration;
+  private readonly clients: Set<Client> = new Set();
 
   constructor(config: HederaClientConfiguration) {
     if (!config.networks.length) {
@@ -48,11 +49,24 @@ export class HederaClientService {
       });
     }
     client.setDefaultMaxTransactionFee(new Hbar(MAX_TRANSACTION_FEE));
+    this.clients.add(client);
     return client;
+  }
+
+  public close(): void {
+    for (const client of this.clients) {
+      client.close();
+    }
+    this.clients.clear();
   }
 
   public async withClient<T>(props: NetworkName, operation: (client: Client) => Promise<T>): Promise<T> {
     const client = this.getClient(props.networkName);
-    return operation(client).finally(() => client.close());
+    try {
+      return await operation(client);
+    } finally {
+      client.close();
+      this.clients.delete(client);
+    }
   }
 }

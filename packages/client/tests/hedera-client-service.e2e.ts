@@ -22,6 +22,10 @@ describe('HederaClientService', () => {
     service = new HederaClientService(config);
   });
 
+  afterEach(() => {
+    service.close();
+  });
+
   test('should throw an error if no networks are defined', () => {
     expect(() => new HederaClientService({ networks: [] })).toThrow('Networks must not be empty');
   });

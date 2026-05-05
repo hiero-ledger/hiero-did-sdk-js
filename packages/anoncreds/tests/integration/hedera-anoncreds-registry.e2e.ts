@@ -101,9 +101,12 @@ describe('Hedera AnonCreds Registry', () => {
     });
   });
 
+  afterEach(async () => {
+    anoncredsRegistry.close();
+  });
+
   afterAll(async () => {
-    // Wait for messages to flush out
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // No more manual flush wait needed if closed properly
   });
 
   it('Register and resolve a schema', async () => {
@@ -377,6 +380,9 @@ describe('Hedera AnonCreds Registry', () => {
       tsBetweenStatusListEntryDate = new Date((consensusTimestampFirst + consensusTimestampLast) / 2).getTime();
       tsLastStatusListEntryDate = new Date(consensusTimestampLast).getTime();
       tsAfterStatusListEntryDate = new Date(consensusTimestampLast + 1000000).getTime();
+
+      registry.close();
+      hcs.close();
     });
 
     it('should resolve a first revocation status list when valid id is passed but the timestamp earlier than first item', async () => {

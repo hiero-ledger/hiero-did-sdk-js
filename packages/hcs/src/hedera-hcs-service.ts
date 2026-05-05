@@ -127,4 +127,11 @@ export class HederaHcsService {
       async (client) => await new HcsFileService(client, this.cacheService).resolveFile(props)
     );
   }
+
+  /**
+   * Closes the service and all its active Hedera SDK clients.
+   */
+  public close(): void {
+    this.clientService.close();
+  }
 }
