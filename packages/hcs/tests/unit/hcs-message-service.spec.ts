@@ -362,12 +362,28 @@ describe('HcsMessageService', () => {
 
   describe('fetchTopicMessagesWithRest (private)', () => {
     beforeEach(() => {
-      vi.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node/');
+      vi.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node/api/v1');
       global.fetch = vi.fn();
     });
 
     afterEach(() => {
       vi.resetAllMocks();
+    });
+
+    it('should build the initial request URL against the SDK base URL', async () => {
+      (global.fetch as vi.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ messages: [], links: {} }),
+      });
+
+      await (service as any).fetchTopicMessagesWithRest({ topicId: '0.0.123' });
+
+      const calledUrl = (global.fetch as vi.Mock).mock.calls[0][0] as string;
+      const parsed = new URL(calledUrl);
+      expect(parsed.origin).toBe('http://mirror-node');
+      expect(parsed.pathname).toBe('/api/v1/topics/0.0.123/messages');
+      expect(parsed.searchParams.get('limit')).toBe('25');
+      expect(parsed.searchParams.get('encoding')).toBe('base64');
     });
 
     it('should fetch all pages until no next link or limit reached', async () => {
@@ -376,7 +392,10 @@ describe('HcsMessageService', () => {
           { consensus_timestamp: '1000', message: Buffer.from('a').toString('base64') },
           { consensus_timestamp: '2000', message: Buffer.from('b').toString('base64') },
         ],
-        links: { next: '/next1' },
+        // Realistic mirror node `links.next`: path-absolute and starts with /api/v1.
+        links: {
+          next: '/api/v1/topics/0.0.123/messages?limit=25&order=asc&timestamp=gt:2000.000000000&encoding=base64',
+        },
       };
       const secondResponse = {
         messages: [{ consensus_timestamp: '3000', message: Buffer.from('c').toString('base64') }],
@@ -397,6 +416,15 @@ describe('HcsMessageService', () => {
       });
 
       expect(global.fetch).toHaveBeenCalledTimes(2);
+
+      // Critical regression check: the second page URL must not double `/api/v1`.
+      const secondCallUrl = (global.fetch as vi.Mock).mock.calls[1][0] as string;
+      expect(secondCallUrl).not.toContain('/api/v1/api/v1');
+      const parsedSecond = new URL(secondCallUrl);
+      expect(parsedSecond.origin).toBe('http://mirror-node');
+      expect(parsedSecond.pathname).toBe('/api/v1/topics/0.0.123/messages');
+      expect(parsedSecond.searchParams.get('timestamp')).toBe('gt:2000.000000000');
+
       expect(res.length).toBe(3);
       expect(res[0].contents.toString()).toBe('a');
       expect(res[2].contents.toString()).toBe('c');
@@ -431,14 +459,6 @@ describe('HcsMessageService', () => {
       await expect((service as any).fetchTopicMessagesWithRest({ topicId: '0.0.123' })).rejects.toThrow(
         'Failed to fetch topic messages: Bad Request'
       );
-    });
-  });
-
-  describe('getNextUrl (private)', () => {
-    it('should construct URL correctly', () => {
-      vi.spyOn(client, 'mirrorRestApiBaseUrl', 'get').mockReturnValue('http://mirror-node');
-      const nextUrl = (service as any).getNextUrl('/path?param=1', 10, 'base64');
-      expect(nextUrl).toBe('http://mirror-node/path?param=1&limit=10&encoding=base64');
     });
   });
 });

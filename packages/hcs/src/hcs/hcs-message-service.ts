@@ -292,22 +292,27 @@ export class HcsMessageService {
   private async fetchTopicMessagesWithRest(props: FetchTopicMessagesProps): Promise<TopicMessageData[]> {
     const { topicId, fromDate, toDate, limit } = props;
 
-    let messages: TopicMessageData[] = [];
+    // The SDK-provided base URL already includes the `/api/v1` suffix
+    // (e.g. https://host/api/v1). The mirror node's `links.next` is a
+    // path-absolute URL that itself starts with `/api/v1/...`, so paginated
+    // requests must be resolved against the origin to avoid `/api/v1` doubling.
+    const baseUrl = new URL(this.client.mirrorRestApiBaseUrl);
 
-    let nextPath = `/topics/${topicId}/messages?`;
+    const firstUrl = new URL(`${baseUrl.pathname}/topics/${topicId}/messages`, baseUrl.origin);
+    firstUrl.searchParams.set('limit', '25');
+    firstUrl.searchParams.set('encoding', 'base64');
     if (fromDate) {
-      const timestamp = Timestamp.fromDate(fromDate);
-      nextPath += `&timestamp=gte:${timestamp.toString()}`;
+      firstUrl.searchParams.append('timestamp', `gte:${Timestamp.fromDate(fromDate).toString()}`);
     }
     if (toDate) {
-      const timestamp = Timestamp.fromDate(toDate);
-      nextPath += `&timestamp=lte:${timestamp.toString()}`;
+      firstUrl.searchParams.append('timestamp', `lte:${Timestamp.fromDate(toDate).toString()}`);
     }
 
-    while (nextPath && (!limit || messages.length < limit)) {
-      const url = this.getNextUrl(nextPath);
+    let messages: TopicMessageData[] = [];
+    let nextUrl: string | undefined = firstUrl.toString();
 
-      const response = await fetch(url, {
+    while (nextUrl && (!limit || messages.length < limit)) {
+      const response = await fetch(nextUrl, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -327,22 +332,10 @@ export class HcsMessageService {
           }))
         );
       }
-      nextPath = result.links?.next;
+
+      nextUrl = result.links?.next ? new URL(result.links.next, baseUrl.origin).toString() : undefined;
     }
 
     return limit ? messages.slice(0, limit) : messages;
-  }
-
-  /**
-   * Get next URL for fetching messages using REST API
-   * @param nextPath - The path component of the URL
-   * @param limit - The maximum number of messages to retrieve (default: 25)
-   * @param encoding - The encoding format for the messages (default: 'base64')
-   * @returns URL string for the next API request
-   * @private
-   */
-  private getNextUrl(nextPath: string, limit = 25, encoding = 'base64') {
-    const restApiUrl = this.client.mirrorRestApiBaseUrl;
-    return `${restApiUrl}${nextPath}&limit=${limit.toString()}&encoding=${encoding}`;
   }
 }
