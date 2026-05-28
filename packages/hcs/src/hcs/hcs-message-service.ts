@@ -296,20 +296,19 @@ export class HcsMessageService {
     // (e.g. https://host/api/v1). The mirror node's `links.next` is a
     // path-absolute URL that itself starts with `/api/v1/...`, so paginated
     // requests must be resolved against the origin to avoid `/api/v1` doubling.
-    const baseUrl = new URL(this.client.mirrorRestApiBaseUrl);
+    const baseUrl = this.client.mirrorRestApiBaseUrl;
+    const origin = this.getUrlOrigin(baseUrl);
 
-    const firstUrl = new URL(`${baseUrl.pathname}/topics/${topicId}/messages`, baseUrl.origin);
-    firstUrl.searchParams.set('limit', '25');
-    firstUrl.searchParams.set('encoding', 'base64');
+    const query = ['limit=25', 'encoding=base64'];
     if (fromDate) {
-      firstUrl.searchParams.append('timestamp', `gte:${Timestamp.fromDate(fromDate).toString()}`);
+      query.push(`timestamp=gte:${Timestamp.fromDate(fromDate).toString()}`);
     }
     if (toDate) {
-      firstUrl.searchParams.append('timestamp', `lte:${Timestamp.fromDate(toDate).toString()}`);
+      query.push(`timestamp=lte:${Timestamp.fromDate(toDate).toString()}`);
     }
 
     let messages: TopicMessageData[] = [];
-    let nextUrl: string | undefined = firstUrl.toString();
+    let nextUrl: string | undefined = `${baseUrl}/topics/${topicId}/messages?${query.join('&')}`;
 
     while (nextUrl && (!limit || messages.length < limit)) {
       const response = await fetch(nextUrl, {
@@ -333,9 +332,27 @@ export class HcsMessageService {
         );
       }
 
-      nextUrl = result.links?.next ? new URL(result.links.next, baseUrl.origin).toString() : undefined;
+      nextUrl = result.links?.next ? `${origin}${result.links.next}` : undefined;
     }
 
     return limit ? messages.slice(0, limit) : messages;
+  }
+
+  /**
+   * Extract the origin (scheme + host + port) from a URL string.
+   *
+   * Avoids the global `URL` class, which requires a polyfill in some runtimes
+   * (e.g. React Native) and would introduce cross-environment inconsistency.
+   * @param url - The URL to extract the origin from
+   * @returns The origin, or the input unchanged if it has no path component
+   * @private
+   */
+  private getUrlOrigin(url: string): string {
+    const schemeSeparator = url.indexOf('://');
+    if (schemeSeparator === -1) {
+      return url;
+    }
+    const pathStart = url.indexOf('/', schemeSeparator + 3);
+    return pathStart === -1 ? url : url.slice(0, pathStart);
   }
 }
