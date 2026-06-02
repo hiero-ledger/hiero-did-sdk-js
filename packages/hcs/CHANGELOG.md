@@ -1,5 +1,17 @@
 # @hiero-did-sdk/hcs
 
+## 0.2.1
+
+### Patch Changes
+
+- 6c6bce5: Fix multi-page Mirror Node REST API queries
+- Updated dependencies [6c6bce5]
+  - @hiero-did-sdk/zstd@0.2.1
+  - @hiero-did-sdk/cache@0.2.1
+  - @hiero-did-sdk/client@0.2.1
+  - @hiero-did-sdk/core@0.2.1
+  - @hiero-did-sdk/crypto@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

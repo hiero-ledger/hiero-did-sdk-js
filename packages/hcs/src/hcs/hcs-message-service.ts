@@ -292,22 +292,26 @@ export class HcsMessageService {
   private async fetchTopicMessagesWithRest(props: FetchTopicMessagesProps): Promise<TopicMessageData[]> {
     const { topicId, fromDate, toDate, limit } = props;
 
-    let messages: TopicMessageData[] = [];
+    // The SDK-provided base URL already includes the `/api/v1` suffix
+    // (e.g. https://host/api/v1). The mirror node's `links.next` is a
+    // path-absolute URL that itself starts with `/api/v1/...`, so paginated
+    // requests must be resolved against the origin to avoid `/api/v1` doubling.
+    const baseUrl = this.client.mirrorRestApiBaseUrl;
+    const origin = this.getUrlOrigin(baseUrl);
 
-    let nextPath = `/topics/${topicId}/messages?`;
+    const query = ['limit=25', 'encoding=base64'];
     if (fromDate) {
-      const timestamp = Timestamp.fromDate(fromDate);
-      nextPath += `&timestamp=gte:${timestamp.toString()}`;
+      query.push(`timestamp=gte:${Timestamp.fromDate(fromDate).toString()}`);
     }
     if (toDate) {
-      const timestamp = Timestamp.fromDate(toDate);
-      nextPath += `&timestamp=lte:${timestamp.toString()}`;
+      query.push(`timestamp=lte:${Timestamp.fromDate(toDate).toString()}`);
     }
 
-    while (nextPath && (!limit || messages.length < limit)) {
-      const url = this.getNextUrl(nextPath);
+    let messages: TopicMessageData[] = [];
+    let nextUrl: string | undefined = `${baseUrl}/topics/${topicId}/messages?${query.join('&')}`;
 
-      const response = await fetch(url, {
+    while (nextUrl && (!limit || messages.length < limit)) {
+      const response = await fetch(nextUrl, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -327,22 +331,28 @@ export class HcsMessageService {
           }))
         );
       }
-      nextPath = result.links?.next;
+
+      nextUrl = result.links?.next ? `${origin}${result.links.next}` : undefined;
     }
 
     return limit ? messages.slice(0, limit) : messages;
   }
 
   /**
-   * Get next URL for fetching messages using REST API
-   * @param nextPath - The path component of the URL
-   * @param limit - The maximum number of messages to retrieve (default: 25)
-   * @param encoding - The encoding format for the messages (default: 'base64')
-   * @returns URL string for the next API request
+   * Extract the origin (scheme + host + port) from a URL string.
+   *
+   * Avoids the global `URL` class, which requires a polyfill in some runtimes
+   * (e.g. React Native) and would introduce cross-environment inconsistency.
+   * @param url - The URL to extract the origin from
+   * @returns The origin, or the input unchanged if it has no path component
    * @private
    */
-  private getNextUrl(nextPath: string, limit = 25, encoding = 'base64') {
-    const restApiUrl = this.client.mirrorRestApiBaseUrl;
-    return `${restApiUrl}${nextPath}&limit=${limit.toString()}&encoding=${encoding}`;
+  private getUrlOrigin(url: string): string {
+    const schemeSeparator = url.indexOf('://');
+    if (schemeSeparator === -1) {
+      return url;
+    }
+    const pathStart = url.indexOf('/', schemeSeparator + 3);
+    return pathStart === -1 ? url : url.slice(0, pathStart);
   }
 }

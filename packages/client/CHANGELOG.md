@@ -1,5 +1,11 @@
 # @hiero-did-sdk/client
 
+## 0.2.1
+
+### Patch Changes
+
+- 6c6bce5: Fix multi-page Mirror Node REST API queries
+
 ## 0.2.0
 
 ### Minor Changes

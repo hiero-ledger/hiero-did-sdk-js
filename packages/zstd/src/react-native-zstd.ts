@@ -12,7 +12,7 @@ try {
     rnZstd = {
       // Additional data conversion is needed due to inconsistent API between Node and RN implementations
       compress: (data: Uint8Array): Uint8Array => rnZstdModule.compress(Buffer.from(data).toString()),
-      decompress: (data: Uint8Array): Uint8Array => Uint8Array.from(Buffer.from(rnZstdModule.decompress([...data]))),
+      decompress: (data: Uint8Array): Uint8Array => Uint8Array.from(Buffer.from(rnZstdModule.decompress(data.buffer))),
     };
   }
 } catch {

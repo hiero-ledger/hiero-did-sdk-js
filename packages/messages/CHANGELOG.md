@@ -1,5 +1,15 @@
 # @hiero-did-sdk/messages
 
+## 0.2.1
+
+### Patch Changes
+
+- 6c6bce5: Fix multi-page Mirror Node REST API queries
+- Updated dependencies [6c6bce5]
+  - @hiero-did-sdk/core@0.2.1
+  - @hiero-did-sdk/lifecycle@0.2.1
+  - @hiero-did-sdk/resolver@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
