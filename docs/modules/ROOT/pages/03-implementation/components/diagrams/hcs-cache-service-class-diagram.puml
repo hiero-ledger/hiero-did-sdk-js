@@ -1,0 +1,15 @@
+@startuml
+class HcsCacheService {
+  - cache: Cache
+  + constructor(configOrCache: CacheConfig | Cache)
+  + getTopicInfo(client: Client, topicId: string): Promise<TopicInfo | null>
+  + setTopicInfo(client: Client, topicId: string, topicInfo: TopicInfo): Promise<void>
+  + removeTopicInfo(client: Client, topicId: string): Promise<void>
+  + getTopicMessages(client: Client, topicId: string): Promise<TopicMessageData[] | null>
+  + setTopicMessages(client: Client, topicId: string, messages: TopicMessageData[]): Promise<void>
+  + removeTopicMessages(client: Client, topicId: string): Promise<void>
+  + getTopicFile(client: Client, topicId: string): Promise<Buffer | null>
+  + setTopicFile(client: Client, topicId: string, file: Buffer): Promise<void>
+  + removeTopicFile(client: Client, topicId: string): Promise<void>
+}
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class HcsFileService {
+  - cacheService?: HcsCacheService
+  - client: Client
+  + constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+  + submitFile(props: SubmitFileProps): Promise<string>
+  + resolveFile(props: ResolveFileProps): Promise<Buffer>
+}
+@enduml
