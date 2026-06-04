@@ -1,0 +1,15 @@
+@startuml
+class HcsFileService {
+  - client: Client
+  - cacheService?: HcsCacheService
+  + constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+  + submitFile(props: SubmitFileProps): Promise<string>
+  + resolveFile(props: ResolveFileProps): Promise<Buffer>
+  - resolveFileWithoutCache(props: ResolveFileProps): Promise<Buffer>
+  - buildFileFromChunkMessages(chunkMessages: ChunkMessage[]): Buffer
+  - buildChunkMessagesFromFile(payload: Buffer): HcsFileChunkMessage[]
+  - createHCS1Memo(hash: string): string
+  - isValidHCS1Memo(memo: string): boolean
+  - isValidHCS1Checksum(memo: string, checksum: string): boolean
+}
+@enduml

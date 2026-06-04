@@ -1,0 +1,15 @@
+@startuml
+class HcsMessageService {
+  - client: Client
+  - cacheService?: HcsCacheService
+  + constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+  + submitMessage(props: SubmitMessageProps): Promise<SubmitMessageResult>
+  + getTopicMessages(props: GetTopicMessagesProps): Promise<TopicMessageData[]>
+  - deduplicateAndSortMessages(...messages: TopicMessageData[]): TopicMessageData[]
+  - getNewMessagesContent(options: { topicId: string; startFrom: Date }): Promise<string[]>
+  - fetchTopicMessages(props: FetchTopicMessagesProps): Promise<TopicMessageData[]>
+  - fetchTopicMessagesWithClient(props: FetchTopicMessagesProps): Promise<TopicMessageData[]>
+  - fetchTopicMessagesWithRest(props: FetchTopicMessagesProps): Promise<TopicMessageData[]>
+  - getNextUrl(nextPath: string, limit?: number, encoding?: string): string
+}
+@enduml

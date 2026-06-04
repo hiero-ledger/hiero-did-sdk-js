@@ -2,6 +2,12 @@
 
 This document provides a concise API reference for the `HederaHcsService` class — a service for working with Hedera Consensus Service (HCS). It enables creation, update, deletion of topics, message submission, and file handling.
 
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `HederaHcsService` interface for working with Hedera Consensus Service (HCS).
+
+image::hcs-service-class-diagram.png[]
+
 == Constructor
 
 === `constructor`
