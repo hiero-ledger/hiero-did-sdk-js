@@ -1,6 +1,12 @@
 = Zstd API Reference
 
-This document provides a concise API reference for the `Zstd` class and the related `ZstdModule` interface, which provide compression and decompression functionality using the Zstandard (zstd) algorithm, with support for both Node.js and React Native environments.
+This document provides an API reference for the `Zstd` utility class — a cross-platform Zstandard compression/decompression helper that transparently supports both Node.js and React Native environments.
+
+== Class Diagram
+
+The class diagram below illustrates the public API of the `Zstd` utility.
+
+image::zstd-class-diagram.png[]
 
 == Interfaces
 
