@@ -1,0 +1,13 @@
+@startuml
+class HederaAnoncredsRegistry {
+  + constructor(config: HederaAnoncredsRegistryConfiguration)
+  + registerSchema(options: RegisterSchemaOptions & NetworkName): Promise<RegisterSchemaReturn>
+  + getSchema(schemaId: string): Promise<GetSchemaReturn>
+  + registerCredentialDefinition(options: RegisterCredentialDefinitionOptions & NetworkName): Promise<RegisterCredentialDefinitionReturn>
+  + getCredentialDefinition(credentialDefinitionId: string): Promise<GetCredentialDefinitionReturn>
+  + registerRevocationRegistryDefinition(options: RegisterRevocationRegistryDefinitionOptions & NetworkName): Promise<RegisterRevocationRegistryDefinitionReturn>
+  + getRevocationRegistryDefinition(revocationRegistryDefinitionId: string): Promise<GetRevocationRegistryDefinitionReturn>
+  + registerRevocationStatusList(options: RegisterRevocationStatusListOptions & NetworkName): Promise<RegisterRevocationStatusListReturn>
+  + getRevocationStatusList(revocationRegistryId: string, timestamp: number): Promise<GetRevocationStatusListReturn>
+}
+@enduml

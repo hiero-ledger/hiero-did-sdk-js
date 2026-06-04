@@ -2,6 +2,12 @@
 
 This document provides a detailed API reference for the `HederaAnoncredsRegistry` class — a service for managing Anoncreds schemas, credential definitions, and revocation registries on Hedera Consensus Service (HCS).
 
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `HederaAnoncredsRegistry` interface.
+
+image::anoncreds-class-diagram.png[]
+
 == Type Aliases
 
 === `NetworkName`

@@ -1,0 +1,8 @@
+@startuml
+class HederaClientService {
+  - configuration: HederaClientConfiguration
+  + constructor(config: HederaClientConfiguration)
+  + getClient(networkName?: string): Client
+  + withClient<T>(props: NetworkName, operation: (client: Client) => Promise<T>): Promise<T>
+}
+@enduml

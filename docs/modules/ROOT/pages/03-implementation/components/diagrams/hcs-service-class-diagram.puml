@@ -1,0 +1,15 @@
+@startuml
+class HederaHcsService {
+  - clientService: HederaClientService
+  - cacheService?: HcsCacheService
+  + constructor(config: HederaHcsServiceConfiguration)
+  + createTopic(props?: CreateTopicProps & NetworkName): Promise<string>
+  + updateTopic(props: UpdateTopicProps & NetworkName): Promise<void>
+  + deleteTopic(props: DeleteTopicProps & NetworkName): Promise<void>
+  + getTopicInfo(props: GetTopicInfoProps & NetworkName): Promise<TopicInfo>
+  + submitMessage(props: SubmitMessageProps & NetworkName): Promise<SubmitMessageResult>
+  + getTopicMessages(props: GetTopicMessagesProps & NetworkName): Promise<TopicMessageData[]>
+  + submitFile(props: SubmitFileProps & NetworkName): Promise<string>
+  + resolveFile(props: ResolveFileProps & NetworkName): Promise<Buffer>
+}
+@enduml

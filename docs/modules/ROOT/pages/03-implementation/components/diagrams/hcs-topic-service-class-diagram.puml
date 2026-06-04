@@ -1,0 +1,15 @@
+@startuml
+class HcsTopicService {
+  - client: Client
+  - cacheService?: HcsCacheService
+  + constructor(client: Client, cache?: CacheConfig | Cache | HcsCacheService)
+  + createTopic(props?: CreateTopicProps): Promise<string>
+  + updateTopic(props: UpdateTopicProps): Promise<void>
+  + deleteTopic(props: DeleteTopicProps): Promise<void>
+  + getTopicInfo(props: GetTopicInfoProps): Promise<TopicInfo>
+  - fetchTopicInfo(props: GetTopicInfoProps): Promise<TopicInfo>
+  - fetchTopicInfoWithClient(props: GetTopicInfoProps): Promise<TopicInfo>
+  - fetchTopicInfoWithRest(props: GetTopicInfoProps): Promise<TopicInfo>
+  - convertExpirationTimeToSeconds(expirationTime: Timestamp | Date): number | undefined
+}
+@enduml
