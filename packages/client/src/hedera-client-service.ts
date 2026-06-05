@@ -1,5 +1,4 @@
 import { Client, Hbar } from '@hiero-ledger/sdk';
-import NodeClient from '@hiero-ledger/sdk/lib/client/NodeClient';
 import { HederaClientConfiguration } from './hedera-client.configuration';
 
 const MAX_TRANSACTION_FEE = 2;
@@ -32,7 +31,7 @@ export class HederaClientService {
 
     if (!networkConfig) throw new Error('Unknown Hedera network');
 
-    let client: NodeClient;
+    let client: Client;
     if (typeof networkConfig.network === 'string') {
       client = Client.forName(networkConfig.network, { scheduleNetworkUpdate: false });
       client.setOperator(networkConfig.operatorId, networkConfig.operatorKey);
