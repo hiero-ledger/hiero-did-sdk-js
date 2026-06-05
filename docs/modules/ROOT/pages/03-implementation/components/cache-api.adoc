@@ -2,6 +2,12 @@
 
 This document provides a detailed API reference for the `LRUMemoryCache` class — an in-memory Least Recently Used (LRU) cache implementation of the `Cache` interface.
 
+== Class Diagram
+
+The class diagram below illustrates the core methods of the `LRUMemoryCache` interface for caching.
+
+image::cache-class-diagram.png[]
+
 == Interfaces
 
 === `Cache`
