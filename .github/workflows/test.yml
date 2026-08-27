@@ -5,9 +5,7 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
-  checks: write
-  pull-requests: write
-  contents: write
+  contents: read
 
 jobs:
   test:
@@ -17,6 +15,10 @@ jobs:
       matrix:
         node: [20, 22, 24]
     name: Run tests [Node v${{ matrix.node }}]
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0

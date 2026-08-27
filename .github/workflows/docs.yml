@@ -8,12 +8,14 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
   deploy-to-pages:
     runs-on: hl-dsdk-js-lin-md
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
